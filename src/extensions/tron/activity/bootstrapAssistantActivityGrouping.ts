@@ -1,4 +1,4 @@
-import type { SessionEntry } from "/opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/dist/core/session-manager.js";
+import type { SessionEntry } from "../../../pi-internals/sessionManager.js";
 import { closeToolActivityGroup } from "./closeToolActivityGroup.ts";
 import { noteUserMessage } from "./noteUserMessage.ts";
 import { registerToolActivityGroup } from "./registerToolActivityGroup.ts";

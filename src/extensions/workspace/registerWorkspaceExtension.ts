@@ -1,7 +1,10 @@
 import { type ExtensionAPI, type ExtensionContext } from "@mariozechner/pi-coding-agent";
 import type { OverlayHandle, TUI } from "@mariozechner/pi-tui";
 import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
-import type { Theme } from "/opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/theme/theme.js";
+
+type WorkspaceTheme = {
+	fg(color: string, value: string): string;
+};
 import { primeSessionsShortcut } from "./primeSessionsShortcut.js";
 import { showSessionsModal } from "./showSessionsModal.js";
 import { hideTopBarSpacer } from "./top-bar/hideTopBarSpacer.js";
@@ -14,7 +17,7 @@ class WorkspaceTopBar {
 	focused = false;
 
 	constructor(
-		private readonly theme: Theme,
+		private readonly theme: WorkspaceTheme,
 		private readonly getSessionName: () => string | undefined,
 	) {}
 

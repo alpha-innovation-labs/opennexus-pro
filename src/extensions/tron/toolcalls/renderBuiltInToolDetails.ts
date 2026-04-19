@@ -1,5 +1,5 @@
 import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
-import { allToolDefinitions } from "/opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/dist/core/tools/index.js";
+import { allToolDefinitions } from "../../../pi-internals/tools.js";
 import { formatToolCallDetails } from "./formatToolCallDetails.js";
 import { toPlainTextLines } from "./toPlainTextLines.js";
 import type { ToolCallInfo } from "./types.js";

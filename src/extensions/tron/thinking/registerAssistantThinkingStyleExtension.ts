@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { setAssistantMessageUpdateHook } from "/opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/assistant-message.js";
+import { setAssistantMessageUpdateHook } from "../../../pi-internals/assistantMessageHook.js";
 import { formatCompactDuration } from "../duration/formatCompactDuration.js";
 import { finishAssistantMessageTiming, getCurrentAssistantStartedAt, resetAssistantMessageTimings, startAssistantMessageTiming } from "./assistantMessageTimingState.ts";
 import { installAssistantThinkingStyle } from "./installAssistantThinkingStyle.ts";

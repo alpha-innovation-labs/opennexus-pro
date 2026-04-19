@@ -1,0 +1,13 @@
+{
+  "rules": [
+    {
+      "match": {
+        "text": "/sessions",
+        "mode": "exact"
+      },
+      "action": {
+        "type": "submit"
+      }
+    }
+  ]
+}

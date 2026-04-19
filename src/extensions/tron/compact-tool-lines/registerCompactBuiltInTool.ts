@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { Container } from "@mariozechner/pi-tui";
-import { allToolDefinitions } from "/opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/dist/core/tools/index.js";
+import { allToolDefinitions } from "../../../pi-internals/tools.js";
 import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator.ts";
 import { toolActivityKey } from "../activity/toolActivityKey.ts";
 import { BorderedToolResult } from "./BorderedToolResult.ts";

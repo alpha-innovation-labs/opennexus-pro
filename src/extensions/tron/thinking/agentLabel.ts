@@ -1,4 +1,4 @@
-import { APP_NAME } from "/opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/dist/config.js";
+import { APP_NAME } from "../../../pi-internals/config.js";
 
 /**
  * Display label for the main Pi agent.

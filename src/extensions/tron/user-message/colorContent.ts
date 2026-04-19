@@ -1,4 +1,4 @@
-import { theme } from "/opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/theme/theme.js";
+import { theme } from "../../../pi-internals/theme.js";
 
 /**
  * Styles the user-message body text.

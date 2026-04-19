@@ -1,11 +1,7 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import registerNeoEditorExtension from "./neo-editor/registerNeoEditorExtension.js";
-import { registerObservationsExtension } from "./observations/registerObservationsExtension.js";
-import { registerPlaygroundExtension } from "./playground/registerPlaygroundExtension.js";
-import { registerTermModalExtension } from "./term-modal/registerTermModalExtension.js";
-import { registerTodoExtension } from "./todo/registerTodoExtension.js";
-import registerTronExtension from "./tron/index.js";
-import { registerWorkspaceExtension } from "./workspace/registerWorkspaceExtension.js";
+import { createExtensionFeatureFlags, registerEnabledExtensions } from "../feature-flags/index.js";
+
+export { createExtensionFeatureFlags, createExtensionFeatureFlagReport, getEnabledExtensionFeatureFlags, readFeatureFlagsConfig } from "../feature-flags/index.js";
 
 /**
  * Central extension entrypoint.
@@ -13,11 +9,5 @@ import { registerWorkspaceExtension } from "./workspace/registerWorkspaceExtensi
  * @param pi Pi extension API.
  */
 export default function index(pi: ExtensionAPI): void {
-	registerNeoEditorExtension(pi);
-	registerPlaygroundExtension(pi);
-	registerTermModalExtension(pi);
-	registerTodoExtension(pi);
-	registerObservationsExtension(pi);
-	registerTronExtension(pi);
-	registerWorkspaceExtension(pi);
+	registerEnabledExtensions(pi, createExtensionFeatureFlags());
 }

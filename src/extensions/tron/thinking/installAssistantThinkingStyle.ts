@@ -1,7 +1,7 @@
 import { getMarkdownTheme } from "@mariozechner/pi-coding-agent";
 import { Markdown, Spacer, Text } from "@mariozechner/pi-tui";
-import { setAssistantMessageUpdateHook } from "/opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/assistant-message.js";
-import { theme } from "/opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/theme/theme.js";
+import { setAssistantMessageUpdateHook } from "../../../pi-internals/assistantMessageHook.js";
+import { theme } from "../../../pi-internals/theme.js";
 import { bridgeThinkingToToolCalls } from "../activity/bridgeThinkingToToolCalls.ts";
 import { getImmediateFollowingToolCallIds } from "../activity/getImmediateFollowingToolCallIds.ts";
 import { getAssistantMessageTiming } from "./assistantMessageTimingState.ts";
