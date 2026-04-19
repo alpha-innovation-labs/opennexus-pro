@@ -1,0 +1,22 @@
+{
+  "name": "nexus-tui-awesome",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "test": "tsx --test $(find test -name '*.test.ts' -print)"
+  },
+  "dependencies": {
+    "@mariozechner/pi-ai": "^0.67.68",
+    "@mariozechner/pi-coding-agent": "^0.67.68",
+    "@mariozechner/pi-tui": "^0.67.4",
+    "@xterm/headless": "^5.5.0",
+    "node-pty": "^1.1.0",
+    "pi-slash-usage": "^0.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
