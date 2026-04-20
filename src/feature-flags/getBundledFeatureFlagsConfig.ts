@@ -24,6 +24,10 @@ export function getBundledFeatureFlagsConfig(): FeatureFlagsConfig {
         enabled: true,
         features: ["observation tracking", "status widget", "/observations command"],
       },
+      notify: {
+        enabled: true,
+        features: ["desktop notification on agent completion", "macOS submarine sound by default", "NEXUS_NOTIFY_SOUND_CMD override"],
+      },
       "exit-message": {
         enabled: true,
         features: ["print session title on app exit"],

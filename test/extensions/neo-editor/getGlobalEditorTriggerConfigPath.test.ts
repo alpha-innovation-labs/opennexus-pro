@@ -37,14 +37,14 @@ test("getGlobalEditorTriggerConfigPath uses the Nexus agent dir env override", (
   }
 });
 
-test("getGlobalEditorTriggerConfigPath falls back to the default Nexus agent dir", () => {
+test("getGlobalEditorTriggerConfigPath falls back to the installed Nexus agent dir", () => {
   const previousNexus = process.env.NEXUS_CODING_AGENT_DIR;
   const previousPi = process.env.PI_CODING_AGENT_DIR;
   delete process.env.NEXUS_CODING_AGENT_DIR;
   delete process.env.PI_CODING_AGENT_DIR;
 
   try {
-    assert.equal(getGlobalEditorTriggerConfigPath(), join(homedir(), ".nexus", "agent", "editor-triggers.json"));
+    assert.equal(getGlobalEditorTriggerConfigPath(), join(homedir(), ".local", "share", "nexus", "agent", "editor-triggers.json"));
   } finally {
     restoreAgentDirEnv(previousNexus, previousPi);
   }

@@ -17,5 +17,5 @@ export function getAgentDirPath(): string {
     }
   }
 
-  return join(homedir(), ".nexus", "agent");
+  return join(homedir(), ".local", "share", "nexus", "agent");
 }

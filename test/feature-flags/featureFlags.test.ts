@@ -34,6 +34,7 @@ test("extension feature flags are loaded from the root json config", () => {
       .sort(),
   );
   assert.match(report, /annotate: enabled/);
+  assert.match(report, /notify: enabled/);
   assert.match(report, /exit-message: enabled/);
   assert.match(report, /startup-logo: enabled/);
   assert.match(report, /playground: disabled/);
@@ -41,6 +42,8 @@ test("extension feature flags are loaded from the root json config", () => {
   assert.doesNotMatch(report, /sub-agents:/);
   assert.match(report, /sync session title to cmux pane title/);
   assert.match(report, /notify cmux tab when pane is done/);
+  assert.match(report, /desktop notification on agent completion/);
+  assert.match(report, /NEXUS_NOTIFY_SOUND_CMD override/);
   assert.match(report, /print session title on app exit/);
   assert.match(report, /show N logo on fresh startup/);
   assert.match(report, /usage meter/);

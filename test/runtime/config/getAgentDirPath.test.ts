@@ -51,14 +51,14 @@ test("getAgentDirPath falls back to the Pi env override", () => {
   }
 });
 
-test("getAgentDirPath falls back to the default Nexus agent dir", () => {
+test("getAgentDirPath falls back to the installed Nexus agent dir", () => {
   const previousNexus = process.env.NEXUS_CODING_AGENT_DIR;
   const previousPi = process.env.PI_CODING_AGENT_DIR;
   delete process.env.NEXUS_CODING_AGENT_DIR;
   delete process.env.PI_CODING_AGENT_DIR;
 
   try {
-    assert.equal(getAgentDirPath(), join(homedir(), ".nexus", "agent"));
+    assert.equal(getAgentDirPath(), join(homedir(), ".local", "share", "nexus", "agent"));
   } finally {
     restoreAgentDirEnv(previousNexus, previousPi);
   }
@@ -72,7 +72,7 @@ test("ensureAgentDirEnv populates both supported env vars", () => {
 
   try {
     const agentDir = ensureAgentDirEnv();
-    assert.equal(agentDir, join(homedir(), ".nexus", "agent"));
+    assert.equal(agentDir, join(homedir(), ".local", "share", "nexus", "agent"));
     assert.equal(process.env.NEXUS_CODING_AGENT_DIR, agentDir);
     assert.equal(process.env.PI_CODING_AGENT_DIR, agentDir);
   } finally {

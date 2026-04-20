@@ -3,6 +3,7 @@ import { registerAnnotateExtension } from "../extensions/annotate/registerAnnota
 import { registerCmuxExtension } from "../extensions/cmux/registerCmuxExtension.js";
 import { registerExitMessageExtension } from "../extensions/exit-message/registerExitMessageExtension.js";
 import registerNeoEditorExtension from "../extensions/neo-editor/registerNeoEditorExtension.js";
+import { registerNotifyExtension } from "../extensions/notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "../extensions/observations/registerObservationsExtension.js";
 import { registerPlaygroundExtension } from "../extensions/playground/registerPlaygroundExtension.js";
 import { registerStartupLogoExtension } from "../extensions/startup-logo/registerStartupLogoExtension.js";
@@ -21,6 +22,7 @@ export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) 
     annotate: registerAnnotateExtension,
     cmux: registerCmuxExtension,
     "neo-editor": registerNeoEditorExtension,
+    notify: registerNotifyExtension,
     observations: registerObservationsExtension,
     "exit-message": registerExitMessageExtension,
     "startup-logo": registerStartupLogoExtension,
