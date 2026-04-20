@@ -1,6 +1,7 @@
 import { main } from "@mariozechner/pi-coding-agent";
 import { createAppArgs } from "../cli/createAppArgs.js";
 import { createBundledExtensionFactories } from "../extensions/createBundledExtensionFactories.js";
+import { applyStartupUpdateSilencePatch } from "../pi-internals/applyStartupUpdateSilencePatch.js";
 import { applyToolExecutionSpacingPatch } from "../pi-internals/applyToolExecutionSpacingPatch.js";
 
 /**
@@ -10,6 +11,7 @@ import { applyToolExecutionSpacingPatch } from "../pi-internals/applyToolExecuti
  * @returns A promise that resolves when the app exits.
  */
 export async function runApp(argv: string[]): Promise<void> {
+  applyStartupUpdateSilencePatch();
   applyToolExecutionSpacingPatch();
   const args = createAppArgs(argv);
   const extensionFactories = createBundledExtensionFactories();

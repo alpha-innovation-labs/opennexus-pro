@@ -37,6 +37,10 @@ release:
         npm ci
     )
 
+    echo "🎨 Copying Pi built-in themes for PI_PACKAGE_DIR..."
+    mkdir -p "${INSTALL_DIR}/src/modes/interactive/theme"
+    cp "${INSTALL_DIR}/node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/theme/"*.json "${INSTALL_DIR}/src/modes/interactive/theme/"
+
     echo "🚀 Writing launcher to ${BIN_PATH}..."
     printf '%s\n' \
         '#!/usr/bin/env bash' \
@@ -44,9 +48,13 @@ release:
         '' \
         'APP_DIR="${HOME}/.local/share/nexus"' \
         'export PI_CODING_AGENT_DIR="${APP_DIR}/.pi/agent"' \
+        'export PI_PACKAGE_DIR="${APP_DIR}"' \
         '' \
         'exec "${APP_DIR}/node_modules/.bin/tsx" "${APP_DIR}/src/index.ts" "$@"' \
         > "${BIN_PATH}"
     chmod +x "${BIN_PATH}"
+
+    echo "🔎 Verifying launcher..."
+    "${BIN_PATH}" --help >/dev/null
 
     echo "✅ Installed nexus to ${BIN_PATH}"
