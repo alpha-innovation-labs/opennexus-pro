@@ -1,0 +1,6 @@
+[submodule "__references/tintinweb-pi-subagents"]
+	path = __references/tintinweb-pi-subagents
+	url = https://github.com/tintinweb/pi-subagents
+[submodule "__references/nicobailon-pi-subagents"]
+	path = __references/nicobailon-pi-subagents
+	url = https://github.com/nicobailon/pi-subagents

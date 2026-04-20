@@ -7,6 +7,7 @@ release:
     set -euo pipefail
 
     APP_NAME="nexus"
+    BUNDLE_DIR=".release/bundle"
     STAGING_DIR=".release/staging"
     INSTALL_DIR="${HOME}/.local/share/${APP_NAME}"
     BIN_DIR="${HOME}/.local/bin"
@@ -20,30 +21,26 @@ release:
     fi
 
     echo "🧹 Cleaning previous release staging..."
-    rm -rf "${STAGING_DIR}" "${INSTALL_DIR}"
+    rm -rf "${STAGING_DIR}"
+
+    echo "🏗️ Building native release bundle..."
+    npm run build:release
 
     echo "📦 Staging runtime bundle..."
-    mkdir -p "${STAGING_DIR}" "${INSTALL_DIR}" "${INSTALL_DIR}/.pi/agent" "${BIN_DIR}"
-    cp package.json package-lock.json tsconfig.json feature-flags.json "${STAGING_DIR}/"
-    cp .pi/settings.json "${STAGING_DIR}/settings.json"
-    cp .pi/extensions/neo-editor/editor-triggers.json "${STAGING_DIR}/editor-triggers.json"
-    cp -R src "${STAGING_DIR}/src"
+    mkdir -p "${STAGING_DIR}" "${STAGING_DIR}/agent" "${INSTALL_DIR}" "${INSTALL_DIR}/agent" "${BIN_DIR}"
+    cp -R "${BUNDLE_DIR}/." "${STAGING_DIR}/"
+    cp .nexus/settings.json "${STAGING_DIR}/agent/settings.json"
+    cp .nexus/extensions/neo-editor/editor-triggers.json "${STAGING_DIR}/agent/editor-triggers.json"
 
     echo "📥 Installing bundle to ${INSTALL_DIR}..."
-    cp package.json package-lock.json tsconfig.json feature-flags.json "${INSTALL_DIR}/"
-    cp -R "${STAGING_DIR}/src" "${INSTALL_DIR}/src"
-    cp "${STAGING_DIR}/settings.json" "${INSTALL_DIR}/.pi/agent/settings.json"
-    cp "${STAGING_DIR}/editor-triggers.json" "${INSTALL_DIR}/.pi/agent/editor-triggers.json"
-
-    echo "📥 Installing runtime dependencies..."
-    (
-        cd "${INSTALL_DIR}"
-        npm ci
-    )
-
-    echo "🎨 Copying Pi built-in themes for PI_PACKAGE_DIR..."
-    mkdir -p "${INSTALL_DIR}/src/modes/interactive/theme"
-    cp "${INSTALL_DIR}/node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/theme/"*.json "${INSTALL_DIR}/src/modes/interactive/theme/"
+    rm -rf \
+        "${INSTALL_DIR}/assets" \
+        "${INSTALL_DIR}/export-html" \
+        "${INSTALL_DIR}/runtime" \
+        "${INSTALL_DIR}/theme" \
+        "${INSTALL_DIR}/nexus" \
+        "${INSTALL_DIR}/package.json"
+    cp -R "${STAGING_DIR}/." "${INSTALL_DIR}/"
 
     echo "🚀 Writing launcher to ${BIN_PATH}..."
     printf '%s\n' \
@@ -51,14 +48,15 @@ release:
         'set -euo pipefail' \
         '' \
         'APP_DIR="${HOME}/.local/share/nexus"' \
-        'export PI_CODING_AGENT_DIR="${APP_DIR}/.pi/agent"' \
+        'export NEXUS_CODING_AGENT_DIR="${APP_DIR}/agent"' \
+        'export PI_CODING_AGENT_DIR="${APP_DIR}/agent"' \
         'export PI_PACKAGE_DIR="${APP_DIR}"' \
         '' \
-        'exec "${APP_DIR}/node_modules/.bin/tsx" "${APP_DIR}/src/index.ts" "$@"' \
+        'exec "${APP_DIR}/nexus" "$@"' \
         > "${BIN_PATH}"
     chmod +x "${BIN_PATH}"
 
     echo "🔎 Verifying launcher..."
     "${BIN_PATH}" --help >/dev/null
 
-    echo "✅ Installed nexus to ${BIN_PATH}"
+    echo "✅ Installed native nexus bundle to ${BIN_PATH}"

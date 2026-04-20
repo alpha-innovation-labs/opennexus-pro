@@ -3,4 +3,7 @@
 # Example: just import-auth
 
 import-auth:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
     node scripts/auth/importAuth.mjs
