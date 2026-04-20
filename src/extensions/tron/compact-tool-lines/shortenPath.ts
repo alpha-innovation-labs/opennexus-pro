@@ -1,5 +1,5 @@
 import { homedir } from "node:os";
-import { truncatePathMiddle } from "./truncatePathMiddle.ts";
+import { truncatePathFromStart } from "./truncatePathFromStart.ts";
 
 /**
  * Shortens a path and replaces the home prefix with `~`.
@@ -10,5 +10,5 @@ import { truncatePathMiddle } from "./truncatePathMiddle.ts";
 export function shortenPath(path: string): string {
 	const home = homedir();
 	const normalized = path.startsWith(home) ? `~${path.slice(home.length)}` : path;
-	return truncatePathMiddle(normalized, 72);
+	return truncatePathFromStart(normalized, 72);
 }

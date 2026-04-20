@@ -1,8 +1,14 @@
 import { createRequire } from "node:module";
+import { resolveBundledAssetPath } from "../../../runtime/package/resolveBundledAssetPath.js";
 import { getShellPath } from "./getShellPath.js";
 import type { PtyManager } from "../types.js";
 
 const require = createRequire(import.meta.url);
+const NODE_PTY_ENTRY_PATH = resolveBundledAssetPath(
+  import.meta.url,
+  "runtime/node_modules/node-pty/lib/index.js",
+  "../../../../node_modules/node-pty/lib/index.js",
+);
 
 /**
  * Creates the persistent PTY process manager.
@@ -19,7 +25,7 @@ export function createPtyManager(): PtyManager {
 		start(cwd: string, cols: number, rows: number): void {
 			if (pty) return;
 			try {
-				const nodePty = require("node-pty") as typeof import("node-pty");
+				const nodePty = require(NODE_PTY_ENTRY_PATH) as typeof import("node-pty");
 				pty = nodePty.spawn(getShellPath(), [], {
 					name: "xterm-256color",
 					cols,

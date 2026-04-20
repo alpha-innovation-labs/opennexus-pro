@@ -1,6 +1,6 @@
 import { SingleLineToolCall } from "./SingleLineToolCall.ts";
 import { truncateSingleLine } from "./truncateSingleLine.ts";
-import { truncateSummaryMiddle } from "./truncateSummaryMiddle.ts";
+import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart.ts";
 
 /**
  * Creates a compact tool-call renderer from summary text.
@@ -23,7 +23,7 @@ export function renderSummary(
 		toolCallId,
 		toolName,
 		{
-			main: truncateSummaryMiddle(summary.main || "…", 220),
+			main: truncateSingleLineFromStart(summary.main || "…", 220),
 			options: truncateSingleLine(summary.options || "", 80),
 		},
 		theme,

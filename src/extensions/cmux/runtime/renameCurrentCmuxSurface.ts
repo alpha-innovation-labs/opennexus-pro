@@ -1,6 +1,5 @@
-import { spawn } from "node:child_process";
 import { getCurrentCmuxRenameTarget } from "./getCurrentCmuxRenameTarget.js";
-import { getCmuxExecutablePath } from "./getCmuxExecutablePath.js";
+import { runCmuxCommand } from "./runCmuxCommand.js";
 
 /**
  * Renames the current cmux surface title.
@@ -16,11 +15,5 @@ export async function renameCurrentCmuxSurface(title: string): Promise<boolean> 
 	if (target.workspaceId) args.push("--workspace", target.workspaceId);
 	args.push("--surface", target.surfaceId, "--title", title);
 
-	return new Promise<boolean>((resolve) => {
-		const child = spawn(getCmuxExecutablePath(), args, {
-			stdio: "ignore",
-		});
-		child.once("error", () => resolve(false));
-		child.once("close", (code) => resolve(code === 0));
-	});
+	return runCmuxCommand(args);
 }

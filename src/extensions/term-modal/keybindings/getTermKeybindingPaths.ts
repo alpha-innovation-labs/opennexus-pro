@@ -1,5 +1,6 @@
-import { homedir } from "node:os";
 import { join } from "node:path";
+import { getAgentDirPath } from "../../../runtime/config/getAgentDirPath.js";
+import { getProjectConfigDirPath } from "../../../runtime/config/getProjectConfigDirPath.js";
 
 /**
  * Returns the global and project keybinding file paths in precedence order.
@@ -8,5 +9,5 @@ import { join } from "node:path";
  * @returns Candidate keybinding config paths.
  */
 export function getTermKeybindingPaths(cwd: string): string[] {
-	return [join(homedir(), ".pi", "agent", "keybindings.json"), join(cwd, ".pi", "keybindings.json")];
+	return [join(getAgentDirPath(), "keybindings.json"), join(getProjectConfigDirPath(cwd), "keybindings.json")];
 }

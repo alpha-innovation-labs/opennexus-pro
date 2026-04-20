@@ -1,5 +1,5 @@
-import { homedir } from "node:os";
 import { join } from "node:path";
+import { getAgentDirPath } from "../../../runtime/config/getAgentDirPath.js";
 
 /**
  * Returns the global editor-trigger config file path.
@@ -7,6 +7,5 @@ import { join } from "node:path";
  * @returns Absolute global config file path.
  */
 export function getGlobalEditorTriggerConfigPath(): string {
-	const agentDir = process.env.PI_CODING_AGENT_DIR ?? join(homedir(), ".pi", "agent");
-	return join(agentDir, "editor-triggers.json");
+	return join(getAgentDirPath(), "editor-triggers.json");
 }

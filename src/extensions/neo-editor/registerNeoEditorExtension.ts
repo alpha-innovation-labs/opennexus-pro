@@ -4,9 +4,11 @@ import type { AutocompleteItem, AutocompleteProvider } from "@mariozechner/pi-tu
 import { Key, Text, matchesKey, truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
 import { readFile } from "node:fs/promises";
 import { readFileSync } from "node:fs";
+import { homedir } from "node:os";
 import { basename, join, resolve } from "node:path";
 import { TwoPaneSelectModal, sanitizePlainText } from "../primitives/two-pane-select-modal/index.js";
-import { homedir } from "node:os";
+import { getAgentDirPath } from "../../runtime/config/getAgentDirPath.js";
+import { getProjectSettingsPath } from "../../runtime/config/getProjectSettingsPath.js";
 import { logExtensionEvent } from "../primitives/observability/startup-debug.ts";
 import { getUsageTextForModel, refreshUsageForContext, subscribeUsageSnapshots } from "pi-slash-usage";
 import { readEditorTriggerConfig } from "./editor-triggers/readEditorTriggerConfig.js";
@@ -116,8 +118,8 @@ async function readJson(path: string): Promise<any | undefined> {
 }
 
 async function refreshTransportPreference(cwd: string): Promise<void> {
-  const globalSettings = await readJson(join(homedir(), ".pi", "agent", "settings.json"));
-  const projectSettings = await readJson(join(cwd, ".pi", "settings.json"));
+  const globalSettings = await readJson(join(getAgentDirPath(), "settings.json"));
+  const projectSettings = await readJson(getProjectSettingsPath(cwd));
   transportPreference = projectSettings?.transport ?? globalSettings?.transport ?? "sse";
 }
 

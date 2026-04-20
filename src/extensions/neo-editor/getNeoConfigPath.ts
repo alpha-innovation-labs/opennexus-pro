@@ -1,4 +1,5 @@
-import { resolve } from "node:path";
+import { join } from "node:path";
+import { getProjectConfigDirPath } from "../../runtime/config/getProjectConfigDirPath.js";
 
 /**
  * Returns the Neo config file path.
@@ -7,5 +8,5 @@ import { resolve } from "node:path";
  * @returns Absolute Neo config path.
  */
 export function getNeoConfigPath(cwd: string): string {
-	return resolve(cwd, ".pi", "extensions", "neo-editor", "config.json");
+	return join(getProjectConfigDirPath(cwd), "extensions", "neo-editor", "config.json");
 }

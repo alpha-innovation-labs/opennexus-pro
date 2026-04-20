@@ -9,8 +9,8 @@ import { getCmuxExecutablePath } from "./getCmuxExecutablePath.js";
 export function isCmuxCommandAvailable(): boolean {
 	const result = spawnSync(getCmuxExecutablePath(), ["version"], {
 		encoding: "utf8",
-		stdio: "ignore",
-		timeout: 1000,
+		stdio: "pipe",
+		timeout: 3000,
 	});
 	return !result.error && result.status === 0;
 }

@@ -1,8 +1,14 @@
 import { createRequire } from "node:module";
+import { resolveBundledAssetPath } from "../../../runtime/package/resolveBundledAssetPath.js";
 import { lineToAnsi } from "../ansi/lineToAnsi.js";
 import type { XtermBuffer } from "../types.js";
 
 const require = createRequire(import.meta.url);
+const XTERM_HEADLESS_ENTRY_PATH = resolveBundledAssetPath(
+  import.meta.url,
+  "runtime/node_modules/@xterm/headless/lib-headless/xterm-headless.js",
+  "../../../../node_modules/@xterm/headless/lib-headless/xterm-headless.js",
+);
 
 /**
  * Creates the headless xterm display buffer used by the modal.
@@ -13,7 +19,7 @@ const require = createRequire(import.meta.url);
  * @returns Xterm-backed display buffer API.
  */
 export function createXtermBuffer(cols: number, rows: number, onOutput: (data: string) => void): XtermBuffer {
-	const { Terminal } = require("@xterm/headless") as typeof import("@xterm/headless");
+	const { Terminal } = require(XTERM_HEADLESS_ENTRY_PATH) as typeof import("@xterm/headless");
 	const term = new Terminal({ cols, rows, scrollback: 5000, allowProposedApi: true });
 	const nullCell = term.buffer.active.getNullCell();
 	term.onData((data: string) => onOutput(data));

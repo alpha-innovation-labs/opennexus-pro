@@ -1,7 +1,7 @@
 import { firstLine } from "./firstLine.ts";
 import { shortenPath } from "./shortenPath.ts";
 import { truncateSingleLine } from "./truncateSingleLine.ts";
-import { truncateSummaryMiddle } from "./truncateSummaryMiddle.ts";
+import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart.ts";
 
 /**
  * Builds a compact one-line summary for tool-call arguments.
@@ -23,18 +23,18 @@ export function summarizeArgs(toolName: string, args: any): { main: string; opti
 			return { main: firstLine(args.command), options: options.join(" ") };
 		case "edit":
 			return {
-				main: truncateSummaryMiddle(`${shortenPath(args.path || "")} ${truncateSingleLine(firstLine(args.oldText) || firstLine(args.newText), 80)}`.trim(), 140),
+				main: truncateSingleLineFromStart(`${shortenPath(args.path || "")} ${truncateSingleLine(firstLine(args.oldText) || firstLine(args.newText), 80)}`.trim(), 140),
 				options: "",
 			};
 		case "write":
 			return {
-				main: truncateSummaryMiddle(`${shortenPath(args.path || "")} ${truncateSingleLine(firstLine(args.content), 80)}`.trim(), 140),
-				options: "",
+				main: truncateSingleLineFromStart(shortenPath(args.path || ""), 140),
+				options: truncateSingleLine(firstLine(args.content), 80),
 			};
 		case "find":
 			if (args.limit) options.push(`limit=${args.limit}`);
 			return {
-				main: truncateSummaryMiddle([args.path && shortenPath(args.path), args.pattern].filter(Boolean).join(" "), 140),
+				main: truncateSingleLineFromStart([args.path && shortenPath(args.path), args.pattern].filter(Boolean).join(" "), 140),
 				options: options.join(" "),
 			};
 		case "grep":
@@ -44,7 +44,7 @@ export function summarizeArgs(toolName: string, args: any): { main: string; opti
 			if (args.context) options.push(`context=${args.context}`);
 			if (args.limit) options.push(`limit=${args.limit}`);
 			return {
-				main: truncateSummaryMiddle([args.path && shortenPath(args.path), args.pattern && `pattern=${args.pattern}`].filter(Boolean).join(" "), 140),
+				main: truncateSingleLineFromStart([args.path && shortenPath(args.path), args.pattern && `pattern=${args.pattern}`].filter(Boolean).join(" "), 140),
 				options: options.join(" "),
 			};
 		case "ls":

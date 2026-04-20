@@ -1,4 +1,5 @@
 import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
+import { truncateFromStart } from "./truncateFromStart.ts";
 import { getActivityNeighbors } from "../activity/getActivityNeighbors.ts";
 import { shouldBridgeThinkingToTool } from "../activity/shouldBridgeThinkingToTool.ts";
 import { toolActivityKey } from "../activity/toolActivityKey.ts";
@@ -37,7 +38,7 @@ export class SingleLineToolCall {
 		const optionsWidth = visibleWidth(shownOptions);
 		const optionsGap = shownOptions ? 1 : 0;
 		const maxMainWidth = rawMain ? Math.max(0, maxBodyWidth - leftPrefixWidth - optionsGap - optionsWidth - 1) : 0;
-		const shownMain = rawMain ? truncateToWidth(rawMain, maxMainWidth, "…") : "";
+		const shownMain = rawMain ? truncateFromStart(rawMain, maxMainWidth, "…") : "";
 		const leftPlain = [leftPrefixPlain, shownMain].filter(Boolean).join(" ");
 		const leftWidth = visibleWidth(leftPlain);
 		const gapWidth = Math.max(0, maxBodyWidth - leftWidth - optionsGap - optionsWidth);

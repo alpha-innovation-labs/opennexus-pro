@@ -1,4 +1,5 @@
-import { resolve } from "node:path";
+import { join } from "node:path";
+import { getProjectConfigDirPath } from "../../../runtime/config/getProjectConfigDirPath.js";
 
 /**
  * Returns the project editor-trigger config file path.
@@ -7,5 +8,5 @@ import { resolve } from "node:path";
  * @returns Absolute project config file path.
  */
 export function getEditorTriggerConfigPath(cwd: string): string {
-	return resolve(cwd, ".pi", "extensions", "neo-editor", "editor-triggers.json");
+	return join(getProjectConfigDirPath(cwd), "extensions", "neo-editor", "editor-triggers.json");
 }
