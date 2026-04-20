@@ -27,6 +27,7 @@ test("the bundled extension entrypoint registers the currently enabled extension
   const tools: string[] = [];
   const pi = {
     events: {
+      emit() {},
       on() {},
     },
     exec() {
@@ -55,7 +56,7 @@ test("the bundled extension entrypoint registers the currently enabled extension
     factories[0](pi as never);
   });
   assert.ok(commands.includes("annotate"));
-  assert.ok(commands.includes("term"));
+  assert.ok(commands.includes("observations"));
   assert.ok(tools.includes("annotate"));
   assert.ok(!commands.includes("sessions"));
   assert.ok(!shortcuts.includes("ctrl+i"));

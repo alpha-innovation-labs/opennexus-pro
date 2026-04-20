@@ -6,7 +6,8 @@
  */
 
 import { truncateToWidth } from "@mariozechner/pi-tui";
-import { CompactToolRow } from "../../tron/shared/compact-row/CompactToolRow.ts";
+import { iconForToolName } from "../../tron/compact-tool-lines/iconForToolName.ts";
+import { summarizeArgs } from "../../tron/compact-tool-lines/summarizeArgs.ts";
 import type { AgentManager } from "../agent-manager.js";
 import { getConfig } from "../agent-types.js";
 import type { SubagentType } from "../types.js";
@@ -50,11 +51,19 @@ export type UICtx = {
 };
 
 /** Per-agent live activity state. */
+export interface ActiveToolState {
+  toolCallId: string;
+  toolName: string;
+  args?: unknown;
+  outputText?: string;
+}
+
 export interface AgentActivity {
-  activeTools: Map<string, string>;
+  activeTools: Map<string, ActiveToolState>;
   toolUses: number;
   tokens: string;
   responseText: string;
+  thinkingText: string;
   session?: { getSessionStats(): { tokens: { total: number } } };
   /** Current turn count. */
   turnCount: number;
@@ -89,14 +98,21 @@ export interface AgentDetails {
 
 // ---- Formatting helpers ----
 
-/** Format a token count compactly: "33.8k token", "1.2M token". */
+/** Format token count as a compact bare number without a suffix label. */
+export function formatTokenCount(count: number): string {
+  if (count >= 1_000_000) return `${(count / 1_000_000).toFixed(1)}M`;
+  if (count >= 1_000) return `${(count / 1_000).toFixed(1)}k`;
+  return String(count);
+}
+
+/** Format a token count compactly for legacy subagent surfaces outside the widget. */
 export function formatTokens(count: number): string {
   if (count >= 1_000_000) return `${(count / 1_000_000).toFixed(1)}M token`;
   if (count >= 1_000) return `${(count / 1_000).toFixed(1)}k token`;
   return `${count} token`;
 }
 
-/** Format turn count with optional max limit: "⟳5≤30" or "⟳5". */
+/** Format turn count with optional max limit for legacy subagent surfaces. */
 export function formatTurns(turnCount: number, maxTurns?: number | null): string {
   return maxTurns != null ? `⟳${turnCount}≤${maxTurns}` : `⟳${turnCount}`;
 }
@@ -117,33 +133,26 @@ export function getDisplayName(type: SubagentType): string {
   return getConfig(type).displayName;
 }
 
-/**
- * Renders one shared Tron compact row for the subagent preview line.
- *
- * @param width Total widget width.
- * @param icon Leading icon.
- * @param label Primary label.
- * @param main Main summary text.
- * @param options Right-aligned metadata.
- * @param theme UI theme.
- * @returns Styled one-line row.
- */
-function renderWidgetPreviewLine(
-  width: number,
-  icon: string,
-  label: string,
-  main: string,
-  options: string,
-  theme: Theme,
-): string {
-  return new CompactToolRow({
-    width,
-    icon,
-    label,
-    main,
-    options,
-    theme,
-  }).render()[0] ?? "";
+function summarizeActiveTool(tool: ActiveToolState | undefined): { icon: string; name: string; summary: string } {
+  if (!tool) {
+    return { icon: "󰧑", name: "thinking", summary: "" };
+  }
+
+  if (tool.outputText?.trim()) {
+    return {
+      icon: iconForToolName(tool.toolName),
+      name: tool.toolName,
+      summary: truncateLine(tool.outputText, 120),
+    };
+  }
+
+  const summary = summarizeArgs(tool.toolName, tool.args ?? {});
+  const options = "inlineStats" in summary && summary.inlineStats ? ` ${summary.inlineStats}` : "";
+  return {
+    icon: iconForToolName(tool.toolName),
+    name: tool.toolName,
+    summary: `${summary.main}${summary.options ? ` ${summary.options}` : ""}${options}`.trim(),
+  };
 }
 
 /** Short label for prompt mode: "twin" for append, nothing for replace (the default). */
@@ -159,12 +168,12 @@ function truncateLine(text: string, len = 60): string {
   return line.slice(0, len) + "…";
 }
 
-/** Build a human-readable activity string from currently-running tools or response text. */
-export function describeActivity(activeTools: Map<string, string>, responseText?: string): string {
+/** Build a human-readable activity string from tools, thinking, or response text. */
+export function describeActivity(activeTools: Map<string, ActiveToolState>, thinkingText?: string, responseText?: string): string {
   if (activeTools.size > 0) {
     const groups = new Map<string, number>();
-    for (const toolName of activeTools.values()) {
-      const action = TOOL_DISPLAY[toolName] ?? toolName;
+    for (const tool of activeTools.values()) {
+      const action = TOOL_DISPLAY[tool.toolName] ?? tool.toolName;
       groups.set(action, (groups.get(action) ?? 0) + 1);
     }
 
@@ -179,12 +188,16 @@ export function describeActivity(activeTools: Map<string, string>, responseText?
     return parts.join(", ") + "…";
   }
 
+  if (thinkingText && thinkingText.trim().length > 0) {
+    return `󰧑 ${truncateLine(thinkingText)}`;
+  }
+
   // No tools active — show truncated response text if available
   if (responseText && responseText.trim().length > 0) {
     return truncateLine(responseText);
   }
 
-  return "thinking…";
+  return "󰧑 thinking…";
 }
 
 // ---- Widget manager ----
@@ -317,37 +330,34 @@ export class AgentWidget {
     const frame = SPINNER[this.widgetFrame % SPINNER.length];
 
     // Build sections separately for overflow-aware assembly.
-    // Each running agent = 2 lines (header + activity), finished = 1 line, queued = 1 line.
+    // Each running agent = 1 line, finished = 1 line, queued = 1 line.
 
     const finishedLines: string[] = [];
     for (const a of finished) {
       finishedLines.push(this.renderFinishedLine(w, a, theme));
     }
 
-    const runningLines: string[][] = []; // each entry is [header, activity]
+    const runningLines: string[][] = []; // each entry is [header]
     for (const a of running) {
       const name = getDisplayName(a.type);
       const modeLabel = getPromptModeLabel(a.type);
       const elapsed = formatMs(Date.now() - a.startedAt);
 
       const bg = this.agentActivity.get(a.id);
-      const toolUses = bg?.toolUses ?? a.toolUses;
       let tokenText = "";
       if (bg?.session) {
-        try { tokenText = formatTokens(bg.session.getSessionStats().tokens.total); } catch { /* */ }
+        try { tokenText = formatTokenCount(bg.session.getSessionStats().tokens.total); } catch { /* */ }
       }
 
-      const parts: string[] = [];
-      if (toolUses > 0) parts.push(`${toolUses} tools`);
-      if (tokenText) parts.push(tokenText);
-      parts.push(elapsed);
-      const statsText = parts.join(" · ");
-
-      const activity = bg ? describeActivity(bg.activeTools, bg.responseText) : "thinking…";
+      const activeTool = bg ? Array.from(bg.activeTools.values()).at(-1) : undefined;
+      const toolSummary = summarizeActiveTool(activeTool);
+      const statsText = [tokenText, elapsed].filter(Boolean).join(" · ");
+      const activity = bg ? describeActivity(bg.activeTools, bg.thinkingText, bg.responseText) : "󰧑 thinking…";
+      const modeTag = modeLabel ? ` ${theme.fg("dim", `(${modeLabel})`)}` : "";
+      const toolSegment = `${toolSummary.icon} ${theme.bold(toolSummary.name)}${toolSummary.summary ? ` ${theme.fg("muted", toolSummary.summary)}` : ""}`;
 
       runningLines.push([
-        truncate(theme.fg("dim", "├─") + ` ${theme.fg("accent", frame)} ${theme.bold(name)}${modeLabel ? ` ${theme.fg("dim", `(${modeLabel})`)}` : ""}  ${theme.fg("muted", a.description)} ${theme.fg("dim", "·")} ${theme.fg("dim", statsText)}`),
-        renderWidgetPreviewLine(w, "󰭻", "result", activity, "", theme),
+        truncate(theme.fg("dim", "├─") + ` ${theme.fg("accent", frame)} ${theme.bold(name)}${modeTag}  ${toolSegment} ${theme.fg("dim", "·")} ${theme.fg("dim", statsText)}`),
       ]);
     }
 
@@ -357,7 +367,7 @@ export class AgentWidget {
 
     // Assemble with overflow cap (heading + overflow indicator = 2 reserved lines).
     const maxBody = MAX_WIDGET_LINES - 1; // heading takes 1 line
-    const totalBody = finishedLines.length + runningLines.length * 2 + (queuedLine ? 1 : 0);
+    const totalBody = finishedLines.length + runningLines.length + (queuedLine ? 1 : 0);
 
     const lines: string[] = [truncate(theme.fg(headingColor, headingIcon) + " " + theme.fg(headingColor, "Agents"))];
 
@@ -371,14 +381,8 @@ export class AgentWidget {
       if (lines.length > 1) {
         const last = lines.length - 1;
         lines[last] = lines[last].replace("├─", "└─");
-        // If last item is a running agent activity line, fix indent of that line
-        // and fix the header line above it.
         if (runningLines.length > 0 && !queuedLine) {
-          // The last two lines are the last running agent's header + activity.
-          if (last >= 2) {
-            lines[last - 1] = lines[last - 1].replace("├─", "└─");
-            lines[last] = lines[last].replace("│  ", "   ");
-          }
+          lines[last] = lines[last].replace("├─", "└─");
         }
       }
     } else {
@@ -388,11 +392,11 @@ export class AgentWidget {
       let hiddenRunning = 0;
       let hiddenFinished = 0;
 
-      // 1. Running agents (2 lines each)
+      // 1. Running agents (1 line each)
       for (const pair of runningLines) {
-        if (budget >= 2) {
+        if (budget >= 1) {
           lines.push(...pair);
-          budget -= 2;
+          budget -= 1;
         } else {
           hiddenRunning++;
         }

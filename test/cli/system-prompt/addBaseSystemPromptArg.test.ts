@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { addBaseSystemPromptArg } from "../../../src/cli/system-prompt/addBaseSystemPromptArg.js";
-import { baseSystemPrompt } from "../../../src/cli/system-prompt/baseSystemPrompt.js";
+import { baseSystemPrompt } from "../../../src/prompts/base-system-prompt/baseSystemPrompt.js";
 
 test("addBaseSystemPromptArg prepends the bundled append argument", () => {
   assert.deepEqual(addBaseSystemPromptArg(["--help"]), ["--append-system-prompt", baseSystemPrompt, "--help"]);

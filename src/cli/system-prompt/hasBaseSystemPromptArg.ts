@@ -1,4 +1,4 @@
-import { baseSystemPrompt } from "./baseSystemPrompt.js";
+import { baseSystemPrompt } from "../../prompts/base-system-prompt/baseSystemPrompt.js";
 
 /**
  * Checks whether the CLI arguments already include the bundled base system prompt append.

@@ -1,4 +1,4 @@
-import { baseSystemPrompt } from "./baseSystemPrompt.js";
+import { baseSystemPrompt } from "../../prompts/base-system-prompt/baseSystemPrompt.js";
 import { hasBaseSystemPromptArg } from "./hasBaseSystemPromptArg.js";
 
 /**
