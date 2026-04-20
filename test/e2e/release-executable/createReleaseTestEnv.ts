@@ -10,7 +10,6 @@ export function createReleaseTestEnv(homeDir: string): NodeJS.ProcessEnv {
   return {
     ...process.env,
     HOME: homeDir,
-    NEXUS_SKIP_RELEASE_TESTS: "1",
     PATH: process.env.PATH ?? ["/opt/homebrew/bin", "/usr/local/bin", "/usr/bin", "/bin"].join(delimiter),
   };
 }

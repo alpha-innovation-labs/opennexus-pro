@@ -25,6 +25,7 @@ export async function stageBinaryAssets(bundleDir) {
   await copyPiThemeAssets(bundleDir);
   await copyJsonFilesFromDir(resolve("src", "themes"), join(bundleDir, "theme"));
   await copyPath(resolve("src", "commands"), join(bundleDir, "commands"));
+  await copyPath(resolve("defaults"), join(bundleDir, "defaults"));
   await copyExportHtmlAssets(bundleDir);
   await copyNodePtyRuntimeAssets(bundleDir);
   await copyXtermHeadlessRuntimeAssets(bundleDir);

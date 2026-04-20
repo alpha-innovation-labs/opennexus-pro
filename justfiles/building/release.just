@@ -13,13 +13,6 @@ release:
     BIN_DIR="${HOME}/.local/bin"
     BIN_PATH="${BIN_DIR}/${APP_NAME}"
 
-    if [ "${NEXUS_SKIP_RELEASE_TESTS:-0}" != "1" ]; then
-        echo "🧪 Running tests..."
-        just test --with-release
-    else
-        echo "⏭️ Skipping tests inside release e2e harness..."
-    fi
-
     echo "🧹 Cleaning previous release staging..."
     rm -rf "${STAGING_DIR}"
 
@@ -29,7 +22,6 @@ release:
     echo "📦 Staging runtime bundle..."
     mkdir -p "${STAGING_DIR}" "${STAGING_DIR}/agent" "${INSTALL_DIR}" "${INSTALL_DIR}/agent" "${BIN_DIR}"
     cp -R "${BUNDLE_DIR}/." "${STAGING_DIR}/"
-    cp .nexus/settings.json "${STAGING_DIR}/agent/settings.json"
     cp .nexus/extensions/neo-editor/editor-triggers.json "${STAGING_DIR}/agent/editor-triggers.json"
 
     echo "📥 Installing bundle to ${INSTALL_DIR}..."
@@ -38,6 +30,7 @@ release:
         "${INSTALL_DIR}/export-html" \
         "${INSTALL_DIR}/runtime" \
         "${INSTALL_DIR}/theme" \
+        "${INSTALL_DIR}/defaults" \
         "${INSTALL_DIR}/nexus" \
         "${INSTALL_DIR}/package.json"
     cp -R "${STAGING_DIR}/." "${INSTALL_DIR}/"

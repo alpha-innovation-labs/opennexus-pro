@@ -1,7 +1,9 @@
 import { join } from "node:path";
+import { readBundledDefaultSettings } from "./default-settings/readBundledDefaultSettings.js";
 import { getDefaultThemeName } from "./getDefaultThemeName.js";
 import { getProjectSettingsPath } from "./getProjectSettingsPath.js";
 import { getProjectThemesPath } from "./getProjectThemesPath.js";
+import { mergeSettings, type SettingsRecord } from "./mergeSettings.js";
 
 type SettingsManagerModule = typeof import("../../../node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js");
 type ResourceLoaderModule = typeof import("../../../node_modules/@mariozechner/pi-coding-agent/dist/core/resource-loader.js");
@@ -15,6 +17,12 @@ type LoadThemesMethod = (paths: string[], includeDefaults?: boolean) => LoadThem
 
 type ThemeDirectoryLoader = (path: string, themes: unknown[], diagnostics: unknown[]) => void;
 
+type NexusSettingsManagerInstance = InstanceType<SettingsManagerModule["SettingsManager"]> & {
+  globalSettings: SettingsRecord;
+  projectSettings: SettingsRecord;
+  settings: SettingsRecord;
+};
+
 type NexusSettingsManagerClass = SettingsManagerModule["SettingsManager"] & {
   __nexusConfigPatched__?: boolean;
 };
@@ -26,7 +34,8 @@ type NexusResourceLoaderPrototype = {
 };
 
 /**
- * Patches Pi runtime config lookups so Nexus uses `.nexus` project config and a Nexus theme fallback.
+ * Patches Pi runtime config lookups so Nexus uses shipped app defaults,
+ * `.nexus` project config, and a Nexus theme fallback.
  *
  * @returns Promise that resolves after the patch is installed.
  */
@@ -41,7 +50,17 @@ export async function applyNexusConfigPatch(): Promise<void> {
     return;
   }
 
+  const appDefaults = readBundledDefaultSettings();
+  const originalFromStorage = SettingsManager.fromStorage;
   const originalGetTheme = SettingsManager.prototype.getTheme;
+
+  SettingsManager.fromStorage = function fromStorageWithNexusDefaults(storage) {
+    const manager = originalFromStorage.call(this, storage) as NexusSettingsManagerInstance;
+    manager.globalSettings = mergeSettings(appDefaults, manager.globalSettings);
+    manager.settings = mergeSettings(manager.globalSettings, manager.projectSettings);
+    return manager;
+  };
+
   SettingsManager.prototype.getTheme = function getThemeWithNexusFallback(this: InstanceType<SettingsManagerModule["SettingsManager"]>): string {
     return originalGetTheme.call(this) ?? getDefaultThemeName();
   };

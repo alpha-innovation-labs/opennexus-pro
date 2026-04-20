@@ -68,3 +68,82 @@ test("runtime patch reads project settings from .nexus and falls back to nexus-b
     fallbackTheme: "nexus-black",
   });
 });
+
+test("runtime patch applies Nexus app defaults first, then user settings, then project settings", async () => {
+  const rootDir = await mkdtemp(join(tmpdir(), "nexus-config-defaults-"));
+  const projectDir = join(rootDir, "project");
+  const userDir = join(rootDir, "user");
+  const defaultsDir = join(rootDir, "defaults");
+  const agentDir = join(rootDir, "agent");
+  const emptyAgentDir = join(rootDir, "empty-agent");
+
+  await mkdir(join(projectDir, ".nexus"), { recursive: true });
+  await mkdir(userDir, { recursive: true });
+  await mkdir(defaultsDir, { recursive: true });
+  await mkdir(agentDir, { recursive: true });
+  await mkdir(emptyAgentDir, { recursive: true });
+  await writeFile(join(projectDir, ".nexus", "settings.json"), '{"theme":"light"}\n', "utf8");
+  await writeFile(
+    join(agentDir, "settings.json"),
+    '{"theme":"dark","editorPaddingX":3,"quietStartup":false,"hideThinkingBlock":false}\n',
+    "utf8",
+  );
+
+  const defaultsOutput = await runIsolatedEval(
+    [
+      'import { applyNexusConfigPatch } from "./src/runtime/config/applyNexusConfigPatch.ts";',
+      '(async () => {',
+      '  await applyNexusConfigPatch();',
+      '  const { SettingsManager } = await import("./node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js");',
+      '  const projectSettings = SettingsManager.create(process.env.TEST_PROJECT_DIR, process.env.TEST_AGENT_DIR);',
+      '  const userSettings = SettingsManager.create(process.env.TEST_USER_DIR, process.env.TEST_AGENT_DIR);',
+      '  const defaultSettings = SettingsManager.create(process.env.TEST_DEFAULTS_DIR, process.env.TEST_EMPTY_AGENT_DIR);',
+      '  console.log(JSON.stringify({',
+      '    projectTheme: projectSettings.getTheme(),',
+      '    userTheme: userSettings.getTheme(),',
+      '    userQuietStartup: userSettings.getQuietStartup(),',
+      '    userHideThinkingBlock: userSettings.getHideThinkingBlock(),',
+      '    userEditorPaddingX: userSettings.getEditorPaddingX(),',
+      '    defaultTheme: defaultSettings.getTheme(),',
+      '    defaultQuietStartup: defaultSettings.getQuietStartup(),',
+      '    defaultHideThinkingBlock: defaultSettings.getHideThinkingBlock(),',
+      '    defaultEditorPaddingX: defaultSettings.getEditorPaddingX()',
+      '  }));',
+      '})().catch((error) => {',
+      '  console.error(error);',
+      '  process.exit(1);',
+      '});',
+    ].join("\n"),
+    {
+      TEST_PROJECT_DIR: projectDir,
+      TEST_USER_DIR: userDir,
+      TEST_DEFAULTS_DIR: defaultsDir,
+      TEST_AGENT_DIR: agentDir,
+      TEST_EMPTY_AGENT_DIR: emptyAgentDir,
+      PI_CODING_AGENT_DIR: agentDir,
+      NEXUS_CODING_AGENT_DIR: agentDir,
+    },
+  ) as {
+    projectTheme: string;
+    userTheme: string;
+    userQuietStartup: boolean;
+    userHideThinkingBlock: boolean;
+    userEditorPaddingX: number;
+    defaultTheme: string;
+    defaultQuietStartup: boolean;
+    defaultHideThinkingBlock: boolean;
+    defaultEditorPaddingX: number;
+  };
+
+  assert.deepEqual(defaultsOutput, {
+    projectTheme: "light",
+    userTheme: "dark",
+    userQuietStartup: false,
+    userHideThinkingBlock: false,
+    userEditorPaddingX: 3,
+    defaultTheme: "nexus-black",
+    defaultQuietStartup: true,
+    defaultHideThinkingBlock: true,
+    defaultEditorPaddingX: 1,
+  });
+});
