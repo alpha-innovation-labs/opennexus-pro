@@ -3,11 +3,47 @@ import { Markdown, Spacer, Text } from "@mariozechner/pi-tui";
 import { setAssistantMessageUpdateHook } from "../../../pi-internals/assistantMessageHook.js";
 import { theme } from "../../../pi-internals/theme.js";
 import { bridgeThinkingToToolCalls } from "../activity/bridgeThinkingToToolCalls.ts";
-import { getImmediateFollowingToolCallIds } from "../activity/getImmediateFollowingToolCallIds.ts";
 import { getAssistantMessageTiming } from "./assistantMessageTimingState.ts";
 import { createAssistantMetaText } from "./createAssistantMetaText.ts";
 import { getThinkingPreview } from "./getThinkingPreview.ts";
 import { ThinkingLabelBlock } from "./ThinkingLabelBlock.ts";
+
+/**
+ * Returns whether a tool call should remain visible in Tron assistant layout.
+ *
+ * @param content Assistant message content block.
+ * @returns True when the tool call should affect thinking/tool layout.
+ */
+function isVisibleToolCall(content: any): boolean {
+	return content?.type === "toolCall" && content?.name !== "Agent";
+}
+
+/**
+ * Returns visible tool-call ids that immediately follow a thinking block.
+ *
+ * @param content Assistant message content blocks.
+ * @param index Thinking block index.
+ * @returns Visible tool call ids.
+ */
+function getVisibleFollowingToolCallIds(content: any[], index: number): string[] {
+	const toolCallIds: string[] = [];
+
+	for (let nextIndex = index + 1; nextIndex < content.length; nextIndex += 1) {
+		const next = content[nextIndex];
+		if (!next) continue;
+		if (next.type === "toolCall") {
+			if (isVisibleToolCall(next) && typeof next.id === "string" && next.id) {
+				toolCallIds.push(next.id);
+			}
+			continue;
+		}
+		if (next.type === "text" && typeof next.text === "string" && next.text.trim()) return [];
+		if (next.type === "thinking" && typeof next.thinking === "string" && next.thinking.trim()) return [];
+		if (toolCallIds.length > 0) return toolCallIds;
+	}
+
+	return toolCallIds;
+}
 
 /**
  * Installs the tron assistant-thinking renderer hook.
@@ -18,7 +54,8 @@ export function installAssistantThinkingStyle(): void {
 		component.contentContainer.clear();
 		const markdownTheme = component.markdownTheme ?? getMarkdownTheme();
 		const hasVisibleContent = message.content.some((content: any) => (content.type === "text" && content.text.trim()) || (content.type === "thinking" && content.thinking.trim()));
-		const shouldAddTopSpacer = hasVisibleContent && !message.content.some((content: any) => content.type === "toolCall");
+		const hasVisibleToolCalls = message.content.some((content: any) => isVisibleToolCall(content));
+		const shouldAddTopSpacer = hasVisibleContent && !hasVisibleToolCalls;
 		if (shouldAddTopSpacer) component.contentContainer.addChild(new Spacer(1));
 		for (let index = 0; index < message.content.length; index++) {
 			const content = message.content[index];
@@ -28,7 +65,7 @@ export function installAssistantThinkingStyle(): void {
 			}
 			if (content.type === "thinking" && content.thinking.trim()) {
 				const hasVisibleContentAfter = message.content.slice(index + 1).some((next: any) => (next.type === "text" && next.text.trim()) || (next.type === "thinking" && next.thinking.trim()));
-				const followingToolCallIds = getImmediateFollowingToolCallIds(message.content, index);
+				const followingToolCallIds = getVisibleFollowingToolCallIds(message.content, index);
 				if (followingToolCallIds.length > 0) bridgeThinkingToToolCalls(followingToolCallIds);
 				if (component.hideThinkingBlock) {
 					component.contentContainer.addChild(new ThinkingLabelBlock(getThinkingPreview(content.thinking.trim()), followingToolCallIds.length > 0));
@@ -41,7 +78,7 @@ export function installAssistantThinkingStyle(): void {
 				if (hasVisibleContentAfter) component.contentContainer.addChild(new Spacer(1));
 			}
 		}
-		component.hasToolCalls = message.content.some((content: any) => content.type === "toolCall");
+		component.hasToolCalls = hasVisibleToolCalls;
 		const durationLabel = typeof message.timestamp === "number" ? getAssistantMessageTiming(message.timestamp) : undefined;
 		if (hasVisibleContent && !component.hasToolCalls && durationLabel) {
 			component.contentContainer.addChild(new Spacer(1));
