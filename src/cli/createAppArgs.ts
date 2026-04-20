@@ -1,3 +1,4 @@
+import { getBundledCommandsPath } from "../commands/getBundledCommandsPath.js";
 import { addBaseSystemPromptArg } from "./system-prompt/addBaseSystemPromptArg.js";
 import { getBundledThemesPath } from "../themes/getBundledThemesPath.js";
 
@@ -10,16 +11,27 @@ import { getBundledThemesPath } from "../themes/getBundledThemesPath.js";
 export function createAppArgs(inputArgs: string[]): string[] {
   const args = addBaseSystemPromptArg([...inputArgs]);
   const bundledThemesPath = getBundledThemesPath();
+  const bundledCommandsPath = getBundledCommandsPath();
 
   if (!args.includes("--no-extensions")) {
     args.unshift("--no-extensions");
   }
 
+  let hasBundledThemePath = false;
+  let hasBundledCommandsPath = false;
+
   for (let index = 0; index < args.length; index += 1) {
     if (args[index] === "--theme" && args[index + 1] === bundledThemesPath) {
-      return args;
+      hasBundledThemePath = true;
+    }
+    if (args[index] === "--prompt-template" && args[index + 1] === bundledCommandsPath) {
+      hasBundledCommandsPath = true;
     }
   }
 
-  return ["--theme", bundledThemesPath, ...args];
+  const prependedArgs: string[] = [];
+  if (!hasBundledThemePath) prependedArgs.push("--theme", bundledThemesPath);
+  if (!hasBundledCommandsPath) prependedArgs.push("--prompt-template", bundledCommandsPath);
+
+  return [...prependedArgs, ...args];
 }
