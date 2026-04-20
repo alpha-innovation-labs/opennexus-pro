@@ -12,8 +12,12 @@ release:
     BIN_DIR="${HOME}/.local/bin"
     BIN_PATH="${BIN_DIR}/${APP_NAME}"
 
-    echo "🧪 Running tests..."
-    npm test
+    if [ "${NEXUS_SKIP_RELEASE_TESTS:-0}" != "1" ]; then
+        echo "🧪 Running tests..."
+        just test --with-release
+    else
+        echo "⏭️ Skipping tests inside release e2e harness..."
+    fi
 
     echo "🧹 Cleaning previous release staging..."
     rm -rf "${STAGING_DIR}" "${INSTALL_DIR}"
