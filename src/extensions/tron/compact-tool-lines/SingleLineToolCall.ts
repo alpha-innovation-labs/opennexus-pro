@@ -30,6 +30,8 @@ export class SingleLineToolCall {
 			icon: iconForToolName(this.toolName),
 			label: this.toolName,
 			main: this.summary.main,
+			inlineStats: this.summary.inlineStats,
+			renderedInlineStats: this.summary.renderedInlineStats,
 			options: this.summary.options,
 			renderedOptions: this.summary.renderedOptions,
 			theme: this.theme,

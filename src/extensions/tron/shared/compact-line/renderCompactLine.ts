@@ -15,13 +15,15 @@ export function renderCompactLine(params: {
   icon: string;
   label: string;
   main?: string;
+  inlineStats?: string;
+  renderedInlineStats?: string;
   options?: string;
   renderedOptions?: string;
   theme: { fg(color: string, text: string): string; bold(text: string): string };
 }): string {
-  const { width, icon, label, main = "", options = "", renderedOptions, theme } = params;
+  const { width, icon, label, main = "", inlineStats = "", renderedInlineStats, options = "", renderedOptions, theme } = params;
   const safeWidth = Math.max(1, width);
-  const leftPrefixPlain = `${icon} ${label}`;
+  const leftPrefixPlain = [icon, label, inlineStats].filter(Boolean).join(" ");
   const leftPrefixWidth = visibleWidth(leftPrefixPlain);
   const maxOptionsWidth = options ? Math.max(0, safeWidth - leftPrefixWidth - 1) : 0;
   const shownOptions = options ? truncateToWidth(options, maxOptionsWidth, "…") : "";
@@ -37,6 +39,7 @@ export function renderCompactLine(params: {
   return [
     colorToolCallIcon(icon),
     theme.fg("text", theme.bold(label)),
+    inlineStats ? (renderedInlineStats ?? inlineStats) : "",
     shownMain ? colorSecondaryText(shownMain) : "",
   ].filter(Boolean).join(" ")
     + " ".repeat(gapWidth)

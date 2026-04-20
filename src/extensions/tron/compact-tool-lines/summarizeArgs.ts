@@ -1,5 +1,8 @@
+import { countChangedLines } from "./countChangedLines.ts";
+import { countContentLines } from "./countContentLines.ts";
 import { firstLine } from "./firstLine.ts";
 import { shortenPath } from "./shortenPath.ts";
+import type { SummaryText } from "./SummaryText.ts";
 import { truncateSingleLine } from "./truncateSingleLine.ts";
 import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart.ts";
 
@@ -10,7 +13,7 @@ import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart.ts";
  * @param args Raw tool-call arguments.
  * @returns Main text plus option text.
  */
-export function summarizeArgs(toolName: string, args: any): { main: string; options: string } {
+export function summarizeArgs(toolName: string, args: any): SummaryText {
 	const options: string[] = [];
 
 	switch (toolName) {
@@ -21,15 +24,21 @@ export function summarizeArgs(toolName: string, args: any): { main: string; opti
 		case "bash":
 			if (args.timeout) options.push(`timeout=${args.timeout}`);
 			return { main: firstLine(args.command), options: options.join(" ") };
-		case "edit":
+		case "edit": {
+			const { added, removed } = countChangedLines(args);
+			const edits = Array.isArray(args.edits) ? args.edits : [];
+			const previewSource = edits[0]?.oldText || edits[0]?.newText || args.oldText || args.newText;
 			return {
-				main: truncateSingleLineFromStart(`${shortenPath(args.path || "")} ${truncateSingleLine(firstLine(args.oldText) || firstLine(args.newText), 80)}`.trim(), 140),
+				main: truncateSingleLineFromStart(`${shortenPath(args.path || "")} ${truncateSingleLine(firstLine(previewSource), 80)}`.trim(), 140),
 				options: "",
+				inlineStats: `+${added} -${removed}`,
 			};
+		}
 		case "write":
 			return {
 				main: truncateSingleLineFromStart(shortenPath(args.path || ""), 140),
 				options: truncateSingleLine(firstLine(args.content), 80),
+				inlineStats: `+${countContentLines(args.content)} -0`,
 			};
 		case "find":
 			if (args.limit) options.push(`limit=${args.limit}`);

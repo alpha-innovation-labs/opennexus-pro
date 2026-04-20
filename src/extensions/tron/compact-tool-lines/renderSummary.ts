@@ -1,4 +1,6 @@
 import { SingleLineToolCall } from "./SingleLineToolCall.ts";
+import { renderEditChangeStats } from "./renderEditChangeStats.ts";
+import type { SummaryText } from "./SummaryText.ts";
 import { truncateSingleLine } from "./truncateSingleLine.ts";
 import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart.ts";
 
@@ -15,18 +17,20 @@ import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart.ts";
 export function renderSummary(
 	toolCallId: string,
 	toolName: string,
-	summary: { main: string; options: string },
+	summary: SummaryText,
 	theme: any,
 	hasAttachedResult: boolean,
 ): SingleLineToolCall {
-	return new SingleLineToolCall(
-		toolCallId,
-		toolName,
-		{
-			main: truncateSingleLineFromStart(summary.main || "…", 220),
-			options: truncateSingleLine(summary.options || "", 80),
-		},
-		theme,
-		hasAttachedResult,
-	);
+	const normalizedSummary = {
+		main: truncateSingleLineFromStart(summary.main || "…", 220),
+		options: truncateSingleLine(summary.options || "", 80),
+		inlineStats: truncateSingleLine(summary.inlineStats || "", 24),
+		renderedInlineStats: summary.renderedInlineStats,
+		renderedOptions: summary.renderedOptions,
+	};
+	const themedSummary = ["edit", "write"].includes(toolName)
+		? renderEditChangeStats(normalizedSummary, theme)
+		: normalizedSummary;
+
+	return new SingleLineToolCall(toolCallId, toolName, themedSummary, theme, hasAttachedResult);
 }
