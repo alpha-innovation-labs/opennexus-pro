@@ -6,6 +6,7 @@ Custom Pi TUI app that bundles the local extensions from `.pi/extensions/`.
 
 - `just dev` — run the custom app
 - `just test` — run unit tests
+- `just release` — build and install `~/.local/bin/nexus`
 
 ## Notes
 

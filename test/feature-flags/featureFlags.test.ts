@@ -15,12 +15,12 @@ test("extension feature flags are loaded from the root json config", () => {
     .sort();
   const report = createExtensionFeatureFlagReport(flags);
 
-  assert.equal(config.extensions.playground?.enabled, true);
-  assert.equal(config.extensions.workspace?.enabled, true);
+  assert.equal(config.extensions.playground?.enabled, false);
+  assert.equal(config.extensions.workspace?.enabled, false);
   assert.ok(flags.every((flag) => flag.features.length > 0));
-  assert.deepEqual(enabledIds, ["neo-editor", "observations", "playground", "term-modal", "todo", "tron", "workspace"].sort());
-  assert.match(report, /playground: enabled/);
-  assert.match(report, /workspace: enabled/);
+  assert.deepEqual(enabledIds, ["neo-editor", "observations", "term-modal", "todo", "tron"].sort());
+  assert.match(report, /playground: disabled/);
+  assert.match(report, /workspace: disabled/);
   assert.match(report, /usage meter/);
   assert.match(report, /tool calls browser/);
 });

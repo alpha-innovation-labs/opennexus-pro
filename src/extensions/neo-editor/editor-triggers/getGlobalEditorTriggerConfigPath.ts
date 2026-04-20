@@ -7,5 +7,6 @@ import { join } from "node:path";
  * @returns Absolute global config file path.
  */
 export function getGlobalEditorTriggerConfigPath(): string {
-	return join(homedir(), ".pi", "agent", "editor-triggers.json");
+	const agentDir = process.env.PI_CODING_AGENT_DIR ?? join(homedir(), ".pi", "agent");
+	return join(agentDir, "editor-triggers.json");
 }

@@ -9,7 +9,7 @@ test("createBundledExtensionFactories returns the bundled extension entrypoint",
   assert.equal(typeof factories[0], "function");
 });
 
-test("the bundled extension entrypoint registers all enabled extensions", () => {
+test("the bundled extension entrypoint registers the currently enabled extensions", () => {
   const factories = createBundledExtensionFactories();
   const commands: string[] = [];
   const shortcuts: string[] = [];
@@ -37,7 +37,7 @@ test("the bundled extension entrypoint registers all enabled extensions", () => 
     factories[0](pi as never);
   });
   assert.ok(commands.includes("term"));
-  assert.ok(commands.includes("sessions"));
-  assert.ok(shortcuts.includes("ctrl+i"));
-  assert.ok(shortcuts.includes("ctrl+;"));
+  assert.ok(!commands.includes("sessions"));
+  assert.ok(!shortcuts.includes("ctrl+i"));
+  assert.ok(!shortcuts.includes("ctrl+;"));
 });
