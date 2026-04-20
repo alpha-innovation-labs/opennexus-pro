@@ -15,6 +15,12 @@
         "notify cmux tab when pane is done"
       ]
     },
+    "clipboard-image-paste": {
+      "enabled": true,
+      "features": [
+        "macOS ctrl+v image paste fallback for release builds"
+      ]
+    },
     "neo-editor": {
       "enabled": true,
       "features": [
@@ -50,6 +56,14 @@
       "enabled": true,
       "features": [
         "show N logo on fresh startup"
+      ]
+    },
+    "sub-agents": {
+      "enabled": true,
+      "features": [
+        "reference tintinweb subagent tool",
+        "parallel and async subagents",
+        "status tool and slash bridge"
       ]
     },
     "term-modal": {

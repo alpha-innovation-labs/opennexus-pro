@@ -1,5 +1,6 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { registerAnnotateExtension } from "../extensions/annotate/registerAnnotateExtension.js";
+import { registerClipboardImagePasteExtension } from "../extensions/clipboard-image-paste/registerClipboardImagePasteExtension.js";
 import { registerCmuxExtension } from "../extensions/cmux/registerCmuxExtension.js";
 import { registerExitMessageExtension } from "../extensions/exit-message/registerExitMessageExtension.js";
 import registerNeoEditorExtension from "../extensions/neo-editor/registerNeoEditorExtension.js";
@@ -7,6 +8,7 @@ import { registerNotifyExtension } from "../extensions/notify/registerNotifyExte
 import { registerObservationsExtension } from "../extensions/observations/registerObservationsExtension.js";
 import { registerPlaygroundExtension } from "../extensions/playground/registerPlaygroundExtension.js";
 import { registerStartupLogoExtension } from "../extensions/startup-logo/registerStartupLogoExtension.js";
+import registerSubAgentsExtension from "../extensions/sub-agents/index.js";
 import { registerTermModalExtension } from "../extensions/term-modal/registerTermModalExtension.js";
 import { registerTodoExtension } from "../extensions/todo/registerTodoExtension.js";
 import registerTronExtension from "../extensions/tron/index.js";
@@ -20,12 +22,14 @@ import { registerWorkspaceExtension } from "../extensions/workspace/registerWork
 export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) => void> {
   return {
     annotate: registerAnnotateExtension,
+    "clipboard-image-paste": registerClipboardImagePasteExtension,
     cmux: registerCmuxExtension,
     "neo-editor": registerNeoEditorExtension,
     notify: registerNotifyExtension,
     observations: registerObservationsExtension,
     "exit-message": registerExitMessageExtension,
     "startup-logo": registerStartupLogoExtension,
+    "sub-agents": registerSubAgentsExtension,
     playground: registerPlaygroundExtension,
     "term-modal": registerTermModalExtension,
     todo: registerTodoExtension,

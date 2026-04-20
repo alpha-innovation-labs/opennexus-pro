@@ -16,6 +16,10 @@ export function getBundledFeatureFlagsConfig(): FeatureFlagsConfig {
         enabled: true,
         features: ["sync session title to cmux pane title", "notify cmux tab when pane is done"],
       },
+      "clipboard-image-paste": {
+        enabled: true,
+        features: ["macOS ctrl+v image paste fallback for release builds"],
+      },
       "neo-editor": {
         enabled: true,
         features: ["custom promptline", "usage meter", "@ file autocomplete", "editor trigger submit"],
