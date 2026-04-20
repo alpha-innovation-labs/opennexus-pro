@@ -4,30 +4,48 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { getGlobalEditorTriggerConfigPath } from "../../../src/extensions/neo-editor/editor-triggers/getGlobalEditorTriggerConfigPath.js";
 
-test("getGlobalEditorTriggerConfigPath uses the Pi agent dir env override", () => {
-  const previous = process.env.PI_CODING_AGENT_DIR;
-  process.env.PI_CODING_AGENT_DIR = "/tmp/nexus-agent";
+/**
+ * Restores the supported agent-dir environment variables.
+ *
+ * @param nexusValue Previous Nexus env value.
+ * @param piValue Previous Pi env value.
+ */
+function restoreAgentDirEnv(nexusValue: string | undefined, piValue: string | undefined): void {
+  if (nexusValue === undefined) {
+    delete process.env.NEXUS_CODING_AGENT_DIR;
+  } else {
+    process.env.NEXUS_CODING_AGENT_DIR = nexusValue;
+  }
+
+  if (piValue === undefined) {
+    delete process.env.PI_CODING_AGENT_DIR;
+  } else {
+    process.env.PI_CODING_AGENT_DIR = piValue;
+  }
+}
+
+test("getGlobalEditorTriggerConfigPath uses the Nexus agent dir env override", () => {
+  const previousNexus = process.env.NEXUS_CODING_AGENT_DIR;
+  const previousPi = process.env.PI_CODING_AGENT_DIR;
+  process.env.NEXUS_CODING_AGENT_DIR = "/tmp/nexus-agent";
+  process.env.PI_CODING_AGENT_DIR = "/tmp/pi-agent";
 
   try {
     assert.equal(getGlobalEditorTriggerConfigPath(), "/tmp/nexus-agent/editor-triggers.json");
   } finally {
-    if (previous === undefined) {
-      delete process.env.PI_CODING_AGENT_DIR;
-    } else {
-      process.env.PI_CODING_AGENT_DIR = previous;
-    }
+    restoreAgentDirEnv(previousNexus, previousPi);
   }
 });
 
-test("getGlobalEditorTriggerConfigPath falls back to the default Pi agent dir", () => {
-  const previous = process.env.PI_CODING_AGENT_DIR;
+test("getGlobalEditorTriggerConfigPath falls back to the default Nexus agent dir", () => {
+  const previousNexus = process.env.NEXUS_CODING_AGENT_DIR;
+  const previousPi = process.env.PI_CODING_AGENT_DIR;
+  delete process.env.NEXUS_CODING_AGENT_DIR;
   delete process.env.PI_CODING_AGENT_DIR;
 
   try {
-    assert.equal(getGlobalEditorTriggerConfigPath(), join(homedir(), ".pi", "agent", "editor-triggers.json"));
+    assert.equal(getGlobalEditorTriggerConfigPath(), join(homedir(), ".nexus", "agent", "editor-triggers.json"));
   } finally {
-    if (previous !== undefined) {
-      process.env.PI_CODING_AGENT_DIR = previous;
-    }
+    restoreAgentDirEnv(previousNexus, previousPi);
   }
 });

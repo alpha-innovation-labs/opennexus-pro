@@ -1,4 +1,6 @@
+import { basename, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveBundledAssetPath } from "../runtime/package/resolveBundledAssetPath.js";
 
 /**
  * Resolves the bundled themes directory path.
@@ -6,5 +8,8 @@ import { fileURLToPath } from "node:url";
  * @returns Absolute bundled themes directory path.
  */
 export function getBundledThemesPath(): string {
-  return fileURLToPath(new URL("./", import.meta.url));
+  const bundledPath = resolveBundledAssetPath(import.meta.url, "theme", "./");
+  return basename(bundledPath) === "themes" || basename(bundledPath) === "theme"
+    ? bundledPath
+    : join(bundledPath, "themes");
 }

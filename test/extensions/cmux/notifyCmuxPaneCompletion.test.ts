@@ -1,20 +1,19 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { updateSessionTitleFromObservationState } from "../../../src/extensions/observations/tracker/updateSessionTitleFromObservationState.js";
+import { notifyCmuxPaneCompletion } from "../../../src/extensions/cmux/notifyCmuxPaneCompletion.js";
 import { setCmuxTitleSyncEnabled } from "../../../src/extensions/cmux/state/setCmuxTitleSyncEnabled.js";
 import { createFakeCmuxExecutable } from "../../support/cmux/createFakeCmuxExecutable.js";
 import { removeFakeCmuxExecutable } from "../../support/cmux/removeFakeCmuxExecutable.js";
 import { withLockedCmuxEnv } from "../../support/cmux/withLockedCmuxEnv.js";
 
-test("observations mirrors the latest session title into cmux", async () => {
+test("cmux emits a pane completion notification", async () => {
 	await withLockedCmuxEnv(async () => {
 		const fakeCmux = await createFakeCmuxExecutable();
 		const previousCmuxBin = process.env.NEXUS_CMUX_BIN;
 		const previousCmuxLog = process.env.CMUX_TEST_LOG;
 		const previousWorkspaceId = process.env.CMUX_WORKSPACE_ID;
 		const previousSurfaceId = process.env.CMUX_SURFACE_ID;
-		let sessionTitle: string | undefined;
 
 		process.env.NEXUS_CMUX_BIN = fakeCmux.executablePath;
 		process.env.CMUX_TEST_LOG = fakeCmux.logPath;
@@ -23,27 +22,19 @@ test("observations mirrors the latest session title into cmux", async () => {
 		setCmuxTitleSyncEnabled(true);
 
 		try {
-			await updateSessionTitleFromObservationState(
-				{
-					setSessionName(title: string) {
-						sessionTitle = title;
-					},
-				} as never,
-				{
-					topics: [{ title: "Observed topic title" }],
-				} as never,
-			);
+			await notifyCmuxPaneCompletion("  Build   finished  ");
 
 			const cmuxArgs = (await readFile(fakeCmux.logPath, "utf8")).trim().split("\n");
-			assert.equal(sessionTitle, "Observed topic title");
 			assert.deepEqual(cmuxArgs, [
-				"rename-tab",
+				"notify",
+				"--title",
+				"Build finished",
+				"--subtitle",
+				"Nexus pane done",
 				"--workspace",
 				"workspace-test",
 				"--surface",
 				"surface-test",
-				"--title",
-				"Observed topic title",
 			]);
 		} finally {
 			setCmuxTitleSyncEnabled(false);

@@ -1,4 +1,6 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { createProfiledExtensionApi } from "../extensions/primitives/observability/startup-profile/createProfiledExtensionApi.js";
+import { logStartupProfileEvent } from "../extensions/primitives/observability/startup-profile/logStartupProfileEvent.js";
 import { getEnabledExtensionFeatureFlags } from "./getEnabledExtensionFeatureFlags.js";
 import type { ExtensionFeatureFlag } from "./types.js";
 
@@ -10,6 +12,11 @@ import type { ExtensionFeatureFlag } from "./types.js";
  */
 export function registerEnabledExtensions(pi: ExtensionAPI, flags: ExtensionFeatureFlag[]): void {
   for (const flag of getEnabledExtensionFeatureFlags(flags)) {
-    flag.register(pi);
+    const startedAt = performance.now();
+    logStartupProfileEvent(flag.id, "register:start");
+    flag.register(createProfiledExtensionApi(pi, flag.id));
+    logStartupProfileEvent(flag.id, "register:done", {
+      durationMs: Number((performance.now() - startedAt).toFixed(3)),
+    });
   }
 }

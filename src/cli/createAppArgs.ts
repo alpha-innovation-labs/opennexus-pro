@@ -1,3 +1,4 @@
+import { addBaseSystemPromptArg } from "./system-prompt/addBaseSystemPromptArg.js";
 import { getBundledThemesPath } from "../themes/getBundledThemesPath.js";
 
 /**
@@ -7,7 +8,7 @@ import { getBundledThemesPath } from "../themes/getBundledThemesPath.js";
  * @returns Arguments with bundled runtime resources configured.
  */
 export function createAppArgs(inputArgs: string[]): string[] {
-  const args = [...inputArgs];
+  const args = addBaseSystemPromptArg([...inputArgs]);
   const bundledThemesPath = getBundledThemesPath();
 
   if (!args.includes("--no-extensions")) {
