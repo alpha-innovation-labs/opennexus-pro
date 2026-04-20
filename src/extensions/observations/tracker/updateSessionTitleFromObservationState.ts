@@ -1,4 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { syncCmuxPaneTitle } from "../../cmux/syncCmuxPaneTitle.js";
 import type { ObservationState } from "./types.js";
 
 /**
@@ -7,7 +8,9 @@ import type { ObservationState } from "./types.js";
  * @param pi Pi extension API.
  * @param state Observation state.
  */
-export function updateSessionTitleFromObservationState(pi: ExtensionAPI, state: ObservationState): void {
+export async function updateSessionTitleFromObservationState(pi: ExtensionAPI, state: ObservationState): Promise<void> {
 	const title = state.topics.at(-1)?.title?.trim();
-	if (title) pi.setSessionName(title);
+	if (!title) return;
+	pi.setSessionName(title);
+	await syncCmuxPaneTitle(title);
 }

@@ -33,7 +33,7 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 		await ensureObservationsDir(dir);
 		const state = await getStoredObservationState(statePath, conversationId, ctx.cwd, sessionFile);
 		await writeObservationsMarkdown(markdownPath, state);
-		updateSessionTitleFromObservationState(pi, state);
+		await updateSessionTitleFromObservationState(pi, state);
 	});
 	pi.on("message_end", async (event, ctx) => {
 		const paths = getObservationPaths(ctx, ephemeralConversationId);
@@ -51,7 +51,7 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 				await applyUserObservation(pi, ctx, state, stored);
 				await writeObservationState(paths.statePath, state);
 				await writeObservationsMarkdown(paths.markdownPath, state);
-				updateSessionTitleFromObservationState(pi, state);
+				await updateSessionTitleFromObservationState(pi, state);
 			});
 			return;
 		}
@@ -69,13 +69,13 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 			await applyAssistantObservation(pi, ctx, state, stored);
 			await writeObservationState(paths.statePath, state);
 			await writeObservationsMarkdown(paths.markdownPath, state);
-			updateSessionTitleFromObservationState(pi, state);
+			await updateSessionTitleFromObservationState(pi, state);
 		});
 	});
 	pi.on("turn_end", async (_event, ctx) => {
 		const { conversationId, statePath, sessionFile } = getObservationPaths(ctx, ephemeralConversationId);
 		const state = await getStoredObservationState(statePath, conversationId, ctx.cwd, sessionFile);
-		updateSessionTitleFromObservationState(pi, state);
+		await updateSessionTitleFromObservationState(pi, state);
 	});
 	pi.on("session_shutdown", async (_event, ctx) => {
 		logExtensionEvent("observations", "session_shutdown", {

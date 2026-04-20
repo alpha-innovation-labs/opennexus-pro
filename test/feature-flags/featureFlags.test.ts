@@ -3,24 +3,64 @@ import test from "node:test";
 import {
   createExtensionFeatureFlagReport,
   createExtensionFeatureFlags,
+  getBundledFeatureFlagsConfig,
   getEnabledExtensionFeatureFlags,
   readFeatureFlagsConfig,
 } from "../../src/feature-flags/index.js";
+import { createFakeCmuxExecutable } from "../support/cmux/createFakeCmuxExecutable.js";
+import { removeFakeCmuxExecutable } from "../support/cmux/removeFakeCmuxExecutable.js";
 
 test("extension feature flags are loaded from the root json config", () => {
   const config = readFeatureFlagsConfig();
+  const bundledConfig = getBundledFeatureFlagsConfig();
   const flags = createExtensionFeatureFlags();
   const enabledIds = getEnabledExtensionFeatureFlags(flags)
     .map((flag) => flag.id)
     .sort();
   const report = createExtensionFeatureFlagReport(flags);
 
+  assert.deepEqual(bundledConfig, config);
+  assert.equal(config.extensions.cmux?.enabled, true);
   assert.equal(config.extensions.playground?.enabled, false);
   assert.equal(config.extensions.workspace?.enabled, false);
+  assert.equal(config.extensions["sub-agents"], undefined);
   assert.ok(flags.every((flag) => flag.features.length > 0));
-  assert.deepEqual(enabledIds, ["neo-editor", "observations", "term-modal", "todo", "tron"].sort());
+  assert.deepEqual(
+    enabledIds,
+    flags
+      .filter((flag) => flag.enabled)
+      .map((flag) => flag.id)
+      .sort(),
+  );
+  assert.match(report, /annotate: enabled/);
+  assert.match(report, /exit-message: enabled/);
+  assert.match(report, /startup-logo: enabled/);
   assert.match(report, /playground: disabled/);
   assert.match(report, /workspace: disabled/);
+  assert.doesNotMatch(report, /sub-agents:/);
+  assert.match(report, /sync session title to cmux pane title/);
+  assert.match(report, /print session title on app exit/);
+  assert.match(report, /show N logo on fresh startup/);
   assert.match(report, /usage meter/);
   assert.match(report, /tool calls browser/);
+});
+
+test("cmux feature flag is enabled only when the cmux binary is available", async () => {
+  const fakeCmux = await createFakeCmuxExecutable();
+  const previousCmuxBin = process.env.NEXUS_CMUX_BIN;
+
+  try {
+    process.env.NEXUS_CMUX_BIN = fakeCmux.executablePath;
+    const enabledFlag = createExtensionFeatureFlags().find((flag) => flag.id === "cmux");
+
+    process.env.NEXUS_CMUX_BIN = `${fakeCmux.directoryPath}/missing-cmux`;
+    const disabledFlag = createExtensionFeatureFlags().find((flag) => flag.id === "cmux");
+
+    assert.equal(enabledFlag?.enabled, true);
+    assert.equal(disabledFlag?.enabled, false);
+  } finally {
+    if (previousCmuxBin) process.env.NEXUS_CMUX_BIN = previousCmuxBin;
+    else delete process.env.NEXUS_CMUX_BIN;
+    await removeFakeCmuxExecutable(fakeCmux.directoryPath);
+  }
 });
