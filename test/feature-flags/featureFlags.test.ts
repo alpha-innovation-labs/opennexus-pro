@@ -9,6 +9,7 @@ import {
 } from "../../src/feature-flags/index.js";
 import { createFakeCmuxExecutable } from "../support/cmux/createFakeCmuxExecutable.js";
 import { removeFakeCmuxExecutable } from "../support/cmux/removeFakeCmuxExecutable.js";
+import { withLockedCmuxEnv } from "../support/cmux/withLockedCmuxEnv.js";
 
 test("extension feature flags are loaded from the root json config", () => {
   const config = readFeatureFlagsConfig();
@@ -39,6 +40,7 @@ test("extension feature flags are loaded from the root json config", () => {
   assert.match(report, /workspace: disabled/);
   assert.doesNotMatch(report, /sub-agents:/);
   assert.match(report, /sync session title to cmux pane title/);
+  assert.match(report, /notify cmux tab when pane is done/);
   assert.match(report, /print session title on app exit/);
   assert.match(report, /show N logo on fresh startup/);
   assert.match(report, /usage meter/);
@@ -46,21 +48,23 @@ test("extension feature flags are loaded from the root json config", () => {
 });
 
 test("cmux feature flag is enabled only when the cmux binary is available", async () => {
-  const fakeCmux = await createFakeCmuxExecutable();
-  const previousCmuxBin = process.env.NEXUS_CMUX_BIN;
+  await withLockedCmuxEnv(async () => {
+    const fakeCmux = await createFakeCmuxExecutable();
+    const previousCmuxBin = process.env.NEXUS_CMUX_BIN;
 
-  try {
-    process.env.NEXUS_CMUX_BIN = fakeCmux.executablePath;
-    const enabledFlag = createExtensionFeatureFlags().find((flag) => flag.id === "cmux");
+    try {
+      process.env.NEXUS_CMUX_BIN = fakeCmux.executablePath;
+      const enabledFlag = createExtensionFeatureFlags().find((flag) => flag.id === "cmux");
 
-    process.env.NEXUS_CMUX_BIN = `${fakeCmux.directoryPath}/missing-cmux`;
-    const disabledFlag = createExtensionFeatureFlags().find((flag) => flag.id === "cmux");
+      process.env.NEXUS_CMUX_BIN = `${fakeCmux.directoryPath}/missing-cmux`;
+      const disabledFlag = createExtensionFeatureFlags().find((flag) => flag.id === "cmux");
 
-    assert.equal(enabledFlag?.enabled, true);
-    assert.equal(disabledFlag?.enabled, false);
-  } finally {
-    if (previousCmuxBin) process.env.NEXUS_CMUX_BIN = previousCmuxBin;
-    else delete process.env.NEXUS_CMUX_BIN;
-    await removeFakeCmuxExecutable(fakeCmux.directoryPath);
-  }
+      assert.equal(enabledFlag?.enabled, true);
+      assert.equal(disabledFlag?.enabled, false);
+    } finally {
+      if (previousCmuxBin) process.env.NEXUS_CMUX_BIN = previousCmuxBin;
+      else delete process.env.NEXUS_CMUX_BIN;
+      await removeFakeCmuxExecutable(fakeCmux.directoryPath);
+    }
+  });
 });

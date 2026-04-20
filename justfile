@@ -16,6 +16,7 @@ help:
     @echo "  just \033[0;33mdev\033[0m                     \033[0;32mRun the bundled Pi TUI with Tron\033[0m"
     @echo "  just \033[0;33mtest\033[0m                    \033[0;32mRun unit tests\033[0m"
     @echo "  just \033[0;33mrelease\033[0m                 \033[0;32mBuild and install ~/.local/bin/nexus\033[0m"
+    @echo "  just \033[0;33muninstall\033[0m               \033[0;32mRemove ~/.local/bin/nexus and its bundle\033[0m"
     @echo ""
 
 # ============================================================================
@@ -32,3 +33,9 @@ import 'justfiles/building/release.just'
 # Testing Commands
 # ============================================================================
 import 'justfiles/testing/test.just'
+
+# ============================================================================
+# Utility Commands
+# ============================================================================
+import 'justfiles/utilities/import-auth.just'
+import 'justfiles/utilities/uninstall.just'

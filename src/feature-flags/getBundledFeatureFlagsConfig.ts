@@ -14,7 +14,7 @@ export function getBundledFeatureFlagsConfig(): FeatureFlagsConfig {
       },
       cmux: {
         enabled: true,
-        features: ["sync session title to cmux pane title"],
+        features: ["sync session title to cmux pane title", "notify cmux tab when pane is done"],
       },
       "neo-editor": {
         enabled: true,
