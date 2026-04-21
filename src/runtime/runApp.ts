@@ -5,6 +5,7 @@ import { createBundledExtensionFactories } from "../extensions/createBundledExte
 import { clearExitMessage } from "../extensions/exit-message/state/clearExitMessage.js";
 import { applyStartupUpdateSilencePatch } from "../pi-internals/applyStartupUpdateSilencePatch.js";
 import { applyToolExecutionSpacingPatch } from "../pi-internals/applyToolExecutionSpacingPatch.js";
+import { applyToolGroupCollapsePatch } from "../pi-internals/applyToolGroupCollapsePatch.js";
 import { applyNexusConfigPatch } from "./config/applyNexusConfigPatch.js";
 import { ensureAgentDirEnv } from "./config/ensureAgentDirEnv.js";
 import { printExitMessage } from "./exit-message/printExitMessage.js";
@@ -42,6 +43,10 @@ export async function runApp(argv: string[]): Promise<void> {
   phaseStartedAt = performance.now();
   applyToolExecutionSpacingPatch();
   logRunAppPhase("applyToolExecutionSpacingPatch:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
+  applyToolGroupCollapsePatch();
+  logRunAppPhase("applyToolGroupCollapsePatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   const args = createAppArgs(rawArgs);

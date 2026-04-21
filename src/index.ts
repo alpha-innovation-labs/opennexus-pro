@@ -1,4 +1,4 @@
-import { runApp } from "./runtime/runApp.js";
+import { runCli } from "./cli/runCli.js";
 
 /**
  * Boots the installed Nexus executable.
@@ -6,7 +6,7 @@ import { runApp } from "./runtime/runApp.js";
  * @returns {Promise<void>}
  */
 async function main() {
-  await runApp(process.argv.slice(2));
+  process.exitCode = await runCli(process.argv.slice(2));
 }
 
 main().catch((error) => {

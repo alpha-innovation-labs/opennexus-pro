@@ -1,2 +1,4 @@
+.env
 .release/
+dist/
 node_modules/

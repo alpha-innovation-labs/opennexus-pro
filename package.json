@@ -20,10 +20,12 @@
     "@mariozechner/pi-coding-agent": "^0.67.68",
     "@mariozechner/pi-tui": "^0.67.4",
     "@sinclair/typebox": "^0.34.49",
+    "@wterm/dom": "^0.1.9",
     "@xterm/headless": "^5.5.0",
     "jiti": "^2.6.1",
     "node-pty": "^1.1.0",
-    "pi-slash-usage": "^0.1.1"
+    "pi-slash-usage": "^0.1.1",
+    "ws": "^8.18.3"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

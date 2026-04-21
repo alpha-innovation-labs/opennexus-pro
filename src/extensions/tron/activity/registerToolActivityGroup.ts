@@ -1,4 +1,5 @@
 import { invalidateActivityKeys } from "./invalidateActivityKeys.ts";
+import { syncCollapsedToolGroup } from "./syncCollapsedToolGroup.ts";
 import { toolActivityKey } from "./toolActivityKey.ts";
 import { activeToolGroup, setActiveToolGroup, toolNeighbors } from "./state.ts";
 
@@ -11,6 +12,7 @@ export function registerToolActivityGroup(toolCallIds: string[]): void {
 	const previousGroup = [...activeToolGroup];
 	const uniqueIds = toolCallIds.filter((toolCallId, index) => toolCallId && toolCallIds.indexOf(toolCallId) === index);
 	setActiveToolGroup([...uniqueIds]);
+	syncCollapsedToolGroup(uniqueIds);
 
 	for (const [index, toolCallId] of uniqueIds.entries()) {
 		toolNeighbors.set(toolActivityKey(toolCallId), {

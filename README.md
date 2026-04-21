@@ -5,9 +5,22 @@ Custom Pi TUI app that bundles the local extensions and uses `.nexus/` for proje
 ## Commands
 
 - `just dev` — run the custom app
+- `just dev adapter start` — start the background adapter gateway
+- `just dev adapter status` — show gateway status
+- `just dev adapter stop` — stop the background adapter gateway
 - `just test` — run unit tests
 - `just release` — build and install the native bundled `~/.local/bin/nexus`
 - `just uninstall` — remove the installed Nexus launcher and bundle
+
+## Adapter Gateway
+
+Telegram polling is enabled when these environment variables are present:
+
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_ALLOWED_USER_IDS`
+- `TELEGRAM_POLL_INTERVAL_MS` (optional, defaults to `1000`)
+
+The gateway stores its runtime files under the Nexus agent dir in `gateway/`, including Telegram polling offsets and per-chat Nexus sessions.
 
 ## Notes
 
