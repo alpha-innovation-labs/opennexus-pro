@@ -1,7 +1,6 @@
 import type { SessionEntry } from "../../../pi-internals/sessionManager.js";
-import { closeToolActivityGroup } from "./closeToolActivityGroup.ts";
+import { applyAssistantMessageToolGrouping } from "./applyAssistantMessageToolGrouping.ts";
 import { noteUserMessage } from "./noteUserMessage.ts";
-import { registerToolActivityGroup } from "./registerToolActivityGroup.ts";
 import { resetAssistantActivityGrouping } from "./resetAssistantActivityGrouping.ts";
 
 /**
@@ -20,13 +19,6 @@ export function bootstrapAssistantActivityGrouping(entries: SessionEntry[]): voi
 			continue;
 		}
 		if (message.role !== "assistant") continue;
-		const toolCallIds = (message.content ?? [])
-			.filter((content: any) => content?.type === "toolCall" && typeof content.id === "string")
-			.map((content: any) => content.id);
-		if (toolCallIds.length > 0) {
-			registerToolActivityGroup(toolCallIds);
-			continue;
-		}
-		closeToolActivityGroup();
+		applyAssistantMessageToolGrouping(message);
 	}
 }
