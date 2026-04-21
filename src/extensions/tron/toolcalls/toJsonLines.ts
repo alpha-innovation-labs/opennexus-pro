@@ -1,4 +1,4 @@
-import { sanitizePlainText } from "../../primitives/two-pane-select-modal/index.js";
+import { sanitizePlainText } from "../../shared/two-pane-select-modal/index.js";
 
 /**
  * Serializes a value into sanitized JSON lines.

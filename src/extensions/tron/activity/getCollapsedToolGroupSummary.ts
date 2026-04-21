@@ -11,7 +11,10 @@ import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader }
 export function getCollapsedToolGroupSummary(toolCallId: string): {
 	leaderToolCallId: string;
 	icon: string;
-	diffCount: number;
+	addedLineCount: number;
+	removedLineCount: number;
+	summaryText: string;
+	fullThinkingText: string;
 	toolCallCount: number;
 	durationLabel?: string;
 } {
@@ -21,18 +24,17 @@ export function getCollapsedToolGroupSummary(toolCallId: string): {
 	const uniqueToolNames = [...new Set(toolNames)];
 	const icon = uniqueToolNames.length === 1 ? iconForToolName(uniqueToolNames[0] as string) : iconForToolName("tools");
 	const toolCallCount = stats?.toolCallIds.length ?? 1;
-	let durationLabel: string | undefined;
-	if (typeof stats?.startedAt === "number") {
-		const finishedAt = typeof stats.finishedAt === "number" ? stats.finishedAt : Date.now();
-		durationLabel = formatCompactDuration(Math.max(0, finishedAt - stats.startedAt));
-	} else if (typeof stats?.firstAssistantTimestamp === "number" && typeof stats.lastAssistantTimestamp === "number") {
-		durationLabel = formatCompactDuration(Math.max(0, stats.lastAssistantTimestamp - stats.firstAssistantTimestamp));
-	}
+	const durationLabel = typeof stats?.thinkingStartedAt === "number" && typeof stats.nextThinkingStartedAt === "number"
+		? formatCompactDuration(Math.max(0, stats.nextThinkingStartedAt - stats.thinkingStartedAt))
+		: undefined;
 
 	return {
 		leaderToolCallId,
 		icon,
-		diffCount: stats?.diffCount ?? 0,
+		addedLineCount: stats?.addedLineCount ?? 0,
+		removedLineCount: stats?.removedLineCount ?? 0,
+		summaryText: stats?.summaryText ?? "Thinking…",
+		fullThinkingText: stats?.fullThinkingText ?? stats?.summaryText ?? "Thinking…",
 		toolCallCount,
 		durationLabel,
 	};

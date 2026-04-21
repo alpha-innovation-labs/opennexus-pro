@@ -3,6 +3,9 @@ import { Markdown, Spacer, Text } from "@mariozechner/pi-tui";
 import { setAssistantMessageUpdateHook } from "../../../pi-internals/assistantMessageHook.js";
 import { theme } from "../../../pi-internals/theme.js";
 import { bridgeThinkingToToolCalls } from "../activity/bridgeThinkingToToolCalls.ts";
+import { isCollapsedSummaryMessage } from "../activity/collapsedSummaryMessageState.ts";
+import { isToolGroupCollapseEnabled } from "../collapse/state.ts";
+import { setCompactModeThinkingExpanded } from "../collapse/thinkingVisibility.ts";
 import { getAssistantMessageTiming } from "./assistantMessageTimingState.ts";
 import { createAssistantMetaText } from "./createAssistantMetaText.ts";
 import { getThinkingPreview } from "./getThinkingPreview.ts";
@@ -55,10 +58,21 @@ export function installAssistantThinkingStyle(): void {
 		const markdownTheme = component.markdownTheme ?? getMarkdownTheme();
 		const hasVisibleContent = message.content.some((content: any) => (content.type === "text" && content.text.trim()) || (content.type === "thinking" && content.thinking.trim()));
 		const hasVisibleToolCalls = message.content.some((content: any) => isVisibleToolCall(content));
+		const firstToolCallIndex = message.content.findIndex((content: any) => content?.type === "toolCall");
+		const hasLeadingVisibleToolSummary = firstToolCallIndex > 0 && message.content.slice(0, firstToolCallIndex).some((content: any) => (content.type === "text" && content.text.trim()) || (content.type === "thinking" && content.thinking.trim()));
+		const shouldCollapseLeadingSummary = isToolGroupCollapseEnabled() && hasVisibleToolCalls && hasLeadingVisibleToolSummary;
+		const shouldHideCollapsedSummaryMessage = isToolGroupCollapseEnabled() && typeof message.timestamp === "number" && isCollapsedSummaryMessage(message.timestamp);
 		const shouldAddTopSpacer = hasVisibleContent && !hasVisibleToolCalls;
+		setCompactModeThinkingExpanded(!component.hideThinkingBlock);
+
+		if (shouldHideCollapsedSummaryMessage) {
+			component.hasToolCalls = hasVisibleToolCalls;
+			return;
+		}
 		if (shouldAddTopSpacer) component.contentContainer.addChild(new Spacer(1));
 		for (let index = 0; index < message.content.length; index++) {
 			const content = message.content[index];
+			if (shouldCollapseLeadingSummary && index < firstToolCallIndex) continue;
 			if (content.type === "text" && content.text.trim()) {
 				component.contentContainer.addChild(new Markdown(content.text.trim(), 1, 0, markdownTheme));
 				continue;

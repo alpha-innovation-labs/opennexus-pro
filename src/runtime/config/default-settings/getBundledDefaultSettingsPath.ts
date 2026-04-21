@@ -6,5 +6,9 @@ import { resolveBundledAssetPath } from "../../package/resolveBundledAssetPath.j
  * @returns Absolute default-settings asset path.
  */
 export function getBundledDefaultSettingsPath(): string {
-  return resolveBundledAssetPath(import.meta.url, "defaults/settings.json", "../../../../defaults/settings.json");
+  return resolveBundledAssetPath(
+    import.meta.url,
+    "src/runtime/config/default-settings/settings.json",
+    "./settings.json",
+  );
 }

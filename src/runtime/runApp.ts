@@ -1,11 +1,12 @@
 import { createAppArgs } from "../cli/createAppArgs.js";
-import { clearStartupProfileLog } from "../extensions/primitives/observability/startup-profile/clearStartupProfileLog.js";
-import { logStartupProfileEvent } from "../extensions/primitives/observability/startup-profile/logStartupProfileEvent.js";
+import { clearStartupProfileLog } from "../extensions/shared/observability/startup-profile/clearStartupProfileLog.js";
+import { logStartupProfileEvent } from "../extensions/shared/observability/startup-profile/logStartupProfileEvent.js";
 import { createBundledExtensionFactories } from "../extensions/createBundledExtensionFactories.js";
 import { clearExitMessage } from "../extensions/exit-message/state/clearExitMessage.js";
 import { applyStartupUpdateSilencePatch } from "../pi-internals/applyStartupUpdateSilencePatch.js";
 import { applyToolExecutionSpacingPatch } from "../pi-internals/applyToolExecutionSpacingPatch.js";
 import { applyToolGroupCollapsePatch } from "../pi-internals/applyToolGroupCollapsePatch.js";
+import { applyCompactModeImagePatch } from "../pi-internals/applyCompactModeImagePatch.js";
 import { applyNexusConfigPatch } from "./config/applyNexusConfigPatch.js";
 import { ensureAgentDirEnv } from "./config/ensureAgentDirEnv.js";
 import { printExitMessage } from "./exit-message/printExitMessage.js";
@@ -47,6 +48,10 @@ export async function runApp(argv: string[]): Promise<void> {
   phaseStartedAt = performance.now();
   applyToolGroupCollapsePatch();
   logRunAppPhase("applyToolGroupCollapsePatch:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
+  applyCompactModeImagePatch();
+  logRunAppPhase("applyCompactModeImagePatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   const args = createAppArgs(rawArgs);

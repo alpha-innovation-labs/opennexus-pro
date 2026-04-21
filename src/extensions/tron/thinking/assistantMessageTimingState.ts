@@ -1,4 +1,5 @@
 const TIMING_BY_TIMESTAMP = new Map<number, string>();
+const STARTED_AT_BY_TIMESTAMP = new Map<number, number>();
 let currentAssistantStartedAt: number | undefined;
 
 /**
@@ -6,6 +7,7 @@ let currentAssistantStartedAt: number | undefined;
  */
 export function resetAssistantMessageTimings(): void {
 	TIMING_BY_TIMESTAMP.clear();
+	STARTED_AT_BY_TIMESTAMP.clear();
 	currentAssistantStartedAt = undefined;
 }
 
@@ -26,6 +28,7 @@ export function startAssistantMessageTiming(timestamp: number): void {
  */
 export function finishAssistantMessageTiming(messageTimestamp: number, durationLabel: string): void {
 	TIMING_BY_TIMESTAMP.set(messageTimestamp, durationLabel);
+	if (typeof currentAssistantStartedAt === "number") STARTED_AT_BY_TIMESTAMP.set(messageTimestamp, currentAssistantStartedAt);
 	currentAssistantStartedAt = undefined;
 }
 
@@ -46,4 +49,14 @@ export function getCurrentAssistantStartedAt(): number | undefined {
  */
 export function getAssistantMessageTiming(messageTimestamp: number): string | undefined {
 	return TIMING_BY_TIMESTAMP.get(messageTimestamp);
+}
+
+/**
+ * Reads the stored start time for one assistant message.
+ *
+ * @param messageTimestamp Assistant message timestamp.
+ * @returns Stored start timestamp.
+ */
+export function getAssistantMessageStartedAt(messageTimestamp: number): number | undefined {
+	return STARTED_AT_BY_TIMESTAMP.get(messageTimestamp);
 }

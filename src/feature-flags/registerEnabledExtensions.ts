@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { createProfiledExtensionApi } from "../extensions/primitives/observability/startup-profile/createProfiledExtensionApi.js";
-import { logStartupProfileEvent } from "../extensions/primitives/observability/startup-profile/logStartupProfileEvent.js";
+import { createProfiledExtensionApi } from "../extensions/shared/observability/startup-profile/createProfiledExtensionApi.js";
+import { logStartupProfileEvent } from "../extensions/shared/observability/startup-profile/logStartupProfileEvent.js";
 import { getEnabledExtensionFeatureFlags } from "./getEnabledExtensionFeatureFlags.js";
 import type { ExtensionFeatureFlag } from "./types.js";
 

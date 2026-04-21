@@ -1,6 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
-import { logExtensionEvent } from "../../primitives/observability/startup-debug.ts";
+import { logExtensionEvent } from "../../shared/observability/startup-debug.ts";
 import { createBadge } from "./createBadge.js";
 import { getSessionRunTimeLabel } from "./getSessionRunTimeLabel.js";
 

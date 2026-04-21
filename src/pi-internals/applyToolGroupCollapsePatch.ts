@@ -8,6 +8,10 @@ type InteractiveModeWithCollapsePatch = InteractiveMode & {
 	defaultEditor: { onAction(action: string, handler: () => void): void };
 	showStatus(message: string): void;
 	ui: { requestRender(): void };
+	chatContainer: { clear(): void; addChild(child: unknown): void };
+	rebuildChatFromMessages(): void;
+	streamingComponent?: { updateContent(message: unknown): void };
+	streamingMessage?: unknown;
 };
 
 type InteractiveModePrototypeWithPatch = typeof InteractiveMode.prototype & {
@@ -33,6 +37,12 @@ export function applyToolGroupCollapsePatch(): void {
 		this.defaultEditor.onAction("app.tools.collapse", () => {
 			const collapsed = toggleToolGroupCollapse();
 			invalidateActivityKeys([...activityInvalidators.keys()]);
+			this.chatContainer.clear();
+			this.rebuildChatFromMessages();
+			if (this.streamingComponent && this.streamingMessage) {
+				this.streamingComponent.updateContent(this.streamingMessage);
+				this.chatContainer.addChild(this.streamingComponent);
+			}
 			this.ui.requestRender();
 			this.showStatus(`Tool groups: ${collapsed ? "collapsed" : "expanded"}`);
 		});

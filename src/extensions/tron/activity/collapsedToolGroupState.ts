@@ -1,8 +1,13 @@
 export type CollapsedToolGroupStats = {
 	toolCallIds: string[];
 	toolNames: Map<string, string>;
-	diffToolCallIds: Set<string>;
-	diffCount: number;
+	countedToolCallIds: Set<string>;
+	addedLineCount: number;
+	removedLineCount: number;
+	summaryText?: string;
+	fullThinkingText?: string;
+	thinkingStartedAt?: number;
+	nextThinkingStartedAt?: number;
 	startedAt?: number;
 	finishedAt?: number;
 	firstAssistantTimestamp?: number;

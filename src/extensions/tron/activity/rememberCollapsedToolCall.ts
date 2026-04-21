@@ -1,5 +1,5 @@
 import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "./collapsedToolGroupState.ts";
-import { getToolDiffCount } from "./getToolDiffCount.ts";
+import { getToolLineChangeStats } from "./getToolLineChangeStats.ts";
 import { syncCollapsedToolGroup } from "./syncCollapsedToolGroup.ts";
 
 /**
@@ -18,7 +18,9 @@ export function rememberCollapsedToolCall(toolCallId: string, toolName: string, 
 	if (!stats) return;
 
 	stats.toolNames.set(toolCallId, toolName);
-	if (stats.diffToolCallIds.has(toolCallId)) return;
-	stats.diffToolCallIds.add(toolCallId);
-	stats.diffCount += getToolDiffCount(toolName, args);
+	if (stats.countedToolCallIds.has(toolCallId)) return;
+	stats.countedToolCallIds.add(toolCallId);
+	const changeStats = getToolLineChangeStats(toolName, args);
+	stats.addedLineCount += changeStats.added;
+	stats.removedLineCount += changeStats.removed;
 }

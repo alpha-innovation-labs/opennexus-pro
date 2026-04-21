@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { logExtensionEvent } from "../../primitives/observability/startup-debug.ts";
+import { logExtensionEvent } from "../../shared/observability/startup-debug.ts";
 import { clearObservationsStatusWidget } from "./clearObservationsStatusWidget.js";
 import { renderObservationsStatusWidget } from "./renderObservationsStatusWidget.js";
 import { setSessionStartedAt } from "./setSessionStartedAt.js";

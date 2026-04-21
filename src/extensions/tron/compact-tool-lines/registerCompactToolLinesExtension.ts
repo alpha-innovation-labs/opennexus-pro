@@ -8,7 +8,7 @@ import { noteUserMessage } from "../activity/noteUserMessage.ts";
 import { registerToolActivity } from "../activity/registerToolActivity.ts";
 import { resetAssistantActivityGrouping } from "../activity/resetAssistantActivityGrouping.ts";
 import { resetThinkingToolBridge } from "../activity/resetThinkingToolBridge.ts";
-import { logExtensionEvent } from "../../primitives/observability/startup-debug.ts";
+import { logExtensionEvent } from "../../shared/observability/startup-debug.ts";
 import { registerCompactBuiltInTool } from "./registerCompactBuiltInTool.ts";
 
 /**

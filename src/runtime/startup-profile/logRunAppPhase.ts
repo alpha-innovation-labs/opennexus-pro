@@ -1,4 +1,4 @@
-import { logStartupProfileEvent } from "../../extensions/primitives/observability/startup-profile/logStartupProfileEvent.js";
+import { logStartupProfileEvent } from "../../extensions/shared/observability/startup-profile/logStartupProfileEvent.js";
 
 /**
  * Logs one timed runApp startup phase.

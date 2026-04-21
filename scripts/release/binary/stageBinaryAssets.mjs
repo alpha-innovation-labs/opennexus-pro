@@ -13,10 +13,7 @@ import { copyXtermHeadlessRuntimeAssets } from "./copyXtermHeadlessRuntimeAssets
  * @returns {Promise<void>}
  */
 export async function stageBinaryAssets(bundleDir) {
-  const copies = [
-    [resolve("package.json"), join(bundleDir, "package.json")],
-    [resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "modes", "interactive", "assets"), join(bundleDir, "assets")],
-  ];
+  const copies = [[resolve("package.json"), join(bundleDir, "package.json")]];
 
   for (const [source, destination] of copies) {
     await copyPath(source, destination);
@@ -25,7 +22,7 @@ export async function stageBinaryAssets(bundleDir) {
   await copyPiThemeAssets(bundleDir);
   await copyJsonFilesFromDir(resolve("src", "themes"), join(bundleDir, "theme"));
   await copyPath(resolve("src", "commands"), join(bundleDir, "commands"));
-  await copyPath(resolve("defaults"), join(bundleDir, "defaults"));
+  await copyPath(resolve("src", "runtime", "config", "default-settings"), join(bundleDir, "src", "runtime", "config", "default-settings"));
   await copyExportHtmlAssets(bundleDir);
   await copyNodePtyRuntimeAssets(bundleDir);
   await copyXtermHeadlessRuntimeAssets(bundleDir);

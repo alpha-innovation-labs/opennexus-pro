@@ -9,6 +9,7 @@ import { registerObservationsExtension } from "../extensions/observations/regist
 import { registerPlaygroundExtension } from "../extensions/playground/registerPlaygroundExtension.js";
 import { registerStartupLogoExtension } from "../extensions/startup-logo/registerStartupLogoExtension.js";
 import registerSubAgentsExtension from "../extensions/sub-agents/index.js";
+import registerSubagentStatusWidgetExtension from "../extensions/sub-agent-status-widget/registerSubagentStatusWidgetExtension.js";
 import { registerTermModalExtension } from "../extensions/term-modal/registerTermModalExtension.js";
 import { registerTodoExtension } from "../extensions/todo/registerTodoExtension.js";
 import registerTronExtension from "../extensions/tron/index.js";
@@ -30,6 +31,7 @@ export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) 
     "exit-message": registerExitMessageExtension,
     "startup-logo": registerStartupLogoExtension,
     "sub-agents": registerSubAgentsExtension,
+    "sub-agent-status-widget": registerSubagentStatusWidgetExtension,
     playground: registerPlaygroundExtension,
     "term-modal": registerTermModalExtension,
     todo: registerTodoExtension,

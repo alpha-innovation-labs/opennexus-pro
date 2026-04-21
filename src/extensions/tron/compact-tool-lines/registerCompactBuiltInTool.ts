@@ -39,7 +39,7 @@ export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof Bui
 			rememberCollapsedToolCall(context.toolCallId, toolName, args as Record<string, unknown>);
 			if (isToolGroupCollapseEnabled()) {
 				if (shouldHideToolCallForCollapsedGroup(context.toolCallId)) return new Container();
-				return new CollapsedToolGroupCall(context.toolCallId, theme);
+				return new CollapsedToolGroupCall(context.toolCallId);
 			}
 			return renderSummary(context.toolCallId, toolName, summarizeArgs(toolName, args), theme, Boolean((context.state as any).hasVisibleResult));
 		},

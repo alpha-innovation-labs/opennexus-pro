@@ -57,13 +57,13 @@ export class PlainSelectList {
 			return;
 		}
 		this.pendingGotoStart = false;
-		if (matchesKey(data, Key.up) || matchesKey(data, Key.ctrl("p"))) {
+		if (data === "k" || matchesKey(data, Key.up) || matchesKey(data, Key.ctrl("p"))) {
 			if (this.items.length === 0) return;
 			this.selectedIndex = this.selectedIndex <= 0 ? this.items.length - 1 : this.selectedIndex - 1;
 			this.onSelectionChange?.(this.getSelectedItem());
 			return;
 		}
-		if (matchesKey(data, Key.down) || matchesKey(data, Key.ctrl("n"))) {
+		if (data === "j" || matchesKey(data, Key.down) || matchesKey(data, Key.ctrl("n"))) {
 			if (this.items.length === 0) return;
 			this.selectedIndex = this.selectedIndex >= this.items.length - 1 ? 0 : this.selectedIndex + 1;
 			this.onSelectionChange?.(this.getSelectedItem());

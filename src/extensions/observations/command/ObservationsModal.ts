@@ -1,6 +1,6 @@
 import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
 import type { AutocompleteItem } from "@mariozechner/pi-tui";
-import { TwoPaneSelectModal } from "../../primitives/two-pane-select-modal/index.js";
+import { TwoPaneSelectModal } from "../../shared/two-pane-select-modal/index.js";
 
 /**
  * Two-pane modal for browsing observation topics and details.

@@ -61,9 +61,17 @@
     "sub-agents": {
       "enabled": true,
       "features": [
-        "reference tintinweb subagent tool",
-        "parallel and async subagents",
-        "status tool and slash bridge"
+        "rpc child-process subagent execution",
+        "custom context providers",
+        "background result lookup and steering"
+      ]
+    },
+    "sub-agent-status-widget": {
+      "enabled": true,
+      "features": [
+        "custom subagent working widget",
+        "live agent status lines",
+        "replaces Pi default working loader"
       ]
     },
     "term-modal": {

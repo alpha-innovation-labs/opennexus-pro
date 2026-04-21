@@ -1,5 +1,5 @@
 import { visibleWidth } from "@mariozechner/pi-tui";
-import { logExtensionEvent } from "../../primitives/observability/startup-debug.ts";
+import { logExtensionEvent } from "../../shared/observability/startup-debug.ts";
 import { colorBorder } from "./colorBorder.ts";
 import { colorContent } from "./colorContent.ts";
 import { colorPrefix } from "./colorPrefix.ts";

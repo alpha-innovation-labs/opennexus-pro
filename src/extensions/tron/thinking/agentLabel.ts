@@ -1,6 +1,15 @@
 import { APP_NAME } from "../../../pi-internals/config.js";
 
+const AGENT_LABEL_ENV_VAR = "NEXUS_AGENT_LABEL";
+
 /**
- * Display label for the main Pi agent.
+ * Resolves the assistant footer label.
+ *
+ * Prefers a Nexus-specific environment override so development runs can display
+ * a different label without mutating Pi's global app name.
+ *
+ * @returns Visible assistant label.
  */
-export const AGENT_LABEL = APP_NAME.charAt(0).toUpperCase() + APP_NAME.slice(1);
+export function getAgentLabel(): string {
+	return process.env[AGENT_LABEL_ENV_VAR]?.trim() || APP_NAME.charAt(0).toUpperCase() + APP_NAME.slice(1);
+}

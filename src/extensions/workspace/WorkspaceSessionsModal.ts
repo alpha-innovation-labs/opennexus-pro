@@ -1,6 +1,6 @@
 import { type ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
 import type { AutocompleteItem } from "@mariozechner/pi-tui";
-import { TwoPaneSelectModal, sanitizePlainText } from "../primitives/two-pane-select-modal/index.js";
+import { TwoPaneSelectModal, sanitizePlainText } from "../shared/two-pane-select-modal/index.js";
 
 /**
  * Session picker modal with list and details pane.

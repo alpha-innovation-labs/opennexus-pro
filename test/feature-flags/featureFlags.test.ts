@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import {
   createExtensionFeatureFlagReport,
@@ -11,7 +12,8 @@ import { createFakeCmuxExecutable } from "../support/cmux/createFakeCmuxExecutab
 import { removeFakeCmuxExecutable } from "../support/cmux/removeFakeCmuxExecutable.js";
 import { withLockedCmuxEnv } from "../support/cmux/withLockedCmuxEnv.js";
 
-test("extension feature flags are loaded from the root json config", () => {
+test("extension feature flags are compiled from the root json config", () => {
+  const rootConfig = JSON.parse(readFileSync("feature-flags.json", "utf8"));
   const config = readFeatureFlagsConfig();
   const bundledConfig = getBundledFeatureFlagsConfig();
   const flags = createExtensionFeatureFlags();
@@ -20,11 +22,13 @@ test("extension feature flags are loaded from the root json config", () => {
     .sort();
   const report = createExtensionFeatureFlagReport(flags);
 
+  assert.deepEqual(config, rootConfig);
   assert.deepEqual(bundledConfig, config);
   assert.equal(config.extensions.cmux?.enabled, true);
   assert.equal(config.extensions.playground?.enabled, false);
   assert.equal(config.extensions.workspace?.enabled, false);
-  assert.equal(config.extensions["sub-agents"], undefined);
+  assert.equal(config.extensions["sub-agents"]?.enabled, true);
+  assert.equal(config.extensions["sub-agent-status-widget"]?.enabled, true);
   assert.ok(flags.every((flag) => flag.features.length > 0));
   assert.deepEqual(
     enabledIds,
@@ -38,9 +42,10 @@ test("extension feature flags are loaded from the root json config", () => {
   assert.match(report, /notify: enabled/);
   assert.match(report, /exit-message: enabled/);
   assert.match(report, /startup-logo: enabled/);
+  assert.match(report, /sub-agents: enabled/);
+  assert.match(report, /sub-agent-status-widget: enabled/);
   assert.match(report, /playground: disabled/);
   assert.match(report, /workspace: disabled/);
-  assert.doesNotMatch(report, /sub-agents:/);
   assert.match(report, /sync session title to cmux pane title/);
   assert.match(report, /notify cmux tab when pane is done/);
   assert.match(report, /macOS ctrl\+v image paste fallback for release builds/);
@@ -50,6 +55,8 @@ test("extension feature flags are loaded from the root json config", () => {
   assert.match(report, /show N logo on fresh startup/);
   assert.match(report, /usage meter/);
   assert.match(report, /tool calls browser/);
+  assert.match(report, /rpc child-process subagent execution/);
+  assert.match(report, /custom subagent working widget/);
 });
 
 test("cmux feature flag is enabled only when the cmux binary is available", async () => {
