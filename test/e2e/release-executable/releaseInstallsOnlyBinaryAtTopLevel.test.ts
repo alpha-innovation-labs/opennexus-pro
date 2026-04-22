@@ -26,6 +26,7 @@ test("just release installs nexus into the global npm prefix", async () => {
       assert.equal(releaseResult.timedOut, false);
       assert.equal(releaseResult.code, 0, releaseResult.output);
       await access(join(homeDir, ".local", "bin", "nexus"));
+      await access(join(homeDir, ".local", "bin", "opennexus"));
       await access(getInstalledPackageDirPath(homeDir));
       assert.deepEqual((await readdir(join(homeDir, ".local", "share", "nexus"))).sort(), ["agent"]);
     } finally {

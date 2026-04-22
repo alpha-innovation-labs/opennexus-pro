@@ -38,6 +38,7 @@ export async function createReleaseNpmPackage(packageDir = getReleaseNpmPackageD
       },
       bin: {
         nexus: "bin/nexus",
+        opennexus: "bin/nexus",
       },
       files: ["bin", "nexus", "assets", "commands", "export-html", "node_modules", "runtime", "theme", "package.json"],
       os: ["darwin"],
