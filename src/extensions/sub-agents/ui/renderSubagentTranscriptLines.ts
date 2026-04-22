@@ -1,6 +1,7 @@
 import { getMarkdownTheme } from "@mariozechner/pi-coding-agent";
 import { Markdown } from "@mariozechner/pi-tui";
 import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import stripAnsi from "strip-ansi";
 import { renderSummary } from "../../tron/compact-tool-lines/renderSummary.js";
 import { summarizeArgs } from "../../tron/compact-tool-lines/summarizeArgs.js";
 import { ThinkingLabelBlock } from "../../tron/thinking/ThinkingLabelBlock.ts";
@@ -18,6 +19,31 @@ import type { SubagentRun, SubagentTranscriptEntry } from "../types.js";
  */
 function renderMarkdownTranscript(text: string, width: number): string[] {
   return new Markdown(text.trim(), 0, 0, getMarkdownTheme()).render(width);
+}
+
+/**
+ * Returns whether one transcript join should keep a blank separator line.
+ *
+ * @param entry Current transcript entry.
+ * @param nextEntry Next transcript entry.
+ * @returns True when the join should keep a spacer.
+ */
+function shouldInsertTranscriptSpacer(entry: SubagentTranscriptEntry, nextEntry?: SubagentTranscriptEntry): boolean {
+  return entry.role !== "thinking" && nextEntry?.role !== "thinking";
+}
+
+/**
+ * Removes one closing border line so the next thinking box can absorb that join.
+ *
+ * @param lines Rendered transcript lines.
+ * @returns Lines without a trailing closing border when present.
+ */
+function trimTrailingTranscriptBorder(lines: string[]): string[] {
+  const lastLine = stripAnsi(lines.at(-1) ?? "").trimStart();
+  if ((lastLine.startsWith("╰") && lastLine.endsWith("╯")) || (lastLine.startsWith("└") && lastLine.endsWith("┘"))) {
+    return lines.slice(0, -1);
+  }
+  return lines;
 }
 
 /**
@@ -50,12 +76,14 @@ function renderTranscriptEntry(
   theme: ExtensionCommandContext["ui"]["theme"],
   width: number,
   entry: SubagentTranscriptEntry,
+  connectThinkingToTools = false,
+  connectThinkingFromTool = false,
 ): string[] {
   switch (entry.role) {
     case "user":
       return renderCompactInputBubble(entry.text, width);
     case "thinking":
-      return new ThinkingLabelBlock(getThinkingPreview(entry.text), false).render(width);
+      return new ThinkingLabelBlock(getThinkingPreview(entry.text), connectThinkingToTools, connectThinkingFromTool).render(width);
     case "tool":
       return renderTranscriptToolEntry(theme, width, entry);
     case "error":
@@ -85,8 +113,15 @@ export function renderSubagentTranscriptLines(
     return ["No transcript available yet."];
   }
   return run.transcript.flatMap((entry, index) => {
-    const lines = renderTranscriptEntry(theme, width, entry);
+    const previousEntry = run.transcript[index - 1];
+    const nextEntry = run.transcript[index + 1];
+    const connectThinkingToTools = entry.role === "thinking" && nextEntry?.role === "tool";
+    const connectThinkingFromTool = entry.role === "thinking" && previousEntry?.role === "tool";
+    const lines = nextEntry?.role === "thinking"
+      ? trimTrailingTranscriptBorder(renderTranscriptEntry(theme, width, entry, connectThinkingToTools, connectThinkingFromTool))
+      : renderTranscriptEntry(theme, width, entry, connectThinkingToTools, connectThinkingFromTool);
     if (index === run.transcript.length - 1) return lines;
+    if (!shouldInsertTranscriptSpacer(entry, nextEntry)) return lines;
     return [...lines, ""];
   });
 }

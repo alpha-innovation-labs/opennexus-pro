@@ -7,12 +7,12 @@ import { renderCompactInputBubble } from "./renderCompactInputBubble.ts";
  * Installs the custom user-message renderer.
  */
 export function installUserMessageRenderHook(): void {
-	setUserMessageRenderHook((component: any, width: number): string[] => {
-		const text = typeof component?.text === "string" ? component.text : getRawText(component);
-		const lines = renderCompactInputBubble(text, width);
-		if (lines.length === 0) return lines;
-		lines[0] = OSC133_ZONE_START + lines[0];
-		lines[lines.length - 1] = lines[lines.length - 1] + OSC133_ZONE_END + OSC133_ZONE_FINAL;
-		return lines;
-	});
+  setUserMessageRenderHook((component: any, width: number): string[] => {
+    const text = typeof component?.text === "string" ? component.text : getRawText(component);
+    const lines = renderCompactInputBubble(text, width);
+    if (lines.length === 0) return lines;
+    lines[0] = OSC133_ZONE_START + lines[0];
+    lines[lines.length - 1] = lines[lines.length - 1] + OSC133_ZONE_END + OSC133_ZONE_FINAL;
+    return lines;
+  });
 }

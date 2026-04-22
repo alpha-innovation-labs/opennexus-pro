@@ -114,21 +114,21 @@
       ]
     },
     "todo": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "todo modal",
         "ctrl+\\ shortcut"
       ]
     },
     "playground": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "playground modal",
         "ctrl+i shortcut"
       ]
     },
     "workspace": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "session switcher",
         "ctrl+; shortcut",
