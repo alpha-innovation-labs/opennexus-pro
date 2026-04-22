@@ -35,6 +35,8 @@ import 'justfiles/development/wterm.just'
 # Building Commands
 # ============================================================================
 import 'justfiles/building/release.just'
+import 'justfiles/building/pub.just'
+import 'justfiles/building/pub-full.just'
 
 # ============================================================================
 # Testing Commands
