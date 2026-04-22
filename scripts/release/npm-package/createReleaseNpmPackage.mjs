@@ -13,15 +13,17 @@ import { readRootPackageMetadata } from "./readRootPackageMetadata.mjs";
  * @returns {Promise<void>}
  */
 export async function createReleaseNpmPackage(packageDir = getReleaseNpmPackageDir()) {
-  const { version } = await readRootPackageMetadata();
+  const { version, dependencies } = await readRootPackageMetadata();
   const bundleDir = getBundleDir();
   await ensureCleanDir(packageDir);
   await mkdir(join(packageDir, "bin"), { recursive: true });
 
   await copyPath(join(bundleDir, "nexus"), join(packageDir, "nexus"));
-  for (const assetName of ["assets", "commands", "export-html", "node_modules", "runtime", "theme"]) {
+  for (const assetName of ["assets", "commands", "export-html", "runtime", "theme"]) {
     await copyPath(join(bundleDir, "package", assetName), join(packageDir, assetName));
   }
+
+  const postinstall = `node -e "const fs=require('fs');const path=require('path');const src=path.join(process.cwd(),'node_modules','@yuuang','ffi-rs-darwin-arm64','ffi-rs.darwin-arm64.node');const dst=path.join(process.cwd(),'node_modules','ffi-rs','ffi-rs.darwin-arm64.node');if(fs.existsSync(src)){fs.mkdirSync(path.dirname(dst),{recursive:true});fs.copyFileSync(src,dst);}"`;
 
   await writeFile(
     join(packageDir, "package.json"),
@@ -36,11 +38,17 @@ export async function createReleaseNpmPackage(packageDir = getReleaseNpmPackageD
         registry: "https://registry.npmjs.org/",
         access: "public",
       },
+      scripts: {
+        postinstall,
+      },
       bin: {
         nexus: "bin/nexus",
         opennexus: "bin/nexus",
       },
-      files: ["bin", "nexus", "assets", "commands", "export-html", "node_modules", "runtime", "theme", "package.json"],
+      dependencies: {
+        "@ff-labs/fff-node": dependencies["@ff-labs/fff-node"],
+      },
+      files: ["bin", "nexus", "assets", "commands", "export-html", "runtime", "theme", "package.json"],
       os: ["darwin"],
       cpu: ["arm64"],
     }, null, 2)}\n`,

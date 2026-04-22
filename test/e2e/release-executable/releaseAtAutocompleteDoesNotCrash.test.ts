@@ -37,6 +37,7 @@ test("released nexus keeps running when typing @/", async () => {
         afterInputDelayMs: 4000,
       });
 
+      assert.doesNotMatch(output, /fff unavailable/);
       assert.doesNotMatch(output, /Cannot find module/);
       assert.match(output, /@\//);
     } finally {
