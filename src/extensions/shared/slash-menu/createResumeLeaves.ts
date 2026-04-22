@@ -1,3 +1,5 @@
+import { formatResumeSummary } from "./formatResumeSummary.js";
+import { readResumeSessionStats } from "./readResumeSessionStats.js";
 import type { SlashMenuLeaf } from "./types.js";
 
 /**
@@ -12,7 +14,7 @@ export function createResumeLeaves(sessions: Array<{ path: string; name?: string
     .map((session) => ({
       kind: "session",
       label: session.name?.trim() || session.path.split("/").pop() || session.path,
-      description: session.modified.toLocaleString(),
+      description: formatResumeSummary(readResumeSessionStats(session.path), session.modified),
       value: session.path,
     }));
 }
