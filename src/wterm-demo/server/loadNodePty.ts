@@ -1,10 +1,10 @@
 import { createRequire } from "node:module";
-import { resolveBundledAssetPath } from "../../runtime/package/resolveBundledAssetPath.js";
+import { resolveInstalledDependencyPath } from "../../runtime/package/resolveInstalledDependencyPath.js";
 
 const require = createRequire(import.meta.url);
-const NODE_PTY_ENTRY_PATH = resolveBundledAssetPath(
+const NODE_PTY_ENTRY_PATH = resolveInstalledDependencyPath(
   import.meta.url,
-  "runtime/node_modules/node-pty/lib/index.js",
+  "node-pty/lib/index.js",
   "../../../node_modules/node-pty/lib/index.js",
 );
 

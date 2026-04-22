@@ -8,10 +8,6 @@ const EMBEDDED_ASSET_ROOTS = [
   [resolve("src", "runtime", "config", "default-settings", "settings.json"), "runtime/config/default-settings/settings.json"],
   [resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "core", "export-html"), "export-html"],
   [resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "modes", "interactive", "assets"), "assets"],
-  [resolve("node_modules", "node-pty", "lib"), "runtime/node_modules/node-pty/lib"],
-  [resolve("node_modules", "node-pty", "prebuilds", "darwin-arm64"), "runtime/node_modules/node-pty/prebuilds/darwin-arm64"],
-  [resolve("node_modules", "node-pty", "LICENSE"), "runtime/node_modules/node-pty/LICENSE"],
-  [resolve("node_modules", "@xterm", "headless", "lib-headless"), "runtime/node_modules/@xterm/headless/lib-headless"],
 ];
 
 /**

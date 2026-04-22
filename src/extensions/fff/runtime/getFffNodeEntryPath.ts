@@ -1,5 +1,4 @@
-import { createRequire } from "node:module";
-import { join } from "node:path";
+import { resolveInstalledDependencyPath } from "../../../runtime/package/resolveInstalledDependencyPath.js";
 
 /**
  * Resolves the FFF module entrypoint from the installed package root.
@@ -7,9 +6,9 @@ import { join } from "node:path";
  * @returns Absolute FFF module entry path.
  */
 export function getFffNodeEntryPath(): string {
-  if (process.env.PI_PACKAGE_DIR) {
-    return join(process.env.PI_PACKAGE_DIR, "node_modules", "@ff-labs", "fff-node", "dist", "src", "index.js");
-  }
-
-  return createRequire(import.meta.url).resolve("@ff-labs/fff-node");
+  return resolveInstalledDependencyPath(
+    import.meta.url,
+    "@ff-labs/fff-node/dist/src/index.js",
+    "../../../../node_modules/@ff-labs/fff-node/dist/src/index.js",
+  );
 }

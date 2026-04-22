@@ -1,10 +1,8 @@
 import { join, resolve } from "node:path";
 import { copyExportHtmlAssets } from "./copyExportHtmlAssets.mjs";
 import { copyJsonFilesFromDir } from "./copyJsonFilesFromDir.mjs";
-import { copyNodePtyRuntimeAssets } from "./copyNodePtyRuntimeAssets.mjs";
 import { copyPath } from "./copyPath.mjs";
 import { copyPiThemeAssets } from "./copyPiThemeAssets.mjs";
-import { copyXtermHeadlessRuntimeAssets } from "./copyXtermHeadlessRuntimeAssets.mjs";
 
 /**
  * Copies package assets needed by the native binary bundle.
@@ -29,6 +27,4 @@ export async function stageBinaryAssets(bundleDir) {
   );
   await copyExportHtmlAssets(packageDir);
   await copyPath(resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "modes", "interactive", "assets"), join(packageDir, "assets"));
-  await copyNodePtyRuntimeAssets(packageDir);
-  await copyXtermHeadlessRuntimeAssets(packageDir);
 }

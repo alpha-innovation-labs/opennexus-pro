@@ -1,12 +1,12 @@
 import { createRequire } from "node:module";
-import { resolveBundledAssetPath } from "../../../runtime/package/resolveBundledAssetPath.js";
+import { resolveInstalledDependencyPath } from "../../../runtime/package/resolveInstalledDependencyPath.js";
 import { lineToAnsi } from "../ansi/lineToAnsi.js";
 import type { XtermBuffer } from "../types.js";
 
 const require = createRequire(import.meta.url);
-const XTERM_HEADLESS_ENTRY_PATH = resolveBundledAssetPath(
+const XTERM_HEADLESS_ENTRY_PATH = resolveInstalledDependencyPath(
   import.meta.url,
-  "runtime/node_modules/@xterm/headless/lib-headless/xterm-headless.js",
+  "@xterm/headless/lib-headless/xterm-headless.js",
   "../../../../node_modules/@xterm/headless/lib-headless/xterm-headless.js",
 );
 

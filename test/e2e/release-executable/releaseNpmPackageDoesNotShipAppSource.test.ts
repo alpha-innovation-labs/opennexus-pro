@@ -40,6 +40,9 @@ test("just release installs a binary-only npm package without app dist or src tr
       assert.equal(await pathExists(join(installedPackageDir, "src")), false);
       assert.equal(await pathExists(join(installedPackageDir, "nexus")), true);
       assert.equal(await pathExists(join(installedPackageDir, "runtime")), true);
+      assert.equal(await pathExists(join(installedPackageDir, "runtime", "node_modules")), false);
+      assert.equal(await pathExists(join(installedPackageDir, "node_modules", "node-pty")), true);
+      assert.equal(await pathExists(join(installedPackageDir, "node_modules", "@xterm", "headless")), true);
       assert.equal(await pathExists(join(installedPackageDir, "theme")), true);
     } finally {
       await removeReleaseTestHome(homeDir);

@@ -23,7 +23,7 @@ export async function createReleaseNpmPackage(packageDir = getReleaseNpmPackageD
     await copyPath(join(bundleDir, "package", assetName), join(packageDir, assetName));
   }
 
-  const postinstall = `node -e "const fs=require('fs');const path=require('path');const src=path.join(process.cwd(),'node_modules','@yuuang','ffi-rs-darwin-arm64','ffi-rs.darwin-arm64.node');const dst=path.join(process.cwd(),'node_modules','ffi-rs','ffi-rs.darwin-arm64.node');if(fs.existsSync(src)){fs.mkdirSync(path.dirname(dst),{recursive:true});fs.copyFileSync(src,dst);}"`;
+  const postinstall = `node -e "const fs=require('fs');const path=require('path');const ffiSrc=path.join(process.cwd(),'node_modules','@yuuang','ffi-rs-darwin-arm64','ffi-rs.darwin-arm64.node');const ffiDst=path.join(process.cwd(),'node_modules','ffi-rs','ffi-rs.darwin-arm64.node');const spawnHelper=path.join(process.cwd(),'node_modules','node-pty','prebuilds','darwin-arm64','spawn-helper');if(fs.existsSync(ffiSrc)){fs.mkdirSync(path.dirname(ffiDst),{recursive:true});fs.copyFileSync(ffiSrc,ffiDst);}if(fs.existsSync(spawnHelper)){fs.chmodSync(spawnHelper,0o755);}"`;
 
   await writeFile(
     join(packageDir, "package.json"),
@@ -47,6 +47,8 @@ export async function createReleaseNpmPackage(packageDir = getReleaseNpmPackageD
       },
       dependencies: {
         "@ff-labs/fff-node": dependencies["@ff-labs/fff-node"],
+        "@xterm/headless": dependencies["@xterm/headless"],
+        "node-pty": dependencies["node-pty"],
       },
       files: ["bin", "nexus", "assets", "commands", "export-html", "runtime", "theme", "package.json"],
       os: ["darwin"],
