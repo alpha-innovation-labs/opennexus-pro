@@ -8,5 +8,5 @@ import { startupLogoWidgetKey } from "./startupLogoWidgetKey.js";
  * @param ctx Pi extension context.
  */
 export function showStartupLogo(ctx: ExtensionContext): void {
-	ctx.ui.setWidget(startupLogoWidgetKey, buildStartupLogoLines(ctx.ui.theme));
+	ctx.ui.setWidget(startupLogoWidgetKey, buildStartupLogoLines(ctx.ui.theme), { placement: "aboveEditor" });
 }

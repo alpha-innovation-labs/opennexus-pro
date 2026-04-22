@@ -7,5 +7,5 @@ import { startupLogoWidgetKey } from "./startupLogoWidgetKey.js";
  * @param ctx Pi extension context.
  */
 export function clearStartupLogo(ctx: ExtensionContext): void {
-	ctx.ui.setWidget(startupLogoWidgetKey, undefined);
+	ctx.ui.setWidget(startupLogoWidgetKey, undefined, { placement: "aboveEditor" });
 }

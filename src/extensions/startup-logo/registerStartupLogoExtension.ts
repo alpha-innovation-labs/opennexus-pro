@@ -10,13 +10,17 @@ import { showStartupLogo } from "./showStartupLogo.js";
  */
 export function registerStartupLogoExtension(pi: ExtensionAPI): void {
 	pi.on("session_start", (event, ctx) => {
-		if (!ctx.hasUI || !shouldShowStartupLogo(event.reason)) {
+		if (!ctx.hasUI || !shouldShowStartupLogo(event.reason, process.argv)) {
 			clearStartupLogo(ctx);
 			return;
 		}
 		showStartupLogo(ctx);
 	});
 	pi.on("turn_start", (_event, ctx) => {
+		if (!ctx.hasUI) return;
+		clearStartupLogo(ctx);
+	});
+	pi.on("session_shutdown", (_event, ctx) => {
 		if (!ctx.hasUI) return;
 		clearStartupLogo(ctx);
 	});
