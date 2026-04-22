@@ -3,6 +3,8 @@ import { logExtensionEvent } from "../shared/observability/startup-debug.ts";
 import { readProjectSettings } from "../shared/slash-menu/readProjectSettings.js";
 import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
 import { ensurePromptlineInstalled } from "./promptline/ensurePromptlineInstalled.js";
+import { getPromptlineConfig } from "./promptline/config/getPromptlineConfig.js";
+import { refreshPromptlineConfig } from "./promptline/config/refreshPromptlineConfig.js";
 import { refreshAndRender } from "./promptline/refreshAndRender.js";
 import { resetPromptlineState } from "./promptline/resetPromptlineState.js";
 import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
@@ -14,6 +16,8 @@ export default function(pi: ExtensionAPI) {
     getThinkingLevel: pi.getThinkingLevel.bind(pi),
     setThinkingLevel: pi.setThinkingLevel.bind(pi),
     getSessionName: pi.getSessionName.bind(pi),
+    getPromptlineConfig,
+    refreshPromptlineConfig,
   };
 
   pi.on("session_start", async (event, ctx) => {
@@ -21,6 +25,7 @@ export default function(pi: ExtensionAPI) {
       reason: event.reason,
       sessionFile: ctx.sessionManager.getSessionFile() ?? null,
     });
+    await refreshPromptlineConfig(ctx.cwd);
     ensurePromptlineInstalled(ctx, deps);
     logExtensionEvent("neo-editor", "session_start:afterEnsure", {
       sessionFile: ctx.sessionManager.getSessionFile() ?? null,

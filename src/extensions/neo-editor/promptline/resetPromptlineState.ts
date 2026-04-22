@@ -1,3 +1,4 @@
+import { clearPromptlineConfig } from "./config/clearPromptlineConfig.js";
 import { getUsageRenderUnsubscribe, setPromptlineInstalledForSession, setPromptlineRenderRequest, setUsageRenderUnsubscribe } from "./state.js";
 
 /**
@@ -6,6 +7,7 @@ import { getUsageRenderUnsubscribe, setPromptlineInstalledForSession, setPromptl
 export function resetPromptlineState(): void {
   setPromptlineRenderRequest(undefined);
   setPromptlineInstalledForSession(null);
+  clearPromptlineConfig();
   getUsageRenderUnsubscribe()?.();
   setUsageRenderUnsubscribe(undefined);
 }

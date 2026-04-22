@@ -26,6 +26,17 @@ export function installPromptline(ctx: PromptlineContext, deps: PromptlineDeps):
     setUsageRenderUnsubscribe(subscribeUsageSnapshots(() => tui.requestRender()));
     void refreshGitState(deps.exec).then(() => tui.requestRender());
     void refreshTransportPreference(ctx.cwd).then(() => tui.requestRender());
-    return new PromptlineEditor(tui, theme, keybindings, ctx, ctx.ui.theme, deps.getThinkingLevel, deps.setThinkingLevel, deps.getSessionName);
+    return new PromptlineEditor(
+      tui,
+      theme,
+      keybindings,
+      ctx,
+      ctx.ui.theme,
+      deps.getThinkingLevel,
+      deps.setThinkingLevel,
+      deps.getSessionName,
+      deps.getPromptlineConfig,
+      deps.refreshPromptlineConfig,
+    );
   });
 }

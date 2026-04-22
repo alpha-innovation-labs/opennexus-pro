@@ -107,6 +107,8 @@ test("promptline suppresses base slash autocomplete when the Nexus slash modal o
     () => "medium",
     () => undefined,
     () => "Untitled session",
+    () => ({ triggerConfig: { rules: [] }, neoConfig: { clearEditorOnTriggerSubmit: true } }),
+    async () => ({ triggerConfig: { rules: [] }, neoConfig: { clearEditorOnTriggerSubmit: true } }),
   );
 
   editor.setAutocompleteProvider({
