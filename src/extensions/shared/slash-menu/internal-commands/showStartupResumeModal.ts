@@ -1,5 +1,6 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { ensureSubmitTrigger } from "../../../neo-editor/editor-triggers/ensureSubmitTrigger.js";
+import { refreshPromptlineConfig } from "../../../neo-editor/promptline/config/refreshPromptlineConfig.js";
 import { SlashMenuModal } from "../SlashMenuModal.js";
 
 /**
@@ -14,6 +15,7 @@ export async function showStartupResumeModal(ctx: ExtensionContext): Promise<voi
     const modal = new SlashMenuModal(ctx, () => "medium", () => undefined, done, () => tui.requestRender(), (commandText) => {
       void (async () => {
         await ensureSubmitTrigger(ctx.cwd, commandText);
+        await refreshPromptlineConfig(ctx.cwd);
         done();
         ctx.ui.setEditorText(commandText);
       })();
