@@ -1,10 +1,5 @@
 import { runApp } from "../runtime/runApp.js";
-import { runGatewayDaemon } from "../gateway/runner/runGatewayDaemon.js";
-import { isAdapterCommand } from "./adapter/isAdapterCommand.js";
-import { isGatewayRunnerCommand } from "./adapter/isGatewayRunnerCommand.js";
-import { runAdapterCommand } from "./adapter/runAdapterCommand.js";
-import { hasVersionFlag } from "./version/hasVersionFlag.js";
-import { printAppVersion } from "./version/printAppVersion.js";
+import { runCliWithApp } from "./runCliWithApp.js";
 
 /**
  * Runs the Nexus CLI entrypoint.
@@ -13,20 +8,5 @@ import { printAppVersion } from "./version/printAppVersion.js";
  * @returns Process exit code.
  */
 export async function runCli(argv: string[]): Promise<number> {
-  if (hasVersionFlag(argv)) {
-    await printAppVersion();
-    return 0;
-  }
-
-  if (isGatewayRunnerCommand(argv)) {
-    await runGatewayDaemon();
-    return 0;
-  }
-
-  if (isAdapterCommand(argv)) {
-    return runAdapterCommand(argv);
-  }
-
-  await runApp(argv);
-  return 0;
+  return runCliWithApp(argv, { runApp });
 }

@@ -14,7 +14,7 @@ help:
     @echo ""
     @echo "\033[1;35m  Most Common Commands:\033[0m"
     @echo "  just \033[0;33mdev\033[0m                     \033[0;32mRun the bundled Pi TUI with Tron\033[0m"
-    @echo "  just \033[0;33mdev-profile\033[0m             \033[0;32mCompare startup profiling with and without bundled extensions\033[0m"
+    @echo "  just \033[0;33mdev-profile\033[0m             \033[0;32mCompare startup profiling with and without --no-extensions\033[0m"
     @echo "  just \033[0;33mwterm\033[0m                  \033[0;32mRun just dev inside a browser terminal\033[0m"
     @echo "  just \033[0;33mtest\033[0m                    \033[0;32mRun the test suite\033[0m"
     @echo "  just \033[0;33mrelease\033[0m                 \033[0;32mBuild and install ~/.local/bin/nexus\033[0m"
@@ -24,6 +24,7 @@ help:
     @echo "\033[1;35m  Utilities:\033[0m"
     @echo "  just \033[0;33mimport-auth\033[0m             \033[0;32mCopy ~/.pi auth.json into Nexus\033[0m"
     @echo "  just \033[0;33muninstall\033[0m               \033[0;32mRemove ~/.local/bin/nexus and its bundle\033[0m"
+    @echo "  just \033[0;33mupgrade\033[0m                \033[0;32mCheck and upgrade all packages to latest\033[0m"
     @echo ""
 
 # ============================================================================
@@ -50,3 +51,4 @@ import 'justfiles/testing/test.just'
 # ============================================================================
 import 'justfiles/utilities/import-auth.just'
 import 'justfiles/utilities/uninstall.just'
+import 'justfiles/utilities/upgrade.just'

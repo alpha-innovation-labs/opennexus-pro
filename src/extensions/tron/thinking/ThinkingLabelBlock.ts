@@ -27,11 +27,11 @@ export class ThinkingLabelBlock extends Container {
 		const body = truncateToWidth(this.label, contentWidth, "…");
 		const plainLine = `${prefixPlain} ${body}`;
 		const pad = " ".repeat(Math.max(0, innerWidth - visibleWidth(plainLine)));
-		const separator = this.connectToTools ? `├${"─".repeat(innerWidth)}┤` : `└${"─".repeat(innerWidth)}┘`;
-		return [
+		const lines = [
 			theme.fg("borderMuted", `┌${"─".repeat(innerWidth)}┐`),
 			`${theme.fg("borderMuted", "│")}${prefixStyled} ${theme.italic(theme.fg("toolOutput", body))}${pad}${theme.fg("borderMuted", "│")}`,
-			theme.fg("borderMuted", separator),
 		];
+		if (!this.connectToTools) lines.push(theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
+		return lines;
 	}
 }

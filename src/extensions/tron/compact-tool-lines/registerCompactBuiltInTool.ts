@@ -3,11 +3,7 @@ import { Container } from "@mariozechner/pi-tui";
 import { allToolDefinitions } from "../../../pi-internals/tools.js";
 import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator.ts";
 import { toolActivityKey } from "../activity/toolActivityKey.ts";
-import { isToolGroupCollapseEnabled } from "../collapse/state.ts";
-import { rememberCollapsedToolCall } from "../activity/rememberCollapsedToolCall.ts";
-import { shouldHideToolCallForCollapsedGroup } from "../activity/shouldHideToolCallForCollapsedGroup.ts";
 import { BorderedToolResult } from "./BorderedToolResult.ts";
-import { CollapsedToolGroupCall } from "./CollapsedToolGroupCall.ts";
 import { getBuiltInTools } from "./getBuiltInTools.ts";
 import { renderCompactResult } from "./renderCompactResult.ts";
 import { renderSummary } from "./renderSummary.ts";
@@ -36,16 +32,10 @@ export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof Bui
 		},
 		renderCall(args, theme, context) {
 			rememberActivityInvalidator(toolActivityKey(context.toolCallId), context.invalidate);
-			rememberCollapsedToolCall(context.toolCallId, toolName, args as Record<string, unknown>);
-			if (isToolGroupCollapseEnabled()) {
-				if (shouldHideToolCallForCollapsedGroup(context.toolCallId)) return new Container();
-				return new CollapsedToolGroupCall(context.toolCallId);
-			}
 			return renderSummary(context.toolCallId, toolName, summarizeArgs(toolName, args), theme, Boolean((context.state as any).hasVisibleResult));
 		},
 		renderResult(result, state, theme, context) {
 			rememberActivityInvalidator(toolActivityKey(context.toolCallId), context.invalidate);
-			if (isToolGroupCollapseEnabled()) return new Container();
 			(context.state as any).hasVisibleResult = Boolean(state.expanded && Array.isArray(result?.content) && result.content.length > 0);
 			if (!state.expanded) return new Container();
 			const builtIn = (allToolDefinitions as any)[toolName]?.renderResult;

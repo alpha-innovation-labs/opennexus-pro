@@ -17,10 +17,7 @@ export function createTelegramRpcProcess(chatId: number): TelegramRpcSession {
   const { command, args } = getNexusCliLaunchSpec(getTelegramRpcArgs(chatId));
   const child = spawn(command, args, {
     cwd: process.cwd(),
-    env: {
-      ...process.env,
-      NEXUS_DISABLE_BUNDLED_EXTENSIONS: "1",
-    },
+    env: process.env,
     stdio: ["pipe", "pipe", "pipe"],
   });
 

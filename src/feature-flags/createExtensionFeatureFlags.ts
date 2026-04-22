@@ -4,7 +4,7 @@ import { readFeatureFlagsConfig } from "./readFeatureFlagsConfig.js";
 import type { ExtensionFeatureFlag } from "./types.js";
 
 /**
- * Creates runtime extension flags from the root JSON config.
+ * Creates source-runtime extension flags from the root JSON config.
  *
  * @returns Extension flags with metadata and register handlers.
  */

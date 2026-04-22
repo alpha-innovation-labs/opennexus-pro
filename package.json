@@ -8,7 +8,7 @@
     "configDir": ".nexus"
   },
   "scripts": {
-    "generate:feature-flags": "node scripts/feature-flags/generateCompiledFeatureFlags.mjs",
+    "generate:feature-flags": "node scripts/feature-flags/generateCompiledFeatureFlags.mjs && node scripts/feature-flags/generateCompiledBundledExtensions.mjs",
     "build:binary": "npm run generate:feature-flags && node scripts/release/buildBinaryBundle.mjs",
     "build:release": "npm run build:binary",
     "dev": "tsx src/index.ts",
@@ -16,25 +16,25 @@
   },
   "dependencies": {
     "@ff-labs/fff-node": "^0.6.0",
-    "@mariozechner/pi-agent-core": "^0.68.0",
-    "@mariozechner/pi-ai": "^0.68.0",
-    "@mariozechner/pi-coding-agent": "^0.68.0",
-    "@mariozechner/pi-tui": "^0.68.0",
+    "@mariozechner/pi-agent-core": "^0.68.1",
+    "@mariozechner/pi-ai": "^0.68.1",
+    "@mariozechner/pi-coding-agent": "^0.68.1",
+    "@mariozechner/pi-tui": "^0.68.1",
     "@sinclair/typebox": "^0.34.49",
     "@wterm/dom": "^0.1.9",
-    "@xterm/headless": "^5.5.0",
+    "@xterm/headless": "^6.0.0",
     "better-result": "^2.8.2",
     "jiti": "^2.6.1",
     "node-pty": "^1.1.0",
-    "ws": "^8.18.3"
+    "ws": "^8.20.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@babel/plugin-transform-unicode-sets-regex": "^7.28.6",
-    "@types/node": "^24.0.0",
+    "@types/node": "^25.6.0",
     "esbuild": "^0.28.0",
     "javascript-obfuscator": "^5.4.1",
-    "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
   }
 }

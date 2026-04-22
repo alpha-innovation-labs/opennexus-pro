@@ -31,6 +31,19 @@ test("createAppArgs avoids duplicating --no-extensions", () => {
   ]);
 });
 
+test("createAppArgs preserves the short no-extensions flag", () => {
+  assert.deepEqual(createAppArgs(["-ne", "--help"]), [
+    "--theme",
+    getBundledThemesPath(),
+    "--prompt-template",
+    getBundledCommandsPath(),
+    "--append-system-prompt",
+    baseSystemPrompt,
+    "-ne",
+    "--help",
+  ]);
+});
+
 test("createAppArgs avoids duplicating the bundled themes path", () => {
   assert.deepEqual(
     createAppArgs(["--theme", getBundledThemesPath(), "--no-extensions", "--help"]),

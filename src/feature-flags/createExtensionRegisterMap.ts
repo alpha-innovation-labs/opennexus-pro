@@ -2,6 +2,7 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { registerAnnotateExtension } from "../extensions/annotate/registerAnnotateExtension.js";
 import { registerClipboardImagePasteExtension } from "../extensions/clipboard-image-paste/registerClipboardImagePasteExtension.js";
 import { registerCmuxExtension } from "../extensions/cmux/registerCmuxExtension.js";
+import { registerContextUsageExtension } from "../extensions/context-usage/registerContextUsageExtension.js";
 import { registerExitMessageExtension } from "../extensions/exit-message/registerExitMessageExtension.js";
 import registerFffExtension from "../extensions/fff/index.js";
 import registerNeoEditorExtension from "../extensions/neo-editor/registerNeoEditorExtension.js";
@@ -27,6 +28,7 @@ export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) 
     annotate: registerAnnotateExtension,
     "clipboard-image-paste": registerClipboardImagePasteExtension,
     cmux: registerCmuxExtension,
+    "context-usage": registerContextUsageExtension,
     fff: registerFffExtension,
     kanban: registerKanbanExtension,
     "neo-editor": registerNeoEditorExtension,

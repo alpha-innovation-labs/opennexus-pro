@@ -4,7 +4,7 @@ let toolGroupCollapseEnabled = false;
  * Stores whether Tron should collapse tool groups into one summary row.
  */
 export function isToolGroupCollapseEnabled(): boolean {
-	return toolGroupCollapseEnabled;
+	return false;
 }
 
 /**

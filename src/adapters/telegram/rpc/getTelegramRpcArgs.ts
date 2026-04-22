@@ -1,3 +1,4 @@
+import { appendNoExtensionsArg } from "../../../cli/extensions/appendNoExtensionsArg.js";
 import { getTelegramChatSessionDir } from "../session/getTelegramChatSessionDir.js";
 
 /**
@@ -7,5 +8,5 @@ import { getTelegramChatSessionDir } from "../session/getTelegramChatSessionDir.
  * @returns Nexus child argv.
  */
 export function getTelegramRpcArgs(chatId: number): string[] {
-  return ["--mode", "rpc", "--session-dir", getTelegramChatSessionDir(chatId), "--continue"];
+  return appendNoExtensionsArg(["--mode", "rpc", "--session-dir", getTelegramChatSessionDir(chatId), "--continue"]);
 }

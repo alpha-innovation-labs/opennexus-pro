@@ -47,7 +47,7 @@ function createToolExecutionComponent(toolCallId: string, toolName: string, args
 	);
 }
 
-test("tron keeps tool-only follow-up messages in the same thinking group", async () => {
+test("tron keeps tool-only follow-up messages visually contiguous without regrouping", async () => {
 	await initializePiThemes();
 	resetAssistantActivityGrouping();
 	applyToolExecutionSpacingPatch();

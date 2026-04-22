@@ -1,6 +1,3 @@
-import { getActivityNeighbors } from "../activity/getActivityNeighbors.ts";
-import { shouldBridgeThinkingToTool } from "../activity/shouldBridgeThinkingToTool.ts";
-import { toolActivityKey } from "../activity/toolActivityKey.ts";
 import { CompactToolRow } from "../shared/compact-row/CompactToolRow.ts";
 import { iconForToolName } from "./iconForToolName.ts";
 import type { SummaryText } from "./SummaryText.ts";
@@ -24,7 +21,6 @@ export class SingleLineToolCall {
 	 * @returns Rendered lines.
 	 */
 	render(width: number): string[] {
-		const { isFirst, isLast } = getActivityNeighbors(toolActivityKey(this.toolCallId));
 		return new CompactToolRow({
 			width,
 			icon: iconForToolName(this.toolName),
@@ -35,8 +31,8 @@ export class SingleLineToolCall {
 			options: this.summary.options,
 			renderedOptions: this.summary.renderedOptions,
 			theme: this.theme,
-			showTopBorder: isFirst && !shouldBridgeThinkingToTool(this.toolCallId),
-			showBottomBorder: isLast && !this.hasAttachedResult,
+			showTopBorder: false,
+			showBottomBorder: false,
 		}).render();
 	}
 

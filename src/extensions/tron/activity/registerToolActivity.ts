@@ -1,13 +1,8 @@
-import { registerToolActivityGroup } from "./registerToolActivityGroup.ts";
-import { activeToolGroup } from "./state.ts";
-
 /**
- * Appends a tool call to the currently active tool group.
+ * Keeps standalone tool rendering free of cross-tool grouping state.
  *
- * @param toolCallId Tool call id to append.
+ * @param toolCallId Tool call id.
  */
 export function registerToolActivity(toolCallId: string): void {
-	if (!toolCallId) return;
-	if (activeToolGroup.includes(toolCallId)) return;
-	registerToolActivityGroup([...activeToolGroup, toolCallId]);
+	void toolCallId;
 }

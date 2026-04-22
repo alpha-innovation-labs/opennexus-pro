@@ -20,6 +20,12 @@ export const compiledFeatureFlags = {
         "notify cmux tab when pane is done"
       ]
     },
+    "context-usage": {
+      "enabled": true,
+      "features": [
+        "context_usage tool for current chat context window usage"
+      ]
+    },
     "clipboard-image-paste": {
       "enabled": true,
       "features": [
@@ -88,11 +94,20 @@ export const compiledFeatureFlags = {
       ]
     },
     "sub-agent-status-widget": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "custom subagent working widget",
         "live agent status lines",
         "replaces Pi default working loader"
+      ]
+    },
+    "tron": {
+      "enabled": true,
+      "features": [
+        "compact tool lines",
+        "thinking style",
+        "tool calls browser",
+        "user message bubble"
       ]
     },
     "term-modal": {
@@ -110,24 +125,15 @@ export const compiledFeatureFlags = {
         "ctrl+\\ shortcut"
       ]
     },
-    "tron": {
-      "enabled": true,
-      "features": [
-        "compact tool lines",
-        "thinking style",
-        "tool calls browser",
-        "user message bubble"
-      ]
-    },
     "playground": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "playground modal",
         "ctrl+i shortcut"
       ]
     },
     "workspace": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "session switcher",
         "ctrl+; shortcut",

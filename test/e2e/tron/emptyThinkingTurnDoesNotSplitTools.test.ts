@@ -47,7 +47,7 @@ function createToolExecutionComponent(toolCallId: string, toolName: string, args
 	);
 }
 
-test("tron keeps tool groups connected across empty thinking-only live turns", async () => {
+test("tron empty thinking-only live turns keep standalone tool rows contiguous", async () => {
 	await initializePiThemes();
 	resetAssistantActivityGrouping();
 	applyToolExecutionSpacingPatch();
@@ -82,12 +82,12 @@ test("tron keeps tool groups connected across empty thinking-only live turns", a
 		return root;
 	}, 120, 20);
 
-	const plainLines = viewport.map((line) => stripAnsi(line));
-	const topBorders = plainLines.filter((line) => line.trimStart().startsWith("┌")).length;
+	const plainLines = viewport.map((line) => stripAnsi(line)).filter((line) => line.trim().length > 0);
+	const firstToolIndex = plainLines.findIndex((line) => line.includes("edit") && line.includes("a.ts"));
 	const secondToolIndex = plainLines.findIndex((line) => line.includes("edit") && line.includes("b.ts"));
 
-	assert.equal(topBorders, 1);
+	assert.notEqual(firstToolIndex, -1);
 	assert.notEqual(secondToolIndex, -1);
-	assert.equal(plainLines[secondToolIndex - 1]?.includes("┌"), false);
+	assert.equal(secondToolIndex, firstToolIndex + 1);
 	resetAssistantActivityGrouping();
 });

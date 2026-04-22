@@ -1,11 +1,11 @@
-import { compiledFeatureFlags } from "./generated/compiledFeatureFlags.js";
+import { readJsonFeatureFlagsConfig } from "./readJsonFeatureFlagsConfig.js";
 import type { FeatureFlagsConfig } from "./types.js";
 
 /**
- * Reads the feature-flag configuration compiled into the app.
+ * Reads the source-runtime feature-flag configuration from the root JSON file.
  *
  * @returns Parsed feature-flags configuration.
  */
 export function readFeatureFlagsConfig(): FeatureFlagsConfig {
-  return compiledFeatureFlags;
+  return readJsonFeatureFlagsConfig();
 }

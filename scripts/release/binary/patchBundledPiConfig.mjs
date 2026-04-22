@@ -9,19 +9,24 @@ import { readFile, writeFile } from "node:fs/promises";
  */
 export async function patchBundledPiConfig(bundledEntryPath) {
   const sourceCode = await readFile(bundledEntryPath, "utf8");
-  const oldSnippet = "  if (isBunBinary) {\n    return dirname2(process.execPath);\n  }\n";
+  const dirnameMatch = sourceCode.match(/if \(isBunBinary\) {\n    return (dirname\d+)\(process\.execPath\);\n  }\n  let dir = __dirname2;/);
+  const joinMatch = sourceCode.match(/existsSync2\((join\d+)\(dir, "package\.json"\)\)/);
+
+  if (!dirnameMatch || !joinMatch) {
+    throw new Error("Failed to patch bundled Pi package-dir lookup.");
+  }
+
+  const [, dirnameAlias] = dirnameMatch;
+  const [, joinAlias] = joinMatch;
+  const oldSnippet = `  if (isBunBinary) {\n    return ${dirnameAlias}(process.execPath);\n  }\n`;
   const newSnippet = [
     "  if (isBunBinary) {",
     "    const launchedBinaryPath = process.argv0 || process.argv[0] || process.execPath;",
-    "    const absoluteBinaryPath = launchedBinaryPath.startsWith(\"/\") ? launchedBinaryPath : join7(process.cwd(), launchedBinaryPath);",
-    "    return dirname2(absoluteBinaryPath);",
+    `    const absoluteBinaryPath = launchedBinaryPath.startsWith("/") ? launchedBinaryPath : ${joinAlias}(process.cwd(), launchedBinaryPath);`,
+    `    return ${dirnameAlias}(absoluteBinaryPath);`,
     "  }",
     "",
   ].join("\n");
-
-  if (!sourceCode.includes(oldSnippet)) {
-    throw new Error("Failed to patch bundled Pi package-dir lookup.");
-  }
 
   await writeFile(bundledEntryPath, sourceCode.replace(oldSnippet, newSnippet), "utf8");
 }

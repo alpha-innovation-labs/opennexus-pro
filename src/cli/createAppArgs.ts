@@ -1,6 +1,7 @@
 import { getBundledCommandsPath } from "../commands/getBundledCommandsPath.js";
-import { addBaseSystemPromptArg } from "./system-prompt/addBaseSystemPromptArg.js";
 import { getBundledThemesPath } from "../themes/getBundledThemesPath.js";
+import { appendNoExtensionsArg } from "./extensions/appendNoExtensionsArg.js";
+import { addBaseSystemPromptArg } from "./system-prompt/addBaseSystemPromptArg.js";
 
 /**
  * Creates the CLI arguments for the bundled Pi app.
@@ -9,13 +10,9 @@ import { getBundledThemesPath } from "../themes/getBundledThemesPath.js";
  * @returns Arguments with bundled runtime resources configured.
  */
 export function createAppArgs(inputArgs: string[]): string[] {
-  const args = addBaseSystemPromptArg([...inputArgs]);
+  const args = appendNoExtensionsArg(addBaseSystemPromptArg([...inputArgs]));
   const bundledThemesPath = getBundledThemesPath();
   const bundledCommandsPath = getBundledCommandsPath();
-
-  if (!args.includes("--no-extensions")) {
-    args.unshift("--no-extensions");
-  }
 
   let hasBundledThemePath = false;
   let hasBundledCommandsPath = false;

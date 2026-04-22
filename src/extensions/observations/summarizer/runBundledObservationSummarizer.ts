@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
+import { appendNoExtensionsArg } from "../../../cli/extensions/appendNoExtensionsArg.js";
 import { getCurrentNexusLaunchSpec } from "../../../runtime/cli/getCurrentNexusLaunchSpec.js";
-import { createSummarizerEnv } from "./createSummarizerEnv.js";
 
 export interface BundledSummarizerResult {
   code: number | null;
@@ -20,10 +20,10 @@ export async function runBundledObservationSummarizer(
   cwd: string,
 ): Promise<BundledSummarizerResult> {
   return new Promise((resolve, reject) => {
-    const launchSpec = getCurrentNexusLaunchSpec(args);
+    const launchSpec = getCurrentNexusLaunchSpec(appendNoExtensionsArg(args));
     const child = spawn(launchSpec.command, launchSpec.args, {
       cwd,
-      env: createSummarizerEnv(),
+      env: process.env,
       stdio: ["ignore", "pipe", "pipe"],
     });
 

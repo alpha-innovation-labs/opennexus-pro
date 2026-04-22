@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import { runCli } from "../../src/cli/runCli.js";
+import { runCliWithApp } from "../../src/cli/runCliWithApp.js";
 
 const packageVersion = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8")).version;
 
@@ -39,4 +40,18 @@ test("runCli prints the Nexus package version for -v", async () => {
   } finally {
     console.log = originalConsoleLog;
   }
+});
+
+test("runCliWithApp can use a custom app runner", async () => {
+  let called = false;
+
+  const exitCode = await runCliWithApp(["chat"], {
+    async runApp(argv) {
+      called = true;
+      assert.deepEqual(argv, ["chat"]);
+    },
+  });
+
+  assert.equal(exitCode, 0);
+  assert.equal(called, true);
 });

@@ -27,7 +27,7 @@ function stripAnsi(line: string): string {
 }
 
 /**
- * Creates a compact tool execution component for collapsed-summary checks.
+ * Creates a compact tool execution component for resumed collapse checks.
  *
  * @param toolCallId Tool call id.
  * @param toolName Tool name.
@@ -56,13 +56,15 @@ function createToolExecutionComponent(toolCallId: string, toolName: string, args
 	);
 }
 
-test("tron rebuilds collapsed summary timing from resumed message timestamps", async () => {
+test("tron ignores resumed collapse timing reconstruction while grouping stays disabled", async () => {
 	process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@mariozechner/pi-coding-agent`;
 	await initializePiThemes();
 	resetAssistantActivityGrouping();
 	setToolGroupCollapseEnabled(true);
 	applyToolExecutionSpacingPatch();
 	installAssistantThinkingStyle();
+
+	assert.equal(isToolGroupCollapseEnabled(), false);
 
 	const firstMessage = {
 		role: "assistant",
@@ -92,7 +94,9 @@ test("tron rebuilds collapsed summary timing from resumed message timestamps", a
 	}, 160, 24);
 
 	const plainLines = viewport.map((line) => stripAnsi(line));
-	assert.equal(plainLines.some((line) => line.includes("**Considering code updates**") && line.includes("3s")), true);
+	assert.equal(plainLines.some((line) => line.includes("**Considering code updates**")), true);
+	assert.equal(plainLines.some((line) => line.includes("edit") && line.includes("before")), true);
+	assert.equal(plainLines.some((line) => line.includes("3s")), false);
 
 	setToolGroupCollapseEnabled(false);
 	resetAssistantActivityGrouping();

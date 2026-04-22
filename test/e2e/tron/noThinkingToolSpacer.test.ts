@@ -21,7 +21,7 @@ function stripAnsi(line: string): string {
   return line.replace(/\x1b\][^\x07]*\x07/g, "").replace(/\x1b\[[0-9;?]*[A-Za-z]/g, "");
 }
 
-test("tron renders thinking directly above the first tool without a blank spacer", async () => {
+test("tron renders the first tool immediately after thinking with no spacer or tool border row", async () => {
   await initializePiThemes();
   applyToolExecutionSpacingPatch();
   installAssistantThinkingStyle();
@@ -68,4 +68,6 @@ test("tron renders thinking directly above the first tool without a blank spacer
   assert.equal(firstToolIndex, thinkingEndIndex + 1);
   assert.notEqual(plainLines[firstToolIndex - 1]?.trim(), "");
   assert.notEqual(plainLines[firstToolIndex]?.trim(), "");
+  assert.equal(plainLines[firstToolIndex]?.trimStart().startsWith("┌"), false);
+  assert.equal(plainLines[firstToolIndex]?.trimStart().startsWith("└"), false);
 });

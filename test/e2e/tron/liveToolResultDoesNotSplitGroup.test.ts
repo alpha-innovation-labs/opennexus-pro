@@ -24,7 +24,7 @@ function createExtensionHarness(): Record<string, EventHandler> {
 	return handlers;
 }
 
-test("tron live toolResult messages do not split one contiguous tool group", () => {
+test("tron keeps each live tool row standalone across toolResult messages", () => {
 	resetAssistantActivityGrouping();
 	resetThinkingToolBridge();
 
@@ -34,8 +34,8 @@ test("tron live toolResult messages do not split one contiguous tool group", () 
 	handlers.message_end?.({ message: { role: "toolResult", timestamp: 2 } });
 	handlers.tool_execution_start?.({ toolCallId: "read-2", toolName: "read", args: { path: "b.ts" } });
 
-	assert.deepEqual(getActivityNeighbors(toolActivityKey("read-1")), { isFirst: true, isLast: false });
-	assert.deepEqual(getActivityNeighbors(toolActivityKey("read-2")), { isFirst: false, isLast: true });
+	assert.deepEqual(getActivityNeighbors(toolActivityKey("read-1")), { isFirst: true, isLast: true });
+	assert.deepEqual(getActivityNeighbors(toolActivityKey("read-2")), { isFirst: true, isLast: true });
 
 	handlers.turn_end?.({ turnIndex: 0 });
 	handlers.tool_execution_start?.({ toolCallId: "read-3", toolName: "read", args: { path: "c.ts" } });
