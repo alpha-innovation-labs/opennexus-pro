@@ -9,6 +9,21 @@ let activeCtx: ExtensionContext | undefined;
 let activeRuntime: FffRuntime | undefined;
 
 /**
+ * Creates a one-shot reporter for first-use FFF initialization failures.
+ *
+ * @param ctx Session context.
+ * @returns Reporter that warns once per session.
+ */
+function createUnavailableReporter(ctx: ExtensionContext): (message: string) => void {
+  let warned = false;
+  return (message: string) => {
+    if (warned) return;
+    warned = true;
+    ctx.ui.notify(`fff unavailable: ${message}`, "warning");
+  };
+}
+
+/**
  * Registers the local bundled FFF extension.
  *
  * @param pi Pi extension API.
@@ -24,13 +39,8 @@ export function registerFffExtension(pi: ExtensionAPI): void {
     }
     await loadFeatureState();
     activeCtx = ctx;
-    activeRuntime = new FffRuntime(ctx.cwd);
+    activeRuntime = new FffRuntime(ctx.cwd, createUnavailableReporter(ctx));
     setRuntimeForCwd(ctx.cwd, activeRuntime);
-    try {
-      await activeRuntime.ensure();
-    } catch (error) {
-      ctx.ui.notify(`fff unavailable: ${error instanceof Error ? error.message : String(error)}`, "warning");
-    }
   });
 
   pi.on("session_shutdown", async () => {

@@ -30,8 +30,8 @@ export function createFffAutocompleteProvider(
       if (options.signal.aborted) return null;
 
       const parsed = parseAtPrefix(prefix);
-      const candidates = await runtime.searchFileCandidates(parsed.rawQuery, MAX_RESULTS);
-      if (options.signal.aborted || candidates.length === 0) {
+      const candidates = await runtime.searchFileCandidates(parsed.rawQuery, MAX_RESULTS).catch(() => null);
+      if (options.signal.aborted || !candidates || candidates.length === 0) {
         return baseProvider.getSuggestions(lines, cursorLine, cursorCol, options);
       }
 

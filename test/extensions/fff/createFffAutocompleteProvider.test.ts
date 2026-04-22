@@ -64,3 +64,26 @@ test("createFffAutocompleteProvider preserves quoted paths with spaces", async (
   assert.equal(suggestions?.items[0]?.value, '@"folder with spaces"');
   assert.equal(suggestions?.items[1]?.value, '@"folder with spaces/file.ts"');
 });
+
+test("createFffAutocompleteProvider falls back to the base provider when FFF search fails", async () => {
+  const baseProvider = {
+    async getSuggestions() {
+      return { prefix: "@src", items: [{ value: "@fallback.ts", label: "fallback" }] };
+    },
+    applyCompletion: createBaseProvider().applyCompletion,
+    shouldTriggerFileCompletion() {
+      return true;
+    },
+  };
+  const runtime = {
+    async searchFileCandidates() {
+      throw new Error("FFF init failed");
+    },
+    async trackQuery() {},
+  };
+
+  const provider = createFffAutocompleteProvider(baseProvider as never, runtime as never);
+  const suggestions = await provider.getSuggestions(["inspect @src"], 0, 12, { signal: new AbortController().signal, force: false });
+
+  assert.deepEqual(suggestions, { prefix: "@src", items: [{ value: "@fallback.ts", label: "fallback" }] });
+});

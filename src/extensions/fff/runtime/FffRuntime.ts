@@ -33,28 +33,36 @@ export class FffRuntime {
   private grepCursorCount = 0;
   private readonly grepContinuations = new Map<string, StoredGrepContinuation>();
 
-  constructor(readonly cwd: string) {}
+  constructor(
+    readonly cwd: string,
+    private readonly reportUnavailable?: (message: string) => void,
+  ) {}
 
   /** Ensures the native FFF finder is initialized. */
   async ensure(): Promise<FileFinder> {
     if (this.finder) return this.finder;
-    const projectRoot = await resolveProjectRoot(this.cwd);
-    const runtimePaths = getRuntimePaths(projectRoot);
-    await mkdir(runtimePaths.rootDir, { recursive: true });
-    await mkdir(runtimePaths.dbDir, { recursive: true });
-    const { FileFinder } = await loadFffNode();
-    const created = createFinder(FileFinder, {
-      basePath: projectRoot,
-      aiMode: true,
-      frecencyDbPath: runtimePaths.frecencyDbPath,
-      historyDbPath: runtimePaths.historyDbPath,
-    });
-    if (!created.ok) {
-      throw new Error(`FFF create file finder failed: ${created.error}`);
+    try {
+      const projectRoot = await resolveProjectRoot(this.cwd);
+      const runtimePaths = getRuntimePaths(projectRoot);
+      await mkdir(runtimePaths.rootDir, { recursive: true });
+      await mkdir(runtimePaths.dbDir, { recursive: true });
+      const { FileFinder } = await loadFffNode();
+      const created = createFinder(FileFinder, {
+        basePath: projectRoot,
+        aiMode: true,
+        frecencyDbPath: runtimePaths.frecencyDbPath,
+        historyDbPath: runtimePaths.historyDbPath,
+      });
+      if (!created.ok) {
+        throw new Error(`FFF create file finder failed: ${created.error}`);
+      }
+      this.projectRoot = projectRoot;
+      this.finder = created.value;
+      return this.finder;
+    } catch (error) {
+      this.reportUnavailable?.(error instanceof Error ? error.message : String(error));
+      throw error;
     }
-    this.projectRoot = projectRoot;
-    this.finder = created.value;
-    return this.finder;
   }
 
   /** Disposes the active finder and clears continuation state. */
