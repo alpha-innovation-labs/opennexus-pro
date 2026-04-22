@@ -5,6 +5,7 @@ import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
 import { ensurePromptlineInstalled } from "./promptline/ensurePromptlineInstalled.js";
 import { refreshAndRender } from "./promptline/refreshAndRender.js";
 import { resetPromptlineState } from "./promptline/resetPromptlineState.js";
+import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
 
 export default function(pi: ExtensionAPI) {
   logExtensionEvent("neo-editor", "init");
@@ -27,6 +28,7 @@ export default function(pi: ExtensionAPI) {
     const projectSettings = await readProjectSettings(ctx.cwd);
     setToolGroupCollapseEnabled(projectSettings.autoCompact === true);
     await refreshAndRender(ctx, deps);
+    await primeStartupResumeModal(event.reason, ctx);
     logExtensionEvent("neo-editor", "session_start:done", {
       sessionFile: ctx.sessionManager.getSessionFile() ?? null,
     });
@@ -51,5 +53,4 @@ export default function(pi: ExtensionAPI) {
   pi.on("session_shutdown", async () => {
     resetPromptlineState();
   });
-
 }

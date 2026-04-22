@@ -132,7 +132,7 @@ export class SlashMenuModal extends TwoPaneSelectModal {
       return;
     }
     if (this.level === "settings") {
-      if (item.value === "theme") return this.enterLevel("theme");
+      if (item.value === "theme") return this.openLevel("theme");
       const leaf = this.activeLeaves.find((entry) => entry.value === item.value);
       if (!leaf) return;
       const status = await applySlashMenuLeaf(this.ctx, leaf, this.setThinkingLevel);
@@ -153,7 +153,7 @@ export class SlashMenuModal extends TwoPaneSelectModal {
     if (this.level === "fork") return void this.onCommandPicked(`/nexus-fork-select ${item.value}`);
     if (this.level === "tree") {
       this.pendingTreeEntryId = item.value;
-      return this.enterLevel("tree-summary");
+      return this.openLevel("tree-summary");
     }
     if (this.level === "tree-summary") {
       const encodedInstructions = item.value === "custom-summary" ? ` ${encodeSlashMenuValue(await this.ctx.ui.editor("Custom summarization instructions") ?? "")}` : "";
@@ -166,16 +166,16 @@ export class SlashMenuModal extends TwoPaneSelectModal {
   }
 
   private async handleTopLevelEnter(value: string): Promise<void> {
-    if (value === "settings") return this.enterLevel("settings");
-    if (value === "model") return this.enterLevel("model");
-    if (value === "scoped-models") return this.enterLevel("scoped-models");
+    if (value === "settings") return this.openLevel("settings");
+    if (value === "model") return this.openLevel("model");
+    if (value === "scoped-models") return this.openLevel("scoped-models");
     if (value === "fork") {
       const leaves = createForkLeaves(this.ctx.sessionManager.getEntries() as never);
       if (leaves.length === 0) {
         this.ctx.ui.notify("No messages to fork from", "info");
         return;
       }
-      return this.enterLevel("fork");
+      return this.openLevel("fork");
     }
     if (value === "tree") {
       const leaves = createTreeLeaves(this.ctx.sessionManager.getTree() as never);
@@ -183,22 +183,27 @@ export class SlashMenuModal extends TwoPaneSelectModal {
         this.ctx.ui.notify("No entries in session", "info");
         return;
       }
-      return this.enterLevel("tree");
+      return this.openLevel("tree");
     }
-    if (value === "resume") return this.enterLevel("resume");
-    if (value === "login") return this.enterLevel("login");
+    if (value === "resume") return this.openLevel("resume");
+    if (value === "login") return this.openLevel("login");
     if (value === "logout") {
       const leaves = createOAuthProviderLeaves(this.ctx, "logout");
       if (leaves.length === 0) {
         this.ctx.ui.notify("No OAuth providers logged in. Use /login first.", "info");
         return;
       }
-      return this.enterLevel("logout");
+      return this.openLevel("logout");
     }
     this.onCommandPicked(`/${value}`);
   }
 
-  private async enterLevel(level: SlashMenuLevel): Promise<void> {
+  /**
+   * Opens one slash submenu level.
+   *
+   * @param level Target slash menu level.
+   */
+  async openLevel(level: SlashMenuLevel): Promise<void> {
     this.level = level;
     this.query = "";
     if (level === "scoped-models") {

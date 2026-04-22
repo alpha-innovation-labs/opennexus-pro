@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
 import { SessionManager } from "@mariozechner/pi-coding-agent";
+import { primeStartupResumeModal } from "../../../src/extensions/neo-editor/primeStartupResumeModal.js";
 import { createSlashModal } from "../../../src/extensions/neo-editor/promptline/trigger/createSlashModal.js";
+import { startupResumeEnvVar } from "../../../src/runtime/cli/normalizeResumeStartupArgs.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 
@@ -85,5 +90,30 @@ test("slash modal enters the resume submenu without submitting the raw /resume c
     assert.ok(renders > 0);
   } finally {
     (SessionManager as unknown as { list: typeof SessionManager.list }).list = originalList;
+  }
+});
+
+test("startup resume priming opens the Nexus-owned resume modal path", async () => {
+  const originalEnv = process.env[startupResumeEnvVar];
+  process.env[startupResumeEnvVar] = "1";
+  const cwd = await mkdtemp(join(tmpdir(), "nexus-startup-resume-"));
+  let opened = false;
+
+  try {
+    await primeStartupResumeModal("startup", {
+      hasUI: true,
+      cwd,
+      ui: {
+        async custom() {
+          opened = true;
+        },
+      },
+    } as never);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    assert.equal(opened, true);
+  } finally {
+    if (originalEnv === undefined) delete process.env[startupResumeEnvVar];
+    else process.env[startupResumeEnvVar] = originalEnv;
+    await rm(cwd, { recursive: true, force: true });
   }
 });

@@ -16,6 +16,7 @@ import { registerExitMessageProcessHandler } from "./exit-message/registerExitMe
 import { extractStartupProfileArgs } from "./startup-profile/extractStartupProfileArgs.js";
 import { logRunAppPhase } from "./startup-profile/logRunAppPhase.js";
 import { setStartupProfileEnabled } from "./startup-profile/setStartupProfileEnabled.js";
+import { normalizeResumeStartupArgs } from "./cli/normalizeResumeStartupArgs.js";
 
 /**
  * Runs the custom Pi app with the bundled Tron extension.
@@ -24,7 +25,8 @@ import { setStartupProfileEnabled } from "./startup-profile/setStartupProfileEna
  * @returns A promise that resolves when the app exits.
  */
 export async function runApp(argv: string[]): Promise<void> {
-  const { args: rawArgs, startupProfileEnabled } = extractStartupProfileArgs(argv);
+  const { args: extractedArgs, startupProfileEnabled } = extractStartupProfileArgs(argv);
+  const rawArgs = normalizeResumeStartupArgs(extractedArgs);
   setStartupProfileEnabled(startupProfileEnabled);
   clearStartupProfileLog();
   clearExitMessage();
