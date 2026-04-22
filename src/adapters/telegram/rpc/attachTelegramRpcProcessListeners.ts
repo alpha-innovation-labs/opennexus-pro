@@ -1,3 +1,4 @@
+import { clearTelegramRpcSession } from "./clearTelegramRpcSession.js";
 import { createJsonLineParser } from "./createJsonLineParser.js";
 import { handleTelegramRpcEvent } from "./handleTelegramRpcEvent.js";
 import type { TelegramRpcSession } from "./types.js";
@@ -6,12 +7,8 @@ import type { TelegramRpcSession } from "./types.js";
  * Attaches stdout and lifecycle listeners to a Telegram RPC child.
  *
  * @param session Active Telegram RPC session.
- * @param onExit Called when the child exits.
  */
-export function attachTelegramRpcProcessListeners(
-  session: TelegramRpcSession,
-  onExit: (chatId: number) => void,
-): void {
+export function attachTelegramRpcProcessListeners(session: TelegramRpcSession): void {
   const parser = createJsonLineParser((value) => {
     handleTelegramRpcEvent(session, value);
   });
@@ -29,6 +26,6 @@ export function attachTelegramRpcProcessListeners(
       session.currentRequest = undefined;
       currentRequest.reject(new Error(session.stderr.trim() || "Telegram RPC child exited unexpectedly"));
     }
-    onExit(session.chatId);
+    clearTelegramRpcSession(session.chatId, session);
   });
 }

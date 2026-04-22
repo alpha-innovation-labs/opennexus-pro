@@ -20,29 +20,34 @@ export async function runTelegramPollingCycle(
 
   for (const update of updates) {
     nextOffset = Math.max(nextOffset, update.update_id + 1);
-    const inboundMessage = toTelegramInboundMessage(update, config.allowedUserIds);
-    if (!inboundMessage) {
-      continue;
-    }
 
-    console.log("[gateway:telegram:received]", {
-      chatId: inboundMessage.chatId,
-      messageId: inboundMessage.messageId,
-      userId: inboundMessage.userId,
-      userName: inboundMessage.userName,
-      text: inboundMessage.text,
-    });
+    try {
+      const inboundMessage = toTelegramInboundMessage(update, config.allowedUserIds);
+      if (!inboundMessage) {
+        continue;
+      }
 
-    const reply = await runTelegramTurnWithLiveStatus(inboundMessage, {
-      editStatusMessage: deps.editStatusMessage,
-      runAgentTurn: deps.runAgentTurn,
-      sendStatusMessage: deps.sendStatusMessage,
-      sendTyping: deps.sendTyping,
-    });
-    for (const chunk of chunkTelegramMessageText(reply)) {
-      await deps.sendMessage(inboundMessage.chatId, chunk);
+      console.log("[gateway:telegram:received]", {
+        chatId: inboundMessage.chatId,
+        messageId: inboundMessage.messageId,
+        userId: inboundMessage.userId,
+        userName: inboundMessage.userName,
+        text: inboundMessage.text,
+      });
+
+      const reply = await runTelegramTurnWithLiveStatus(inboundMessage, {
+        editStatusMessage: deps.editStatusMessage,
+        runAgentTurn: deps.runAgentTurn,
+        sendStatusMessage: deps.sendStatusMessage,
+        sendTyping: deps.sendTyping,
+      });
+      for (const chunk of chunkTelegramMessageText(reply)) {
+        await deps.sendMessage(inboundMessage.chatId, chunk);
+      }
+    } catch (error) {
+      console.error("[gateway:telegram]", error);
+    } finally {
+      await deps.writeOffset(nextOffset);
     }
   }
-
-  await deps.writeOffset(nextOffset);
 }
