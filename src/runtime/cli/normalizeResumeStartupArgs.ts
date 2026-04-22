@@ -1,24 +1,28 @@
+import { parseResumeCliRequest } from "./resume/parseResumeCliRequest.js";
+import { rewriteDirectResumeArgs } from "./resume/rewriteDirectResumeArgs.js";
+import { isResumeSelectorFlag } from "./resume/isResumeSelectorFlag.js";
+
 export const startupResumeEnvVar = "NEXUS_STARTUP_RESUME_MODAL";
 
 /**
- * Removes the CLI resume selector flag so Nexus can replace Pi's default resume UI.
+ * Normalizes CLI resume arguments for Nexus-owned picker launches and direct session targets.
  *
  * @param args Raw CLI args.
- * @returns Args with the startup resume flag removed.
+ * @returns Args normalized for Nexus startup resume behavior.
  */
 export function normalizeResumeStartupArgs(args: string[]): string[] {
-  let shouldOpenStartupResumeModal = false;
-  const filteredArgs = args.filter((arg) => {
-    const isResumeFlag = arg === "--resume" || arg === "-r";
-    if (isResumeFlag) shouldOpenStartupResumeModal = true;
-    return !isResumeFlag;
-  });
+  const request = parseResumeCliRequest(args);
 
-  if (shouldOpenStartupResumeModal) {
-    process.env[startupResumeEnvVar] = "1";
+  if (request.mode === "direct") {
+    return rewriteDirectResumeArgs(args, request);
   }
 
-  return filteredArgs;
+  if (request.mode === "picker") {
+    process.env[startupResumeEnvVar] = "1";
+    return args.filter((arg) => !isResumeSelectorFlag(arg));
+  }
+
+  return [...args];
 }
 
 /**

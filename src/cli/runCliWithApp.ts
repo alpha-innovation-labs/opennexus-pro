@@ -1,7 +1,11 @@
+import { ensureAgentDirEnv } from "../runtime/config/ensureAgentDirEnv.js";
 import { runGatewayDaemon } from "../gateway/runner/runGatewayDaemon.js";
 import { isAdapterCommand } from "./adapter/isAdapterCommand.js";
 import { isGatewayRunnerCommand } from "./adapter/isGatewayRunnerCommand.js";
 import { runAdapterCommand } from "./adapter/runAdapterCommand.js";
+import { hasSessionsFlag } from "./sessions/hasSessionsFlag.js";
+import { printSessionIds } from "./sessions/printSessionIds.js";
+import { readSessionDirArg } from "./sessions/readSessionDirArg.js";
 import { hasVersionFlag } from "./version/hasVersionFlag.js";
 import { printAppVersion } from "./version/printAppVersion.js";
 
@@ -29,6 +33,12 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
 
   if (isAdapterCommand(argv)) {
     return runAdapterCommand(argv);
+  }
+
+  if (hasSessionsFlag(argv)) {
+    ensureAgentDirEnv();
+    await printSessionIds(process.cwd(), readSessionDirArg(argv));
+    return 0;
   }
 
   await options.runApp(argv);

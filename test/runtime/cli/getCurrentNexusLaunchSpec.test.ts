@@ -33,13 +33,30 @@ test("getCurrentNexusLaunchSpec falls back to the current cli entrypoint outside
   }
 });
 
-test("normalizeResumeStartupArgs strips --resume and primes the Nexus startup modal", () => {
+test("normalizeResumeStartupArgs strips bare --resume and primes the Nexus startup modal", () => {
   const original = process.env[startupResumeEnvVar];
   delete process.env[startupResumeEnvVar];
 
   try {
     assert.deepEqual(normalizeResumeStartupArgs(["--resume", "--help"]), ["--help"]);
     assert.equal(shouldPrimeStartupResumeModal(), true);
+  } finally {
+    if (original === undefined) delete process.env[startupResumeEnvVar];
+    else process.env[startupResumeEnvVar] = original;
+  }
+});
+
+test("normalizeResumeStartupArgs rewrites targeted --resume launches into --session", () => {
+  const original = process.env[startupResumeEnvVar];
+  delete process.env[startupResumeEnvVar];
+
+  try {
+    assert.deepEqual(normalizeResumeStartupArgs(["--resume", "018f3a77-8f7a-7d12-8f4f-8cb1c7d7a001", "--help"]), [
+      "--session",
+      "018f3a77-8f7a-7d12-8f4f-8cb1c7d7a001",
+      "--help",
+    ]);
+    assert.equal(shouldPrimeStartupResumeModal(), false);
   } finally {
     if (original === undefined) delete process.env[startupResumeEnvVar];
     else process.env[startupResumeEnvVar] = original;

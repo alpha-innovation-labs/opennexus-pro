@@ -11,7 +11,7 @@
     "generate:feature-flags": "node scripts/feature-flags/generateCompiledFeatureFlags.mjs && node scripts/feature-flags/generateCompiledBundledExtensions.mjs",
     "build:binary": "npm run generate:feature-flags && node scripts/release/buildBinaryBundle.mjs",
     "build:release": "npm run build:binary",
-    "dev": "tsx src/index.ts",
+    "dev": "tsx -- src/index.ts",
     "test": "tsx --test $(find test -name '*.test.ts' -print)"
   },
   "dependencies": {
