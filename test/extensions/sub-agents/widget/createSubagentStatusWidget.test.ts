@@ -24,7 +24,22 @@ function createWidgetContext(isIdle = false) {
 }
 
 /**
- * Verifies the status widget renders Tintin-style heading and running rows.
+ * Resets the shared runtime between widget assertions.
+ */
+function resetRuntime(): void {
+  sharedSubagentRuntime.clear();
+}
+
+test.beforeEach(() => {
+  resetRuntime();
+});
+
+test.after(() => {
+  resetRuntime();
+});
+
+/**
+ * Verifies the status widget renders async subagents without a foreground Working row.
  */
 test("createSubagentStatusWidget renders Tintin-style running subagents", () => {
   const run = createSubagentRun("scan", { description: "Explore repo", subagentType: "Explore" }, "/tmp/project");
@@ -36,11 +51,11 @@ test("createSubagentStatusWidget renders Tintin-style running subagents", () => 
   const widget = createSubagentStatusWidget(createWidgetContext(false));
   const lines = widget.render(120);
 
-  assert.equal(lines.length > 1, true);
+  assert.equal(lines.length, 2);
   assert.match(lines[0], /Agents \(async\)/);
   assert.match(lines[1], /Explore/);
   assert.match(lines[1], /read/);
-  assert.match(lines[lines.length - 1], /Working\.\.\./);
+  assert.doesNotMatch(lines[1], /Working\.\.\./);
 });
 
 /**
@@ -66,11 +81,11 @@ test("createSubagentStatusWidget sanitizes multiline tool output", () => {
 });
 
 /**
- * Verifies the foreground Working row shows even without async agents.
+ * Verifies the widget stays empty when only the parent prompt is streaming.
  */
-test("createSubagentStatusWidget shows a standalone Working row while the parent prompt streams", () => {
+test("createSubagentStatusWidget omits the foreground Working row", () => {
   const widget = createSubagentStatusWidget(createWidgetContext(false));
   const lines = widget.render(120);
 
-  assert.equal(lines.some((line) => /Working\.\.\./.test(line)), true);
+  assert.deepEqual(lines, []);
 });

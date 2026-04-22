@@ -41,6 +41,13 @@ export function createSubagentRuntime() {
       return [...runs.values()].sort((left, right) => right.createdAt - left.createdAt);
     },
     /**
+     * Clears all tracked runs.
+     */
+    clear(): void {
+      runs.clear();
+      notify();
+    },
+    /**
      * Notifies observers after a mutation.
      */
     emit(): void {
