@@ -36,6 +36,13 @@ export class PromptlineEditor extends CustomEditor {
   private autocompletePrefix = "";
   private triggerSubmitInFlight = false;
 
+  /**
+   * Cancels the underlying Pi autocomplete UI so the Nexus slash modal is the only visible picker.
+   */
+  private suppressBaseAutocomplete(): void {
+    (this as unknown as { cancelAutocomplete?: () => void }).cancelAutocomplete?.();
+  }
+
   constructor(
     tui: any,
     theme: any,
@@ -151,6 +158,9 @@ export class PromptlineEditor extends CustomEditor {
 
   override handleInput(data: string): void {
     const activeSession = getTriggerSession();
+    if (activeSession?.kind === "slash") {
+      this.suppressBaseAutocomplete();
+    }
     if (activeSession) {
       const activeModal = getTriggerModal(this.modalState, activeSession.kind);
       const activeProvider = getTriggerProvider(activeSession.kind);
@@ -168,6 +178,9 @@ export class PromptlineEditor extends CustomEditor {
     if (triggerSessionStart) {
       startTriggerSession(triggerSessionStart.kind, triggerSessionStart.prefix);
       super.handleInput(data);
+      if (triggerSessionStart.kind === "slash") {
+        this.suppressBaseAutocomplete();
+      }
       void this.refreshTriggerModal();
       this.tui.requestRender();
       return;
@@ -194,7 +207,7 @@ export class PromptlineEditor extends CustomEditor {
     const cursor = this.getCursor();
     const line = this.getLines()[cursor.line] ?? "";
     const triggerState = getActiveTriggerState(line.slice(0, cursor.col));
-    if (triggerState?.kind === "slash" && !this.modalState.atModal) {
+    if (triggerState?.kind === "slash" && !this.modalState.slashModal) {
       this.borderColor = (text: string) => this.uiTheme.fg(PRIMARY_COLOR as any, text);
       return super.render(width);
     }
