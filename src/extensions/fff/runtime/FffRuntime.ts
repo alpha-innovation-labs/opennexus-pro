@@ -8,6 +8,7 @@ import { createFinder } from "./createFinder.js";
 import { createFinderError } from "./createFinderError.js";
 import { createRequestKey } from "./createRequestKey.js";
 import { getRuntimePaths } from "./getRuntimePaths.js";
+import { loadFffNode } from "./loadFffNode.js";
 import { nativeConstraintForGlob } from "./nativeConstraintForGlob.js";
 import { nativeConstraintForScope } from "./nativeConstraintForScope.js";
 import { normalizeCandidate } from "./normalizeCandidate.js";
@@ -41,7 +42,7 @@ export class FffRuntime {
     const runtimePaths = getRuntimePaths(projectRoot);
     await mkdir(runtimePaths.rootDir, { recursive: true });
     await mkdir(runtimePaths.dbDir, { recursive: true });
-    const { FileFinder } = await import("@ff-labs/fff-node");
+    const { FileFinder } = await loadFffNode();
     const created = createFinder(FileFinder, {
       basePath: projectRoot,
       aiMode: true,

@@ -10,7 +10,7 @@ import { withLockedReleaseBuild } from "./withLockedReleaseBuild.js";
 
 const PROJECT_ROOT = process.cwd();
 
-test("released runtime assets keep node-pty and xterm-headless working", async () => {
+test("released runtime assets keep node-pty, xterm-headless, and fff working", async () => {
   await withLockedReleaseBuild(async () => {
     const homeDir = await createReleaseTestHome();
     const env = createReleaseTestEnv(homeDir);
@@ -32,6 +32,7 @@ test("released runtime assets keep node-pty and xterm-headless working", async (
     }, [
       "import { createPtyManager } from './src/extensions/term-modal/pty/createPtyManager.ts';",
       "import { createXtermBuffer } from './src/extensions/term-modal/buffer/createXtermBuffer.ts';",
+      "import { loadFffNode } from './src/extensions/fff/runtime/loadFffNode.ts';",
       "void (async () => {",
       "  const pty = createPtyManager();",
       "  pty.start(process.cwd(), 80, 24);",
@@ -43,6 +44,8 @@ test("released runtime assets keep node-pty and xterm-headless working", async (
       "  buffer.write('hello\\r\\n');",
       "  await new Promise((resolve) => setTimeout(resolve, 50));",
       "  console.log('xtermLine=' + JSON.stringify(buffer.getDisplayLines(0, 2)));",
+      "  const fff = await loadFffNode();",
+      "  console.log('fffFileFinder=' + typeof fff.FileFinder?.create);",
       "})().catch((error) => {",
       "  console.error(error);",
       "  process.exit(1);",
@@ -52,6 +55,7 @@ test("released runtime assets keep node-pty and xterm-headless working", async (
     assert.match(output, /ptyError=null/);
     assert.match(output, /ptyRunning=true/);
       assert.match(output, /hello/);
+      assert.match(output, /fffFileFinder=function/);
     } finally {
       await removeReleaseTestHome(homeDir);
     }

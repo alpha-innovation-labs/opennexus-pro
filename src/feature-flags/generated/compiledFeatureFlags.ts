@@ -88,7 +88,7 @@ export const compiledFeatureFlags = {
       ]
     },
     "sub-agent-status-widget": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "custom subagent working widget",
         "live agent status lines",

@@ -1,6 +1,7 @@
 import { join, resolve } from "node:path";
 import { copyPath } from "./copyPath.mjs";
 import { getExternalReleasePackages } from "./getExternalReleasePackages.mjs";
+import { stageFfiRsNativeBinding } from "./stageFfiRsNativeBinding.mjs";
 
 /**
  * Copies external runtime packages needed by the compiled release binary.
@@ -14,4 +15,6 @@ export async function copyExternalReleasePackages(bundleDir) {
   for (const packageName of getExternalReleasePackages()) {
     await copyPath(resolve("node_modules", ...packageName.split("/")), join(destinationRoot, ...packageName.split("/")));
   }
+
+  await stageFfiRsNativeBinding(destinationRoot);
 }
