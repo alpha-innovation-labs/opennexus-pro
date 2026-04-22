@@ -42,6 +42,7 @@ export class SlashMenuModal extends TwoPaneSelectModal {
     private readonly getThinkingLevel: () => string,
     private readonly setThinkingLevel: (value: string) => void,
     private readonly requestClose: () => void,
+    private readonly requestRender: () => void,
     private readonly onCommandPicked: (commandText: string) => void,
   ) {
     super(ctx.ui.theme, () => undefined, requestClose, undefined, { leftTitle: "Menu", rightTitle: "Preview", bottomTitle: "Search", bottomPrefix: "> /", leftPaneRatio: 0.42 });
@@ -65,6 +66,7 @@ export class SlashMenuModal extends TwoPaneSelectModal {
     if (this.level === "top") {
       this.topItems = createTopLevelItems();
       this.renderItems(filterMenuItems(this.topItems, this.query), "Menu");
+      this.requestRender();
       return;
     }
     if (this.level === "settings") this.activeLeaves = await createSettingsLeaves(this.ctx.cwd, this.getThinkingLevel(), this.ctx.model);
@@ -78,6 +80,7 @@ export class SlashMenuModal extends TwoPaneSelectModal {
     else if (this.level === "login") this.activeLeaves = createOAuthProviderLeaves(this.ctx, "login");
     else if (this.level === "logout") this.activeLeaves = createOAuthProviderLeaves(this.ctx, "logout");
     this.renderItems(filterMenuItems(this.activeLeaves, this.query), this.getLevelTitle());
+    this.requestRender();
   }
 
   override handleInput(data: string): void {

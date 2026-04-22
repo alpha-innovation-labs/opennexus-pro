@@ -25,7 +25,7 @@ export function createSlashModal(
   submitText: (value: string) => void,
   showOverlay: ExtensionContext["ui"]["showOverlay"],
 ): { modal: SlashMenuModal; handle: TriggerModalHandle } {
-  const modal = new SlashMenuModal(ctx, getThinkingLevel, setThinkingLevel, requestClose, (commandText) => {
+  const modal = new SlashMenuModal(ctx, getThinkingLevel, setThinkingLevel, requestClose, requestRender, (commandText) => {
     requestClose();
     requestRender();
     submitText(commandText);
