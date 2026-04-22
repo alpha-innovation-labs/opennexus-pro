@@ -8,6 +8,7 @@ import { primeStartupResumeModal } from "../../../src/extensions/neo-editor/prim
 import { createSlashModal } from "../../../src/extensions/neo-editor/promptline/trigger/createSlashModal.js";
 import { startupResumeEnvVar } from "../../../src/runtime/cli/normalizeResumeStartupArgs.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
+import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 
 /**
@@ -28,6 +29,40 @@ function createContext() {
       notify: () => undefined,
     },
   };
+}
+
+/**
+ * Creates one persisted session file for resume-preview tests.
+ *
+ * @returns Session directory and session path.
+ */
+async function createResumeSessionFixture(): Promise<{ sessionDir: string; sessionPath: string }> {
+  const sessionDir = await mkdtemp(join(tmpdir(), "nexus-resume-session-"));
+  const manager = SessionManager.create(process.cwd(), sessionDir);
+  manager.appendSessionInfo("Resume transcript fixture");
+  manager.appendMessage({ role: "user", content: [{ type: "text", text: "Explain the recent fix." }], timestamp: Date.now() - 2_000 } as never);
+  manager.appendMessage({
+    role: "assistant",
+    content: [
+      { type: "thinking", thinking: "Reviewing the latest transcript changes." },
+      { type: "toolCall", id: "tool-1", name: "read", arguments: { path: "src/file.ts" } },
+      { type: "text", text: "I found the issue and fixed it." },
+    ],
+    timestamp: Date.now() - 1_000,
+    stopReason: "end_turn",
+    usage: { input: 10, output: 20, cacheCreationInputTokens: 0, cacheReadInputTokens: 0 },
+    provider: "openai",
+    model: "gpt-5.4",
+  } as never);
+  manager.appendMessage({
+    role: "toolResult",
+    toolCallId: "tool-1",
+    toolName: "read",
+    content: [{ type: "text", text: "read result" }],
+    isError: false,
+    timestamp: Date.now() - 900,
+  } as never);
+  return { sessionDir, sessionPath: manager.getSessionFile()! };
 }
 
 test("slash modal opens the custom settings submenu on settings pick", async () => {
@@ -90,6 +125,57 @@ test("slash modal enters the resume submenu without submitting the raw /resume c
     assert.ok(renders > 0);
   } finally {
     (SessionManager as unknown as { list: typeof SessionManager.list }).list = originalList;
+  }
+});
+
+test("resume submenu hides cwd metadata and shows the shared Tron-style transcript preview", async () => {
+  const originalList = SessionManager.list;
+  const { sessionDir, sessionPath } = await createResumeSessionFixture();
+
+  try {
+    await initializePiThemes();
+    (SessionManager as unknown as { list: typeof SessionManager.list }).list = async () => [{
+      path: sessionPath,
+      name: "Resume transcript fixture",
+      cwd: "/tmp/should-not-render",
+      modified: new Date(),
+    }];
+
+    const { modal } = createSlashModal(
+      {
+        ...createContext(),
+        sessionManager: {
+          getSessionDir() {
+            return sessionDir;
+          },
+        },
+      } as never,
+      () => undefined,
+      () => undefined,
+      () => undefined,
+      () => "medium",
+      () => undefined,
+      () => undefined,
+      (() => ({ hide: () => undefined, focus: () => undefined, isFocused: () => true })) as never,
+    );
+
+    modal.setQuery("resume");
+    await modal.refresh();
+    modal.handleInput("\r");
+    await Promise.resolve();
+    await renderComponentInVirtualTerminal(() => modal, 120, 30);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const viewport = await renderComponentInVirtualTerminal(() => modal, 120, 30);
+    const output = viewport.join("\n");
+
+    assert.doesNotMatch(output, /should-not-render/);
+    assert.match(output, /Explain the recent fix\./);
+    assert.match(output, /Reviewing the latest transcript/);
+    assert.match(output, /I found the issue and fixed it\./);
+    assert.match(output, /read/);
+  } finally {
+    (SessionManager as unknown as { list: typeof SessionManager.list }).list = originalList;
+    await rm(sessionDir, { recursive: true, force: true });
   }
 });
 

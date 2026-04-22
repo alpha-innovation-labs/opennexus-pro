@@ -1,0 +1,30 @@
+import { buildSessionContext, loadEntriesFromFile } from "../../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/session-manager.js";
+import type { SubagentTranscriptEntry } from "../../../sub-agents/types.js";
+import { extractMessageText } from "./extractMessageText.js";
+import { getMessageCreatedAt } from "./getMessageCreatedAt.js";
+import { toAssistantTranscriptEntries } from "./toAssistantTranscriptEntries.js";
+
+/**
+ * Converts one persisted Nexus session file into Tron-style transcript entries.
+ *
+ * @param sessionPath Absolute persisted session path.
+ * @returns Transcript entries for the active session branch.
+ */
+export function toSessionTranscriptEntries(sessionPath: string): SubagentTranscriptEntry[] {
+  const entries = loadEntriesFromFile(sessionPath);
+  const sessionContext = buildSessionContext(entries);
+
+  return sessionContext.messages.flatMap((message: any) => {
+    const createdAt = getMessageCreatedAt(message);
+    if (message.role === "user") {
+      return [{ role: "user", text: extractMessageText(message.content), createdAt }];
+    }
+    if (message.role === "assistant") {
+      return toAssistantTranscriptEntries(message);
+    }
+    if (message.role === "custom" || message.role === "compactionSummary" || message.role === "branchSummary" || message.role === "bashExecution") {
+      return [{ role: "system", text: extractMessageText(message.content) || String(message.command ?? message.summary ?? ""), createdAt }];
+    }
+    return [];
+  }).filter((entry) => entry.text.trim().length > 0 || entry.role === "tool");
+}

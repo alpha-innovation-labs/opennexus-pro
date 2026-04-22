@@ -12,7 +12,7 @@ export function createResumeLeaves(sessions: Array<{ path: string; name?: string
     .map((session) => ({
       kind: "session",
       label: session.name?.trim() || session.path.split("/").pop() || session.path,
-      description: session.cwd ?? session.path,
+      description: session.modified.toLocaleString(),
       value: session.path,
     }));
 }

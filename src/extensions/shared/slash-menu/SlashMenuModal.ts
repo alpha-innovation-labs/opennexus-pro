@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { Key, matchesKey } from "@mariozechner/pi-tui";
 import { SessionManager } from "../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/session-manager.js";
-import { TwoPaneSelectModal } from "../two-pane-select-modal/index.js";
+import { computePaneWidths, TwoPaneSelectModal } from "../two-pane-select-modal/index.js";
 import { applySlashMenuLeaf } from "./applySlashMenuLeaf.js";
 import { createForkLeaves } from "./createForkLeaves.js";
 import { createLeafPreviewLines } from "./createLeafPreviewLines.js";
@@ -20,6 +20,7 @@ import { findTopLevelItem } from "./findTopLevelItem.js";
 import { getSettingsRootLeaf } from "./getSettingsRootLeaf.js";
 import { isSlashTextInput } from "./isSlashTextInput.js";
 import { toAutocompleteItems } from "./toAutocompleteItems.js";
+import { readResumeTranscriptLines } from "./resume-transcript/readResumeTranscriptLines.js";
 import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
 
 type SlashMenuLevel = "top" | "settings" | "theme" | "model" | "scoped-models" | "fork" | "tree" | "tree-summary" | "resume" | "login" | "logout";
@@ -36,6 +37,11 @@ export class SlashMenuModal extends TwoPaneSelectModal {
   private activeLeaves: SlashMenuLeaf[] = [];
   private pendingTreeEntryId = "";
   private scopedSelection = new Set<string>();
+  private selectedPreviewItem?: SlashMenuLeaf | SlashMenuSection;
+  private renderedPreviewKey?: string;
+  private renderedPreviewWidth?: number;
+  private readonly previewCache = new Map<string, string[]>();
+  private previewRequestId = 0;
 
   constructor(
     private readonly ctx: ExtensionContext,
@@ -116,11 +122,17 @@ export class SlashMenuModal extends TwoPaneSelectModal {
   private renderItems(items: Array<SlashMenuLeaf | SlashMenuSection>, leftTitle: string): void {
     this.setTitles(leftTitle, "Preview");
     this.setItems(toAutocompleteItems(items.map((item) => this.level === "settings" ? { ...item, label: `${item.label}  ${(item as SlashMenuLeaf).currentValue ?? ""}` } : item)));
-    const first = items[0];
-    this.setRightLines(first ? this.previewForItem(first) : ["No matching items."]);
+    this.selectedPreviewItem = items[0];
+    this.renderedPreviewKey = undefined;
+    this.renderedPreviewWidth = undefined;
+    this.setRightLines(this.selectedPreviewItem ? this.previewForItem(this.selectedPreviewItem) : ["No matching items."]);
     this.setOnSelectionChange((item) => {
       const selected = items.find((entry) => entry.value === item?.value);
+      this.selectedPreviewItem = selected;
+      this.renderedPreviewKey = undefined;
+      this.renderedPreviewWidth = undefined;
       this.setRightLines(selected ? this.previewForItem(selected) : ["No matching items."]);
+      this.requestRender();
     });
   }
 
@@ -237,7 +249,43 @@ export class SlashMenuModal extends TwoPaneSelectModal {
     return this.level === "scoped-models" ? "Scoped Models" : this.level.charAt(0).toUpperCase() + this.level.slice(1);
   }
 
+  override render(width: number): string[] {
+    const item = this.selectedPreviewItem;
+    if (this.level === "resume" && item) {
+      const dialogWidth = Math.max(80, Math.min(width, Math.floor(width * 0.9)));
+      const innerWidth = Math.max(78, dialogWidth - 2);
+      const { rightWidth } = computePaneWidths(innerWidth, true, this.isRightPaneFocused() ? 0.3 : 0.6);
+      const previewWidth = Math.max(24, rightWidth);
+      const previewKey = `${this.level}:${item.value}`;
+      if (this.renderedPreviewKey !== previewKey || this.renderedPreviewWidth !== previewWidth) {
+        this.renderedPreviewKey = previewKey;
+        this.renderedPreviewWidth = previewWidth;
+        const cachedLines = this.previewCache.get(`${previewKey}:${previewWidth}`);
+        if (cachedLines) {
+          this.setRightLines(cachedLines);
+        } else {
+          this.setRightLines(["Loading transcript..."]);
+          const requestId = ++this.previewRequestId;
+          queueMicrotask(() => {
+            try {
+              const lines = readResumeTranscriptLines(this.ctx.ui.theme, previewWidth, item.value);
+              this.previewCache.set(`${previewKey}:${previewWidth}`, lines);
+              if (requestId !== this.previewRequestId || this.selectedPreviewItem?.value !== item.value) return;
+              this.setRightLines(lines);
+            } catch (error) {
+              if (requestId !== this.previewRequestId || this.selectedPreviewItem?.value !== item.value) return;
+              this.setRightLines([`Failed to load transcript: ${error instanceof Error ? error.message : String(error)}`]);
+            }
+            this.requestRender();
+          });
+        }
+      }
+    }
+    return super.render(width);
+  }
+
   private previewForItem(item: SlashMenuLeaf | SlashMenuSection): string[] {
+    if (this.level === "resume") return ["Loading transcript..."];
     if (item.value === "settings") return createLeafPreviewLines(getSettingsRootLeaf());
     const leaf = findTopLevelItem(item.value) as SlashMenuLeaf | undefined;
     return createLeafPreviewLines((leaf ?? item) as SlashMenuLeaf);
