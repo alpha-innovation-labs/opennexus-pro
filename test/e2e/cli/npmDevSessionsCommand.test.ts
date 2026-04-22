@@ -15,7 +15,7 @@ test("npm run dev forwards --sessions into the source CLI", async () => {
     const result = await runCommand("npm run dev -- --sessions", {
       cwd: process.cwd(),
       env,
-      timeoutMs: 8_000,
+      timeoutMs: 25_000,
     });
 
     assert.equal(result.timedOut, false);

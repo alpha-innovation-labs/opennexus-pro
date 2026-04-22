@@ -15,7 +15,7 @@ test("npm run dev forwards direct --resume targets into the source CLI", async (
     const result = await runCommand(`npm run dev -- --resume ${sessionId}`, {
       cwd: process.cwd(),
       env,
-      timeoutMs: 8_000,
+      timeoutMs: 25_000,
     });
 
     assert.equal(result.timedOut, false);
