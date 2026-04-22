@@ -1,41 +1,49 @@
-# Run just dev with full-session Node CPU profiling and print the generated profile files.
+# Run the dev startup path twice to confirm whether bundled extension registration changes
+# the startup CPU spike. Each run enables Nexus startup profiling and snapshots the log.
 # Usage: just dev-profile [APP_ARGS...]
-# Example: just dev-profile --resume
+# Example: just dev-profile --help
 
 dev-profile *APP_ARGS:
     #!/usr/bin/env bash
     set -euo pipefail
 
-    PROFILE_DIR="${NEXUS_PROFILE_DIR:-$PWD/.nexus/cpu-profiles}"
+    PROFILE_DIR="${NEXUS_PROFILE_DIR:-$PWD/.nexus/startup-profiles}"
     RUN_ID="$(date +%Y%m%d-%H%M%S)"
-    MARKER_FILE="${PROFILE_DIR}/.${RUN_ID}.start"
+    RUN_DIR="${PROFILE_DIR}/${RUN_ID}"
+    STARTUP_LOG="/tmp/nexus-startup-profile.log"
 
-    mkdir -p "${PROFILE_DIR}"
-    touch "${MARKER_FILE}"
-
-    export NODE_OPTIONS="--cpu-prof --cpu-prof-dir=${PROFILE_DIR}${NODE_OPTIONS:+ ${NODE_OPTIONS}}"
-
-    echo "🚀 Starting just dev with CPU profiling"
-    echo "📁 Profiles will be written under ${PROFILE_DIR}"
-    echo "🛑 Quit the dev app normally to finish profiling"
+    mkdir -p "${RUN_DIR}"
 
     if [ "{{APP_ARGS}}" != "" ]; then
-        npm run dev -- {{APP_ARGS}}
+        ARGS=( {{APP_ARGS}} )
     else
-        npm run dev
+        ARGS=( --help )
     fi
 
-    PROFILE_FILES="$(find "${PROFILE_DIR}" -type f -name '*.cpuprofile' -newer "${MARKER_FILE}" | sort)"
-    rm -f "${MARKER_FILE}"
+    run_profile() {
+        local label="$1"
+        shift
 
-    if [ -z "${PROFILE_FILES}" ]; then
-        echo "❌ No CPU profile files were generated"
-        exit 1
-    fi
+        echo ""
+        echo "🚀 ${label}"
+        echo "   Command: just dev -- --startup-profile ${ARGS[*]}"
+
+        /usr/bin/time -l "$@" just dev -- --startup-profile "${ARGS[@]}" \
+            >"${RUN_DIR}/${label}.stdout" \
+            2>"${RUN_DIR}/${label}.stderr"
+
+        cp "${STARTUP_LOG}" "${RUN_DIR}/${label}.startup-profile.log"
+    }
+
+    run_profile baseline env
+    run_profile no-bundled-extensions env NEXUS_DISABLE_BUNDLED_EXTENSIONS=1
 
     echo ""
-    echo "✅ CPU profile files:"
-    while IFS= read -r profile_file; do
-        [ -z "${profile_file}" ] && continue
-        echo " - ${profile_file}"
-    done <<< "${PROFILE_FILES}"
+    echo "✅ Startup confirmation artifacts:"
+    echo " 1. ${RUN_DIR}/baseline.stderr"
+    echo " 2. ${RUN_DIR}/baseline.startup-profile.log"
+    echo " 3. ${RUN_DIR}/no-bundled-extensions.stderr"
+    echo " 4. ${RUN_DIR}/no-bundled-extensions.startup-profile.log"
+    echo ""
+    echo "Compare the user/sys time in the two *.stderr files."
+    echo "If they stay close, the spike is from eager dev-time module loading, not enabled extension registration."
