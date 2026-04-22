@@ -1,5 +1,6 @@
 const TIMING_BY_TIMESTAMP = new Map<number, string>();
 const STARTED_AT_BY_TIMESTAMP = new Map<number, number>();
+let currentTurnStartedAt: number | undefined;
 let currentAssistantStartedAt: number | undefined;
 
 /**
@@ -8,6 +9,24 @@ let currentAssistantStartedAt: number | undefined;
 export function resetAssistantMessageTimings(): void {
 	TIMING_BY_TIMESTAMP.clear();
 	STARTED_AT_BY_TIMESTAMP.clear();
+	currentTurnStartedAt = undefined;
+	currentAssistantStartedAt = undefined;
+}
+
+/**
+ * Marks the start of the current user-to-assistant turn.
+ *
+ * @param timestamp Turn start timestamp.
+ */
+export function startAssistantTurnTiming(timestamp: number): void {
+	currentTurnStartedAt = timestamp;
+}
+
+/**
+ * Clears the active turn markers while preserving rendered message timings.
+ */
+export function clearActiveAssistantTurnTiming(): void {
+	currentTurnStartedAt = undefined;
 	currentAssistantStartedAt = undefined;
 }
 
@@ -30,6 +49,25 @@ export function finishAssistantMessageTiming(messageTimestamp: number, durationL
 	TIMING_BY_TIMESTAMP.set(messageTimestamp, durationLabel);
 	if (typeof currentAssistantStartedAt === "number") STARTED_AT_BY_TIMESTAMP.set(messageTimestamp, currentAssistantStartedAt);
 	currentAssistantStartedAt = undefined;
+}
+
+/**
+ * Stores a duration label for a resumed assistant message.
+ *
+ * @param messageTimestamp Final assistant message timestamp.
+ * @param durationLabel Compact duration label.
+ */
+export function restoreAssistantMessageTiming(messageTimestamp: number, durationLabel: string): void {
+	TIMING_BY_TIMESTAMP.set(messageTimestamp, durationLabel);
+}
+
+/**
+ * Reads the active turn start timestamp.
+ *
+ * @returns Current turn start timestamp.
+ */
+export function getCurrentAssistantTurnStartedAt(): number | undefined {
+	return currentTurnStartedAt;
 }
 
 /**

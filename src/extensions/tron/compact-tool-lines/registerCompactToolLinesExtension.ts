@@ -43,10 +43,10 @@ export default function registerCompactToolLinesExtension(pi: ExtensionAPI): voi
 		if (typeof event.toolCallId === "string") noteCollapsedToolExecutionEnd(event.toolCallId);
 	});
 	pi.on("message_end", (event: any) => {
-		if (event.message?.role === "assistant") {
-			applyAssistantMessageToolGrouping(event.message);
-			return;
-		}
+		if (event.message?.role !== "assistant") return;
+		applyAssistantMessageToolGrouping(event.message);
+	});
+	pi.on("turn_end", () => {
 		closeToolActivityGroup();
 	});
 	registerCompactBuiltInTool(pi, "read");
