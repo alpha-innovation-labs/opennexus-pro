@@ -31,13 +31,13 @@ test("nexus --resume <session-id> opens the requested session directly", async (
   }
 });
 
-test("just resume <session-id> opens the requested session", async () => {
+test("just dev --resume <session-id> opens the requested session", async () => {
   const homeDir = await createReleaseTestHome();
   const env = createReleaseTestEnv(homeDir);
   const { sessionId } = await createNexusCliSessionFixture(homeDir);
 
   try {
-    const result = await runCommand(`just resume ${sessionId}`, {
+    const result = await runCommand(`just dev --resume ${sessionId}`, {
       cwd: process.cwd(),
       env,
       timeoutMs: 25_000,

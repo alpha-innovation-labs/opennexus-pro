@@ -14,8 +14,8 @@ help:
     @echo ""
     @echo "\033[1;35m  Most Common Commands:\033[0m"
     @echo "  just \033[0;33mdev\033[0m                     \033[0;32mRun the bundled Pi TUI with Tron\033[0m"
-    @echo "  just \033[0;33msessions\033[0m                \033[0;32mList resumable session ids\033[0m"
-    @echo "  just \033[0;33mresume <session-id>\033[0m     \033[0;32mOpen a persisted session directly\033[0m"
+    @echo "  just \033[0;33mdev --sessions\033[0m          \033[0;32mList resumable session ids\033[0m"
+    @echo "  just \033[0;33mdev --resume <session-id>\033[0m \033[0;32mOpen a persisted session directly\033[0m"
     @echo "  just \033[0;33mdev-profile\033[0m             \033[0;32mCompare startup profiling with and without --no-extensions\033[0m"
     @echo "  just \033[0;33mwterm\033[0m                  \033[0;32mRun just dev inside a browser terminal\033[0m"
     @echo "  just \033[0;33mtest\033[0m                    \033[0;32mRun the test suite\033[0m"
@@ -35,24 +35,6 @@ help:
 import 'justfiles/development/dev.just'
 import 'justfiles/development/dev-profile.just'
 import 'justfiles/development/wterm.just'
-
-# List resumable Nexus session ids from the current workspace.
-# Usage: just sessions [APP_ARGS...]
-# Example: just sessions --session-dir /tmp/nexus-sessions
-sessions *APP_ARGS:
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    just dev --sessions {{APP_ARGS}}
-
-# Resume one persisted Nexus session from the current workspace.
-# Usage: just resume <SESSION_ID> [APP_ARGS...]
-# Example: just resume 019db67b-6e4d-7068-af0e-8e413b4924fd
-resume SESSION_ID *APP_ARGS:
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    just dev --resume "{{SESSION_ID}}" {{APP_ARGS}}
 
 # ============================================================================
 # Building Commands

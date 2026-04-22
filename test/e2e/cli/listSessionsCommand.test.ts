@@ -30,13 +30,13 @@ test("nexus --sessions prints resumable session ids", async () => {
   }
 });
 
-test("just sessions prints resumable session ids", async () => {
+test("just dev --sessions prints resumable session ids", async () => {
   const homeDir = await createReleaseTestHome();
   const env = createReleaseTestEnv(homeDir);
   const { sessionId } = await createNexusCliSessionFixture(homeDir);
 
   try {
-    const result = await runCommand("just sessions", {
+    const result = await runCommand("just dev --sessions", {
       cwd: process.cwd(),
       env,
       timeoutMs: 25_000,
