@@ -8,8 +8,12 @@ import { getSubagentRun } from "./getSubagentRun.js";
  */
 export async function steerSubagentRun(runId: string, message: string): Promise<void> {
   const run = await getSubagentRun(runId);
-  if (!run?.client) {
-    throw new Error("Subagent is not currently running in this process");
+  if (!run) {
+    throw new Error("Unknown subagent id");
+  }
+  if (!run.client) {
+    run.pendingSteers = [...(run.pendingSteers ?? []), message];
+    return;
   }
   await run.client.steer(message);
 }

@@ -1,0 +1,17 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../src/extensions/shared/slash-menu/registerSlashCommand.js";
+import { createCommandLeaves } from "../../../src/extensions/shared/slash-menu/createCommandLeaves.js";
+
+/**
+ * Keeps internal Nexus selector commands out of the visible slash menu.
+ */
+test("createCommandLeaves hides internal Nexus selector commands", () => {
+  clearRegisteredSlashCommands();
+  registerSlashCommand({ name: "nexus-model-select", hidden: true, source: "extension" });
+
+  const leaves = createCommandLeaves();
+
+  assert.equal(leaves.some((leaf) => leaf.value === "nexus-model-select"), false);
+  clearRegisteredSlashCommands();
+});

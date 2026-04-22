@@ -15,7 +15,7 @@ export async function listSourceEntryPoints(directory) {
       if (entry.isDirectory()) {
         return listSourceEntryPoints(entryPath);
       }
-      if (entry.isFile() && entry.name.endsWith(".ts")) {
+      if (entry.isFile() && entry.name.endsWith(".ts") && !entry.name.endsWith(".test.ts")) {
         return [entryPath];
       }
       return [];

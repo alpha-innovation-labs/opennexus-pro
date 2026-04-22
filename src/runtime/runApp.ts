@@ -4,10 +4,12 @@ import { logStartupProfileEvent } from "../extensions/shared/observability/start
 import { createBundledExtensionFactories } from "../extensions/createBundledExtensionFactories.js";
 import { clearExitMessage } from "../extensions/exit-message/state/clearExitMessage.js";
 import { applyStartupUpdateSilencePatch } from "../pi-internals/applyStartupUpdateSilencePatch.js";
+import { applyStartupChangelogSilencePatch } from "../pi-internals/applyStartupChangelogSilencePatch.js";
 import { applyToolExecutionSpacingPatch } from "../pi-internals/applyToolExecutionSpacingPatch.js";
 import { applyToolGroupCollapsePatch } from "../pi-internals/applyToolGroupCollapsePatch.js";
 import { applyCompactModeImagePatch } from "../pi-internals/applyCompactModeImagePatch.js";
 import { applyNexusConfigPatch } from "./config/applyNexusConfigPatch.js";
+import { ensureEmbeddedPackageDirEnv } from "./package/embedded-assets/ensureEmbeddedPackageDirEnv.js";
 import { ensureAgentDirEnv } from "./config/ensureAgentDirEnv.js";
 import { printExitMessage } from "./exit-message/printExitMessage.js";
 import { registerExitMessageProcessHandler } from "./exit-message/registerExitMessageProcessHandler.js";
@@ -34,12 +36,20 @@ export async function runApp(argv: string[]): Promise<void> {
   logRunAppPhase("ensureAgentDirEnv:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
+  await ensureEmbeddedPackageDirEnv();
+  logRunAppPhase("ensureEmbeddedPackageDirEnv:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
   await applyNexusConfigPatch();
   logRunAppPhase("applyNexusConfigPatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   applyStartupUpdateSilencePatch();
   logRunAppPhase("applyStartupUpdateSilencePatch:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
+  applyStartupChangelogSilencePatch();
+  logRunAppPhase("applyStartupChangelogSilencePatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   applyToolExecutionSpacingPatch();

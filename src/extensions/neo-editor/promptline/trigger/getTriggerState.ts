@@ -1,0 +1,21 @@
+import type { TriggerState } from "./types.js";
+import { detectAtPrefix } from "./detectAtPrefix.js";
+import { detectSlashPrefix } from "./detectSlashPrefix.js";
+
+/**
+ * Resolves the active editor trigger state from text before the cursor.
+ *
+ * @param textBeforeCursor Text before the cursor.
+ * @returns Trigger state or null.
+ */
+export function getTriggerState(textBeforeCursor: string): TriggerState | null {
+  const atPrefix = detectAtPrefix(textBeforeCursor);
+  if (atPrefix) {
+    return { kind: "at", prefix: atPrefix };
+  }
+  const slashPrefix = detectSlashPrefix(textBeforeCursor);
+  if (slashPrefix) {
+    return { kind: "slash", prefix: slashPrefix };
+  }
+  return null;
+}

@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
-import { join } from "node:path";
 import test from "node:test";
 import { createReleaseTestEnv } from "./createReleaseTestEnv.js";
 import { createReleaseTestHome } from "./createReleaseTestHome.js";
+import { getInstalledPackageDirPath } from "./getInstalledPackageDirPath.js";
 import { removeReleaseTestHome } from "./removeReleaseTestHome.js";
 import { runCommand } from "./runCommand.js";
 import { runReleaseAssetProbe } from "./runReleaseAssetProbe.js";
@@ -14,7 +14,7 @@ test("released runtime assets keep node-pty and xterm-headless working", async (
   await withLockedReleaseBuild(async () => {
     const homeDir = await createReleaseTestHome();
     const env = createReleaseTestEnv(homeDir);
-    const installedAppDir = join(homeDir, ".local", "share", "nexus");
+    const installedPackageDir = getInstalledPackageDirPath(homeDir);
 
     try {
       const releaseResult = await runCommand("just release", {
@@ -28,7 +28,7 @@ test("released runtime assets keep node-pty and xterm-headless working", async (
 
     const output = await runReleaseAssetProbe(PROJECT_ROOT, {
       ...env,
-      PI_PACKAGE_DIR: installedAppDir,
+      PI_PACKAGE_DIR: installedPackageDir,
     }, [
       "import { createPtyManager } from './src/extensions/term-modal/pty/createPtyManager.ts';",
       "import { createXtermBuffer } from './src/extensions/term-modal/buffer/createXtermBuffer.ts';",

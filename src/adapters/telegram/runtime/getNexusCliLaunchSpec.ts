@@ -1,7 +1,4 @@
-import { existsSync } from "node:fs";
-import { isBundledBinary } from "../../../runtime/package/isBundledBinary.js";
-import { getSourceEntrypointPath } from "../../../gateway/process/getSourceEntrypointPath.js";
-import { getTsxRuntimeBinaryPath } from "../../../gateway/process/getTsxRuntimeBinaryPath.js";
+import { getCurrentNexusLaunchSpec } from "../../../runtime/cli/getCurrentNexusLaunchSpec.js";
 import type { GatewayLaunchSpec } from "../../../gateway/process/types.js";
 
 /**
@@ -11,18 +8,5 @@ import type { GatewayLaunchSpec } from "../../../gateway/process/types.js";
  * @returns Launch command and arguments.
  */
 export function getNexusCliLaunchSpec(args: string[]): GatewayLaunchSpec {
-  const sourceEntrypoint = getSourceEntrypointPath();
-  const tsxBinaryPath = getTsxRuntimeBinaryPath();
-
-  if (!isBundledBinary(import.meta.url) && existsSync(sourceEntrypoint) && existsSync(tsxBinaryPath)) {
-    return {
-      command: tsxBinaryPath,
-      args: [sourceEntrypoint, ...args],
-    };
-  }
-
-  return {
-    command: process.execPath,
-    args,
-  };
+  return getCurrentNexusLaunchSpec(args);
 }

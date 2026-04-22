@@ -8,7 +8,7 @@ import { resolveBundledAssetPath } from "../../package/resolveBundledAssetPath.j
 export function getBundledDefaultSettingsPath(): string {
   return resolveBundledAssetPath(
     import.meta.url,
-    "src/runtime/config/default-settings/settings.json",
+    "runtime/config/default-settings/settings.json",
     "./settings.json",
   );
 }

@@ -10,7 +10,7 @@ test("applySubagentEvent tracks live message and tool state", () => {
   const run = createSubagentRun("scan files", {
     description: "Explore",
     subagentType: "Explore",
-  });
+  }, "/tmp/project");
 
   applySubagentEvent(run, { type: "agent_start" });
   applySubagentEvent(run, { type: "message_update", assistantMessageEvent: { type: "thinking_delta", delta: "thinking" } });

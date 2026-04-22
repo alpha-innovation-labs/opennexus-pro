@@ -16,7 +16,12 @@ export function formatTelegramToolCall(toolName: string, args: unknown, status: 
     : toolName === "write"
       ? { added: typeof (args as { content?: unknown })?.content === "string" ? (args as { content: string }).content.split("\n").length : 0, removed: 0 }
       : undefined;
-  const statsText = stats ? ` (+${String(stats.added)} -${String(stats.removed)})` : "";
   const argText = formatToolArgs(args);
-  return `${marker} ${toolName}${statsText}${argText ? ` — ${argText}` : ""}`;
+  const summary = `${marker} ${toolName}${argText ? ` — ${argText}` : ""}`;
+
+  if (!stats) {
+    return summary;
+  }
+
+  return `${summary}\n    +${String(stats.added)} -${String(stats.removed)}`;
 }

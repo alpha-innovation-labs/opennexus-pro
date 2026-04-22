@@ -1,4 +1,5 @@
 import { join } from "node:path";
+import { getAgentDir } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/config.js";
 import { readBundledDefaultSettings } from "./default-settings/readBundledDefaultSettings.js";
 import { getDefaultThemeName } from "./getDefaultThemeName.js";
 import { getProjectSettingsPath } from "./getProjectSettingsPath.js";
@@ -65,7 +66,7 @@ export async function applyNexusConfigPatch(): Promise<void> {
     return originalGetTheme.call(this) ?? getDefaultThemeName();
   };
 
-  SettingsManager.create = function createNexusSettingsManager(cwd = process.cwd(), agentDir?: string) {
+  SettingsManager.create = function createNexusSettingsManager(cwd = process.cwd(), agentDir = getAgentDir()) {
     const storage = new FileSettingsStorage(cwd, agentDir);
     storage.projectSettingsPath = getProjectSettingsPath(cwd);
     return SettingsManager.fromStorage(storage);

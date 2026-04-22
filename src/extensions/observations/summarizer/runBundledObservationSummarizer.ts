@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { getCurrentNexusLaunchSpec } from "../../../runtime/cli/getCurrentNexusLaunchSpec.js";
 import { createSummarizerEnv } from "./createSummarizerEnv.js";
 
 export interface BundledSummarizerResult {
@@ -8,7 +9,7 @@ export interface BundledSummarizerResult {
 }
 
 /**
- * Runs the installed Nexus binary as a lightweight summarizer subprocess.
+ * Runs the current Nexus CLI as a lightweight summarizer subprocess.
  *
  * @param args CLI arguments for the summarizer invocation.
  * @param cwd Working directory for the subprocess.
@@ -19,7 +20,8 @@ export async function runBundledObservationSummarizer(
   cwd: string,
 ): Promise<BundledSummarizerResult> {
   return new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, args, {
+    const launchSpec = getCurrentNexusLaunchSpec(args);
+    const child = spawn(launchSpec.command, launchSpec.args, {
       cwd,
       env: createSummarizerEnv(),
       stdio: ["ignore", "pipe", "pipe"],

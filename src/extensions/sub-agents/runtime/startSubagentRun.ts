@@ -1,15 +1,12 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { createSubagentRpcClient } from "../rpc/createSubagentRpcClient.js";
 import type { SpawnSubagentOptions, SubagentRun } from "../types.js";
-import { buildAgentInstructionBlock } from "./buildAgentInstructionBlock.js";
-import { buildSubagentPrompt } from "./buildSubagentPrompt.js";
 import { createRunTitle } from "./createRunTitle.js";
 import { createSubagentRun } from "./createSubagentRun.js";
 import { persistSubagentRun } from "./persistSubagentRun.js";
 import { appendSubagentTranscriptEntry } from "./appendSubagentTranscriptEntry.js";
-import { applySubagentEvent } from "./applySubagentEvent.js";
-import { resolveContextProviders } from "./resolveContextProviders.js";
+import { executeSubagentRun } from "./executeSubagentRun.js";
 import { sharedSubagentRuntime } from "./sharedSubagentRuntime.js";
+import { sharedSubagentScheduler } from "./sharedSubagentScheduler.js";
 import type { SubagentContextProvider } from "../context-providers/types.js";
 
 /**
@@ -35,56 +32,29 @@ export async function startSubagentRun(
     },
     ctx.cwd,
   );
-  const providerIds = options.contextProviders ?? (options.inheritContext ? ["parent-conversation"] : []);
-  run.contextProviderIds = providerIds;
+  run.contextProviderIds = options.contextProviders ?? (options.inheritContext ? ["parent-conversation", "project-context"] : []);
   appendSubagentTranscriptEntry(run, { role: "user", text: prompt.trim() });
   sharedSubagentRuntime.setRun(run);
   persistSubagentRun(run);
 
-  const contextBlock = await resolveContextProviders(ctx, providerIds, providers);
-  const instructionBlock = buildAgentInstructionBlock(options.subagentType);
-  const fullPrompt = buildSubagentPrompt([instructionBlock, contextBlock].filter(Boolean).join("\n\n---\n\n"), prompt);
-
-  const client = createSubagentRpcClient(ctx, options.model);
-  run.client = client;
-  if (options.thinking && "setThinkingLevel" in client) {
+  const launchRun = async (): Promise<void> => {
     try {
-      await client.start();
-      await client.setThinkingLevel(options.thinking as any);
+      await executeSubagentRun(ctx, run, options, providers);
     } catch (error) {
       run.status = "error";
       run.lastError = error instanceof Error ? error.message : String(error);
+      run.completedAt = Date.now();
       sharedSubagentRuntime.emit();
       persistSubagentRun(run);
-      throw error;
+      if (!run.background) throw error;
     }
-  } else {
-    await client.start();
+  };
+
+  if (run.background) {
+    sharedSubagentScheduler.schedule(launchRun);
+    return run;
   }
 
-  await client.setSessionName(run.title);
-
-  client.onEvent((event) => {
-    applySubagentEvent(run, event);
-    sharedSubagentRuntime.emit();
-    persistSubagentRun(run);
-  });
-
-  try {
-    await client.prompt(fullPrompt);
-    if (!run.background) {
-      await client.waitForIdle(300000);
-    }
-  } catch (error) {
-    run.status = "error";
-    run.lastError = error instanceof Error ? error.message : String(error);
-    run.completedAt = Date.now();
-    sharedSubagentRuntime.emit();
-    persistSubagentRun(run);
-    throw error;
-  }
-
-  sharedSubagentRuntime.emit();
-  persistSubagentRun(run);
+  await launchRun();
   return run;
 }

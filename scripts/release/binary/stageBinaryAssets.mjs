@@ -13,17 +13,22 @@ import { copyXtermHeadlessRuntimeAssets } from "./copyXtermHeadlessRuntimeAssets
  * @returns {Promise<void>}
  */
 export async function stageBinaryAssets(bundleDir) {
-  const copies = [[resolve("package.json"), join(bundleDir, "package.json")]];
+  const packageDir = join(bundleDir, "package");
+  const copies = [[resolve("package.json"), join(packageDir, "package.json")]];
 
   for (const [source, destination] of copies) {
     await copyPath(source, destination);
   }
 
-  await copyPiThemeAssets(bundleDir);
-  await copyJsonFilesFromDir(resolve("src", "themes"), join(bundleDir, "theme"));
-  await copyPath(resolve("src", "commands"), join(bundleDir, "commands"));
-  await copyPath(resolve("src", "runtime", "config", "default-settings"), join(bundleDir, "src", "runtime", "config", "default-settings"));
-  await copyExportHtmlAssets(bundleDir);
-  await copyNodePtyRuntimeAssets(bundleDir);
-  await copyXtermHeadlessRuntimeAssets(bundleDir);
+  await copyPiThemeAssets(packageDir);
+  await copyJsonFilesFromDir(resolve("src", "themes"), join(packageDir, "theme"));
+  await copyPath(resolve("src", "commands", "nexus-git-commit.md"), join(packageDir, "commands", "nexus-git-commit.md"));
+  await copyPath(
+    resolve("src", "runtime", "config", "default-settings", "settings.json"),
+    join(packageDir, "runtime", "config", "default-settings", "settings.json"),
+  );
+  await copyExportHtmlAssets(packageDir);
+  await copyPath(resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "modes", "interactive", "assets"), join(packageDir, "assets"));
+  await copyNodePtyRuntimeAssets(packageDir);
+  await copyXtermHeadlessRuntimeAssets(packageDir);
 }

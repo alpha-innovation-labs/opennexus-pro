@@ -26,6 +26,22 @@ export const compiledFeatureFlags = {
         "macOS ctrl+v image paste fallback for release builds"
       ]
     },
+    "fff": {
+      "enabled": true,
+      "features": [
+        "FFF-backed read override",
+        "FFF-backed grep override",
+        "FFF-powered @ file autocomplete"
+      ]
+    },
+    "kanban": {
+      "enabled": true,
+      "features": [
+        "/extension command",
+        "two-pane task board modal",
+        "temporary in-loop and completed task data"
+      ]
+    },
     "neo-editor": {
       "enabled": true,
       "features": [

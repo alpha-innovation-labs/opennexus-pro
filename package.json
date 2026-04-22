@@ -1,7 +1,7 @@
 {
   "name": "nexus-tui-awesome",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.14",
   "type": "module",
   "piConfig": {
     "name": "nexus",
@@ -9,23 +9,23 @@
   },
   "scripts": {
     "generate:feature-flags": "node scripts/feature-flags/generateCompiledFeatureFlags.mjs",
-    "build:dist": "npm run generate:feature-flags && node scripts/release/buildRelease.mjs",
     "build:binary": "npm run generate:feature-flags && node scripts/release/buildBinaryBundle.mjs",
     "build:release": "npm run build:binary",
     "dev": "tsx src/index.ts",
     "test": "tsx --test $(find test -name '*.test.ts' -print)"
   },
   "dependencies": {
-    "@mariozechner/pi-agent-core": "^0.67.68",
-    "@mariozechner/pi-ai": "^0.67.68",
-    "@mariozechner/pi-coding-agent": "^0.67.68",
-    "@mariozechner/pi-tui": "^0.67.4",
+    "@ff-labs/fff-node": "^0.6.0",
+    "@mariozechner/pi-agent-core": "^0.68.0",
+    "@mariozechner/pi-ai": "^0.68.0",
+    "@mariozechner/pi-coding-agent": "^0.68.0",
+    "@mariozechner/pi-tui": "^0.68.0",
     "@sinclair/typebox": "^0.34.49",
     "@wterm/dom": "^0.1.9",
     "@xterm/headless": "^5.5.0",
+    "better-result": "^2.8.2",
     "jiti": "^2.6.1",
     "node-pty": "^1.1.0",
-    "pi-slash-usage": "^0.1.1",
     "ws": "^8.18.3"
   },
   "devDependencies": {

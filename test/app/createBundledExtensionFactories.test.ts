@@ -56,6 +56,7 @@ test("the bundled extension entrypoint registers the currently enabled extension
     factories[0](pi as never);
   });
   assert.ok(commands.includes("annotate"));
+  assert.ok(commands.includes("extension"));
   assert.ok(commands.includes("observations"));
   assert.ok(tools.includes("annotate"));
   assert.ok(!commands.includes("sessions"));

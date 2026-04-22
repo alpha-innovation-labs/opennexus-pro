@@ -1,1 +1,4 @@
-export { APP_NAME } from "../../node_modules/@mariozechner/pi-coding-agent/dist/config.js";
+/**
+ * Nexus app name used by local UI customizations.
+ */
+export const APP_NAME = "nexus";

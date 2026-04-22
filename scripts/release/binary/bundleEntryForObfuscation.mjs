@@ -1,4 +1,5 @@
 import { getBundledEntryPath } from "./getBundledEntryPath.mjs";
+import { getExternalReleasePackages } from "./getExternalReleasePackages.mjs";
 import { runBunBuild } from "./runBunBuild.mjs";
 
 /**
@@ -13,12 +14,15 @@ export async function bundleEntryForObfuscation(buildWorkDir) {
   await runBunBuild([
     "build",
     "./src/index.ts",
-    "--outfile",
-    bundledEntryPath,
+    "--outdir",
+    buildWorkDir,
+    "--entry-naming",
+    "nexus.bundle",
     "--target",
     "bun",
     "--format",
     "esm",
+    ...getExternalReleasePackages().flatMap((packageName) => ["--external", packageName]),
   ]);
 
   return bundledEntryPath;

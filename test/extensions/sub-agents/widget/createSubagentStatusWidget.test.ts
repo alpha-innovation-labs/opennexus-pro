@@ -27,7 +27,7 @@ function createWidgetContext(isIdle = false) {
  * Verifies the status widget renders Tintin-style heading and running rows.
  */
 test("createSubagentStatusWidget renders Tintin-style running subagents", () => {
-  const run = createSubagentRun("scan", { description: "Explore repo", subagentType: "Explore" });
+  const run = createSubagentRun("scan", { description: "Explore repo", subagentType: "Explore" }, "/tmp/project");
   run.status = "running";
   run.startedAt = Date.now();
   run.activeTool = { toolName: "read", outputText: "src/index.ts", startedAt: Date.now() };
@@ -47,7 +47,7 @@ test("createSubagentStatusWidget renders Tintin-style running subagents", () => 
  * Verifies multiline and control-character output is flattened for the widget row.
  */
 test("createSubagentStatusWidget sanitizes multiline tool output", () => {
-  const run = createSubagentRun("scan", { description: "Inspect output", subagentType: "Explore" });
+  const run = createSubagentRun("scan", { description: "Inspect output", subagentType: "Explore" }, "/tmp/project");
   run.status = "running";
   run.startedAt = Date.now();
   run.activeTool = {

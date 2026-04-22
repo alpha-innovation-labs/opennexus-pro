@@ -7,5 +7,5 @@ import { join } from "node:path";
  * @returns {string} Absolute bundled entry path.
  */
 export function getBundledEntryPath(buildWorkDir) {
-  return join(buildWorkDir, "nexus.bundle.js");
+  return join(buildWorkDir, "nexus.bundle");
 }

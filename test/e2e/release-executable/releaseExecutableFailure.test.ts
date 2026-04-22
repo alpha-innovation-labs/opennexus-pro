@@ -6,6 +6,7 @@ import { createReleaseTestEnv } from "./createReleaseTestEnv.js";
 import { createReleaseTestHome } from "./createReleaseTestHome.js";
 import { getInstalledAgentDirPath } from "./getInstalledAgentDirPath.js";
 import { getInstalledNexusPath } from "./getInstalledNexusPath.js";
+import { getInstalledPackageDirPath } from "./getInstalledPackageDirPath.js";
 import { removeReleaseTestHome } from "./removeReleaseTestHome.js";
 import { runCommand } from "./runCommand.js";
 import { withLockedReleaseBuild } from "./withLockedReleaseBuild.js";
@@ -44,11 +45,11 @@ test("just release installs nexus without persisting shipped defaults into user 
       await assert.rejects(access(installedSettingsPath));
       await access(join(installedAgentDir, "editor-triggers.json"));
 
-      const installedAppDir = join(homeDir, ".local", "share", "nexus");
-      await access(join(installedAppDir, "defaults", "settings.json"));
+      const installedPackageDir = getInstalledPackageDirPath(homeDir);
+      await access(join(installedPackageDir, "src", "runtime", "config", "default-settings", "settings.json"));
 
       const promptResult = await runCommand(`"${nexusPath}" -p hello`, {
-        cwd: installedAppDir,
+        cwd: installedPackageDir,
         env,
         timeoutMs: 20000,
       });

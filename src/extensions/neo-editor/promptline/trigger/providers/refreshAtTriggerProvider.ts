@@ -1,0 +1,56 @@
+import type { AutocompleteItem, AutocompleteProvider } from "@mariozechner/pi-tui";
+import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
+import { closeTriggerModal } from "../closeTriggerModal.js";
+import { refreshAtTrigger } from "../refreshAtTrigger.js";
+import { ensureAtTriggerModal } from "./ensureAtTriggerModal.js";
+import { getAtTriggerModal } from "./getAtTriggerModal.js";
+import type { TriggerProviderRefreshArgs } from "../types.js";
+
+/**
+ * Refreshes the `@` trigger provider.
+ *
+ * @param args Shared trigger refresh arguments.
+ * @returns Active autocomplete prefix.
+ */
+export async function refreshAtTriggerProvider(
+  args: TriggerProviderRefreshArgs,
+): Promise<{ autocompletePrefix?: string }> {
+  const provider = args.autocompleteProvider;
+  if (!provider) {
+    closeTriggerModal(args.modalState, args.requestRender);
+    return {};
+  }
+
+  ensureAtTriggerModal(
+    args.modalState,
+    args.ctx,
+    args.uiTheme,
+    args.onAutocompletePick,
+    () => closeTriggerModal(args.modalState, args.requestRender),
+    args.requestRender,
+    args.showOverlay,
+  );
+
+  args.modalState.abort?.abort();
+  const abortController = new AbortController();
+  args.modalState.abort = abortController;
+  const modal = getAtTriggerModal(args.modalState);
+  if (!modal) {
+    closeTriggerModal(args.modalState, args.requestRender);
+    return {};
+  }
+  const refreshed = await refreshAtTrigger(
+    modal,
+    provider,
+    args.lines,
+    args.cursorLine,
+    args.cursorCol,
+    abortController,
+    args.requestRender,
+  );
+  if (!refreshed) {
+    closeTriggerModal(args.modalState, args.requestRender);
+    return {};
+  }
+  return { autocompletePrefix: refreshed.prefix };
+}

@@ -3,7 +3,9 @@ import { registerAnnotateExtension } from "../extensions/annotate/registerAnnota
 import { registerClipboardImagePasteExtension } from "../extensions/clipboard-image-paste/registerClipboardImagePasteExtension.js";
 import { registerCmuxExtension } from "../extensions/cmux/registerCmuxExtension.js";
 import { registerExitMessageExtension } from "../extensions/exit-message/registerExitMessageExtension.js";
+import registerFffExtension from "../extensions/fff/index.js";
 import registerNeoEditorExtension from "../extensions/neo-editor/registerNeoEditorExtension.js";
+import { registerKanbanExtension } from "../extensions/kanban/registerKanbanExtension.js";
 import { registerNotifyExtension } from "../extensions/notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "../extensions/observations/registerObservationsExtension.js";
 import { registerPlaygroundExtension } from "../extensions/playground/registerPlaygroundExtension.js";
@@ -25,6 +27,8 @@ export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) 
     annotate: registerAnnotateExtension,
     "clipboard-image-paste": registerClipboardImagePasteExtension,
     cmux: registerCmuxExtension,
+    fff: registerFffExtension,
+    kanban: registerKanbanExtension,
     "neo-editor": registerNeoEditorExtension,
     notify: registerNotifyExtension,
     observations: registerObservationsExtension,

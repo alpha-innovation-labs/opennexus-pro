@@ -5,13 +5,13 @@ import { formatTelegramToolCall } from "../../../../src/adapters/telegram/live-s
 test("formatTelegramToolCall includes write stats and params", () => {
   assert.equal(
     formatTelegramToolCall("write", { path: "src/file.ts", content: "a\nb" }, "done"),
-    "✓ write (+2 -0) — path=\"src/file.ts\", content=\"a b\"",
+    "✓ write — path=\"src/file.ts\", content=\"a b\"\n    +2 -0",
   );
 });
 
 test("formatTelegramToolCall includes edit stats and params", () => {
   assert.equal(
     formatTelegramToolCall("edit", { path: "src/file.ts", oldText: "a", newText: "a\nb" }, "done"),
-    "✓ edit (+2 -1) — path=\"src/file.ts\", oldText=\"a\", newText=\"a b\"",
+    "✓ edit — path=\"src/file.ts\", oldText=\"a\", newText=\"a b\"\n    +2 -1",
   );
 });
