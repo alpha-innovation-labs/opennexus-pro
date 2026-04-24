@@ -1,4 +1,5 @@
 import { visibleWidth } from "@mariozechner/pi-tui";
+import { measureTronRender } from "../profiling/measureTronRender.js";
 
 /**
  * Wraps a built-in tool result component in nexus borders.
@@ -17,14 +18,16 @@ export class BorderedToolResult {
 	 * @returns Rendered lines.
 	 */
 	render(width: number): string[] {
-		const innerWidth = Math.max(1, width - 2);
-		const childLines = this.child.render(innerWidth);
-		const lines = childLines.map((line) => {
-			const pad = " ".repeat(Math.max(0, innerWidth - visibleWidth(line)));
-			return `${this.theme.fg("borderMuted", "│")}${line}${pad}${this.theme.fg("borderMuted", "│")}`;
-		});
-		lines.push(this.theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
-		return lines;
+		return measureTronRender("bordered-tool-result", () => {
+			const innerWidth = Math.max(1, width - 2);
+			const childLines = this.child.render(innerWidth);
+			const lines = childLines.map((line) => {
+				const pad = " ".repeat(Math.max(0, innerWidth - visibleWidth(line)));
+				return `${this.theme.fg("borderMuted", "│")}${line}${pad}${this.theme.fg("borderMuted", "│")}`;
+			});
+			lines.push(this.theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
+			return lines;
+		}, { width, toolCallId: this.toolCallId });
 	}
 
 	/**

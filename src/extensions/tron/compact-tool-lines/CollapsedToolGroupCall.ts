@@ -4,6 +4,7 @@ import { getCollapsedSummaryNeighbors } from "../activity/getCollapsedSummaryNei
 import { getCollapsedToolGroupSummary } from "../activity/getCollapsedToolGroupSummary.ts";
 import { colorSecondaryText } from "../colors/colorSecondaryText.ts";
 import { colorToolCallIcon } from "../colors/colorToolCallIcon.ts";
+import { measureTronRender } from "../profiling/measureTronRender.js";
 import { isCompactModeThinkingExpanded } from "../collapse/thinkingVisibility.ts";
 
 const THINKING_ICON = "󰧑";
@@ -76,37 +77,39 @@ export class CollapsedToolGroupCall {
 	 * @returns Rendered lines.
 	 */
 	render(width: number): string[] {
-		const summary = getCollapsedToolGroupSummary(this.toolCallId);
-		const neighbors = getCollapsedSummaryNeighbors(summary.leaderToolCallId);
-		const innerWidth = Math.max(1, width - 2);
-		const metaPlain = [
-			`${THINKING_ICON} · ${TOOL_ICON} ${summary.toolCallCount}`,
-			summary.durationLabel,
-			summary.addedLineCount === 0 && summary.removedLineCount === 0 ? "" : `+${summary.addedLineCount} -${summary.removedLineCount}`,
-		].filter(Boolean).join(" · ");
-		const metaColumnWidth = Math.min(META_COLUMN_WIDTH, Math.max(1, innerWidth - 6));
-		const shownMetaPlain = truncateToWidth(metaPlain, metaColumnWidth, "…");
-		const shownMetaWidth = visibleWidth(shownMetaPlain);
-		const contentPrefixPlain = " · ";
-		const contentWidth = Math.max(1, innerWidth - metaColumnWidth - visibleWidth(contentPrefixPlain));
-		const contentLines = isCompactModeThinkingExpanded()
-			? wrapPlainText(summary.fullThinkingText, contentWidth)
-			: [truncateToWidth(summary.summaryText, contentWidth, "…")];
-		const metaPad = " ".repeat(Math.max(0, metaColumnWidth - shownMetaWidth));
-		const renderedMeta = truncateToWidth(renderMeta(summary), metaColumnWidth, "…");
-		const lines: string[] = [];
-		if (neighbors.isFirst) lines.push(theme.fg("borderMuted", `┌${"─".repeat(innerWidth)}┐`));
-		for (const [index, line] of contentLines.entries()) {
-			const prefixPlain = index === 0 ? `${shownMetaPlain}${metaPad}${contentPrefixPlain}` : `${" ".repeat(metaColumnWidth)}${contentPrefixPlain}`;
-			const contentPlain = truncateToWidth(line, contentWidth, "…");
-			const pad = " ".repeat(Math.max(0, innerWidth - visibleWidth(prefixPlain) - visibleWidth(contentPlain)));
-			const renderedPrefix = index === 0
-				? `${renderedMeta}${metaPad}${colorSecondaryText(contentPrefixPlain)}`
-				: `${" ".repeat(metaColumnWidth)}${colorSecondaryText(contentPrefixPlain)}`;
-			lines.push(`${theme.fg("borderMuted", "│")}${renderedPrefix}${theme.fg("toolOutput", contentPlain)}${pad}${theme.fg("borderMuted", "│")}`);
-		}
-		if (neighbors.isLast) lines.push(theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
-		return lines;
+		return measureTronRender("collapsed-tool-group-call", () => {
+			const summary = getCollapsedToolGroupSummary(this.toolCallId);
+			const neighbors = getCollapsedSummaryNeighbors(summary.leaderToolCallId);
+			const innerWidth = Math.max(1, width - 2);
+			const metaPlain = [
+				`${THINKING_ICON} · ${TOOL_ICON} ${summary.toolCallCount}`,
+				summary.durationLabel,
+				summary.addedLineCount === 0 && summary.removedLineCount === 0 ? "" : `+${summary.addedLineCount} -${summary.removedLineCount}`,
+			].filter(Boolean).join(" · ");
+			const metaColumnWidth = Math.min(META_COLUMN_WIDTH, Math.max(1, innerWidth - 6));
+			const shownMetaPlain = truncateToWidth(metaPlain, metaColumnWidth, "…");
+			const shownMetaWidth = visibleWidth(shownMetaPlain);
+			const contentPrefixPlain = " · ";
+			const contentWidth = Math.max(1, innerWidth - metaColumnWidth - visibleWidth(contentPrefixPlain));
+			const contentLines = isCompactModeThinkingExpanded()
+				? wrapPlainText(summary.fullThinkingText, contentWidth)
+				: [truncateToWidth(summary.summaryText, contentWidth, "…")];
+			const metaPad = " ".repeat(Math.max(0, metaColumnWidth - shownMetaWidth));
+			const renderedMeta = truncateToWidth(renderMeta(summary), metaColumnWidth, "…");
+			const lines: string[] = [];
+			if (neighbors.isFirst) lines.push(theme.fg("borderMuted", `┌${"─".repeat(innerWidth)}┐`));
+			for (const [index, line] of contentLines.entries()) {
+				const prefixPlain = index === 0 ? `${shownMetaPlain}${metaPad}${contentPrefixPlain}` : `${" ".repeat(metaColumnWidth)}${contentPrefixPlain}`;
+				const contentPlain = truncateToWidth(line, contentWidth, "…");
+				const pad = " ".repeat(Math.max(0, innerWidth - visibleWidth(prefixPlain) - visibleWidth(contentPlain)));
+				const renderedPrefix = index === 0
+					? `${renderedMeta}${metaPad}${colorSecondaryText(contentPrefixPlain)}`
+					: `${" ".repeat(metaColumnWidth)}${colorSecondaryText(contentPrefixPlain)}`;
+				lines.push(`${theme.fg("borderMuted", "│")}${renderedPrefix}${theme.fg("toolOutput", contentPlain)}${pad}${theme.fg("borderMuted", "│")}`);
+			}
+			if (neighbors.isLast) lines.push(theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
+			return lines;
+		}, { width, toolCallId: this.toolCallId });
 	}
 
 	/**

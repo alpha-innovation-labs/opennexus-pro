@@ -1,4 +1,5 @@
 import { CompactToolRow } from "../shared/compact-row/CompactToolRow.ts";
+import { measureTronRender } from "../profiling/measureTronRender.js";
 import { iconForToolName } from "./iconForToolName.ts";
 import type { SummaryText } from "./SummaryText.ts";
 
@@ -6,6 +7,9 @@ import type { SummaryText } from "./SummaryText.ts";
  * Single-row compact tool-call renderer.
  */
 export class SingleLineToolCall {
+	private cachedWidth: number | undefined;
+	private cachedLines: string[] | undefined;
+
 	constructor(
 		private readonly toolCallId: string,
 		private readonly toolName: string,
@@ -21,7 +25,9 @@ export class SingleLineToolCall {
 	 * @returns Rendered lines.
 	 */
 	render(width: number): string[] {
-		return new CompactToolRow({
+		if (this.cachedLines && this.cachedWidth === width) return this.cachedLines;
+
+		const lines = measureTronRender("single-line-tool-call", () => new CompactToolRow({
 			width,
 			icon: iconForToolName(this.toolName),
 			label: this.toolName,
@@ -33,7 +39,10 @@ export class SingleLineToolCall {
 			theme: this.theme,
 			showTopBorder: false,
 			showBottomBorder: false,
-		}).render();
+		}).render(), { width, toolName: this.toolName });
+		this.cachedWidth = width;
+		this.cachedLines = lines;
+		return lines;
 	}
 
 	/**

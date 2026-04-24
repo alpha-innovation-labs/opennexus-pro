@@ -1,4 +1,5 @@
 import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
+import { measureTronRender } from "../profiling/measureTronRender.js";
 import { getResultText } from "./getResultText.ts";
 
 /**
@@ -18,18 +19,20 @@ export class CompactToolResult {
 	 * @returns Rendered lines.
 	 */
 	render(width: number): string[] {
-		if (!this.expanded) return [];
-		const text = getResultText(this.result);
-		if (!text) return [];
-		const innerWidth = Math.max(1, width - 2);
-		const lines = text.split("\n").map((line) => {
-			const clean = line.replace(/\t/g, "    ");
-			const truncated = truncateToWidth(clean, innerWidth, "…");
-			const pad = " ".repeat(Math.max(0, innerWidth - visibleWidth(truncated)));
-			return `${this.theme.fg("borderMuted", "│")}${this.theme.fg("toolOutput", truncated)}${pad}${this.theme.fg("borderMuted", "│")}`;
-		});
-		lines.push(this.theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
-		return lines;
+		return measureTronRender("compact-tool-result", () => {
+			if (!this.expanded) return [];
+			const text = getResultText(this.result);
+			if (!text) return [];
+			const innerWidth = Math.max(1, width - 2);
+			const lines = text.split("\n").map((line) => {
+				const clean = line.replace(/\t/g, "    ");
+				const truncated = truncateToWidth(clean, innerWidth, "…");
+				const pad = " ".repeat(Math.max(0, innerWidth - visibleWidth(truncated)));
+				return `${this.theme.fg("borderMuted", "│")}${this.theme.fg("toolOutput", truncated)}${pad}${this.theme.fg("borderMuted", "│")}`;
+			});
+			lines.push(this.theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
+			return lines;
+		}, { width, expanded: this.expanded });
 	}
 
 	/**

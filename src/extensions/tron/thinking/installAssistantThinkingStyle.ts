@@ -2,6 +2,7 @@ import { getMarkdownTheme } from "@mariozechner/pi-coding-agent";
 import { Markdown, Spacer, Text } from "@mariozechner/pi-tui";
 import { setAssistantMessageUpdateHook } from "../../../pi-internals/assistantMessageHook.js";
 import { theme } from "../../../pi-internals/theme.js";
+import { recordTronRenderTiming } from "../profiling/recordTronRenderTiming.js";
 import { setCompactModeThinkingExpanded } from "../collapse/thinkingVisibility.ts";
 import { getAssistantMessageTiming } from "./assistantMessageTimingState.ts";
 import { createAssistantMetaText } from "./createAssistantMetaText.ts";
@@ -26,6 +27,7 @@ function isVisibleToolCall(content: any): boolean {
  */
 export function installAssistantThinkingStyle(): void {
   setAssistantMessageUpdateHook((component: any, message: any) => {
+    const startedAt = performance.now();
     component.lastMessage = message;
     component.contentContainer.clear();
     const markdownTheme = component.markdownTheme ?? getMarkdownTheme();
@@ -70,5 +72,9 @@ export function installAssistantThinkingStyle(): void {
       const errorMessage = message.errorMessage || "Unknown error";
       component.contentContainer.addChild(new BorderedAssistantErrorRow(theme, formatAssistantErrorText(errorMessage)));
     }
+    recordTronRenderTiming("assistant-update-content", performance.now() - startedAt, component.contentContainer.children?.length ?? 0, {
+      contentBlocks: message.content?.length ?? 0,
+      hasToolCalls: component.hasToolCalls,
+    });
   });
 }

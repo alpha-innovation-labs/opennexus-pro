@@ -4,6 +4,7 @@ import { getGitState } from "../../git/state.js";
 import { buildContextBar } from "./buildContextBar.js";
 import { PRIMARY_COLOR, RESET } from "./constants.js";
 import { formatContextTokenUsage } from "./formatContextTokenUsage.js";
+import { getCachedContextUsage } from "./getCachedContextUsage.js";
 import { getContextColor } from "./getContextColor.js";
 import { stripProviderPrefix } from "./stripProviderPrefix.js";
 import { truncateFromStart } from "./truncateFromStart.js";
@@ -23,7 +24,7 @@ export function buildPromptline(
   getThinkingLevel: ExtensionAPI["getThinkingLevel"],
   width?: number,
 ): { left: string; right: string } {
-  const usage = ctx.getContextUsage();
+  const usage = getCachedContextUsage(ctx);
   const currentModel = ctx.model;
   const _modelId = stripProviderPrefix(currentModel?.id ?? "no-model");
   const _thinking = getThinkingLevel();
