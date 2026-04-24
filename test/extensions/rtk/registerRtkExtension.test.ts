@@ -39,7 +39,7 @@ function createRtkHarness(): {
         case "--version":
           return { code: 0, stdout: "rtk 0.23.0\n", stderr: "" };
         case "rewrite":
-          return { code: 0, stdout: "git status --short\n", stderr: "" };
+          return { code: 3, stdout: "git status --short\n", stderr: "" };
         case "read":
           return {
             code: 0,

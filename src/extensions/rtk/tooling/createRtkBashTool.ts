@@ -24,7 +24,7 @@ export function createRtkBashTool() {
 
       try {
         const rewrite = await runtime.exec("rewrite", [input.command], { cwd, signal });
-        const rewritten = rewrite.code === 0 ? rewrite.stdout.trim() : "";
+        const rewritten = rewrite.stdout.trim();
         const command = rewritten && rewritten !== input.command ? rewritten : input.command;
 
         return original.execute(

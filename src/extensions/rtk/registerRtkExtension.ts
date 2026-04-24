@@ -56,7 +56,7 @@ export function registerRtkExtension(pi: ExtensionAPI): void {
     try {
       const command = input.command;
       const result = await runtime.exec("rewrite", [command], { cwd: getRtkExecutionCwd(ctx), signal: ctx.signal });
-      const rewritten = result.code === 0 ? result.stdout.trim() : "";
+      const rewritten = result.stdout.trim();
       if (rewritten && rewritten !== command) {
         input.command = rewritten;
       }
