@@ -6,7 +6,7 @@ import { removeReleaseTestHome } from "../release-executable/removeReleaseTestHo
 import { runCommand } from "../release-executable/runCommand.js";
 import { createNexusCliSessionFixture } from "./createNexusCliSessionFixture.js";
 
-test("npm run dev forwards --sessions into the source CLI", async () => {
+test("npm run dev forwards --sessions into the source CLI table output", async () => {
   const homeDir = await createReleaseTestHome();
   const env = createReleaseTestEnv(homeDir);
   const { sessionId } = await createNexusCliSessionFixture(homeDir);
@@ -20,7 +20,8 @@ test("npm run dev forwards --sessions into the source CLI", async () => {
 
     assert.equal(result.timedOut, false);
     assert.equal(result.code, 0);
-    assert.deepEqual(result.output.trim().split(/\r?\n/).filter((line) => /^[0-9a-f-]+$/i.test(line)), [sessionId]);
+    assert.match(result.output, /│ Date\s+│ Session title\s+│ Session ID\s+│/m);
+    assert.match(result.output, new RegExp(`│ \\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} │ CLI resume fixture\\s+│ ${sessionId}\\s+│`, "m"));
   } finally {
     await removeReleaseTestHome(homeDir);
   }

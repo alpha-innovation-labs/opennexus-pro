@@ -5,13 +5,14 @@
 
 ## What this area covers
 
-`src/cli/sessions` is the CLI `sessions` slice. It is a leaf folder with 4 files and no nested directories.
+`src/cli/sessions` is the CLI `sessions` slice. It is a leaf folder with table-formatting helpers and no nested directories.
 
 ## Key files
 
-- `src/cli/sessions/listSessionIds.ts`
+- `src/cli/sessions/listSessions.ts`
+- `src/cli/sessions/printSessionsTable.ts`
+- `src/cli/sessions/formatSessionsTable.ts`
 - `src/cli/sessions/readSessionDirArg.ts`
-- `src/cli/sessions/printSessionIds.ts`
 - `src/cli/sessions/hasSessionsFlag.ts`
 
 ## Immediate subareas
@@ -20,9 +21,10 @@ This folder has no nested directories.
 
 ## Read this first
 
-1. `src/cli/sessions/listSessionIds.ts`
-2. `src/cli/sessions/printSessionIds.ts`
-3. `src/cli/sessions/readSessionDirArg.ts`
+1. `src/cli/sessions/listSessions.ts`
+2. `src/cli/sessions/printSessionsTable.ts`
+3. `src/cli/sessions/formatSessionsTable.ts`
+4. `src/cli/sessions/readSessionDirArg.ts`
 
 ## Navigation notes
 

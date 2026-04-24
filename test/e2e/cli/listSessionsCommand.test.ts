@@ -9,7 +9,7 @@ import { buildSourceCliCommand } from "./buildSourceCliCommand.js";
 import { createCliSessionFixture } from "./createCliSessionFixture.js";
 import { createNexusCliSessionFixture } from "./createNexusCliSessionFixture.js";
 
-test("nexus --sessions prints resumable session ids", async () => {
+test("nexus --sessions prints resumable sessions as a table", async () => {
   const homeDir = await createReleaseTestHome();
   const env = createReleaseTestEnv(homeDir);
   const { sessionDir, sessionId } = await createCliSessionFixture();
@@ -23,14 +23,15 @@ test("nexus --sessions prints resumable session ids", async () => {
 
     assert.equal(result.timedOut, false);
     assert.equal(result.code, 0);
-    assert.deepEqual(result.output.trim().split(/\r?\n/).filter((line) => line.length > 0), [sessionId]);
+    assert.match(result.output, /│ Date\s+│ Session title\s+│ Session ID\s+│/m);
+    assert.match(result.output, new RegExp(`│ \\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} │ CLI resume fixture\\s+│ ${sessionId}\\s+│`, "m"));
   } finally {
     await rm(sessionDir, { recursive: true, force: true });
     await removeReleaseTestHome(homeDir);
   }
 });
 
-test("just dev --sessions prints resumable session ids", async () => {
+test("just dev --sessions prints resumable sessions as a table", async () => {
   const homeDir = await createReleaseTestHome();
   const env = createReleaseTestEnv(homeDir);
   const { sessionId } = await createNexusCliSessionFixture(homeDir);
@@ -44,7 +45,8 @@ test("just dev --sessions prints resumable session ids", async () => {
 
     assert.equal(result.timedOut, false);
     assert.equal(result.code, 0);
-    assert.deepEqual(result.output.trim().split(/\r?\n/).filter((line) => /^[0-9a-f-]+$/i.test(line)), [sessionId]);
+    assert.match(result.output, /│ Date\s+│ Session title\s+│ Session ID\s+│/m);
+    assert.match(result.output, new RegExp(`│ \\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} │ CLI resume fixture\\s+│ ${sessionId}\\s+│`, "m"));
   } finally {
     await removeReleaseTestHome(homeDir);
   }

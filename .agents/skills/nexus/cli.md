@@ -17,7 +17,7 @@
 
 - [`adapter`](./cli/adapter.md) — files: `isAdapterCommand.ts`, `isGatewayRunnerCommand.ts`, `printAdapterUsage.ts`, `runAdapterCommand.ts`
 - [`extensions`](./cli/extensions.md) — files: `appendNoExtensionsArg.ts`, `hasNoExtensionsFlag.ts`
-- [`sessions`](./cli/sessions.md) — files: `hasSessionsFlag.ts`, `listSessionIds.ts`, `printSessionIds.ts`, `readSessionDirArg.ts`
+- [`sessions`](./cli/sessions.md) — files include `hasSessionsFlag.ts`, `listSessions.ts`, `printSessionsTable.ts`, `formatSessionsTable.ts`, `readSessionDirArg.ts`
 - [`system-prompt`](./cli/system-prompt.md) — files: `addBaseSystemPromptArg.ts`, `hasBaseSystemPromptArg.ts`
 - [`version`](./cli/version.md) — files: `hasVersionFlag.ts`, `printAppVersion.ts`, `readCliPackageVersion.ts`
 

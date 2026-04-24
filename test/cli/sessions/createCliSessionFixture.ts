@@ -15,7 +15,22 @@ export async function createCliSessionFixture(): Promise<{ sessionDir: string; s
   manager.appendMessage({
     role: "user",
     content: [{ type: "text", text: "CLI sessions fixture prompt" }],
+    timestamp: Date.now() - 1_000,
+  } as never);
+  manager.appendMessage({
+    role: "assistant",
+    content: [{ type: "text", text: "CLI sessions fixture answer" }],
     timestamp: Date.now(),
+    stopReason: "end_turn",
+    usage: {
+      input: 10,
+      output: 20,
+      cacheRead: 0,
+      cacheWrite: 0,
+      cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
+    },
+    provider: "openai",
+    model: "gpt-5.4",
   } as never);
   return { sessionDir, sessionId: manager.getSessionId() };
 }

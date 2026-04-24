@@ -24,6 +24,7 @@
     "@wterm/dom": "^0.1.9",
     "@xterm/headless": "^6.0.0",
     "better-result": "^2.8.2",
+    "cli-table3": "^0.6.5",
     "jiti": "^2.6.1",
     "node-pty": "^1.1.0",
     "ws": "^8.20.0"

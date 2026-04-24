@@ -14,7 +14,7 @@ help:
     @echo ""
     @echo "\033[1;35m  Most Common Commands:\033[0m"
     @echo "  just \033[0;33mdev\033[0m                     \033[0;32mRun the bundled Pi TUI with Tron\033[0m"
-    @echo "  just \033[0;33mdev --sessions\033[0m          \033[0;32mList resumable session ids\033[0m"
+    @echo "  just \033[0;33mdev --sessions\033[0m          \033[0;32mList resumable sessions table\033[0m"
     @echo "  just \033[0;33mdev --resume <session-id>\033[0m \033[0;32mOpen a persisted session directly\033[0m"
     @echo "  just \033[0;33mdev-profile\033[0m             \033[0;32mCompare startup profiling with and without --no-extensions\033[0m"
     @echo "  just \033[0;33mwterm\033[0m                  \033[0;32mRun just dev inside a browser terminal\033[0m"
