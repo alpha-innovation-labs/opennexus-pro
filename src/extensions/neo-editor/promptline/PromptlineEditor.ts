@@ -1,6 +1,8 @@
 import { CustomEditor, type ExtensionAPI, type ExtensionContext } from "@mariozechner/pi-coding-agent";
 import type { AutocompleteItem, AutocompleteProvider } from "@mariozechner/pi-tui";
 import { matchesKey } from "@mariozechner/pi-tui";
+import { readClipboardImageViaMacOsJxa } from "../../../runtime/clipboard-image/readClipboardImageViaMacOsJxa.js";
+import { writeClipboardImageTempFile } from "../../../runtime/clipboard-image/writeClipboardImageTempFile.js";
 import { wrapAutocompleteProviderForCwd } from "../../fff/editor/wrapAutocompleteProviderForCwd.js";
 import { findMatchingTrigger } from "../editor-triggers/findMatchingTrigger.js";
 import { isReloadCommandText } from "./isReloadCommandText.js";
@@ -29,7 +31,7 @@ export class PromptlineEditor extends CustomEditor {
   constructor(
     tui: any,
     theme: any,
-    keybindings: any,
+    private readonly keybindings: any,
     private readonly ctx: ExtensionContext,
     private readonly uiTheme: ExtensionContext["ui"]["theme"],
     private readonly getThinkingLevel: ExtensionAPI["getThinkingLevel"],
@@ -142,7 +144,20 @@ export class PromptlineEditor extends CustomEditor {
     this.handleConfiguredTriggers(this.getText());
   }
 
+  /** Handles Pi's configured image-paste key without registering a conflicting extension shortcut. */
+  private handleClipboardImagePaste(data: string): boolean {
+    if (process.platform !== "darwin") return false;
+    if (!this.keybindings.matches(data, "app.clipboard.pasteImage")) return false;
+
+    const image = readClipboardImageViaMacOsJxa();
+    if (!image) return true;
+    this.ctx.ui.pasteToEditor(writeClipboardImageTempFile(image));
+    return true;
+  }
+
   override handleInput(data: string): void {
+    if (this.handleClipboardImagePaste(data)) return;
+
     const activeSession = getTriggerSession();
     if (activeSession?.kind === "slash") this.suppressBaseAutocomplete();
     if (activeSession) {
