@@ -36,6 +36,7 @@ export function clearActiveAssistantTurnTiming(): void {
  * @param timestamp Start timestamp.
  */
 export function startAssistantMessageTiming(timestamp: number): void {
+	if (typeof currentTurnStartedAt !== "number") currentTurnStartedAt = timestamp;
 	currentAssistantStartedAt = timestamp;
 }
 
