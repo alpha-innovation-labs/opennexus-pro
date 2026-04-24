@@ -2,6 +2,7 @@ import { iconForToolName } from "../../tron/compact-tool-lines/iconForToolName.t
 import { summarizeArgs } from "../../tron/compact-tool-lines/summarizeArgs.ts";
 import type { SubagentRun } from "../../sub-agents/types.js";
 import { getSubagentDisplayText } from "../../sub-agents/runtime/getSubagentDisplayText.js";
+import { isTerminalSubagentStatus } from "../../sub-agents/runtime/isTerminalSubagentStatus.js";
 import { sanitizeWidgetPreview } from "./sanitizeWidgetPreview.js";
 
 /**
@@ -11,6 +12,24 @@ import { sanitizeWidgetPreview } from "./sanitizeWidgetPreview.js";
  * @returns Tool icon, label, and summary.
  */
 export function getWidgetToolSummary(run: SubagentRun): { icon: string; label: string; summary: string } {
+  if (run.status === "queued") {
+    return {
+      icon: "◦",
+      label: "queued",
+      summary: sanitizeWidgetPreview(run.title || "waiting") || "waiting",
+    };
+  }
+
+  if (isTerminalSubagentStatus(run.status)) {
+    const icon = run.status === "completed" ? "✓" : run.status === "error" ? "✗" : "■";
+    const summary = sanitizeWidgetPreview(run.resultText || run.lastError || getSubagentDisplayText(run) || run.title);
+    return {
+      icon,
+      label: run.status,
+      summary: summary || run.status,
+    };
+  }
+
   if (!run.activeTool) {
     const fallback = sanitizeWidgetPreview(getSubagentDisplayText(run)) || "thinking…";
     return { icon: "󰧑", label: "thinking", summary: fallback };

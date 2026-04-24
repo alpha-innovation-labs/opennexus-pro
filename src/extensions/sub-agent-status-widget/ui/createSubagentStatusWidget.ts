@@ -14,29 +14,26 @@ export function createSubagentStatusWidget(ctx: ExtensionContext): { invalidate(
     invalidate(): void {},
     render(widgetWidth: number): string[] {
       const runs = sharedSubagentRuntime.listRuns();
-      const running = runs.filter((run) => run.status === "running");
-      const queued = runs.filter((run) => run.status === "queued");
-      if (!running.length && !queued.length) return [];
+      if (!runs.length) return [];
 
       const lines: string[] = [];
       lines.push(truncateToWidth(`${ctx.ui.theme.fg("accent", "●")} ${ctx.ui.theme.fg("accent", "Agents (async)")}`, widgetWidth, ctx.ui.theme.fg("dim", "…")));
 
-      for (const run of running.slice(0, 8)) {
+      for (const run of runs.slice(0, 8)) {
         const tool = getWidgetToolSummary(run);
-        const status = ctx.ui.theme.fg("dim", "running");
+        const status = ctx.ui.theme.fg("dim", run.status);
+        const accent = run.status === "running"
+          ? ctx.ui.theme.fg("accent", "●")
+          : run.status === "queued"
+            ? ctx.ui.theme.fg("muted", "◦")
+            : run.status === "completed"
+              ? ctx.ui.theme.fg("success", "✓")
+              : run.status === "error"
+                ? ctx.ui.theme.fg("error", "✗")
+                : ctx.ui.theme.fg("warning", "■");
         lines.push(
           truncateToWidth(
-            `${ctx.ui.theme.fg("dim", "├─")} ${ctx.ui.theme.fg("accent", "●")} ${ctx.ui.theme.bold(run.subagentType)}  ${tool.icon} ${ctx.ui.theme.bold(tool.label)}${tool.summary ? ` ${ctx.ui.theme.fg("muted", tool.summary)}` : ""} ${ctx.ui.theme.fg("dim", "·")} ${status}`,
-            widgetWidth,
-            ctx.ui.theme.fg("dim", "…"),
-          ),
-        );
-      }
-
-      if (queued.length) {
-        lines.push(
-          truncateToWidth(
-            `${ctx.ui.theme.fg("dim", "├─")} ${ctx.ui.theme.fg("muted", "◦")} ${ctx.ui.theme.fg("dim", `${queued.length} queued`)}`,
+            `${ctx.ui.theme.fg("dim", "├─")} ${accent} ${ctx.ui.theme.bold(run.subagentType)}  ${tool.icon} ${ctx.ui.theme.bold(tool.label)}${tool.summary ? ` ${ctx.ui.theme.fg("muted", tool.summary)}` : ""} ${ctx.ui.theme.fg("dim", "·")} ${status}`,
             widgetWidth,
             ctx.ui.theme.fg("dim", "…"),
           ),

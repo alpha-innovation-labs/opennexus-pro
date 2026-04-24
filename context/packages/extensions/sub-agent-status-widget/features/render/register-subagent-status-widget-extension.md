@@ -1,4 +1,4 @@
-Registers the subagent widget, subscribes to shared run changes, and swaps the default working indicator.
+Registers the subagent widget, subscribes to shared run changes, and swaps the default working indicator while keeping the widget visible whenever the current chat has subagent history.
 
 ## Usage
 
@@ -27,5 +27,5 @@ type RegisterSubagentStatusWidgetExtensionOutput = void;
 | Name | Description |
 | --- | --- |
 | liveToolOutputWidget | Renders one-line live tool output for running subagents and a queued count beneath the editor. |
-| createSubagentStatusWidget | Omits the foreground working row and sanitizes multiline tool output. |
+| createSubagentStatusWidget | Keeps completed subagent history visible and sanitizes multiline tool output. |
 | registerSubagentStatusWidgetExtension | Restores the default working indicator and clears the widget on shutdown. |
