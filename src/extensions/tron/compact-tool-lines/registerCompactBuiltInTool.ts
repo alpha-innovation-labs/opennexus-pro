@@ -1,6 +1,7 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { Container } from "@mariozechner/pi-tui";
 import { allToolDefinitions } from "../../../pi-internals/tools.js";
+import { getRtkExecutionCwd } from "../../rtk/runtime/getRtkExecutionCwd.js";
 import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator.ts";
 import { BorderedToolResult } from "./BorderedToolResult.ts";
 import { FailedToolCallResult } from "./FailedToolCallResult.ts";
@@ -28,8 +29,8 @@ export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof Bui
 		renderShell: "self",
 		skipLeadingSpacer: true,
 		async execute(toolCallId, params, signal, onUpdate, ctx) {
-			const tools = getBuiltInTools(ctx.cwd);
-			return tools[toolName].execute(toolCallId, params, signal, onUpdate);
+			const tools = getBuiltInTools(getRtkExecutionCwd(ctx));
+			return tools[toolName].execute(toolCallId, params, signal, onUpdate, ctx);
 		},
 		renderCall(args, theme, context) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);

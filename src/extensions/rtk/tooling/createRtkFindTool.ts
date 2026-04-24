@@ -1,4 +1,5 @@
 import { createFindTool } from "@mariozechner/pi-coding-agent";
+import { getRtkExecutionCwd } from "../runtime/getRtkExecutionCwd.js";
 import { getRtkRuntimeForCwd } from "../runtime/runtimeStore.js";
 import { resolveRtkPath } from "../runtime/resolveRtkPath.js";
 
@@ -13,8 +14,9 @@ export function createRtkFindTool() {
   return {
     ...template,
     async execute(toolCallId, params, signal, onUpdate, ctx) {
-      const original = createFindTool(ctx.cwd);
-      const runtime = getRtkRuntimeForCwd(ctx.cwd);
+      const cwd = getRtkExecutionCwd(ctx);
+      const original = createFindTool(cwd);
+      const runtime = getRtkRuntimeForCwd(cwd);
       if (!runtime) {
         return original.execute(toolCallId, params, signal, onUpdate, ctx);
       }
@@ -22,12 +24,12 @@ export function createRtkFindTool() {
       const input = params as { pattern: string; path?: string; limit?: number };
 
       try {
-        const searchPath = resolveRtkPath(ctx.cwd, input.path ?? ".");
+        const searchPath = resolveRtkPath(cwd, input.path ?? ".");
         const effectiveLimit = Math.max(1, input.limit ?? 1000);
         const patternArgs = input.pattern.includes("/")
           ? ["-path", input.pattern.startsWith("*") || input.pattern.startsWith("/") ? input.pattern : `*${input.pattern}`]
           : ["-name", input.pattern];
-        const result = await runtime.exec("find", [searchPath, ...patternArgs], { cwd: ctx.cwd, signal });
+        const result = await runtime.exec("find", [searchPath, ...patternArgs], { cwd, signal });
 
         if (result.code !== 0 && result.stdout.trim().length === 0) {
           return original.execute(toolCallId, params, signal, onUpdate, ctx);

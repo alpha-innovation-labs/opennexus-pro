@@ -22,8 +22,9 @@
 ## Read this first
 
 1. `src/extensions/rtk/registerRtkExtension.ts`
-2. `src/extensions/rtk/tooling/createRtkBuiltInTools.ts`
-3. `src/extensions/tron/compact-tool-lines/getBuiltInTools.ts`
+2. `src/extensions/rtk/runtime/getRtkExecutionCwd.ts`
+3. `src/extensions/rtk/tooling/createRtkBuiltInTools.ts`
+4. `src/extensions/tron/compact-tool-lines/getBuiltInTools.ts`
 
 ## Navigation notes
 

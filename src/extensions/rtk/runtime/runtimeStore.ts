@@ -1,6 +1,7 @@
 import type { RtkRuntime } from "./createRtkRuntime.js";
 
 const runtimes = new Map<string, RtkRuntime>();
+let activeRtkCwd: string | undefined;
 
 /**
  * Stores the RTK runtime for a cwd.
@@ -10,6 +11,7 @@ const runtimes = new Map<string, RtkRuntime>();
  */
 export function setRtkRuntimeForCwd(cwd: string, runtime: RtkRuntime): void {
   runtimes.set(cwd, runtime);
+  activeRtkCwd = cwd;
 }
 
 /**
@@ -23,10 +25,22 @@ export function getRtkRuntimeForCwd(cwd: string): RtkRuntime | undefined {
 }
 
 /**
+ * Returns the active RTK cwd for the current session.
+ *
+ * @returns Active cwd, if any.
+ */
+export function getActiveRtkCwd(): string | undefined {
+  return activeRtkCwd;
+}
+
+/**
  * Clears the RTK runtime for a cwd.
  *
  * @param cwd Session cwd.
  */
 export function clearRtkRuntimeForCwd(cwd: string): void {
   runtimes.delete(cwd);
+  if (activeRtkCwd === cwd) {
+    activeRtkCwd = undefined;
+  }
 }

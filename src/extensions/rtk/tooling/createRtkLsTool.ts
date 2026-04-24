@@ -1,4 +1,5 @@
 import { createLsTool } from "@mariozechner/pi-coding-agent";
+import { getRtkExecutionCwd } from "../runtime/getRtkExecutionCwd.js";
 import { getRtkRuntimeForCwd } from "../runtime/runtimeStore.js";
 import { resolveRtkPath } from "../runtime/resolveRtkPath.js";
 
@@ -13,8 +14,9 @@ export function createRtkLsTool() {
   return {
     ...template,
     async execute(toolCallId, params, signal, onUpdate, ctx) {
-      const original = createLsTool(ctx.cwd);
-      const runtime = getRtkRuntimeForCwd(ctx.cwd);
+      const cwd = getRtkExecutionCwd(ctx);
+      const original = createLsTool(cwd);
+      const runtime = getRtkRuntimeForCwd(cwd);
       if (!runtime) {
         return original.execute(toolCallId, params, signal, onUpdate, ctx);
       }
@@ -22,9 +24,9 @@ export function createRtkLsTool() {
       const input = params as { path?: string; limit?: number };
 
       try {
-        const dirPath = resolveRtkPath(ctx.cwd, input.path ?? ".");
+        const dirPath = resolveRtkPath(cwd, input.path ?? ".");
         const effectiveLimit = Math.max(1, input.limit ?? 500);
-        const result = await runtime.exec("ls", [dirPath], { cwd: ctx.cwd, signal });
+        const result = await runtime.exec("ls", [dirPath], { cwd, signal });
 
         if (result.code !== 0 && result.stdout.trim().length === 0) {
           return original.execute(toolCallId, params, signal, onUpdate, ctx);

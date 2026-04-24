@@ -1,4 +1,5 @@
 import { createReadTool } from "@mariozechner/pi-coding-agent";
+import { getRtkExecutionCwd } from "../runtime/getRtkExecutionCwd.js";
 import { getRtkRuntimeForCwd } from "../runtime/runtimeStore.js";
 import { resolveRtkPath } from "../runtime/resolveRtkPath.js";
 
@@ -13,8 +14,9 @@ export function createRtkReadTool() {
   return {
     ...template,
     async execute(toolCallId, params, signal, onUpdate, ctx) {
-      const original = createReadTool(ctx.cwd);
-      const runtime = getRtkRuntimeForCwd(ctx.cwd);
+      const cwd = getRtkExecutionCwd(ctx);
+      const original = createReadTool(cwd);
+      const runtime = getRtkRuntimeForCwd(cwd);
       if (!runtime) {
         return original.execute(toolCallId, params, signal, onUpdate, ctx);
       }
@@ -22,8 +24,8 @@ export function createRtkReadTool() {
       const input = params as { path: string; offset?: number; limit?: number };
 
       try {
-        const resolvedPath = resolveRtkPath(ctx.cwd, input.path);
-        const result = await runtime.exec("read", ["-n", resolvedPath], { cwd: ctx.cwd, signal });
+        const resolvedPath = resolveRtkPath(cwd, input.path);
+        const result = await runtime.exec("read", ["-n", resolvedPath], { cwd, signal });
         if (result.code !== 0) {
           return original.execute(toolCallId, params, signal, onUpdate, ctx);
         }

@@ -1,4 +1,5 @@
 import { createGrepTool } from "@mariozechner/pi-coding-agent";
+import { getRtkExecutionCwd } from "../runtime/getRtkExecutionCwd.js";
 import { getRtkRuntimeForCwd } from "../runtime/runtimeStore.js";
 import { resolveRtkPath } from "../runtime/resolveRtkPath.js";
 
@@ -13,8 +14,9 @@ export function createRtkGrepTool() {
   return {
     ...template,
     async execute(toolCallId, params, signal, onUpdate, ctx) {
-      const original = createGrepTool(ctx.cwd);
-      const runtime = getRtkRuntimeForCwd(ctx.cwd);
+      const cwd = getRtkExecutionCwd(ctx);
+      const original = createGrepTool(cwd);
+      const runtime = getRtkRuntimeForCwd(cwd);
       if (!runtime) {
         return original.execute(toolCallId, params, signal, onUpdate, ctx);
       }
@@ -30,7 +32,7 @@ export function createRtkGrepTool() {
       };
 
       try {
-        const searchPath = resolveRtkPath(ctx.cwd, input.path ?? ".");
+        const searchPath = resolveRtkPath(cwd, input.path ?? ".");
         const effectiveLimit = Math.max(1, input.limit ?? 100);
         const extraArgs: string[] = [];
 
@@ -52,7 +54,7 @@ export function createRtkGrepTool() {
 
         extraArgs.push("-m", String(effectiveLimit));
 
-        const result = await runtime.exec("grep", [input.pattern, searchPath, ...extraArgs], { cwd: ctx.cwd, signal });
+        const result = await runtime.exec("grep", [input.pattern, searchPath, ...extraArgs], { cwd, signal });
         if (result.code !== 0 && result.stdout.trim().length === 0) {
           return original.execute(toolCallId, params, signal, onUpdate, ctx);
         }

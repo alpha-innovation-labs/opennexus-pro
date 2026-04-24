@@ -98,6 +98,39 @@ test("RTK extension registers RTK-backed tools and rewrites bash commands", asyn
   });
 });
 
+/**
+ * RTK tools should not throw when tool execution context is missing.
+ */
+test("RTK tools fall back cleanly when tool context is missing", async () => {
+  await withRtkSession(async ({ cwd, handlers, tools, calls }) => {
+    const previousCwd = process.cwd();
+    const filePath = join(cwd, "one.ts");
+
+    await writeFile(filePath, "console.log('one');\n", "utf8");
+    await handlers.get("session_start")?.({}, { cwd });
+    calls.length = 0;
+
+    try {
+      process.chdir(cwd);
+      const findTool = tools.get("find");
+      assert.ok(findTool);
+
+      const result = (await findTool!.execute(
+        "tool-find",
+        { pattern: "*.ts", path: cwd, limit: 10 },
+        undefined,
+        undefined,
+        undefined as never,
+      )) as { content: Array<{ type: string; text: string }> };
+
+      assert.match(result.content[0]?.text ?? "", /src\/index\.ts/);
+      assert.deepEqual(calls.at(0), { command: "rtk", args: ["find", cwd, "-name", "*.ts"], cwd });
+    } finally {
+      process.chdir(previousCwd);
+    }
+  });
+});
+
 test("RTK-backed built-ins use the RTK runtime while it is active", async () => {
   await withRtkSession(async ({ cwd, handlers, calls }) => {
     const filePath = join(cwd, "doc.txt");

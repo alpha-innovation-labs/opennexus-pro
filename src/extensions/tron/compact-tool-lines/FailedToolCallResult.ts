@@ -1,4 +1,5 @@
 import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
+import { colorToolCallIcon } from "../colors/colorToolCallIcon.ts";
 import { iconForToolName } from "./iconForToolName.ts";
 
 /**
@@ -12,17 +13,23 @@ export class FailedToolCallResult {
 	) {}
 
 	/**
-	 * Renders one failed tool-call row with muted borders and red content.
+	 * Renders one failed tool-call row with regular tool chrome and red error text.
 	 *
 	 * @param width Available width.
 	 * @returns Rendered lines.
 	 */
 	render(width: number): string[] {
 		const innerWidth = Math.max(1, width - 2);
-		const plain = [iconForToolName(this.toolName), this.toolName, this.errorText].filter(Boolean).join(" ");
-		const shown = truncateToWidth(plain.replace(/\s+/g, " ").trim(), innerWidth, "…");
-		const pad = " ".repeat(Math.max(0, innerWidth - visibleWidth(shown)));
-		return [`${this.theme.fg("borderMuted", "│")}${this.theme.fg("error", shown)}${pad}${this.theme.fg("borderMuted", "│")}`];
+		const icon = iconForToolName(this.toolName);
+		const prefix = `${icon} ${this.toolName}`;
+		const maxErrorWidth = Math.max(0, innerWidth - visibleWidth(prefix) - 1);
+		const cleanError = this.errorText.replace(/\s+/g, " ").trim();
+		const shownError = maxErrorWidth > 0 ? truncateToWidth(cleanError, maxErrorWidth, "…") : "";
+		const contentWidth = visibleWidth(prefix) + (shownError ? 1 + visibleWidth(shownError) : 0);
+		const pad = " ".repeat(Math.max(0, innerWidth - contentWidth));
+		return [
+			`${this.theme.fg("borderMuted", "│")}${colorToolCallIcon(icon)} ${this.theme.fg("text", this.theme.bold(this.toolName))}${shownError ? ` ${this.theme.fg("error", shownError)}` : ""}${pad}${this.theme.fg("borderMuted", "│")}`,
+		];
 	}
 
 	/**
