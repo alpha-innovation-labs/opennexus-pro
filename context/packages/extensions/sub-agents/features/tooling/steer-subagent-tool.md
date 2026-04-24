@@ -1,4 +1,4 @@
-Sends one steering message to a running child run or queues it until the child client exists.
+Sends one steering message to a running child run or queues it until the child client exists, and records that steering message in the same subagent transcript as a user entry.
 
 ## Usage
 
@@ -42,5 +42,5 @@ type SteerSubagentToolError = { type: "UnknownSubagentIdError"; message: string 
 
 | Name | Description |
 | --- | --- |
-| steerSubagentRun | Queues steering before launch and forwards it once the child client is active. |
+| steerSubagentRun | Appends the steering message to the subagent transcript, queues it before launch, and forwards it once the child client is active. |
 | steer_subagent_unknown_id | Rejects steering for runs that cannot be resolved from memory or disk. |

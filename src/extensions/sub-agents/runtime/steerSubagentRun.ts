@@ -1,3 +1,5 @@
+import { appendSubagentTranscriptEntry } from "./appendSubagentTranscriptEntry.js";
+import { persistSubagentRun } from "./persistSubagentRun.js";
 import { getSubagentRun } from "./getSubagentRun.js";
 
 /**
@@ -11,9 +13,17 @@ export async function steerSubagentRun(runId: string, message: string): Promise<
   if (!run) {
     throw new Error("Unknown subagent id");
   }
+
+  const steeringMessage = message.trim();
+  if (!steeringMessage) return;
+
+  appendSubagentTranscriptEntry(run, { role: "user", text: steeringMessage });
+  persistSubagentRun(run);
+
   if (!run.client) {
-    run.pendingSteers = [...(run.pendingSteers ?? []), message];
+    run.pendingSteers = [...(run.pendingSteers ?? []), steeringMessage];
+    persistSubagentRun(run);
     return;
   }
-  await run.client.steer(message);
+  await run.client.steer(steeringMessage);
 }
