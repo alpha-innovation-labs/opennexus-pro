@@ -11,7 +11,7 @@ test("printExitMessage writes and clears the queued exit message", () => {
 	const printed = printExitMessage((text) => output.push(text));
 
 	assert.equal(printed, true);
-	assert.deepEqual(output, ["Session title: Current system title\n"]);
+	assert.deepEqual(output, ["\nSession title: Current system title\n"]);
 	assert.equal(getExitMessage(), undefined);
 });
 

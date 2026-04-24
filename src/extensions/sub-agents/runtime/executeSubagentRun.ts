@@ -27,8 +27,9 @@ export async function executeSubagentRun(
   run.contextProviderIds = providerIds;
 
   const contextBlock = await resolveContextProviders(ctx, providerIds, providers);
-  const instructionBlock = buildAgentInstructionBlock(options.subagentType);
-  const fullPrompt = buildSubagentPrompt([instructionBlock, contextBlock].filter(Boolean).join("\n\n---\n\n"), run.prompt);
+  const instructionBlock = buildAgentInstructionBlock(options.subagentType, options.mode);
+  const briefBlock = buildBriefBlock(options.brief);
+  const fullPrompt = buildSubagentPrompt([instructionBlock, briefBlock, contextBlock].filter(Boolean).join("\n\n---\n\n"), run.prompt);
 
   const client = createSubagentRpcClient(ctx, options.model);
   run.client = client;
@@ -67,4 +68,15 @@ export async function executeSubagentRun(
 
   sharedSubagentRuntime.emit();
   persistSubagentRun(run);
+}
+
+/**
+ * Builds a structured context brief block for subagent handoff.
+ *
+ * @param brief Optional context brief.
+ * @returns Serialized brief block or empty string.
+ */
+function buildBriefBlock(brief: string | undefined): string {
+  if (!brief?.trim()) return "";
+  return `# Context Brief\n\n${brief.trim()}`;
 }

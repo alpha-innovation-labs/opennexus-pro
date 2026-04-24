@@ -158,6 +158,7 @@ export type SubagentRun = {
   contextProviderIds: string[];
   parentSessionFile?: string;
   pendingSteers?: string[];
+  mode?: string;
 };
 
 /**
@@ -173,4 +174,6 @@ export type SpawnSubagentOptions = {
   inheritContext?: boolean;
   isolated?: boolean;
   contextProviders?: string[];
+  mode?: string;
+  brief?: string;
 };

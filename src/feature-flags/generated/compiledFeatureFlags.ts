@@ -141,6 +141,15 @@ export const compiledFeatureFlags = {
         "ctrl+; shortcut",
         "workspace top bar"
       ]
+    },
+    "workflows": {
+      "enabled": true,
+      "features": [
+        "/workflow command",
+        "workflow Librarian prompt",
+        "workflow Engineer prompt",
+        "continuous subagent steering instructions"
+      ]
     }
   }
 } satisfies FeatureFlagsConfig;

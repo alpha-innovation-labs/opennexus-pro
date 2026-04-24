@@ -1,7 +1,9 @@
+import { getWorkflowEngineerPrompt } from "../workflows/prompts/getWorkflowEngineerPrompt.js";
 import { getLibrarianPromptText } from "./agents/librarian.js";
 import type { AgentConfig } from "./types.js";
 
 const LIBRARIAN_AGENT_NAME = "Librarian";
+const ENGINEER_AGENT_NAME = "Engineer";
 const READ_ONLY_TOOL_NAMES = ["read", "bash", "grep", "find", "ls"];
 
 /**
@@ -24,6 +26,24 @@ export function createBundledAgents(): Map<string, AgentConfig> {
         promptMode: "replace",
         inheritContext: false,
         runInBackground: false,
+        isolated: false,
+        isDefault: true,
+        source: "builtin",
+      },
+    ],
+    [
+      ENGINEER_AGENT_NAME,
+      {
+        name: ENGINEER_AGENT_NAME,
+        displayName: ENGINEER_AGENT_NAME,
+        description: "Workflow implementation, e2e, QA, and merge-resolution engineer",
+        builtinToolNames: ["read", "bash", "edit", "write", "grep", "find", "ls"],
+        extensions: true,
+        skills: true,
+        systemPrompt: getWorkflowEngineerPrompt(),
+        promptMode: "replace",
+        inheritContext: false,
+        runInBackground: true,
         isolated: false,
         isDefault: true,
         source: "builtin",

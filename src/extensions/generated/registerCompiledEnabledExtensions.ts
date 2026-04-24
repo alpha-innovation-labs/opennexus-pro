@@ -16,6 +16,7 @@ import registerSubAgentsExtension from "../sub-agents/index.js";
 import registerSubagentStatusWidgetExtension from "../sub-agent-status-widget/registerSubagentStatusWidgetExtension.js";
 import registerTronExtension from "../tron/index.js";
 import { registerTermModalExtension } from "../term-modal/registerTermModalExtension.js";
+import { registerWorkflowsExtension } from "../workflows/registerWorkflowsExtension.js";
 
 /**
  * Extension ids compiled into the release bundle.
@@ -35,7 +36,8 @@ export const compiledBundledExtensionIds = [
   "sub-agents",
   "sub-agent-status-widget",
   "tron",
-  "term-modal"
+  "term-modal",
+  "workflows"
 ] as const;
 
 const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => void> = {
@@ -54,6 +56,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "sub-agent-status-widget": registerSubagentStatusWidgetExtension,
   "tron": registerTronExtension,
   "term-modal": registerTermModalExtension,
+  "workflows": registerWorkflowsExtension,
 };
 
 /**

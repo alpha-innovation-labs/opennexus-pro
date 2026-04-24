@@ -29,6 +29,8 @@ export function createAgentTool() {
       inherit_context: Type.Optional(Type.Boolean({ description: "Include parent context." })),
       isolated: Type.Optional(Type.Boolean({ description: "Disable child extensions." })),
       context_providers: Type.Optional(Type.Array(Type.String({ description: "Extra named context providers." }))),
+      mode: Type.Optional(Type.String({ description: "Optional mode accepted by the target subagent, such as implementation, e2e, qa, setup, or merge." })),
+      brief: Type.Optional(Type.String({ description: "Structured context brief or handoff content for the subagent." })),
     }),
     renderCall(args: unknown, theme: any) {
       const input = args as { subagent_type?: string; description?: string; run_in_background?: boolean };
@@ -57,6 +59,8 @@ export function createAgentTool() {
         inherit_context?: boolean;
         isolated?: boolean;
         context_providers?: string[];
+        mode?: string;
+        brief?: string;
       };
       const options: SpawnSubagentOptions = {
         description: input.description,
@@ -68,6 +72,8 @@ export function createAgentTool() {
         inheritContext: input.inherit_context,
         isolated: input.isolated,
         contextProviders: input.context_providers,
+        mode: input.mode,
+        brief: input.brief,
       };
       const run = await startSubagentRun(ctx, input.prompt, options, sharedSubagentContextRegistry.list());
       if (run.background) {

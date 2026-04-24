@@ -11,6 +11,6 @@ export function printExitMessage(write: (text: string) => unknown = (text) => pr
 	const exitMessage = getExitMessage();
 	clearExitMessage();
 	if (!exitMessage) return false;
-	write(`${exitMessage}\n`);
+	write(`\n${exitMessage}\n`);
 	return true;
 }

@@ -30,6 +30,7 @@ const extensionModules = {
   todo: { importPath: "../todo/registerTodoExtension.js", exportName: "registerTodoExtension" },
   tron: { importPath: "../tron/index.js", exportName: "default", localName: "registerTronExtension" },
   workspace: { importPath: "../workspace/registerWorkspaceExtension.js", exportName: "registerWorkspaceExtension" },
+  workflows: { importPath: "../workflows/registerWorkflowsExtension.js", exportName: "registerWorkflowsExtension" },
 };
 
 /**

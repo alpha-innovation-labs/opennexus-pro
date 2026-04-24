@@ -27,5 +27,6 @@ export function createSubagentRun(prompt: string, options: SpawnSubagentOptions,
     client: null,
     toolCalls: 0,
     contextProviderIds: options.contextProviders ?? [],
+    mode: options.mode,
   };
 }

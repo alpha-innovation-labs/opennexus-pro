@@ -17,6 +17,7 @@ import { registerTermModalExtension } from "../extensions/term-modal/registerTer
 import { registerTodoExtension } from "../extensions/todo/registerTodoExtension.js";
 import registerTronExtension from "../extensions/tron/index.js";
 import { registerWorkspaceExtension } from "../extensions/workspace/registerWorkspaceExtension.js";
+import { registerWorkflowsExtension } from "../extensions/workflows/registerWorkflowsExtension.js";
 
 /**
  * Creates the code-backed extension registration map.
@@ -43,5 +44,6 @@ export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) 
     todo: registerTodoExtension,
     tron: registerTronExtension,
     workspace: registerWorkspaceExtension,
+    workflows: registerWorkflowsExtension,
   };
 }
