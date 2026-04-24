@@ -4,8 +4,8 @@ import { getBundledFeatureFlagsConfig } from "../../feature-flags/getBundledFeat
 import { registerAnnotateExtension } from "../annotate/registerAnnotateExtension.js";
 import { registerCmuxExtension } from "../cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "../context-usage/registerContextUsageExtension.js";
-import { registerClipboardImagePasteExtension } from "../clipboard-image-paste/registerClipboardImagePasteExtension.js";
 import registerFffExtension from "../fff/index.js";
+import { registerRtkExtension } from "../rtk/registerRtkExtension.js";
 import { registerKanbanExtension } from "../kanban/registerKanbanExtension.js";
 import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension.js";
 import { registerObservationsExtension } from "../observations/registerObservationsExtension.js";
@@ -16,9 +16,6 @@ import registerSubAgentsExtension from "../sub-agents/index.js";
 import registerSubagentStatusWidgetExtension from "../sub-agent-status-widget/registerSubagentStatusWidgetExtension.js";
 import registerTronExtension from "../tron/index.js";
 import { registerTermModalExtension } from "../term-modal/registerTermModalExtension.js";
-import { registerTodoExtension } from "../todo/registerTodoExtension.js";
-import { registerPlaygroundExtension } from "../playground/registerPlaygroundExtension.js";
-import { registerWorkspaceExtension } from "../workspace/registerWorkspaceExtension.js";
 
 /**
  * Extension ids compiled into the release bundle.
@@ -27,8 +24,8 @@ export const compiledBundledExtensionIds = [
   "annotate",
   "cmux",
   "context-usage",
-  "clipboard-image-paste",
   "fff",
+  "rtk",
   "kanban",
   "neo-editor",
   "observations",
@@ -38,18 +35,15 @@ export const compiledBundledExtensionIds = [
   "sub-agents",
   "sub-agent-status-widget",
   "tron",
-  "term-modal",
-  "todo",
-  "playground",
-  "workspace"
+  "term-modal"
 ] as const;
 
 const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => void> = {
   "annotate": registerAnnotateExtension,
   "cmux": registerCmuxExtension,
   "context-usage": registerContextUsageExtension,
-  "clipboard-image-paste": registerClipboardImagePasteExtension,
   "fff": registerFffExtension,
+  "rtk": registerRtkExtension,
   "kanban": registerKanbanExtension,
   "neo-editor": registerNeoEditorExtension,
   "observations": registerObservationsExtension,
@@ -60,9 +54,6 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "sub-agent-status-widget": registerSubagentStatusWidgetExtension,
   "tron": registerTronExtension,
   "term-modal": registerTermModalExtension,
-  "todo": registerTodoExtension,
-  "playground": registerPlaygroundExtension,
-  "workspace": registerWorkspaceExtension,
 };
 
 /**

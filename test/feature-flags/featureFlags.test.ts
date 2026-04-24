@@ -44,6 +44,8 @@ test("source runtime feature flags come from the root json config", async () => 
   }
 
   assert.match(report, /FFF-backed read override/);
+  assert.match(report, /rtk rewrite for bash/);
+  assert.match(report, /rtk-native read\/find\/ls\/grep tools/);
   assert.match(report, /desktop notification on agent completion/);
   assert.match(report, /print session title on app exit/);
   assert.match(report, /show N logo on fresh startup/);

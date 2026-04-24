@@ -5,7 +5,7 @@
 
 ## What this area covers
 
-`src/extensions` holds bundled Nexus extensions plus the entrypoints that register them. This top level mixes 4 root files with 20 immediate component folders.
+`src/extensions` holds bundled Nexus extensions plus the entrypoints that register them. This top level mixes 4 root files with 21 immediate component folders.
 
 ## Root entry files
 
@@ -23,6 +23,7 @@
 - [`fff`](./extensions/fff.md) — files: `index.ts`, `registerFffExtension.ts`; subfolders: `editor/`, `features/`, `grep/`, `read/`, `runtime/`, `shared/`
 - [`generated`](./extensions/generated.md) — files: `registerCompiledEnabledExtensions.ts`
 - [`kanban`](./extensions/kanban.md) — files: `registerKanbanExtension.ts`; subfolders: `command/`, `data/`, `modal/`
+- [`rtk`](./extensions/rtk.md) — files: `registerRtkExtension.ts`; subfolders: `runtime/`, `tooling/`
 - [`neo-editor`](./extensions/neo-editor.md) — files: `config.json`, `editor-triggers.json`, `getNeoConfigPath.ts`, `primeStartupResumeModal.ts`, `readNeoConfig.ts`, `registerNeoEditorExtension.ts`, `types.ts`; subfolders: `editor-triggers/`, `git/`, `promptline/`, `transport/`, `ui/`
 - [`notify`](./extensions/notify.md) — files: `registerNotifyExtension.ts`; subfolders: `runtime/`
 - [`observations`](./extensions/observations.md) — files: `registerObservationsExtension.ts`; subfolders: `command/`, `shared/`, `status-widget/`, `summarizer/`, `tracker/`

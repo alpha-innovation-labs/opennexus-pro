@@ -26,18 +26,19 @@ export const compiledFeatureFlags = {
         "context_usage tool for current chat context window usage"
       ]
     },
-    "clipboard-image-paste": {
-      "enabled": true,
-      "features": [
-        "macOS ctrl+v image paste fallback for release builds"
-      ]
-    },
     "fff": {
       "enabled": true,
       "features": [
         "FFF-backed read override",
         "FFF-backed grep override",
         "FFF-powered @ file autocomplete"
+      ]
+    },
+    "rtk": {
+      "enabled": true,
+      "features": [
+        "rtk rewrite for bash",
+        "rtk-native read/find/ls/grep tools"
       ]
     },
     "kanban": {
@@ -54,7 +55,8 @@ export const compiledFeatureFlags = {
         "custom promptline",
         "usage meter",
         "@ file autocomplete",
-        "editor trigger submit"
+        "editor trigger submit",
+        "macOS ctrl+v image paste fallback"
       ]
     },
     "observations": {
@@ -119,21 +121,21 @@ export const compiledFeatureFlags = {
       ]
     },
     "todo": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "todo modal",
         "ctrl+\\ shortcut"
       ]
     },
     "playground": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "playground modal",
         "ctrl+i shortcut"
       ]
     },
     "workspace": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "session switcher",
         "ctrl+; shortcut",

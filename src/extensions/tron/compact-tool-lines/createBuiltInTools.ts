@@ -7,6 +7,8 @@ import {
 	createReadTool,
 	createWriteTool,
 } from "@mariozechner/pi-coding-agent";
+import { getRtkRuntimeForCwd } from "../../rtk/runtime/runtimeStore.js";
+import { createRtkBuiltInTools } from "../../rtk/tooling/createRtkBuiltInTools.js";
 import type { BuiltInTools } from "./types.ts";
 
 /**
@@ -16,6 +18,10 @@ import type { BuiltInTools } from "./types.ts";
  * @returns Built-in tool implementations.
  */
 export function createBuiltInTools(cwd: string): BuiltInTools {
+	if (getRtkRuntimeForCwd(cwd)) {
+		return createRtkBuiltInTools(cwd);
+	}
+
 	return {
 		read: createReadTool(cwd),
 		bash: createBashTool(cwd),

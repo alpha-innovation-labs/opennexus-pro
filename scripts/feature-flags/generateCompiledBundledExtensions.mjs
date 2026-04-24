@@ -6,10 +6,6 @@ const outputPath = resolve("src", "extensions", "generated", "registerCompiledEn
 
 const extensionModules = {
   annotate: { importPath: "../annotate/registerAnnotateExtension.js", exportName: "registerAnnotateExtension" },
-  "clipboard-image-paste": {
-    importPath: "../clipboard-image-paste/registerClipboardImagePasteExtension.js",
-    exportName: "registerClipboardImagePasteExtension",
-  },
   cmux: { importPath: "../cmux/registerCmuxExtension.js", exportName: "registerCmuxExtension" },
   "context-usage": {
     importPath: "../context-usage/registerContextUsageExtension.js",
@@ -29,6 +25,7 @@ const extensionModules = {
     localName: "registerSubagentStatusWidgetExtension",
   },
   playground: { importPath: "../playground/registerPlaygroundExtension.js", exportName: "registerPlaygroundExtension" },
+  rtk: { importPath: "../rtk/registerRtkExtension.js", exportName: "registerRtkExtension" },
   "term-modal": { importPath: "../term-modal/registerTermModalExtension.js", exportName: "registerTermModalExtension" },
   todo: { importPath: "../todo/registerTodoExtension.js", exportName: "registerTodoExtension" },
   tron: { importPath: "../tron/index.js", exportName: "default", localName: "registerTronExtension" },

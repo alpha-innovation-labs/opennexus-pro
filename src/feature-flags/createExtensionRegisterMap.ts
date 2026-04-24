@@ -1,15 +1,15 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { registerAnnotateExtension } from "../extensions/annotate/registerAnnotateExtension.js";
-import { registerClipboardImagePasteExtension } from "../extensions/clipboard-image-paste/registerClipboardImagePasteExtension.js";
 import { registerCmuxExtension } from "../extensions/cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "../extensions/context-usage/registerContextUsageExtension.js";
 import { registerExitMessageExtension } from "../extensions/exit-message/registerExitMessageExtension.js";
 import registerFffExtension from "../extensions/fff/index.js";
-import registerNeoEditorExtension from "../extensions/neo-editor/registerNeoEditorExtension.js";
 import { registerKanbanExtension } from "../extensions/kanban/registerKanbanExtension.js";
+import registerNeoEditorExtension from "../extensions/neo-editor/registerNeoEditorExtension.js";
 import { registerNotifyExtension } from "../extensions/notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "../extensions/observations/registerObservationsExtension.js";
 import { registerPlaygroundExtension } from "../extensions/playground/registerPlaygroundExtension.js";
+import { registerRtkExtension } from "../extensions/rtk/registerRtkExtension.js";
 import { registerStartupLogoExtension } from "../extensions/startup-logo/registerStartupLogoExtension.js";
 import registerSubAgentsExtension from "../extensions/sub-agents/index.js";
 import registerSubagentStatusWidgetExtension from "../extensions/sub-agent-status-widget/registerSubagentStatusWidgetExtension.js";
@@ -26,10 +26,10 @@ import { registerWorkspaceExtension } from "../extensions/workspace/registerWork
 export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) => void> {
   return {
     annotate: registerAnnotateExtension,
-    "clipboard-image-paste": registerClipboardImagePasteExtension,
     cmux: registerCmuxExtension,
     "context-usage": registerContextUsageExtension,
     fff: registerFffExtension,
+    rtk: registerRtkExtension,
     kanban: registerKanbanExtension,
     "neo-editor": registerNeoEditorExtension,
     notify: registerNotifyExtension,
