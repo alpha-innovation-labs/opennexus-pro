@@ -2,7 +2,7 @@
 language: ts
 ---
 
-Provides RPC-backed child-agent spawning, result lookup, steering, transcript history, and `.nexus`-backed custom agent/skill/memory discovery for Nexus.
+Provides RPC-backed child-agent spawning, result lookup, steering, transcript history, a bundled Librarian prompt provider, and `.nexus`-backed custom agent/skill/memory discovery for Nexus.
 
 ## Features
 - [[features/tooling/agent-tool|agent-tool]]: Spawns child runs, seeds prompt context, and returns either a background id or the foreground result.
@@ -16,7 +16,9 @@ src/
   extensions/
     sub-agents/
       index.ts
-      default-agents.ts
+      createBundledAgents.ts
+      agents/
+        librarian.ts
       tooling/
         createAgentTool.ts
         createGetSubagentResultTool.ts

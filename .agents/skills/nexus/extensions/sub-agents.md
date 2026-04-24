@@ -5,7 +5,7 @@
 
 ## What this area covers
 
-`src/extensions/sub-agents` contains the bundled `sub-agents` extension. In `feature-flags.json` it is currently marked `enabled`. At the root it has 18 files plus 6 nested folders.
+`src/extensions/sub-agents` contains the bundled `sub-agents` extension. In `feature-flags.json` it is currently marked `enabled`. At the root it has 18 files plus 7 nested folders.
 
 ## Feature-flag summary
 
@@ -23,8 +23,8 @@
 - `src/extensions/sub-agents/agent-types.ts`
 - `src/extensions/sub-agents/context.ts`
 - `src/extensions/sub-agents/cross-extension-rpc.ts`
+- `src/extensions/sub-agents/createBundledAgents.ts`
 - `src/extensions/sub-agents/custom-agents.ts`
-- `src/extensions/sub-agents/default-agents.ts`
 - `src/extensions/sub-agents/env.ts`
 - `src/extensions/sub-agents/group-join.ts`
 - `src/extensions/sub-agents/invocation-config.ts`
@@ -38,6 +38,7 @@
 
 ## Immediate subareas
 
+- `src/extensions/sub-agents/agents/`
 - `src/extensions/sub-agents/context-providers/`
 - `src/extensions/sub-agents/rpc/`
 - `src/extensions/sub-agents/rpc-entry/`

@@ -1,8 +1,8 @@
 /**
  * agent-types.ts — Unified agent type registry.
  *
- * Merges embedded default agents with user-defined agents from .nexus/agents/*.md.
- * User agents override defaults with the same name. Disabled agents are kept but excluded from spawning.
+ * Merges the bundled Librarian agent with user-defined agents from .nexus/agents/*.md.
+ * User agents override bundled agents with the same name. Disabled agents are kept but excluded from spawning.
  */
 
 import type { AgentTool } from "@mariozechner/pi-agent-core";
@@ -15,7 +15,7 @@ import {
   createReadTool,
   createWriteTool,
 } from "@mariozechner/pi-coding-agent";
-import { DEFAULT_AGENTS } from "./default-agents.js";
+import { createBundledAgents } from "./createBundledAgents.js";
 import type { AgentConfig } from "./types.js";
 
 type ToolFactory = (cwd: string) => AgentTool<any>;
@@ -33,23 +33,24 @@ const TOOL_FACTORIES: Record<string, ToolFactory> = {
 /** All known built-in tool names, derived from the factory registry. */
 export const BUILTIN_TOOL_NAMES = Object.keys(TOOL_FACTORIES);
 
-/** Unified runtime registry of all agents (defaults + user-defined). */
-const agents = new Map<string, AgentConfig>();
+const LIBRARIAN_AGENT_NAME = "Librarian";
+const BUILTIN_AGENTS = createBundledAgents();
+
+/** Unified runtime registry of all agents (bundled + user-defined). */
+const agents = new Map<string, AgentConfig>(BUILTIN_AGENTS);
 
 /**
  * Register agents into the unified registry.
- * Starts with DEFAULT_AGENTS, then overlays user agents (overrides defaults with same name).
+ * Starts with bundled agents, then overlays user agents (overrides bundled agents with same name).
  * Disabled agents (enabled === false) are kept in the registry but excluded from spawning.
  */
 export function registerAgents(userAgents: Map<string, AgentConfig>): void {
   agents.clear();
 
-  // Start with defaults
-  for (const [name, config] of DEFAULT_AGENTS) {
+  for (const [name, config] of BUILTIN_AGENTS) {
     agents.set(name, config);
   }
 
-  // Overlay user agents (overrides defaults with same name)
   for (const [name, config] of userAgents) {
     agents.set(name, config);
   }
@@ -73,7 +74,9 @@ export function resolveType(name: string): string | undefined {
 /** Get the agent config for a type (case-insensitive). */
 export function getAgentConfig(name: string): AgentConfig | undefined {
   const key = resolveKey(name);
-  return key ? agents.get(key) : undefined;
+  const config = key ? agents.get(key) : undefined;
+  if (config && config.enabled !== false) return config;
+  return BUILTIN_AGENTS.get(LIBRARIAN_AGENT_NAME);
 }
 
 /** Get all enabled type names (for spawning and tool descriptions). */
@@ -118,8 +121,8 @@ const MEMORY_TOOL_NAMES = ["read", "write", "edit"];
  */
 export function getMemoryTools(cwd: string, existingToolNames: Set<string>): AgentTool<any>[] {
   return MEMORY_TOOL_NAMES
-    .filter(n => !existingToolNames.has(n) && n in TOOL_FACTORIES)
-    .map(n => TOOL_FACTORIES[n](cwd));
+    .filter((n) => !existingToolNames.has(n) && n in TOOL_FACTORIES)
+    .map((n) => TOOL_FACTORIES[n](cwd));
 }
 
 /** Tool names needed for read-only memory access. */
@@ -131,20 +134,18 @@ const READONLY_MEMORY_TOOL_NAMES = ["read"];
  */
 export function getReadOnlyMemoryTools(cwd: string, existingToolNames: Set<string>): AgentTool<any>[] {
   return READONLY_MEMORY_TOOL_NAMES
-    .filter(n => !existingToolNames.has(n) && n in TOOL_FACTORIES)
-    .map(n => TOOL_FACTORIES[n](cwd));
+    .filter((n) => !existingToolNames.has(n) && n in TOOL_FACTORIES)
+    .map((n) => TOOL_FACTORIES[n](cwd));
 }
 
 /** Get built-in tools for a type (case-insensitive). */
 export function getToolsForType(type: string, cwd: string): AgentTool<any>[] {
-  const key = resolveKey(type);
-  const raw = key ? agents.get(key) : undefined;
-  const config = raw?.enabled !== false ? raw : undefined;
-  const toolNames = config?.builtinToolNames?.length ? config.builtinToolNames : BUILTIN_TOOL_NAMES;
+  const config = getConfig(type);
+  const toolNames = config.builtinToolNames?.length ? config.builtinToolNames : BUILTIN_TOOL_NAMES;
   return toolNames.filter((n) => n in TOOL_FACTORIES).map((n) => TOOL_FACTORIES[n](cwd));
 }
 
-/** Get config for a type (case-insensitive, returns a SubagentTypeConfig-compatible object). Falls back to general-purpose. */
+/** Get config for a type (case-insensitive, returns a SubagentTypeConfig-compatible object). Falls back to Librarian. */
 export function getConfig(type: string): {
   displayName: string;
   description: string;
@@ -166,27 +167,24 @@ export function getConfig(type: string): {
     };
   }
 
-  // Fallback for unknown/disabled types — general-purpose config
-  const gp = agents.get("general-purpose");
-  if (gp && gp.enabled !== false) {
+  const librarian = BUILTIN_AGENTS.get(LIBRARIAN_AGENT_NAME);
+  if (librarian) {
     return {
-      displayName: gp.displayName ?? gp.name,
-      description: gp.description,
-      builtinToolNames: gp.builtinToolNames ?? BUILTIN_TOOL_NAMES,
-      extensions: gp.extensions,
-      skills: gp.skills,
-      promptMode: gp.promptMode,
+      displayName: librarian.displayName ?? librarian.name,
+      description: librarian.description,
+      builtinToolNames: librarian.builtinToolNames ?? BUILTIN_TOOL_NAMES,
+      extensions: librarian.extensions,
+      skills: librarian.skills,
+      promptMode: librarian.promptMode,
     };
   }
 
-  // Absolute fallback (should never happen)
   return {
-    displayName: "Agent",
-    description: "General-purpose agent for complex, multi-step tasks",
-    builtinToolNames: BUILTIN_TOOL_NAMES,
+    displayName: LIBRARIAN_AGENT_NAME,
+    description: "Read-only codebase librarian for source-backed lookup and summaries",
+    builtinToolNames: READ_ONLY_TOOL_NAMES,
     extensions: true,
     skills: true,
-    promptMode: "append",
+    promptMode: "replace",
   };
 }
-

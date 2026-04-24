@@ -80,6 +80,6 @@ ${envBlock}`;
 
 /** Fallback base prompt when parent system prompt is unavailable in append mode. */
 const genericBase = `# Role
-You are a general-purpose coding agent for complex, multi-step tasks.
-You have full access to read, write, edit files, and execute commands.
+You are a Nexus sub-agent for complex, multi-step tasks.
+Use the tools available to you responsibly and focus on the requested work.
 Do what has been asked; nothing more, nothing less.`;

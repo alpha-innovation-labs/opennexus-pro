@@ -17,7 +17,6 @@
 ## Component map
 
 - [`annotate`](./extensions/annotate.md) — files: `SOURCE.md`, `constants.ts`, `registerAnnotateExtension.ts`, `types.ts`; subfolders: `command/`, `format/`, `guards/`, `host/`, `runtime/`, `tool/`
-- [`clipboard-image-paste`](./extensions/clipboard-image-paste.md) — files: `registerClipboardImagePasteExtension.ts`
 - [`cmux`](./extensions/cmux.md) — files: `notifyCmuxPaneCompletion.ts`, `registerCmuxExtension.ts`, `syncCmuxPaneTitle.ts`; subfolders: `runtime/`, `state/`
 - [`context-usage`](./extensions/context-usage.md) — files: `formatContextUsage.ts`, `registerContextUsageExtension.ts`
 - [`exit-message`](./extensions/exit-message.md) — files: `formatExitMessage.ts`, `registerExitMessageExtension.ts`, `updateExitMessageFromSessionTitle.ts`; subfolders: `state/`
@@ -31,7 +30,7 @@
 - [`shared`](./extensions/shared.md) — subfolders: `observability/`, `slash-menu/`, `two-pane-select-modal/`
 - [`startup-logo`](./extensions/startup-logo.md) — files: `buildStartupLogoLines.ts`, `clearStartupLogo.ts`, `hasResumeCliFlag.ts`, `registerStartupLogoExtension.ts`, `shouldShowStartupLogo.ts`, `showStartupLogo.ts`, `startupLogoWidgetKey.ts`
 - [`sub-agent-status-widget`](./extensions/sub-agent-status-widget.md) — files: `registerSubagentStatusWidgetExtension.ts`; subfolders: `runtime/`, `ui/`
-- [`sub-agents`](./extensions/sub-agents.md) — files: `agent-manager.ts`, `agent-runner.ts`, `agent-types.ts`, `context.ts`, `cross-extension-rpc.ts`, `custom-agents.ts`, `default-agents.ts`, `env.ts`, `group-join.ts`, `index.ts`, `invocation-config.ts`, `memory.ts`, `model-resolver.ts`, `output-file.ts`, `prompts.ts`, `skill-loader.ts`, `types.ts`, `worktree.ts`; subfolders: `context-providers/`, `rpc/`, `rpc-entry/`, `runtime/`, `tooling/`, `ui/`
+- [`sub-agents`](./extensions/sub-agents.md) — files: `agent-manager.ts`, `agent-runner.ts`, `agent-types.ts`, `context.ts`, `createBundledAgents.ts`, `cross-extension-rpc.ts`, `custom-agents.ts`, `env.ts`, `group-join.ts`, `index.ts`, `invocation-config.ts`, `memory.ts`, `model-resolver.ts`, `output-file.ts`, `prompts.ts`, `skill-loader.ts`, `types.ts`, `worktree.ts`; subfolders: `agents/`, `context-providers/`, `rpc/`, `rpc-entry/`, `runtime/`, `tooling/`, `ui/`
 - [`term-modal`](./extensions/term-modal.md) — files: `registerTermModalExtension.ts`, `types.ts`; subfolders: `ansi/`, `buffer/`, `keybindings/`, `pty/`, `runtime/`, `scripts/`, `ui/`
 - [`todo`](./extensions/todo.md) — files: `README.md`, `registerTodoExtension.ts`; subfolders: `model/`, `runtime/`, `storage/`, `ui/`
 - [`tron`](./extensions/tron.md) — files: `index.ts`; subfolders: `activity/`, `collapse/`, `colors/`, `compact-tool-lines/`, `duration/`, `shared/`, `thinking/`, `toolcalls/`, `user-message/`

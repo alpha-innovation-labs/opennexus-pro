@@ -218,8 +218,8 @@ export async function runAgent(
   if (agentConfig) {
     systemPrompt = buildAgentPrompt(agentConfig, effectiveCwd, env, parentSystemPrompt, extras);
   } else {
-    // Unknown type fallback: general-purpose (defensive — unreachable in practice
-    // since index.ts resolves unknown types to "general-purpose" before calling runAgent)
+    // Unknown type fallback: Librarian (defensive — unreachable in practice
+    // since the registry now resolves bundled and custom agent names before calling runAgent)
     systemPrompt = buildAgentPrompt({
       name: type,
       description: "General-purpose agent",
