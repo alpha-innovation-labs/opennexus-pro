@@ -9,6 +9,7 @@ import { applyStartupChangelogSilencePatch } from "../pi-internals/applyStartupC
 import { applyToolExecutionSpacingPatch } from "../pi-internals/applyToolExecutionSpacingPatch.js";
 import { applyToolGroupCollapsePatch } from "../pi-internals/applyToolGroupCollapsePatch.js";
 import { applyCompactModeImagePatch } from "../pi-internals/applyCompactModeImagePatch.js";
+import { applyInlineImageOverlayPatch } from "../pi-internals/inline-image-overlays/applyInlineImageOverlayPatch.js";
 import { applyNexusConfigPatch } from "./config/applyNexusConfigPatch.js";
 import { ensureEmbeddedPackageDirEnv } from "./package/embedded-assets/ensureEmbeddedPackageDirEnv.js";
 import { ensureAgentDirEnv } from "./config/ensureAgentDirEnv.js";
@@ -71,6 +72,10 @@ export async function runAppWithExtensionFactories(
   phaseStartedAt = performance.now();
   applyCompactModeImagePatch();
   logRunAppPhase("applyCompactModeImagePatch:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
+  applyInlineImageOverlayPatch();
+  logRunAppPhase("applyInlineImageOverlayPatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   const args = createAppArgs(rawArgs);
