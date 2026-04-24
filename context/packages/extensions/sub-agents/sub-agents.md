@@ -7,7 +7,7 @@ Provides RPC-backed child-agent spawning, result lookup, steering, transcript hi
 ## Features
 - [[features/tooling/agent-tool|agent-tool]]: Spawns child runs, seeds prompt context, and returns either a background id or the foreground result.
 - [[features/tooling/get-subagent-result-tool|get-subagent-result-tool]]: Reads current or persisted run state and can wait for queued work to finish.
-- [[features/tooling/steer-subagent-tool|steer-subagent-tool]]: Queues or forwards steering messages and records them in the child transcript as user entries.
+- [[features/tooling/steer-subagent-tool|steer-subagent-tool]]: Queues or forwards steering messages, re-prompts completed runs, and records them in the child transcript as user entries.
 - [[features/ui/register-subagent-commands|register-subagent-commands]]: Registers the `/agents` history surface for browsing past runs and transcripts from the current parent scope only.
 
 ## File Structure

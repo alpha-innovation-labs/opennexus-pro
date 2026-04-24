@@ -3,7 +3,9 @@ import { persistSubagentRun } from "./persistSubagentRun.js";
 import { getSubagentRun } from "./getSubagentRun.js";
 
 /**
- * Sends a steering message to one running child subagent.
+ * Sends one steering message to a child subagent.
+ *
+ * Active runs receive a steer; idle or completed runs receive a fresh prompt so the same conversation continues.
  *
  * @param runId Run identifier.
  * @param message Steering message.
@@ -25,5 +27,11 @@ export async function steerSubagentRun(runId: string, message: string): Promise<
     persistSubagentRun(run);
     return;
   }
-  await run.client.steer(steeringMessage);
+
+  if (run.status === "running") {
+    await run.client.steer(steeringMessage);
+    return;
+  }
+
+  await run.client.prompt(steeringMessage);
 }

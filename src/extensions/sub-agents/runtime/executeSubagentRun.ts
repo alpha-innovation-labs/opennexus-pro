@@ -46,13 +46,6 @@ export async function executeSubagentRun(
 
   await client.setSessionName(run.title);
 
-  if (run.pendingSteers?.length) {
-    for (const message of run.pendingSteers) {
-      await client.steer(message);
-    }
-    run.pendingSteers = [];
-  }
-
   client.onEvent((event) => {
     applySubagentEvent(run, event);
     sharedSubagentRuntime.emit();
@@ -60,6 +53,14 @@ export async function executeSubagentRun(
   });
 
   await client.prompt(fullPrompt);
+
+  if (run.pendingSteers?.length) {
+    for (const message of run.pendingSteers) {
+      await client.steer(message);
+    }
+    run.pendingSteers = [];
+  }
+
   if (!run.background) {
     await client.waitForIdle(300000);
   }

@@ -1,4 +1,4 @@
-Sends one steering message to a running child run or queues it until the child client exists, and records that steering message in the same subagent transcript as a user entry.
+Sends one steering message to a running child run or queues it until the child client exists; if the run is already idle or completed, it sends a fresh prompt in the same session. The message is recorded in the same subagent transcript as a user entry.
 
 ## Usage
 
@@ -17,7 +17,7 @@ await tool.execute("call-3", {
 ```ts
 type SteerSubagentToolInput = {
   agent_id: string; // Run id from the Agent tool response.
-  message: string; // Steering text forwarded to the child client or stored in pendingSteers.
+  message: string; // Steering text forwarded to the child client, stored in pendingSteers, or re-prompted into an idle session.
 };
 ```
 
@@ -42,5 +42,5 @@ type SteerSubagentToolError = { type: "UnknownSubagentIdError"; message: string 
 
 | Name | Description |
 | --- | --- |
-| steerSubagentRun | Appends the steering message to the subagent transcript, queues it before launch, and forwards it once the child client is active. |
+| steerSubagentRun | Appends the steering message to the subagent transcript, queues it before launch, forwards it once the child client is active, and re-prompts completed runs instead of timing out. |
 | steer_subagent_unknown_id | Rejects steering for runs that cannot be resolved from memory or disk. |
