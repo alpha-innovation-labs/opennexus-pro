@@ -1,5 +1,6 @@
 import { Text } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
+import { getConfig } from "../agent-types.js";
 import { sharedSubagentContextRegistry } from "../ui/sharedSubagentContextRegistry.js";
 import { formatSubagentResult } from "../runtime/formatSubagentResult.js";
 import { startSubagentRun } from "../runtime/startSubagentRun.js";
@@ -16,6 +17,7 @@ export function createAgentTool() {
     label: "Agent",
     description: "Launch a new agent to handle complex, multi-step tasks autonomously.",
     renderShell: "self",
+    skipLeadingSpacer: true,
     parameters: Type.Object({
       prompt: Type.String({ description: "The task for the agent to perform." }),
       description: Type.String({ description: "A short description of the task." }),
@@ -28,11 +30,20 @@ export function createAgentTool() {
       isolated: Type.Optional(Type.Boolean({ description: "Disable child extensions." })),
       context_providers: Type.Optional(Type.Array(Type.String({ description: "Extra named context providers." }))),
     }),
-    renderCall() {
-      return new Text("", 0, 0);
+    renderCall(args: unknown, theme: any) {
+      const input = args as { subagent_type?: string; description?: string; run_in_background?: boolean };
+      const displayName = getConfig(input.subagent_type ?? "Librarian").displayName;
+      const asyncLabel = input.run_in_background ? theme.fg("warning", " [async]") : "";
+      const description = input.description ? `  ${theme.fg("muted", input.description)}` : "";
+      return new Text(`▸ ${theme.fg("toolTitle", theme.bold(displayName))}${asyncLabel}${description}`, 0, 0);
     },
-    renderResult() {
-      return new Text("", 0, 0);
+    renderResult(result: any, _state: any, theme: any) {
+      const text = result?.content?.find?.((part: any) => part?.type === "text")?.text ?? "";
+      if (!text.trim()) return new Text("", 0, 0);
+      if (text.startsWith("Started background subagent ")) {
+        return new Text(theme.fg("dim", `  ⎿  ${text}`), 0, 0);
+      }
+      return new Text(text, 0, 0);
     },
     async execute(_toolCallId: string, params: unknown, _signal: AbortSignal | undefined, _onUpdate: unknown, ctx: any) {
       const input = params as {
