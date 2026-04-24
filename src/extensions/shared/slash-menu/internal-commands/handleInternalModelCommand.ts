@@ -1,3 +1,5 @@
+import { SettingsManager } from "../../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js";
+import { ensureEnabledModelIncludesSelection } from "../model/ensureEnabledModelIncludesSelection.js";
 import type { InternalSlashHandler } from "./types.js";
 
 /**
@@ -25,5 +27,8 @@ export const handleInternalModelCommand: InternalSlashHandler = async (args, ctx
     ctx.ui.notify(`No configured auth for ${reference}`, "error");
     return;
   }
+  const settings = SettingsManager.create(ctx.cwd);
+  const nextEnabledModels = ensureEnabledModelIncludesSelection(settings.getEnabledModels(), reference);
+  if (nextEnabledModels) settings.setEnabledModels(nextEnabledModels);
   ctx.ui.notify(`Model: ${model.id}`, "info");
 };

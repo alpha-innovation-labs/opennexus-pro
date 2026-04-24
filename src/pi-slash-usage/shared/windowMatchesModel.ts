@@ -11,5 +11,11 @@ export function windowMatchesModel(label: string, modelId: string | undefined): 
 	const ignoredTokens = new Set(["mini", "max", "google", "antigravity", "openai", "anthropic", "github", "copilot", "codex", "zai", "kiro", "aws"]);
 	const modelTokens = collectTokens(modelId).filter((token) => !ignoredTokens.has(token));
 	const labelTokens = collectTokens(label);
-	return modelTokens.length > 0 && modelTokens.every((token) => labelTokens.includes(token));
+	const remainingLabelTokens = [...labelTokens];
+	return modelTokens.length > 0 && modelTokens.every((token) => {
+		const index = remainingLabelTokens.indexOf(token);
+		if (index === -1) return false;
+		remainingLabelTokens.splice(index, 1);
+		return true;
+	});
 }
