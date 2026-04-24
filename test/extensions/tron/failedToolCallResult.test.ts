@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { resetThinkingToolBridge } from "../../../src/extensions/tron/activity/resetThinkingToolBridge.js";
+import { syncToolCallFrameState } from "../../../src/extensions/tron/activity/syncToolCallFrameState.js";
 import { FailedToolCallResult } from "../../../src/extensions/tron/compact-tool-lines/FailedToolCallResult.js";
 
 const theme = {
@@ -11,9 +13,28 @@ const theme = {
   },
 };
 
+test.afterEach(() => {
+  resetThinkingToolBridge();
+});
+
 test("failed tool call result applies error styling only to the error text", () => {
-  const lines = new FailedToolCallResult("read", "Permission denied", theme).render(40);
+  const lines = new FailedToolCallResult("tool-1", "read", "Permission denied", theme).render(40);
+
+  assert.equal(lines.length, 3);
+  assert.match(lines[0], /^\[borderMuted\]┌/);
+  assert.match(lines[1], /^\[borderMuted\]│\[\/borderMuted\].*\[text\]\[bold\]read\[\/bold\]\[\/text\] \[error\]Permission denied\[\/error\] *\[borderMuted\]│\[\/borderMuted\]$/);
+  assert.match(lines[2], /^\[borderMuted\]└/);
+});
+
+test("failed tool call result omits borders for synced middle tools", () => {
+  syncToolCallFrameState([
+    { type: "thinking", thinking: "Plan" },
+    { type: "toolCall", id: "tool-1", name: "read" },
+    { type: "toolCall", id: "tool-2", name: "grep" },
+  ]);
+
+  const lines = new FailedToolCallResult("tool-1", "read", "Permission denied", theme).render(40);
 
   assert.equal(lines.length, 1);
-  assert.match(lines[0], /^\[borderMuted\]│\[\/borderMuted\].*\[text\]\[bold\]read\[\/bold\]\[\/text\] \[error\]Permission denied\[\/error\] *\[borderMuted\]│\[\/borderMuted\]$/);
+  assert.match(lines[0], /^\[borderMuted\]│/);
 });

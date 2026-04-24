@@ -3,6 +3,9 @@ import { Markdown, Spacer, Text } from "@mariozechner/pi-tui";
 import { setAssistantMessageUpdateHook } from "../../../pi-internals/assistantMessageHook.js";
 import { theme } from "../../../pi-internals/theme.js";
 import { recordTronRenderTiming } from "../profiling/recordTronRenderTiming.js";
+import { bridgeThinkingToToolCalls } from "../activity/bridgeThinkingToToolCalls.ts";
+import { getImmediateFollowingToolCallGroup } from "../activity/getImmediateFollowingToolCallGroup.ts";
+import { syncToolCallFrameState } from "../activity/syncToolCallFrameState.ts";
 import { setCompactModeThinkingExpanded } from "../collapse/thinkingVisibility.ts";
 import { getAssistantMessageTiming } from "./assistantMessageTimingState.ts";
 import { createAssistantMetaText } from "./createAssistantMetaText.ts";
@@ -30,6 +33,7 @@ export function installAssistantThinkingStyle(): void {
     const startedAt = performance.now();
     component.lastMessage = message;
     component.contentContainer.clear();
+    syncToolCallFrameState(message.content ?? []);
     const markdownTheme = component.markdownTheme ?? getMarkdownTheme();
     const hasVisibleContent = message.content.some((content: any) => (content.type === "text" && content.text.trim()) || (content.type === "thinking" && content.thinking.trim()));
     const hasVisibleToolCalls = message.content.some((content: any) => isVisibleToolCall(content));
@@ -46,8 +50,13 @@ export function installAssistantThinkingStyle(): void {
       }
       if (content.type === "thinking" && content.thinking.trim()) {
         const hasVisibleContentAfter = message.content.slice(index + 1).some((next: any) => (next.type === "text" && next.text.trim()) || (next.type === "thinking" && next.thinking.trim()));
+        const toolGroup = getImmediateFollowingToolCallGroup(message.content ?? [], index);
+        const connectToTools = toolGroup.toolCallIds.length > 0;
+        const previousVisibleContent = message.content.slice(0, index).findLast((previous: any) => isVisibleToolCall(previous) || (previous.type === "text" && previous.text?.trim()) || (previous.type === "thinking" && previous.thinking?.trim()));
+        const connectFromTool = isVisibleToolCall(previousVisibleContent);
+        if (connectToTools) bridgeThinkingToToolCalls(toolGroup.toolCallIds, !toolGroup.followedByThinking);
         if (component.hideThinkingBlock) {
-          component.contentContainer.addChild(new ThinkingLabelBlock(getThinkingPreview(content.thinking.trim()), false));
+          component.contentContainer.addChild(new ThinkingLabelBlock(getThinkingPreview(content.thinking.trim()), connectToTools, connectFromTool));
         } else {
           component.contentContainer.addChild(new Markdown(content.thinking.trim(), 1, 0, markdownTheme, {
             color: (value) => theme.fg("toolOutput", value),

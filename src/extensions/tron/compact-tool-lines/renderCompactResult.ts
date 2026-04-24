@@ -14,6 +14,5 @@ import { getResultText } from "./getResultText.ts";
 export function renderCompactResult(toolCallId: string, result: any, expanded: boolean, theme: any): CompactToolResult | Text {
 	const text = getResultText(result);
 	if (!text) return new Text("", 0, 0);
-	void toolCallId;
-	return new CompactToolResult(result, expanded, theme);
+	return new CompactToolResult(toolCallId, result, expanded, theme);
 }

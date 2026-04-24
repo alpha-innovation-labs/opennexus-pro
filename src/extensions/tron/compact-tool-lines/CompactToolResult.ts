@@ -1,4 +1,6 @@
 import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
+import { hasToolCallFrameState } from "../activity/hasToolCallFrameState.ts";
+import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder.ts";
 import { measureTronRender } from "../profiling/measureTronRender.js";
 import { getResultText } from "./getResultText.ts";
 
@@ -7,6 +9,7 @@ import { getResultText } from "./getResultText.ts";
  */
 export class CompactToolResult {
 	constructor(
+		private readonly toolCallId: string,
 		private readonly result: any,
 		private readonly expanded: boolean,
 		private readonly theme: any,
@@ -30,7 +33,10 @@ export class CompactToolResult {
 				const pad = " ".repeat(Math.max(0, innerWidth - visibleWidth(truncated)));
 				return `${this.theme.fg("borderMuted", "│")}${this.theme.fg("toolOutput", truncated)}${pad}${this.theme.fg("borderMuted", "│")}`;
 			});
-			lines.push(this.theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
+			const hasFrameState = hasToolCallFrameState(this.toolCallId);
+			if (hasFrameState ? shouldShowToolCallBottomBorder(this.toolCallId) : true) {
+				lines.push(this.theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
+			}
 			return lines;
 		}, { width, expanded: this.expanded });
 	}

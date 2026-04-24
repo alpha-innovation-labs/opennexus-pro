@@ -40,16 +40,16 @@ export class ThinkingLabelBlock extends Container {
       //   : `┌${"─".repeat(innerWidth)}┐`;
       const previousToolBorder = `└${"─".repeat(innerWidth)}┘`;
       const topBorder = `┌${"─".repeat(innerWidth)}┐`;
-      // const bottomBorder = this.connectToTools
-      //   ? `├${"─".repeat(innerWidth)}┤`
-      //   : `└${"─".repeat(innerWidth)}┘`;
-      const bottomBorder = `├${"─".repeat(innerWidth)}┤`;
-      return [
-        theme.fg("borderMuted", previousToolBorder),
+      const bottomBorder = this.connectToTools
+        ? `├${"─".repeat(innerWidth)}┤`
+        : `└${"─".repeat(innerWidth)}┘`;
+      const lines = [
         theme.fg("borderMuted", topBorder),
         `${theme.fg("borderMuted", "│")}${prefixStyled} ${theme.italic(theme.fg("toolOutput", body))}${pad}${theme.fg("borderMuted", "│")}`,
         theme.fg("borderMuted", bottomBorder),
       ];
+      if (this.connectFromTool) lines.unshift(theme.fg("borderMuted", previousToolBorder));
+      return lines;
     }, { width, labelLength: this.label.length });
     this.cachedWidth = width;
     this.cachedLines = lines;

@@ -41,7 +41,7 @@ export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof Bui
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
 			if (context.isError) {
 				(context.state as any).hasVisibleResult = false;
-				return new FailedToolCallResult(toolName, getToolErrorText(result), theme);
+				return new FailedToolCallResult(context.toolCallId, toolName, getToolErrorText(result), theme);
 			}
 			(context.state as any).hasVisibleResult = Boolean(state.expanded && Array.isArray(result?.content) && result.content.length > 0);
 			if (!state.expanded) return new Container();

@@ -1,4 +1,7 @@
 import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
+import { hasToolCallFrameState } from "../activity/hasToolCallFrameState.ts";
+import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder.ts";
+import { shouldShowToolCallTopBorder } from "../activity/shouldShowToolCallTopBorder.ts";
 import { colorToolCallIcon } from "../colors/colorToolCallIcon.ts";
 import { measureTronRender } from "../profiling/measureTronRender.js";
 import { iconForToolName } from "./iconForToolName.ts";
@@ -8,6 +11,7 @@ import { iconForToolName } from "./iconForToolName.ts";
  */
 export class FailedToolCallResult {
 	constructor(
+		private readonly toolCallId: string,
 		private readonly toolName: string,
 		private readonly errorText: string,
 		private readonly theme: any,
@@ -29,9 +33,16 @@ export class FailedToolCallResult {
 			const shownError = maxErrorWidth > 0 ? truncateToWidth(cleanError, maxErrorWidth, "…") : "";
 			const contentWidth = visibleWidth(prefix) + (shownError ? 1 + visibleWidth(shownError) : 0);
 			const pad = " ".repeat(Math.max(0, innerWidth - contentWidth));
-			return [
-				`${this.theme.fg("borderMuted", "│")}${colorToolCallIcon(icon)} ${this.theme.fg("text", this.theme.bold(this.toolName))}${shownError ? ` ${this.theme.fg("error", shownError)}` : ""}${pad}${this.theme.fg("borderMuted", "│")}`,
-			];
+			const hasFrameState = hasToolCallFrameState(this.toolCallId);
+			const lines: string[] = [];
+			if (hasFrameState ? shouldShowToolCallTopBorder(this.toolCallId) : true) {
+				lines.push(this.theme.fg("borderMuted", `┌${"─".repeat(innerWidth)}┐`));
+			}
+			lines.push(`${this.theme.fg("borderMuted", "│")}${colorToolCallIcon(icon)} ${this.theme.fg("text", this.theme.bold(this.toolName))}${shownError ? ` ${this.theme.fg("error", shownError)}` : ""}${pad}${this.theme.fg("borderMuted", "│")}`);
+			if (hasFrameState ? shouldShowToolCallBottomBorder(this.toolCallId) : true) {
+				lines.push(this.theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
+			}
+			return lines;
 		}, { width, toolName: this.toolName, errorLength: this.errorText.length });
 	}
 

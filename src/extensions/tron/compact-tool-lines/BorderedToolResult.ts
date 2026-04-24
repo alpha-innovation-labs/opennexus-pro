@@ -1,4 +1,6 @@
 import { visibleWidth } from "@mariozechner/pi-tui";
+import { hasToolCallFrameState } from "../activity/hasToolCallFrameState.ts";
+import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder.ts";
 import { measureTronRender } from "../profiling/measureTronRender.js";
 
 /**
@@ -25,7 +27,10 @@ export class BorderedToolResult {
 				const pad = " ".repeat(Math.max(0, innerWidth - visibleWidth(line)));
 				return `${this.theme.fg("borderMuted", "│")}${line}${pad}${this.theme.fg("borderMuted", "│")}`;
 			});
-			lines.push(this.theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
+			const hasFrameState = hasToolCallFrameState(this.toolCallId);
+			if (hasFrameState ? shouldShowToolCallBottomBorder(this.toolCallId) : true) {
+				lines.push(this.theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
+			}
 			return lines;
 		}, { width, toolCallId: this.toolCallId });
 	}
