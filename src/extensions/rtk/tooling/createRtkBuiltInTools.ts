@@ -14,12 +14,12 @@ import { createRtkReadTool } from "./createRtkReadTool.js";
  */
 export function createRtkBuiltInTools(cwd: string): BuiltInTools {
   return {
-    read: createRtkReadTool(),
-    bash: createRtkBashTool(),
+    read: createRtkReadTool(cwd, false),
+    bash: createRtkBashTool(cwd, false),
     edit: createEditTool(cwd),
     write: createWriteTool(cwd),
-    find: createRtkFindTool(),
-    grep: createRtkGrepTool(),
-    ls: createRtkLsTool(),
+    find: createRtkFindTool(cwd, false),
+    grep: createRtkGrepTool(cwd, false),
+    ls: createRtkLsTool(cwd, false),
   };
 }

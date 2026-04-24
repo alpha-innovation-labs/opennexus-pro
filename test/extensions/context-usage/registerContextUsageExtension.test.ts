@@ -35,5 +35,6 @@ test("context usage extension registers a tool that reports current context usag
         text: "Context tokens used: 60,000\nContext window: 200,000\nContext usage: 30.0%",
       },
     ],
+    details: undefined,
   });
 });

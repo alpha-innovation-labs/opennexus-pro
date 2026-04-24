@@ -31,6 +31,7 @@ test("tool execution spacing patch removes the leading spacer for opted-in tools
       },
     } as never,
     createUiStub() as never,
+    process.cwd(),
   );
 
   const lines = component.render(40);

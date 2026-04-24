@@ -34,9 +34,10 @@ function createAgentToolExecution(
     "Agent",
     toolCallId,
     args,
-    result,
+    undefined,
     createAgentTool() as never,
     { requestRender() {} } as never,
+    process.cwd(),
   );
 }
 

@@ -19,7 +19,7 @@ export function readTermShortcutBindings(cwd: string): TermShortcutBinding[] {
 	if (toggleKeys.length) {
 		bindings.push({
 			name: "toggle",
-			keys: toggleKeys,
+			keys: toggleKeys as never,
 			description: "Toggle the floating terminal modal.",
 			command: null,
 		});

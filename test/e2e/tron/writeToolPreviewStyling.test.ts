@@ -50,6 +50,7 @@ test("tron write tool renders the content preview using dim param styling", asyn
         },
       } as never,
       { requestRender() {} } as never,
+    process.cwd(),
     );
 
     root.addChild(toolExecution);

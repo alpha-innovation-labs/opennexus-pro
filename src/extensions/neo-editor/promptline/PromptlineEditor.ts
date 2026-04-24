@@ -23,15 +23,15 @@ import type { TriggerModalState } from "./trigger/types.js";
 const PRIMARY_COLOR = "error";
 
 export class PromptlineEditor extends CustomEditor {
-  private autocompleteProvider?: AutocompleteProvider;
+  private promptAutocompleteProvider?: AutocompleteProvider;
   private readonly modalState: TriggerModalState = {};
-  private autocompletePrefix = "";
+  private promptAutocompletePrefix = "";
   private triggerSubmitInFlight = false;
 
   constructor(
     tui: any,
     theme: any,
-    private readonly keybindings: any,
+    private readonly editorKeybindings: any,
     private readonly ctx: ExtensionContext,
     private readonly uiTheme: ExtensionContext["ui"]["theme"],
     private readonly getThinkingLevel: ExtensionAPI["getThinkingLevel"],
@@ -40,7 +40,7 @@ export class PromptlineEditor extends CustomEditor {
     private readonly getPromptlineConfig: () => PromptlineConfig,
     private readonly refreshPromptlineConfig: (cwd: string) => Promise<PromptlineConfig>,
   ) {
-    super(tui, theme, keybindings);
+    super(tui, theme, editorKeybindings);
   }
 
   /** Cancels Pi's stock autocomplete when the custom slash modal is active. */
@@ -95,7 +95,7 @@ export class PromptlineEditor extends CustomEditor {
       this.modalState,
       this.ctx,
       this.uiTheme,
-      this.autocompleteProvider,
+      this.promptAutocompleteProvider,
       () => this.getThinkingLevel(),
       (value) => this.setThinkingLevel(value as never),
       this.getLines(),
@@ -105,24 +105,24 @@ export class PromptlineEditor extends CustomEditor {
       (value) => this.setText(value),
       (value) => this.submitEditorText(value),
       (item) => this.applyAutocompleteItem(item),
-      this.tui.showOverlay.bind(this.tui),
+      this.tui.showOverlay.bind(this.tui) as never,
     );
-    this.autocompletePrefix = refreshed.autocompletePrefix ?? this.autocompletePrefix;
+    this.promptAutocompletePrefix = refreshed.autocompletePrefix ?? this.promptAutocompletePrefix;
     if (triggerState) updateTriggerSessionPrefix(triggerState.prefix);
     else if (!this.modalState.atModal && !this.modalState.slashModal) clearTriggerSession();
   }
   /** Installs the wrapped autocomplete provider. */
   setAutocompleteProvider(provider: AutocompleteProvider): void {
-    this.autocompleteProvider = provider;
+    this.promptAutocompleteProvider = provider;
     void wrapAutocompleteProviderForCwd(this.ctx.cwd, provider).then((wrappedProvider) => {
-      if (this.autocompleteProvider === provider) this.autocompleteProvider = wrappedProvider;
+      if (this.promptAutocompleteProvider === provider) this.promptAutocompleteProvider = wrappedProvider;
     });
   }
   /** Applies one picked autocomplete item into the editor. */
   private applyAutocompleteItem(item: AutocompleteItem): void {
-    if (!this.autocompleteProvider) return;
+    if (!this.promptAutocompleteProvider) return;
     const cursor = this.getCursor();
-    const result = this.autocompleteProvider.applyCompletion(this.getLines(), cursor.line, cursor.col, item, this.autocompletePrefix);
+    const result = this.promptAutocompleteProvider.applyCompletion(this.getLines(), cursor.line, cursor.col, item, this.promptAutocompletePrefix);
     (this as any).state.lines = result.lines;
     (this as any).state.cursorLine = result.cursorLine;
     (this as any).setCursorCol(result.cursorCol);
@@ -147,7 +147,7 @@ export class PromptlineEditor extends CustomEditor {
   /** Handles Pi's configured image-paste key without registering a conflicting extension shortcut. */
   private handleClipboardImagePaste(data: string): boolean {
     if (process.platform !== "darwin") return false;
-    if (!this.keybindings.matches(data, "app.clipboard.pasteImage")) return false;
+    if (!this.editorKeybindings.matches(data, "app.clipboard.pasteImage")) return false;
 
     const image = readClipboardImageViaMacOsJxa();
     if (!image) return true;

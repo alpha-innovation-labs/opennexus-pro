@@ -10,11 +10,11 @@ test.beforeEach(() => {
 });
 
 /**
- * Verifies the bundled registry exposes only the new Librarian agent.
+ * Verifies the bundled registry exposes current default agents and excludes legacy defaults.
  */
-test("registerAgents seeds the bundled Librarian agent and excludes legacy defaults", () => {
-  assert.deepEqual(getAvailableTypes(), ["Librarian"]);
-  assert.deepEqual(getDefaultAgentNames(), ["Librarian"]);
+test("registerAgents seeds bundled default agents and excludes legacy defaults", () => {
+  assert.deepEqual(getAvailableTypes(), ["Librarian", "Engineer"]);
+  assert.deepEqual(getDefaultAgentNames(), ["Librarian", "Engineer"]);
   assert.equal(isValidType("Librarian"), true);
   assert.equal(isValidType("general-purpose"), false);
   assert.equal(isValidType("Explore"), false);

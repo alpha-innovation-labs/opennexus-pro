@@ -1,5 +1,4 @@
 import { createFindTool } from "@mariozechner/pi-coding-agent";
-import { getRtkExecutionCwd } from "../runtime/getRtkExecutionCwd.js";
 import { getRtkRuntimeForCwd } from "../runtime/runtimeStore.js";
 import { resolveRtkPath } from "../runtime/resolveRtkPath.js";
 
@@ -8,31 +7,31 @@ import { resolveRtkPath } from "../runtime/resolveRtkPath.js";
  *
  * @returns RTK-aware find tool definition.
  */
-export function createRtkFindTool() {
-  const template = createFindTool(process.cwd());
+export function createRtkFindTool(cwd = process.cwd(), useProcessCwdFallback = true) {
+  const template = createFindTool(cwd);
 
   return {
     ...template,
-    async execute(toolCallId, params, signal, onUpdate, ctx) {
-      const cwd = getRtkExecutionCwd(ctx);
-      const original = createFindTool(cwd);
-      const runtime = getRtkRuntimeForCwd(cwd);
+    async execute(toolCallId: string, params: Parameters<typeof template.execute>[1], signal?: AbortSignal, onUpdate?: Parameters<typeof template.execute>[3], ctx?: { cwd?: string }) {
+      const executionCwd = ctx?.cwd ?? (useProcessCwdFallback ? process.cwd() : cwd);
+      const original = createFindTool(executionCwd);
+      const runtime = getRtkRuntimeForCwd(executionCwd);
       if (!runtime) {
-        return original.execute(toolCallId, params, signal, onUpdate, ctx);
+        return original.execute(toolCallId, params, signal, onUpdate);
       }
 
       const input = params as { pattern: string; path?: string; limit?: number };
 
       try {
-        const searchPath = resolveRtkPath(cwd, input.path ?? ".");
+        const searchPath = resolveRtkPath(executionCwd, input.path ?? ".");
         const effectiveLimit = Math.max(1, input.limit ?? 1000);
         const patternArgs = input.pattern.includes("/")
           ? ["-path", input.pattern.startsWith("*") || input.pattern.startsWith("/") ? input.pattern : `*${input.pattern}`]
           : ["-name", input.pattern];
-        const result = await runtime.exec("find", [searchPath, ...patternArgs], { cwd, signal });
+        const result = await runtime.exec("find", [searchPath, ...patternArgs], { cwd: executionCwd, signal });
 
         if (result.code !== 0 && result.stdout.trim().length === 0) {
-          return original.execute(toolCallId, params, signal, onUpdate, ctx);
+          return original.execute(toolCallId, params, signal, onUpdate);
         }
 
         const lines = result.stdout.split(/\r?\n/);
@@ -59,7 +58,7 @@ export function createRtkFindTool() {
           details: undefined,
         };
       } catch {
-        return original.execute(toolCallId, params, signal, onUpdate, ctx);
+        return original.execute(toolCallId, params, signal, onUpdate);
       }
     },
   };

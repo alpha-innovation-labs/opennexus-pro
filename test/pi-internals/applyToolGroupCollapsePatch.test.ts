@@ -6,7 +6,7 @@ import { KEYBINDINGS } from "../../node_modules/@mariozechner/pi-coding-agent/di
 test("tool-group collapse patch registers ctrl+shift+c", () => {
 	applyToolGroupCollapsePatch();
 
-	assert.deepEqual((KEYBINDINGS as Record<string, { defaultKeys: string; description: string }>)["app.tools.collapse"], {
+	assert.deepEqual((KEYBINDINGS as unknown as Record<string, { defaultKeys: string; description: string }>)["app.tools.collapse"], {
 		defaultKeys: "shift+ctrl+c",
 		description: "Collapse tool groups into summaries",
 	});

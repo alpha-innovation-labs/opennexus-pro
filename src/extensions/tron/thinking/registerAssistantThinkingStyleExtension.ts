@@ -8,6 +8,7 @@ import {
 	getCurrentAssistantTurnStartedAt,
 	resetAssistantMessageTimings,
 	startAssistantMessageTiming,
+	startAssistantTurnTiming,
 } from "./assistantMessageTimingState.ts";
 import { bootstrapAssistantMessageTimings } from "./bootstrapAssistantMessageTimings.ts";
 import { installAssistantThinkingStyle } from "./installAssistantThinkingStyle.ts";
@@ -29,6 +30,10 @@ export default function registerAssistantThinkingStyleExtension(pi: ExtensionAPI
 		startAssistantMessageTiming(Date.now());
 	});
 	pi.on("message_end", async (event) => {
+		if (event.message.role === "user") {
+			startAssistantTurnTiming(event.message.timestamp ?? Date.now());
+			return;
+		}
 		if (event.message.role !== "assistant") return;
 		const startedAt = getCurrentAssistantTurnStartedAt() ?? getCurrentAssistantStartedAt() ?? Date.now();
 		finishAssistantMessageTiming(event.message.timestamp ?? Date.now(), formatCompactDuration(Date.now() - startedAt));

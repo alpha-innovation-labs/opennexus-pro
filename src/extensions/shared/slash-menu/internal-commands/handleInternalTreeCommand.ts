@@ -19,6 +19,7 @@ export const handleInternalTreeCommand: InternalSlashHandler = async (args, ctx)
     customInstructions,
   });
   if (!result.cancelled) {
-    ctx.ui.notify(result.aborted ? "Branch summarization cancelled" : "Navigated session tree", result.aborted ? "warning" : "info");
+    const aborted = (result as { aborted?: boolean }).aborted === true;
+    ctx.ui.notify(aborted ? "Branch summarization cancelled" : "Navigated session tree", aborted ? "warning" : "info");
   }
 };

@@ -29,7 +29,7 @@ test("registerExitMessageProcessHandler prints the queued message on process exi
 		registerExitMessageProcessHandler();
 		assert.equal(onceCount, 1);
 		callbacks[0]?.();
-		assert.deepEqual(output, ["Session title: Current system title\n"]);
+		assert.deepEqual(output, ["\nSession title: Current system title\n"]);
 		assert.equal(getExitMessage(), undefined);
 	} finally {
 		process.once = originalOnce as typeof process.once;

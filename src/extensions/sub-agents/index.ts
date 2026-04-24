@@ -13,8 +13,8 @@ import { registerSubagentCommands } from "./ui/registerSubagentCommands.js";
  */
 export default function registerSubAgentsExtension(pi: ExtensionAPI): void {
   registerAgents(loadCustomAgents(process.cwd()));
-  pi.registerTool(createAgentTool());
-  pi.registerTool(createGetSubagentResultTool());
-  pi.registerTool(createSteerSubagentTool());
+  (pi.registerTool as (definition: unknown) => void)(createAgentTool());
+  (pi.registerTool as (definition: unknown) => void)(createGetSubagentResultTool());
+  (pi.registerTool as (definition: unknown) => void)(createSteerSubagentTool());
   registerSubagentCommands(pi);
 }

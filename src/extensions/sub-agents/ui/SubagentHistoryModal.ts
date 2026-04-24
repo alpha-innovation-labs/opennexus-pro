@@ -23,7 +23,7 @@ function createRunItem(run: SubagentRun): AutocompleteItem {
  */
 export class SubagentHistoryModal extends TwoPaneSelectModal {
   private readonly runsById: Map<string, SubagentRun>;
-  private readonly uiTheme: ExtensionCommandContext["ui"]["theme"];
+  private readonly transcriptTheme: ExtensionCommandContext["ui"]["theme"];
   private selectedValue?: string;
   private renderedTranscriptValue?: string;
   private renderedTranscriptWidth?: number;
@@ -38,7 +38,7 @@ export class SubagentHistoryModal extends TwoPaneSelectModal {
       rightTitle: "Transcript",
       leftPaneRatio: 0.38,
     });
-    this.uiTheme = theme;
+    this.transcriptTheme = theme;
     this.runsById = new Map(runs.map((run) => [run.id, run]));
     this.setOnPick(() => {
       this.focusRightPane();
@@ -82,7 +82,8 @@ export class SubagentHistoryModal extends TwoPaneSelectModal {
       const { rightWidth } = computePaneWidths(innerWidth, true, 0.38);
       const transcriptWidth = Math.max(24, rightWidth);
       if (this.renderedTranscriptValue !== run.id || this.renderedTranscriptWidth !== transcriptWidth) {
-        this.setRightLines(renderSubagentTranscriptLines(this.uiTheme, transcriptWidth, run));
+        this.setRightLines(renderSubagentTranscriptLines(this.transcriptTheme, transcriptWidth, run));
+        this.scrollRightToEnd();
         this.renderedTranscriptValue = run.id;
         this.renderedTranscriptWidth = transcriptWidth;
       }

@@ -2,6 +2,7 @@
  * agent-runner.ts — Core execution engine: creates sessions, runs agents, collects results.
  */
 
+import { getAgentDir } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/config.js";
 import type { Model } from "@mariozechner/pi-ai";
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import {
@@ -240,6 +241,7 @@ export async function runAgent(
   // Load extensions/skills: true or string[] → load; false → don't
   const loader = new DefaultResourceLoader({
     cwd: effectiveCwd,
+    agentDir: getAgentDir(),
     noExtensions: extensions === false,
     noSkills,
     noPromptTemplates: true,
@@ -259,7 +261,7 @@ export async function runAgent(
   const sessionOpts: Record<string, unknown> = {
     cwd: effectiveCwd,
     sessionManager: SessionManager.inMemory(effectiveCwd),
-    settingsManager: SettingsManager.create(),
+    settingsManager: SettingsManager.create(effectiveCwd),
     modelRegistry: ctx.modelRegistry,
     model,
     tools,
@@ -305,6 +307,7 @@ export async function runAgent(
     onError: (err) => {
       options.onToolActivity?.({
         type: "end",
+        toolCallId: `extension-error:${err.extensionPath}`,
         toolName: `extension-error:${err.extensionPath}`,
       });
     },
@@ -398,8 +401,8 @@ export async function resumeAgent(
 
   const unsubToolUse = options.onToolActivity
     ? session.subscribe((event: AgentSessionEvent) => {
-        if (event.type === "tool_execution_start") options.onToolActivity!({ type: "start", toolName: event.toolName });
-        if (event.type === "tool_execution_end") options.onToolActivity!({ type: "end", toolName: event.toolName });
+        if (event.type === "tool_execution_start") options.onToolActivity!({ type: "start", toolCallId: event.toolCallId, toolName: event.toolName });
+        if (event.type === "tool_execution_end") options.onToolActivity!({ type: "end", toolCallId: event.toolCallId, toolName: event.toolName });
       })
     : () => {};
 

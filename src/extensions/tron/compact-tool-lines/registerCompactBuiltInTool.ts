@@ -21,23 +21,23 @@ import type { BuiltInTools } from "./types.ts";
 export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof BuiltInTools): void {
 	const original = getBuiltInTools(process.cwd())[toolName];
 
-	pi.registerTool({
+	(pi.registerTool as (definition: unknown) => void)({
 		name: toolName,
 		label: toolName,
 		description: original.description,
 		parameters: original.parameters,
 		renderShell: "self",
 		skipLeadingSpacer: true,
-		async execute(toolCallId, params, signal, onUpdate, ctx) {
+		async execute(toolCallId: string, params: unknown, signal: AbortSignal | undefined, onUpdate: never, ctx: { cwd?: string }) {
 			const tools = getBuiltInTools(getRtkExecutionCwd(ctx));
-			return tools[toolName].execute(toolCallId, params, signal, onUpdate, ctx);
+			return tools[toolName].execute(toolCallId, params as never, signal, onUpdate);
 		},
-		renderCall(args, theme, context) {
+		renderCall(args: unknown, theme: any, context: any) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
 			if (context.isError) return new Container();
 			return renderSummary(context.toolCallId, toolName, summarizeArgs(toolName, args), theme, Boolean((context.state as any).hasVisibleResult));
 		},
-		renderResult(result, state, theme, context) {
+		renderResult(result: any, state: any, theme: any, context: any) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
 			if (context.isError) {
 				(context.state as any).hasVisibleResult = false;

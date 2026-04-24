@@ -80,7 +80,7 @@ test("loadCustomAgents reads .nexus agent files and ignores legacy .pi files", a
     assert.equal(agents.has("ignored"), false);
     assert.equal(agents.get("project")?.description, "Project agent");
     assert.equal(agents.get("project")?.systemPrompt, "Project prompt.");
-    assert.equal(agents.get("project")?.builtinToolNames.join(","), "read,grep");
+    assert.equal(agents.get("project")?.builtinToolNames?.join(","), "read,grep");
     assert.equal(agents.get("global")?.description, "Global agent");
     assert.equal(agents.get("global")?.systemPrompt, "Global prompt.");
   } finally {

@@ -16,7 +16,7 @@ export async function runTsxTests(projectRoot, testFiles) {
       ".bin",
       process.platform === "win32" ? "tsx.cmd" : "tsx",
     );
-    const child = spawn(tsxBinaryPath, ["--test", ...testFiles], {
+    const child = spawn(tsxBinaryPath, ["--test", "--test-concurrency=1", ...testFiles], {
       cwd: projectRoot,
       stdio: "inherit",
     });

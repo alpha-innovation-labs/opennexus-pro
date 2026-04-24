@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { SlashMenuModal } from "../../../shared/slash-menu/SlashMenuModal.js";
-import type { TriggerModalHandle } from "./types.js";
+import type { TriggerModalHandle, ShowOverlay } from "./types.js";
 
 /**
  * Creates and shows the slash trigger modal.
@@ -23,7 +23,7 @@ export function createSlashModal(
   getThinkingLevel: () => string,
   setThinkingLevel: (value: string) => void,
   submitText: (value: string) => void,
-  showOverlay: ExtensionContext["ui"]["showOverlay"],
+  showOverlay: ShowOverlay,
 ): { modal: SlashMenuModal; handle: TriggerModalHandle } {
   const modal = new SlashMenuModal(ctx, getThinkingLevel, setThinkingLevel, requestClose, requestRender, (commandText) => {
     requestClose();

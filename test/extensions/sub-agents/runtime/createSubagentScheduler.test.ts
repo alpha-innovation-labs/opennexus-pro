@@ -14,7 +14,7 @@ function nextTurn(): Promise<void> {
 test("createSubagentScheduler limits concurrent background work", async () => {
   const scheduler = createSubagentScheduler(1);
   const events: string[] = [];
-  let releaseFirst = () => undefined;
+  let releaseFirst: () => void = () => undefined;
 
   const firstDone = new Promise<void>((resolve) => {
     releaseFirst = resolve;

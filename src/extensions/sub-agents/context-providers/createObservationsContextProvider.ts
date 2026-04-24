@@ -19,7 +19,7 @@ export function createObservationsContextProvider(): SubagentContextProvider {
         statePath,
         conversationId,
         ctx.cwd,
-        ctx.sessionManager.getSessionFile(),
+        ctx.sessionManager.getSessionFile() ?? null,
       );
       if (!state.topics.length) return "";
       const lines = state.topics.map((topic) => {

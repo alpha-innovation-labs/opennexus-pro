@@ -15,15 +15,15 @@ function stripAnsi(line: string): string {
 	return line.replace(/\x1b\][^\x07]*\x07/g, "").replace(/\x1b\[[0-9;?]*[A-Za-z]/g, "");
 }
 
-test("tron tool call summary renders without top or bottom borders", async () => {
+test("tron tool call summary renders standalone calls with explicit frame chrome", async () => {
 	await initializePiThemes();
 
 	const lines = renderSummary("read-1", "read", summarizeArgs("read", { path: "README.md" }), theme, false)
 		.render(100)
 		.map((line) => stripAnsi(line));
 
-	assert.equal(lines.length, 1);
-	assert.equal(lines[0]?.trimStart().startsWith("┌"), false);
-	assert.equal(lines[0]?.trimStart().startsWith("└"), false);
-	assert.equal(lines[0]?.includes("read"), true);
+	assert.equal(lines.length, 3);
+	assert.equal(lines[0]?.trimStart().startsWith("┌"), true);
+	assert.equal(lines[1]?.includes("read"), true);
+	assert.equal(lines[2]?.trimStart().startsWith("└"), true);
 });

@@ -11,13 +11,12 @@ test.after(() => {
   clearRegisteredSlashCommands();
 });
 
-test("createTopLevelItems includes registered commands dynamically plus settings", () => {
+test("createTopLevelItems appends the settings leaf after command leaves", () => {
   registerSlashCommand({ name: "annotate", description: "Annotate" });
   registerSlashCommand({ name: "observations", description: "Observations" });
 
   const items = createTopLevelItems();
+  const values = items.map((item) => item.value);
 
-  assert.ok(items.some((item) => item.value === "annotate"));
-  assert.ok(items.some((item) => item.value === "observations"));
-  assert.ok(items.some((item) => item.value === "settings"));
+  assert.deepEqual(values.slice(-3), ["annotate", "observations", "settings"]);
 });

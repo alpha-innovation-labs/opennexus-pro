@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { createBundledExtensionFactories } from "../../src/extensions/createBundledExtensionFactories.js";
+import registerBundledExtensions from "../../src/extensions/index.js";
 
-test("createBundledExtensionFactories returns the bundled extension entrypoint", async () => {
+test("createBundledExtensionFactories returns the source bundled extension entrypoint", async () => {
   const factories = await createBundledExtensionFactories();
 
-  assert.equal(factories.length, 1);
-  assert.equal(typeof factories[0], "function");
+  assert.deepEqual(factories, [registerBundledExtensions]);
 });
 
 test("the bundled extension entrypoint follows the root json feature flags", async () => {

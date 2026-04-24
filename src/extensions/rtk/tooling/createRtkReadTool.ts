@@ -1,5 +1,4 @@
 import { createReadTool } from "@mariozechner/pi-coding-agent";
-import { getRtkExecutionCwd } from "../runtime/getRtkExecutionCwd.js";
 import { getRtkRuntimeForCwd } from "../runtime/runtimeStore.js";
 import { resolveRtkPath } from "../runtime/resolveRtkPath.js";
 
@@ -8,26 +7,26 @@ import { resolveRtkPath } from "../runtime/resolveRtkPath.js";
  *
  * @returns RTK-aware read tool definition.
  */
-export function createRtkReadTool() {
-  const template = createReadTool(process.cwd());
+export function createRtkReadTool(cwd = process.cwd(), useProcessCwdFallback = true) {
+  const template = createReadTool(cwd);
 
   return {
     ...template,
-    async execute(toolCallId, params, signal, onUpdate, ctx) {
-      const cwd = getRtkExecutionCwd(ctx);
-      const original = createReadTool(cwd);
-      const runtime = getRtkRuntimeForCwd(cwd);
+    async execute(toolCallId: string, params: Parameters<typeof template.execute>[1], signal?: AbortSignal, onUpdate?: Parameters<typeof template.execute>[3], ctx?: { cwd?: string }) {
+      const executionCwd = ctx?.cwd ?? (useProcessCwdFallback ? process.cwd() : cwd);
+      const original = createReadTool(executionCwd);
+      const runtime = getRtkRuntimeForCwd(executionCwd);
       if (!runtime) {
-        return original.execute(toolCallId, params, signal, onUpdate, ctx);
+        return original.execute(toolCallId, params, signal, onUpdate);
       }
 
       const input = params as { path: string; offset?: number; limit?: number };
 
       try {
-        const resolvedPath = resolveRtkPath(cwd, input.path);
-        const result = await runtime.exec("read", ["-n", resolvedPath], { cwd, signal });
+        const resolvedPath = resolveRtkPath(executionCwd, input.path);
+        const result = await runtime.exec("read", ["-n", resolvedPath], { cwd: executionCwd, signal });
         if (result.code !== 0) {
-          return original.execute(toolCallId, params, signal, onUpdate, ctx);
+          return original.execute(toolCallId, params, signal, onUpdate);
         }
 
         const numberedLines = result.stdout
@@ -59,7 +58,7 @@ export function createRtkReadTool() {
           details: undefined,
         };
       } catch {
-        return original.execute(toolCallId, params, signal, onUpdate, ctx);
+        return original.execute(toolCallId, params, signal, onUpdate);
       }
     },
   };

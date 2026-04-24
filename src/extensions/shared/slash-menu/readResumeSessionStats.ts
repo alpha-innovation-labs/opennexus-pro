@@ -14,7 +14,7 @@ export interface ResumeSessionStats {
  */
 export function readResumeSessionStats(sessionPath: string): ResumeSessionStats {
   const entries = loadEntriesFromFile(sessionPath);
-  const sessionContext = buildSessionContext(entries);
+  const sessionContext = buildSessionContext(entries as never);
 
   return sessionContext.messages.reduce<ResumeSessionStats>((stats: ResumeSessionStats, message: any) => {
     if (message.role === "user") {

@@ -8,6 +8,6 @@ import { getAgentLabel } from "./agentLabel.ts";
  * @param durationLabel Compact duration label.
  * @returns Footer text component.
  */
-export function createAssistantMetaText(theme: { fg: (name: string, text: string) => string }, durationLabel: string): Text {
-	return new Text(theme.fg("muted", `${getAgentLabel()} · ${durationLabel}`), 1, 0);
+export function createAssistantMetaText(theme: { fg: (name: never, text: string) => string }, durationLabel: string): Text {
+	return new Text(theme.fg("muted" as never, `${getAgentLabel()} · ${durationLabel}`), 1, 0);
 }

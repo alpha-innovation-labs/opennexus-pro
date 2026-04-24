@@ -16,7 +16,7 @@ export class ToolCallsModal extends TwoPaneSelectModal {
 	private itemsByValue = new Map<string, AutocompleteItem>();
 	private selectedValue?: string;
 	private collapsed = false;
-	private readonly uiTheme: ExtensionCommandContext["ui"]["theme"];
+	private readonly detailTheme: ExtensionCommandContext["ui"]["theme"];
 
 	constructor(
 		theme: ExtensionCommandContext["ui"]["theme"],
@@ -38,7 +38,7 @@ export class ToolCallsModal extends TwoPaneSelectModal {
 							: text,
 			},
 		});
-		this.uiTheme = theme;
+		this.detailTheme = theme;
 		this.groups = groups;
 		this.toolCalls = toolCalls;
 		this.setOnPick((item) => {
@@ -107,7 +107,7 @@ export class ToolCallsModal extends TwoPaneSelectModal {
 					const dialogWidth = Math.max(80, Math.min(width, Math.floor(width * 0.9)));
 					const innerWidth = Math.max(78, dialogWidth - 2);
 					const rightWidth = Math.floor((innerWidth - 1) / 2);
-					this.setRightLines(renderBuiltInToolDetails(toolCall, this.uiTheme, rightWidth));
+					this.setRightLines(renderBuiltInToolDetails(toolCall, this.detailTheme, rightWidth));
 				}
 			}
 		}

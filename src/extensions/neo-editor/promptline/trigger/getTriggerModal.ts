@@ -12,6 +12,7 @@ import type { SlashMenuModal } from "../../../shared/slash-menu/SlashMenuModal.j
  */
 export function getTriggerModal(modalState: TriggerModalState, kind: "at"): AtModal | undefined;
 export function getTriggerModal(modalState: TriggerModalState, kind: "slash"): SlashMenuModal | undefined;
+export function getTriggerModal(modalState: TriggerModalState, kind: TriggerKind): AtModal | SlashMenuModal | undefined;
 export function getTriggerModal(modalState: TriggerModalState, kind: TriggerKind) {
   return getTriggerProvider(kind).getModal(modalState);
 }

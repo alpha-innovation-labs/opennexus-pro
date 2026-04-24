@@ -18,14 +18,17 @@ type LoadThemesMethod = (paths: string[], includeDefaults?: boolean) => LoadThem
 
 type ThemeDirectoryLoader = (path: string, themes: unknown[], diagnostics: unknown[]) => void;
 
-type NexusSettingsManagerInstance = InstanceType<SettingsManagerModule["SettingsManager"]> & {
+type NexusSettingsManagerInstance = {
   globalSettings: SettingsRecord;
   projectSettings: SettingsRecord;
   settings: SettingsRecord;
 };
 
-type NexusSettingsManagerClass = SettingsManagerModule["SettingsManager"] & {
+type NexusSettingsManagerClass = {
   __nexusConfigPatched__?: boolean;
+  fromStorage(storage: unknown): NexusSettingsManagerInstance;
+  create(cwd?: string, agentDir?: string): NexusSettingsManagerInstance;
+  prototype: { getTheme(): string | undefined };
 };
 
 type NexusResourceLoaderPrototype = {
@@ -46,34 +49,35 @@ export async function applyNexusConfigPatch(): Promise<void> {
     import("../../../node_modules/@mariozechner/pi-coding-agent/dist/core/resource-loader.js"),
   ]);
 
-  const patchedSettingsManager = SettingsManager as NexusSettingsManagerClass;
+  const patchedSettingsManager = SettingsManager as unknown as NexusSettingsManagerClass;
   if (patchedSettingsManager.__nexusConfigPatched__) {
     return;
   }
 
   const appDefaults = readBundledDefaultSettings();
-  const originalFromStorage = SettingsManager.fromStorage;
+  const originalFromStorage = patchedSettingsManager.fromStorage;
   const originalGetTheme = SettingsManager.prototype.getTheme;
 
-  SettingsManager.fromStorage = function fromStorageWithNexusDefaults(storage) {
-    const manager = originalFromStorage.call(this, storage) as NexusSettingsManagerInstance;
+  patchedSettingsManager.fromStorage = function fromStorageWithNexusDefaults(storage: unknown) {
+    const manager = originalFromStorage.call(this, storage) as unknown as NexusSettingsManagerInstance;
     manager.globalSettings = mergeSettings(appDefaults, manager.globalSettings);
     manager.settings = mergeSettings(manager.globalSettings, manager.projectSettings);
     return manager;
   };
 
-  SettingsManager.prototype.getTheme = function getThemeWithNexusFallback(this: InstanceType<SettingsManagerModule["SettingsManager"]>): string {
+  patchedSettingsManager.prototype.getTheme = function getThemeWithNexusFallback(): string {
     return originalGetTheme.call(this) ?? getDefaultThemeName();
   };
 
-  SettingsManager.create = function createNexusSettingsManager(cwd = process.cwd(), agentDir = getAgentDir()) {
-    const storage = new FileSettingsStorage(cwd, agentDir);
+  patchedSettingsManager.create = function createNexusSettingsManager(cwd = process.cwd(), agentDir = getAgentDir()) {
+    const storage = new FileSettingsStorage(cwd, agentDir) as unknown as { projectSettingsPath: string };
     storage.projectSettingsPath = getProjectSettingsPath(cwd);
-    return SettingsManager.fromStorage(storage);
+    return patchedSettingsManager.fromStorage(storage);
   };
 
-  const originalLoadThemes = DefaultResourceLoader.prototype.loadThemes as LoadThemesMethod;
-  DefaultResourceLoader.prototype.loadThemes = function loadThemesFromNexusConfig(
+  const resourceLoaderPrototype = DefaultResourceLoader.prototype as unknown as NexusResourceLoaderPrototype & { loadThemes: LoadThemesMethod };
+  const originalLoadThemes = resourceLoaderPrototype.loadThemes;
+  resourceLoaderPrototype.loadThemes = function loadThemesFromNexusConfig(
     this: NexusResourceLoaderPrototype,
     paths: string[],
     includeDefaults = true,

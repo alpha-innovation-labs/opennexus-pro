@@ -10,12 +10,12 @@ import { TwoPaneSelectModal, sanitizePlainText } from "../../shared/two-pane-sel
 export class AtModal extends TwoPaneSelectModal {
   constructor(
     private readonly cwd: string,
-    private readonly uiTheme: ExtensionContext["ui"]["theme"],
+    private readonly previewTheme: ExtensionContext["ui"]["theme"],
     onPick: (item: AutocompleteItem) => void,
     onClose: () => void,
     requestRender: () => void,
   ) {
-    super(uiTheme, onPick, onClose, undefined, {
+    super(previewTheme, onPick, onClose, undefined, {
       leftTitle: "Results",
       rightTitle: "Preview",
       bottomTitle: "Find Files",
@@ -51,7 +51,7 @@ export class AtModal extends TwoPaneSelectModal {
    */
   private async updatePreview(item: AutocompleteItem | null, requestRender: () => void): Promise<void> {
     if (!item?.value) {
-      this.setRightLines([this.uiTheme.fg("dim", "No preview")]);
+      this.setRightLines([this.previewTheme.fg("dim", "No preview")]);
       requestRender();
       return;
     }
@@ -60,11 +60,11 @@ export class AtModal extends TwoPaneSelectModal {
     try {
       const content = readFileSync(path, "utf8");
       const rawLines = content.split("\n").slice(0, 16);
-      const previewLines = rawLines.map((line) => this.uiTheme.fg("muted", sanitizePlainText(line)));
-      if (content.split("\n").length > 16) previewLines.push(this.uiTheme.fg("dim", "…"));
+      const previewLines = rawLines.map((line) => this.previewTheme.fg("muted", sanitizePlainText(line)));
+      if (content.split("\n").length > 16) previewLines.push(this.previewTheme.fg("dim", "…"));
       this.setRightLines(previewLines);
     } catch {
-      this.setRightLines([this.uiTheme.fg("dim", item.value), this.uiTheme.fg("warning", "Preview unavailable")]);
+      this.setRightLines([this.previewTheme.fg("dim", item.value), this.previewTheme.fg("warning", "Preview unavailable")]);
     }
     requestRender();
   }

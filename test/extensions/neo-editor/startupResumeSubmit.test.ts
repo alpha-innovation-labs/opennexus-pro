@@ -150,7 +150,7 @@ test("startup resume selection refreshes the cached promptline trigger config be
       submitted.push(value);
     };
 
-    (SessionManager as unknown as { list: typeof SessionManager.list }).list = async () => [{
+    (SessionManager as any).list = async () => [{
       path: sessionPath,
       name: "Resume target",
       modified: new Date(),
@@ -187,7 +187,7 @@ test("startup resume selection refreshes the cached promptline trigger config be
     assert.match(submitted[0]!, /^\/nexus-resume-select\s+/);
     assert.equal(editor.getText(), "");
   } finally {
-    (SessionManager as unknown as { list: typeof SessionManager.list }).list = originalList;
+    (SessionManager as any).list = originalList;
     if (originalAgentDir === undefined) delete process.env.NEXUS_CODING_AGENT_DIR;
     else process.env.NEXUS_CODING_AGENT_DIR = originalAgentDir;
     if (originalPiAgentDir === undefined) delete process.env.PI_CODING_AGENT_DIR;

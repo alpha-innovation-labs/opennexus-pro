@@ -4,7 +4,7 @@ import type { AnnotationResult } from "../types.js";
 
 /** Minimal UI surface used by the annotate extension. */
 export type AnnotateUiContext = {
-  notify?: (message: string, level?: string) => void;
+  notify?: (message: string, level?: "error" | "warning" | "info") => void;
   setStatus?: (key: string, message: string) => void;
 };
 

@@ -12,7 +12,7 @@ export function applyToolExecutionSpacingPatch(): void {
     return;
   }
 
-  const prototype = ToolExecutionComponent.prototype as ToolExecutionComponent & {
+  const prototype = ToolExecutionComponent.prototype as unknown as {
     addChild(child: unknown): void;
     toolDefinition?: { skipLeadingSpacer?: boolean };
     [LEADING_SPACER_SKIPPED]?: boolean;

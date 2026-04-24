@@ -5,9 +5,11 @@
  * @returns Final assistant text.
  */
 export function extractAssistantTextFromAgentEndEvent(event: {
-  messages?: Array<{ role?: string; content?: Array<{ type?: string; text?: string }> }>;
+  type?: string;
+  messages?: unknown[];
 }): string {
-  const assistantMessage = [...(event.messages ?? [])].reverse().find((message) => message.role === "assistant");
+  const messages = (event.messages ?? []) as Array<{ role?: string; content?: Array<{ type?: string; text?: string }> }>;
+  const assistantMessage = [...messages].reverse().find((message) => message.role === "assistant");
   const text = assistantMessage?.content?.find((content) => content.type === "text")?.text?.trim();
 
   if (!text) {

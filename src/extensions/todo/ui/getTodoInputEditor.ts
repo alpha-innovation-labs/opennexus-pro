@@ -8,5 +8,5 @@ import type { Editor } from "@mariozechner/pi-tui";
  * @returns Inner editor instance or null.
  */
 export function getTodoInputEditor(input: ExtensionEditorComponent): Editor | null {
-	return (input as ExtensionEditorComponent & { editor?: Editor }).editor ?? null;
+	return (input as unknown as { editor?: Editor }).editor ?? null;
 }

@@ -5,7 +5,7 @@ import { isToolGroupCollapseEnabled } from "../extensions/tron/collapse/state.ts
 
 let compactModeImagePatchApplied = false;
 
-type ToolExecutionComponentWithCompactImagePatch = ToolExecutionComponent & {
+type ToolExecutionComponentWithCompactImagePatch = {
 	showImages: boolean;
 	result?: { content?: Array<{ type?: string; text?: string }> };
 	updateDisplay(): void;
@@ -18,7 +18,7 @@ type ToolExecutionComponentWithCompactImagePatch = ToolExecutionComponent & {
 export function applyCompactModeImagePatch(): void {
 	if (compactModeImagePatchApplied) return;
 
-	const prototype = ToolExecutionComponent.prototype as ToolExecutionComponentWithCompactImagePatch;
+	const prototype = ToolExecutionComponent.prototype as unknown as ToolExecutionComponentWithCompactImagePatch;
 	const originalUpdateDisplay = prototype.updateDisplay;
 	const originalGetTextOutput = prototype.getTextOutput;
 

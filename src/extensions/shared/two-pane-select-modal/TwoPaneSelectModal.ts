@@ -164,7 +164,7 @@ export class TwoPaneSelectModal extends Container {
 		this.rightScrollOffset = Math.max(0, Math.min(maxOffset, this.rightScrollOffset + delta));
 	}
 
-	private scrollRightToEnd(): void {
+	protected scrollRightToEnd(): void {
 		const visibleHeight = Math.max(1, this.getBodyHeight());
 		this.rightScrollOffset = Math.max(0, this.rightLines.length - visibleHeight);
 		this.pendingRightGotoStart = false;
@@ -189,8 +189,23 @@ export class TwoPaneSelectModal extends Container {
 		const bodyHeight = this.getBodyHeight();
 		const listHeight = this.bottomTitle ? bodyHeight - 2 : bodyHeight;
 		if (this.listHeight !== listHeight) {
+			const selectedValue = this.getSelectedItem()?.value;
+			let suppressResizeSelectionChange = true;
 			this.listHeight = listHeight;
-			this.selectList = createSelectList(this.uiTheme, this.listHeight, this.onPick, this.onClose, this.onSelectionChange, this.itemStyles, this.itemMaxLines, this.items);
+			this.selectList = createSelectList(
+				this.uiTheme,
+				this.listHeight,
+				this.onPick,
+				this.onClose,
+				(item) => {
+					if (!suppressResizeSelectionChange) this.onSelectionChange?.(item);
+				},
+				this.itemStyles,
+				this.itemMaxLines,
+				this.items,
+			);
+			if (selectedValue) this.selectList.selectValue(selectedValue);
+			suppressResizeSelectionChange = false;
 		}
 		const listLines = this.selectList.render(splitPane ? leftWidth : singlePaneWidth).slice(0, listHeight);
 		const leftLines = [...listLines];

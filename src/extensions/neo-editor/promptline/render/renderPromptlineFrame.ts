@@ -1,5 +1,5 @@
 import { getUsageTextForModel } from "../../../../slash-usage/index.js";
-import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { renderBottomBorderLabel } from "../../ui/renderBottomBorderLabel.js";
 import { renderUsageText } from "../../ui/renderUsageText.js";
 import { extractEditorContentLines } from "../extractEditorContentLines.js";
@@ -25,7 +25,7 @@ export function renderPromptlineFrame(
   borderColor: (text: string) => string,
   uiTheme: ExtensionContext["ui"]["theme"],
   ctx: ExtensionContext,
-  getThinkingLevel: () => string,
+  getThinkingLevel: ExtensionAPI["getThinkingLevel"],
 ): string[] {
   if (baseLines.length === 0) return baseLines;
 

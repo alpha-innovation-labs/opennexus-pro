@@ -80,6 +80,8 @@ export class VirtualTerminal implements Terminal {
     this.xterm.write("\x1b[2J\x1b[H");
   }
 
+  setProgress(_active: boolean): void {}
+
   setTitle(title: string): void {
     this.xterm.write(`\x1b]0;${title}\x07`);
   }

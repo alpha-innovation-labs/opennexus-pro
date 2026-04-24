@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import { createCompiledBundledExtensionFactories } from "../../src/extensions/createCompiledBundledExtensionFactories.js";
 import { compiledBundledExtensionIds } from "../../src/extensions/generated/registerCompiledEnabledExtensions.js";
+import registerCompiledBundledExtensions from "../../src/extensions/registerCompiledBundledExtensions.js";
 
 function createFakePi(commands: string[], shortcuts: string[], tools: string[]) {
   return {
@@ -37,17 +38,16 @@ function createFakePi(commands: string[], shortcuts: string[], tools: string[]) 
 test("compiled bundled extension ids match enabled root feature flags", () => {
   const rootConfig = JSON.parse(readFileSync("feature-flags.json", "utf8"));
   const expectedIds = Object.entries(rootConfig.extensions)
-    .filter(([, value]) => value.enabled)
+    .filter(([, value]) => (value as { enabled?: boolean }).enabled)
     .map(([id]) => id);
 
   assert.deepEqual([...compiledBundledExtensionIds], expectedIds);
 });
 
-test("createCompiledBundledExtensionFactories returns the release entrypoint", async () => {
+test("createCompiledBundledExtensionFactories returns the release-bundled extension entrypoint", async () => {
   const factories = await createCompiledBundledExtensionFactories();
 
-  assert.equal(factories.length, 1);
-  assert.equal(typeof factories[0], "function");
+  assert.deepEqual(factories, [registerCompiledBundledExtensions]);
 });
 
 test("the compiled bundled extension entrypoint follows the bundled feature flags", async () => {

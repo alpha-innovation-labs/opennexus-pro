@@ -33,7 +33,7 @@ test("slash modal filters commands in the virtual terminal and closes on ctrl+c"
   let closed = false;
   const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => {
     closed = true;
-  }, () => undefined);
+  }, () => undefined, () => undefined);
 
   await modal.refresh();
   modal.handleInput("f");

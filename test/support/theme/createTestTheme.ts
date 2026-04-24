@@ -3,7 +3,7 @@
  *
  * @returns Theme-like formatting helpers.
  */
-export function createTestTheme() {
+export function createTestTheme(): any {
   return {
     fg(_color: string, value: string): string {
       return value;

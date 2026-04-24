@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { createSlashModal } from "../createSlashModal.js";
-import type { TriggerModalState } from "../types.js";
+import type { TriggerModalState, ShowOverlay } from "../types.js";
 
 /**
  * Ensures the `/` modal exists.
@@ -24,7 +24,7 @@ export function ensureSlashTriggerModal(
   getThinkingLevel: () => string,
   setThinkingLevel: (value: string) => void,
   submitText: (value: string) => void,
-  showOverlay: ExtensionContext["ui"]["showOverlay"],
+  showOverlay: ShowOverlay,
 ): void {
   if (modalState.slashModal) return;
   const created = createSlashModal(ctx, requestClose, requestRender, setText, getThinkingLevel, setThinkingLevel, submitText, showOverlay);

@@ -12,7 +12,7 @@
     "build:binary": "npm run generate:feature-flags && node scripts/release/buildBinaryBundle.mjs",
     "build:release": "npm run build:binary",
     "dev": "tsx -- src/index.ts",
-    "test": "tsx --test $(find test -name '*.test.ts' -print)"
+    "test": "node scripts/testing/runTests.mjs"
   },
   "dependencies": {
     "@ff-labs/fff-node": "^0.6.4",

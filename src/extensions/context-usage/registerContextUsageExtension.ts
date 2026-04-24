@@ -20,7 +20,8 @@ export function registerContextUsageExtension(pi: ExtensionAPI): void {
       parameters: Type.Object({}),
       async execute(_toolCallId, _params, _signal, _onUpdate, ctx) {
         return {
-          content: [{ type: "text", text: formatContextUsage(ctx.getContextUsage()) }],
+          content: [{ type: "text", text: formatContextUsage(ctx.getContextUsage() ?? null) }],
+          details: undefined,
         };
       },
     }),

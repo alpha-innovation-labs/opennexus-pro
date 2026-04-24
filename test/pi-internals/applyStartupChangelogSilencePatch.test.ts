@@ -6,7 +6,7 @@ import { applyStartupChangelogSilencePatch } from "../../src/pi-internals/applyS
 test("startup changelog silence patch disables startup changelog and install telemetry", () => {
   applyStartupChangelogSilencePatch();
 
-  const prototype = InteractiveMode.prototype as InteractiveMode & {
+  const prototype = InteractiveMode.prototype as unknown as {
     getChangelogForDisplay(): string | undefined;
     reportInstallTelemetry(version: string): void;
   };

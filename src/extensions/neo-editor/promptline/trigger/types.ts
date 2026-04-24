@@ -17,13 +17,15 @@ export type TriggerModalHandle = {
   isFocused: () => boolean;
 };
 
+export type ShowOverlay = (component: Component, options?: unknown) => TriggerModalHandle;
+
 export type TriggerEditorDeps = {
   ctx: ExtensionContext;
   uiTheme: ExtensionContext["ui"]["theme"];
   autocompleteProvider?: AutocompleteProvider;
   getThinkingLevel: ExtensionAPI["getThinkingLevel"];
   getSessionName: ExtensionAPI["getSessionName"];
-  tui: { requestRender(): void; showOverlay: ExtensionContext["ui"]["showOverlay"] };
+  tui: { requestRender(): void; showOverlay: ShowOverlay };
 };
 
 export type TriggerModalState = {
@@ -48,7 +50,7 @@ export type TriggerProviderRefreshArgs = {
   setText: (value: string) => void;
   submitText: (value: string) => void;
   onAutocompletePick: (item: AutocompleteItem) => void;
-  showOverlay: ExtensionContext["ui"]["showOverlay"];
+  showOverlay: ShowOverlay;
 };
 
 export type TriggerProvider = {

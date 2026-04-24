@@ -2,7 +2,7 @@ import type { AutocompleteItem, AutocompleteProvider } from "@mariozechner/pi-tu
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { closeTriggerModal } from "./closeTriggerModal.js";
 import { getTriggerProvider } from "./getTriggerProvider.js";
-import type { TriggerModalState, TriggerState } from "./types.js";
+import type { ShowOverlay, TriggerModalState, TriggerState } from "./types.js";
 
 /**
  * Refreshes the active trigger modal for `@` or `/`.
@@ -39,7 +39,7 @@ export async function refreshTriggerModal(
   setText: (value: string) => void,
   submitText: (value: string) => void,
   onAutocompletePick: (item: AutocompleteItem) => void,
-  showOverlay: ExtensionContext["ui"]["showOverlay"],
+  showOverlay: ShowOverlay,
 ): Promise<{ autocompletePrefix?: string }> {
   if (!triggerState) {
     closeTriggerModal(modalState, requestRender);

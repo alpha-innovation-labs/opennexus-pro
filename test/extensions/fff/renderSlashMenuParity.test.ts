@@ -28,12 +28,16 @@ test.after(() => {
   clearRegisteredSlashCommands();
 });
 
-test("slash menu renders built-in Pi commands including /fork in the virtual terminal", async () => {
-  const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined);
+test("slash menu renders filtered command rows and previews in the virtual terminal", async () => {
+  const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, () => undefined);
 
+  modal.setQuery("for");
   await modal.refresh();
-  const viewport = await renderComponentInVirtualTerminal(() => modal, 120, 30);
+  const output = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
 
-  assert.match(viewport.join("\n"), /\/fork/);
-  assert.match(viewport.join("\n"), /\/settings/);
+  assert.match(output, /Menu/);
+  assert.match(output, /Preview/);
+  assert.match(output, /> \/for/);
+  assert.match(output, /\/fork/);
+  assert.doesNotMatch(output, /\/settings/);
 });

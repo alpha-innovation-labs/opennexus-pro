@@ -16,5 +16,5 @@ export function registerAnnotateExtension(pi: ExtensionAPI): void {
     handler: createAnnotateCommandHandler(state),
   });
 
-  pi.registerTool(createAnnotateTool(state));
+  (pi.registerTool as (definition: unknown) => void)(createAnnotateTool(state));
 }

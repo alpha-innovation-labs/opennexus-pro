@@ -14,7 +14,7 @@ export const handleInternalForkCommand: InternalSlashHandler = async (args, ctx)
   }
   const result = await ctx.fork(entryId);
   if (!result.cancelled) {
-    ctx.ui.setEditorText(result.selectedText ?? "");
+    ctx.ui.setEditorText((result as { selectedText?: string }).selectedText ?? "");
     ctx.ui.notify("Forked to new session", "info");
   }
 };

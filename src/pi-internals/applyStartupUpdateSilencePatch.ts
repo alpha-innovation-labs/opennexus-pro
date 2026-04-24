@@ -10,7 +10,7 @@ export function applyStartupUpdateSilencePatch(): void {
     return;
   }
 
-  const prototype = InteractiveMode.prototype as InteractiveMode & {
+  const prototype = InteractiveMode.prototype as unknown as {
     checkForNewVersion(): Promise<string | undefined>;
     checkForPackageUpdates(): Promise<string[]>;
   };

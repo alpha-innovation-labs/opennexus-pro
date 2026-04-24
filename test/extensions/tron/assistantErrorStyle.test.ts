@@ -57,7 +57,7 @@ test("tron assistant abort rows keep the existing plain abort message", async ()
       errorMessage: "Operation aborted",
     } as never,
     true,
-  ) as AssistantMessageComponent & {
+  ) as unknown as {
     contentContainer: { children: Array<{ text?: string }> };
   };
 

@@ -30,7 +30,7 @@ test("settings root points to the custom settings branch", () => {
 });
 
 test("slash menu does not expose raw merged settings like defaultModel", async () => {
-  const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined);
+  const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, () => undefined);
 
   await modal.refresh();
   modal.handleInput("d");
@@ -44,7 +44,7 @@ test("slash menu does not expose raw merged settings like defaultModel", async (
 
 test("selecting settings opens the custom settings submenu instead of handing off to /settings", async () => {
   let picked = "";
-  const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, (commandText) => {
+  const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, (commandText: string) => {
     picked = commandText;
   });
 

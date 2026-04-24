@@ -4,7 +4,7 @@ export type FffFeatureKey = "editorAutocomplete" | "readOverride" | "grepOverrid
 
 export type FffFileCandidate = {
   item: {
-    path: string;
+    path?: string;
     relativePath: string;
     fileName?: string;
     totalFrecencyScore: number;

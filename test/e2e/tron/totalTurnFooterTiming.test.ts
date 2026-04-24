@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { AssistantMessageComponent } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/assistant-message.js";
-import registerAssistantThinkingStyleExtension from "../../../src/extensions/tron/thinking/registerAssistantThinkingStyleExtension.ts";
+import registerAssistantThinkingStyleExtension from "../../../src/extensions/tron/thinking/registerAssistantThinkingStyleExtension.js";
 import { resetAssistantMessageTimings } from "../../../src/extensions/tron/thinking/assistantMessageTimingState.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";

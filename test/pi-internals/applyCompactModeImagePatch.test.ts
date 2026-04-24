@@ -29,6 +29,7 @@ test("compact mode image patch hides image placeholders from tool output", async
 		{},
 		undefined,
 		createUiStub() as never,
+		process.cwd(),
 	);
 
 	component.updateResult({

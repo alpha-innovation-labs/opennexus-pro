@@ -2,6 +2,7 @@ import { getMarkdownTheme } from "@mariozechner/pi-coding-agent";
 import { Markdown } from "@mariozechner/pi-tui";
 import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
 import stripAnsi from "strip-ansi";
+import { syncToolCallFrameState } from "../../tron/activity/syncToolCallFrameState.js";
 import { renderSummary } from "../../tron/compact-tool-lines/renderSummary.js";
 import { summarizeArgs } from "../../tron/compact-tool-lines/summarizeArgs.js";
 import { ThinkingLabelBlock } from "../../tron/thinking/ThinkingLabelBlock.ts";
@@ -112,6 +113,12 @@ export function renderSubagentTranscriptLines(
   if (!run.transcript.length) {
     return ["No transcript available yet."];
   }
+  const frameContent = run.transcript.flatMap<Array<{ type?: unknown; thinking?: unknown; id?: unknown; name?: unknown }>[number]>((entry) => {
+    if (entry.role === "thinking") return [{ type: "thinking", thinking: entry.text }];
+    if (entry.role === "tool") return [{ type: "toolCall", id: entry.toolCallId ?? `${entry.toolName ?? "tool"}-${entry.createdAt}`, name: entry.toolName }];
+    return [];
+  });
+  syncToolCallFrameState(frameContent);
   return run.transcript.flatMap((entry, index) => {
     const previousEntry = run.transcript[index - 1];
     const nextEntry = run.transcript[index + 1];

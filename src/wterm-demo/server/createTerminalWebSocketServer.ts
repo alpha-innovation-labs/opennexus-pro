@@ -35,11 +35,11 @@ export function createTerminalWebSocketServer(server: Server): {
       return;
     }
 
-    wss.handleUpgrade(request, socket, head, (ws) => {
+    wss.handleUpgrade(request, socket, head, (ws: WebSocket) => {
       sockets.add(ws);
       ws.send(JSON.stringify({ type: "data", data: session.getBuffer() }));
 
-      ws.on("message", (raw) => {
+      ws.on("message", (raw: unknown) => {
         const message = JSON.parse(String(raw)) as ClientMessage;
 
         if (message.type === "input" && typeof message.data === "string") {

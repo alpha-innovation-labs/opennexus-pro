@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import type { AutocompleteItem } from "@mariozechner/pi-tui";
 import { AtModal } from "../AtModal.js";
-import type { TriggerModalHandle } from "./types.js";
+import type { TriggerModalHandle, ShowOverlay } from "./types.js";
 
 /**
  * Creates and shows the `@` trigger modal.
@@ -20,7 +20,7 @@ export function createAtModal(
   onPick: (item: AutocompleteItem) => void,
   onClose: () => void,
   requestRender: () => void,
-  showOverlay: ExtensionContext["ui"]["showOverlay"],
+  showOverlay: ShowOverlay,
 ): { modal: AtModal; handle: TriggerModalHandle } {
   const modal = new AtModal(ctx.cwd, uiTheme, onPick, onClose, requestRender);
   const handle = showOverlay(modal, {

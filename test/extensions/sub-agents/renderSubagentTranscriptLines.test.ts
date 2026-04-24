@@ -4,7 +4,7 @@ import { renderSubagentTranscriptLines } from "../../../src/extensions/sub-agent
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 
-test("renderSubagentTranscriptLines uses Tron compact styling for tool entries", async () => {
+test("renderSubagentTranscriptLines uses real Tron theme chrome for tool entries", async () => {
   process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@mariozechner/pi-coding-agent`;
   await initializePiThemes();
 
@@ -32,4 +32,6 @@ test("renderSubagentTranscriptLines uses Tron compact styling for tool entries",
   const output = lines.join("\n");
   assert.match(output, /read/);
   assert.match(output, /package\.json/);
+  assert.equal(lines.some((line) => line.trimStart().startsWith("┌")), true);
+  assert.equal(lines.some((line) => line.trimStart().startsWith("└")), true);
 });

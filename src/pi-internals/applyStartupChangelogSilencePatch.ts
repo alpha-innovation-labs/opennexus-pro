@@ -10,7 +10,7 @@ export function applyStartupChangelogSilencePatch(): void {
     return;
   }
 
-  const prototype = InteractiveMode.prototype as InteractiveMode & {
+  const prototype = InteractiveMode.prototype as unknown as {
     getChangelogForDisplay(): string | undefined;
     reportInstallTelemetry(version: string): void;
   };

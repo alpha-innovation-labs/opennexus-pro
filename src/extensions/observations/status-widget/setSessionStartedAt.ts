@@ -6,5 +6,5 @@ const SESSION_STARTED_AT_KEY = "__observations_session_started_at__";
  * @param timestamp Session start timestamp.
  */
 export function setSessionStartedAt(timestamp: number): void {
-	(globalThis as Record<string, number>)[SESSION_STARTED_AT_KEY] = timestamp;
+	(globalThis as unknown as Record<string, number>)[SESSION_STARTED_AT_KEY] = timestamp;
 }

@@ -24,10 +24,10 @@ export function getObservationPaths(
 	markdownPath: string;
 } {
 	const sessionFile = ctx.sessionManager.getSessionFile();
-	const conversationId = getTrackedConversationId(sessionFile, ephemeralConversationId);
+	const conversationId = getTrackedConversationId(sessionFile ?? null, ephemeralConversationId);
 	return {
 		conversationId,
-		sessionFile,
+		sessionFile: sessionFile ?? null,
 		dir: getObservationsDir(),
 		messagesPath: getObservationMessagesPath(conversationId),
 		statePath: getObservationStatePath(conversationId),

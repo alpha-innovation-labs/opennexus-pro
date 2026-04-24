@@ -182,7 +182,7 @@ export function getConfig(type: string): {
   return {
     displayName: LIBRARIAN_AGENT_NAME,
     description: "Read-only codebase librarian for source-backed lookup and summaries",
-    builtinToolNames: READ_ONLY_TOOL_NAMES,
+    builtinToolNames: ["read", "bash", "grep", "find", "ls"],
     extensions: true,
     skills: true,
     promptMode: "replace",

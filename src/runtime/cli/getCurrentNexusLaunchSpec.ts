@@ -16,8 +16,9 @@ export function getCurrentNexusLaunchSpec(args: string[]): GatewayLaunchSpec {
   const currentEntrypoint = process.argv[1];
   const bundledBinary = isBundledBinary(import.meta.url);
   const isRunningSourceEntrypoint = currentEntrypoint === sourceEntrypoint;
+  const isRunningProjectSource = Boolean(currentEntrypoint?.startsWith(process.cwd()));
 
-  if (!bundledBinary && isRunningSourceEntrypoint && existsSync(sourceEntrypoint) && existsSync(tsxBinaryPath)) {
+  if (!bundledBinary && (isRunningSourceEntrypoint || isRunningProjectSource) && existsSync(sourceEntrypoint) && existsSync(tsxBinaryPath)) {
     return {
       command: tsxBinaryPath,
       args: [sourceEntrypoint, ...args],

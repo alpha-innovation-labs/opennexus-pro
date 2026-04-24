@@ -9,8 +9,9 @@ import type { InternalSlashHandler } from "./types.js";
  */
 export const handleInternalResumeCommand: InternalSlashHandler = async (args, ctx) => {
   const sessionPath = decodeBase64Arg(args.trim());
-  const result = await ctx.switchSession(sessionPath);
-  if (!result.cancelled) {
-    ctx.ui.notify("Resumed session", "info");
-  }
+  await ctx.switchSession(sessionPath, {
+    async withSession(ctx) {
+      ctx.ui.notify("Resumed session", "info");
+    },
+  });
 };

@@ -49,6 +49,7 @@ test("tron renders the first tool immediately after thinking with no spacer or t
         },
       } as never,
       { requestRender() {} } as never,
+    process.cwd(),
     );
 
     root.addChild(assistantMessage);

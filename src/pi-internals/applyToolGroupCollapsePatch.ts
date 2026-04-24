@@ -4,7 +4,7 @@ import { invalidateActivityKeys } from "../extensions/tron/activity/invalidateAc
 import { activityInvalidators } from "../extensions/tron/activity/state.ts";
 import { toggleToolGroupCollapse } from "../extensions/tron/collapse/state.ts";
 
-type InteractiveModeWithCollapsePatch = InteractiveMode & {
+type InteractiveModeWithCollapsePatch = {
 	defaultEditor: { onAction(action: string, handler: () => void): void };
 	showStatus(message: string): void;
 	ui: { requestRender(): void };
@@ -14,7 +14,7 @@ type InteractiveModeWithCollapsePatch = InteractiveMode & {
 	streamingMessage?: unknown;
 };
 
-type InteractiveModePrototypeWithPatch = typeof InteractiveMode.prototype & {
+type InteractiveModePrototypeWithPatch = {
 	__nexusToolGroupCollapsePatched__?: boolean;
 	setupKeyHandlers(): void;
 };
@@ -23,12 +23,12 @@ type InteractiveModePrototypeWithPatch = typeof InteractiveMode.prototype & {
  * Adds the Tron collapsed-tool-group shortcut to Pi interactive mode.
  */
 export function applyToolGroupCollapsePatch(): void {
-	(KEYBINDINGS as Record<string, { defaultKeys: string; description: string }>)["app.tools.collapse"] = {
+	(KEYBINDINGS as unknown as Record<string, { defaultKeys: string; description: string }>)["app.tools.collapse"] = {
 		defaultKeys: "shift+ctrl+c",
 		description: "Collapse tool groups into summaries",
 	};
 
-	const prototype = InteractiveMode.prototype as InteractiveModePrototypeWithPatch;
+	const prototype = InteractiveMode.prototype as unknown as InteractiveModePrototypeWithPatch;
 	if (prototype.__nexusToolGroupCollapsePatched__) return;
 
 	const originalSetupKeyHandlers = prototype.setupKeyHandlers;

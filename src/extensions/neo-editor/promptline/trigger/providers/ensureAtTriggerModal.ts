@@ -1,7 +1,7 @@
 import type { AutocompleteItem } from "@mariozechner/pi-tui";
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { createAtModal } from "../createAtModal.js";
-import type { TriggerModalState } from "../types.js";
+import type { TriggerModalState, ShowOverlay } from "../types.js";
 
 /**
  * Ensures the `@` modal exists.
@@ -21,7 +21,7 @@ export function ensureAtTriggerModal(
   onAutocompletePick: (item: AutocompleteItem) => void,
   requestClose: () => void,
   requestRender: () => void,
-  showOverlay: ExtensionContext["ui"]["showOverlay"],
+  showOverlay: ShowOverlay,
 ): void {
   if (modalState.atModal) return;
   const created = createAtModal(ctx, uiTheme, onAutocompletePick, requestClose, requestRender, showOverlay);

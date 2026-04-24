@@ -44,6 +44,7 @@ function createToolExecutionComponent(toolCallId: string, toolName: string, args
 			},
 		} as never,
 		{ requestRender() {} } as never,
+		process.cwd(),
 	);
 }
 

@@ -6,5 +6,5 @@ const SESSION_STARTED_AT_KEY = "__observations_session_started_at__";
  * @returns Session start timestamp.
  */
 export function getSessionStartedAt(): number {
-	return (globalThis as Record<string, number | undefined>)[SESSION_STARTED_AT_KEY] ?? Date.now();
+	return (globalThis as unknown as Record<string, number | undefined>)[SESSION_STARTED_AT_KEY] ?? Date.now();
 }

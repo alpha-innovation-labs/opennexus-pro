@@ -123,8 +123,8 @@ test("RTK tools fall back cleanly when tool context is missing", async () => {
         undefined as never,
       )) as { content: Array<{ type: string; text: string }> };
 
-      assert.match(result.content[0]?.text ?? "", /src\/index\.ts/);
-      assert.deepEqual(calls.at(0), { command: "rtk", args: ["find", cwd, "-name", "*.ts"], cwd });
+      assert.match(result.content[0]?.text ?? "", /one\.ts/);
+      assert.deepEqual(calls, []);
     } finally {
       process.chdir(previousCwd);
     }
@@ -150,7 +150,6 @@ test("RTK-backed built-ins use the RTK runtime while it is active", async () => 
       { path: filePath, offset: 2, limit: 2 },
       undefined,
       () => undefined,
-      { cwd },
     )) as { content: Array<{ type: string; text: string }> };
     assert.match(readResult.content[0]?.text ?? "", /2 │ beta/);
     assert.match(readResult.content[0]?.text ?? "", /3 │ gamma/);
@@ -162,7 +161,6 @@ test("RTK-backed built-ins use the RTK runtime while it is active", async () => 
       { pattern: "**/*.ts", path: cwd, limit: 2 },
       undefined,
       () => undefined,
-      { cwd },
     )) as { content: Array<{ type: string; text: string }> };
     assert.match(findResult.content[0]?.text ?? "", /2F 2D:/);
     assert.match(findResult.content[0]?.text ?? "", /Showing first 2 results/);
@@ -173,7 +171,6 @@ test("RTK-backed built-ins use the RTK runtime while it is active", async () => 
       { path: cwd, limit: 2 },
       undefined,
       () => undefined,
-      { cwd },
     )) as { content: Array<{ type: string; text: string }> };
     assert.match(lsResult.content[0]?.text ?? "", /alpha\//);
     assert.match(lsResult.content[0]?.text ?? "", /Showing first 2 entries/);
@@ -184,7 +181,6 @@ test("RTK-backed built-ins use the RTK runtime while it is active", async () => 
       { pattern: "beta", path: cwd, glob: "*.ts", ignoreCase: true, literal: true, context: 2, limit: 1 },
       undefined,
       () => undefined,
-      { cwd },
     )) as { content: Array<{ type: string; text: string }> };
     assert.match(grepResult.content[0]?.text ?? "", /beta/);
     assert.deepEqual(calls[3].args, ["grep", "beta", cwd, "-i", "-F", "--glob", "*.ts", "-C", "2", "-m", "1"]);
@@ -196,7 +192,6 @@ test("RTK-backed built-ins use the RTK runtime while it is active", async () => 
       { path: filePath, offset: 1, limit: 1 },
       undefined,
       () => undefined,
-      { cwd },
     )) as { content: Array<{ type: string; text: string }> };
     assert.match(fallbackResult.content[0]?.text ?? "", /alpha/);
     assert.equal(calls.length, 4);

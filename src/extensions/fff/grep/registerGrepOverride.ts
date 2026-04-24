@@ -19,8 +19,8 @@ export function registerGrepOverride(pi: ExtensionAPI): void {
     name: "grep",
     label: "grep",
     description: `${template.description} Uses FFF-backed indexed search when compatible.`,
-    promptSnippet: template.promptSnippet,
-    promptGuidelines: template.promptGuidelines,
+    promptSnippet: (template as { promptSnippet?: string }).promptSnippet,
+    promptGuidelines: (template as { promptGuidelines?: string[] }).promptGuidelines,
     parameters: createGrepSchema(),
     async execute(toolCallId, params, signal, onUpdate, ctx) {
       const original = createGrepTool(ctx.cwd);

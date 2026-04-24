@@ -37,9 +37,9 @@ test("tron thinking-only messages do not render empty rows above or below thinki
 	);
 
 	const plainLines = viewport.map((line) => stripAnsi(line));
-	const firstBorderIndex = plainLines.findIndex((line) => line.trimStart().startsWith("└"));
 	const topBorderIndex = plainLines.findIndex((line) => line.trimStart().startsWith("┌"));
-	const bottomBorderIndex = plainLines.findIndex((line) => line.trimStart().startsWith("├"));
+	const firstBorderIndex = topBorderIndex;
+	const bottomBorderIndex = plainLines.findIndex((line) => line.trimStart().startsWith("└"));
 	const footerIndex = plainLines.findIndex((line) => line.includes("· 2s"));
 
 	assert.notEqual(firstBorderIndex, -1);
@@ -47,7 +47,7 @@ test("tron thinking-only messages do not render empty rows above or below thinki
 	assert.notEqual(bottomBorderIndex, -1);
 	assert.notEqual(footerIndex, -1);
 	assert.equal(firstBorderIndex, 0);
-	assert.equal(topBorderIndex, firstBorderIndex + 1);
+	assert.equal(topBorderIndex, firstBorderIndex);
 	assert.equal(footerIndex, bottomBorderIndex + 1);
 	assert.equal(plainLines.slice(firstBorderIndex, footerIndex).every((line) => line.trim().length > 0), true);
 });

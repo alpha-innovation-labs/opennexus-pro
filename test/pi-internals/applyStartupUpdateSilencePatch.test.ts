@@ -6,7 +6,7 @@ import { applyStartupUpdateSilencePatch } from "../../src/pi-internals/applyStar
 test("startup update silence patch disables version and package update checks", async () => {
   applyStartupUpdateSilencePatch();
 
-  const prototype = InteractiveMode.prototype as InteractiveMode & {
+  const prototype = InteractiveMode.prototype as unknown as {
     checkForNewVersion(): Promise<string | undefined>;
     checkForPackageUpdates(): Promise<string[]>;
   };

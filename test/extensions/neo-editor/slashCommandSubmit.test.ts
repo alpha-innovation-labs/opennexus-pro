@@ -95,7 +95,7 @@ test("slash modal enters the resume submenu without submitting the raw /resume c
   const originalList = SessionManager.list;
   let submitted = "";
   let renders = 0;
-  (SessionManager as unknown as { list: typeof SessionManager.list }).list = async () => [];
+  (SessionManager as any).list = async () => [];
 
   try {
     const { modal } = createSlashModal(
@@ -124,7 +124,7 @@ test("slash modal enters the resume submenu without submitting the raw /resume c
     assert.match(viewport.join("\n"), /Resume/);
     assert.ok(renders > 0);
   } finally {
-    (SessionManager as unknown as { list: typeof SessionManager.list }).list = originalList;
+    (SessionManager as any).list = originalList;
   }
 });
 
@@ -134,7 +134,7 @@ test("resume submenu hides cwd metadata and shows the shared Tron-style transcri
 
   try {
     await initializePiThemes();
-    (SessionManager as unknown as { list: typeof SessionManager.list }).list = async () => [{
+    (SessionManager as any).list = async () => [{
       path: sessionPath,
       name: "Resume transcript fixture",
       cwd: "/tmp/should-not-render",
@@ -174,7 +174,7 @@ test("resume submenu hides cwd metadata and shows the shared Tron-style transcri
     assert.match(output, /I found the issue and fixed it\./);
     assert.match(output, /read/);
   } finally {
-    (SessionManager as unknown as { list: typeof SessionManager.list }).list = originalList;
+    (SessionManager as any).list = originalList;
     await rm(sessionDir, { recursive: true, force: true });
   }
 });

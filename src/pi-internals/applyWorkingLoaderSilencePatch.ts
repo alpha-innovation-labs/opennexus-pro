@@ -10,7 +10,7 @@ export function applyWorkingLoaderSilencePatch(): void {
     return;
   }
 
-  const prototype = Loader.prototype as Loader & {
+  const prototype = Loader.prototype as unknown as {
     message?: string;
     render(width: number): string[];
   };
