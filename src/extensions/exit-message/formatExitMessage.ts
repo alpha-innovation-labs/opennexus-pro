@@ -18,6 +18,7 @@ export function formatExitMessage(details: ExitMessageDetails): string {
 	return formatPurpleBox([
 		{ text: "To resume this session, run:" },
 		{ text: `nexus --resume ${sessionReference}`, style: styleExitCommand },
+		{ text: "" },
 		{ text: "This session's title is:" },
 		{ text: sessionTitle, style: styleExitTitle },
 	]);
