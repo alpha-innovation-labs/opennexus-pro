@@ -1,5 +1,7 @@
 import { spawn } from "node:child_process";
 import { resolve } from "node:path";
+import { createTsxTestArgs } from "./createTsxTestArgs.mjs";
+import { resolveTestConcurrency } from "./resolveTestConcurrency.mjs";
 
 /**
  * Runs the selected test files through the local `tsx` binary.
@@ -16,7 +18,9 @@ export async function runTsxTests(projectRoot, testFiles) {
       ".bin",
       process.platform === "win32" ? "tsx.cmd" : "tsx",
     );
-    const child = spawn(tsxBinaryPath, ["--test", "--test-concurrency=1", ...testFiles], {
+    const testConcurrency = resolveTestConcurrency();
+    const testArgs = createTsxTestArgs(testFiles, testConcurrency);
+    const child = spawn(tsxBinaryPath, testArgs, {
       cwd: projectRoot,
       stdio: "inherit",
     });
