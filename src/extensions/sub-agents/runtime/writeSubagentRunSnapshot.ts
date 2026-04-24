@@ -27,6 +27,7 @@ export async function writeSubagentRunSnapshot(run: SubagentRun): Promise<void> 
     transcript: run.transcript,
     toolCalls: run.toolCalls,
     contextProviderIds: run.contextProviderIds,
+    parentSessionFile: run.parentSessionFile,
   };
   await writeFile(getSubagentRunFilePath(run.id), JSON.stringify(snapshot, null, 2));
 }

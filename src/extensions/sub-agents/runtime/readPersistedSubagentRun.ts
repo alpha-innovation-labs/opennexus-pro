@@ -15,6 +15,7 @@ export async function readPersistedSubagentRun(runId: string): Promise<SubagentR
     return {
       ...(snapshot as SubagentRun),
       cwd: snapshot.cwd ?? "",
+      parentSessionFile: snapshot.parentSessionFile ?? undefined,
       client: null,
     };
   } catch {

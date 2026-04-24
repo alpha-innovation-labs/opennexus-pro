@@ -10,7 +10,7 @@ import { registerUsageCommand } from "./registerUsageCommand.js";
  *
  * @param pi Pi extension API.
  */
-export function registerPiSlashUsageExtension(pi: ExtensionAPI): void {
+export function registerSlashUsageExtension(pi: ExtensionAPI): void {
 	registerUsageCommand(pi);
 	const refreshAndRender = async (ctx: ExtensionContext, force = false) => {
 		if (!ctx.hasUI) return;

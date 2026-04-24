@@ -1,4 +1,4 @@
-import { subscribeUsageSnapshots } from "../../../pi-slash-usage/index.js";
+import { subscribeUsageSnapshots } from "../../../slash-usage/index.js";
 import type { PromptlineContext, PromptlineDeps } from "./types.js";
 import { PromptlineEditor } from "./PromptlineEditor.js";
 import { refreshGitState } from "../git/refreshGitState.js";

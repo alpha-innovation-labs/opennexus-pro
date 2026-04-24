@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process";
-import { readPiAuth } from "../../shared/readPiAuth.js";
+import { readNexusAuth } from "../../shared/readNexusAuth.js";
 
 /**
  * Resolves the Claude OAuth token from Pi auth or macOS Keychain.
@@ -7,7 +7,7 @@ import { readPiAuth } from "../../shared/readPiAuth.js";
  * @returns Claude OAuth token.
  */
 export function getAnthropicToken(): string | undefined {
-	const auth = readPiAuth();
+	const auth = readNexusAuth();
 	const anthropic = auth?.anthropic as Record<string, unknown> | undefined;
 	if (typeof anthropic?.access === "string" && anthropic.access.length > 0) return anthropic.access;
 	try {

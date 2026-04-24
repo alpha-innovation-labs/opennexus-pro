@@ -1,4 +1,4 @@
-import { readPiAuth } from "../../shared/readPiAuth.js";
+import { readNexusAuth } from "../../shared/readNexusAuth.js";
 
 /**
  * Resolves Antigravity auth details from env or Pi auth.
@@ -16,7 +16,7 @@ export function getAntigravityAuth(): { token?: string; projectId?: string } {
 			return { token: envToken, projectId: envProjectId };
 		}
 	}
-	const auth = readPiAuth();
+	const auth = readNexusAuth();
 	const entry = auth?.["google-antigravity"] as Record<string, unknown> | string | undefined;
 	if (typeof entry === "string") return { token: entry };
 	return {

@@ -1,4 +1,4 @@
-Registers the `/agents` history surface that opens merged run and transcript state in a two-pane modal.
+Registers the `/agents` history surface that opens the current parent cwd/session runs in a two-pane modal.
 
 ## Usage
 
@@ -26,6 +26,7 @@ type RegisterSubagentCommandsOutput = void;
 
 | Name | Description |
 | --- | --- |
-| SubagentHistoryModal | Opens the history modal and keeps the newest transcript lines visible. |
+| showSubagentHistoryModal | Loads only the current parent cwd/session scope before opening the history modal. |
+| SubagentHistoryModal | Opens the history modal and keeps the newest transcript lines visible within the current parent scope. |
 | SubagentHistoryModalNavigation | Supports keyboard movement between the run list and transcript pane. |
 | SubagentHistoryModalPaneWidths | Expands the left pane while the run list is focused. |

@@ -156,6 +156,7 @@ export type SubagentRun = {
   client: RpcClient | null;
   toolCalls: number;
   contextProviderIds: string[];
+  parentSessionFile?: string;
   pendingSteers?: string[];
 };
 

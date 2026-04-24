@@ -1,7 +1,7 @@
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { readJsonFile } from "../../shared/readJsonFile.js";
-import { readPiAuth } from "../../shared/readPiAuth.js";
+import { readNexusAuth } from "../../shared/readNexusAuth.js";
 
 /**
  * Resolves the GitHub token used for Copilot quota checks.
@@ -9,7 +9,7 @@ import { readPiAuth } from "../../shared/readPiAuth.js";
  * @returns Copilot token.
  */
 export function getCopilotToken(): string | undefined {
-	const auth = readPiAuth();
+	const auth = readNexusAuth();
 	const entry = auth?.["github-copilot"] as Record<string, unknown> | undefined;
 	if (typeof entry?.refresh === "string" && entry.refresh.length > 0) return entry.refresh;
 	if (typeof entry?.access === "string" && entry.access.length > 0) return entry.access;

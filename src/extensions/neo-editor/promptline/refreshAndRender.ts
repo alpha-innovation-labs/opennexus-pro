@@ -1,4 +1,4 @@
-import { refreshUsageForContext } from "../../../pi-slash-usage/index.js";
+import { refreshUsageForContext } from "../../../slash-usage/index.js";
 import { logExtensionEvent } from "../../shared/observability/startup-debug.ts";
 import { refreshGitState } from "../git/refreshGitState.js";
 import { refreshTransportPreference } from "../transport/refreshTransportPreference.js";

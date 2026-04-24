@@ -1,7 +1,7 @@
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { readJsonFile } from "../../shared/readJsonFile.js";
-import { readPiAuth } from "../../shared/readPiAuth.js";
+import { readNexusAuth } from "../../shared/readNexusAuth.js";
 
 /**
  * Resolves Codex auth credentials from Pi or legacy Codex storage.
@@ -9,7 +9,7 @@ import { readPiAuth } from "../../shared/readPiAuth.js";
  * @returns Codex token and optional account id.
  */
 export function getCodexCredentials(): { token?: string; accountId?: string } {
-	const auth = readPiAuth();
+	const auth = readNexusAuth();
 	const entry = auth?.["openai-codex"] as Record<string, unknown> | undefined;
 	if (typeof entry?.access === "string" && entry.access.length > 0) {
 		return { token: entry.access, accountId: typeof entry.accountId === "string" ? entry.accountId : undefined };

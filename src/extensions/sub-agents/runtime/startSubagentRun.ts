@@ -33,6 +33,7 @@ export async function startSubagentRun(
     ctx.cwd,
   );
   run.contextProviderIds = options.contextProviders ?? (options.inheritContext ? ["parent-conversation", "project-context"] : []);
+  run.parentSessionFile = ctx.sessionManager.getSessionFile() ?? undefined;
   appendSubagentTranscriptEntry(run, { role: "user", text: prompt.trim() });
   sharedSubagentRuntime.setRun(run);
   persistSubagentRun(run);

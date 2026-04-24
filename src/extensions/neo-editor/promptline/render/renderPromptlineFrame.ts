@@ -1,4 +1,4 @@
-import { getUsageTextForModel } from "../../../../pi-slash-usage/index.js";
+import { getUsageTextForModel } from "../../../../slash-usage/index.js";
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { renderBottomBorderLabel } from "../../ui/renderBottomBorderLabel.js";
 import { renderUsageText } from "../../ui/renderUsageText.js";
