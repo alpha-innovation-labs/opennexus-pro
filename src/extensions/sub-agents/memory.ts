@@ -2,14 +2,15 @@
  * memory.ts — Persistent agent memory: per-agent memory directories that persist across sessions.
  *
  * Memory scopes:
- *   - "user"    → ~/.pi/agent-memory/{agent-name}/
- *   - "project" → .pi/agent-memory/{agent-name}/
- *   - "local"   → .pi/agent-memory-local/{agent-name}/
+ *   - "user"    → ~/.nexus/agent-memory/{agent-name}/
+ *   - "project" → .nexus/agent-memory/{agent-name}/
+ *   - "local"   → .nexus/agent-memory-local/{agent-name}/
  */
 
 import { existsSync, lstatSync, mkdirSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
-import { join, } from "node:path";
+import { join } from "node:path";
+import { getProjectConfigDirName } from "../../runtime/config/getProjectConfigDirName.js";
 import type { MemoryScope } from "./types.js";
 
 /** Maximum lines to read from MEMORY.md */
@@ -59,11 +60,11 @@ export function resolveMemoryDir(agentName: string, scope: MemoryScope, cwd: str
   }
   switch (scope) {
     case "user":
-      return join(homedir(), ".pi", "agent-memory", agentName);
+      return join(homedir(), getProjectConfigDirName(), "agent-memory", agentName);
     case "project":
-      return join(cwd, ".pi", "agent-memory", agentName);
+      return join(cwd, getProjectConfigDirName(), "agent-memory", agentName);
     case "local":
-      return join(cwd, ".pi", "agent-memory-local", agentName);
+      return join(cwd, getProjectConfigDirName(), "agent-memory-local", agentName);
   }
 }
 

@@ -1,12 +1,13 @@
 /**
  * skill-loader.ts — Preload specific skill files and inject their content into the system prompt.
  *
- * When skills is a string[], reads each named skill from .pi/skills/ or ~/.pi/skills/
+ * When skills is a string[], reads each named skill from .nexus/skills/ or ~/.nexus/skills/
  * and returns their content for injection into the agent's system prompt.
  */
 
 import { homedir } from "node:os";
 import { join } from "node:path";
+import { getProjectConfigDirName } from "../../runtime/config/getProjectConfigDirName.js";
 import { isUnsafeName, safeReadFile } from "./memory.js";
 
 export interface PreloadedSkill {
@@ -37,7 +38,7 @@ export function preloadSkills(skillNames: string[], cwd: string): PreloadedSkill
       results.push({ name, content });
     } else {
       // Include a note about missing skills so the agent knows it was requested but not found
-      results.push({ name, content: `(Skill "${name}" not found in .pi/skills/ or ~/.pi/skills/)` });
+      results.push({ name, content: `(Skill "${name}" not found in .nexus/skills/ or ~/.nexus/skills/)` });
     }
   }
 
@@ -49,8 +50,8 @@ export function preloadSkills(skillNames: string[], cwd: string): PreloadedSkill
  * Project-level takes priority over global.
  */
 function findAndReadSkill(name: string, cwd: string): string | undefined {
-  const projectDir = join(cwd, ".pi", "skills");
-  const globalDir = join(homedir(), ".pi", "skills");
+  const projectDir = join(cwd, getProjectConfigDirName(), "skills");
+  const globalDir = join(homedir(), getProjectConfigDirName(), "skills");
 
   // Try project first, then global
   for (const dir of [projectDir, globalDir]) {
