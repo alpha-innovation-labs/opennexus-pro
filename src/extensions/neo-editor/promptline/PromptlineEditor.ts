@@ -4,6 +4,7 @@ import { matchesKey } from "@mariozechner/pi-tui";
 import { readClipboardImageViaMacOsJxa } from "../../../runtime/clipboard-image/readClipboardImageViaMacOsJxa.js";
 import { writeClipboardImageTempFile } from "../../../runtime/clipboard-image/writeClipboardImageTempFile.js";
 import { wrapAutocompleteProviderForCwd } from "../../fff/editor/wrapAutocompleteProviderForCwd.js";
+import { openHelpShortcutsModal } from "../help-shortcuts/openHelpShortcutsModal.js";
 import { findMatchingTrigger } from "../editor-triggers/findMatchingTrigger.js";
 import { isReloadCommandText } from "./isReloadCommandText.js";
 import { logRenderedOverflow } from "./logRenderedOverflow.js";
@@ -25,24 +26,13 @@ const PRIMARY_COLOR = "error";
 export class PromptlineEditor extends CustomEditor {
   private promptAutocompleteProvider?: AutocompleteProvider;
   private readonly modalState: TriggerModalState = {};
+  private helpShortcutsModal?: { handleInput(data: string): void };
   private promptAutocompletePrefix = "";
   private triggerSubmitInFlight = false;
 
-  constructor(
-    tui: any,
-    theme: any,
-    private readonly editorKeybindings: any,
-    private readonly ctx: ExtensionContext,
-    private readonly uiTheme: ExtensionContext["ui"]["theme"],
-    private readonly getThinkingLevel: ExtensionAPI["getThinkingLevel"],
-    private readonly setThinkingLevel: ExtensionAPI["setThinkingLevel"],
-    private readonly getSessionName: ExtensionAPI["getSessionName"],
-    private readonly getPromptlineConfig: () => PromptlineConfig,
-    private readonly refreshPromptlineConfig: (cwd: string) => Promise<PromptlineConfig>,
-  ) {
+  constructor(tui: any, theme: any, private readonly editorKeybindings: any, private readonly ctx: ExtensionContext, private readonly uiTheme: ExtensionContext["ui"]["theme"], private readonly getThinkingLevel: ExtensionAPI["getThinkingLevel"], private readonly setThinkingLevel: ExtensionAPI["setThinkingLevel"], private readonly getSessionName: ExtensionAPI["getSessionName"], private readonly getPromptlineConfig: () => PromptlineConfig, private readonly refreshPromptlineConfig: (cwd: string) => Promise<PromptlineConfig>) {
     super(tui, theme, editorKeybindings);
   }
-
   /** Cancels Pi's stock autocomplete when the custom slash modal is active. */
   private suppressBaseAutocomplete(): void {
     (this as unknown as { cancelAutocomplete?: () => void }).cancelAutocomplete?.();
@@ -62,12 +52,10 @@ export class PromptlineEditor extends CustomEditor {
     const { triggerConfig, neoConfig } = this.getPromptlineConfig();
     const match = findMatchingTrigger(triggerConfig, text);
     if (!match || match.action.type !== "submit" || this.getText() !== text) return;
-
     this.triggerSubmitInFlight = true;
     if (neoConfig.clearEditorOnTriggerSubmit) {
       super.setText("");
     }
-
     const submission = Promise.resolve((this.onSubmit as (value: string) => unknown)(text));
     this.refreshConfigAfterReload(text, submission);
     void submission.finally(() => {
@@ -78,35 +66,14 @@ export class PromptlineEditor extends CustomEditor {
   private shouldRefreshTriggerModal(): boolean {
     const cursor = this.getCursor();
     const line = this.getLines()[cursor.line] ?? "";
-    return Boolean(
-      getTriggerSession()
-      || getActiveTriggerState(line.slice(0, cursor.col))
-      || this.modalState.atModal
-      || this.modalState.slashModal,
-    );
+    return Boolean(getTriggerSession() || getActiveTriggerState(line.slice(0, cursor.col)) || this.modalState.atModal || this.modalState.slashModal);
   }
   /** Refreshes the active `@` or `/` modal from the current editor state. */
   private async refreshTriggerModal(): Promise<void> {
     const cursor = this.getCursor();
     const line = this.getLines()[cursor.line] ?? "";
     const triggerState = getActiveTriggerState(line.slice(0, cursor.col));
-    const refreshed = await refreshTriggerModal(
-      triggerState,
-      this.modalState,
-      this.ctx,
-      this.uiTheme,
-      this.promptAutocompleteProvider,
-      () => this.getThinkingLevel(),
-      (value) => this.setThinkingLevel(value as never),
-      this.getLines(),
-      cursor.line,
-      cursor.col,
-      () => this.tui.requestRender(),
-      (value) => this.setText(value),
-      (value) => this.submitEditorText(value),
-      (item) => this.applyAutocompleteItem(item),
-      this.tui.showOverlay.bind(this.tui) as never,
-    );
+    const refreshed = await refreshTriggerModal(triggerState, this.modalState, this.ctx, this.uiTheme, this.promptAutocompleteProvider, () => this.getThinkingLevel(), (value) => this.setThinkingLevel(value as never), this.getLines(), cursor.line, cursor.col, () => this.tui.requestRender(), (value) => this.setText(value), (value) => this.submitEditorText(value), (item) => this.applyAutocompleteItem(item), this.tui.showOverlay.bind(this.tui) as never);
     this.promptAutocompletePrefix = refreshed.autocompletePrefix ?? this.promptAutocompletePrefix;
     if (triggerState) updateTriggerSessionPrefix(triggerState.prefix);
     else if (!this.modalState.atModal && !this.modalState.slashModal) clearTriggerSession();
@@ -137,27 +104,45 @@ export class PromptlineEditor extends CustomEditor {
     const submission = Promise.resolve((this.onSubmit as (text: string) => unknown)(value));
     this.refreshConfigAfterReload(value, submission);
   }
-
   override setText(text: string): void {
     clearTriggerSession();
     super.setText(text);
     this.handleConfiguredTriggers(this.getText());
   }
-
+  /** Opens the keyboard shortcuts modal from an empty editor. */
+  private openHelpShortcutsModal(): void {
+    const opened = openHelpShortcutsModal(this.uiTheme, this.tui.showOverlay.bind(this.tui) as never, () => {
+      this.helpShortcutsModal = undefined;
+      this.tui.requestRender();
+    });
+    this.helpShortcutsModal = opened.modal;
+    this.tui.requestRender();
+  }
+  /** Returns whether a help trigger should open the shortcuts modal. */
+  private shouldOpenHelpShortcuts(data: string): boolean {
+    const cursor = this.getCursor();
+    return data === "?" && this.getText().length === 0 && cursor.line === 0 && cursor.col === 0;
+  }
   /** Handles Pi's configured image-paste key without registering a conflicting extension shortcut. */
   private handleClipboardImagePaste(data: string): boolean {
     if (process.platform !== "darwin") return false;
     if (!this.editorKeybindings.matches(data, "app.clipboard.pasteImage")) return false;
-
     const image = readClipboardImageViaMacOsJxa();
     if (!image) return true;
     this.ctx.ui.pasteToEditor(writeClipboardImageTempFile(image));
     return true;
   }
-
   override handleInput(data: string): void {
+    if (this.helpShortcutsModal) {
+      this.helpShortcutsModal.handleInput(data);
+      this.tui.requestRender();
+      return;
+    }
     if (this.handleClipboardImagePaste(data)) return;
-
+    if (this.shouldOpenHelpShortcuts(data)) {
+      this.openHelpShortcutsModal();
+      return;
+    }
     const activeSession = getTriggerSession();
     if (activeSession?.kind === "slash") this.suppressBaseAutocomplete();
     if (activeSession) {
@@ -169,7 +154,6 @@ export class PromptlineEditor extends CustomEditor {
         return;
       }
     }
-
     const cursor = this.getCursor();
     const line = this.getLines()[cursor.line] ?? "";
     const triggerSessionStart = isTriggerTextStart(data)
@@ -183,19 +167,16 @@ export class PromptlineEditor extends CustomEditor {
       this.tui.requestRender();
       return;
     }
-
     if (matchesKey(data, "ctrl+r")) {
       closeTriggerModal(this.modalState, () => this.tui.requestRender());
       this.setText("/reload");
       this.tui.requestRender();
       return;
     }
-
     super.handleInput(data);
     if (this.shouldRefreshTriggerModal()) void this.refreshTriggerModal();
     this.handleConfiguredTriggers(this.getText());
   }
-
   override render(width: number): string[] {
     const cursor = this.getCursor();
     const line = this.getLines()[cursor.line] ?? "";
@@ -203,7 +184,6 @@ export class PromptlineEditor extends CustomEditor {
     this.borderColor = (text: string) => this.uiTheme.fg(PRIMARY_COLOR as any, text);
     if (triggerState?.kind === "slash" && !this.modalState.slashModal) return super.render(width);
     if (this.getPaddingX() !== 1) this.setPaddingX(1);
-
     const baseLines = super.render(Math.max(1, width - 2));
     const lines = renderPromptlineFrame(baseLines, width, this.borderColor, this.uiTheme, this.ctx, this.getThinkingLevel);
     logRenderedOverflow(lines, width);
