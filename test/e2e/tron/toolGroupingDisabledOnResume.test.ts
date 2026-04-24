@@ -1,12 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { bootstrapAssistantActivityGrouping } from "../../../src/extensions/tron/activity/bootstrapAssistantActivityGrouping.ts";
-import { getActivityNeighbors } from "../../../src/extensions/tron/activity/getActivityNeighbors.ts";
+import { bridgeThinkingToToolCalls } from "../../../src/extensions/tron/activity/bridgeThinkingToToolCalls.ts";
 import { resetAssistantActivityGrouping } from "../../../src/extensions/tron/activity/resetAssistantActivityGrouping.ts";
-import { toolActivityKey } from "../../../src/extensions/tron/activity/toolActivityKey.ts";
+import { bridgedToolCallIds } from "../../../src/extensions/tron/activity/state.ts";
 
-test("tron experimental grouping disable leaves resumed tool rows standalone", () => {
+test("tron experimental grouping disable clears stale thinking bridges on resume bootstrap", () => {
 	resetAssistantActivityGrouping();
+	bridgeThinkingToToolCalls(["read-1"]);
 
 	bootstrapAssistantActivityGrouping([
 		{ type: "message", message: { role: "user", timestamp: 1, content: [{ type: "text", text: "go" }] } } as never,
@@ -24,8 +25,7 @@ test("tron experimental grouping disable leaves resumed tool rows standalone", (
 		} as never,
 	]);
 
-	assert.deepEqual(getActivityNeighbors(toolActivityKey("read-1")), { isFirst: true, isLast: true });
-	assert.deepEqual(getActivityNeighbors(toolActivityKey("read-2")), { isFirst: true, isLast: true });
+	assert.equal(bridgedToolCallIds.size, 0);
 
 	resetAssistantActivityGrouping();
 });

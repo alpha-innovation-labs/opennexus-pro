@@ -15,11 +15,11 @@
     "test": "tsx --test $(find test -name '*.test.ts' -print)"
   },
   "dependencies": {
-    "@ff-labs/fff-node": "^0.6.0",
-    "@mariozechner/pi-agent-core": "^0.68.1",
-    "@mariozechner/pi-ai": "^0.68.1",
-    "@mariozechner/pi-coding-agent": "^0.68.1",
-    "@mariozechner/pi-tui": "^0.68.1",
+    "@ff-labs/fff-node": "^0.6.4",
+    "@mariozechner/pi-agent-core": "^0.70.0",
+    "@mariozechner/pi-ai": "^0.70.0",
+    "@mariozechner/pi-coding-agent": "^0.70.0",
+    "@mariozechner/pi-tui": "^0.70.0",
     "@sinclair/typebox": "^0.34.49",
     "@wterm/dom": "^0.1.9",
     "@xterm/headless": "^6.0.0",
@@ -34,7 +34,7 @@
     "@babel/plugin-transform-unicode-sets-regex": "^7.28.6",
     "@types/node": "^25.6.0",
     "esbuild": "^0.28.0",
-    "javascript-obfuscator": "^5.4.1",
+    "javascript-obfuscator": "^5.4.2",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3"
   }

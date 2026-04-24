@@ -1,15 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import registerCompactToolLinesExtension from "../../../src/extensions/tron/compact-tool-lines/registerCompactToolLinesExtension.ts";
-import { getActivityNeighbors } from "../../../src/extensions/tron/activity/getActivityNeighbors.ts";
+import { bridgeThinkingToToolCalls } from "../../../src/extensions/tron/activity/bridgeThinkingToToolCalls.ts";
 import { resetAssistantActivityGrouping } from "../../../src/extensions/tron/activity/resetAssistantActivityGrouping.ts";
-import { toolActivityKey } from "../../../src/extensions/tron/activity/toolActivityKey.ts";
-import { resetThinkingToolBridge } from "../../../src/extensions/tron/activity/resetThinkingToolBridge.ts";
+import { bridgedToolCallIds } from "../../../src/extensions/tron/activity/state.ts";
+import registerCompactToolLinesExtension from "../../../src/extensions/tron/compact-tool-lines/registerCompactToolLinesExtension.ts";
 
 type EventHandler = (event: any, ctx?: any) => void;
 
 /**
- * Creates a compact-tool-lines extension harness for live grouping tests.
+ * Creates a compact-tool-lines extension harness for lifecycle reset tests.
  *
  * @returns Registered handlers.
  */
@@ -24,23 +23,14 @@ function createExtensionHarness(): Record<string, EventHandler> {
 	return handlers;
 }
 
-test("tron keeps each live tool row standalone across toolResult messages", () => {
+test("tron clears stale thinking bridges on live session start", () => {
 	resetAssistantActivityGrouping();
-	resetThinkingToolBridge();
+	bridgeThinkingToToolCalls(["read-1"]);
 
 	const handlers = createExtensionHarness();
+	handlers.session_start?.({ reason: "resume" }, { sessionManager: { getSessionFile: () => null } });
 
-	handlers.tool_execution_start?.({ toolCallId: "read-1", toolName: "read", args: { path: "a.ts" } });
-	handlers.message_end?.({ message: { role: "toolResult", timestamp: 2 } });
-	handlers.tool_execution_start?.({ toolCallId: "read-2", toolName: "read", args: { path: "b.ts" } });
-
-	assert.deepEqual(getActivityNeighbors(toolActivityKey("read-1")), { isFirst: true, isLast: true });
-	assert.deepEqual(getActivityNeighbors(toolActivityKey("read-2")), { isFirst: true, isLast: true });
-
-	handlers.turn_end?.({ turnIndex: 0 });
-	handlers.tool_execution_start?.({ toolCallId: "read-3", toolName: "read", args: { path: "c.ts" } });
-	assert.deepEqual(getActivityNeighbors(toolActivityKey("read-3")), { isFirst: true, isLast: true });
+	assert.equal(bridgedToolCallIds.size, 0);
 
 	resetAssistantActivityGrouping();
-	resetThinkingToolBridge();
 });

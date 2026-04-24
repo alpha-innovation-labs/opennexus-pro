@@ -12,31 +12,31 @@ import { withLockedReleaseBuild } from "./withLockedReleaseBuild.js";
 
 const PROJECT_ROOT = process.cwd();
 
-test("released nexus pastes clipboard images with ctrl+v on macOS", { skip: process.platform !== "darwin" }, async () => {
+test("released nexus pastes clipboard images with ctrl+v when neo-editor is enabled", { skip: process.platform !== "darwin" }, async () => {
   await withLockedReleaseBuild(async () => {
     const homeDir = await createReleaseTestHome();
     const env = createReleaseTestEnv(homeDir);
 
     try {
       const releaseResult = await runCommand("just release", {
-      cwd: PROJECT_ROOT,
-      env,
-      timeoutMs: 300000,
-    });
+        cwd: PROJECT_ROOT,
+        env,
+        timeoutMs: 300000,
+      });
 
-    assert.equal(releaseResult.timedOut, false);
-    assert.equal(releaseResult.code, 0, releaseResult.output);
+      assert.equal(releaseResult.timedOut, false);
+      assert.equal(releaseResult.code, 0, releaseResult.output);
 
-    await setClipboardImageFromFile(join(PROJECT_ROOT, "src", "chrome-extension", "icons", "icon16.png"));
+      await setClipboardImageFromFile(join(PROJECT_ROOT, "src", "chrome-extension", "icons", "icon16.png"));
 
-    const output = await runInteractiveCommandInPty({
-      command: `"${getInstalledNexusPath(homeDir)}" --no-session`,
-      cwd: homeDir,
-      env,
-      startupDelayMs: 3000,
-      input: "\u0016",
-      afterInputDelayMs: 5000,
-    });
+      const output = await runInteractiveCommandInPty({
+        command: `"${getInstalledNexusPath(homeDir)}" --no-session`,
+        cwd: homeDir,
+        env,
+        startupDelayMs: 3000,
+        input: "\u0016",
+        afterInputDelayMs: 5000,
+      });
 
       assert.match(output, /pi-clipboard-/);
     } finally {

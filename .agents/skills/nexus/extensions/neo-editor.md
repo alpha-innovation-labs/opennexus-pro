@@ -15,6 +15,7 @@
   - usage meter
   - @ file autocomplete
   - editor trigger submit
+  - macOS ctrl+v image paste fallback
 
 ## Key files
 

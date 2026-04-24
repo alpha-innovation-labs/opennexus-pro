@@ -3,7 +3,6 @@ import test from "node:test";
 import { Container } from "@mariozechner/pi-tui";
 import { AssistantMessageComponent } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/assistant-message.js";
 import { ToolExecutionComponent } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
-import { registerToolActivityGroup } from "../../../src/extensions/tron/activity/registerToolActivityGroup.js";
 import { renderSummary } from "../../../src/extensions/tron/compact-tool-lines/renderSummary.js";
 import { summarizeArgs } from "../../../src/extensions/tron/compact-tool-lines/summarizeArgs.js";
 import { installAssistantThinkingStyle } from "../../../src/extensions/tron/thinking/installAssistantThinkingStyle.js";
@@ -54,7 +53,6 @@ test("tron multi-group tool timeline renders without blank rows between groups",
   const viewport = await renderComponentInVirtualTerminal(() => {
     const root = new Container();
 
-    registerToolActivityGroup(["read-1"]);
     root.addChild(
       new AssistantMessageComponent(
         {
@@ -69,7 +67,6 @@ test("tron multi-group tool timeline renders without blank rows between groups",
     );
     root.addChild(createToolExecutionComponent("read-1", "read", { path: "~/.agents/skills/agent-browser/SKILL.md" }));
 
-    registerToolActivityGroup(["bash-1", "bash-2"]);
     root.addChild(
       new AssistantMessageComponent(
         {
@@ -85,7 +82,6 @@ test("tron multi-group tool timeline renders without blank rows between groups",
     root.addChild(createToolExecutionComponent("bash-1", "bash", { command: "rm -rf /tmp/pi-subagents && git clone --depth 1 https://github.com/example/repo", timeout: 60 }));
     root.addChild(createToolExecutionComponent("bash-2", "bash", { command: "python - <<'PY'", timeout: 60 }));
 
-    registerToolActivityGroup(["ls-1", "find-1"]);
     root.addChild(
       new AssistantMessageComponent(
         {
@@ -101,7 +97,6 @@ test("tron multi-group tool timeline renders without blank rows between groups",
     root.addChild(createToolExecutionComponent("ls-1", "ls", { path: "/tmp/pi-subagents", limit: 200 }));
     root.addChild(createToolExecutionComponent("find-1", "find", { path: "/tmp/pi-subagents", pattern: "**/*", limit: 300 }));
 
-    registerToolActivityGroup(["read-2", "read-3"]);
     root.addChild(
       new AssistantMessageComponent(
         {

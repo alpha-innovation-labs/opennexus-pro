@@ -40,7 +40,6 @@ Use this skill when you need to understand the project in depth. It gives a two-
 - [`commands`](./commands.md)
 - [`extensions`](./extensions.md)
   - [`annotate`](./extensions/annotate.md)
-  - [`clipboard-image-paste`](./extensions/clipboard-image-paste.md)
   - [`cmux`](./extensions/cmux.md)
   - [`context-usage`](./extensions/context-usage.md)
   - [`exit-message`](./extensions/exit-message.md)

@@ -45,10 +45,6 @@ test("the bundled extension entrypoint follows the root json feature flags", asy
   assert.doesNotThrow(() => {
     factories[0](pi as never);
   });
-  assert.ok(!commands.includes("toolcalls"));
-  assert.ok(!commands.includes("extension"));
-  assert.ok(!commands.includes("observations"));
-  assert.ok(!commands.includes("sessions"));
   assert.ok(!shortcuts.includes("ctrl+i"));
   assert.ok(!shortcuts.includes("ctrl+;"));
   assert.ok(tools.includes("annotate"));

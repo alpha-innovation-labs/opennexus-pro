@@ -1,4 +1,4 @@
-import { activityInvalidators, bridgedToolCallIds, setActiveToolGroup, toolNeighbors } from "./state.ts";
+import { activityInvalidators, bridgedToolCallIds } from "./state.ts";
 import { collapsedSummaryNeighbors, collapsedSummaryOrder } from "./collapsedSummaryState.ts";
 import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "./collapsedToolGroupState.ts";
 import { resetCollapsedSummaryMessages } from "./collapsedSummaryMessageState.ts";
@@ -7,7 +7,6 @@ import { resetCollapsedSummaryMessages } from "./collapsedSummaryMessageState.ts
  * Clears all cached grouping state.
  */
 export function resetAssistantActivityGrouping(): void {
-	toolNeighbors.clear();
 	activityInvalidators.clear();
 	bridgedToolCallIds.clear();
 	collapsedSummaryNeighbors.clear();
@@ -15,5 +14,4 @@ export function resetAssistantActivityGrouping(): void {
 	collapsedToolGroupLeaderByToolCallId.clear();
 	collapsedToolGroupStatsByLeader.clear();
 	resetCollapsedSummaryMessages();
-	setActiveToolGroup([]);
 }

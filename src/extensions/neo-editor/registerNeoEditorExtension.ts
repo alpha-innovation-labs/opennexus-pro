@@ -1,4 +1,6 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { readClipboardImageViaMacOsJxa } from "../../runtime/clipboard-image/readClipboardImageViaMacOsJxa.js";
+import { writeClipboardImageTempFile } from "../../runtime/clipboard-image/writeClipboardImageTempFile.js";
 import { logExtensionEvent } from "../shared/observability/startup-debug.ts";
 import { readProjectSettings } from "../shared/slash-menu/readProjectSettings.js";
 import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
@@ -11,6 +13,19 @@ import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
 
 export default function(pi: ExtensionAPI) {
   logExtensionEvent("neo-editor", "init");
+
+  if (process.platform === "darwin") {
+    pi.registerShortcut("ctrl+v", {
+      description: "Paste image from clipboard",
+      async handler(ctx) {
+        if (!ctx.hasUI) return;
+        const image = readClipboardImageViaMacOsJxa();
+        if (!image) return;
+        ctx.ui.pasteToEditor(writeClipboardImageTempFile(image));
+      },
+    });
+  }
+
   const deps = {
     exec: pi.exec,
     getThinkingLevel: pi.getThinkingLevel.bind(pi),

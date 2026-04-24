@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerToolActivityGroup } from "../../../src/extensions/tron/activity/registerToolActivityGroup.js";
 import { renderSummary } from "../../../src/extensions/tron/compact-tool-lines/renderSummary.js";
 import { summarizeArgs } from "../../../src/extensions/tron/compact-tool-lines/summarizeArgs.js";
 
@@ -15,8 +14,6 @@ function stripAnsi(line: string): string {
 }
 
 test("tron write tool renders git-style added stats next to the tool label", () => {
-  registerToolActivityGroup(["write-1"]);
-
   const component = renderSummary(
     "write-1",
     "write",

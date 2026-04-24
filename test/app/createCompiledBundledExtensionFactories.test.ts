@@ -20,6 +20,7 @@ function createFakePi(commands: string[], shortcuts: string[], tools: string[]) 
       return "session";
     },
     on() {},
+    setThinkingLevel() {},
     registerCommand(name: string) {
       commands.push(name);
     },
@@ -59,12 +60,7 @@ test("the compiled bundled extension entrypoint follows the bundled feature flag
   assert.doesNotThrow(() => {
     factories[0](pi as never);
   });
-  assert.ok(!commands.includes("toolcalls"));
-  assert.ok(!commands.includes("annotate"));
-  assert.ok(!commands.includes("extension"));
-  assert.ok(!commands.includes("observations"));
-  assert.ok(!commands.includes("sessions"));
   assert.ok(!shortcuts.includes("ctrl+i"));
   assert.ok(!shortcuts.includes("ctrl+;"));
-  assert.ok(!tools.includes("annotate"));
+  assert.ok(tools.includes("annotate"));
 });

@@ -1,8 +1,4 @@
-import { setActiveToolGroup } from "./state.ts";
-
 /**
- * Closes the current contiguous tool group.
+ * Standalone tool mode has no contiguous tool group to close.
  */
-export function closeToolActivityGroup(): void {
-	setActiveToolGroup([]);
-}
+export function closeToolActivityGroup(): void {}
