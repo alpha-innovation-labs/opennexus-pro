@@ -23,15 +23,15 @@ export const handleInternalModelCommand: InternalSlashHandler = async (args, ctx
     ctx.ui.notify(`Unknown model: ${reference}`, "error");
     return;
   }
+  setPromptlineModelOverride(model as never);
   const changed = await pi.setModel(model);
   if (!changed) {
+    setPromptlineModelOverride(undefined);
     ctx.ui.notify(`No configured auth for ${reference}`, "error");
     return;
   }
-  setPromptlineModelOverride(model as never);
   getPromptlineRenderRequest()?.();
   const settings = SettingsManager.create(ctx.cwd);
   const nextEnabledModels = ensureEnabledModelIncludesSelection(settings.getEnabledModels(), reference);
   if (nextEnabledModels) settings.setEnabledModels(nextEnabledModels);
-  ctx.ui.notify(`Model: ${model.id}`, "info");
 };

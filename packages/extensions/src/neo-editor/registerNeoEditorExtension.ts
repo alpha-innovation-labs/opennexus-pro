@@ -7,6 +7,7 @@ import { getPromptlineConfig } from "./features/promptline/config/getPromptlineC
 import { refreshPromptlineConfig } from "./features/promptline/config/refreshPromptlineConfig.js";
 import { refreshAndRender } from "./features/promptline/refreshAndRender.js";
 import { resetPromptlineState } from "./features/promptline/resetPromptlineState.js";
+import { setPromptlineModelOverride } from "./features/promptline/state.js";
 import { primeStartupLoginModal } from "./primeStartupLoginModal.js";
 import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
 
@@ -47,6 +48,7 @@ export default function(pi: ExtensionAPI) {
   });
 
   pi.on("model_select", async (_event, ctx) => {
+    setPromptlineModelOverride(undefined);
     await refreshAndRender(ctx, deps);
   });
 

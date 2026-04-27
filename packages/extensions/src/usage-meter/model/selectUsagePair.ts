@@ -41,6 +41,7 @@ export function selectUsagePair(snapshot: UsageSnapshot | undefined, model: Prov
 		};
 	}
 	if (snapshot.provider === "kiro") return { provider: snapshot.provider, daily: used("Credits"), weekly: undefined };
+	if (snapshot.provider === "minimax" || snapshot.provider === "minimax-cn") return { provider: snapshot.provider, daily: used("5h") ?? used(snapshot.windows[0]?.label), weekly: used("Week") };
 	if (snapshot.provider === "zai") return { provider: snapshot.provider, daily: used("Tokens") ?? used(snapshot.windows[0]?.label), weekly: used("Monthly") };
 	return undefined;
 }

@@ -8,6 +8,7 @@ export type ProviderModel = {
 export type RateWindow = {
 	label: string;
 	usedPercent: number;
+	usedAmountUsd?: number;
 	resetDescription?: string;
 	resetAt?: string;
 };

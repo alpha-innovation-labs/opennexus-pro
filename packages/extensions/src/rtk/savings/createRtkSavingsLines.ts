@@ -4,7 +4,9 @@ import { colorizeSavingsPercent } from "./colorizeSavingsPercent.js";
 import { colorizeSavingsValue } from "./colorizeSavingsValue.js";
 import { createEfficiencyMeter } from "./createEfficiencyMeter.js";
 import { formatPercent } from "./formatPercent.js";
+import { formatRtkPeriodLine } from "./formatRtkPeriodLine.js";
 import { formatTokenCount } from "./formatTokenCount.js";
+import { getLatestRtkGainPeriod } from "./getLatestRtkGainPeriod.js";
 
 /**
  * Creates the body rows for the RTK savings modal.
@@ -20,6 +22,10 @@ export function createRtkSavingsLines(report: RtkGainReport, theme: SharedModalT
     `Commands          ${colorizeSavingsValue(theme, summary.total_commands.toLocaleString())}`,
     `Input tokens      ${colorizeSavingsValue(theme, formatTokenCount(summary.total_input))}`,
     `Output tokens     ${colorizeSavingsValue(theme, formatTokenCount(summary.total_output))}`,
+    "",
+    formatRtkPeriodLine("Today", getLatestRtkGainPeriod(report.daily), theme),
+    formatRtkPeriodLine("This week", getLatestRtkGainPeriod(report.weekly), theme),
+    formatRtkPeriodLine("This month", getLatestRtkGainPeriod(report.monthly), theme),
     `Efficiency        ${createEfficiencyMeter(theme, summary.avg_savings_pct)} ${colorizeSavingsPercent(theme, formatPercent(summary.avg_savings_pct))}`,
   ];
 }

@@ -14,12 +14,12 @@ export function createUsageHistoryRecords(snapshot: UsageSnapshot, model: Provid
     const metric = extractWindowMetric(window);
     if (!metric) return [];
     return [{
-      error: snapshot.error,
+      ...(snapshot.error ? { error: snapshot.error } : {}),
       fetchedAt: snapshot.fetchedAt,
       label: window.label,
-      modelId: model?.id,
+      ...(model?.id ? { modelId: model.id } : {}),
       provider: snapshot.provider,
-      resetAt: window.resetAt,
+      ...(window.resetAt ? { resetAt: window.resetAt } : {}),
       sampledAt,
       unit: metric.unit,
       value: metric.value,

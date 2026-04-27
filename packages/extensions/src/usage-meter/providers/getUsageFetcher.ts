@@ -4,6 +4,7 @@ import { fetchCodexUsage } from "./codex/fetchCodexUsage.js";
 import { fetchCopilotUsage } from "./copilot/fetchCopilotUsage.js";
 import { fetchGeminiUsage } from "./gemini/fetchGeminiUsage.js";
 import { fetchKiroUsage } from "./kiro/fetchKiroUsage.js";
+import { fetchMinimaxUsage } from "./minimax/fetchMinimaxUsage.js";
 import { fetchZaiUsage } from "./zai/fetchZaiUsage.js";
 import type { ProviderName, UsageSnapshot } from "../types.js";
 
@@ -22,5 +23,7 @@ export function getUsageFetcher(provider: ProviderName): () => Promise<UsageSnap
 		codex: fetchCodexUsage,
 		kiro: fetchKiroUsage,
 		zai: fetchZaiUsage,
+		minimax: () => fetchMinimaxUsage("minimax"),
+		"minimax-cn": () => fetchMinimaxUsage("minimax-cn"),
 	}[provider];
 }

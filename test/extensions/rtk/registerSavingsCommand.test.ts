@@ -44,7 +44,8 @@ test("registerSavingsCommand runs rtk gain using JSON output and opens a savings
     },
   });
 
-  assert.deepEqual(execCalls, [{ command: "rtk", args: ["gain", "--format", "json"] }]);
-  assert.match(renderedModalLines[0]?.join("\n") ?? "", /RTK Token Savings/u);
+  assert.deepEqual(execCalls, [{ command: "rtk", args: ["gain", "--daily", "--weekly", "--monthly", "--format", "json"] }]);
+  assert.match(renderedModalLines[0]?.join("\n") ?? "", /Token Savings/u);
+  assert.doesNotMatch(renderedModalLines[0]?.join("\n") ?? "", /RTK Token Savings/u);
   assert.match(renderedModalLines[0]?.join("\n") ?? "", /Saved tokens\s+750/u);
 });

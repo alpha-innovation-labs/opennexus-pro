@@ -1,3 +1,4 @@
+import type { RtkGainPeriod } from "./RtkGainPeriod.js";
 import type { RtkGainReport } from "./RtkGainReport.js";
 import { isRecord } from "./isRecord.js";
 import { isRtkGainPeriod } from "./isRtkGainPeriod.js";
@@ -21,4 +22,18 @@ export function parseRtkGainJson(jsonText: string): RtkGainReport {
     summary: parsed.summary,
     weekly: parseOptionalPeriods(parsed.weekly),
   };
+}
+
+/**
+ * Parses an optional RTK period array.
+ *
+ * @param value Unknown optional period value.
+ * @returns Valid period rows, or undefined when absent.
+ */
+function parseOptionalPeriods(value: unknown): RtkGainPeriod[] | undefined {
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value) || !value.every(isRtkGainPeriod)) {
+    throw new Error("RTK gain JSON included invalid period rows.");
+  }
+  return value;
 }
