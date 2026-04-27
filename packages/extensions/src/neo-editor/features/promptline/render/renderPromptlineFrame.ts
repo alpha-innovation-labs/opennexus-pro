@@ -2,6 +2,7 @@ import { getUsageTextForModel } from "@nexus/extensions/usage-meter/index.js";
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { renderBottomBorderLabel } from "../../../shared/ui/renderBottomBorderLabel.js";
 import { renderUsageText } from "../../../shared/ui/renderUsageText.js";
+import { getPromptlineModel } from "../getPromptlineModel.js";
 import { extractEditorContentLines } from "../extractEditorContentLines.js";
 import { padToWidth } from "../padToWidth.js";
 import { prefixEditorLine } from "../prefixEditorLine.js";
@@ -35,7 +36,7 @@ export function renderPromptlineFrame(
     + renderPromptlineBorder(borderColor, uiTheme, innerWidth, buildPromptline(ctx, uiTheme, getThinkingLevel, innerWidth))
     + borderColor("╮");
   const bottom = borderColor("╰")
-    + renderBottomBorderLabel(borderColor, uiTheme, innerWidth, renderUsageText(uiTheme, getUsageTextForModel(ctx.model)))
+    + renderBottomBorderLabel(borderColor, uiTheme, innerWidth, renderUsageText(uiTheme, getUsageTextForModel(getPromptlineModel(ctx))))
     + borderColor("╯");
   const contentLines = editorContent.map((entry) => padToWidth(entry, innerWidth));
 

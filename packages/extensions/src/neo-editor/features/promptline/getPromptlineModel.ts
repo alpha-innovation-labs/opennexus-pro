@@ -1,0 +1,12 @@
+import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
+import { getPromptlineModelOverride } from "./state.js";
+
+/**
+ * Resolves the model that promptline chrome should render.
+ *
+ * @param ctx Active extension context.
+ * @returns Override model from immediate selection, or context model.
+ */
+export function getPromptlineModel(ctx: ExtensionContext): ExtensionContext["model"] {
+	return getPromptlineModelOverride() ?? ctx.model;
+}

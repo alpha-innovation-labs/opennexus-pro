@@ -24,7 +24,8 @@ test("RtkSavingsModal renders savings inside a framed modal", () => {
   assert.match(output, /┌/u);
   assert.match(output, /RTK Token Savings/u);
   assert.match(output, /Saved tokens\s+750/u);
-  assert.match(output, /Efficiency\s+\[/u);
+  assert.match(output, /Efficiency\s+\[.*\]\s+75%/u);
+  assert.ok(output.trim().split("\n").some((line) => /Efficiency\s+\[.*\]\s+75%/.test(line)));
   assert.doesNotMatch(output, /runtime/iu);
   assert.match(output, /Esc close/u);
   assert.ok(colors.includes("success"));

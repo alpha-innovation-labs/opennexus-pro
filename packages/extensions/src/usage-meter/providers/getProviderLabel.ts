@@ -15,5 +15,7 @@ export function getProviderLabel(provider: ProviderName): string {
 		codex: "codex",
 		kiro: "kiro",
 		zai: "zai",
+		minimax: "minimax",
+		"minimax-cn": "minimax-cn",
 	}[provider];
 }

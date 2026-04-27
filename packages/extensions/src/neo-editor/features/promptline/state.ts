@@ -1,3 +1,6 @@
+import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
+
+let promptlineModelOverride: ExtensionContext["model"] | undefined;
 let requestPromptlineRender: (() => void) | undefined;
 let promptlineInstalledForSession: string | null = null;
 let usageRenderUnsubscribe: (() => void) | undefined;
@@ -18,6 +21,24 @@ export function setPromptlineRenderRequest(callback: (() => void) | undefined): 
  */
 export function getPromptlineRenderRequest(): (() => void) | undefined {
   return requestPromptlineRender;
+}
+
+/**
+ * Stores the promptline model selected before the context getter refreshes.
+ *
+ * @param model Model to render, or undefined to use the context model.
+ */
+export function setPromptlineModelOverride(model: ExtensionContext["model"] | undefined): void {
+  promptlineModelOverride = model;
+}
+
+/**
+ * Returns the promptline model selected before the context getter refreshes.
+ *
+ * @returns Promptline model override.
+ */
+export function getPromptlineModelOverride(): ExtensionContext["model"] | undefined {
+  return promptlineModelOverride;
 }
 
 /**

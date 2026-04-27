@@ -1,5 +1,5 @@
 import { SettingsManager } from "../../../../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js";
-import { getPromptlineRenderRequest } from "../../promptline/state.js";
+import { getPromptlineRenderRequest, setPromptlineModelOverride } from "../../promptline/state.js";
 import { ensureEnabledModelIncludesSelection } from "../model/ensureEnabledModelIncludesSelection.js";
 import type { InternalSlashHandler } from "./types.js";
 
@@ -28,7 +28,7 @@ export const handleInternalModelCommand: InternalSlashHandler = async (args, ctx
     ctx.ui.notify(`No configured auth for ${reference}`, "error");
     return;
   }
-  (ctx as { model?: typeof model }).model = model;
+  setPromptlineModelOverride(model as never);
   getPromptlineRenderRequest()?.();
   const settings = SettingsManager.create(ctx.cwd);
   const nextEnabledModels = ensureEnabledModelIncludesSelection(settings.getEnabledModels(), reference);

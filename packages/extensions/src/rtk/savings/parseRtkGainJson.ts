@@ -1,5 +1,6 @@
 import type { RtkGainReport } from "./RtkGainReport.js";
 import { isRecord } from "./isRecord.js";
+import { isRtkGainPeriod } from "./isRtkGainPeriod.js";
 import { isRtkGainSummary } from "./isRtkGainSummary.js";
 
 /**
@@ -14,5 +15,10 @@ export function parseRtkGainJson(jsonText: string): RtkGainReport {
     throw new Error("RTK gain JSON did not include a valid summary.");
   }
 
-  return { summary: parsed.summary };
+  return {
+    daily: parseOptionalPeriods(parsed.daily),
+    monthly: parseOptionalPeriods(parsed.monthly),
+    summary: parsed.summary,
+    weekly: parseOptionalPeriods(parsed.weekly),
+  };
 }

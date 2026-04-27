@@ -15,6 +15,8 @@ export function detectProviderFromModel(model: ProviderModel): ProviderName | un
 	if (provider.includes("gemini") || (provider.includes("google") && !provider.includes("antigravity")) || modelId.includes("gemini")) return "gemini";
 	if (provider.includes("openai") || provider.includes("codex") || modelId.includes("gpt") || modelId.includes("o1") || modelId.includes("o3")) return "codex";
 	if (provider.includes("kiro") || provider.includes("aws")) return "kiro";
+	if (provider.includes("minimax-code-cn") || provider.includes("minimax-cn")) return "minimax-cn";
+	if (provider.includes("minimax-code") || provider.includes("minimax") || modelId.includes("minimax")) return "minimax";
 	if (provider.includes("zai") || provider.includes("z.ai") || provider.includes("z-ai") || provider.includes("xai")) return "zai";
 	return undefined;
 }

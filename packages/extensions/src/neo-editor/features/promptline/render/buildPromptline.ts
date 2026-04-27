@@ -1,6 +1,7 @@
 import { homedir } from "node:os";
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { getGitState } from "../../../shared/git/state.js";
+import { getPromptlineModel } from "../getPromptlineModel.js";
 import { buildContextBar } from "./buildContextBar.js";
 import { PRIMARY_COLOR, RESET } from "./constants.js";
 import { formatContextTokenUsage } from "./formatContextTokenUsage.js";
@@ -25,7 +26,7 @@ export function buildPromptline(
   width?: number,
 ): { left: string; right: string } {
   const usage = getCachedContextUsage(ctx);
-  const currentModel = ctx.model;
+  const currentModel = getPromptlineModel(ctx);
   const _modelId = stripProviderPrefix(currentModel?.id ?? "no-model");
   const _thinking = getThinkingLevel();
   const branch = getGitState().branch;

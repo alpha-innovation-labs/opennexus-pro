@@ -1,4 +1,4 @@
-export type ProviderName = "anthropic" | "copilot" | "gemini" | "antigravity" | "codex" | "kiro" | "zai";
+export type ProviderName = "anthropic" | "copilot" | "gemini" | "antigravity" | "codex" | "kiro" | "zai" | "minimax" | "minimax-cn";
 
 export type ProviderModel = {
 	provider?: string;
