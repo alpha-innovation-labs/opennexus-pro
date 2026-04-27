@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { renderCachedUserMessage } from "../../../src/extensions/tron/user-message/renderCachedUserMessage.js";
+import { renderCachedUserMessage } from "../../../packages/extensions/src/tron/user-message/renderCachedUserMessage.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 
 /**

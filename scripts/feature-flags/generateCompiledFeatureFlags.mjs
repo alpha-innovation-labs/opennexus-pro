@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 
 const sourcePath = resolve("feature-flags.json");
-const outputPath = resolve("src", "feature-flags", "generated", "compiledFeatureFlags.ts");
+const outputPath = resolve("packages", "feature-flags", "src", "generated", "compiledFeatureFlags.ts");
 
 /**
  * Builds the TypeScript source for compiled feature flags.

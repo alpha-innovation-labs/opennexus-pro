@@ -3,10 +3,10 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { createSubagentRun } from "../../../../src/extensions/sub-agents/runtime/createSubagentRun.js";
-import { listAvailableSubagentRuns } from "../../../../src/extensions/sub-agents/runtime/listAvailableSubagentRuns.js";
-import { sharedSubagentRuntime } from "../../../../src/extensions/sub-agents/runtime/sharedSubagentRuntime.js";
-import { writeSubagentRunSnapshot } from "../../../../src/extensions/sub-agents/runtime/writeSubagentRunSnapshot.js";
+import { createSubagentRun } from "../../../../packages/extensions/src/sub-agents/runtime/createSubagentRun.js";
+import { listAvailableSubagentRuns } from "../../../../packages/extensions/src/sub-agents/runtime/listAvailableSubagentRuns.js";
+import { sharedSubagentRuntime } from "../../../../packages/extensions/src/sub-agents/runtime/sharedSubagentRuntime.js";
+import { writeSubagentRunSnapshot } from "../../../../packages/extensions/src/sub-agents/runtime/writeSubagentRunSnapshot.js";
 
 /**
  * Saves and restores the subagent storage env overrides.

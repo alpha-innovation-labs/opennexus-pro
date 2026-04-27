@@ -4,12 +4,12 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import { SessionManager } from "@mariozechner/pi-coding-agent";
-import { PromptlineEditor } from "../../../src/extensions/neo-editor/features/promptline/PromptlineEditor.js";
-import { clearPromptlineConfig } from "../../../src/extensions/neo-editor/features/promptline/config/clearPromptlineConfig.js";
-import { getPromptlineConfig } from "../../../src/extensions/neo-editor/features/promptline/config/getPromptlineConfig.js";
-import { refreshPromptlineConfig } from "../../../src/extensions/neo-editor/features/promptline/config/refreshPromptlineConfig.js";
-import { clearTriggerSession } from "../../../src/extensions/neo-editor/features/promptline/trigger/sessionState.js";
-import { showStartupResumeModal } from "../../../src/extensions/neo-editor/features/menu/internal-commands/showStartupResumeModal.js";
+import { PromptlineEditor } from "../../../packages/extensions/src/neo-editor/features/promptline/PromptlineEditor.js";
+import { clearPromptlineConfig } from "../../../packages/extensions/src/neo-editor/features/promptline/config/clearPromptlineConfig.js";
+import { getPromptlineConfig } from "../../../packages/extensions/src/neo-editor/features/promptline/config/getPromptlineConfig.js";
+import { refreshPromptlineConfig } from "../../../packages/extensions/src/neo-editor/features/promptline/config/refreshPromptlineConfig.js";
+import { clearTriggerSession } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/sessionState.js";
+import { showStartupResumeModal } from "../../../packages/extensions/src/neo-editor/features/menu/internal-commands/showStartupResumeModal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 /**
  * Waits for queued async work to settle.

@@ -3,10 +3,12 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
+import type { Component } from "@mariozechner/pi-tui";
 import { SessionManager } from "@mariozechner/pi-coding-agent";
-import { primeStartupResumeModal } from "../../../src/extensions/neo-editor/primeStartupResumeModal.js";
-import { createSlashModal } from "../../../src/extensions/neo-editor/features/promptline/trigger/createSlashModal.js";
-import { startupResumeEnvVar } from "../../../src/runtime/cli/normalizeResumeStartupArgs.js";
+import { primeStartupResumeModal } from "../../../packages/extensions/src/neo-editor/primeStartupResumeModal.js";
+import { HelpShortcutsModal } from "../../../packages/extensions/src/neo-editor/features/help-shortcuts/HelpShortcutsModal.js";
+import { createSlashModal } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/createSlashModal.js";
+import { startupResumeEnvVar } from "../../../packages/nexus-runtime/src/cli/normalizeResumeStartupArgs.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
@@ -23,12 +25,22 @@ function createContext() {
       getSessionDir() {
         return process.cwd();
       },
+      getSessionName() {
+        return "Current name";
+      },
     },
     ui: {
       theme: createTestTheme(),
       notify: () => undefined,
+      editor: async () => undefined,
+      custom: async () => undefined,
     },
   };
+}
+
+/** Waits one macrotask for async modal handlers. */
+async function flushAsyncWork(): Promise<void> {
+  await new Promise((resolve) => setImmediate(resolve));
 }
 
 /**
@@ -89,6 +101,67 @@ test("slash modal opens the custom settings submenu on settings pick", async () 
 
   assert.equal(text, "unchanged");
   assert.equal(submitted, "");
+});
+
+test("slash modal opens Nexus hotkeys modal instead of submitting built-in hotkeys", async () => {
+  let submitted = "";
+  let closed = false;
+  let customComponent: Component | undefined;
+  const ctx = {
+    ...createContext(),
+    ui: {
+      ...createContext().ui,
+      custom: async (factory: any) => {
+        customComponent = await factory({ requestRender: () => undefined }, createTestTheme(), {}, () => undefined);
+      },
+    },
+  };
+  const { modal } = createSlashModal(
+    ctx as never,
+    () => { closed = true; },
+    () => undefined,
+    () => undefined,
+    () => "medium",
+    () => undefined,
+    (value) => { submitted = value; },
+    (() => ({ hide: () => undefined, focus: () => undefined, isFocused: () => true })) as never,
+  );
+
+  modal.setQuery("hotkeys");
+  await modal.refresh();
+  modal.handleInput("\r");
+  await flushAsyncWork();
+
+  assert.equal(submitted, "");
+  assert.equal(closed, true);
+  assert.ok(customComponent instanceof HelpShortcutsModal);
+});
+
+test("slash modal opens a session name input submenu with the current name prefilled", async () => {
+  let submitted = "";
+  const { modal } = createSlashModal(
+    createContext() as never,
+    () => undefined,
+    () => undefined,
+    () => undefined,
+    () => "medium",
+    () => undefined,
+    (value) => { submitted = value; },
+    (() => ({ hide: () => undefined, focus: () => undefined, isFocused: () => true })) as never,
+  );
+
+  modal.setQuery("name");
+  await modal.refresh();
+  modal.handleInput("\r");
+  await flushAsyncWork();
+  const viewport = await renderComponentInVirtualTerminal(() => modal, 100, 30);
+
+  assert.match(viewport.join("\n"), /Name > Current name/);
+  modal.handleInput("\u007f");
+  modal.handleInput("!");
+  modal.handleInput("\r");
+
+  assert.equal(submitted, "/name Current nam!");
 });
 
 test("slash modal enters the resume submenu without submitting the raw /resume command", async () => {

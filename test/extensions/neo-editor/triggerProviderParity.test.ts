@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getTriggerProvider } from "../../../src/extensions/neo-editor/features/promptline/trigger/getTriggerProvider.js";
-import { routeTriggerInput } from "../../../src/extensions/neo-editor/features/promptline/trigger/routeTriggerInput.js";
+import { getTriggerProvider } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/getTriggerProvider.js";
+import { routeTriggerInput } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/routeTriggerInput.js";
 
 const triggerKinds = ["at", "slash"] as const;
 

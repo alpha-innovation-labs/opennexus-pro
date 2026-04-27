@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { renderSummary } from "../../../src/extensions/tron/compact-tool-lines/renderSummary.ts";
-import { summarizeArgs } from "../../../src/extensions/tron/compact-tool-lines/summarizeArgs.ts";
-import { theme } from "../../../src/pi-internals/theme.js";
+import { renderSummary } from "../../../packages/extensions/src/tron/compact-tool-lines/renderSummary.ts";
+import { summarizeArgs } from "../../../packages/extensions/src/tron/compact-tool-lines/summarizeArgs.ts";
+import { theme } from "../../../packages/pi-platform/src/theme.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 
 /**

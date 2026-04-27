@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { formatPurpleBox } from "../../../src/extensions/exit-message/formatPurpleBox.js";
+import { formatPurpleBox } from "../../../packages/extensions/src/exit-message/formatPurpleBox.js";
 
 test("formatPurpleBox keeps every visible line within the requested width", () => {
 	const box = formatPurpleBox([

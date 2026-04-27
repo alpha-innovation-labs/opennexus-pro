@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { SlashMenuModal } from "../../../src/extensions/neo-editor/features/menu/SlashMenuModal.js";
-import { getSettingsRootLeaf } from "../../../src/extensions/neo-editor/features/menu/getSettingsRootLeaf.js";
+import { SlashMenuModal } from "../../../packages/extensions/src/neo-editor/features/menu/SlashMenuModal.js";
+import { getSettingsRootLeaf } from "../../../packages/extensions/src/neo-editor/features/menu/getSettingsRootLeaf.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
@@ -18,6 +18,36 @@ function createContext() {
       notify: () => undefined,
     },
   };
+}
+
+/**
+ * Removes ANSI escape codes from rendered terminal output.
+ *
+ * @param value Rendered text.
+ * @returns Plain text.
+ */
+function stripAnsi(value: string): string {
+  return value.replace(/\u001b\[[0-9;]*m/g, "");
+}
+
+/**
+ * Finds the index where the current setting value starts.
+ *
+ * @param line Rendered settings row.
+ * @param label Setting label.
+ * @returns Value column index.
+ */
+function findSettingsValueColumn(line: string, label: string): number {
+  const suffix = line.slice(line.indexOf(label) + label.length);
+  const match = suffix.match(/\S/);
+  return match ? line.indexOf(label) + label.length + match.index! : -1;
+}
+
+/**
+ * Waits for slash-menu async enter handlers to settle.
+ */
+async function flushSlashMenuInput(): Promise<void> {
+  await new Promise((resolve) => setImmediate(resolve));
 }
 
 test("settings root points to the custom settings branch", () => {
@@ -48,10 +78,46 @@ test("selecting settings opens the custom settings submenu instead of handing of
     picked = commandText;
   });
 
+  modal.setQuery("settings");
   await modal.refresh();
   modal.handleInput("\r");
-  const viewport = await renderComponentInVirtualTerminal(() => modal, 120, 30);
+  const viewport = await renderComponentInVirtualTerminal(() => modal, 120, 50);
+
+  const output = stripAnsi(viewport.join("\n"));
+  const firstBorderLine = output.split("\n").find((line) => line.includes("┌")) ?? "";
+  const autoCompactLine = output.split("\n").find((line) => line.includes("Auto-compact")) ?? "";
+  const showImagesLine = output.split("\n").find((line) => line.includes("Show images")) ?? "";
 
   assert.equal(picked, "");
-  assert.match(viewport.join("\n"), /Auto-compact/);
+  assert.match(output, /Auto-compact/);
+  assert.doesNotMatch(output, /Preview/);
+  assert.ok(firstBorderLine.trim().length < 80);
+  assert.equal(findSettingsValueColumn(autoCompactLine, "Auto-compact"), findSettingsValueColumn(showImagesLine, "Show images"));
+});
+
+test("settings options open a choice submenu and keep the settings cursor after update", async () => {
+  let thinkingLevel = "medium";
+  const modal = new SlashMenuModal({ ...createContext(), model: { id: "gpt-5", reasoning: true } } as never, () => thinkingLevel, (value) => { thinkingLevel = value; }, () => undefined, () => undefined, () => undefined);
+
+  await modal.openLevel("settings");
+  modal.setQuery("thinking");
+  await modal.refresh();
+  modal.handleInput("\r");
+  await flushSlashMenuInput();
+  let output = stripAnsi((await renderComponentInVirtualTerminal(() => modal, 120, 50)).join("\n"));
+
+  assert.match(output, /Settings > Thinking level/);
+  assert.match(output, /◉ medium/);
+  assert.match(output, /○ high/);
+
+  modal.handleInput("\u001b[B");
+  modal.handleInput("\r");
+  await flushSlashMenuInput();
+  assert.equal(thinkingLevel, "high");
+
+  modal.handleInput("\r");
+  await flushSlashMenuInput();
+  output = stripAnsi((await renderComponentInVirtualTerminal(() => modal, 120, 50)).join("\n"));
+  assert.match(output, /Settings > Thinking level/);
+  assert.match(output, /◉ high/);
 });

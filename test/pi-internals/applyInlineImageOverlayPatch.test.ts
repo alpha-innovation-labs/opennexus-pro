@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { TUI, setCapabilities, resetCapabilitiesCache, type Component } from "../../node_modules/@mariozechner/pi-tui/dist/index.js";
-import { applyInlineImageOverlayPatch } from "../../src/pi-internals/inline-image-overlays/applyInlineImageOverlayPatch.js";
+import { applyInlineImageOverlayPatch } from "../../packages/pi-platform/src/inline-image-overlays/applyInlineImageOverlayPatch.js";
 import { VirtualTerminal } from "../support/terminal/VirtualTerminal.js";
 
 /**

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createTempKanbanBoard } from "../../../src/extensions/kanban/data/createTempKanbanBoard.js";
-import { KanbanModal } from "../../../src/extensions/kanban/modal/KanbanModal.js";
+import { createTempKanbanBoard } from "../../../packages/extensions/src/kanban/data/createTempKanbanBoard.js";
+import { KanbanModal } from "../../../packages/extensions/src/kanban/modal/KanbanModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

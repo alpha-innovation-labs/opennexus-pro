@@ -1,0 +1,202 @@
+import type { FeatureFlagsConfig } from "../types.js";
+
+/**
+ * Feature flags compiled into the app at build time.
+ */
+export const compiledFeatureFlags = {
+  "extensions": {
+    "ai-providers": {
+      "enabled": true,
+      "features": [
+        "oh-my-pi provider login entries",
+        "manual credential prompts for additional providers",
+        "/login provider availability"
+      ]
+    },
+    "annotate": {
+      "enabled": false,
+      "features": [
+        "annotate command",
+        "annotate tool",
+        "chrome extension bridge"
+      ],
+      "devOnly": true
+    },
+    "cmux": {
+      "enabled": true,
+      "features": [
+        "sync session title to cmux pane title",
+        "notify cmux tab when pane is done"
+      ]
+    },
+    "context-usage": {
+      "enabled": false,
+      "features": [
+        "context_usage tool for current chat context window usage"
+      ],
+      "devOnly": true
+    },
+    "dev": {
+      "devOnly": true,
+      "enabled": false,
+      "features": [
+        "/dev-modal command",
+        "dev-only modal variation playground",
+        "tab and shift+tab modal variant cycling"
+      ]
+    },
+    "exit-message": {
+      "enabled": true,
+      "features": [
+        "print session title on app exit"
+      ]
+    },
+    "feature-management": {
+      "enabled": false,
+      "features": [
+        "/features command",
+        "feature status modal",
+        "production and dev channel labels"
+      ],
+      "devOnly": true
+    },
+    "fff": {
+      "enabled": true,
+      "features": [
+        "FFF-backed read override",
+        "FFF-backed grep override",
+        "FFF-powered @ file autocomplete"
+      ]
+    },
+    "kanban": {
+      "enabled": false,
+      "features": [
+        "/extension command",
+        "two-pane task board modal",
+        "temporary in-loop and completed task data"
+      ],
+      "devOnly": true
+    },
+    "md-editor": {
+      "enabled": false,
+      "features": [
+        "/editor command",
+        "demo.md Markdown line modal",
+        "hidden persistent per-line chats",
+        "live reload with diff acceptance",
+        "Tron-styled right-panel mini chat"
+      ],
+      "devOnly": true
+    },
+    "neo-editor": {
+      "enabled": true,
+      "features": [
+        "custom promptline",
+        "usage meter",
+        "@ file autocomplete",
+        "editor trigger submit",
+        "macOS ctrl+v image paste fallback"
+      ]
+    },
+    "notify": {
+      "enabled": true,
+      "features": [
+        "desktop notification on agent completion",
+        "macOS submarine sound by default",
+        "NEXUS_NOTIFY_SOUND_CMD override"
+      ]
+    },
+    "observations": {
+      "enabled": true,
+      "features": [
+        "observation tracking",
+        "status widget",
+        "/observations command"
+      ]
+    },
+    "playground": {
+      "devOnly": true,
+      "enabled": false,
+      "features": [
+        "playground modal",
+        "ctrl+i shortcut"
+      ]
+    },
+    "rtk": {
+      "enabled": true,
+      "features": [
+        "rtk rewrite for bash",
+        "rtk-native read/find/ls/grep tools"
+      ]
+    },
+    "startup-logo": {
+      "enabled": true,
+      "features": [
+        "show N logo on fresh startup"
+      ]
+    },
+    "sub-agent-status-widget": {
+      "enabled": false,
+      "features": [
+        "custom subagent working widget",
+        "live agent status lines",
+        "replaces Pi default working loader"
+      ],
+      "devOnly": true
+    },
+    "sub-agents": {
+      "enabled": false,
+      "features": [
+        "rpc child-process subagent execution",
+        "custom context providers",
+        "background result lookup and steering"
+      ],
+      "devOnly": true
+    },
+    "term-modal": {
+      "enabled": false,
+      "features": [
+        "persistent shell",
+        "/term commands",
+        "terminal shortcuts"
+      ],
+      "devOnly": true
+    },
+    "todo": {
+      "enabled": false,
+      "features": [
+        "todo modal",
+        "ctrl+\\ shortcut"
+      ],
+      "devOnly": true
+    },
+    "tron": {
+      "enabled": true,
+      "features": [
+        "compact tool lines",
+        "thinking style",
+        "tool calls browser",
+        "user message bubble"
+      ]
+    },
+    "workflows": {
+      "enabled": false,
+      "features": [
+        "/workflow command",
+        "workflow Librarian prompt",
+        "workflow Engineer prompt",
+        "continuous subagent steering instructions"
+      ],
+      "devOnly": true
+    },
+    "workspace": {
+      "enabled": false,
+      "features": [
+        "session switcher",
+        "ctrl+; shortcut",
+        "workspace top bar"
+      ],
+      "devOnly": true
+    }
+  }
+} satisfies FeatureFlagsConfig;

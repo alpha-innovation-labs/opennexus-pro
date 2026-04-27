@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { resolveBundledExtensionFactories } from "../../../src/runtime/extensions/resolveBundledExtensionFactories.js";
+import { resolveBundledExtensionFactories } from "../../../apps/tui/src/runtime/extensions/resolveBundledExtensionFactories.js";
 
 test("resolveBundledExtensionFactories returns factories by default", async () => {
   let called = false;

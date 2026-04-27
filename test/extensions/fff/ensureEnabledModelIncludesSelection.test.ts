@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { ensureEnabledModelIncludesSelection } from "../../../src/extensions/neo-editor/features/menu/model/ensureEnabledModelIncludesSelection.js";
+import { ensureEnabledModelIncludesSelection } from "../../../packages/extensions/src/neo-editor/features/menu/model/ensureEnabledModelIncludesSelection.js";
 
 test("ensureEnabledModelIncludesSelection leaves all-model scope unchanged", () => {
   assert.equal(ensureEnabledModelIncludesSelection(undefined, "openai-codex/gpt-5.5"), undefined);

@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { appendSubagentTranscriptEntry } from "../../../../src/extensions/sub-agents/runtime/appendSubagentTranscriptEntry.js";
-import { createSubagentRun } from "../../../../src/extensions/sub-agents/runtime/createSubagentRun.js";
-import { sharedSubagentRuntime } from "../../../../src/extensions/sub-agents/runtime/sharedSubagentRuntime.js";
-import { steerSubagentRun } from "../../../../src/extensions/sub-agents/runtime/steerSubagentRun.js";
+import { appendSubagentTranscriptEntry } from "../../../../packages/extensions/src/sub-agents/runtime/appendSubagentTranscriptEntry.js";
+import { createSubagentRun } from "../../../../packages/extensions/src/sub-agents/runtime/createSubagentRun.js";
+import { sharedSubagentRuntime } from "../../../../packages/extensions/src/sub-agents/runtime/sharedSubagentRuntime.js";
+import { steerSubagentRun } from "../../../../packages/extensions/src/sub-agents/runtime/steerSubagentRun.js";
 
 test("steerSubagentRun queues steering messages before the child client exists", async () => {
   const run = createSubagentRun(

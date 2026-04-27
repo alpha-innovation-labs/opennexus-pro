@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { applyTelegramLiveStatusEvent } from "../../../../src/adapters/telegram/live-status/applyTelegramLiveStatusEvent.js";
-import { createTelegramLiveStatusState } from "../../../../src/adapters/telegram/live-status/createTelegramLiveStatusState.js";
+import { applyTelegramLiveStatusEvent } from "../../../../packages/social-adapters/src/telegram/live-status/applyTelegramLiveStatusEvent.js";
+import { createTelegramLiveStatusState } from "../../../../packages/social-adapters/src/telegram/live-status/createTelegramLiveStatusState.js";
 
 test("applyTelegramLiveStatusEvent tracks thinking and tool activity", () => {
   const state = createTelegramLiveStatusState();

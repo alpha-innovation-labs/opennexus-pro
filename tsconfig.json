@@ -1,22 +1,16 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2023", "DOM"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
-    "types": ["node"]
+    "noEmit": true
   },
   "exclude": [
-    "src/**/*.test.ts"
+    "src/**/*.test.ts",
+    "apps/**/*.test.ts",
+    "packages/**/*.test.ts"
   ],
   "include": [
-    "src/**/*.ts",
+    "apps/**/*.ts",
+    "packages/**/*.ts",
     "test/**/*.ts"
   ]
 }

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createBundledExtensionFactories } from "../../src/extensions/createBundledExtensionFactories.js";
-import registerBundledExtensions from "../../src/extensions/index.js";
+import { createBundledExtensionFactories } from "../../packages/extensions/src/createBundledExtensionFactories.js";
+import registerBundledExtensions from "../../packages/extensions/src/index.js";
 
 test("createBundledExtensionFactories returns the source bundled extension entrypoint", async () => {
   const factories = await createBundledExtensionFactories();

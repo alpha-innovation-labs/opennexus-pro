@@ -5,6 +5,7 @@ import { getBundleDir } from "../binary/getBundleDir.mjs";
 import { ensureCleanDir } from "../binary/ensureCleanDir.mjs";
 import { getReleaseNpmPackageDir } from "./getReleaseNpmPackageDir.mjs";
 import { readRootPackageMetadata } from "./readRootPackageMetadata.mjs";
+import { createPortablePostinstallScript } from "./createPortablePostinstallScript.mjs";
 
 /**
  * Creates the temporary npm package that installs the binary-only Nexus release.
@@ -23,7 +24,7 @@ export async function createReleaseNpmPackage(packageDir = getReleaseNpmPackageD
     await copyPath(join(bundleDir, "package", assetName), join(packageDir, assetName));
   }
 
-  const postinstall = `node -e "const fs=require('fs');const path=require('path');const ffiSrc=path.join(process.cwd(),'node_modules','@yuuang','ffi-rs-darwin-arm64','ffi-rs.darwin-arm64.node');const ffiDst=path.join(process.cwd(),'node_modules','ffi-rs','ffi-rs.darwin-arm64.node');const spawnHelper=path.join(process.cwd(),'node_modules','node-pty','prebuilds','darwin-arm64','spawn-helper');if(fs.existsSync(ffiSrc)){fs.mkdirSync(path.dirname(ffiDst),{recursive:true});fs.copyFileSync(ffiSrc,ffiDst);}if(fs.existsSync(spawnHelper)){fs.chmodSync(spawnHelper,0o755);}"`;
+  const postinstall = createPortablePostinstallScript();
 
   await writeFile(
     join(packageDir, "package.json"),

@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import { SessionManager } from "@mariozechner/pi-coding-agent";
-import { listSessions } from "../../../src/cli/sessions/listSessions.js";
+import { listSessions } from "../../../apps/tui/src/cli/sessions/listSessions.js";
 
 test("listSessions returns oldest sessions first so the most recent session is at the bottom", async () => {
   const sessionDir = await mkdtemp(join(tmpdir(), "nexus-cli-session-order-"));

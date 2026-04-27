@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { setExitMessage } from "../../../src/extensions/exit-message/state/setExitMessage.js";
-import { getExitMessage } from "../../../src/extensions/exit-message/state/getExitMessage.js";
-import { printExitMessage } from "../../../src/runtime/exit-message/printExitMessage.js";
+import { setExitMessage } from "../../../packages/extensions/src/exit-message/state/setExitMessage.js";
+import { getExitMessage } from "../../../packages/extensions/src/exit-message/state/getExitMessage.js";
+import { printExitMessage } from "../../../apps/tui/src/runtime/exit-message/printExitMessage.js";
 
 test("printExitMessage writes and clears the queued exit message", () => {
 	const output: string[] = [];

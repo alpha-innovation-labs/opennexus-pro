@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { SessionManager } from "@mariozechner/pi-coding-agent";
-import { getLineChatSessionPath } from "../../../src/extensions/md-editor/line-chat/getLineChatSessionPath.js";
+import { getLineChatSessionPath } from "../../../packages/extensions/src/md-editor/line-chat/getLineChatSessionPath.js";
 
 test("editor_line_chat_persistence_hidden_resume", async () => {
 	const dir = await mkdtemp(path.join(os.tmpdir(), "sessions-"));

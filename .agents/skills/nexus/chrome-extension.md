@@ -1,19 +1,19 @@
 # chrome-extension
 
-- Source path: `src/chrome-extension`
+- Source path: `apps/chrome-extension`
 - Skill index: [`SKILL.md`](./SKILL.md)
 
 ## What this area covers
 
-`src/chrome-extension` holds the browser extension assets and native-host bridge used by annotate. This top level mixes 5 root files with 2 immediate component folders.
+`apps/chrome-extension` holds the browser extension assets and native-host bridge used by annotate. This top level mixes 5 root files with 2 immediate component folders.
 
 ## Root entry files
 
-- `src/chrome-extension/background.js`
-- `src/chrome-extension/content.js`
-- `src/chrome-extension/popup.html`
-- `src/chrome-extension/popup.js`
-- `src/chrome-extension/manifest.json`
+- `apps/chrome-extension/background.js`
+- `apps/chrome-extension/content.js`
+- `apps/chrome-extension/popup.html`
+- `apps/chrome-extension/popup.js`
+- `apps/chrome-extension/manifest.json`
 
 ## Component map
 
@@ -22,9 +22,9 @@
 
 ## Read this first
 
-1. `src/chrome-extension/manifest.json`
-2. `src/chrome-extension/background.js`
-3. `src/chrome-extension/native/host.cjs`
+1. `apps/chrome-extension/manifest.json`
+2. `apps/chrome-extension/background.js`
+3. `apps/chrome-extension/native/host.cjs`
 
 ## Navigation notes
 

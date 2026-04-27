@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { extractAssistantTextFromJsonEvents } from "../../../src/adapters/telegram/runtime/extractAssistantTextFromJsonEvents.js";
+import { extractAssistantTextFromJsonEvents } from "../../../packages/social-adapters/src/telegram/runtime/extractAssistantTextFromJsonEvents.js";
 
 test("extractAssistantTextFromJsonEvents reads the final assistant text from agent_end", () => {
   const text = extractAssistantTextFromJsonEvents([

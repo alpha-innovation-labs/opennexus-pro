@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { WorkspaceSessionsModal, buildSessionDetailLines } from "../../../src/extensions/workspace/WorkspaceSessionsModal.js";
-import { formatSessionLabel } from "../../../src/extensions/workspace/formatSessionLabel.js";
+import { WorkspaceSessionsModal, buildSessionDetailLines } from "../../../packages/extensions/src/workspace/WorkspaceSessionsModal.js";
+import { formatSessionLabel } from "../../../packages/extensions/src/workspace/formatSessionLabel.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

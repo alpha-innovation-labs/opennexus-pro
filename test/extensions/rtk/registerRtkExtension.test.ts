@@ -3,16 +3,17 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { registerRtkExtension } from "../../../src/extensions/rtk/registerRtkExtension.js";
-import { clearRtkRuntimeForCwd, getRtkRuntimeForCwd } from "../../../src/extensions/rtk/runtime/runtimeStore.js";
-import { getBuiltInTools } from "../../../src/extensions/tron/compact-tool-lines/getBuiltInTools.js";
+import { registerRtkExtension } from "../../../packages/extensions/src/rtk/registerRtkExtension.js";
+import { getRtkDefaultInstallPath } from "../../../packages/extensions/src/rtk/runtime/getRtkDefaultInstallPath.js";
+import { clearRtkRuntimeForCwd, getRtkRuntimeForCwd } from "../../../packages/extensions/src/rtk/runtime/runtimeStore.js";
+import { getBuiltInTools } from "../../../packages/extensions/src/tron/compact-tool-lines/getBuiltInTools.js";
 
 /**
  * Creates a minimal RTK extension harness for registration and runtime tests.
  *
  * @returns Registered handlers, tools, and exec call history.
  */
-function createRtkHarness(): {
+function createRtkHarness(harnessOptions: { missingPathRtk?: boolean } = {}): {
   handlers: Map<string, (event: unknown, ctx: { cwd: string; signal?: AbortSignal }) => Promise<void> | void>;
   tools: Map<string, { execute: (...args: unknown[]) => Promise<unknown> }>;
   calls: Array<{ command: string; args: string[]; cwd?: string }>;
@@ -20,6 +21,7 @@ function createRtkHarness(): {
   const handlers = new Map<string, (event: unknown, ctx: { cwd: string; signal?: AbortSignal }) => Promise<void> | void>();
   const tools = new Map<string, { execute: (...args: unknown[]) => Promise<unknown> }>();
   const calls: Array<{ command: string; args: string[]; cwd?: string }> = [];
+  let installed = false;
 
   registerRtkExtension({
     on(event: string, handler: (event: unknown, ctx: { cwd: string; signal?: AbortSignal }) => Promise<void> | void) {
@@ -28,11 +30,26 @@ function createRtkHarness(): {
     registerTool(tool: { name: string; execute: (...args: unknown[]) => Promise<unknown> }) {
       tools.set(tool.name, tool);
     },
+    registerCommand() {
+      return undefined;
+    },
     async exec(command: string, args: string[], options?: { cwd?: string; signal?: AbortSignal }) {
       calls.push({ command, args, cwd: options?.cwd });
 
-      if (command !== "rtk") {
+      if (command === "sh") {
+        installed = true;
+        return { code: 0, stdout: "installed\n", stderr: "" };
+      }
+
+      if (command !== "rtk" && command !== getRtkDefaultInstallPath()) {
         return { code: 0, stdout: "", stderr: "" };
+      }
+
+      if (harnessOptions.missingPathRtk && command === "rtk") {
+        return { code: 127, stdout: "", stderr: "command not found" };
+      }
+      if (harnessOptions.missingPathRtk && command === getRtkDefaultInstallPath() && !installed) {
+        return { code: 127, stdout: "", stderr: "command not found" };
       }
 
       switch (args[0]) {
@@ -101,6 +118,17 @@ test("RTK extension registers RTK-backed tools and rewrites bash commands", asyn
 /**
  * RTK tools should not throw when tool execution context is missing.
  */
+test("RTK extension prepares environment when RTK is missing from PATH", async () => {
+  await withRtkSession(async ({ cwd, handlers, calls }) => {
+    await handlers.get("session_start")?.({}, { cwd });
+
+    assert.ok(getRtkRuntimeForCwd(cwd));
+    assert.ok(calls.some((call) => call.command === "rtk" && call.args[0] === "--version"));
+    assert.ok(calls.some((call) => call.command === "sh" && call.args.join(" ") === "-c curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | sh"));
+    assert.deepEqual(calls.at(-1), { command: getRtkDefaultInstallPath(), args: ["--version"], cwd });
+  }, { missingPathRtk: true });
+});
+
 test("RTK tools fall back cleanly when tool context is missing", async () => {
   await withRtkSession(async ({ cwd, handlers, tools, calls }) => {
     const previousCwd = process.cwd();
@@ -210,9 +238,10 @@ async function withRtkSession(
     tools: Map<string, { execute: (...args: unknown[]) => Promise<unknown> }>;
     calls: Array<{ command: string; args: string[]; cwd?: string }>;
   }) => Promise<void>,
+  options: { missingPathRtk?: boolean } = {},
 ): Promise<void> {
   const cwd = await mkdtemp(join(tmpdir(), "nexus-rtk-"));
-  const harness = createRtkHarness();
+  const harness = createRtkHarness(options);
 
   try {
     await fn({ cwd, ...harness });

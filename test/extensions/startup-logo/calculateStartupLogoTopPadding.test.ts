@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { calculateStartupLogoTopPadding } from "../../../src/extensions/startup-logo/calculateStartupLogoTopPadding.js";
+import { calculateStartupLogoTopPadding } from "../../../packages/extensions/src/startup-logo/calculateStartupLogoTopPadding.js";
 
 test("startup logo top padding centers the first editor prompt on normal terminals", () => {
 	assert.equal(calculateStartupLogoTopPadding(40, 5), 12);

@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { ToolExecutionComponent } from "../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
-import { setToolGroupCollapseEnabled } from "../../src/extensions/tron/collapse/state.js";
-import { applyCompactModeImagePatch } from "../../src/pi-internals/applyCompactModeImagePatch.js";
+import { setToolGroupCollapseEnabled } from "../../packages/extensions/src/tron/collapse/state.js";
+import { applyCompactModeImagePatch } from "../../packages/pi-platform/src/applyCompactModeImagePatch.js";
 import { initializePiThemes } from "../support/theme/initializePiThemes.js";
 
 /**

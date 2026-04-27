@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { formatTelegramHtml } from "../../../src/adapters/telegram/format/formatTelegramHtml.js";
+import { formatTelegramHtml } from "../../../packages/social-adapters/src/telegram/format/formatTelegramHtml.js";
 
 test("formatTelegramHtml renders bold and inline code", () => {
   assert.equal(formatTelegramHtml("**Hello** `world`") , "<b>Hello</b> <code>world</code>");

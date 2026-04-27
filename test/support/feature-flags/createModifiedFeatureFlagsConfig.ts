@@ -1,4 +1,4 @@
-import type { FeatureFlagsConfig } from "../../../src/feature-flags/types.js";
+import type { FeatureFlagsConfig } from "../../../packages/feature-flags/src/types.js";
 
 /**
  * Creates a copy of the config with only the requested extension ids enabled.

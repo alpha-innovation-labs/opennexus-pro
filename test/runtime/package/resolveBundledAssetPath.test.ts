@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { resolveBundledAssetPath } from "../../../src/runtime/package/resolveBundledAssetPath.js";
+import { resolveBundledAssetPath } from "../../../packages/nexus-runtime/src/package/resolveBundledAssetPath.js";
 
 test("resolveBundledAssetPath uses source-relative paths outside bundled mode", () => {
   const resolvedPath = resolveBundledAssetPath(
-    "file:///workspace/src/feature-flags/getFeatureFlagsConfigPath.ts",
+    "file:///workspace/packages/feature-flags/src/getFeatureFlagsConfigPath.ts",
     "feature-flags.json",
-    "../../feature-flags.json",
+    "../../../feature-flags.json",
   );
 
   assert.equal(resolvedPath, "/workspace/feature-flags.json");

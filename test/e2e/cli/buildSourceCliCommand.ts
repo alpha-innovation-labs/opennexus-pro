@@ -7,5 +7,5 @@ import { quoteShellArg } from "./quoteShellArg.js";
  * @returns Shell command string.
  */
 export function buildSourceCliCommand(args: readonly string[]): string {
-  return ["./node_modules/.bin/tsx", "src/index.ts", ...args].map((value) => quoteShellArg(value)).join(" ");
+  return ["./node_modules/.bin/tsx", "apps/tui/src/index.ts", ...args].map((value) => quoteShellArg(value)).join(" ");
 }

@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getBundledCommandsPath } from "../../src/commands/getBundledCommandsPath.js";
-import { createAppArgs } from "../../src/cli/createAppArgs.js";
-import { baseSystemPrompt } from "../../src/prompts/base-system-prompt/baseSystemPrompt.js";
-import { getBundledThemesPath } from "../../src/themes/getBundledThemesPath.js";
+import { getBundledCommandsPath } from "../../packages/assets/src/commands/getBundledCommandsPath.js";
+import { createAppArgs } from "../../apps/tui/src/cli/createAppArgs.js";
+import { baseSystemPrompt } from "../../packages/assets/src/prompts/base-system-prompt/baseSystemPrompt.js";
+import { getBundledThemesPath } from "../../packages/assets/src/themes/getBundledThemesPath.js";
 
 test("createAppArgs prepends bundled themes, bundled commands, the base system prompt, and --no-extensions", () => {
   assert.deepEqual(createAppArgs(["--help"]), [

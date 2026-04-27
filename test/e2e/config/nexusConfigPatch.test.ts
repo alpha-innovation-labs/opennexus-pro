@@ -42,7 +42,7 @@ test("runtime patch reads project settings from .nexus and falls back to nexus-b
 
   const output = await runIsolatedEval(
     [
-      'import { applyNexusConfigPatch } from "./src/runtime/config/applyNexusConfigPatch.ts";',
+      'import { applyNexusConfigPatch } from "./packages/nexus-runtime/src/config/applyNexusConfigPatch.ts";',
       '(async () => {',
       '  await applyNexusConfigPatch();',
       '  const { SettingsManager } = await import("./node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js");',
@@ -91,7 +91,7 @@ test("runtime patch applies Nexus app defaults first, then user settings, then p
 
   const defaultsOutput = await runIsolatedEval(
     [
-      'import { applyNexusConfigPatch } from "./src/runtime/config/applyNexusConfigPatch.ts";',
+      'import { applyNexusConfigPatch } from "./packages/nexus-runtime/src/config/applyNexusConfigPatch.ts";',
       '(async () => {',
       '  await applyNexusConfigPatch();',
       '  const { SettingsManager } = await import("./node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js");',

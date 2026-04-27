@@ -11,7 +11,7 @@
     "generate:feature-flags": "node scripts/feature-flags/generateCompiledFeatureFlags.mjs && node scripts/feature-flags/generateCompiledBundledExtensions.mjs",
     "build:binary": "npm run generate:feature-flags && node scripts/release/buildBinaryBundle.mjs",
     "build:release": "npm run build:binary",
-    "dev": "tsx -- src/index.ts",
+    "dev": "tsx -- apps/tui/src/index.ts",
     "test": "node scripts/testing/runTests.mjs"
   },
   "dependencies": {
@@ -27,6 +27,7 @@
     "cli-table3": "^0.6.5",
     "jiti": "^2.6.1",
     "node-pty": "^1.1.0",
+    "pi-cursor-provider": "^0.1.11",
     "ws": "^8.20.0"
   },
   "devDependencies": {
@@ -37,5 +38,9 @@
     "javascript-obfuscator": "^5.4.2",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3"
-  }
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }

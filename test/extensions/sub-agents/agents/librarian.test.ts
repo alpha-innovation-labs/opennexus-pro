@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getLibrarianPromptText } from "../../../../src/extensions/sub-agents/agents/librarian.js";
+import { getLibrarianPromptText } from "../../../../packages/extensions/src/sub-agents/agents/librarian.js";
 
 /**
  * Verifies the bundled Librarian prompt text stays read-only and lookup-focused.

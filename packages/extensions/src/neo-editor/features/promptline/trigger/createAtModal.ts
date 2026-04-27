@@ -1,0 +1,32 @@
+import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
+import type { AutocompleteItem } from "@mariozechner/pi-tui";
+import { createPanelOverlayOptions } from "../../../../overlay/createPanelOverlayOptions.js";
+import { AtModal } from "../AtModal.js";
+import type { TriggerModalHandle, ShowOverlay } from "./types.js";
+
+/**
+ * Creates and shows the `@` trigger modal.
+ *
+ * @param ctx Extension context.
+ * @param uiTheme UI theme.
+ * @param onPick Pick handler.
+ * @param onClose Close handler.
+ * @param requestRender Render callback.
+ * @param showOverlay Overlay factory.
+ * @returns At modal and handle.
+ */
+export function createAtModal(
+  ctx: ExtensionContext,
+  uiTheme: ExtensionContext["ui"]["theme"],
+  onPick: (item: AutocompleteItem) => void,
+  onClose: () => void,
+  requestRender: () => void,
+  showOverlay: ShowOverlay,
+): { modal: AtModal; handle: TriggerModalHandle } {
+  const modal = new AtModal(ctx.cwd, uiTheme, onPick, onClose, requestRender);
+  const handle = showOverlay(modal, {
+    ...createPanelOverlayOptions(80, "85%"),
+    nonCapturing: true,
+  });
+  return { modal, handle };
+}

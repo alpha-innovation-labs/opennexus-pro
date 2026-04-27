@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { ThinkingLabelBlock } from "../../../src/extensions/tron/thinking/ThinkingLabelBlock.js";
+import { ThinkingLabelBlock } from "../../../packages/extensions/src/tron/thinking/ThinkingLabelBlock.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 
 /**

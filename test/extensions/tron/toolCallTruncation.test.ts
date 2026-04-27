@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { shortenPath } from "../../../src/extensions/tron/compact-tool-lines/shortenPath.js";
-import { truncateSingleLineFromStart } from "../../../src/extensions/tron/compact-tool-lines/truncateSingleLineFromStart.js";
+import { shortenPath } from "../../../packages/extensions/src/tron/compact-tool-lines/shortenPath.js";
+import { truncateSingleLineFromStart } from "../../../packages/extensions/src/tron/compact-tool-lines/truncateSingleLineFromStart.js";
 
 test("shortenPath keeps the end of long paths and truncates from the start", () => {
   const shortened = shortenPath(".worktrees/dual-chat-split-pane/src/feature/bootstrapPrimaryPaneFromBranch.ts");
@@ -12,7 +12,7 @@ test("shortenPath keeps the end of long paths and truncates from the start", () 
 
 test("truncateSingleLineFromStart keeps the end of long summaries", () => {
   const truncated = truncateSingleLineFromStart(
-    "write .worktrees/dual-chat-split-pane/src/feature/bootstrapPrimaryPaneFromBranch.ts import type { SessionEntry } from '../../../pi-internals/sessionManager.js';",
+    "write .worktrees/dual-chat-split-pane/src/feature/bootstrapPrimaryPaneFromBranch.ts import type { SessionEntry } from '@nexus/pi-platform/sessionManager.js';",
     90,
   );
 

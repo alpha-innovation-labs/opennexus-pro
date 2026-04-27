@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerSubagentStatusWidgetExtension } from "../../../src/extensions/sub-agent-status-widget/registerSubagentStatusWidgetExtension.js";
-import { subagentStatusWidgetIndicator } from "../../../src/extensions/sub-agent-status-widget/runtime/subagentStatusWidgetIndicator.js";
-import { SUBAGENT_STATUS_WIDGET_KEY } from "../../../src/extensions/sub-agent-status-widget/runtime/subagentStatusWidgetKey.js";
-import { sharedSubagentRuntime } from "../../../src/extensions/sub-agents/runtime/sharedSubagentRuntime.js";
+import { registerSubagentStatusWidgetExtension } from "../../../packages/extensions/src/sub-agent-status-widget/registerSubagentStatusWidgetExtension.js";
+import { subagentStatusWidgetIndicator } from "../../../packages/extensions/src/sub-agent-status-widget/runtime/subagentStatusWidgetIndicator.js";
+import { SUBAGENT_STATUS_WIDGET_KEY } from "../../../packages/extensions/src/sub-agent-status-widget/runtime/subagentStatusWidgetKey.js";
+import { sharedSubagentRuntime } from "../../../packages/extensions/src/sub-agents/runtime/sharedSubagentRuntime.js";
 
 type SessionStartHandler = ((event: unknown, ctx: any) => Promise<void>) | undefined;
 type SessionShutdownHandler = ((event: unknown, ctx: any) => Promise<void>) | undefined;

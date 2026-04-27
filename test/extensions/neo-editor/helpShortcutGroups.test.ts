@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getHelpShortcutGroups } from "../../../src/extensions/neo-editor/features/help-shortcuts/getHelpShortcutGroups.js";
-import { clearRegisteredShortcuts, recordRegisteredShortcut } from "../../../src/extensions/shared/shortcuts/index.js";
+import { getHelpShortcutGroups } from "../../../packages/extensions/src/neo-editor/features/help-shortcuts/getHelpShortcutGroups.js";
+import { clearRegisteredShortcuts, recordRegisteredShortcut } from "../../../packages/tui-kit/src/shortcuts/index.js";
 
 /**
  * Flattens help shortcuts for assertions.

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createCommandLeaves } from "../../../src/extensions/neo-editor/features/menu/createCommandLeaves.js";
-import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../src/extensions/neo-editor/features/menu/registerSlashCommand.js";
+import { createCommandLeaves } from "../../../packages/extensions/src/neo-editor/features/menu/createCommandLeaves.js";
+import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../packages/extensions/src/neo-editor/features/menu/registerSlashCommand.js";
 
 test.beforeEach(() => {
   clearRegisteredSlashCommands();

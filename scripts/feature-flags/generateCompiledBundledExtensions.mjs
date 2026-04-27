@@ -2,9 +2,10 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 
 const sourcePath = resolve("feature-flags.json");
-const outputPath = resolve("src", "extensions", "generated", "registerCompiledEnabledExtensions.ts");
+const outputPath = resolve("packages", "extensions", "src", "generated", "registerCompiledEnabledExtensions.ts");
 
 const extensionModules = {
+  "ai-providers": { importPath: "../ai-providers/registerAiProvidersExtension.js", exportName: "registerAiProvidersExtension" },
   annotate: { importPath: "../annotate/registerAnnotateExtension.js", exportName: "registerAnnotateExtension" },
   cmux: { importPath: "../cmux/registerCmuxExtension.js", exportName: "registerCmuxExtension" },
   "context-usage": {
@@ -47,8 +48,8 @@ const extensionModules = {
 function createModuleSource(enabledIds) {
   const imports = [
     'import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";',
-    'import { applySystemExtensionAvailability } from "../../feature-flags/applySystemExtensionAvailability.js";',
-    'import { getBundledFeatureFlagsConfig } from "../../feature-flags/getBundledFeatureFlagsConfig.js";',
+    'import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";',
+    'import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";',
   ];
 
   for (const id of enabledIds) {
@@ -79,7 +80,7 @@ function createModuleSource(enabledIds) {
     " */",
     `export const compiledBundledExtensionIds = ${JSON.stringify(enabledIds, null, 2)} as const;`,
     "",
-    "const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => void> = {",
+    "const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => void | Promise<void>> = {",
     ...registerMapLines,
     "};",
     "",
@@ -88,12 +89,12 @@ function createModuleSource(enabledIds) {
     " *",
     " * @param pi Pi extension API.",
     " */",
-    "export default function registerCompiledEnabledExtensions(pi: ExtensionAPI): void {",
+    "export default async function registerCompiledEnabledExtensions(pi: ExtensionAPI): Promise<void> {",
     "  const config = applySystemExtensionAvailability(getBundledFeatureFlagsConfig());",
     "",
     "  for (const id of compiledBundledExtensionIds) {",
     "    if (!config.extensions[id]?.enabled) continue;",
-    "    compiledBundledExtensionRegisterMap[id]?.(pi);",
+    "    await compiledBundledExtensionRegisterMap[id]?.(pi);",
     "  }",
     "}",
     "",

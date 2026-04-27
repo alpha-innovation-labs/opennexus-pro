@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { preloadSkills } from "../../../src/extensions/sub-agents/skill-loader.js";
+import { preloadSkills } from "../../../packages/extensions/src/sub-agents/skill-loader.js";
 
 /**
  * Saves and restores the HOME environment variable for homedir()-based lookups.

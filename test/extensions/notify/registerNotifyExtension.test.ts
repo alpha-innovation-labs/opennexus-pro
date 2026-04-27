@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerNotifyExtension } from "../../../src/extensions/notify/registerNotifyExtension.js";
+import { registerNotifyExtension } from "../../../packages/extensions/src/notify/registerNotifyExtension.js";
 import { withLockedNotifyEnv } from "../../support/notify/withLockedNotifyEnv.js";
 
 test("notify extension registers an agent_end handler", async () => {

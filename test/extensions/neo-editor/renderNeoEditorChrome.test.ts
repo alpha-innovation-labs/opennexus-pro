@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { renderBottomBorderLabel } from "../../../src/extensions/neo-editor/shared/ui/renderBottomBorderLabel.js";
-import { renderPromptlineBorder } from "../../../src/extensions/neo-editor/shared/ui/renderPromptlineBorder.js";
-import { renderUsageText } from "../../../src/extensions/neo-editor/shared/ui/renderUsageText.js";
+import { renderBottomBorderLabel } from "../../../packages/extensions/src/neo-editor/shared/ui/renderBottomBorderLabel.js";
+import { renderPromptlineBorder } from "../../../packages/extensions/src/neo-editor/shared/ui/renderPromptlineBorder.js";
+import { renderUsageText } from "../../../packages/extensions/src/neo-editor/shared/ui/renderUsageText.js";
 import { LinesComponent } from "../../support/component/LinesComponent.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";

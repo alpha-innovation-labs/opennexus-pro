@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createSummarizerEnv } from "../../../src/extensions/observations/summarizer/createSummarizerEnv.js";
+import { createSummarizerEnv } from "../../../packages/extensions/src/observations/summarizer/createSummarizerEnv.js";
 
 /**
  * Verifies the summarizer child process receives an isolated copy of the current environment.

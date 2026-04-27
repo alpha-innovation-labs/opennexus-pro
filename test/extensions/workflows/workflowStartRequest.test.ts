@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createWorkflowRun } from "../../../src/extensions/workflows/state/createWorkflowRun.js";
-import { getWorkflowDefinitions } from "../../../src/extensions/workflows/state/getWorkflowDefinitions.js";
-import { createWorkflowStartRequest } from "../../../src/extensions/workflows/command/createWorkflowStartRequest.js";
+import { createWorkflowRun } from "../../../packages/extensions/src/workflows/state/createWorkflowRun.js";
+import { getWorkflowDefinitions } from "../../../packages/extensions/src/workflows/state/getWorkflowDefinitions.js";
+import { createWorkflowStartRequest } from "../../../packages/extensions/src/workflows/command/createWorkflowStartRequest.js";
 
 test("creates a workflow-start request for the current agent", () => {
   const definition = getWorkflowDefinitions()[0]!;

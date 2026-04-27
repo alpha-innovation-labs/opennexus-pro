@@ -27,7 +27,7 @@ test("released nexus pastes clipboard images with ctrl+v when neo-editor is enab
       assert.equal(releaseResult.timedOut, false);
       assert.equal(releaseResult.code, 0, releaseResult.output);
 
-      await setClipboardImageFromFile(join(PROJECT_ROOT, "src", "chrome-extension", "icons", "icon16.png"));
+      await setClipboardImageFromFile(join(PROJECT_ROOT, "apps", "chrome-extension", "icons", "icon16.png"));
 
       const output = await runInteractiveCommandInPty({
         command: `"${getInstalledNexusPath(homeDir)}" --no-session`,

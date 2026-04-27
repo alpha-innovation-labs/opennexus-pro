@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createSubagentRun } from "../../../../src/extensions/sub-agents/runtime/createSubagentRun.js";
-import { applySubagentEvent } from "../../../../src/extensions/sub-agents/runtime/applySubagentEvent.js";
+import { createSubagentRun } from "../../../../packages/extensions/src/sub-agents/runtime/createSubagentRun.js";
+import { applySubagentEvent } from "../../../../packages/extensions/src/sub-agents/runtime/applySubagentEvent.js";
 
 /**
  * Verifies text, thinking, and tool state updates from RPC events.

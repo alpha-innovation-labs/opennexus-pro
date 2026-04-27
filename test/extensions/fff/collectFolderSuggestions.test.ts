@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { collectFolderSuggestions } from "../../../src/extensions/fff/editor/collectFolderSuggestions.js";
+import { collectFolderSuggestions } from "../../../packages/extensions/src/fff/editor/collectFolderSuggestions.js";
 
 test("collectFolderSuggestions derives matching folders from file candidates", () => {
   const folders = collectFolderSuggestions([
     {
       item: {
         path: "",
-        relativePath: "src/extensions/fff/index.ts",
+        relativePath: "packages/extensions/src/fff/index.ts",
         fileName: "index.ts",
         totalFrecencyScore: 0,
         gitStatus: "clean",
@@ -16,7 +16,7 @@ test("collectFolderSuggestions derives matching folders from file candidates", (
     {
       item: {
         path: "",
-        relativePath: "src/extensions/tron/index.ts",
+        relativePath: "packages/extensions/src/tron/index.ts",
         fileName: "index.ts",
         totalFrecencyScore: 0,
         gitStatus: "clean",
@@ -24,7 +24,7 @@ test("collectFolderSuggestions derives matching folders from file candidates", (
     },
   ], "exten");
 
-  assert.deepEqual(folders, ["src/extensions", "src/extensions/fff", "src/extensions/tron"]);
+  assert.deepEqual(folders, ["src/extensions", "packages/extensions/src/fff", "packages/extensions/src/tron"]);
 });
 
 test("collectFolderSuggestions keeps nested folder matches unique and ordered", () => {
@@ -32,7 +32,7 @@ test("collectFolderSuggestions keeps nested folder matches unique and ordered", 
     {
       item: {
         path: "",
-        relativePath: "src/extensions/fff/runtime/FffRuntime.ts",
+        relativePath: "packages/extensions/src/fff/runtime/FffRuntime.ts",
         fileName: "FffRuntime.ts",
         totalFrecencyScore: 0,
         gitStatus: "clean",
@@ -40,5 +40,5 @@ test("collectFolderSuggestions keeps nested folder matches unique and ordered", 
     },
   ], "fff");
 
-  assert.deepEqual(folders, ["src/extensions/fff", "src/extensions/fff/runtime"]);
+  assert.deepEqual(folders, ["packages/extensions/src/fff", "packages/extensions/src/fff/runtime"]);
 });

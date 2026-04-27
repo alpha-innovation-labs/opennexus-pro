@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { sendNotifyMessage } from "../../../../src/extensions/notify/runtime/sendNotifyMessage.js";
+import { sendNotifyMessage } from "../../../../packages/extensions/src/notify/runtime/sendNotifyMessage.js";
 
 test("sendNotifyMessage uses OSC 777 by default and runs the macOS sound hook", () => {
 	const writes: string[] = [];

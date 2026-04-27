@@ -30,9 +30,9 @@ test("released runtime assets keep node-pty, xterm-headless, and fff working", a
       ...env,
       PI_PACKAGE_DIR: installedPackageDir,
     }, [
-      "import { createPtyManager } from './src/extensions/term-modal/pty/createPtyManager.ts';",
-      "import { createXtermBuffer } from './src/extensions/term-modal/buffer/createXtermBuffer.ts';",
-      "import { loadFffNode } from './src/extensions/fff/runtime/loadFffNode.ts';",
+      "import { createPtyManager } from './packages/extensions/src/term-modal/pty/createPtyManager.ts';",
+      "import { createXtermBuffer } from './packages/extensions/src/term-modal/buffer/createXtermBuffer.ts';",
+      "import { loadFffNode } from './packages/extensions/src/fff/runtime/loadFffNode.ts';",
       "void (async () => {",
       "  const pty = createPtyManager();",
       "  pty.start(process.cwd(), 80, 24);",

@@ -86,14 +86,14 @@ Use this skill when you need to understand the project in depth. It gives a two-
   - [`package`](./runtime/package.md)
   - [`startup-profile`](./runtime/startup-profile.md)
 - [`themes`](./themes.md)
-- [`wterm-demo`](./wterm-demo.md)
-  - [`browser`](./wterm-demo/browser.md)
-  - [`config`](./wterm-demo/config.md)
-  - [`html`](./wterm-demo/html.md)
-  - [`pty`](./wterm-demo/pty.md)
-  - [`server`](./wterm-demo/server.md)
-  - [`socket`](./wterm-demo/socket.md)
-  - [`ui`](./wterm-demo/ui.md)
+- [`wterm-e2e`](./wterm-e2e.md)
+  - [`browser`](./wterm-e2e/browser.md)
+  - [`config`](./wterm-e2e/config.md)
+  - [`html`](./wterm-e2e/html.md)
+  - [`pty`](./wterm-e2e/pty.md)
+  - [`server`](./wterm-e2e/server.md)
+  - [`socket`](./wterm-e2e/socket.md)
+  - [`ui`](./wterm-e2e/ui.md)
 
 ## Scope of this pack
 

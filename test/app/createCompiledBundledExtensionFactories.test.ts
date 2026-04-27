@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createCompiledBundledExtensionFactories } from "../../src/extensions/createCompiledBundledExtensionFactories.js";
-import { compiledBundledExtensionIds } from "../../src/extensions/generated/registerCompiledEnabledExtensions.js";
-import registerCompiledBundledExtensions from "../../src/extensions/registerCompiledBundledExtensions.js";
+import { createCompiledBundledExtensionFactories } from "../../packages/extensions/src/createCompiledBundledExtensionFactories.js";
+import { compiledBundledExtensionIds } from "../../packages/extensions/src/generated/registerCompiledEnabledExtensions.js";
+import registerCompiledBundledExtensions from "../../packages/extensions/src/registerCompiledBundledExtensions.js";
 
 /**
  * Creates a fake Pi extension API for compiled extension registration tests.

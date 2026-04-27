@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { loadCustomAgents } from "../../../src/extensions/sub-agents/custom-agents.js";
+import { loadCustomAgents } from "../../../packages/extensions/src/sub-agents/custom-agents.js";
 
 /**
  * Saves and restores the HOME environment variable for homedir()-based lookups.

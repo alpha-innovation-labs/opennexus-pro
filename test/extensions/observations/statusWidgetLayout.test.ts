@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { visibleWidth } from "@mariozechner/pi-tui";
-import { buildObservationsStatusLine } from "../../../src/extensions/observations/status-widget/buildObservationsStatusLine.js";
-import { createObservationsStatusWidget } from "../../../src/extensions/observations/status-widget/createObservationsStatusWidget.js";
-import { getVisibleSessionName } from "../../../src/extensions/observations/status-widget/getVisibleSessionName.js";
+import { buildObservationsStatusLine } from "../../../packages/extensions/src/observations/status-widget/buildObservationsStatusLine.js";
+import { createObservationsStatusWidget } from "../../../packages/extensions/src/observations/status-widget/createObservationsStatusWidget.js";
+import { getVisibleSessionName } from "../../../packages/extensions/src/observations/status-widget/getVisibleSessionName.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { renderSubagentTranscriptLines } from "../../../../src/extensions/sub-agents/ui/renderSubagentTranscriptLines.js";
+import { renderSubagentTranscriptLines } from "../../../../packages/extensions/src/sub-agents/ui/renderSubagentTranscriptLines.js";
 import { initializePiThemes } from "../../../support/theme/initializePiThemes.js";
 
 const theme = {

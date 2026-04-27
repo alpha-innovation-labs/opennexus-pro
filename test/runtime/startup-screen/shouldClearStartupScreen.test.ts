@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { shouldClearStartupScreen } from "../../../src/runtime/startup-screen/shouldClearStartupScreen.js";
+import { shouldClearStartupScreen } from "../../../apps/tui/src/runtime/startup-screen/shouldClearStartupScreen.js";
 
 test("shouldClearStartupScreen allows fresh interactive launches", () => {
 	assert.equal(shouldClearStartupScreen([], { isTTY: true }, { isTTY: true }), true);

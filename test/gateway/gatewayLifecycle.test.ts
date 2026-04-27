@@ -3,9 +3,9 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { getGatewayStatus } from "../../src/gateway/commands/getGatewayStatus.js";
-import { startGateway } from "../../src/gateway/commands/startGateway.js";
-import { stopGateway } from "../../src/gateway/commands/stopGateway.js";
+import { getGatewayStatus } from "../../packages/gateway-core/src/commands/getGatewayStatus.js";
+import { startGateway } from "../../packages/gateway-core/src/commands/startGateway.js";
+import { stopGateway } from "../../packages/gateway-core/src/commands/stopGateway.js";
 
 /**
  * Waits for the gateway to reach the requested running state.

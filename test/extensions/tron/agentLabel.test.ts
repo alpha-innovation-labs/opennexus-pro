@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getAgentLabel } from "../../../src/extensions/tron/thinking/agentLabel.ts";
+import { getAgentLabel } from "../../../packages/extensions/src/tron/thinking/agentLabel.ts";
 
 test("getAgentLabel defaults to Nexus", () => {
   const original = process.env.NEXUS_AGENT_LABEL;

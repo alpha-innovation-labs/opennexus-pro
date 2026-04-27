@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { shouldShowToolCallBottomBorder } from "../../../src/extensions/tron/activity/shouldShowToolCallBottomBorder.js";
-import { shouldShowToolCallTopBorder } from "../../../src/extensions/tron/activity/shouldShowToolCallTopBorder.js";
-import { syncToolCallFrameState } from "../../../src/extensions/tron/activity/syncToolCallFrameState.js";
-import { resetThinkingToolBridge } from "../../../src/extensions/tron/activity/resetThinkingToolBridge.js";
+import { shouldShowToolCallBottomBorder } from "../../../packages/extensions/src/tron/activity/shouldShowToolCallBottomBorder.js";
+import { shouldShowToolCallTopBorder } from "../../../packages/extensions/src/tron/activity/shouldShowToolCallTopBorder.js";
+import { syncToolCallFrameState } from "../../../packages/extensions/src/tron/activity/syncToolCallFrameState.js";
+import { resetThinkingToolBridge } from "../../../packages/extensions/src/tron/activity/resetThinkingToolBridge.js";
 
 test.afterEach(() => {
   resetThinkingToolBridge();

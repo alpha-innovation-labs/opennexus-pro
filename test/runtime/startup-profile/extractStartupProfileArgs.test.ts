@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { extractStartupProfileArgs } from "../../../src/runtime/startup-profile/extractStartupProfileArgs.js";
+import { extractStartupProfileArgs } from "../../../apps/tui/src/runtime/startup-profile/extractStartupProfileArgs.js";
 
 test("extractStartupProfileArgs strips the startup profiling flag", () => {
 	const result = extractStartupProfileArgs(["--startup-profile", "-p", "hello"]);

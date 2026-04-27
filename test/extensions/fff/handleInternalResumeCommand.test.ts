@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { handleInternalResumeCommand } from "../../../src/extensions/neo-editor/features/menu/internal-commands/handleInternalResumeCommand.js";
+import { handleInternalResumeCommand } from "../../../packages/extensions/src/neo-editor/features/menu/internal-commands/handleInternalResumeCommand.js";
 
 /**
  * Encodes a slash command argument the same way the slash menu does for paths.

@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import type { FeatureFlagsConfig } from "../../../src/feature-flags/types.js";
+import type { FeatureFlagsConfig } from "../../../packages/feature-flags/src/types.js";
 
 /**
  * Reads the root feature-flags.json file.

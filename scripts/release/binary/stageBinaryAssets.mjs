@@ -19,10 +19,10 @@ export async function stageBinaryAssets(bundleDir) {
   }
 
   await copyPiThemeAssets(packageDir);
-  await copyJsonFilesFromDir(resolve("src", "themes"), join(packageDir, "theme"));
-  await copyPath(resolve("src", "commands", "nexus-git-commit.md"), join(packageDir, "commands", "nexus-git-commit.md"));
+  await copyJsonFilesFromDir(resolve("packages", "assets", "src", "themes"), join(packageDir, "theme"));
+  await copyPath(resolve("packages", "assets", "src", "commands", "nexus-git-commit.md"), join(packageDir, "commands", "nexus-git-commit.md"));
   await copyPath(
-    resolve("src", "runtime", "config", "default-settings", "settings.json"),
+    resolve("packages", "assets", "src", "default-settings", "settings.json"),
     join(packageDir, "runtime", "config", "default-settings", "settings.json"),
   );
   await copyExportHtmlAssets(packageDir);

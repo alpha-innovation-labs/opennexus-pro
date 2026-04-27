@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
-import { readPersistedSubagentRun } from "../../../src/extensions/sub-agents/runtime/readPersistedSubagentRun.js";
+import { readPersistedSubagentRun } from "../../../packages/extensions/src/sub-agents/runtime/readPersistedSubagentRun.js";
 
 /**
  * Creates one temporary subagent storage root.

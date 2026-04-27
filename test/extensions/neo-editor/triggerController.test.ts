@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getActiveTriggerState } from "../../../src/extensions/neo-editor/features/promptline/trigger/getActiveTriggerState.js";
-import { routeTriggerInput } from "../../../src/extensions/neo-editor/features/promptline/trigger/routeTriggerInput.js";
-import { clearTriggerSession, startTriggerSession } from "../../../src/extensions/neo-editor/features/promptline/trigger/sessionState.js";
+import { getActiveTriggerState } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/getActiveTriggerState.js";
+import { removeTriggerPrefixFromLines } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/removeTriggerPrefixFromLines.js";
+import { routeTriggerInput } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/routeTriggerInput.js";
+import { clearTriggerSession, startTriggerSession } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/sessionState.js";
 
 /**
  * Resets the active trigger session between tests.
@@ -28,4 +29,9 @@ test("routeTriggerInput captures all keys for slash but only navigation keys for
   assert.equal(routeTriggerInput("slash", " "), true);
   assert.equal(routeTriggerInput("at", "a"), false);
   assert.equal(routeTriggerInput("at", "\u0010"), true);
+});
+
+test("removeTriggerPrefixFromLines removes slash menu text from the editor", () => {
+  assert.equal(removeTriggerPrefixFromLines(["/"], 0, 1, "/"), "");
+  assert.equal(removeTriggerPrefixFromLines(["/res", "next"], 0, 4, "/res"), "\nnext");
 });

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerDevExtension } from "../../../src/extensions/dev/registerDevExtension.js";
+import { registerDevExtension } from "../../../packages/extensions/src/dev/registerDevExtension.js";
 
 test("dev extension registers the dev-modal command", () => {
   const commands: string[] = [];

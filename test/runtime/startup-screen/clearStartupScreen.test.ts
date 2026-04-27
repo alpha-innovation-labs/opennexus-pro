@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { clearStartupScreen } from "../../../src/runtime/startup-screen/clearStartupScreen.js";
+import { clearStartupScreen } from "../../../apps/tui/src/runtime/startup-screen/clearStartupScreen.js";
 
 test("clearStartupScreen clears the viewport, homes the cursor, and clears scrollback", () => {
 	let output = "";

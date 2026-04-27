@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
-import { createProjectContextProvider } from "../../../../src/extensions/sub-agents/context-providers/createProjectContextProvider.js";
+import { createProjectContextProvider } from "../../../../packages/extensions/src/sub-agents/context-providers/createProjectContextProvider.js";
 
 test("createProjectContextProvider includes cwd and project files", async () => {
   const cwd = await mkdtemp(join(tmpdir(), "nexus-project-context-"));

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildBriefBlock } from "../../../src/extensions/sub-agents/runtime/executeSubagentRun.js";
-import { buildSubagentPrompt } from "../../../src/extensions/sub-agents/runtime/buildSubagentPrompt.js";
+import { buildBriefBlock } from "../../../packages/extensions/src/sub-agents/runtime/executeSubagentRun.js";
+import { buildSubagentPrompt } from "../../../packages/extensions/src/sub-agents/runtime/buildSubagentPrompt.js";
 
 /**
  * Verifies workflow context briefs are serialized into the prompt block passed to subagents.

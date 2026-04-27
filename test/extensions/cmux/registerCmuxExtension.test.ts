@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { registerCmuxExtension } from "../../../src/extensions/cmux/registerCmuxExtension.js";
-import { getCmuxTitleSyncEnabled } from "../../../src/extensions/cmux/state/getCmuxTitleSyncEnabled.js";
-import { setCmuxTitleSyncEnabled } from "../../../src/extensions/cmux/state/setCmuxTitleSyncEnabled.js";
+import { registerCmuxExtension } from "../../../packages/extensions/src/cmux/registerCmuxExtension.js";
+import { getCmuxTitleSyncEnabled } from "../../../packages/extensions/src/cmux/state/getCmuxTitleSyncEnabled.js";
+import { setCmuxTitleSyncEnabled } from "../../../packages/extensions/src/cmux/state/setCmuxTitleSyncEnabled.js";
 import { createFakeCmuxExecutable } from "../../support/cmux/createFakeCmuxExecutable.js";
 import { removeFakeCmuxExecutable } from "../../support/cmux/removeFakeCmuxExecutable.js";
 import { withLockedCmuxEnv } from "../../support/cmux/withLockedCmuxEnv.js";

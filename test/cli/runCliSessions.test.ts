@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { rm } from "node:fs/promises";
 import test from "node:test";
-import { runCliWithApp } from "../../src/cli/runCliWithApp.js";
+import { runCliWithApp } from "../../apps/tui/src/cli/runCliWithApp.js";
 import { createCliSessionFixture } from "./sessions/createCliSessionFixture.js";
 
 test("runCliWithApp prints local sessions as a table for --sessions and skips app startup", async () => {

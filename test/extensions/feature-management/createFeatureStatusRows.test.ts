@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createFeatureStatusRows } from "../../../src/extensions/feature-management/model/createFeatureStatusRows.js";
-import type { FeatureFlagsConfig } from "../../../src/feature-flags/types.js";
+import { createFeatureStatusRows } from "../../../packages/extensions/src/feature-management/model/createFeatureStatusRows.js";
+import type { FeatureFlagsConfig } from "../../../packages/feature-flags/src/types.js";
 
-test("feature status rows expose enabled state and production/dev channel per feature", () => {
+test("feature status rows expose enabled state, channel, and group per extension", () => {
 	const config: FeatureFlagsConfig = {
 		extensions: {
 			alpha: {
@@ -42,27 +42,24 @@ test("feature status rows expose enabled state and production/dev channel per fe
 	assert.deepEqual(createFeatureStatusRows(config, runtimeConfig), [
 		{
 			extensionId: "alpha",
-			feature: "alpha command",
+			feature: "alpha",
 			status: "enabled",
 			channel: "production",
-		},
-		{
-			extensionId: "alpha",
-			feature: "alpha modal",
-			status: "enabled",
-			channel: "production",
+			group: "Production",
 		},
 		{
 			extensionId: "beta",
-			feature: "beta playground",
+			feature: "beta",
 			status: "enabled",
 			channel: "dev",
+			group: "Playground",
 		},
 		{
 			extensionId: "gamma",
-			feature: "gamma tool",
+			feature: "gamma",
 			status: "disabled",
 			channel: "production",
+			group: "Production",
 		},
 	]);
 });

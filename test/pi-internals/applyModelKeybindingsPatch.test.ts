@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { KEYBINDINGS } from "../../src/../node_modules/@mariozechner/pi-coding-agent/dist/core/keybindings.js";
-import { applyModelKeybindingsPatch } from "../../src/pi-internals/applyModelKeybindingsPatch.js";
+import { KEYBINDINGS } from "../../node_modules/@mariozechner/pi-coding-agent/dist/core/keybindings.js";
+import { applyModelKeybindingsPatch } from "../../packages/pi-platform/src/applyModelKeybindingsPatch.js";
 
 test("applyModelKeybindingsPatch disables model picker and model cycling shortcuts", () => {
 	applyModelKeybindingsPatch();

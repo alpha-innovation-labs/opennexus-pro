@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { clearTelegramRpcSession } from "../../../src/adapters/telegram/rpc/clearTelegramRpcSession.js";
-import { getTelegramRpcSession } from "../../../src/adapters/telegram/rpc/getTelegramRpcSession.js";
-import { resetTelegramRpcSession } from "../../../src/adapters/telegram/rpc/resetTelegramRpcSession.js";
-import { sendTelegramRpcPrompt } from "../../../src/adapters/telegram/rpc/sendTelegramRpcPrompt.js";
-import { setTelegramRpcSession } from "../../../src/adapters/telegram/rpc/setTelegramRpcSession.js";
-import type { TelegramRpcSession } from "../../../src/adapters/telegram/rpc/types.js";
+import { clearTelegramRpcSession } from "../../../packages/social-adapters/src/telegram/rpc/clearTelegramRpcSession.js";
+import { getTelegramRpcSession } from "../../../packages/social-adapters/src/telegram/rpc/getTelegramRpcSession.js";
+import { resetTelegramRpcSession } from "../../../packages/social-adapters/src/telegram/rpc/resetTelegramRpcSession.js";
+import { sendTelegramRpcPrompt } from "../../../packages/social-adapters/src/telegram/rpc/sendTelegramRpcPrompt.js";
+import { setTelegramRpcSession } from "../../../packages/social-adapters/src/telegram/rpc/setTelegramRpcSession.js";
+import type { TelegramRpcSession } from "../../../packages/social-adapters/src/telegram/rpc/types.js";
 
 /**
  * Creates a fake Telegram RPC session for timeout and registry tests.

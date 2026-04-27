@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { AssistantMessageComponent } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/assistant-message.js";
-import { theme } from "../../../src/pi-internals/theme.js";
-import { BorderedAssistantErrorRow } from "../../../src/extensions/tron/thinking/BorderedAssistantErrorRow.js";
-import { formatAssistantErrorText } from "../../../src/extensions/tron/thinking/formatAssistantErrorText.js";
-import { installAssistantThinkingStyle } from "../../../src/extensions/tron/thinking/installAssistantThinkingStyle.js";
+import { theme } from "../../../packages/pi-platform/src/theme.js";
+import { BorderedAssistantErrorRow } from "../../../packages/extensions/src/tron/thinking/BorderedAssistantErrorRow.js";
+import { formatAssistantErrorText } from "../../../packages/extensions/src/tron/thinking/formatAssistantErrorText.js";
+import { installAssistantThinkingStyle } from "../../../packages/extensions/src/tron/thinking/installAssistantThinkingStyle.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 
 /**

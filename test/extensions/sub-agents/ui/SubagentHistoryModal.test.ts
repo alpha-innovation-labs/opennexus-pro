@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { SubagentHistoryModal } from "../../../../src/extensions/sub-agents/ui/SubagentHistoryModal.js";
+import { SubagentHistoryModal } from "../../../../packages/extensions/src/sub-agents/ui/SubagentHistoryModal.js";
 
 const theme = {
   fg: (_color: string, text: string) => text,

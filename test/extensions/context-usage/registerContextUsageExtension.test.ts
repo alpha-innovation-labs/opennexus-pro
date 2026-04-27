@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerContextUsageExtension } from "../../../src/extensions/context-usage/registerContextUsageExtension.js";
+import { registerContextUsageExtension } from "../../../packages/extensions/src/context-usage/registerContextUsageExtension.js";
 
 test("context usage extension registers a tool that reports current context usage", async () => {
   let registeredTool:

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { calculateSessionTableColumnWidths } from "../../../src/cli/sessions/calculateSessionTableColumnWidths.js";
+import { calculateSessionTableColumnWidths } from "../../../apps/tui/src/cli/sessions/calculateSessionTableColumnWidths.js";
 
 test("calculateSessionTableColumnWidths keeps the full session ID column when the terminal is wide enough", () => {
   assert.deepEqual(calculateSessionTableColumnWidths(100), {

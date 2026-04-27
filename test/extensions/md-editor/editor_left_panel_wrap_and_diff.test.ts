@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildLeftPanelLines } from "../../../src/extensions/md-editor/modal/buildLeftPanelLines.js";
-import { renderMarkdownDiffRows } from "../../../src/extensions/md-editor/diff/renderMarkdownDiffRows.js";
-import type { MarkdownFileSnapshot } from "../../../src/extensions/md-editor/file/computeMarkdownFileSnapshot.js";
+import { buildLeftPanelLines } from "../../../packages/extensions/src/md-editor/modal/buildLeftPanelLines.js";
+import { renderMarkdownDiffRows } from "../../../packages/extensions/src/md-editor/diff/renderMarkdownDiffRows.js";
+import type { MarkdownFileSnapshot } from "../../../packages/extensions/src/md-editor/file/computeMarkdownFileSnapshot.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

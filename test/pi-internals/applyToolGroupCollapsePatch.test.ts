@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { applyToolGroupCollapsePatch } from "../../src/pi-internals/applyToolGroupCollapsePatch.js";
+import { applyToolGroupCollapsePatch } from "../../packages/pi-platform/src/applyToolGroupCollapsePatch.js";
 import { KEYBINDINGS } from "../../node_modules/@mariozechner/pi-coding-agent/dist/core/keybindings.js";
 
 test("tool-group collapse patch registers ctrl+shift+c", () => {

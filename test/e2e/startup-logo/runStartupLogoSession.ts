@@ -3,7 +3,7 @@ import { execFile, type ExecFileException } from "node:child_process";
 const PYTHON_STARTUP_CAPTURE = [
 	"import os, pty, select, signal, subprocess, sys, time",
 	"master, slave = pty.openpty()",
-	"proc = subprocess.Popen([\"/bin/bash\", \"-lc\", \"./node_modules/.bin/tsx src/index.ts\"], cwd=os.getcwd(), env=os.environ.copy(), stdin=slave, stdout=slave, stderr=slave, close_fds=True)",
+	"proc = subprocess.Popen([\"/bin/bash\", \"-lc\", \"./node_modules/.bin/tsx apps/tui/src/index.ts\"], cwd=os.getcwd(), env=os.environ.copy(), stdin=slave, stdout=slave, stderr=slave, close_fds=True)",
 	"os.close(slave)",
 	"deadline = time.time() + (int(os.environ.get(\"STARTUP_LOGO_TIMEOUT_MS\", \"8000\")) / 1000.0)",
 	"chunks = []",

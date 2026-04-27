@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { resetThinkingToolBridge } from "../../../src/extensions/tron/activity/resetThinkingToolBridge.js";
-import { syncToolCallFrameState } from "../../../src/extensions/tron/activity/syncToolCallFrameState.js";
-import { SingleLineToolCall } from "../../../src/extensions/tron/compact-tool-lines/SingleLineToolCall.js";
+import { resetThinkingToolBridge } from "../../../packages/extensions/src/tron/activity/resetThinkingToolBridge.js";
+import { syncToolCallFrameState } from "../../../packages/extensions/src/tron/activity/syncToolCallFrameState.js";
+import { SingleLineToolCall } from "../../../packages/extensions/src/tron/compact-tool-lines/SingleLineToolCall.js";
 
 const theme = {
   fg: (_color: string, text: string) => text,

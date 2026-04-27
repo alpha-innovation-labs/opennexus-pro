@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { formatSessionsTable } from "../../../src/cli/sessions/formatSessionsTable.js";
+import { formatSessionsTable } from "../../../apps/tui/src/cli/sessions/formatSessionsTable.js";
 
 test("formatSessionsTable renders a unicode CLI table", () => {
   const output = formatSessionsTable([

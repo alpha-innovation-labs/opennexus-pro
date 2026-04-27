@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { dirname, resolve } from "node:path";
 import { listEmbeddedPackageAssetEntries } from "./listEmbeddedPackageAssetEntries.mjs";
 
-const OUTPUT_PATH = resolve("src", "runtime", "package", "embedded-assets", "generated", "embeddedPackageAssets.ts");
+const OUTPUT_PATH = resolve("packages", "nexus-runtime", "src", "package", "embedded-assets", "generated", "embeddedPackageAssets.ts");
 
 /**
  * Writes the generated embedded package asset module.

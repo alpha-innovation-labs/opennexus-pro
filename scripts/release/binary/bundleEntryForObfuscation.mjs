@@ -13,7 +13,7 @@ export async function bundleEntryForObfuscation(buildWorkDir) {
 
   await runBunBuild([
     "build",
-    "./src/index.release.ts",
+    "./apps/tui/src/index.release.ts",
     "--outdir",
     buildWorkDir,
     "--entry-naming",

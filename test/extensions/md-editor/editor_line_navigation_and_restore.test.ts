@@ -3,8 +3,8 @@ import { mkdtemp, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { MdEditorModal } from "../../../src/extensions/md-editor/modal/MdEditorModal.js";
-import type { MarkdownFileSnapshot } from "../../../src/extensions/md-editor/file/computeMarkdownFileSnapshot.js";
+import { MdEditorModal } from "../../../packages/extensions/src/md-editor/modal/MdEditorModal.js";
+import type { MarkdownFileSnapshot } from "../../../packages/extensions/src/md-editor/file/computeMarkdownFileSnapshot.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 function ctx(dir: string): any {

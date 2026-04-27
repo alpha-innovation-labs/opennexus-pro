@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { showSubagentHistoryModal } from "../../../../src/extensions/sub-agents/ui/showSubagentHistoryModal.js";
+import { showSubagentHistoryModal } from "../../../../packages/extensions/src/sub-agents/ui/showSubagentHistoryModal.js";
 
 /**
  * Verifies /agents loads only the current parent cwd/session scope.

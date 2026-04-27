@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { ensureAgentDirEnv } from "../../../src/runtime/config/ensureAgentDirEnv.js";
-import { getAgentDirPath } from "../../../src/runtime/config/getAgentDirPath.js";
+import { ensureAgentDirEnv } from "../../../packages/nexus-runtime/src/config/ensureAgentDirEnv.js";
+import { getAgentDirPath } from "../../../packages/nexus-runtime/src/config/getAgentDirPath.js";
 
 /**
  * Restores the supported agent-dir environment variables.

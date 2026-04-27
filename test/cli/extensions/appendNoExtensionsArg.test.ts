@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { appendNoExtensionsArg } from "../../../src/cli/extensions/appendNoExtensionsArg.js";
-import { hasNoExtensionsFlag } from "../../../src/cli/extensions/hasNoExtensionsFlag.js";
+import { appendNoExtensionsArg } from "../../../apps/tui/src/cli/extensions/appendNoExtensionsArg.js";
+import { hasNoExtensionsFlag } from "../../../apps/tui/src/cli/extensions/hasNoExtensionsFlag.js";
 
 test("hasNoExtensionsFlag detects the long flag", () => {
   assert.equal(hasNoExtensionsFlag(["--no-extensions", "--help"]), true);

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getWorkflowEngineerModePrompt } from "../../../src/extensions/workflows/prompts/getWorkflowEngineerModePrompt.js";
-import { buildAgentInstructionBlock } from "../../../src/extensions/sub-agents/runtime/buildAgentInstructionBlock.js";
+import { getWorkflowEngineerModePrompt } from "../../../packages/extensions/src/workflows/prompts/getWorkflowEngineerModePrompt.js";
+import { buildAgentInstructionBlock } from "../../../packages/extensions/src/sub-agents/runtime/buildAgentInstructionBlock.js";
 
 test("injects implementation mode without setup-only commands", () => {
   const prompt = getWorkflowEngineerModePrompt("implementation") ?? "";

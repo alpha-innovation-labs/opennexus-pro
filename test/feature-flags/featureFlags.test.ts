@@ -9,7 +9,7 @@ import {
   getBundledFeatureFlagsConfig,
   getEnabledExtensionFeatureFlags,
   readFeatureFlagsConfig,
-} from "../../src/feature-flags/index.js";
+} from "../../packages/feature-flags/src/index.js";
 import { createFakeCmuxExecutable } from "../support/cmux/createFakeCmuxExecutable.js";
 import { removeFakeCmuxExecutable } from "../support/cmux/removeFakeCmuxExecutable.js";
 import { withLockedCmuxEnv } from "../support/cmux/withLockedCmuxEnv.js";
@@ -56,7 +56,7 @@ test("source runtime feature flags come from the root json config", async () => 
 test("source runtime picks up root json changes without regenerating release artifacts", async () => {
   await withLockedFeatureFlagsConfig(async () => {
     const originalConfig = await readRootFeatureFlagsConfig();
-    const originalCompiledFeatureFlagsSource = await readFile("src/feature-flags/generated/compiledFeatureFlags.ts", "utf8");
+    const originalCompiledFeatureFlagsSource = await readFile("packages/feature-flags/src/generated/compiledFeatureFlags.ts", "utf8");
     const modifiedConfig = createModifiedFeatureFlagsConfig(originalConfig, ["annotate", "workspace"]);
 
     try {
@@ -66,7 +66,7 @@ test("source runtime picks up root json changes without regenerating release art
       const enabledIds = getEnabledExtensionFeatureFlags(createExtensionFeatureFlags())
         .map((flag) => flag.id)
         .sort();
-      const compiledFeatureFlagsSource = await readFile("src/feature-flags/generated/compiledFeatureFlags.ts", "utf8");
+      const compiledFeatureFlagsSource = await readFile("packages/feature-flags/src/generated/compiledFeatureFlags.ts", "utf8");
 
       assert.deepEqual(runtimeConfig, modifiedConfig);
       assert.notDeepEqual(getBundledFeatureFlagsConfig(), modifiedConfig);
@@ -81,16 +81,16 @@ test("source runtime picks up root json changes without regenerating release art
 test("release generators rebuild compiled feature flags and extension ids from the root json config", async () => {
   await withLockedFeatureFlagsConfig(async () => {
     const originalConfig = await readRootFeatureFlagsConfig();
-    const originalCompiledFeatureFlagsSource = await readFile("src/feature-flags/generated/compiledFeatureFlags.ts", "utf8");
-    const originalCompiledExtensionsSource = await readFile("src/extensions/generated/registerCompiledEnabledExtensions.ts", "utf8");
+    const originalCompiledFeatureFlagsSource = await readFile("packages/feature-flags/src/generated/compiledFeatureFlags.ts", "utf8");
+    const originalCompiledExtensionsSource = await readFile("packages/extensions/src/generated/registerCompiledEnabledExtensions.ts", "utf8");
     const modifiedConfig = createModifiedFeatureFlagsConfig(originalConfig, ["annotate", "workspace"]);
 
     try {
       await writeRootFeatureFlagsConfig(modifiedConfig);
       await runFeatureFlagGenerators();
 
-      const compiledFeatureFlagsSource = await readFile("src/feature-flags/generated/compiledFeatureFlags.ts", "utf8");
-      const compiledExtensionsSource = await readFile("src/extensions/generated/registerCompiledEnabledExtensions.ts", "utf8");
+      const compiledFeatureFlagsSource = await readFile("packages/feature-flags/src/generated/compiledFeatureFlags.ts", "utf8");
+      const compiledExtensionsSource = await readFile("packages/extensions/src/generated/registerCompiledEnabledExtensions.ts", "utf8");
 
       assert.match(compiledFeatureFlagsSource, /"annotate": \{[\s\S]*?"enabled": true/);
       assert.match(compiledFeatureFlagsSource, /"workspace": \{[\s\S]*?"enabled": true/);
@@ -99,8 +99,8 @@ test("release generators rebuild compiled feature flags and extension ids from t
     } finally {
       await writeRootFeatureFlagsConfig(originalConfig);
       await runFeatureFlagGenerators();
-      assert.equal(await readFile("src/feature-flags/generated/compiledFeatureFlags.ts", "utf8"), originalCompiledFeatureFlagsSource);
-      assert.equal(await readFile("src/extensions/generated/registerCompiledEnabledExtensions.ts", "utf8"), originalCompiledExtensionsSource);
+      assert.equal(await readFile("packages/feature-flags/src/generated/compiledFeatureFlags.ts", "utf8"), originalCompiledFeatureFlagsSource);
+      assert.equal(await readFile("packages/extensions/src/generated/registerCompiledEnabledExtensions.ts", "utf8"), originalCompiledExtensionsSource);
     }
   });
 });

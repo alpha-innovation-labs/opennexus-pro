@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { Component } from "@mariozechner/pi-tui";
-import { HelpShortcutsModal } from "../../../src/extensions/neo-editor/features/help-shortcuts/HelpShortcutsModal.js";
-import { PromptlineEditor } from "../../../src/extensions/neo-editor/features/promptline/PromptlineEditor.js";
-import { clearTriggerSession } from "../../../src/extensions/neo-editor/features/promptline/trigger/sessionState.js";
+import { HelpShortcutsModal } from "../../../packages/extensions/src/neo-editor/features/help-shortcuts/HelpShortcutsModal.js";
+import { PromptlineEditor } from "../../../packages/extensions/src/neo-editor/features/promptline/PromptlineEditor.js";
+import { clearTriggerSession } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/sessionState.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

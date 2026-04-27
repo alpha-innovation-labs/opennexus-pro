@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync, rmSync } from "node:fs";
 import test from "node:test";
-import { clearStartupProfileLog } from "../../../../../src/extensions/primitives/observability/startup-profile/clearStartupProfileLog.js";
-import { logStartupProfileEvent } from "../../../../../src/extensions/primitives/observability/startup-profile/logStartupProfileEvent.js";
-import { startupProfileLogPath } from "../../../../../src/extensions/primitives/observability/startup-profile/startupProfileLogPath.js";
+import { clearStartupProfileLog } from "../../../../../packages/extensions/src/primitives/observability/startup-profile/clearStartupProfileLog.js";
+import { logStartupProfileEvent } from "../../../../../packages/extensions/src/primitives/observability/startup-profile/logStartupProfileEvent.js";
+import { startupProfileLogPath } from "../../../../../packages/extensions/src/primitives/observability/startup-profile/startupProfileLogPath.js";
 
 function removeLogFile(): void {
 	if (existsSync(startupProfileLogPath)) rmSync(startupProfileLogPath, { force: true });

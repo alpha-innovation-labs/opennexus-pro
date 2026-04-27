@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildPromptline } from "../../../src/extensions/neo-editor/features/promptline/render/buildPromptline.js";
+import { buildPromptline } from "../../../packages/extensions/src/neo-editor/features/promptline/render/buildPromptline.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

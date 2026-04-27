@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
-import { runCli } from "../../src/cli/runCli.js";
-import { runCliWithApp } from "../../src/cli/runCliWithApp.js";
+import { runCli } from "../../apps/tui/src/cli/runCli.js";
+import { runCliWithApp } from "../../apps/tui/src/cli/runCliWithApp.js";
 
 const packageVersion = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8")).version;
 

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { locationToReadParams } from "../../../src/extensions/fff/read/locationToReadParams.js";
+import { locationToReadParams } from "../../../packages/extensions/src/fff/read/locationToReadParams.js";
 
 test("locationToReadParams derives an offset from a line location", () => {
   const result = locationToReadParams({

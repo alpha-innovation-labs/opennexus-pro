@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { Container } from "@mariozechner/pi-tui";
 import { ToolExecutionComponent } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
-import { createAgentTool } from "../../../src/extensions/sub-agents/tooling/createAgentTool.js";
-import { applyToolExecutionSpacingPatch } from "../../../src/pi-internals/applyToolExecutionSpacingPatch.js";
+import { createAgentTool } from "../../../packages/extensions/src/sub-agents/tooling/createAgentTool.js";
+import { applyToolExecutionSpacingPatch } from "../../../packages/pi-platform/src/applyToolExecutionSpacingPatch.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 

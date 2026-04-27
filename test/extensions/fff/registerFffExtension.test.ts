@@ -3,8 +3,8 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { FffRuntime } from "../../../src/extensions/fff/runtime/FffRuntime.js";
-import { clearRuntimeForCwd, getRuntimeForCwd } from "../../../src/extensions/fff/runtime/runtimeStore.js";
+import { FffRuntime } from "../../../packages/extensions/src/fff/runtime/FffRuntime.js";
+import { clearRuntimeForCwd, getRuntimeForCwd } from "../../../packages/extensions/src/fff/runtime/runtimeStore.js";
 import { createFffTestContext } from "../../support/fff/createFffTestContext.js";
 import { createRegisterFffExtensionHarness } from "../../support/fff/createRegisterFffExtensionHarness.js";
 

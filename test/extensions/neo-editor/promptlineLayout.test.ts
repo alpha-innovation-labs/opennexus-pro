@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getPromptlineFrameLeftPadding } from "../../../src/extensions/neo-editor/features/promptline/layout/getPromptlineFrameLeftPadding.js";
-import { getPromptlineFrameWidth } from "../../../src/extensions/neo-editor/features/promptline/layout/getPromptlineFrameWidth.js";
-import { hasConversationMessages } from "../../../src/extensions/neo-editor/features/promptline/layout/hasConversationMessages.js";
-import { padPromptlineFrameToWidth } from "../../../src/extensions/neo-editor/features/promptline/layout/padPromptlineFrameToWidth.js";
+import { getPromptlineFrameLeftPadding } from "../../../packages/extensions/src/neo-editor/features/promptline/layout/getPromptlineFrameLeftPadding.js";
+import { getPromptlineFrameWidth } from "../../../packages/extensions/src/neo-editor/features/promptline/layout/getPromptlineFrameWidth.js";
+import { hasConversationMessages } from "../../../packages/extensions/src/neo-editor/features/promptline/layout/hasConversationMessages.js";
+import { padPromptlineFrameToWidth } from "../../../packages/extensions/src/neo-editor/features/promptline/layout/padPromptlineFrameToWidth.js";
 
 test("promptline uses half width for empty conversations and full width after messages", () => {
 	assert.equal(getPromptlineFrameWidth(120, false), 60);
