@@ -13,7 +13,7 @@ test("startup logo renders only the stylized Nexus wordmark", async () => {
 	);
 
 	const output = viewport.join("\n");
-	assert.ok(output.includes(String.raw` _   _  _____ __  __ _   _  ____ `));
+	assert.ok(output.includes(String.raw`_   _  _____ __  __ _   _  ____ `));
 	assert.ok(output.includes(String.raw`| \ | || ____|\ \/ /| | | |/ ___|`));
 	assert.ok(output.includes(String.raw`|_| \_||_____|/_/\_\ \___/ |____/ `));
 	assert.doesNotMatch(output, /⢀⣀⣤⣤⣤⣶/u);

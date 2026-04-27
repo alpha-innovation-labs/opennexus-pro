@@ -6,7 +6,7 @@
  */
 export function buildStartupLogoLines(theme: { fg(name: string, value: string): string }): string[] {
 	const lines = [
-		String.raw` _   _  _____ __  __ _   _  ____ `,
+		String.raw`_   _  _____ __  __ _   _  ____ `,
 		String.raw`| \ | || ____|\ \/ /| | | |/ ___|`,
 		String.raw`|  \| ||  _|   \  / | | | |\___ \ `,
 		String.raw`| |\  || |___  /  \ | |_| | ___) |`,

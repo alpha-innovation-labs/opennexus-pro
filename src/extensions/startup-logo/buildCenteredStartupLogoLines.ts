@@ -1,6 +1,6 @@
 import { buildStartupLogoLines } from "./buildStartupLogoLines.js";
 import { calculateStartupLogoTopPadding } from "./calculateStartupLogoTopPadding.js";
-import { centerStartupLogoLine } from "./centerStartupLogoLine.js";
+import { centerStartupLogoLines } from "./centerStartupLogoLines.js";
 
 /**
  * Builds startup logo lines with vertical padding that centers the first prompt.
@@ -15,6 +15,6 @@ export function buildCenteredStartupLogoLines(
 	terminalRows: number,
 	terminalColumns: number,
 ): string[] {
-	const logoLines = buildStartupLogoLines(theme).map((line) => centerStartupLogoLine(line, terminalColumns));
+	const logoLines = centerStartupLogoLines(buildStartupLogoLines(theme), terminalColumns);
 	return [...Array.from({ length: calculateStartupLogoTopPadding(terminalRows, logoLines.length) }, () => ""), ...logoLines];
 }
