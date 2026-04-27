@@ -1,16 +1,17 @@
 /**
- * Builds the startup logo lines as a compact Nexus wordmark.
+ * Builds the startup logo lines as a Nexus block wordmark with a readable N glyph.
  *
  * @param theme UI theme formatter.
  * @returns Styled startup logo lines.
  */
 export function buildStartupLogoLines(theme: { fg(name: string, value: string): string }): string[] {
 	const lines = [
-		String.raw`|\  |  _____ __  __ _   _  ____ `,
-		String.raw`| \ | || ____|\ \/ /| | | |/ ___|`,
-		String.raw`|  \| ||  _|   \  / | | | |\___ \ `,
-		String.raw`| |\  || |___  /  \ | |_| | ___) |`,
-		String.raw`|_| \_||_____|/_/\_\ \___/ |____/ `,
+		String.raw`███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗`,
+		String.raw`████╗  ██║██╔════╝╚██╗██╔╝██║   ██║██╔════╝`,
+		String.raw`██╔██╗ ██║█████╗   ╚███╔╝ ██║   ██║███████╗`,
+		String.raw`██║╚██╗██║██╔══╝   ██╔██╗ ██║   ██║╚════██║`,
+		String.raw`██║ ╚████║███████╗██╔╝ ██╗╚██████╔╝███████║`,
+		String.raw`╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝`,
 	];
 	return lines.map((line) => theme.fg("accent", line));
 }

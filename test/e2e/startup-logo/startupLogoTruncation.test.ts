@@ -13,7 +13,7 @@ test("startup logo keeps the Nexus wordmark readable at narrow terminal widths",
 	);
 
 	const output = viewport.join("\n");
-	assert.match(output, /\|\\  \|  _____/u);
-	assert.match(output, /\|_\| \\_\|\|_____\|/u);
+	assert.match(output, /███╗   ██/u);
+	assert.match(output, /╚═╝  ╚══/u);
 	assert.doesNotMatch(output, /⣿/u);
 });
