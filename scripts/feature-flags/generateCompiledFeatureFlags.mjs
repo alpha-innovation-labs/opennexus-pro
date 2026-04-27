@@ -24,6 +24,27 @@ function createModuleSource(config) {
 }
 
 /**
+ * Disables dev-only entries for compiled production feature flags.
+ *
+ * @param {Record<string, any>} config Parsed root feature-flag config.
+ * @returns {Record<string, any>} Production-safe feature-flag config.
+ */
+function createCompiledConfig(config) {
+  return {
+    ...config,
+    extensions: Object.fromEntries(
+      Object.entries(config.extensions).map(([id, value]) => [
+        id,
+        {
+          ...value,
+          enabled: value.devOnly ? false : value.enabled,
+        },
+      ]),
+    ),
+  };
+}
+
+/**
  * Regenerates the compiled feature-flag module from the root JSON file.
  *
  * @returns {Promise<void>}
@@ -31,7 +52,7 @@ function createModuleSource(config) {
 async function generateCompiledFeatureFlags() {
   const rawConfig = await readFile(sourcePath, "utf8");
   const parsedConfig = JSON.parse(rawConfig);
-  const moduleSource = createModuleSource(parsedConfig);
+  const moduleSource = createModuleSource(createCompiledConfig(parsedConfig));
   await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, moduleSource, "utf8");
 }

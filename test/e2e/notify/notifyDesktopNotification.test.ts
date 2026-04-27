@@ -6,7 +6,7 @@ import { createEventBus } from "../../../node_modules/@mariozechner/pi-coding-ag
 import { registerNotifyExtension } from "../../../src/extensions/notify/registerNotifyExtension.js";
 import { withLockedNotifyEnv } from "../../support/notify/withLockedNotifyEnv.js";
 
-test("notify extension emits a terminal desktop notification on agent_end", async () => {
+test("notify extension emits a terminal desktop notification through the Pi runner", async () => {
 	await withLockedNotifyEnv(async () => {
 		const previousWrite = process.stdout.write.bind(process.stdout);
 		const previousTmux = process.env.TMUX;

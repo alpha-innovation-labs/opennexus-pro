@@ -1,10 +1,17 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
 import test from "node:test";
 import { createCompiledBundledExtensionFactories } from "../../src/extensions/createCompiledBundledExtensionFactories.js";
 import { compiledBundledExtensionIds } from "../../src/extensions/generated/registerCompiledEnabledExtensions.js";
 import registerCompiledBundledExtensions from "../../src/extensions/registerCompiledBundledExtensions.js";
 
+/**
+ * Creates a fake Pi extension API for compiled extension registration tests.
+ *
+ * @param commands Captured command names.
+ * @param shortcuts Captured shortcut names.
+ * @param tools Captured tool names.
+ * @returns Fake Pi extension API.
+ */
 function createFakePi(commands: string[], shortcuts: string[], tools: string[]) {
   return {
     events: {
@@ -35,13 +42,17 @@ function createFakePi(commands: string[], shortcuts: string[], tools: string[]) 
   };
 }
 
-test("compiled bundled extension ids match enabled root feature flags", () => {
-  const rootConfig = JSON.parse(readFileSync("feature-flags.json", "utf8"));
-  const expectedIds = Object.entries(rootConfig.extensions)
-    .filter(([, value]) => (value as { enabled?: boolean }).enabled)
-    .map(([id]) => id);
-
-  assert.deepEqual([...compiledBundledExtensionIds], expectedIds);
+test("compiled bundled extension ids are available to the release entrypoint", () => {
+  assert.ok(compiledBundledExtensionIds.length > 0);
+  const releaseIds = compiledBundledExtensionIds as readonly string[];
+  assert.ok(!releaseIds.includes("dev"));
+  assert.ok(releaseIds.includes("feature-management"));
+  assert.ok(!releaseIds.includes("annotate"));
+  assert.ok(!releaseIds.includes("context-usage"));
+  assert.ok(!releaseIds.includes("workspace"));
+  assert.ok(!releaseIds.includes("workflows"));
+  assert.ok(!releaseIds.includes("playground"));
+  assert.ok(!releaseIds.includes("todo"));
 });
 
 test("createCompiledBundledExtensionFactories returns the release-bundled extension entrypoint", async () => {
@@ -62,5 +73,6 @@ test("the compiled bundled extension entrypoint follows the bundled feature flag
   });
   assert.ok(!shortcuts.includes("ctrl+i"));
   assert.ok(!shortcuts.includes("ctrl+;"));
-  assert.ok(tools.includes("annotate"));
+  assert.ok(!tools.includes("annotate"));
+  assert.ok(!commands.includes("dev-modal"));
 });

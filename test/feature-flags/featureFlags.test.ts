@@ -22,7 +22,6 @@ import { writeRootFeatureFlagsConfig } from "../support/feature-flags/writeRootF
 test("source runtime feature flags come from the root json config", async () => {
   const rootConfig = await readRootFeatureFlagsConfig();
   const runtimeConfig = readFeatureFlagsConfig();
-  const bundledConfig = getBundledFeatureFlagsConfig();
   const expectedRuntimeConfig = applySystemExtensionAvailability(rootConfig);
   const flags = createExtensionFeatureFlags();
   const enabledIds = getEnabledExtensionFeatureFlags(flags)
@@ -51,6 +50,7 @@ test("source runtime feature flags come from the root json config", async () => 
   assert.match(report, /show N logo on fresh startup/);
   assert.match(report, /tool calls browser/);
   assert.match(report, /workspace top bar/);
+  assert.match(report, /dev-only modal variation playground/);
 });
 
 test("source runtime picks up root json changes without regenerating release artifacts", async () => {
@@ -95,6 +95,7 @@ test("release generators rebuild compiled feature flags and extension ids from t
       assert.match(compiledFeatureFlagsSource, /"annotate": \{[\s\S]*?"enabled": true/);
       assert.match(compiledFeatureFlagsSource, /"workspace": \{[\s\S]*?"enabled": true/);
       assert.match(compiledExtensionsSource, /export const compiledBundledExtensionIds = \[\n  "annotate",\n  "workspace"\n\] as const;/);
+      assert.doesNotMatch(compiledExtensionsSource, /dev-modal/);
     } finally {
       await writeRootFeatureFlagsConfig(originalConfig);
       await runFeatureFlagGenerators();
@@ -102,6 +103,14 @@ test("release generators rebuild compiled feature flags and extension ids from t
       assert.equal(await readFile("src/extensions/generated/registerCompiledEnabledExtensions.ts", "utf8"), originalCompiledExtensionsSource);
     }
   });
+});
+
+test("compiled production feature flags disable dev-only extensions", () => {
+  const bundledConfig = getBundledFeatureFlagsConfig();
+
+  assert.equal(bundledConfig.extensions.dev?.devOnly, true);
+  assert.equal(bundledConfig.extensions.dev?.enabled, false);
+  assert.equal(bundledConfig.extensions["feature-management"]?.enabled, true);
 });
 
 test("release build pipeline regenerates compiled feature flag artifacts before bundling", () => {

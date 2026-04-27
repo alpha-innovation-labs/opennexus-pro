@@ -1,7 +1,7 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import registerCompiledEnabledExtensions from "./generated/registerCompiledEnabledExtensions.js";
-import { registerInternalSlashSelectorCommands } from "./shared/slash-menu/internal-commands/registerInternalSlashSelectorCommands.js";
-import { registerSlashCommand } from "./shared/slash-menu/registerSlashCommand.js";
+import { registerInternalSlashSelectorCommands } from "./neo-editor/features/menu/internal-commands/registerInternalSlashSelectorCommands.js";
+import { registerSlashCommand } from "./neo-editor/features/menu/registerSlashCommand.js";
 
 /**
  * Registers the release-bundled extension set compiled from feature-flags.json.

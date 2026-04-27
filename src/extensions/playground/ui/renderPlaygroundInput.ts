@@ -1,9 +1,9 @@
 import type { ExtensionEditorComponent } from "@mariozechner/pi-coding-agent";
 import { visibleWidth } from "@mariozechner/pi-tui";
-import { extractEditorContentLines } from "../../neo-editor/ui/extractEditorContentLines.js";
-import { padToWidth } from "../../neo-editor/ui/padToWidth.js";
-import { prefixEditorLine } from "../../neo-editor/ui/prefixEditorLine.js";
-import { renderPromptlineBorder } from "../../neo-editor/ui/renderPromptlineBorder.js";
+import { extractEditorContentLines } from "../../neo-editor/shared/ui/extractEditorContentLines.js";
+import { padToWidth } from "../../neo-editor/shared/ui/padToWidth.js";
+import { prefixEditorLine } from "../../neo-editor/shared/ui/prefixEditorLine.js";
+import { renderPromptlineBorder } from "../../neo-editor/shared/ui/renderPromptlineBorder.js";
 
 /**
  * Renders the playground input using Neo editor chrome.

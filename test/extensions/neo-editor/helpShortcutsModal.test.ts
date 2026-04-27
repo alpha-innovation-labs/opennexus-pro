@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { Component } from "@mariozechner/pi-tui";
-import { HelpShortcutsModal } from "../../../src/extensions/neo-editor/help-shortcuts/HelpShortcutsModal.js";
-import { PromptlineEditor } from "../../../src/extensions/neo-editor/promptline/PromptlineEditor.js";
-import { clearTriggerSession } from "../../../src/extensions/neo-editor/promptline/trigger/sessionState.js";
+import { HelpShortcutsModal } from "../../../src/extensions/neo-editor/features/help-shortcuts/HelpShortcutsModal.js";
+import { PromptlineEditor } from "../../../src/extensions/neo-editor/features/promptline/PromptlineEditor.js";
+import { clearTriggerSession } from "../../../src/extensions/neo-editor/features/promptline/trigger/sessionState.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
@@ -78,9 +78,11 @@ test("help shortcuts modal renders grouped panels with titles in borders", async
   const text = view.join("\n");
 
   assert.match(text, /Basics/);
-  assert.match(text, /Triggers/);
+  assert.match(text, /Editor Triggers/);
   assert.match(text, /Modes/);
   assert.match(text, /Commands menu/);
+  assert.doesNotMatch(text, /Open sessions/);
+  assert.doesNotMatch(text, /Ctrl \+ ;/);
   assert.match(text, /┌.*Navigation.*┐/s);
 });
 

@@ -32,7 +32,7 @@ Since shortcuts can write into the editor, and the custom Neo editor can detect 
 3. `primeSessionsShortcut.ts` primes the editor and trigger config
 4. `showSessionsModal.ts` shows the actual sessions modal
 5. `WorkspaceSessionsModal.ts` renders the modal UI
-6. `../neo-editor/editor-triggers/*.ts` stores and resolves editor submit triggers
+6. `../neo-editor/features/editor-triggers/*.ts` stores and resolves editor submit triggers
 7. `../neo-editor/registerNeoEditorExtension.ts` watches editor text and auto-submits matching triggers
 
 ## Why not call the modal directly from the shortcut?

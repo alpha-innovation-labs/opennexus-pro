@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { ensureSubmitTrigger } from "../neo-editor/editor-triggers/ensureSubmitTrigger.js";
+import { ensureSubmitTrigger } from "../neo-editor/features/editor-triggers/ensureSubmitTrigger.js";
 
 const SESSIONS_COMMAND_TEXT = "/sessions";
 

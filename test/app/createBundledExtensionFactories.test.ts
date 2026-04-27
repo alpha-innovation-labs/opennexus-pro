@@ -47,6 +47,7 @@ test("the bundled extension entrypoint follows the root json feature flags", asy
   });
   assert.ok(!shortcuts.includes("ctrl+i"));
   assert.ok(!shortcuts.includes("ctrl+;"));
-  assert.ok(tools.includes("annotate"));
-  assert.ok(tools.includes("context_usage"));
+  assert.ok(!tools.includes("annotate"));
+  assert.ok(!tools.includes("context_usage"));
+  assert.ok(commands.includes("dev-modal"));
 });

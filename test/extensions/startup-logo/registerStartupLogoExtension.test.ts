@@ -5,12 +5,12 @@ import { startupLogoWidgetKey } from "../../../src/extensions/startup-logo/start
 
 interface WidgetCall {
 	key: string;
-	value: string[] | undefined;
+	value: unknown;
 	placement: string | undefined;
 }
 
 interface TestUi {
-	setWidget(key: string, value: string[] | undefined, options?: { placement?: string }): void;
+	setWidget(key: string, value: unknown, options?: { placement?: string }): void;
 	theme?: { fg(name: string, value: string): string };
 }
 
@@ -46,7 +46,7 @@ function createStartupLogoHarness(): {
 	const ctx = {
 		hasUI: true,
 		ui: {
-			setWidget(key: string, value: string[] | undefined, options?: { placement?: string }) {
+			setWidget(key: string, value: unknown, options?: { placement?: string }) {
 				calls.push({ key, value, placement: options?.placement });
 			},
 			theme: {
@@ -70,9 +70,15 @@ test("startup logo shows above the editor on fresh startup and clears on the fir
 		sessionStartHandler?.({ reason: "startup" }, ctx);
 		turnStartHandler?.({}, ctx);
 
+		const widgetFactory = calls[0]?.value as (
+			tui: { terminal: { rows: number } },
+			theme: { fg(name: string, value: string): string },
+		) => { render(width: number): string[] };
+		const widget = widgetFactory({ terminal: { rows: 30 } }, ctx.ui.theme!);
+
 		assert.equal(calls[0]?.key, startupLogoWidgetKey);
 		assert.equal(calls[0]?.placement, "aboveEditor");
-		assert.ok(calls[0]?.value?.some((line) => line.includes("⢸⣿⡿⣿⣄ ⣿⡇")));
+		assert.ok(widget.render(80).some((line) => line.includes("_   _  _____ __  __ _   _  ____")));
 		assert.deepEqual(calls[1], { key: startupLogoWidgetKey, value: undefined, placement: "aboveEditor" });
 	} finally {
 		process.argv = originalArgv;

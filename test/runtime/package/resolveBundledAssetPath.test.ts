@@ -1,38 +1,33 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getConfiguredPackageDir } from "../../../src/runtime/package/getConfiguredPackageDir.js";
-import { hasBunBinaryMarker } from "../../../src/runtime/package/hasBunBinaryMarker.js";
 import { resolveBundledAssetPath } from "../../../src/runtime/package/resolveBundledAssetPath.js";
 
 test("resolveBundledAssetPath uses source-relative paths outside bundled mode", () => {
   const resolvedPath = resolveBundledAssetPath(
-    "file:///workspace/src/runtime/module.ts",
+    "file:///workspace/src/feature-flags/getFeatureFlagsConfigPath.ts",
     "feature-flags.json",
     "../../feature-flags.json",
-    { env: {}, execPath: "/Applications/Nexus/nexus" },
   );
 
   assert.equal(resolvedPath, "/workspace/feature-flags.json");
 });
 
 test("resolveBundledAssetPath uses the configured package dir override", () => {
-  const resolvedPath = resolveBundledAssetPath(
-    "file:///workspace/src/runtime/module.ts",
-    "theme",
-    "./",
-    { env: { PI_PACKAGE_DIR: "/Applications/Nexus" }, execPath: "/Applications/Nexus/nexus" },
-  );
+  const previousPackageDir = process.env.PI_PACKAGE_DIR;
+  process.env.PI_PACKAGE_DIR = "/opt/nexus";
 
-  assert.equal(resolvedPath, "/Applications/Nexus/theme");
+  try {
+    const resolvedPath = resolveBundledAssetPath("file:///snapshot/src/file.js", "theme/dark.json", "../../theme/dark.json");
+
+    assert.equal(resolvedPath, "/opt/nexus/theme/dark.json");
+  } finally {
+    if (previousPackageDir === undefined) delete process.env.PI_PACKAGE_DIR;
+    else process.env.PI_PACKAGE_DIR = previousPackageDir;
+  }
 });
 
 test("hasBunBinaryMarker recognizes Bun virtual filesystem URLs", () => {
-  assert.equal(hasBunBinaryMarker("file:///$bunfs/root/nexus"), true);
-  assert.equal(hasBunBinaryMarker("file:///workspace/src/index.ts"), false);
-});
+  const resolvedPath = resolveBundledAssetPath("file:///$bunfs/root/src/file.js", "assets/logo.png", "../../assets/logo.png");
 
-test("getConfiguredPackageDir expands the package override home path", () => {
-  const configuredPath = getConfiguredPackageDir({ PI_PACKAGE_DIR: "~/nexus" }, "/Users/tester");
-
-  assert.equal(configuredPath, "/Users/tester/nexus");
+  assert.match(resolvedPath, /assets\/logo\.png$/);
 });

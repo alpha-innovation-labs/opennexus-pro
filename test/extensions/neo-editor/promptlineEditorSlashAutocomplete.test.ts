@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { PromptlineEditor } from "../../../src/extensions/neo-editor/promptline/PromptlineEditor.js";
-import { clearTriggerSession } from "../../../src/extensions/neo-editor/promptline/trigger/sessionState.js";
+import { PromptlineEditor } from "../../../src/extensions/neo-editor/features/promptline/PromptlineEditor.js";
+import { clearTriggerSession } from "../../../src/extensions/neo-editor/features/promptline/trigger/sessionState.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

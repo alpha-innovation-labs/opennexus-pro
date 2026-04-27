@@ -30,7 +30,10 @@ test("subagent history modal focuses transcript on enter and returns to list on 
 		contextProviderIds: [],
 	} as never;
 
-	const modal = new SubagentHistoryModal(createTestTheme() as never, [run], () => undefined);
+	let doneCalls = 0;
+	const modal = new SubagentHistoryModal(createTestTheme() as never, [run], () => {
+		doneCalls += 1;
+	});
 	const listView = await renderComponentInVirtualTerminal(() => modal, 200, 30);
 	assert.match(listView.join("\n"), /completed · gp · \//);
 	modal.handleInput("\r");
@@ -40,4 +43,6 @@ test("subagent history modal focuses transcript on enter and returns to list on 
 	modal.handleInput("\x1b");
 	const listFocused = await renderComponentInVirtualTerminal(() => modal, 120, 30);
 	assert.match(listFocused.join("\n"), /● Agents/);
+	modal.handleInput("\x1b");
+	assert.equal(doneCalls, 1);
 });

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../src/extensions/shared/slash-menu/registerSlashCommand.js";
-import { createCommandLeaves } from "../../../src/extensions/shared/slash-menu/createCommandLeaves.js";
+import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../src/extensions/neo-editor/features/menu/registerSlashCommand.js";
+import { createCommandLeaves } from "../../../src/extensions/neo-editor/features/menu/createCommandLeaves.js";
 
 /**
  * Keeps internal Nexus selector commands out of the visible slash menu.

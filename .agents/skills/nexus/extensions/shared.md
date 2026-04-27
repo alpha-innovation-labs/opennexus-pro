@@ -5,7 +5,7 @@
 
 ## What this area covers
 
-`src/extensions/shared` is the `shared` subarea of `extensions`. It mainly serves as a container for 3 nested folders.
+`src/extensions/shared` is the `shared` subarea of `extensions`. It mainly serves as a container for 2 nested folders.
 
 ## Key files
 
@@ -14,14 +14,12 @@ This folder has no files at its own root.
 ## Immediate subareas
 
 - `src/extensions/shared/observability/`
-- `src/extensions/shared/slash-menu/`
 - `src/extensions/shared/two-pane-select-modal/`
 
 ## Read this first
 
 1. `src/extensions/shared/two-pane-select-modal/`
-2. `src/extensions/shared/slash-menu/`
-3. `src/extensions/shared/observability/`
+2. `src/extensions/shared/observability/`
 
 ## Navigation notes
 

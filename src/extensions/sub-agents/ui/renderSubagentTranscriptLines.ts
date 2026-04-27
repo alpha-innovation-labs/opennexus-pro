@@ -30,6 +30,7 @@ function renderMarkdownTranscript(text: string, width: number): string[] {
  * @returns True when the join should keep a spacer.
  */
 function shouldInsertTranscriptSpacer(entry: SubagentTranscriptEntry, nextEntry?: SubagentTranscriptEntry): boolean {
+  if (entry.role === "tool" && nextEntry?.role === "tool") return false;
   return entry.role !== "thinking" && nextEntry?.role !== "thinking";
 }
 

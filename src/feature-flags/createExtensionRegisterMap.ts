@@ -2,9 +2,12 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { registerAnnotateExtension } from "../extensions/annotate/registerAnnotateExtension.js";
 import { registerCmuxExtension } from "../extensions/cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "../extensions/context-usage/registerContextUsageExtension.js";
+import { registerDevExtension } from "../extensions/dev/registerDevExtension.js";
 import { registerExitMessageExtension } from "../extensions/exit-message/registerExitMessageExtension.js";
+import { registerFeatureManagementExtension } from "../extensions/feature-management/registerFeatureManagementExtension.js";
 import registerFffExtension from "../extensions/fff/index.js";
 import { registerKanbanExtension } from "../extensions/kanban/registerKanbanExtension.js";
+import { registerMdEditorExtension } from "../extensions/md-editor/registerMdEditorExtension.js";
 import registerNeoEditorExtension from "../extensions/neo-editor/registerNeoEditorExtension.js";
 import { registerNotifyExtension } from "../extensions/notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "../extensions/observations/registerObservationsExtension.js";
@@ -29,9 +32,12 @@ export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) 
     annotate: registerAnnotateExtension,
     cmux: registerCmuxExtension,
     "context-usage": registerContextUsageExtension,
+    dev: registerDevExtension,
+    "feature-management": registerFeatureManagementExtension,
     fff: registerFffExtension,
     rtk: registerRtkExtension,
     kanban: registerKanbanExtension,
+    "md-editor": registerMdEditorExtension,
     "neo-editor": registerNeoEditorExtension,
     notify: registerNotifyExtension,
     observations: registerObservationsExtension,

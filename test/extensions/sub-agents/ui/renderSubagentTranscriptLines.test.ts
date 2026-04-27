@@ -87,3 +87,23 @@ test("renderSubagentTranscriptLines lets thinking connect back to a previous too
   assert.equal(lines[thinkingIndex + 1]?.trimStart().startsWith("├"), true);
   assert.equal(readIndex, thinkingIndex + 2);
 });
+
+test("renderSubagentTranscriptLines does not insert blank rows between adjacent tool calls", async () => {
+  process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@mariozechner/pi-coding-agent`;
+  await initializePiThemes();
+  const lines = renderSubagentTranscriptLines(theme as any, 80, {
+    transcript: [
+      { role: "thinking", text: "Run both commands.", createdAt: 1 },
+      { role: "tool", text: "", createdAt: 2, toolCallId: "call-1", toolName: "bash", args: { command: "echo A" } },
+      { role: "tool", text: "", createdAt: 3, toolCallId: "call-2", toolName: "bash", args: { command: "echo B" } },
+    ],
+  } as any).map((line) => stripAnsi(line));
+
+  const firstToolIndex = lines.findIndex((line) => line.includes("bash") && line.includes("echo A"));
+  const secondToolIndex = lines.findIndex((line) => line.includes("bash") && line.includes("echo B"));
+
+  assert.notEqual(firstToolIndex, -1);
+  assert.notEqual(secondToolIndex, -1);
+  assert.equal(secondToolIndex, firstToolIndex + 1);
+  assert.equal(lines.slice(firstToolIndex, secondToolIndex).includes(""), false);
+});

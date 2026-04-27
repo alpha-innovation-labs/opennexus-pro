@@ -1,6 +1,7 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
 export type ExtensionFeatureFlagConfig = {
+  devOnly?: boolean;
   enabled: boolean;
   features: string[];
 };

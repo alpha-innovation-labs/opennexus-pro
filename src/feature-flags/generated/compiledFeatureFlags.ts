@@ -6,7 +6,7 @@ import type { FeatureFlagsConfig } from "../types.js";
 export const compiledFeatureFlags = {
   "extensions": {
     "annotate": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "annotate command",
         "annotate tool",
@@ -21,9 +21,32 @@ export const compiledFeatureFlags = {
       ]
     },
     "context-usage": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "context_usage tool for current chat context window usage"
+      ]
+    },
+    "dev": {
+      "devOnly": true,
+      "enabled": false,
+      "features": [
+        "/dev-modal command",
+        "dev-only modal variation playground",
+        "tab and shift+tab modal variant cycling"
+      ]
+    },
+    "exit-message": {
+      "enabled": true,
+      "features": [
+        "print session title on app exit"
+      ]
+    },
+    "feature-management": {
+      "enabled": true,
+      "features": [
+        "/features command",
+        "feature status modal",
+        "production and dev channel labels"
       ]
     },
     "fff": {
@@ -34,19 +57,22 @@ export const compiledFeatureFlags = {
         "FFF-powered @ file autocomplete"
       ]
     },
-    "rtk": {
-      "enabled": true,
-      "features": [
-        "rtk rewrite for bash",
-        "rtk-native read/find/ls/grep tools"
-      ]
-    },
     "kanban": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "/extension command",
         "two-pane task board modal",
         "temporary in-loop and completed task data"
+      ]
+    },
+    "md-editor": {
+      "enabled": false,
+      "features": [
+        "/editor command",
+        "demo.md Markdown line modal",
+        "hidden persistent per-line chats",
+        "live reload with diff acceptance",
+        "Tron-styled right-panel mini chat"
       ]
     },
     "neo-editor": {
@@ -59,14 +85,6 @@ export const compiledFeatureFlags = {
         "macOS ctrl+v image paste fallback"
       ]
     },
-    "observations": {
-      "enabled": true,
-      "features": [
-        "observation tracking",
-        "status widget",
-        "/observations command"
-      ]
-    },
     "notify": {
       "enabled": true,
       "features": [
@@ -75,24 +93,32 @@ export const compiledFeatureFlags = {
         "NEXUS_NOTIFY_SOUND_CMD override"
       ]
     },
-    "exit-message": {
+    "observations": {
       "enabled": true,
       "features": [
-        "print session title on app exit"
+        "observation tracking",
+        "status widget",
+        "/observations command"
+      ]
+    },
+    "playground": {
+      "enabled": false,
+      "features": [
+        "playground modal",
+        "ctrl+i shortcut"
+      ]
+    },
+    "rtk": {
+      "enabled": true,
+      "features": [
+        "rtk rewrite for bash",
+        "rtk-native read/find/ls/grep tools"
       ]
     },
     "startup-logo": {
       "enabled": true,
       "features": [
         "show N logo on fresh startup"
-      ]
-    },
-    "sub-agents": {
-      "enabled": true,
-      "features": [
-        "rpc child-process subagent execution",
-        "custom context providers",
-        "background result lookup and steering"
       ]
     },
     "sub-agent-status-widget": {
@@ -103,17 +129,16 @@ export const compiledFeatureFlags = {
         "replaces Pi default working loader"
       ]
     },
-    "tron": {
+    "sub-agents": {
       "enabled": true,
       "features": [
-        "compact tool lines",
-        "thinking style",
-        "tool calls browser",
-        "user message bubble"
+        "rpc child-process subagent execution",
+        "custom context providers",
+        "background result lookup and steering"
       ]
     },
     "term-modal": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "persistent shell",
         "/term commands",
@@ -127,11 +152,22 @@ export const compiledFeatureFlags = {
         "ctrl+\\ shortcut"
       ]
     },
-    "playground": {
+    "tron": {
+      "enabled": true,
+      "features": [
+        "compact tool lines",
+        "thinking style",
+        "tool calls browser",
+        "user message bubble"
+      ]
+    },
+    "workflows": {
       "enabled": false,
       "features": [
-        "playground modal",
-        "ctrl+i shortcut"
+        "/workflow command",
+        "workflow Librarian prompt",
+        "workflow Engineer prompt",
+        "continuous subagent steering instructions"
       ]
     },
     "workspace": {
@@ -140,15 +176,6 @@ export const compiledFeatureFlags = {
         "session switcher",
         "ctrl+; shortcut",
         "workspace top bar"
-      ]
-    },
-    "workflows": {
-      "enabled": true,
-      "features": [
-        "/workflow command",
-        "workflow Librarian prompt",
-        "workflow Engineer prompt",
-        "continuous subagent steering instructions"
       ]
     }
   }

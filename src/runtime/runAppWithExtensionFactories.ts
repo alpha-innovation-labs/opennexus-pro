@@ -10,6 +10,7 @@ import { applyToolExecutionSpacingPatch } from "../pi-internals/applyToolExecuti
 import { applyToolGroupCollapsePatch } from "../pi-internals/applyToolGroupCollapsePatch.js";
 import { applyCompactModeImagePatch } from "../pi-internals/applyCompactModeImagePatch.js";
 import { applyInlineImageOverlayPatch } from "../pi-internals/inline-image-overlays/applyInlineImageOverlayPatch.js";
+import { applyModelKeybindingsPatch } from "../pi-internals/applyModelKeybindingsPatch.js";
 import { applyNexusConfigPatch } from "./config/applyNexusConfigPatch.js";
 import { ensureEmbeddedPackageDirEnv } from "./package/embedded-assets/ensureEmbeddedPackageDirEnv.js";
 import { ensureAgentDirEnv } from "./config/ensureAgentDirEnv.js";
@@ -19,6 +20,8 @@ import { extractStartupProfileArgs } from "./startup-profile/extractStartupProfi
 import { logRunAppPhase } from "./startup-profile/logRunAppPhase.js";
 import { setStartupProfileEnabled } from "./startup-profile/setStartupProfileEnabled.js";
 import { normalizeResumeStartupArgs } from "./cli/normalizeResumeStartupArgs.js";
+import { clearStartupScreen } from "./startup-screen/clearStartupScreen.js";
+import { shouldClearStartupScreen } from "./startup-screen/shouldClearStartupScreen.js";
 
 export type CreateExtensionFactories = () => Promise<ExtensionFactory[]>;
 
@@ -36,6 +39,9 @@ export async function runAppWithExtensionFactories(
   const { args: extractedArgs, startupProfileEnabled } = extractStartupProfileArgs(argv);
   const rawArgs = normalizeResumeStartupArgs(extractedArgs);
   setStartupProfileEnabled(startupProfileEnabled);
+  if (shouldClearStartupScreen(rawArgs, process.stdin, process.stdout)) {
+    clearStartupScreen(process.stdout);
+  }
   clearStartupProfileLog();
   clearExitMessage();
   registerExitMessageProcessHandler();
@@ -60,6 +66,10 @@ export async function runAppWithExtensionFactories(
   phaseStartedAt = performance.now();
   applyStartupChangelogSilencePatch();
   logRunAppPhase("applyStartupChangelogSilencePatch:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
+  applyModelKeybindingsPatch();
+  logRunAppPhase("applyModelKeybindingsPatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   applyToolExecutionSpacingPatch();

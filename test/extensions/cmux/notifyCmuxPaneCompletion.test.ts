@@ -50,3 +50,25 @@ test("cmux emits a pane completion notification", async () => {
 		}
 	});
 });
+
+test("cmux skips pane completion notification while title sync is disabled", async () => {
+	await withLockedCmuxEnv(async () => {
+		const fakeCmux = await createFakeCmuxExecutable();
+		const previousCmuxBin = process.env.NEXUS_CMUX_BIN;
+		const previousCmuxLog = process.env.CMUX_TEST_LOG;
+		process.env.NEXUS_CMUX_BIN = fakeCmux.executablePath;
+		process.env.CMUX_TEST_LOG = fakeCmux.logPath;
+		setCmuxTitleSyncEnabled(false);
+
+		try {
+			await notifyCmuxPaneCompletion("Build finished");
+			await assert.rejects(readFile(fakeCmux.logPath, "utf8"));
+		} finally {
+			if (previousCmuxBin) process.env.NEXUS_CMUX_BIN = previousCmuxBin;
+			else delete process.env.NEXUS_CMUX_BIN;
+			if (previousCmuxLog) process.env.CMUX_TEST_LOG = previousCmuxLog;
+			else delete process.env.CMUX_TEST_LOG;
+			await removeFakeCmuxExecutable(fakeCmux.directoryPath);
+		}
+	});
+});

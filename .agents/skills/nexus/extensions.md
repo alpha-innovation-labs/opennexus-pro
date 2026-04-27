@@ -24,11 +24,11 @@
 - [`generated`](./extensions/generated.md) — files: `registerCompiledEnabledExtensions.ts`
 - [`kanban`](./extensions/kanban.md) — files: `registerKanbanExtension.ts`; subfolders: `command/`, `data/`, `modal/`
 - [`rtk`](./extensions/rtk.md) — files: `registerRtkExtension.ts`; subfolders: `runtime/`, `tooling/`
-- [`neo-editor`](./extensions/neo-editor.md) — files: `config.json`, `editor-triggers.json`, `getNeoConfigPath.ts`, `primeStartupResumeModal.ts`, `readNeoConfig.ts`, `registerNeoEditorExtension.ts`, `types.ts`; subfolders: `editor-triggers/`, `git/`, `promptline/`, `transport/`, `ui/`
+- [`neo-editor`](./extensions/neo-editor.md) — files: `config.json`, `editor-triggers.json`, `getNeoConfigPath.ts`, `primeStartupResumeModal.ts`, `readNeoConfig.ts`, `registerNeoEditorExtension.ts`, `types.ts`; subfolders: `features/`, `shared/`
 - [`notify`](./extensions/notify.md) — files: `registerNotifyExtension.ts`; subfolders: `runtime/`
 - [`observations`](./extensions/observations.md) — files: `registerObservationsExtension.ts`; subfolders: `command/`, `shared/`, `status-widget/`, `summarizer/`, `tracker/`
 - [`playground`](./extensions/playground.md) — files: `registerPlaygroundExtension.ts`, `registerPlaygroundShortcut.ts`, `types.ts`; subfolders: `model/`, `rpc/`, `runtime/`, `ui/`
-- [`shared`](./extensions/shared.md) — subfolders: `observability/`, `slash-menu/`, `two-pane-select-modal/`
+- [`shared`](./extensions/shared.md) — subfolders: `observability/`, `two-pane-select-modal/`
 - [`startup-logo`](./extensions/startup-logo.md) — files: `buildStartupLogoLines.ts`, `clearStartupLogo.ts`, `hasResumeCliFlag.ts`, `registerStartupLogoExtension.ts`, `shouldShowStartupLogo.ts`, `showStartupLogo.ts`, `startupLogoWidgetKey.ts`
 - [`sub-agent-status-widget`](./extensions/sub-agent-status-widget.md) — files: `registerSubagentStatusWidgetExtension.ts`; subfolders: `runtime/`, `ui/`
 - [`sub-agents`](./extensions/sub-agents.md) — files: `agent-manager.ts`, `agent-runner.ts`, `agent-types.ts`, `context.ts`, `createBundledAgents.ts`, `cross-extension-rpc.ts`, `custom-agents.ts`, `env.ts`, `group-join.ts`, `index.ts`, `invocation-config.ts`, `memory.ts`, `model-resolver.ts`, `output-file.ts`, `prompts.ts`, `skill-loader.ts`, `types.ts`, `worktree.ts`; subfolders: `agents/`, `context-providers/`, `rpc/`, `rpc-entry/`, `runtime/`, `tooling/`, `ui/`

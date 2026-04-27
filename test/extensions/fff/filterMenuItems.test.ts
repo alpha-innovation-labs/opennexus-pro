@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { filterMenuItems } from "../../../src/extensions/shared/slash-menu/filterMenuItems.js";
+import { filterMenuItems } from "../../../src/extensions/neo-editor/features/menu/filterMenuItems.js";
 
 /**
  * Verifies exact slash-command matches outrank description-only matches.

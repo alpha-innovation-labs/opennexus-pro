@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { buildStartupLogoLines } from "./buildStartupLogoLines.js";
+import { createStartupLogoWidget } from "./createStartupLogoWidget.js";
 import { startupLogoWidgetKey } from "./startupLogoWidgetKey.js";
 
 /**
@@ -8,5 +8,5 @@ import { startupLogoWidgetKey } from "./startupLogoWidgetKey.js";
  * @param ctx Pi extension context.
  */
 export function showStartupLogo(ctx: ExtensionContext): void {
-	ctx.ui.setWidget(startupLogoWidgetKey, buildStartupLogoLines(ctx.ui.theme), { placement: "aboveEditor" });
+	ctx.ui.setWidget(startupLogoWidgetKey, createStartupLogoWidget, { placement: "aboveEditor" });
 }

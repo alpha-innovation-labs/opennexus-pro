@@ -5,7 +5,7 @@ import { join } from "node:path";
 import test from "node:test";
 import { SessionManager } from "@mariozechner/pi-coding-agent";
 import { primeStartupResumeModal } from "../../../src/extensions/neo-editor/primeStartupResumeModal.js";
-import { createSlashModal } from "../../../src/extensions/neo-editor/promptline/trigger/createSlashModal.js";
+import { createSlashModal } from "../../../src/extensions/neo-editor/features/promptline/trigger/createSlashModal.js";
 import { startupResumeEnvVar } from "../../../src/runtime/cli/normalizeResumeStartupArgs.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";

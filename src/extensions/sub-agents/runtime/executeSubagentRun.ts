@@ -76,7 +76,7 @@ export async function executeSubagentRun(
  * @param brief Optional context brief.
  * @returns Serialized brief block or empty string.
  */
-function buildBriefBlock(brief: string | undefined): string {
+export function buildBriefBlock(brief: string | undefined): string {
   if (!brief?.trim()) return "";
   return `# Context Brief\n\n${brief.trim()}`;
 }

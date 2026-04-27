@@ -46,7 +46,7 @@ test("just release installs nexus without persisting shipped defaults into user 
       await access(join(installedAgentDir, "editor-triggers.json"));
 
       const installedPackageDir = getInstalledPackageDirPath(homeDir);
-      await access(join(installedPackageDir, "src", "runtime", "config", "default-settings", "settings.json"));
+      await assert.rejects(access(join(installedPackageDir, "src")));
 
       const promptResult = await runCommand(`"${nexusPath}" -p hello`, {
         cwd: installedPackageDir,

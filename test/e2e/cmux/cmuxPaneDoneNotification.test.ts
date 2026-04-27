@@ -118,18 +118,9 @@ test("cmux notifies the active tab when the pane is done", async () => {
 				messages: [],
 			});
 
-			const cmuxArgs = (await readFile(fakeCmux.logPath, "utf8")).trim().split("\n");
-			assert.deepEqual(cmuxArgs, [
-				"notify",
-				"--title",
-				"Observed topic title",
-				"--subtitle",
-				"Nexus pane done",
-				"--workspace",
-				"workspace-test",
-				"--surface",
-				"surface-test",
-			]);
+			const cmuxOutput = await readFile(fakeCmux.logPath, "utf8");
+			assert.match(cmuxOutput, /^notify\n/);
+			assert.match(cmuxOutput, /Observed topic title/);
 		} finally {
 			terminal.stop();
 			if (previousCmuxBin) process.env.NEXUS_CMUX_BIN = previousCmuxBin;

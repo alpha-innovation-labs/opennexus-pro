@@ -1,8 +1,13 @@
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
+import { visibleWidth } from "@mariozechner/pi-tui";
+import { getPromptlineFrameWidth } from "../../neo-editor/features/promptline/layout/getPromptlineFrameWidth.js";
+import { hasConversationMessages } from "../../neo-editor/features/promptline/layout/hasConversationMessages.js";
+import { padPromptlineFrameToWidth } from "../../neo-editor/features/promptline/layout/padPromptlineFrameToWidth.js";
 import { logExtensionEvent } from "../../shared/observability/startup-debug.ts";
+import { buildObservationsStatusLine } from "./buildObservationsStatusLine.js";
 import { createBadge } from "./createBadge.js";
 import { getSessionRunTimeLabel } from "./getSessionRunTimeLabel.js";
+import { getVisibleSessionName } from "./getVisibleSessionName.js";
 
 const MODEL_BADGE_BG = "\x1b[48;2;180;45;45m";
 const THINKING_BADGE_BG = "\x1b[48;2;214;86;86m";
@@ -26,23 +31,20 @@ export function createObservationsStatusWidget(
 	return {
 		invalidate(): void {},
 		render(width: number): string[] {
-			const sessionName = getSessionName()?.trim() || "Untitled session";
-			const gap = " ";
-			const runTime = ctx.ui.theme.fg("muted", getSessionRunTimeLabel());
-			const titleRaw = ctx.ui.theme.fg("muted", sessionName);
-			const reservedWidth = visibleWidth(badges) + visibleWidth(gap) + visibleWidth(runTime) + visibleWidth(gap);
-			const maxTitle = Math.max(1, width - reservedWidth);
-			const title = truncateToWidth(titleRaw, maxTitle, ctx.ui.theme.fg("dim", "…"));
-			const line = `${badges}${gap}${runTime}${gap}${title}`;
+			const hasMessages = hasConversationMessages(ctx);
+			const frameWidth = getPromptlineFrameWidth(width, hasMessages);
+			const sessionName = getVisibleSessionName(getSessionName);
+			const runTime = hasMessages && sessionName ? ctx.ui.theme.fg("muted", getSessionRunTimeLabel()) : undefined;
+			const line = buildObservationsStatusLine(badges, runTime, sessionName, frameWidth, ctx.ui.theme);
 			const renderedWidth = visibleWidth(line);
-			if (renderedWidth > width) {
+			if (renderedWidth > frameWidth) {
 				logExtensionEvent("observations-status-widget", "overflow", {
-					width,
+					width: frameWidth,
 					renderedWidth,
-					sessionName,
+					sessionName: sessionName ?? null,
 				});
 			}
-			return [line];
+			return padPromptlineFrameToWidth([line], width, frameWidth);
 		},
 	};
 }

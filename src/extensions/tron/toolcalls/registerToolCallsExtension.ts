@@ -15,10 +15,4 @@ export default function registerToolCallsExtension(pi: ExtensionAPI): void {
 			await showToolCallsModal(ctx as never);
 		},
 	});
-	pi.registerShortcut("ctrl+p", {
-		description: "Show all tool calls from the current branch",
-		handler: async (ctx) => {
-			await showToolCallsModal(ctx as never);
-		},
-	});
 }

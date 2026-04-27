@@ -11,8 +11,13 @@ const extensionModules = {
     importPath: "../context-usage/registerContextUsageExtension.js",
     exportName: "registerContextUsageExtension",
   },
+  "feature-management": {
+    importPath: "../feature-management/registerCompiledFeatureManagementExtension.js",
+    exportName: "registerCompiledFeatureManagementExtension",
+  },
   fff: { importPath: "../fff/index.js", exportName: "default", localName: "registerFffExtension" },
   kanban: { importPath: "../kanban/registerKanbanExtension.js", exportName: "registerKanbanExtension" },
+  "md-editor": { importPath: "../md-editor/registerMdEditorExtension.js", exportName: "registerMdEditorExtension" },
   "neo-editor": { importPath: "../neo-editor/registerNeoEditorExtension.js", exportName: "default", localName: "registerNeoEditorExtension" },
   notify: { importPath: "../notify/registerNotifyExtension.js", exportName: "registerNotifyExtension" },
   observations: { importPath: "../observations/registerObservationsExtension.js", exportName: "registerObservationsExtension" },
@@ -104,7 +109,7 @@ async function generateCompiledBundledExtensions() {
   const rawConfig = await readFile(sourcePath, "utf8");
   const parsedConfig = JSON.parse(rawConfig);
   const enabledIds = Object.entries(parsedConfig.extensions)
-    .filter(([, value]) => value.enabled)
+    .filter(([, value]) => value.enabled && value.devOnly !== true)
     .map(([id]) => id);
   const moduleSource = createModuleSource(enabledIds);
   await mkdir(dirname(outputPath), { recursive: true });

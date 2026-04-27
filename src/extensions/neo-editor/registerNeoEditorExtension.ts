@@ -1,12 +1,12 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { logExtensionEvent } from "../shared/observability/startup-debug.ts";
-import { readProjectSettings } from "../shared/slash-menu/readProjectSettings.js";
+import { readProjectSettings } from "./features/menu/readProjectSettings.js";
 import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
-import { ensurePromptlineInstalled } from "./promptline/ensurePromptlineInstalled.js";
-import { getPromptlineConfig } from "./promptline/config/getPromptlineConfig.js";
-import { refreshPromptlineConfig } from "./promptline/config/refreshPromptlineConfig.js";
-import { refreshAndRender } from "./promptline/refreshAndRender.js";
-import { resetPromptlineState } from "./promptline/resetPromptlineState.js";
+import { ensurePromptlineInstalled } from "./features/promptline/ensurePromptlineInstalled.js";
+import { getPromptlineConfig } from "./features/promptline/config/getPromptlineConfig.js";
+import { refreshPromptlineConfig } from "./features/promptline/config/refreshPromptlineConfig.js";
+import { refreshAndRender } from "./features/promptline/refreshAndRender.js";
+import { resetPromptlineState } from "./features/promptline/resetPromptlineState.js";
 import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
 
 export default function(pi: ExtensionAPI) {

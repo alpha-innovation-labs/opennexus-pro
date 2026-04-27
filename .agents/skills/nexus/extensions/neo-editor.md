@@ -5,7 +5,7 @@
 
 ## What this area covers
 
-`src/extensions/neo-editor` contains the bundled `neo-editor` extension. In `feature-flags.json` it is currently marked `enabled`. At the root it has 7 files plus 5 nested folders.
+`src/extensions/neo-editor` contains the bundled `neo-editor` extension. In `feature-flags.json` it is currently marked `enabled`. The extension is organized into `features/` for major UX features and `shared/` for support modules reused across those features.
 
 ## Feature-flag summary
 
@@ -29,17 +29,20 @@
 
 ## Immediate subareas
 
-- `src/extensions/neo-editor/editor-triggers/`
-- `src/extensions/neo-editor/git/`
-- `src/extensions/neo-editor/promptline/`
-- `src/extensions/neo-editor/transport/`
-- `src/extensions/neo-editor/ui/`
+- `src/extensions/neo-editor/features/editor-triggers/`
+- `src/extensions/neo-editor/features/help-shortcuts/`
+- `src/extensions/neo-editor/features/menu/`
+- `src/extensions/neo-editor/features/promptline/`
+- `src/extensions/neo-editor/shared/git/`
+- `src/extensions/neo-editor/shared/transport/`
+- `src/extensions/neo-editor/shared/ui/`
 
 ## Read this first
 
 1. `src/extensions/neo-editor/registerNeoEditorExtension.ts`
-2. `src/extensions/neo-editor/promptline/`
-3. `src/extensions/neo-editor/editor-triggers/`
+2. `src/extensions/neo-editor/features/promptline/`
+3. `src/extensions/neo-editor/features/menu/`
+4. `src/extensions/neo-editor/features/editor-triggers/`
 
 ## Navigation notes
 

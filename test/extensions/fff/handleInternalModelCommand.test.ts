@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { SettingsManager } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js";
-import { handleInternalModelCommand } from "../../../src/extensions/shared/slash-menu/internal-commands/handleInternalModelCommand.js";
+import { handleInternalModelCommand } from "../../../src/extensions/neo-editor/features/menu/internal-commands/handleInternalModelCommand.js";
 
 const originalCreate = SettingsManager.create;
 

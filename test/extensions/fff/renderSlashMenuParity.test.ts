@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { SlashMenuModal } from "../../../src/extensions/shared/slash-menu/SlashMenuModal.js";
-import { clearRegisteredSlashCommands } from "../../../src/extensions/shared/slash-menu/registerSlashCommand.js";
+import { SlashMenuModal } from "../../../src/extensions/neo-editor/features/menu/SlashMenuModal.js";
+import { clearRegisteredSlashCommands } from "../../../src/extensions/neo-editor/features/menu/registerSlashCommand.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
