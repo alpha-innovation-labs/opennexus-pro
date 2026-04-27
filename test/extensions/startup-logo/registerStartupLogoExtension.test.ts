@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerStartupLogoExtension } from "../../../src/extensions/startup-logo/registerStartupLogoExtension.js";
-import { startupLogoWidgetKey } from "../../../src/extensions/startup-logo/startupLogoWidgetKey.js";
+import { registerStartupLogoExtension } from "../../../packages/extensions/src/startup-logo/registerStartupLogoExtension.js";
+import { startupLogoWidgetKey } from "../../../packages/extensions/src/startup-logo/startupLogoWidgetKey.js";
+import { resumeLaunchEnvVar } from "../../../packages/nexus-runtime/src/cli/normalizeResumeStartupArgs.js";
 
 interface WidgetCall {
 	key: string;
@@ -78,7 +79,7 @@ test("startup logo shows above the editor on fresh startup and clears on the fir
 
 		assert.equal(calls[0]?.key, startupLogoWidgetKey);
 		assert.equal(calls[0]?.placement, "aboveEditor");
-		assert.ok(widget.render(80).some((line) => line.includes("_   _  _____ __  __ _   _  ____")));
+		assert.ok(widget.render(80).some((line) => line.includes("███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗")));
 		assert.deepEqual(calls[1], { key: startupLogoWidgetKey, value: undefined, placement: "aboveEditor" });
 	} finally {
 		process.argv = originalArgv;
@@ -114,5 +115,23 @@ test("startup logo stays hidden on resumed sessions and clears on shutdown", () 
 		]);
 	} finally {
 		process.argv = originalArgv;
+	}
+});
+
+test("startup logo stays hidden for direct resume launches rewritten to --session", () => {
+	const originalArgv = process.argv;
+	const originalResumeLaunch = process.env[resumeLaunchEnvVar];
+	process.argv = ["node", "nexus", "--session", "019dd102-45e8-76f8-8cbd-1f029c108591"];
+	process.env[resumeLaunchEnvVar] = "1";
+
+	try {
+		const { sessionStartHandler, ctx, calls } = createStartupLogoHarness();
+		sessionStartHandler?.({ reason: "startup" }, ctx);
+
+		assert.deepEqual(calls, [{ key: startupLogoWidgetKey, value: undefined, placement: "aboveEditor" }]);
+	} finally {
+		process.argv = originalArgv;
+		if (originalResumeLaunch === undefined) delete process.env[resumeLaunchEnvVar];
+		else process.env[resumeLaunchEnvVar] = originalResumeLaunch;
 	}
 });

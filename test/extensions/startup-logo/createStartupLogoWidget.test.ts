@@ -8,8 +8,9 @@ test("startup logo widget expands vertically so the first prompt starts near scr
 	const lines = widget.render(100);
 
 	assert.equal(lines.length, 17);
-	assert.deepEqual(lines.slice(0, 11), Array.from({ length: 11 }, () => ""));
+	assert.deepEqual(lines.slice(0, 10), Array.from({ length: 10 }, () => ""));
 	assert.ok(lines.some((line) => line.includes(String.raw`███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗`)));
+	assert.equal(lines.at(-1), "");
 });
 
 test("startup logo widget keeps the top of the N aligned with the lower rows", () => {
