@@ -11,6 +11,6 @@ import type { StartupHeroTheme } from "./types.js";
  */
 export function buildStartupHeroTipLines(theme: StartupHeroTheme, width: number): string[] {
 	const title = theme.fg("accent", theme.bold ? theme.bold("TIP") : "TIP");
-	const tips = startupHeroTips.map((tip) => theme.fg("foreground", truncateToWidth(`• ${tip}`, width, "…")));
+	const tips = startupHeroTips.map((tip) => theme.fg("text", truncateToWidth(`• ${tip}`, width, "…")));
 	return [title, ...tips];
 }

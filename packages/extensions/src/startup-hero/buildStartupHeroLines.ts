@@ -20,7 +20,7 @@ export function buildStartupHeroLines(
 	status: StartupHeroStatus,
 	width: number,
 ): string[] {
-	const statusLine = theme.fg("foreground", truncateToWidth(formatStartupHeroStatus(status), width, "…"));
+	const statusLine = theme.fg("text", truncateToWidth(formatStartupHeroStatus(status), width, "…"));
 	return [
 		...buildStartupHeroLogoLines(theme),
 		"",
