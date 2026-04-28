@@ -1,14 +1,18 @@
 import { visibleWidth } from "@mariozechner/pi-tui";
 
 /**
- * Adds equal left padding to every startup hero line so the hero block stays aligned.
+ * Centers every startup hero line and pads it to the full terminal width.
  *
  * @param lines Hero lines, possibly with ANSI styling.
  * @param terminalColumns Current terminal column count.
- * @returns Horizontally centered hero block.
+ * @returns Full-width horizontally centered hero lines.
  */
 export function centerStartupHeroLines(lines: string[], terminalColumns: number): string[] {
-	const heroWidth = Math.max(0, ...lines.map((line) => visibleWidth(line)));
-	const leftPadding = " ".repeat(Math.max(0, Math.floor((terminalColumns - heroWidth) / 2)));
-	return lines.map((line) => `${leftPadding}${line}`);
+	return lines.map((line) => {
+		const lineWidth = visibleWidth(line);
+		const totalPadding = Math.max(0, terminalColumns - lineWidth);
+		const leftPadding = " ".repeat(Math.floor(totalPadding / 2));
+		const rightPadding = " ".repeat(Math.ceil(totalPadding / 2));
+		return `${leftPadding}${line}${rightPadding}`;
+	});
 }

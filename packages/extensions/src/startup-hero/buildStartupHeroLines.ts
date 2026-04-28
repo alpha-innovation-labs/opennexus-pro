@@ -1,8 +1,7 @@
-import { truncateToWidth } from "@mariozechner/pi-tui";
 import { buildStartupHeroLogoLines } from "./buildStartupHeroLogoLines.js";
+import { buildStartupHeroStatusLine } from "./buildStartupHeroStatusLine.js";
 import { buildStartupHeroTipLines } from "./buildStartupHeroTipLines.js";
 import { buildStartupHeroVersionLine } from "./buildStartupHeroVersionLine.js";
-import { formatStartupHeroStatus } from "./formatStartupHeroStatus.js";
 import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
 
 /**
@@ -22,7 +21,7 @@ export function buildStartupHeroLines(
 	width: number,
 	tip: string,
 ): string[] {
-	const statusLine = theme.fg("text", truncateToWidth(formatStartupHeroStatus(status), width, "…"));
+	const statusLine = buildStartupHeroStatusLine(theme, status, width);
 	return [
 		...buildStartupHeroLogoLines(theme),
 		"",

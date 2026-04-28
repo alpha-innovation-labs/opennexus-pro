@@ -26,7 +26,8 @@ test("startup hero renders version, tips, skills, and AGENTS.md status in the te
 	);
 	const output = viewport.join("\n");
 
-	assert.match(output, /Nexus v1\.2\.3/u);
+	assert.match(output, /v1\.2\.3/u);
+	assert.doesNotMatch(output, /Nexus v/u);
 	assert.match(output, /TIP/u);
 	assert.doesNotMatch(output, /Use @ to attach files/u);
 	assert.match(output, /TIP Press Ctrl\+V to paste clipboard images\./u);

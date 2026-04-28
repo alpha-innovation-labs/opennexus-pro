@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { visibleWidth } from "@mariozechner/pi-tui";
 import { createStartupHeroWidget } from "../../../packages/extensions/src/startup-hero/createStartupHeroWidget.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
@@ -19,10 +20,11 @@ test("startup hero widget renders logo, version, one tip, and status above the p
 
 	assert.equal(lines.length, 17);
 	assert.match(output, /███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗/u);
-	assert.match(output, /Nexus v1\.2\.3/u);
+	assert.match(output, /v1\.2\.3/u);
+	assert.doesNotMatch(output, /Nexus v/u);
 	assert.match(output, /TIP Press Ctrl\+V to paste clipboard images\./u);
 	assert.match(output, /Skills \(3\) ✓  AGENTS\.md ✓/u);
-	assert.equal(lines.at(-1), "");
+	assert.equal(visibleWidth(lines.at(-1)!), 100);
 });
 
 test("startup hero widget keeps the top of the N aligned with the lower rows", () => {

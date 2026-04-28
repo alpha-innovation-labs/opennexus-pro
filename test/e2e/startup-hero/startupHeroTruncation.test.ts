@@ -20,6 +20,25 @@ test("startup hero keeps the Nexus wordmark readable at narrow terminal widths",
 	assert.doesNotMatch(output, /⣿/u);
 });
 
+test("startup hero renders full-width centered lines", () => {
+	const terminalColumns = 72;
+	const lines = buildCenteredStartupHeroLines(
+		createTestTheme(),
+		30,
+		terminalColumns,
+		"1.2.3",
+		{
+			activeSkillCount: 3,
+			agentsMdLoaded: true,
+		},
+		"Press Ctrl+V to paste clipboard images.",
+	);
+
+	assert.ok(lines.length > 0);
+	assert.ok(lines.every((line) => visibleWidth(line) === terminalColumns));
+	assert.ok(lines.some((line) => line.match(/^\s+v1\.2\.3\s+$/u)));
+});
+
 test("startup hero is hidden when the terminal is narrower than the wordmark", () => {
 	const terminalColumns = 39;
 	const lines = buildCenteredStartupHeroLines(

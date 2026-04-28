@@ -10,5 +10,5 @@ import type { StartupHeroTheme } from "./types.js";
  * @returns Styled version line.
  */
 export function buildStartupHeroVersionLine(theme: StartupHeroTheme, version: string, width: number): string {
-	return theme.fg("text", truncateToWidth(`Nexus v${version}`, width, "…"));
+	return theme.fg("text", truncateToWidth(`v${version}`, width, "…"));
 }
