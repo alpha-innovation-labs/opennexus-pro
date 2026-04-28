@@ -33,6 +33,8 @@ export async function handleTopLevelMenuEnter(
     return;
   }
   if (value === "resume") return openLevel("resume");
+  if (value === "prompts") return openLevel("prompts");
+  if (value === "skills") return openLevel("skills");
   if (value === "login") return openLevel("login");
   if (value === "logout") {
     const leaves = createOAuthProviderLeaves(ctx, "logout");

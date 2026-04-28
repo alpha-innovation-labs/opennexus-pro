@@ -1,5 +1,5 @@
 import type { AutocompleteItem, AutocompleteProvider } from "@mariozechner/pi-tui";
-import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { closeTriggerModal } from "./closeTriggerModal.js";
 import { getTriggerProvider } from "./getTriggerProvider.js";
 import type { ShowOverlay, TriggerModalState, TriggerState } from "./types.js";
@@ -14,6 +14,7 @@ import type { ShowOverlay, TriggerModalState, TriggerState } from "./types.js";
  * @param autocompleteProvider Autocomplete provider.
  * @param getThinkingLevel Thinking-level getter.
  * @param setThinkingLevel Thinking-level setter.
+ * @param getCommands Live slash-command getter.
  * @param lines Editor lines.
  * @param cursorLine Cursor line.
  * @param cursorCol Cursor column.
@@ -32,6 +33,7 @@ export async function refreshTriggerModal(
   autocompleteProvider: AutocompleteProvider | undefined,
   getThinkingLevel: () => string,
   setThinkingLevel: (value: string) => void,
+  getCommands: ExtensionAPI["getCommands"],
   lines: string[],
   cursorLine: number,
   cursorCol: number,
@@ -54,6 +56,7 @@ export async function refreshTriggerModal(
     autocompleteProvider,
     getThinkingLevel,
     setThinkingLevel,
+    getCommands,
     lines,
     cursorLine,
     cursorCol,

@@ -81,6 +81,37 @@ test("slash menu renders grouped top-level rows", async () => {
   assert.match(output, /✦ aaa-extension/);
 });
 
+test("slash menu opens separate prompt and skill command menus", async () => {
+  const commands = () => [
+    { name: "prompt:review", description: "Review prompt", source: "prompt", sourceInfo: { type: "project", path: "prompt.md" } },
+    { name: "skill:debug", description: "Debug skill", source: "skill", sourceInfo: { type: "project", path: "SKILL.md" } },
+  ] as never;
+  let submitted = "";
+  const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, (value) => { submitted = value; }, commands);
+
+  modal.setQuery("prompts");
+  await modal.refresh();
+  modal.handleInput("\r");
+  await Promise.resolve();
+  let output = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
+  assert.match(output, /Prompts/u);
+  assert.match(output, /> prompt:review/u);
+  modal.handleInput("\r");
+  assert.equal(submitted, "/prompt:review");
+
+  submitted = "";
+  const skillsModal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, (value) => { submitted = value; }, commands);
+  skillsModal.setQuery("skills");
+  await skillsModal.refresh();
+  skillsModal.handleInput("\r");
+  await Promise.resolve();
+  output = (await renderComponentInVirtualTerminal(() => skillsModal, 120, 30)).join("\n");
+  assert.match(output, /Skills/u);
+  assert.match(output, /> skill:debug/u);
+  skillsModal.handleInput("\r");
+  assert.equal(submitted, "/skill:debug");
+});
+
 test("model menu renders provider groups without preview", async () => {
   const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, () => undefined);
 

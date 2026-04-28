@@ -30,7 +30,7 @@ export class PromptlineEditor extends CustomEditor {
   private promptAutocompletePrefix = "";
   private triggerSubmitInFlight = false;
 
-  constructor(tui: any, theme: any, private readonly editorKeybindings: any, private readonly ctx: ExtensionContext, private readonly uiTheme: ExtensionContext["ui"]["theme"], private readonly getThinkingLevel: ExtensionAPI["getThinkingLevel"], private readonly setThinkingLevel: ExtensionAPI["setThinkingLevel"], private readonly getSessionName: ExtensionAPI["getSessionName"], private readonly getPromptlineConfig: () => PromptlineConfig, private readonly refreshPromptlineConfig: (cwd: string) => Promise<PromptlineConfig>) {
+  constructor(tui: any, theme: any, private readonly editorKeybindings: any, private readonly ctx: ExtensionContext, private readonly uiTheme: ExtensionContext["ui"]["theme"], private readonly getThinkingLevel: ExtensionAPI["getThinkingLevel"], private readonly setThinkingLevel: ExtensionAPI["setThinkingLevel"], private readonly getSessionName: ExtensionAPI["getSessionName"], private readonly getPromptlineConfig: () => PromptlineConfig, private readonly refreshPromptlineConfig: (cwd: string) => Promise<PromptlineConfig>, private readonly getCommands: ExtensionAPI["getCommands"] = () => []) {
     super(tui, theme, editorKeybindings);
   }
   /** Cancels Pi's stock autocomplete when the custom slash modal is active. */
@@ -73,7 +73,7 @@ export class PromptlineEditor extends CustomEditor {
     const cursor = this.getCursor();
     const line = this.getLines()[cursor.line] ?? "";
     const triggerState = getActiveTriggerState(line.slice(0, cursor.col));
-    const refreshed = await refreshTriggerModal(triggerState, this.modalState, this.ctx, this.uiTheme, this.promptAutocompleteProvider, () => this.getThinkingLevel(), (value) => this.setThinkingLevel(value as never), this.getLines(), cursor.line, cursor.col, () => this.tui.requestRender(), (value) => this.setText(value), (value) => this.submitEditorText(value), (item) => this.applyAutocompleteItem(item), this.tui.showOverlay.bind(this.tui) as never);
+    const refreshed = await refreshTriggerModal(triggerState, this.modalState, this.ctx, this.uiTheme, this.promptAutocompleteProvider, () => this.getThinkingLevel(), (value) => this.setThinkingLevel(value as never), this.getCommands, this.getLines(), cursor.line, cursor.col, () => this.tui.requestRender(), (value) => this.setText(value), (value) => this.submitEditorText(value), (item) => this.applyAutocompleteItem(item), this.tui.showOverlay.bind(this.tui) as never);
     this.promptAutocompletePrefix = refreshed.autocompletePrefix ?? this.promptAutocompletePrefix;
     if (triggerState) updateTriggerSessionPrefix(triggerState.prefix);
     else if (!this.modalState.atModal && !this.modalState.slashModal) clearTriggerSession();

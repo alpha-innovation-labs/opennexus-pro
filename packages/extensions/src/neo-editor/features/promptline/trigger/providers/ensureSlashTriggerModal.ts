@@ -1,4 +1,4 @@
-import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { createSlashModal } from "../createSlashModal.js";
 import type { TriggerModalState, ShowOverlay } from "../types.js";
 
@@ -12,6 +12,7 @@ import type { TriggerModalState, ShowOverlay } from "../types.js";
  * @param setText Editor text setter.
  * @param getThinkingLevel Thinking-level getter.
  * @param setThinkingLevel Thinking-level setter.
+ * @param getCommands Live slash-command getter.
  * @param submitText Editor submit callback.
  * @param showOverlay Overlay factory.
  */
@@ -23,11 +24,12 @@ export function ensureSlashTriggerModal(
   setText: (value: string) => void,
   getThinkingLevel: () => string,
   setThinkingLevel: (value: string) => void,
+  getCommands: ExtensionAPI["getCommands"],
   submitText: (value: string) => void,
   showOverlay: ShowOverlay,
 ): void {
   if (modalState.slashModal) return;
-  const created = createSlashModal(ctx, requestClose, requestRender, setText, getThinkingLevel, setThinkingLevel, submitText, showOverlay);
+  const created = createSlashModal(ctx, requestClose, requestRender, setText, getThinkingLevel, setThinkingLevel, submitText, showOverlay, getCommands);
   modalState.slashModal = created.modal;
   modalState.handle = created.handle;
 }

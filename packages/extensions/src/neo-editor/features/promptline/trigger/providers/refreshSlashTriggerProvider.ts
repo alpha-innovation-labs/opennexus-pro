@@ -25,6 +25,7 @@ export async function refreshSlashTriggerProvider(
     args.setText,
     args.getThinkingLevel,
     args.setThinkingLevel,
+    args.getCommands,
     args.submitText,
     args.showOverlay,
   );

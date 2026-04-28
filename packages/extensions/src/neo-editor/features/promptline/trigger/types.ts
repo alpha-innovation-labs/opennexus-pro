@@ -43,6 +43,7 @@ export type TriggerProviderRefreshArgs = {
   autocompleteProvider?: AutocompleteProvider;
   getThinkingLevel: () => string;
   setThinkingLevel: (value: string) => void;
+  getCommands: ExtensionAPI["getCommands"];
   lines: string[];
   cursorLine: number;
   cursorCol: number;

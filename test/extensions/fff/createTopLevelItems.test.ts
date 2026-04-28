@@ -38,3 +38,13 @@ test("createTopLevelItems uses extension-declared menu groups", () => {
   assert.equal(items[generalIndex]?.groupLabel, "System");
   assert.ok(extensionIndex > -1 && generalIndex > extensionIndex);
 });
+
+test("createTopLevelItems adds separate prompt and skill menus when available", () => {
+  const items = createTopLevelItems([
+    { name: "prompt:review", description: "Review", source: "prompt" },
+    { name: "skill:debug", description: "Debug", source: "skill" },
+  ]);
+
+  assert.equal(items.find((item) => item.value === "prompts")?.groupLabel, "Resources");
+  assert.equal(items.find((item) => item.value === "skills")?.groupLabel, "Resources");
+});

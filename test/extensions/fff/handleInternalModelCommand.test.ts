@@ -28,7 +28,9 @@ test("handleInternalModelCommand adds selected model to persisted scoped models"
     {
       cwd: process.cwd(),
       modelRegistry: { find: () => model },
-      ui: { notify: (text: string, level: string) => notifications.push({ text, level }) },
+      ui: {
+        notify: (text: string, level: string) => notifications.push({ text, level }),
+      },
     } as never,
     { getThinkingLevel: () => "high", setModel: async () => true } as never,
   );
@@ -43,7 +45,6 @@ test("handleInternalModelCommand stores model override before setting model and 
     setEnabledModels: () => undefined,
   })) as unknown as typeof SettingsManager.create;
   const selectedModel = { provider: "anthropic", id: "claude-sonnet-4.5", contextWindow: 200000, reasoning: true };
-  let footerText = "";
   const ctx = {
     cwd: process.cwd(),
     get model() {
@@ -53,14 +54,13 @@ test("handleInternalModelCommand stores model override before setting model and 
     sessionManager: { getBranch: () => [] },
     ui: {
       notify: () => undefined,
-      setFooter: (factory: (_tui: unknown, theme: { fg(_color: string, value: string): string }) => { render(width: number): string[] }) => {
-        footerText = factory(null, { fg: (_color, value) => value }).render(100).join("\n");
-      },
     },
   };
   let renderRequests = 0;
-  setPromptlineRenderRequest(() => {
+  let forcedRender = false;
+  setPromptlineRenderRequest((force = false) => {
     renderRequests += 1;
+    forcedRender = force;
   });
 
   let overrideDuringSetModel: unknown;
@@ -75,6 +75,6 @@ test("handleInternalModelCommand stores model override before setting model and 
 
   assert.equal(overrideDuringSetModel, selectedModel);
   assert.equal(getPromptlineModelOverride(), selectedModel);
-  assert.match(footerText, /claude-sonnet-4\.5\s+high/u);
   assert.equal(renderRequests, 1);
+  assert.equal(forcedRender, true);
 });

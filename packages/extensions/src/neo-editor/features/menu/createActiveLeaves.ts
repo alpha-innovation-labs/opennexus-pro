@@ -5,13 +5,14 @@ import { createOAuthProviderLeaves } from "./createOAuthProviderLeaves.js";
 import { createResumeLeaves } from "./createResumeLeaves.js";
 import { createScopedModelLeaves } from "./createScopedModelLeaves.js";
 import { createSettingsLeaves } from "./createSettingsLeaves.js";
+import { createSourceCommandLeaves } from "./createSourceCommandLeaves.js";
 import { createThemeLeaves } from "./createThemeLeaves.js";
 import { createTreeLeaves } from "./createTreeLeaves.js";
 import { createTreeSummaryLeaves } from "./createTreeSummaryLeaves.js";
 import { listResumeSessions } from "./resume-scope/listResumeSessions.js";
 import type { ResumeScope } from "./resume-scope/ResumeScope.js";
 import type { SlashMenuLevel } from "./SlashMenuLevel.js";
-import type { SlashMenuLeaf } from "./types.js";
+import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types.js";
 
 /**
  * Builds the active leaf list for one slash-menu level.
@@ -19,6 +20,9 @@ import type { SlashMenuLeaf } from "./types.js";
  * @param ctx Extension context.
  * @param level Current menu level.
  * @param getThinkingLevel Current thinking-level getter.
+ * @param expandedTreeUserIds Expanded session-tree user ids.
+ * @param resumeScope Resume list scope.
+ * @param dynamicCommands Live prompt and skill commands.
  * @returns Menu leaves for the level.
  */
 export async function createActiveLeaves(
@@ -27,6 +31,7 @@ export async function createActiveLeaves(
   getThinkingLevel: () => string,
   expandedTreeUserIds: ReadonlySet<string> = new Set(),
   resumeScope: ResumeScope = "all",
+  dynamicCommands: RegisteredSlashCommand[] = [],
 ): Promise<SlashMenuLeaf[]> {
   if (level === "settings") return createSettingsLeaves(ctx.cwd, getThinkingLevel(), ctx.model);
   if (level === "theme") return createThemeLeaves(ctx.cwd);
@@ -38,5 +43,7 @@ export async function createActiveLeaves(
   if (level === "resume") return createResumeLeaves(await listResumeSessions(ctx, resumeScope));
   if (level === "login") return createOAuthProviderLeaves(ctx, "login");
   if (level === "logout") return createOAuthProviderLeaves(ctx, "logout");
+  if (level === "prompts") return createSourceCommandLeaves(dynamicCommands, "prompt");
+  if (level === "skills") return createSourceCommandLeaves(dynamicCommands, "skill");
   return [];
 }

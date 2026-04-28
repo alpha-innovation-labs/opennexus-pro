@@ -1,11 +1,12 @@
 const TOP_LEVEL_GROUP_RANKS: Record<string, number> = {
-  Chat: 0,
-  Auth: 1,
-  Configuration: 2,
-  Workspace: 3,
-  System: 4,
-  Developer: 5,
-  Extensions: 6,
+  Resources: 0,
+  Chat: 1,
+  Auth: 2,
+  Configuration: 3,
+  Workspace: 4,
+  System: 5,
+  Developer: 6,
+  Extensions: 7,
 };
 
 /**

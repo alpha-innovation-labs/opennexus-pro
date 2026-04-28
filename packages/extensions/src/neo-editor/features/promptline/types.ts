@@ -6,6 +6,7 @@ export type PromptlineDeps = {
   getThinkingLevel: ExtensionAPI["getThinkingLevel"];
   setThinkingLevel: ExtensionAPI["setThinkingLevel"];
   getSessionName: ExtensionAPI["getSessionName"];
+  getCommands: ExtensionAPI["getCommands"];
   getPromptlineConfig: () => PromptlineConfig;
   refreshPromptlineConfig: (cwd: string) => Promise<PromptlineConfig>;
 };

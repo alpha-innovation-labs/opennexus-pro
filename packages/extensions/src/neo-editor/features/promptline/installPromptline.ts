@@ -13,10 +13,10 @@ import { getUsageRenderUnsubscribe, setPromptlineRenderRequest, setUsageRenderUn
  * @param deps Promptline dependencies.
  */
 export function installPromptline(ctx: PromptlineContext, deps: PromptlineDeps): void {
-  installPromptlineFooter(ctx, deps);
+  installPromptlineFooter(ctx);
 
   ctx.ui.setEditorComponent((tui, theme, keybindings) => {
-    setPromptlineRenderRequest(() => tui.requestRender());
+    setPromptlineRenderRequest((force = false) => tui.requestRender(force));
     getUsageRenderUnsubscribe()?.();
     setUsageRenderUnsubscribe(subscribeUsageSnapshots(() => tui.requestRender()));
     void refreshGitState(deps.exec).then(() => tui.requestRender());
@@ -32,6 +32,7 @@ export function installPromptline(ctx: PromptlineContext, deps: PromptlineDeps):
       deps.getSessionName,
       deps.getPromptlineConfig,
       deps.refreshPromptlineConfig,
+      deps.getCommands,
     );
   });
 }

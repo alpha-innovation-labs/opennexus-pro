@@ -1,4 +1,5 @@
 import type { SlashMenuLevel } from "./SlashMenuLevel.js";
+import { getResourceMenuIcon } from "./getResourceMenuIcon.js";
 import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
 
 const TOP_LEVEL_ICONS: Record<string, string> = {
@@ -16,6 +17,7 @@ const TOP_LEVEL_ICONS: Record<string, string> = {
   login: "◆",
   logout: "◇",
   model: "✦",
+  prompts: getResourceMenuIcon(),
   name: "✎",
   new: "+",
   observations: "◉",
@@ -25,6 +27,7 @@ const TOP_LEVEL_ICONS: Record<string, string> = {
   "scoped-models": "◈",
   session: "ⓘ",
   settings: "⚙",
+  skills: getResourceMenuIcon(),
   Settings: "⚙",
   share: "↗",
   toolcalls: "⚒",
@@ -48,6 +51,7 @@ export function getSlashMenuItemIcon(item: SlashMenuLeaf | SlashMenuSection, lev
   if (level === "tree") return "┬";
   if (level === "tree-summary") return "▸";
   if (level === "resume") return "↩";
+  if (level === "prompts" || level === "skills") return getResourceMenuIcon();
   if (level === "settings") {
     if ((item as SlashMenuLeaf).kind === "theme") return "◐";
     if ((item as SlashMenuLeaf).kind === "toggle") return "◉";

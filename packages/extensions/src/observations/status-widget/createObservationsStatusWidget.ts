@@ -3,6 +3,7 @@ import { visibleWidth } from "@mariozechner/pi-tui";
 import { getPromptlineFrameWidth } from "../../neo-editor/features/promptline/layout/getPromptlineFrameWidth.js";
 import { hasConversationMessages } from "../../neo-editor/features/promptline/layout/hasConversationMessages.js";
 import { padPromptlineFrameToWidth } from "../../neo-editor/features/promptline/layout/padPromptlineFrameToWidth.js";
+import { getPromptlineModel } from "../../neo-editor/features/promptline/getPromptlineModel.js";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
 import { buildObservationsStatusLine } from "./buildObservationsStatusLine.js";
 import { createBadge } from "./createBadge.js";
@@ -25,12 +26,12 @@ export function createObservationsStatusWidget(
 	getThinkingLevel: ExtensionAPI["getThinkingLevel"],
 	getSessionName: ExtensionAPI["getSessionName"],
 ): { invalidate(): void; render(width: number): string[] } {
-	const modelId = (ctx.model?.id ?? "no-model").replace(/^[^/]+\//, "");
-	const thinking = getThinkingLevel();
-	const badges = `${createBadge(modelId, MODEL_BADGE_BG)}${createBadge(thinking, THINKING_BADGE_BG)}`;
 	return {
 		invalidate(): void {},
 		render(width: number): string[] {
+			const modelId = (getPromptlineModel(ctx)?.id ?? "no-model").replace(/^[^/]+\//, "");
+			const thinking = getThinkingLevel();
+			const badges = `${createBadge(modelId, MODEL_BADGE_BG)}${createBadge(thinking, THINKING_BADGE_BG)}`;
 			const hasMessages = hasConversationMessages(ctx);
 			const frameWidth = getPromptlineFrameWidth(width, hasMessages);
 			const sessionName = getVisibleSessionName(getSessionName);

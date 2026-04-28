@@ -5,10 +5,9 @@ import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
 import { ensurePromptlineInstalled } from "./features/promptline/ensurePromptlineInstalled.js";
 import { getPromptlineConfig } from "./features/promptline/config/getPromptlineConfig.js";
 import { refreshPromptlineConfig } from "./features/promptline/config/refreshPromptlineConfig.js";
-import { installPromptlineFooter } from "./features/promptline/installPromptlineFooter.js";
 import { refreshAndRender } from "./features/promptline/refreshAndRender.js";
 import { resetPromptlineState } from "./features/promptline/resetPromptlineState.js";
-import { setPromptlineModelOverride } from "./features/promptline/state.js";
+import { getPromptlineRenderRequest, setPromptlineModelOverride } from "./features/promptline/state.js";
 import { primeStartupLoginModal } from "./primeStartupLoginModal.js";
 import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
 
@@ -20,6 +19,7 @@ export default function(pi: ExtensionAPI) {
     getThinkingLevel: pi.getThinkingLevel.bind(pi),
     setThinkingLevel: pi.setThinkingLevel.bind(pi),
     getSessionName: pi.getSessionName.bind(pi),
+    getCommands: pi.getCommands.bind(pi),
     getPromptlineConfig,
     refreshPromptlineConfig,
   };
@@ -50,7 +50,7 @@ export default function(pi: ExtensionAPI) {
 
   pi.on("model_select", async (event, ctx) => {
     setPromptlineModelOverride(event.model);
-    installPromptlineFooter(ctx, deps, event.model);
+    getPromptlineRenderRequest()?.(true);
     await refreshAndRender(ctx, deps);
   });
 

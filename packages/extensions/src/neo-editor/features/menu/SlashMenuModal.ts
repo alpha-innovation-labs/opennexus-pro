@@ -1,4 +1,4 @@
-import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { Key, matchesKey } from "@mariozechner/pi-tui";
 import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
 import { createPanelOverlayOptions } from "../../../overlay/createPanelOverlayOptions.js";
@@ -12,6 +12,7 @@ import { calculateTopLevelMenuWidth } from "./calculateTopLevelMenuWidth.js";
 import { createActiveLeaves } from "./createActiveLeaves.js";
 import { createNameInputLeaf } from "./createNameInputLeaf.js";
 import { createScopedModelLeaves } from "./createScopedModelLeaves.js";
+import { getDynamicSlashCommands } from "./getDynamicSlashCommands.js";
 import { createSettingChoiceLeaves } from "./createSettingChoiceLeaves.js";
 import { createSlashMenuPreviewLines } from "./createSlashMenuPreviewLines.js";
 import { createTopLevelItems } from "./createTopLevelItems.js";
@@ -36,7 +37,7 @@ import { shouldShowSlashMenuPreview } from "./shouldShowSlashMenuPreview.js";
 import { resolveRequestedSlashMenuLevel } from "./resolveRequestedSlashMenuLevel.js";
 import type { SlashMenuLevel } from "./SlashMenuLevel.js";
 import { toAutocompleteItems } from "./toAutocompleteItems.js";
-import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
+import type { RegisteredSlashCommand, SlashMenuLeaf, SlashMenuSection } from "./types.js";
 import { updateResumePreview, type ResumePreviewState } from "./updateResumePreview.js";
 
 const SLASH_MENU_LEFT_PANE_RATIO = 0.42;
@@ -69,6 +70,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     private readonly requestClose: () => void,
     private readonly requestRender: () => void,
     private readonly onCommandPicked: (commandText: string) => void,
+    private readonly getCommands: ExtensionAPI["getCommands"] = () => [],
   ) {
     super(ctx.ui.theme, () => undefined, requestClose, undefined, { leftTitle: "Menu", rightTitle: "Preview", bottomTitle: "Search", bottomPrefix: "> /", leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO, itemMaxLines: (item) => (item as { resumeRow?: boolean }).resumeRow ? 2 : 1 });
     this.setOnPick(() => void this.handleEnter());
@@ -92,7 +94,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     this.setPaneVisibility(true, shouldShowSlashMenuPreview(this.level));
     this.setModalWidthPolicy(80, undefined, 0.9);
     if (this.level === "top") {
-      this.topItems = createTopLevelItems();
+      this.topItems = createTopLevelItems(this.getDynamicCommands());
       const menuWidth = calculateTopLevelMenuWidth(this.topItems);
       this.setModalWidthPolicy(menuWidth, menuWidth, 0.9);
       this.renderItems(filterMenuItems(this.topItems, this.query), "Menu");
@@ -212,7 +214,16 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "setting-choice" && this.pendingSettingLeaf) return createSettingChoiceLeaves(this.pendingSettingLeaf);
     if (this.level === "name-input") return [createNameInputLeaf(this.nameInput)];
     if (this.level === "resume") return getCachedResumeLeaves(this.resumeLeavesCache, this.ctx, this.resumeScope);
-    return createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.expandedTreeUserIds, this.resumeScope);
+    return createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.expandedTreeUserIds, this.resumeScope, this.getDynamicCommands());
+  }
+
+  /**
+   * Reads live dynamic slash commands for prompt and skill menus.
+   *
+   * @returns Normalized dynamic slash commands.
+   */
+  private getDynamicCommands(): RegisteredSlashCommand[] {
+    return getDynamicSlashCommands(this.getCommands);
   }
 
   private renderItems(items: Array<SlashMenuLeaf | SlashMenuSection>, leftTitle: string): void {
@@ -272,6 +283,7 @@ export class SlashMenuModal extends SelectPreviewModal {
       return;
     }
     if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select ${encodeSlashMenuValue(item.value)}`);
+    if (this.level === "prompts" || this.level === "skills") return void this.onCommandPicked(`/${item.value}`);
     if (this.level === "login") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
     if (this.level === "logout") return void this.onCommandPicked(`/nexus-logout-select ${item.value}`);
   }

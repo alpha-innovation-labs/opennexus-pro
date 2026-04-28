@@ -13,7 +13,7 @@ import { createTestTheme } from "../../support/theme/createTestTheme.js";
 function createContext(entries: Array<{ type: string }>) {
 	return {
 		cwd: process.cwd(),
-		model: undefined,
+		model: { id: "gpt-5.5", provider: "openai-codex", reasoning: true },
 		ui: { theme: createTestTheme() },
 		sessionManager: { getBranch: () => entries },
 	};

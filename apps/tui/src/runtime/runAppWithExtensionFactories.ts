@@ -115,6 +115,7 @@ export async function runAppWithExtensionFactories(
 
   phaseStartedAt = performance.now();
   const { main } = await import("@mariozechner/pi-coding-agent");
+  applyModelChangeDisplayPatch();
   logRunAppPhase("importPiMain:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();

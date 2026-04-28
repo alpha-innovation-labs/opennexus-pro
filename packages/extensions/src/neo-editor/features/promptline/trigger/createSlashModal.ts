@@ -1,4 +1,4 @@
-import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { SlashMenuModal } from "../../menu/SlashMenuModal.js";
 import type { TriggerModalHandle, ShowOverlay } from "./types.js";
 
@@ -13,6 +13,7 @@ import type { TriggerModalHandle, ShowOverlay } from "./types.js";
  * @param setThinkingLevel Thinking-level setter.
  * @param submitText Editor submit callback.
  * @param showOverlay Overlay factory.
+ * @param getCommands Live slash-command getter.
  * @returns Slash modal and handle.
  */
 export function createSlashModal(
@@ -24,12 +25,13 @@ export function createSlashModal(
   setThinkingLevel: (value: string) => void,
   submitText: (value: string) => void,
   showOverlay: ShowOverlay,
+  getCommands: ExtensionAPI["getCommands"] = () => [],
 ): { modal: SlashMenuModal; handle: TriggerModalHandle } {
   const modal = new SlashMenuModal(ctx, getThinkingLevel, setThinkingLevel, requestClose, requestRender, (commandText) => {
     requestClose();
     requestRender();
     submitText(commandText);
-  });
+  }, getCommands);
   const handle = showOverlay(modal, {
     anchor: "center",
     width: "100%",

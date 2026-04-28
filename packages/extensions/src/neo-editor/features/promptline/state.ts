@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 
 let promptlineModelOverride: ExtensionContext["model"] | undefined;
-let requestPromptlineRender: (() => void) | undefined;
+let requestPromptlineRender: ((force?: boolean) => void) | undefined;
 let promptlineInstalledForSession: string | null = null;
 let usageRenderUnsubscribe: (() => void) | undefined;
 
@@ -10,7 +10,7 @@ let usageRenderUnsubscribe: (() => void) | undefined;
  *
  * @param callback Render callback.
  */
-export function setPromptlineRenderRequest(callback: (() => void) | undefined): void {
+export function setPromptlineRenderRequest(callback: ((force?: boolean) => void) | undefined): void {
   requestPromptlineRender = callback;
 }
 
@@ -19,7 +19,7 @@ export function setPromptlineRenderRequest(callback: (() => void) | undefined): 
  *
  * @returns Render callback.
  */
-export function getPromptlineRenderRequest(): (() => void) | undefined {
+export function getPromptlineRenderRequest(): ((force?: boolean) => void) | undefined {
   return requestPromptlineRender;
 }
 
