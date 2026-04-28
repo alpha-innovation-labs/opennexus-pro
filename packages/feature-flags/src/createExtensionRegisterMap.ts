@@ -14,7 +14,7 @@ import { registerNotifyExtension } from "@nexus/extensions/notify/registerNotify
 import { registerObservationsExtension } from "@nexus/extensions/observations/registerObservationsExtension.js";
 import { registerPlaygroundExtension } from "@nexus/extensions/playground/registerPlaygroundExtension.js";
 import { registerRtkExtension } from "@nexus/extensions/rtk/registerRtkExtension.js";
-import { registerStartupLogoExtension } from "@nexus/extensions/startup-logo/registerStartupLogoExtension.js";
+import { registerStartupHeroExtension } from "@nexus/extensions/startup-hero/registerStartupHeroExtension.js";
 import registerSubAgentsExtension from "@nexus/extensions/sub-agents/index.js";
 import registerSubagentStatusWidgetExtension from "@nexus/extensions/sub-agent-status-widget/registerSubagentStatusWidgetExtension.js";
 import { registerTermModalExtension } from "@nexus/extensions/term-modal/registerTermModalExtension.js";
@@ -45,7 +45,7 @@ export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) 
     notify: registerNotifyExtension,
     observations: registerObservationsExtension,
     "exit-message": registerExitMessageExtension,
-    "startup-logo": registerStartupLogoExtension,
+    "startup-hero": registerStartupHeroExtension,
     "sub-agents": registerSubAgentsExtension,
     "sub-agent-status-widget": registerSubagentStatusWidgetExtension,
     playground: registerPlaygroundExtension,

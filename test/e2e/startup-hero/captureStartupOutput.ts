@@ -1,7 +1,7 @@
 import { createReleaseTestEnv } from "../release-executable/createReleaseTestEnv.js";
 import { createReleaseTestHome } from "../release-executable/createReleaseTestHome.js";
 import { removeReleaseTestHome } from "../release-executable/removeReleaseTestHome.js";
-import { runStartupLogoSession } from "./runStartupLogoSession.js";
+import { runStartupHeroSession } from "./runStartupHeroSession.js";
 
 /**
  * Captures the initial interactive terminal output for a fresh startup session.
@@ -17,7 +17,7 @@ export async function captureStartupOutput(columns: number, rows: number, timeou
 	const env = createReleaseTestEnv(homeDir);
 
 	try {
-		return await runStartupLogoSession(cwd, env, columns, rows, timeoutMs);
+		return await runStartupHeroSession(cwd, env, columns, rows, timeoutMs);
 	} finally {
 		await removeReleaseTestHome(homeDir);
 	}

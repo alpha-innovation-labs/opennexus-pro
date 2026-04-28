@@ -9,7 +9,7 @@ import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension
 import { registerNotifyExtension } from "../notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "../observations/registerObservationsExtension.js";
 import { registerRtkExtension } from "../rtk/registerRtkExtension.js";
-import { registerStartupLogoExtension } from "../startup-logo/registerStartupLogoExtension.js";
+import { registerStartupHeroExtension } from "../startup-hero/registerStartupHeroExtension.js";
 import registerTronExtension from "../tron/index.js";
 import registerUsageMeterExtension from "../usage-meter/index.js";
 
@@ -25,7 +25,7 @@ export const compiledBundledExtensionIds = [
   "notify",
   "observations",
   "rtk",
-  "startup-logo",
+  "startup-hero",
   "tron",
   "usage-meter"
 ] as const;
@@ -39,7 +39,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "notify": registerNotifyExtension,
   "observations": registerObservationsExtension,
   "rtk": registerRtkExtension,
-  "startup-logo": registerStartupLogoExtension,
+  "startup-hero": registerStartupHeroExtension,
   "tron": registerTronExtension,
   "usage-meter": registerUsageMeterExtension,
 };

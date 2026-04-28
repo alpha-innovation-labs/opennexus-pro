@@ -51,7 +51,7 @@ Use this skill when you need to understand the project in depth. It gives a two-
   - [`observations`](./extensions/observations.md)
   - [`playground`](./extensions/playground.md)
   - [`shared`](./extensions/shared.md)
-  - [`startup-logo`](./extensions/startup-logo.md)
+  - [`startup-hero`](./extensions/startup-hero.md)
   - [`sub-agent-status-widget`](./extensions/sub-agent-status-widget.md)
   - [`sub-agents`](./extensions/sub-agents.md)
   - [`term-modal`](./extensions/term-modal.md)

@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { createPanelOverlayOptions } from "../../overlay/createPanelOverlayOptions.js";
-import { clearStartupLogo } from "../../startup-logo/clearStartupLogo.js";
+import { clearStartupHero } from "../../startup-hero/clearStartupHero.js";
 import { readUsageHistoryRecords } from "../history/readUsageHistoryRecords.js";
 import { UsageHistoryModal } from "./UsageHistoryModal.js";
 
@@ -11,7 +11,7 @@ import { UsageHistoryModal } from "./UsageHistoryModal.js";
  */
 export async function showUsageHistoryModal(ctx: ExtensionContext): Promise<void> {
   const records = await readUsageHistoryRecords();
-  clearStartupLogo(ctx);
+  clearStartupHero(ctx);
   await ctx.ui.custom<void>((tui, theme, _keybindings, done) => new UsageHistoryModal(theme, records, done, () => tui.requestRender()), {
     overlay: true,
     overlayOptions: createPanelOverlayOptions(72, "85%"),

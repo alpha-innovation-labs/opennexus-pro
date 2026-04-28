@@ -129,10 +129,10 @@ export const compiledFeatureFlags = {
         "rtk-native read/find/ls/grep tools"
       ]
     },
-    "startup-logo": {
+    "startup-hero": {
       "enabled": true,
       "features": [
-        "show N logo on fresh startup"
+        "show N logo, version, tips, and startup status"
       ]
     },
     "sub-agent-status-widget": {

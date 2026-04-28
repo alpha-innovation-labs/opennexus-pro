@@ -1,0 +1,33 @@
+import { truncateToWidth } from "@mariozechner/pi-tui";
+import { buildStartupHeroLogoLines } from "./buildStartupHeroLogoLines.js";
+import { buildStartupHeroTipLines } from "./buildStartupHeroTipLines.js";
+import { buildStartupHeroVersionLine } from "./buildStartupHeroVersionLine.js";
+import { formatStartupHeroStatus } from "./formatStartupHeroStatus.js";
+import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
+
+/**
+ * Builds the full startup hero block below the logo.
+ *
+ * @param theme UI theme formatter.
+ * @param version Nexus package version.
+ * @param status Startup status summary.
+ * @param width Maximum visible content width.
+ * @returns Styled startup hero lines.
+ */
+export function buildStartupHeroLines(
+	theme: StartupHeroTheme,
+	version: string,
+	status: StartupHeroStatus,
+	width: number,
+): string[] {
+	const statusLine = theme.fg("foreground", truncateToWidth(formatStartupHeroStatus(status), width, "…"));
+	return [
+		...buildStartupHeroLogoLines(theme),
+		"",
+		buildStartupHeroVersionLine(theme, version, width),
+		"",
+		...buildStartupHeroTipLines(theme, width),
+		"",
+		statusLine,
+	];
+}

@@ -29,7 +29,7 @@
 - [`observations`](./extensions/observations.md) — files: `registerObservationsExtension.ts`; subfolders: `command/`, `shared/`, `status-widget/`, `summarizer/`, `tracker/`
 - [`playground`](./extensions/playground.md) — files: `registerPlaygroundExtension.ts`, `registerPlaygroundShortcut.ts`, `types.ts`; subfolders: `model/`, `rpc/`, `runtime/`, `ui/`
 - [`shared`](./extensions/shared.md) — subfolders: `observability/`, `two-pane-select-modal/`
-- [`startup-logo`](./extensions/startup-logo.md) — files: `buildStartupLogoLines.ts`, `clearStartupLogo.ts`, `hasResumeCliFlag.ts`, `registerStartupLogoExtension.ts`, `shouldShowStartupLogo.ts`, `showStartupLogo.ts`, `startupLogoWidgetKey.ts`
+- [`startup-hero`](./extensions/startup-hero.md) — files: `buildStartupHeroLines.ts`, `clearStartupHero.ts`, `getStartupHeroStatus.ts`, `getStartupHeroVersion.ts`, `hasResumeCliFlag.ts`, `registerStartupHeroExtension.ts`, `showStartupHero.ts`, `startupHeroWidgetKey.ts`
 - [`sub-agent-status-widget`](./extensions/sub-agent-status-widget.md) — files: `registerSubagentStatusWidgetExtension.ts`; subfolders: `runtime/`, `ui/`
 - [`sub-agents`](./extensions/sub-agents.md) — files: `agent-manager.ts`, `agent-runner.ts`, `agent-types.ts`, `context.ts`, `createBundledAgents.ts`, `cross-extension-rpc.ts`, `custom-agents.ts`, `env.ts`, `group-join.ts`, `index.ts`, `invocation-config.ts`, `memory.ts`, `model-resolver.ts`, `output-file.ts`, `prompts.ts`, `skill-loader.ts`, `types.ts`, `worktree.ts`; subfolders: `agents/`, `context-providers/`, `rpc/`, `rpc-entry/`, `runtime/`, `tooling/`, `ui/`
 - [`term-modal`](./extensions/term-modal.md) — files: `registerTermModalExtension.ts`, `types.ts`; subfolders: `ansi/`, `buffer/`, `keybindings/`, `pty/`, `runtime/`, `scripts/`, `ui/`

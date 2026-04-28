@@ -5,7 +5,7 @@ const PYTHON_STARTUP_CAPTURE = [
 	"master, slave = pty.openpty()",
 	"proc = subprocess.Popen([\"/bin/bash\", \"-lc\", \"./node_modules/.bin/tsx apps/tui/src/index.ts\"], cwd=os.getcwd(), env=os.environ.copy(), stdin=slave, stdout=slave, stderr=slave, close_fds=True)",
 	"os.close(slave)",
-	"deadline = time.time() + (int(os.environ.get(\"STARTUP_LOGO_TIMEOUT_MS\", \"8000\")) / 1000.0)",
+	"deadline = time.time() + (int(os.environ.get(\"STARTUP_HERO_TIMEOUT_MS\", \"8000\")) / 1000.0)",
 	"chunks = []",
 	"while time.time() < deadline:",
 	"    ready, _, _ = select.select([master], [], [], 0.1)",
@@ -58,7 +58,7 @@ const PYTHON_STARTUP_CAPTURE = [
  * @param timeoutMs Max runtime before forced termination.
  * @returns Captured terminal output.
  */
-export async function runStartupLogoSession(
+export async function runStartupHeroSession(
 	cwd: string,
 	env: NodeJS.ProcessEnv,
 	columns: number,
@@ -76,7 +76,7 @@ export async function runStartupLogoSession(
 					TERM: "xterm-256color",
 					COLUMNS: String(columns),
 					LINES: String(rows),
-					STARTUP_LOGO_TIMEOUT_MS: String(timeoutMs),
+					STARTUP_HERO_TIMEOUT_MS: String(timeoutMs),
 				},
 				maxBuffer: 5 * 1024 * 1024,
 			},

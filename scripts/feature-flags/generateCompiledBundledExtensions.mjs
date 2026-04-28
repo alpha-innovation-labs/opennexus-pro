@@ -25,7 +25,7 @@ const extensionModules = {
   notify: { importPath: "../notify/registerNotifyExtension.js", exportName: "registerNotifyExtension" },
   observations: { importPath: "../observations/registerObservationsExtension.js", exportName: "registerObservationsExtension" },
   "exit-message": { importPath: "../exit-message/registerExitMessageExtension.js", exportName: "registerExitMessageExtension" },
-  "startup-logo": { importPath: "../startup-logo/registerStartupLogoExtension.js", exportName: "registerStartupLogoExtension" },
+  "startup-hero": { importPath: "../startup-hero/registerStartupHeroExtension.js", exportName: "registerStartupHeroExtension" },
   "sub-agents": { importPath: "../sub-agents/index.js", exportName: "default", localName: "registerSubAgentsExtension" },
   "sub-agent-status-widget": {
     importPath: "../sub-agent-status-widget/registerSubagentStatusWidgetExtension.js",

@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildStartupLogoLines } from "../../../packages/extensions/src/startup-logo/buildStartupLogoLines.js";
+import { buildStartupHeroLogoLines } from "../../../packages/extensions/src/startup-hero/buildStartupHeroLogoLines.js";
 import { LinesComponent } from "../../support/component/LinesComponent.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
-test("startup logo renders only the stylized Nexus wordmark", async () => {
+test("startup hero renders only the stylized Nexus wordmark", async () => {
 	const viewport = await renderComponentInVirtualTerminal(
-		() => new LinesComponent(() => buildStartupLogoLines(createTestTheme())),
+		() => new LinesComponent(() => buildStartupHeroLogoLines(createTestTheme())),
 		72,
 		14,
 	);
