@@ -83,7 +83,7 @@
 │  │     ├─ term-modal/
 │  │     ├─ todo/
 │  │     ├─ tron/
-│  │     ├─ usage-meter/
+│  │     ├─ slashusage/
 │  │     ├─ workflows/
 │  │     └─ workspace/
 │  │

@@ -6,6 +6,6 @@
  */
 export function getCompiledEnabledExtensionIds(config) {
   return Object.entries(config.extensions)
-    .filter(([, value]) => value.enabled && value.devOnly !== true)
+    .filter(([id, value]) => value.enabled && id !== "dev")
     .map(([id]) => id);
 }

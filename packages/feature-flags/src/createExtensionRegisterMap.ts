@@ -20,7 +20,7 @@ import registerSubagentStatusWidgetExtension from "@nexus/extensions/sub-agent-s
 import { registerTermModalExtension } from "@nexus/extensions/term-modal/registerTermModalExtension.js";
 import { registerTodoExtension } from "@nexus/extensions/todo/registerTodoExtension.js";
 import registerTronExtension from "@nexus/extensions/tron/index.js";
-import registerUsageMeterExtension from "@nexus/extensions/usage-meter/index.js";
+import registerSlashusageExtension from "@nexus/extensions/slashusage/index.js";
 import { registerWorkspaceExtension } from "@nexus/extensions/workspace/registerWorkspaceExtension.js";
 import { registerWorkflowsExtension } from "@nexus/extensions/workflows/registerWorkflowsExtension.js";
 
@@ -52,7 +52,7 @@ export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) 
     "term-modal": registerTermModalExtension,
     todo: registerTodoExtension,
     tron: registerTronExtension,
-    "usage-meter": registerUsageMeterExtension,
+    slashusage: registerSlashusageExtension,
     workspace: registerWorkspaceExtension,
     workflows: registerWorkflowsExtension,
   };

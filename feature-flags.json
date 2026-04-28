@@ -9,7 +9,7 @@
       ]
     },
     "annotate": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "annotate command",
         "annotate tool",
@@ -21,7 +21,8 @@
       "enabled": true,
       "features": [
         "sync session title to cmux pane title",
-        "notify cmux tab when pane is done"
+        "notify cmux tab when pane is done",
+        "/cmux workspace shell session view"
       ]
     },
     "context-usage": {
@@ -33,7 +34,7 @@
     },
     "dev": {
       "devOnly": true,
-      "enabled": false,
+      "enabled": true,
       "features": [
         "/dev-modal command",
         "dev-only modal variation playground",
@@ -87,7 +88,7 @@
       "enabled": true,
       "features": [
         "custom promptline",
-        "usage meter",
+        "slashusage",
         "@ file autocomplete",
         "editor trigger submit",
         "macOS ctrl+v image paste fallback"
@@ -107,7 +108,8 @@
         "observation tracking",
         "status widget",
         "/observations command"
-      ]
+      ],
+      "devOnly": true
     },
     "playground": {
       "devOnly": true,
@@ -174,10 +176,10 @@
         "user message bubble"
       ]
     },
-    "usage-meter": {
+    "slashusage": {
       "enabled": true,
       "features": [
-        "inline usage meter",
+        "inline slashusage",
         "5-minute historical usage snapshots",
         "/usage history graph modal"
       ]

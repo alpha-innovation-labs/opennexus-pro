@@ -18,7 +18,7 @@ export function createAnnotateCommandHandler(state: AnnotateRuntimeState) {
       await connectToAnnotateHost(state);
     } catch {
       ctx.ui?.notify?.(
-        "Chrome extension not connected. Click the Pi Annotate icon in Chrome to wake the service worker, then retry.",
+        "Chrome extension not connected. Click the Nexus Annotate icon in Chrome to wake the service worker, then retry.",
         "error",
       );
       return;

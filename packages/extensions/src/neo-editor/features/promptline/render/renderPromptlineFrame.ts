@@ -1,4 +1,4 @@
-import { getUsageTextForModel } from "@nexus/extensions/usage-meter/index.js";
+import { getUsageTextForModel } from "@nexus/extensions/slashusage/index.js";
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { renderBottomBorderLabel } from "../../../shared/ui/renderBottomBorderLabel.js";
 import { renderUsageText } from "../../../shared/ui/renderUsageText.js";

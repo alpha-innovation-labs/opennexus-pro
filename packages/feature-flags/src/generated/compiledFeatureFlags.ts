@@ -14,7 +14,7 @@ export const compiledFeatureFlags = {
       ]
     },
     "annotate": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "annotate command",
         "annotate tool",
@@ -26,7 +26,8 @@ export const compiledFeatureFlags = {
       "enabled": true,
       "features": [
         "sync session title to cmux pane title",
-        "notify cmux tab when pane is done"
+        "notify cmux tab when pane is done",
+        "/cmux workspace shell session view"
       ]
     },
     "context-usage": {
@@ -52,7 +53,7 @@ export const compiledFeatureFlags = {
       ]
     },
     "feature-management": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "/features command",
         "feature status modal",
@@ -92,7 +93,7 @@ export const compiledFeatureFlags = {
       "enabled": true,
       "features": [
         "custom promptline",
-        "usage meter",
+        "slashusage",
         "@ file autocomplete",
         "editor trigger submit",
         "macOS ctrl+v image paste fallback"
@@ -112,7 +113,8 @@ export const compiledFeatureFlags = {
         "observation tracking",
         "status widget",
         "/observations command"
-      ]
+      ],
+      "devOnly": true
     },
     "playground": {
       "devOnly": true,
@@ -179,10 +181,10 @@ export const compiledFeatureFlags = {
         "user message bubble"
       ]
     },
-    "usage-meter": {
+    "slashusage": {
       "enabled": true,
       "features": [
-        "inline usage meter",
+        "inline slashusage",
         "5-minute historical usage snapshots",
         "/usage history graph modal"
       ]

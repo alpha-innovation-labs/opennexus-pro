@@ -45,6 +45,7 @@ test("formatResult renders successful annotations and writes screenshots", async
     elements: [
       {
         selector: ".hero",
+        location: "main > #top > .hero",
         tag: "div",
         id: "hero",
         classes: ["hero", "selected"],
@@ -73,6 +74,11 @@ test("formatResult renders successful annotations and writes screenshots", async
     assert.match(output, /\*\*Viewport:\*\* 1280×720/);
     assert.match(output, /\*\*Context:\*\* Review spacing/);
     assert.match(output, /### Selected Elements \(1\)/);
+    assert.match(output, /### 1\. div #hero/);
+    assert.match(output, /\*\*Location:\*\* main > #top > \.hero/);
+    assert.match(output, /\*\*Feedback:\*\* Tighten padding/);
+    assert.doesNotMatch(output, /Box Model/);
+    assert.doesNotMatch(output, /\*\*Styles:\*\*/);
     assert.match(output, /\*\*Screenshot \(full page\):\*\*/);
     assert.match(output, /### Screenshots/);
     assert.match(output, /## Edit Capture \(2 changes, 2s\)/);

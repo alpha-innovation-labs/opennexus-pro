@@ -8,6 +8,7 @@ const LOG_FILE = "/tmp/pi-annotate-host.log";
 const MAX_NATIVE_MESSAGE_BYTES = 32 * 1024 * 1024; // 32MB (increased from 8MB for edit capture payloads)
 const MAX_SOCKET_BUFFER = 32 * 1024 * 1024; // 32MB
 const MAX_LOG_BYTES = 5 * 1024 * 1024; // 5MB
+const ANNOTATIONS_DAEMON_URL = "http://127.0.0.1:47321/annotations";
 
 process.umask(0o077);
 
@@ -89,6 +90,25 @@ function redactForLog(msg) {
   });
 }
 
+/**
+ * Stores completed annotations in the Nexus annotations daemon.
+ *
+ * @param {object} msg Native message from the Chrome extension.
+ */
+function storeCompletedAnnotation(msg) {
+  if (msg?.type !== "ANNOTATIONS_COMPLETE" || !msg.result?.success) return;
+
+  fetch(ANNOTATIONS_DAEMON_URL, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(msg.result),
+  }).then((response) => {
+    if (!response.ok) log(`Annotation daemon rejected capture: ${response.status}`);
+  }).catch((error) => {
+    log(`Annotation daemon capture failed: ${error.message}`);
+  });
+}
+
 // Messages from Chrome extension → forward to Pi
 function handleExtensionMessage(msg) {
   log(`From extension: ${redactForLog(msg)}`);
@@ -98,11 +118,13 @@ function handleExtensionMessage(msg) {
     writeMessage({ type: "PONG", timestamp: Date.now() });
     return;
   }
+
+  storeCompletedAnnotation(msg);
   
   if (piSocket && !piSocket.destroyed) {
     piSocket.write(JSON.stringify(msg) + "\n");
   } else {
-    log("No pi client connected, message dropped");
+    log("No pi client connected, message captured by annotations daemon when available");
   }
 }
 

@@ -1,5 +1,5 @@
 /**
- * Pi Annotate - Content Script (v0.4.0)
+ * Nexus Annotate - Content Script (v0.4.0)
  * 
  * DevTools-like element picker with inline note cards:
  * - Hover to highlight elements
@@ -11,7 +11,7 @@
 
 (() => {
   // Prevent double-injection (use Symbol for unique key to avoid conflicts)
-  const LOADED_KEY = "__piAnnotate_" + chrome.runtime.id;
+  const LOADED_KEY = "__nexusAnnotateLauncher_v2_" + chrome.runtime.id;
   if (window[LOADED_KEY]) return;
   window[LOADED_KEY] = true;
   
@@ -109,6 +109,7 @@
   let tooltipEl = null;
   let panelEl = null;
   let markersContainer = null;
+  let launcherEl = null;
   let styleEl = null;
   
   // ─────────────────────────────────────────────────────────────────────
@@ -175,6 +176,117 @@
       }
     }
     
+    /* ═══════════════════════════════════════════════════════════════════
+       Launcher toolbar
+       ═══════════════════════════════════════════════════════════════════ */
+    #pi-launcher {
+      position: fixed;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      z-index: ${Z_INDEX_PANEL};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.375rem;
+      width: 52px;
+      height: 52px;
+      padding: 0.25rem;
+      border-radius: 26px;
+      background: #050505;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
+      font-family: var(--pi-font-ui);
+      pointer-events: auto;
+      user-select: none;
+      overflow: visible;
+      animation: pi-launcher-enter 0.35s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+      transition: width 0.28s cubic-bezier(0.19, 1, 0.22, 1), transform 0.15s ease;
+    }
+
+    #pi-launcher.pi-launcher-expanded {
+      width: 245px;
+      justify-content: flex-start;
+      overflow: hidden;
+    }
+
+    @keyframes pi-launcher-enter {
+      from { opacity: 0; transform: scale(0.85) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .pi-launcher-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #050505;
+      color: #ffffff;
+      border: none;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      cursor: pointer;
+      flex: 0 0 auto;
+      line-height: 1;
+      z-index: 1;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+    }
+
+    .pi-launcher-mark:hover { background: rgba(255, 255, 255, 0.12); }
+    .pi-launcher-mark:active { transform: scale(0.92); }
+
+    .pi-launcher-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      opacity: 0;
+      transform: scale(0.85);
+      pointer-events: none;
+      transition: opacity 0.16s ease, transform 0.22s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    #pi-launcher.pi-launcher-expanded .pi-launcher-controls {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .pi-launcher-primary,
+    .pi-launcher-close {
+      height: 34px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+      font-family: var(--pi-font-ui);
+    }
+
+    .pi-launcher-primary {
+      border-radius: 17px;
+      padding: 0 14px;
+      background: var(--pi-accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .pi-launcher-primary:hover { background: var(--pi-accent-hover); }
+    .pi-launcher-primary:active { transform: scale(0.96); }
+
+    .pi-launcher-close {
+      width: 34px;
+      border-radius: 50%;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .pi-launcher-close:hover { background: rgba(255, 56, 60, 0.24); color: #ff383c; }
+    .pi-launcher-close:active { transform: scale(0.92); }
+
     /* ═══════════════════════════════════════════════════════════════════
        Highlight & Tooltip
        ═══════════════════════════════════════════════════════════════════ */
@@ -404,141 +516,188 @@
        ═══════════════════════════════════════════════════════════════════ */
     #pi-panel {
       position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: var(--pi-bg-card);
-      color: var(--pi-fg);
+      bottom: 1.25rem;
+      right: 1.25rem;
+      width: min(860px, calc(100vw - 2.5rem));
+      background: #1a1a1a;
+      color: #fff;
       font-family: var(--pi-font-ui);
-      padding: 10px 16px;
+      padding: 0.375rem;
       z-index: ${Z_INDEX_PANEL};
-      box-shadow: 0 -4px 24px var(--pi-shadow);
-      border-top: 1px solid var(--pi-border-muted);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
+      border: none;
+      border-radius: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      flex-wrap: wrap;
+      pointer-events: auto;
+      user-select: none;
+      animation: pi-toolbar-enter 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) both;
     }
-    
+
+    @keyframes pi-toolbar-enter {
+      from { opacity: 0; transform: scale(0.85) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
     #pi-panel * { box-sizing: border-box; }
-    
+
     .pi-header {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--pi-bg-elevated);
-    }
-    
-    .pi-logo { 
-      font-size: 15px; 
-      font-weight: 700; 
-      color: var(--pi-accent);
-    }
-    .pi-hint { color: var(--pi-fg-dim); font-size: 11px; margin-left: auto; }
-    
-    .pi-close {
-      background: none;
+      gap: 0.375rem;
+      margin: 0;
+      padding: 0;
       border: none;
-      color: var(--pi-fg-dim);
+      flex: 0 0 auto;
+    }
+
+    .pi-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 34px;
+      min-width: 34px;
+      padding: 0 10px;
+      border-radius: 17px;
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 12px;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .pi-hint { display: none; }
+
+    .pi-close {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.72);
       font-size: 18px;
       cursor: pointer;
-      padding: 0 4px;
+      padding: 0;
       line-height: 1;
+      transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
     }
-    .pi-close:hover { color: var(--pi-error); }
-    
+
+    .pi-close:hover { background: rgba(255, 56, 60, 0.24); color: #ff383c; }
+    .pi-close:active { transform: scale(0.92); }
+
     .pi-toolbar {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 8px;
+      gap: 0.375rem;
+      margin: 0;
+      flex: 1 1 auto;
+      min-width: 280px;
     }
-    
+
     .pi-mode-toggle {
       display: flex;
-      gap: 4px;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0;
+      flex: 0 0 auto;
     }
-    
-    .pi-mode-btn {
-      background: var(--pi-bg-elevated);
-      border: 1px solid var(--pi-border-muted);
-      border-radius: var(--pi-radius);
-      padding: 5px 10px;
+
+    .pi-mode-btn,
+    .pi-ss-btn {
+      height: 34px;
+      border-radius: 17px;
+      padding: 0 12px;
       font-size: 11px;
-      color: var(--pi-fg-muted);
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.72);
+      background: transparent;
+      border: none;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
     }
-    
-    .pi-mode-btn:hover { background: var(--pi-bg-hover); }
-    
-    .pi-mode-btn.active {
-      background: var(--pi-accent);
-      border-color: var(--pi-accent);
-      color: var(--pi-bg-body);
+
+    .pi-mode-btn:hover,
+    .pi-ss-btn:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+    .pi-mode-btn:active,
+    .pi-ss-btn:active { transform: scale(0.96); }
+
+    .pi-mode-btn.active,
+    .pi-ss-btn.active {
+      background: color-mix(in srgb, var(--pi-accent) 28%, transparent);
+      color: var(--pi-accent-hover);
     }
-    
+
     .pi-screenshot-toggle {
       display: flex;
       align-items: center;
-      gap: 6px;
-      background: var(--pi-bg-body);
-      padding: 2px 2px 2px 8px;
-      border-radius: var(--pi-radius);
+      gap: 0.25rem;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0;
+      border-radius: 17px;
+      flex: 0 0 auto;
     }
-    
+
     .pi-toggle-label {
+      padding-left: 12px;
       font-size: 11px;
-      color: var(--pi-fg-dim);
+      color: rgba(255, 255, 255, 0.45);
+      white-space: nowrap;
     }
-    
-    .pi-ss-btn {
-      background: transparent;
-      border: none;
-      border-radius: 3px;
-      padding: 5px 10px;
-      font-size: 11px;
-      color: var(--pi-fg-dim);
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    
-    .pi-ss-btn:hover { color: var(--pi-fg-muted); }
-    
-    .pi-ss-btn.active {
-      background: var(--pi-accent);
-      color: var(--pi-bg-body);
-    }
-    
-    .pi-spacer { flex: 1; }
-    
+
+    .pi-spacer { display: none; }
+
     .pi-count {
-      font-size: 12px;
-      color: var(--pi-fg-dim);
+      position: relative;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 6px;
+      border-radius: 9px;
+      background: var(--pi-accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 650;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      box-shadow: 0 0 0 2px #1a1a1a, 0 1px 3px rgba(0, 0, 0, 0.2);
+      flex: 0 0 auto;
     }
-    
+
     .pi-notes-toggle {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
+      height: 34px;
+      border-radius: 17px;
+      padding: 0 10px;
       font-size: 12px;
-      color: var(--pi-fg-muted);
+      color: rgba(255, 255, 255, 0.72);
       cursor: pointer;
       user-select: none;
+      transition: background-color 0.15s ease, color 0.15s ease;
+      flex: 0 0 auto;
     }
-    
+
     .pi-notes-toggle input {
       width: 14px;
       height: 14px;
       accent-color: var(--pi-accent);
       cursor: pointer;
     }
-    
-    .pi-notes-toggle:hover { color: var(--pi-fg); }
+
+    .pi-notes-toggle:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
 
     /* ── Etch toggle: recording mode pill ── */
     .pi-etch-toggle {
-      background: var(--pi-bg-elevated);
-      border: 1px solid var(--pi-border-muted);
-      border-radius: 16px;
-      padding: 3px 10px 3px 8px;
-      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, color 0.3s;
+      background: rgba(255, 255, 255, 0.06);
+      border: none;
+      border-radius: 17px;
+      padding: 0 10px;
+      transition: background 0.3s, box-shadow 0.3s, color 0.3s;
     }
 
     .pi-etch-toggle input { display: none; }
@@ -548,28 +707,18 @@
       font-size: 9px;
       margin-right: 4px;
       vertical-align: 1px;
-      color: var(--pi-fg-dim);
+      color: rgba(255, 255, 255, 0.38);
       transition: color 0.3s;
     }
 
-    .pi-etch-toggle:hover {
-      border-color: var(--pi-fg-dim);
-      color: var(--pi-fg);
-    }
-
     .pi-etch-toggle.recording {
-      background: rgba(204, 102, 102, 0.15);
-      border-color: var(--pi-error);
-      box-shadow: 0 0 8px rgba(204, 102, 102, 0.3), inset 0 0 6px rgba(204, 102, 102, 0.06);
-      color: #e0a0a0;
-    }
-
-    .pi-etch-toggle.recording:hover {
-      box-shadow: 0 0 12px rgba(204, 102, 102, 0.4), inset 0 0 6px rgba(204, 102, 102, 0.08);
+      background: rgba(255, 56, 60, 0.24);
+      box-shadow: inset 0 0 0 1px rgba(255, 56, 60, 0.16);
+      color: #ffb0b1;
     }
 
     .pi-etch-toggle.recording span:first-of-type::before {
-      color: var(--pi-error);
+      color: #ff383c;
       animation: pi-etch-pulse 1.5s ease-in-out infinite;
     }
 
@@ -580,7 +729,7 @@
 
     .pi-etch-badge {
       background: var(--pi-accent);
-      color: var(--pi-bg-body);
+      color: #fff;
       font: bold 10px var(--pi-font-ui);
       min-width: 18px;
       height: 18px;
@@ -592,71 +741,94 @@
       transition: background 0.3s;
     }
 
-    .pi-etch-toggle.recording .pi-etch-badge { background: var(--pi-error); }
+    .pi-etch-toggle.recording .pi-etch-badge { background: #ff383c; }
 
     /* Changed element indicators */
     [data-pi-changed] {
       outline: 2px dashed var(--pi-warning) !important;
       outline-offset: 2px !important;
     }
-    
+
     .pi-context-row {
-      margin-bottom: 8px;
+      margin: 0;
+      flex: 1 1 220px;
+      min-width: 180px;
     }
-    
+
     .pi-context-row input {
       width: 100%;
-      background: var(--pi-bg-body);
-      border: 1px solid var(--pi-border-muted);
-      border-radius: var(--pi-radius);
-      color: var(--pi-fg);
+      height: 34px;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      border-radius: 17px;
+      color: #fff;
       font-family: inherit;
       font-size: 13px;
-      padding: 8px 12px;
+      padding: 0 13px;
+      transition: background-color 0.15s ease, box-shadow 0.15s ease;
     }
-    
+
     .pi-context-row input:focus {
       outline: none;
-      border-color: var(--pi-accent);
-      box-shadow: 0 0 0 3px var(--pi-focus-ring);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pi-accent) 45%, transparent);
     }
-    
-    .pi-context-row input::placeholder { color: var(--pi-fg-dim); }
-    
+
+    .pi-context-row input::placeholder { color: rgba(255, 255, 255, 0.42); }
+
     .pi-actions {
       display: flex;
       justify-content: flex-end;
-      padding-top: 8px;
-      border-top: 1px solid var(--pi-bg-elevated);
+      padding: 0;
+      border: none;
+      flex: 0 0 auto;
     }
-    
-    .pi-buttons { display: flex; gap: 8px; }
-    
+
+    .pi-buttons { display: flex; gap: 0.375rem; }
+
     .pi-btn {
-      padding: 6px 14px;
-      border-radius: var(--pi-radius);
+      min-width: 34px;
+      height: 34px;
+      padding: 0 13px;
+      border-radius: 17px;
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 650;
       cursor: pointer;
       border: none;
-      transition: all 0.15s;
+      transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease, opacity 0.2s ease;
     }
-    
+
+    .pi-btn:active { transform: scale(0.96); }
+
     .pi-btn-cancel {
-      background: var(--pi-bg-elevated);
-      color: var(--pi-fg-muted);
-      border: 1px solid var(--pi-border-muted);
+      background: transparent;
+      color: rgba(255, 255, 255, 0.72);
     }
-    
-    .pi-btn-cancel:hover { background: var(--pi-bg-hover); color: var(--pi-fg); }
-    
+
+    .pi-btn-cancel:hover { background: rgba(255, 56, 60, 0.24); color: #ff383c; }
+
     .pi-btn-submit {
       background: var(--pi-accent);
-      color: var(--pi-bg-body);
+      color: #fff;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
     }
-    
-    .pi-btn-submit:hover { 
+
+    .pi-btn-submit:hover {
       background: var(--pi-accent-hover);
+    }
+
+    @media (max-width: 720px) {
+      #pi-panel {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        width: auto;
+      }
+
+      .pi-toolbar,
+      .pi-context-row {
+        flex-basis: 100%;
+      }
     }
   `;
   
@@ -670,24 +842,135 @@
     if (msg.type === "START_ANNOTATION") {
       requestId = msg.requestId || msg.id || null;
       activate();
+      sendResponse?.(getLauncherState());
     } else if (msg.type === "TOGGLE_PICKER") {
-      if (isActive) {
-        deactivate();
-      } else {
-        activate();
-      }
+      toggleLauncher();
+      sendResponse?.(getLauncherState());
+    } else if (msg.type === "SHOW_LAUNCHER") {
+      showLauncher();
+      sendResponse?.(getLauncherState());
+    } else if (msg.type === "HIDE_LAUNCHER") {
+      hideAllAnnotationUi();
+      sendResponse?.(getLauncherState());
+    } else if (msg.type === "GET_LAUNCHER_STATE") {
+      sendResponse?.(getLauncherState());
     } else if (msg.type === "CANCEL") {
       if (isActive) {
         deactivate();
       }
+      sendResponse?.(getLauncherState());
     }
   });
   
   // ─────────────────────────────────────────────────────────────────────
-  // Activation
+  // Launcher / Activation
   // ─────────────────────────────────────────────────────────────────────
+
+  /**
+   * Ensures the content-script stylesheet is mounted once.
+   */
+  function ensureStyles() {
+    if (styleEl && document.contains(styleEl)) return;
+    styleEl = document.createElement("style");
+    styleEl.id = "pi-styles";
+    styleEl.textContent = STYLES;
+    (document.head || document.documentElement).appendChild(styleEl);
+  }
+
+  /**
+   * Reports whether annotation UI is allowed on the current page.
+   *
+   * @returns True when the current hostname contains localhost.
+   */
+  function isLocalhostPage() {
+    return window.location.hostname.includes("localhost");
+  }
+
+  /**
+   * Reads current launcher visibility state for the extension popup.
+   *
+   * @returns {{ available: boolean, visible: boolean, expanded: boolean, active: boolean }} Launcher state.
+   */
+  function getLauncherState() {
+    return {
+      available: isLocalhostPage(),
+      visible: Boolean(launcherEl || isActive),
+      expanded: Boolean(launcherEl?.classList.contains("pi-launcher-expanded")),
+      active: isActive,
+    };
+  }
+
+  /**
+   * Renders the launcher's expanded or collapsed state.
+   *
+   * @param {boolean} expanded Whether the launcher bar is expanded.
+   */
+  function setLauncherExpanded(expanded) {
+    if (!launcherEl) return;
+    launcherEl.classList.toggle("pi-launcher-expanded", expanded);
+    launcherEl.setAttribute("aria-expanded", String(expanded));
+  }
+
+  /**
+   * Shows the compact launcher toolbar used to start annotation mode.
+   */
+  function showLauncher() {
+    if (!isLocalhostPage() || isActive || launcherEl) return;
+    ensureStyles();
+    launcherEl = document.createElement("div");
+    launcherEl.id = "pi-launcher";
+    launcherEl.setAttribute("aria-label", "Nexus annotation launcher");
+    launcherEl.innerHTML = `
+      <button class="pi-launcher-mark" id="pi-launcher-toggle" title="Toggle annotation toolbar">N</button>
+      <span class="pi-launcher-controls">
+        <button class="pi-launcher-primary" id="pi-launcher-start">Start annotation</button>
+        <button class="pi-launcher-close" id="pi-launcher-close" title="Collapse annotation toolbar">×</button>
+      </span>
+    `;
+    document.body.appendChild(launcherEl);
+    setLauncherExpanded(false);
+    document.getElementById("pi-launcher-toggle")?.addEventListener("click", () => {
+      setLauncherExpanded(!launcherEl.classList.contains("pi-launcher-expanded"));
+    });
+    document.getElementById("pi-launcher-start")?.addEventListener("click", () => {
+      hideLauncher({ keepStyles: true });
+      activate();
+    });
+    document.getElementById("pi-launcher-close")?.addEventListener("click", () => setLauncherExpanded(false));
+  }
+
+  /**
+   * Hides the compact launcher toolbar.
+   *
+   * @param {{ keepStyles?: boolean }} options Launcher cleanup options.
+   */
+  function hideLauncher(options = {}) {
+    launcherEl?.remove();
+    launcherEl = null;
+    if (!options.keepStyles && !isActive) {
+      styleEl?.remove();
+      styleEl = null;
+    }
+  }
+
+  /**
+   * Toggles the compact launcher toolbar from the extension action.
+   */
+  function toggleLauncher() {
+    if (!isLocalhostPage()) {
+      hideLauncher();
+      return;
+    }
+    if (isActive) {
+      deactivate();
+      return;
+    }
+    if (launcherEl) hideLauncher();
+    else showLauncher();
+  }
   
   function activate() {
+    if (!isLocalhostPage()) return;
     if (isActive) {
       console.log("[pi-annotate] Restarting session (new request)");
       resetState();
@@ -695,11 +978,8 @@
     }
     isActive = true;
     
-    // Inject styles
-    styleEl = document.createElement("style");
-    styleEl.id = "pi-styles";
-    styleEl.textContent = STYLES;
-    (document.head || document.documentElement).appendChild(styleEl);
+    hideLauncher({ keepStyles: true });
+    ensureStyles();
     
     // Create UI
     createHighlight();
@@ -810,6 +1090,7 @@
     if (etchObserver) { etchObserver.disconnect(); etchObserver = null; }
     clearEtchMarkers();
 
+    launcherEl?.remove();
     styleEl?.remove();
     highlightEl?.remove();
     tooltipEl?.remove();
@@ -818,7 +1099,7 @@
     notesContainer?.remove();
     connectorsEl?.remove();
     
-    styleEl = highlightEl = tooltipEl = panelEl = markersContainer = null;
+    styleEl = highlightEl = tooltipEl = panelEl = markersContainer = launcherEl = null;
     notesContainer = connectorsEl = null;
     elementStack = [];
     stackIndex = 0;
@@ -885,7 +1166,7 @@
     panelEl.id = "pi-panel";
     panelEl.innerHTML = `
       <div class="pi-header">
-        <span class="pi-logo">π Annotate</span>
+        <span class="pi-logo">Nexus Annotate</span>
         <span class="pi-hint">Click elements • ${ALT_KEY_LABEL}+scroll cycles parents • ESC to close</span>
         <button class="pi-close" id="pi-close" title="Close (ESC)">×</button>
       </div>
@@ -921,15 +1202,15 @@
       </div>
       <div class="pi-actions">
         <div class="pi-buttons">
-          <button class="pi-btn pi-btn-cancel" id="pi-cancel">Cancel</button>
+          <button class="pi-btn pi-btn-cancel" id="pi-cancel">Hide</button>
           <button class="pi-btn pi-btn-submit" id="pi-submit">Submit</button>
         </div>
       </div>
     `;
     document.body.appendChild(panelEl);
     
-    document.getElementById("pi-close").addEventListener("click", handleCancel);
-    document.getElementById("pi-cancel").addEventListener("click", handleCancel);
+    document.getElementById("pi-close").addEventListener("click", hideActiveAnnotationPanel);
+    document.getElementById("pi-cancel").addEventListener("click", hideActiveAnnotationPanel);
     document.getElementById("pi-submit").addEventListener("click", handleSubmit);
     
     // Mode toggle
@@ -1132,6 +1413,13 @@
     textarea.addEventListener("input", () => {
       elementComments.set(getIndex(), textarea.value);
       autoResizeTextarea(textarea);
+    });
+    textarea.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+      event.preventDefault();
+      event.stopPropagation();
+      elementComments.set(getIndex(), textarea.value);
+      textarea.blur();
     });
     
     const screenshotBtn = card.querySelector(".pi-note-screenshot");
@@ -1623,7 +1911,7 @@
     if (!isActive) return;
     if (e.key === "Escape") {
       e.preventDefault();
-      handleCancel();
+      hideActiveAnnotationPanel();
     }
   }
   
@@ -1704,6 +1992,39 @@
     }
     return path.join(" > ");
   }
+
+  /**
+   * Builds a compact DOM location for agent-readable annotation output.
+   *
+   * @param {Element} el Target element.
+   * @returns {string} Compact path from the page landmark to the target.
+   */
+  function generateElementLocation(el) {
+    const path = [];
+    let cur = el;
+
+    while (cur && cur !== document.body && cur.nodeType === Node.ELEMENT_NODE) {
+      path.unshift(getLocationSegment(cur));
+      if (cur.tagName?.toLowerCase() === "main") break;
+      cur = cur.parentElement;
+    }
+
+    return path.join(" > ");
+  }
+
+  /**
+   * Formats one element segment for a compact DOM location.
+   *
+   * @param {Element} el Target element.
+   * @returns {string} Element segment using ID, class, or tag.
+   */
+  function getLocationSegment(el) {
+    const tag = el.tagName.toLowerCase();
+    if (el.id && /^[a-zA-Z][\w-]*$/.test(el.id)) return `#${el.id}`;
+    const className = Array.from(el.classList).find(name => /^[a-zA-Z][\w-]*$/.test(name));
+    if (className) return `.${className}`;
+    return tag;
+  }
   
   /**
    * Get all HTML attributes for an element (except class/id which are captured separately)
@@ -1727,6 +2048,7 @@
     const data = {
       element: el,
       selector: generateSelector(el),
+      location: generateElementLocation(el),
       tag: el.tagName.toLowerCase(),
       id: el.id || null,
       classes: Array.from(el.classList),
@@ -3044,6 +3366,14 @@
     deactivate();
   }
   
+  /**
+   * Hides active annotation controls without cancelling or submitting the session.
+   */
+  function hideActiveAnnotationPanel() {
+    deactivate();
+    showLauncher();
+  }
+
   function handleCancel() {
     const id = requestId;
     deactivate();

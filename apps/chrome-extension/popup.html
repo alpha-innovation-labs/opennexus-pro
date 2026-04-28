@@ -20,11 +20,17 @@
       border-bottom: 1px solid #27272a;
     }
     .logo {
-      font-size: 20px;
-      font-weight: 700;
-      background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #050505;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
     }
     .title { font-size: 14px; font-weight: 600; }
     
@@ -52,6 +58,9 @@
     .status-text { font-size: 12px; flex: 1; }
     
     /* Sections */
+    .quick-start-section {
+      margin-bottom: 14px;
+    }
     .section { margin-bottom: 14px; }
     .label {
       font-size: 10px;
@@ -172,8 +181,8 @@
 </head>
 <body>
   <div class="header">
-    <span class="logo">π</span>
-    <span class="title">Pi Annotate</span>
+    <span class="logo">N</span>
+    <span class="title">Nexus Annotate</span>
   </div>
 
   <div class="status-bar">
@@ -181,15 +190,19 @@
     <span class="status-text" id="status-text">Checking...</span>
   </div>
 
+  <div class="quick-start-section">
+    <button class="btn primary" id="quick-start-btn">Checking…</button>
+  </div>
+
   <!-- Ready State -->
   <div id="ready-section" class="hidden">
     <div class="ready-content">
       <div class="check">✓</div>
-      <p>Ready to annotate! Use the button below or keyboard shortcut.</p>
+      <p>Ready to annotate! Use the button above or keyboard shortcut.</p>
       <div style="margin-bottom: 14px;">
         <span class="shortcut" id="shortcut-key"></span>
       </div>
-      <button class="btn primary" id="start-btn">Start Annotation</button>
+
     </div>
   </div>
 
@@ -228,9 +241,6 @@
     </div>
   </div>
 
-  <div class="footer">
-    <a href="https://github.com/nicobailon/pi-annotate#quick-start" target="_blank">Setup Guide →</a>
-  </div>
 
   <script src="popup.js"></script>
 </body>

@@ -95,6 +95,34 @@ test("selecting settings opens the custom settings submenu instead of handing of
   assert.equal(findSettingsValueColumn(autoCompactLine, "Auto-compact"), findSettingsValueColumn(showImagesLine, "Show images"));
 });
 
+test("root thinking item opens thinking choices from the Auth group", async () => {
+  let picked = "";
+  let thinkingLevel = "medium";
+  const modal = new SlashMenuModal({ ...createContext(), model: { id: "gpt-5", reasoning: true } } as never, () => thinkingLevel, (value) => { thinkingLevel = value; }, () => undefined, () => undefined, (commandText: string) => {
+    picked = commandText;
+  });
+
+  modal.setQuery("thinking");
+  await modal.refresh();
+  modal.handleInput("\r");
+  await flushSlashMenuInput();
+  let output = stripAnsi((await renderComponentInVirtualTerminal(() => modal, 120, 50)).join("\n"));
+
+  assert.equal(picked, "");
+  assert.match(output, /Settings > Thinking level/);
+  assert.match(output, /◉ medium/);
+  assert.match(output, /○ high/);
+
+  modal.handleInput("\u001b[B");
+  modal.handleInput("\r");
+  await flushSlashMenuInput();
+  output = stripAnsi((await renderComponentInVirtualTerminal(() => modal, 120, 50)).join("\n"));
+
+  assert.equal(thinkingLevel, "high");
+  assert.match(output, /Menu/);
+  assert.match(output, /thinking/);
+});
+
 test("settings options open a choice submenu and keep the settings cursor after update", async () => {
   let thinkingLevel = "medium";
   const modal = new SlashMenuModal({ ...createContext(), model: { id: "gpt-5", reasoning: true } } as never, () => thinkingLevel, (value) => { thinkingLevel = value; }, () => undefined, () => undefined, () => undefined);

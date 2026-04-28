@@ -27,6 +27,9 @@ function createFakePi(commands: string[], shortcuts: string[], tools: string[]) 
     getSessionName() {
       return "session";
     },
+    getCommands() {
+      return new Map();
+    },
     on() {},
     setThinkingLevel() {},
     registerCommand(name: string) {
@@ -47,7 +50,7 @@ test("compiled bundled extension ids are available to the release entrypoint", (
   const releaseIds = compiledBundledExtensionIds as readonly string[];
   assert.ok(!releaseIds.includes("dev"));
   assert.ok(releaseIds.includes("feature-management"));
-  assert.ok(!releaseIds.includes("annotate"));
+  assert.ok(releaseIds.includes("annotate"));
   assert.ok(!releaseIds.includes("context-usage"));
   assert.ok(!releaseIds.includes("workspace"));
   assert.ok(!releaseIds.includes("workflows"));
@@ -68,11 +71,12 @@ test("the compiled bundled extension entrypoint follows the bundled feature flag
   const tools: string[] = [];
   const pi = createFakePi(commands, shortcuts, tools);
 
-  assert.doesNotThrow(() => {
-    factories[0](pi as never);
-  });
+  await assert.doesNotReject(() => factories[0](pi as never));
   assert.ok(!shortcuts.includes("ctrl+i"));
   assert.ok(!shortcuts.includes("ctrl+;"));
-  assert.ok(!tools.includes("annotate"));
+  assert.ok(tools.includes("annotate"));
+  assert.ok(tools.includes("read_pending_annotations"));
+  assert.ok(tools.includes("claim_annotation"));
+  assert.ok(tools.includes("resolve_annotation"));
   assert.ok(!commands.includes("dev-modal"));
 });

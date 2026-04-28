@@ -1,4 +1,4 @@
-// Pi Annotate - Popup Script
+// Nexus Annotate - Popup Script
 
 const extId = chrome.runtime.id;
 const installCmd = `./install.sh ${extId}`;
@@ -11,6 +11,7 @@ const statusText = document.getElementById('status-text');
 const setupSection = document.getElementById('setup-section');
 const readySection = document.getElementById('ready-section');
 const troubleSection = document.getElementById('trouble-section');
+const quickStartBtn = document.getElementById('quick-start-btn');
 
 // Populate fields
 extIdInput.value = extId;
@@ -59,11 +60,18 @@ document.getElementById('copy-cmd').addEventListener('click', (e) => {
   copyToClipboard(installCmd, e.target);
 });
 
-// Start annotation button — routes through background script which handles injection
-document.getElementById('start-btn')?.addEventListener('click', () => {
-  chrome.runtime.sendMessage({ type: "TOGGLE_PICKER" });
-  window.close();
-});
+/**
+ * Toggles the in-page annotation launcher through the background script.
+ */
+function startAnnotation() {
+  chrome.runtime.sendMessage({ type: "TOGGLE_PICKER" }, (response) => {
+    updateToggleButtonState(response || { available: false, visible: false });
+  });
+}
+
+// Annotation bar toggle — always available, even while connection status is checking.
+quickStartBtn?.addEventListener('click', startAnnotation);
+document.getElementById('start-btn')?.addEventListener('click', startAnnotation);
 
 // Retry button
 document.getElementById('retry-btn')?.addEventListener('click', () => {
@@ -73,7 +81,7 @@ document.getElementById('retry-btn')?.addEventListener('click', () => {
 // Update UI based on connection state
 function setConnected() {
   statusDot.className = 'status-dot connected';
-  statusText.textContent = 'Connected';
+  statusText.textContent = 'Annotation daemon connected';
   setupSection.style.display = 'none';
   readySection.style.display = 'block';
   troubleSection.style.display = 'none';
@@ -99,72 +107,59 @@ function setTrouble(error) {
 function setChecking() {
   statusDot.className = 'status-dot checking';
   statusText.textContent = 'Checking...';
-  // Reset sections to initial state (setup visible, others hidden)
   setupSection.style.display = 'block';
   readySection.style.display = 'none';
   troubleSection.style.display = 'none';
+  updateToggleButtonState(null);
 }
 
-// Check connection using PING/PONG
+/**
+ * Updates the annotation bar toggle button from active-tab launcher state.
+ *
+ * @param {{available?: boolean, visible?: boolean}|null} state Launcher state.
+ */
+function updateToggleButtonState(state) {
+  if (!quickStartBtn) return;
+  quickStartBtn.disabled = false;
+  if (!state) {
+    quickStartBtn.textContent = 'Checking…';
+    return;
+  }
+  if (!state.available) {
+    quickStartBtn.textContent = 'Only available on localhost';
+    quickStartBtn.disabled = true;
+    return;
+  }
+  quickStartBtn.textContent = state.visible ? 'Hide Annotation Bar' : 'Show Annotation Bar';
+}
+
+/**
+ * Refreshes the annotation launcher toggle state from the active tab.
+ */
+function refreshLauncherState() {
+  chrome.runtime.sendMessage({ type: 'GET_LAUNCHER_STATE' }, (response) => {
+    updateToggleButtonState(response || { available: false, visible: false });
+  });
+}
+
+/**
+ * Checks the local annotations daemon status.
+ */
 function checkConnection() {
   setChecking();
-  
-  let resolved = false;
-  let port = null;
-  
-  const cleanup = () => {
-    try { if (port) port.disconnect(); } catch {}
-  };
-  
-  const timeout = setTimeout(() => {
-    if (!resolved) {
-      resolved = true;
-      cleanup();
-      setTrouble('Timeout - native host not responding');
+
+  chrome.runtime.sendMessage({ type: 'CHECK_ANNOTATION_DAEMON' }, (response) => {
+    const error = chrome.runtime.lastError?.message || response?.error || '';
+
+    if (response?.ok) {
+      setConnected();
+      refreshLauncherState();
+      return;
     }
-  }, 3000);
-  
-  try {
-    port = chrome.runtime.connectNative('com.pi.annotate');
-    
-    port.onDisconnect.addListener(() => {
-      if (resolved) return;
-      resolved = true;
-      clearTimeout(timeout);
-      
-      const error = chrome.runtime.lastError?.message || '';
-      if (error.includes('not found')) {
-        setNotInstalled('Native host not found');
-      } else if (error.includes('forbidden')) {
-        setNotInstalled('Extension ID mismatch - reinstall native host');
-      } else if (error) {
-        setTrouble(error);
-      } else {
-        // Disconnected without error but no PONG received - host may have crashed
-        setTrouble('Native host disconnected unexpectedly');
-      }
-    });
-    
-    port.onMessage.addListener((msg) => {
-      if (msg?.type === 'PONG') {
-        if (resolved) return;
-        resolved = true;
-        clearTimeout(timeout);
-        setConnected();
-        cleanup();
-      }
-    });
-    
-    // Send PING
-    port.postMessage({ type: 'PING' });
-    
-  } catch (err) {
-    if (resolved) return;
-    resolved = true;
-    clearTimeout(timeout);
-    cleanup();
-    setTrouble(err.message);
-  }
+
+    setTrouble(error || 'Annotation daemon not responding');
+    refreshLauncherState();
+  });
 }
 
 // Check on load

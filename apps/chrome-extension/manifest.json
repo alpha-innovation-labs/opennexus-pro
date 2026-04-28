@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Pi Annotate",
+  "name": "Nexus Annotate",
   "version": "0.4.0",
-  "description": "Visual annotation tool for Pi coding agent",
+  "description": "Visual annotation tool for Nexus coding agent",
   
   "permissions": [
     "activeTab",
@@ -36,7 +36,7 @@
   },
   
   "action": {
-    "default_title": "Pi Annotate",
+    "default_title": "Nexus Annotate",
     "default_popup": "popup.html"
   },
   

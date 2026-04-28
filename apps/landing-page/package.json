@@ -1,0 +1,11 @@
+{
+  "name": "landing-page",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsx src/build/build-static-site.ts",
+    "dev": "tsx src/server/start-server.ts",
+    "test": "tsx src/landing-page.test.ts && tsx src/web-justfile.test.ts"
+  }
+}

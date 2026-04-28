@@ -2,8 +2,10 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
 import { registerAiProvidersExtension } from "../ai-providers/registerAiProvidersExtension.js";
+import { registerAnnotateExtension } from "../annotate/registerAnnotateExtension.js";
 import { registerCmuxExtension } from "../cmux/registerCmuxExtension.js";
 import { registerExitMessageExtension } from "../exit-message/registerExitMessageExtension.js";
+import { registerCompiledFeatureManagementExtension } from "../feature-management/registerCompiledFeatureManagementExtension.js";
 import registerFffExtension from "../fff/index.js";
 import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension.js";
 import { registerNotifyExtension } from "../notify/registerNotifyExtension.js";
@@ -11,15 +13,17 @@ import { registerObservationsExtension } from "../observations/registerObservati
 import { registerRtkExtension } from "../rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "../startup-hero/registerStartupHeroExtension.js";
 import registerTronExtension from "../tron/index.js";
-import registerUsageMeterExtension from "../usage-meter/index.js";
+import registerSlashusageExtension from "../slashusage/index.js";
 
 /**
  * Extension ids compiled into the release bundle.
  */
 export const compiledBundledExtensionIds = [
   "ai-providers",
+  "annotate",
   "cmux",
   "exit-message",
+  "feature-management",
   "fff",
   "neo-editor",
   "notify",
@@ -27,13 +31,15 @@ export const compiledBundledExtensionIds = [
   "rtk",
   "startup-hero",
   "tron",
-  "usage-meter"
+  "slashusage"
 ] as const;
 
 const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => void | Promise<void>> = {
   "ai-providers": registerAiProvidersExtension,
+  "annotate": registerAnnotateExtension,
   "cmux": registerCmuxExtension,
   "exit-message": registerExitMessageExtension,
+  "feature-management": registerCompiledFeatureManagementExtension,
   "fff": registerFffExtension,
   "neo-editor": registerNeoEditorExtension,
   "notify": registerNotifyExtension,
@@ -41,7 +47,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "rtk": registerRtkExtension,
   "startup-hero": registerStartupHeroExtension,
   "tron": registerTronExtension,
-  "usage-meter": registerUsageMeterExtension,
+  "slashusage": registerSlashusageExtension,
 };
 
 /**

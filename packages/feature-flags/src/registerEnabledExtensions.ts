@@ -1,6 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { createProfiledExtensionApi } from "@nexus/observability/startup-profile/createProfiledExtensionApi.js";
-import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent.js";
+import { createExtensionRegistrationTask } from "./createExtensionRegistrationTask.js";
 import { getEnabledExtensionFeatureFlags } from "./getEnabledExtensionFeatureFlags.js";
 import type { ExtensionFeatureFlag } from "./types.js";
 
@@ -11,12 +10,5 @@ import type { ExtensionFeatureFlag } from "./types.js";
  * @param flags Full extension registry.
  */
 export async function registerEnabledExtensions(pi: ExtensionAPI, flags: ExtensionFeatureFlag[]): Promise<void> {
-  for (const flag of getEnabledExtensionFeatureFlags(flags)) {
-    const startedAt = performance.now();
-    logStartupProfileEvent(flag.id, "register:start");
-    await flag.register(createProfiledExtensionApi(pi, flag.id));
-    logStartupProfileEvent(flag.id, "register:done", {
-      durationMs: Number((performance.now() - startedAt).toFixed(3)),
-    });
-  }
+	await Promise.all(getEnabledExtensionFeatureFlags(flags).map((flag) => createExtensionRegistrationTask(pi, flag)));
 }

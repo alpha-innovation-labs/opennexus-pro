@@ -48,10 +48,10 @@ fi
 
 mkdir -p "$MANIFEST_DIR"
 
-cat > "$MANIFEST_DIR/com.pi.annotate.json" << EOF
+cat > "$MANIFEST_DIR/com.nexus.annotate.json" << EOF
 {
-  "name": "com.pi.annotate",
-  "description": "Pi Annotate native messaging host",
+  "name": "com.nexus.annotate",
+  "description": "Nexus Annotate native messaging host",
   "path": "$HOST_PATH",
   "type": "stdio",
   "allowed_origins": [
@@ -60,5 +60,5 @@ cat > "$MANIFEST_DIR/com.pi.annotate.json" << EOF
 }
 EOF
 
-echo "Installed native host manifest to: $MANIFEST_DIR/com.pi.annotate.json"
+echo "Installed native host manifest to: $MANIFEST_DIR/com.nexus.annotate.json"
 echo "Restart Chrome for changes to take effect."

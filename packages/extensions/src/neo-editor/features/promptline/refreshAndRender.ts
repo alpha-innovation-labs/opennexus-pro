@@ -1,4 +1,4 @@
-import { refreshUsageForContext } from "@nexus/extensions/usage-meter/index.js";
+import { refreshUsageForContext } from "@nexus/extensions/slashusage/index.js";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
 import { refreshGitState } from "../../shared/git/refreshGitState.js";
 import { refreshTransportPreference } from "../../shared/transport/refreshTransportPreference.js";

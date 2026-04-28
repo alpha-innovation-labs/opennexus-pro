@@ -28,6 +28,9 @@ test("the bundled extension entrypoint follows the root json feature flags", asy
     getSessionName() {
       return "session";
     },
+    getCommands() {
+      return new Map();
+    },
     on() {},
     setThinkingLevel() {},
     registerCommand(name: string) {
@@ -42,12 +45,13 @@ test("the bundled extension entrypoint follows the root json feature flags", asy
     },
   };
 
-  assert.doesNotThrow(() => {
-    factories[0](pi as never);
-  });
+  await assert.doesNotReject(() => factories[0](pi as never));
   assert.ok(!shortcuts.includes("ctrl+i"));
   assert.ok(!shortcuts.includes("ctrl+;"));
-  assert.ok(!tools.includes("annotate"));
+  assert.ok(tools.includes("annotate"));
+  assert.ok(tools.includes("read_pending_annotations"));
+  assert.ok(tools.includes("claim_annotation"));
+  assert.ok(tools.includes("resolve_annotation"));
   assert.ok(!tools.includes("context_usage"));
   assert.ok(commands.includes("dev-modal"));
 });

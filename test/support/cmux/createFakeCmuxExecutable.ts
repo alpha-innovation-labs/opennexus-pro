@@ -22,7 +22,7 @@ export async function createFakeCmuxExecutable(): Promise<FakeCmuxExecutable> {
 		[
 			"#!/bin/sh",
 			"if [ -n \"$CMUX_TEST_LOG\" ]; then",
-			"  printf '%s\\n' \"$@\" > \"$CMUX_TEST_LOG\"",
+			"  printf '%s\\n' \"$@\" >> \"$CMUX_TEST_LOG\"",
 			"fi",
 			"exit 0",
 		].join("\n"),

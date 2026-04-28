@@ -58,7 +58,32 @@ test("runCliWithApp prints Nexus-owned top-level help for -h and skips Pi startu
 	assert.match(text, /nexus gateway stop/u);
 	assert.match(text, /nexus gateway restart/u);
 	assert.match(text, /nexus gateway status/u);
+	assert.match(text, /nexus annotation start/u);
+	assert.match(text, /nexus annotation stop/u);
+	assert.match(text, /nexus annotation restart/u);
+	assert.match(text, /nexus annotation status/u);
+	assert.match(text, /nexus annotation logs/u);
 	assert.doesNotMatch(text, /nexus list/u);
+});
+
+test("runCliWithApp prints scoped annotation help for nexus annotation -h", async () => {
+	let ranApp = false;
+	let exitCode = -1;
+	const output = await captureConsoleLog(async () => {
+		exitCode = await runCliWithApp(["annotation", "-h"], {
+			async runApp() {
+				ranApp = true;
+			},
+		});
+	});
+	const text = output.join("\n");
+
+	assert.equal(exitCode, 0);
+	assert.equal(ranApp, false);
+	assert.match(text, /Usage: nexus annotation <start\|stop\|restart\|status\|logs>/u);
+	assert.match(text, /start/u);
+	assert.match(text, /logs/u);
+	assert.doesNotMatch(text, /adapter/u);
 });
 
 test("runCliWithApp prints scoped gateway help for nexus gateway -h", async () => {

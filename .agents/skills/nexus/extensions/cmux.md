@@ -13,12 +13,14 @@
 - Declared features:
   - sync session title to cmux pane title
   - notify cmux tab when pane is done
+  - /cmux workspace shell session view
 
 ## Key files
 
 - `src/extensions/cmux/registerCmuxExtension.ts`
 - `src/extensions/cmux/notifyCmuxPaneCompletion.ts`
 - `src/extensions/cmux/syncCmuxPaneTitle.ts`
+- `src/extensions/cmux/command/registerCmuxCommand.ts`
 
 ## Immediate subareas
 

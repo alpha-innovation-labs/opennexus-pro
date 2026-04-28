@@ -44,6 +44,13 @@ test("observations mirrors the latest session title into cmux", async () => {
 				"surface-test",
 				"--title",
 				"Observed topic title",
+				"workspace-action",
+				"--action",
+				"rename",
+				"--workspace",
+				"workspace-test",
+				"--title",
+				"󰀘  Observed topic title",
 			]);
 		} finally {
 			setCmuxTitleSyncEnabled(false);

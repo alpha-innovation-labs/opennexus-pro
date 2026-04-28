@@ -1,5 +1,5 @@
 /**
- * Pi Annotate - Background Service Worker
+ * Nexus Annotate - Background Service Worker
  * 
  * Connects to native messaging host and forwards messages between
  * the native host (Pi) and content scripts.
@@ -7,6 +7,7 @@
 
 let nativePort = null;
 const requestTabs = new Map();
+const pendingHealthChecks = new Set();
 
 function getRequestId(msg) {
   return typeof msg.requestId === "number" ? msg.requestId : (typeof msg.id === "number" ? msg.id : null);
@@ -29,27 +30,87 @@ function sendToNative(msg) {
   }
 }
 
+/**
+ * Resolves every popup health check waiting for a native host response.
+ *
+ * @param {{ ok: boolean, error?: string }} response Native host health result.
+ */
+function settlePendingHealthChecks(response) {
+  for (const check of pendingHealthChecks) {
+    clearTimeout(check.timeoutId);
+    check.sendResponse(response);
+  }
+  pendingHealthChecks.clear();
+}
+
+/**
+ * Checks the existing background-owned native host connection for the popup.
+ *
+ * @param {(response: { ok: boolean, error?: string }) => void} sendResponse Chrome response callback.
+ */
+function checkNativeConnection(sendResponse) {
+  const port = nativePort || connectNative();
+  if (!port) {
+    sendResponse({ ok: false, error: "Native host not available" });
+    return;
+  }
+
+  const check = {
+    sendResponse,
+    timeoutId: setTimeout(() => {
+      if (!pendingHealthChecks.delete(check)) return;
+      sendResponse({ ok: false, error: "Timeout - native host not responding" });
+    }, 3000),
+  };
+
+  pendingHealthChecks.add(check);
+
+  try {
+    port.postMessage({ type: "PING" });
+  } catch (err) {
+    if (pendingHealthChecks.delete(check)) {
+      clearTimeout(check.timeoutId);
+      sendResponse({ ok: false, error: err?.message || "Failed to ping native host" });
+    }
+  }
+}
+
 // Send message to content script, injecting it first if needed
 async function sendToContentScript(tabId, msg) {
+  await requestContentScript(tabId, msg);
+}
+
+/**
+ * Sends a request to a tab content script, injecting it first when needed.
+ *
+ * @param {number} tabId Chrome tab id.
+ * @param {object} msg Message payload.
+ * @returns {Promise<unknown>} Content-script response.
+ */
+async function requestContentScript(tabId, msg) {
   try {
-    await chrome.tabs.sendMessage(tabId, msg);
+    const response = await chrome.tabs.sendMessage(tabId, msg);
+    if (response !== undefined || msg.type !== "GET_LAUNCHER_STATE") return response;
+    console.log("[pi-annotate] Content script is stale, injecting current version...");
   } catch (err) {
     console.log("[pi-annotate] Content script not found, injecting...");
-    try {
-      await chrome.scripting.executeScript({
-        target: { tabId },
-        files: ["content.js"],
-      });
-      await new Promise(r => setTimeout(r, 100));
-      await chrome.tabs.sendMessage(tabId, msg);
-    } catch (injectErr) {
-      console.error("[pi-annotate] Failed to inject:", injectErr.message);
-      const requestId = getRequestId(msg);
-      if (requestId) {
-        requestTabs.delete(requestId);
-        sendToNative({ type: "CANCEL", requestId, reason: `Cannot inject into tab: ${injectErr.message}` });
-      }
+  }
+
+  try {
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ["content.js"],
+    });
+    await new Promise(r => setTimeout(r, 100));
+    return await chrome.tabs.sendMessage(tabId, msg);
+  } catch (injectErr) {
+    console.error("[pi-annotate] Failed to inject:", injectErr.message);
+    const requestId = getRequestId(msg);
+    if (requestId) {
+      requestTabs.delete(requestId);
+      sendToNative({ type: "CANCEL", requestId, reason: `Cannot inject into tab: ${injectErr.message}` });
     }
+    throw injectErr;
   }
 }
 
@@ -78,25 +139,80 @@ function injectAfterLoad(tabId, msg, requestId) {
   }, 30000);
 }
 
+/**
+ * Resolves the active browser tab available for annotation UI.
+ *
+ * @returns {Promise<chrome.tabs.Tab | null>} Active tab, or null when unavailable.
+ */
+async function getActiveAnnotationTab() {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab?.id || isRestrictedUrl(tab.url)) return null;
+  return tab;
+}
+
 // Toggle annotation picker on active tab (used by popup + keyboard shortcut)
 async function togglePicker() {
   try {
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (!tab?.id || isRestrictedUrl(tab.url)) {
+    const tab = await getActiveAnnotationTab();
+    if (!tab?.id) {
       console.log("[pi-annotate] Cannot toggle picker: no valid tab");
-      return;
+      return { available: false, visible: false, expanded: false, active: false };
     }
-    await sendToContentScript(tab.id, { type: "TOGGLE_PICKER" });
+    return await requestContentScript(tab.id, { type: "TOGGLE_PICKER" });
   } catch (err) {
     console.error("[pi-annotate] Toggle picker failed:", err);
+    return { available: false, visible: false, expanded: false, active: false, error: err?.message };
+  }
+}
+
+/**
+ * Reads the current launcher state from the active tab.
+ *
+ * @returns {Promise<unknown>} Launcher state response.
+ */
+async function getLauncherState() {
+  try {
+    const tab = await getActiveAnnotationTab();
+    if (!tab?.id) return { available: false, visible: false, expanded: false, active: false };
+    return await requestContentScript(tab.id, { type: "GET_LAUNCHER_STATE" });
+  } catch (err) {
+    return { available: false, visible: false, expanded: false, active: false, error: err?.message };
+  }
+}
+
+/**
+ * Checks whether the local annotations daemon is reachable.
+ *
+ * @returns {Promise<{ ok: boolean, error?: string }>} Daemon health result.
+ */
+async function checkAnnotationDaemonStatus() {
+  try {
+    const response = await fetch("http://127.0.0.1:47321/health");
+    return response.ok ? { ok: true } : { ok: false, error: `Daemon returned ${response.status}` };
+  } catch (err) {
+    return { ok: false, error: err?.message || "Annotation daemon unreachable" };
   }
 }
 
 function connectNative() {
+  if (nativePort) return nativePort;
+
   console.log("[pi-annotate] Connecting to native host...");
-  nativePort = chrome.runtime.connectNative("com.pi.annotate");
+  try {
+    nativePort = chrome.runtime.connectNative("com.nexus.annotate");
+  } catch (err) {
+    const error = err?.message || "Failed to connect to native host";
+    console.error("[pi-annotate] Native host connection failed:", error);
+    settlePendingHealthChecks({ ok: false, error });
+    return null;
+  }
   
   nativePort.onMessage.addListener((msg) => {
+    if (msg?.type === "PONG") {
+      settlePendingHealthChecks({ ok: true });
+      return;
+    }
+
     console.log("[pi-annotate] From native host:", msg);
     
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -155,10 +271,14 @@ function connectNative() {
   });
   
   nativePort.onDisconnect.addListener(() => {
+    const error = chrome.runtime.lastError?.message || "Native host disconnected";
     console.log("[pi-annotate] Native host disconnected");
+    settlePendingHealthChecks({ ok: false, error });
     nativePort = null;
     setTimeout(connectNative, 2000);
   });
+
+  return nativePort;
 }
 
 // Handle messages from content script and popup
@@ -166,8 +286,23 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   console.log("[pi-annotate] Message:", msg.type);
   
   if (msg.type === "TOGGLE_PICKER") {
-    togglePicker();
-    return;
+    togglePicker().then(sendResponse);
+    return true;
+  }
+
+  if (msg.type === "GET_LAUNCHER_STATE") {
+    getLauncherState().then(sendResponse);
+    return true;
+  }
+
+  if (msg.type === "CHECK_ANNOTATION_DAEMON") {
+    checkAnnotationDaemonStatus().then(sendResponse);
+    return true;
+  }
+
+  if (msg.type === "CHECK_NATIVE_CONNECTION") {
+    checkNativeConnection(sendResponse);
+    return true;
   }
   
   const requestId = getRequestId(msg);

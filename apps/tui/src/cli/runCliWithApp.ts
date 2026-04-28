@@ -1,8 +1,12 @@
 import { ensureAgentDirEnv } from "@nexus/runtime/config/ensureAgentDirEnv.js";
+import { runAnnotationsDaemon } from "@nexus/annotations-daemon-core/runner/runAnnotationsDaemon.js";
 import { runGatewayDaemon } from "@nexus/gateway-core/runner/runGatewayDaemon.js";
+import { isAnnotationCommand } from "./annotation/isAnnotationCommand.js";
+import { runAnnotationCommand } from "./annotation/runAnnotationCommand.js";
 import { isGatewayCommand } from "./gateway/isGatewayCommand.js";
 import { isGatewayRunnerCommand } from "./gateway/isGatewayRunnerCommand.js";
 import { runGatewayCommand } from "./gateway/runGatewayCommand.js";
+import { isAnnotationsDaemonRunnerCommand } from "./annotations-daemon/isAnnotationsDaemonRunnerCommand.js";
 import { hasHelpFlag } from "./help/hasHelpFlag.js";
 import { printNexusUsage } from "./help/printNexusUsage.js";
 import { hasSessionsFlag } from "./sessions/hasSessionsFlag.js";
@@ -33,8 +37,17 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
     return 0;
   }
 
+  if (isAnnotationsDaemonRunnerCommand(argv)) {
+    await runAnnotationsDaemon();
+    return 0;
+  }
+
   if (isGatewayCommand(argv)) {
     return runGatewayCommand(argv);
+  }
+
+  if (isAnnotationCommand(argv)) {
+    return runAnnotationCommand(argv);
   }
 
   if (hasHelpFlag(argv)) {

@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
 import { registerCmuxExtension } from "../../../packages/extensions/src/cmux/registerCmuxExtension.js";
 import { getCmuxTitleSyncEnabled } from "../../../packages/extensions/src/cmux/state/getCmuxTitleSyncEnabled.js";
@@ -15,13 +17,18 @@ test("cmux enables pane-done notifications during the session and disables them 
 		const previousCmuxLog = process.env.CMUX_TEST_LOG;
 		const previousWorkspaceId = process.env.CMUX_WORKSPACE_ID;
 		const previousSurfaceId = process.env.CMUX_SURFACE_ID;
+		const previousRegistry = process.env.NEXUS_CMUX_SESSION_REGISTRY;
+		const registryDirectory = await mkdtemp(join(tmpdir(), "nexus-cmux-registry-"));
+		const registryPath = join(registryDirectory, "registry.json");
+		let sessionStartHandler: ((event: unknown, ctx: { sessionManager: { getSessionId(): string; getSessionFile(): string } }) => Promise<void> | void) | undefined;
 		let agentEndHandler: (() => Promise<void>) | undefined;
-		let shutdownHandler: (() => void) | undefined;
+		let shutdownHandler: (() => Promise<void> | void) | undefined;
 
 		process.env.NEXUS_CMUX_BIN = fakeCmux.executablePath;
 		process.env.CMUX_TEST_LOG = fakeCmux.logPath;
 		process.env.CMUX_WORKSPACE_ID = "workspace-test";
 		process.env.CMUX_SURFACE_ID = "surface-test";
+		process.env.NEXUS_CMUX_SESSION_REGISTRY = registryPath;
 		setCmuxTitleSyncEnabled(false);
 
 		try {
@@ -30,16 +37,30 @@ test("cmux enables pane-done notifications during the session and disables them 
 					getSessionName() {
 						return "Observed topic title";
 					},
-					on(eventName: string, handler: () => Promise<void> | void) {
+					on(eventName: string, handler: (...args: never[]) => Promise<void> | void) {
+						if (eventName === "session_start") sessionStartHandler = handler as never;
 						if (eventName === "agent_end") agentEndHandler = async () => await handler();
 						if (eventName === "session_shutdown") shutdownHandler = handler;
 					},
+					registerCommand() {},
+					registerMessageRenderer() {},
 				} as never,
 			);
 
 			assert.equal(getCmuxTitleSyncEnabled(), true);
+			assert.ok(sessionStartHandler);
 			assert.ok(agentEndHandler);
 			assert.ok(shutdownHandler);
+
+			await sessionStartHandler?.({}, {
+				sessionManager: {
+					getSessionId: () => "session-test-id",
+					getSessionFile: () => "/tmp/session-test.jsonl",
+				},
+			});
+			const registryOutput = await readFile(registryPath, "utf8");
+			assert.match(registryOutput, /session-test-id/);
+			assert.match(registryOutput, /surface-test/);
 
 			await agentEndHandler?.();
 			const cmuxArgs = (await readFile(fakeCmux.logPath, "utf8")).trim().split("\n");
@@ -55,8 +76,10 @@ test("cmux enables pane-done notifications during the session and disables them 
 				"surface-test",
 			]);
 
-			shutdownHandler?.();
+			await shutdownHandler?.();
 			assert.equal(getCmuxTitleSyncEnabled(), false);
+			const clearedRegistryOutput = await readFile(registryPath, "utf8");
+			assert.doesNotMatch(clearedRegistryOutput, /session-test-id/);
 		} finally {
 			setCmuxTitleSyncEnabled(false);
 			if (previousCmuxBin) process.env.NEXUS_CMUX_BIN = previousCmuxBin;
@@ -67,7 +90,10 @@ test("cmux enables pane-done notifications during the session and disables them 
 			else delete process.env.CMUX_WORKSPACE_ID;
 			if (previousSurfaceId) process.env.CMUX_SURFACE_ID = previousSurfaceId;
 			else delete process.env.CMUX_SURFACE_ID;
+			if (previousRegistry) process.env.NEXUS_CMUX_SESSION_REGISTRY = previousRegistry;
+			else delete process.env.NEXUS_CMUX_SESSION_REGISTRY;
 			await removeFakeCmuxExecutable(fakeCmux.directoryPath);
+			await rm(registryDirectory, { recursive: true, force: true });
 		}
 	});
 });

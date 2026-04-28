@@ -25,7 +25,7 @@ The production compiled extension set is defined by `src/feature-flags/generated
 - FFF integration: FFF-backed read override, grep override, and `@` file autocomplete.
 - Kanban modal: `/extension`, two-pane task board modal, temporary in-loop and completed task data.
 - Markdown line editor: `/editor`, `demo.md` Markdown line modal, hidden persistent per-line chats, live reload with diff acceptance, Tron-styled right-panel mini chat.
-- Neo editor: release flag is enabled; deeper repo docs describe custom promptline, usage meter, `@` autocomplete, editor trigger submit, and macOS `ctrl+v` image paste fallback. Sources: compiled flags and `.agents/skills/nexus/extensions/neo-editor.md`.
+- Neo editor: release flag is enabled; deeper repo docs describe custom promptline, slashusage, `@` autocomplete, editor trigger submit, and macOS `ctrl+v` image paste fallback. Sources: compiled flags and `.agents/skills/nexus/extensions/neo-editor.md`.
 - Notifications: desktop notification on agent completion, default macOS submarine sound, `NEXUS_NOTIFY_SOUND_CMD` override.
 - Observations: observation tracking, status widget, `/observations` command.
 - RTK: bash rewrite and RTK-native read/find/ls/grep tools with fallback when `rtk` is unavailable. Source: `.agents/skills/nexus/extensions/rtk.md`.
@@ -155,7 +155,7 @@ Proposed promise: Nexus helps terminal-native developers run, steer, inspect, an
 - Binary-first Nexus distribution with release tests preventing app source exposure.
 - Bundled extension suite controlled by feature flags rather than user-installed extension sprawl.
 - Sub-agent orchestration with status widgets, background result lookup, and steering.
-- Developer UX improvements: Neo promptline, usage meter, file autocomplete, compact tool rendering, tool-call browser, and persistent terminal modal.
+- Developer UX improvements: Neo promptline, slashusage, file autocomplete, compact tool rendering, tool-call browser, and persistent terminal modal.
 - Web-to-terminal bridge through visual Chrome annotation.
 - External adapter foundation with Telegram active and Discord planned.
 
@@ -265,7 +265,7 @@ This is a proposed business model, not an existing product fact.
 ### Demo path
 
 1. Start with a real repo.
-2. Show Neo promptline, usage meter, slash command discovery, and `@` autocomplete.
+2. Show Neo promptline, slashusage, slash command discovery, and `@` autocomplete.
 3. Launch a task that uses tools.
 4. Show Tron compact tool lines and `/toolcalls`.
 5. Open `/term` to inspect or run commands without leaving Nexus.

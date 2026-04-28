@@ -1,5 +1,5 @@
 /**
- * Disables dev-only entries for compiled production feature flags.
+ * Disables source-only development entries for compiled production feature flags.
  *
  * @param {Record<string, any>} config Parsed root feature-flag config.
  * @returns {Record<string, any>} Production-safe feature-flag config.
@@ -12,7 +12,7 @@ export function createCompiledFeatureFlagsConfig(config) {
         id,
         {
           ...value,
-          enabled: value.devOnly ? false : value.enabled,
+          enabled: id === "dev" ? false : value.enabled,
         },
       ]),
     ),

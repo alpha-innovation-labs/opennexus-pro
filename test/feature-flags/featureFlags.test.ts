@@ -47,7 +47,7 @@ test("source runtime feature flags come from the root json config", async () => 
   assert.match(report, /rtk-native read\/find\/ls\/grep tools/);
   assert.match(report, /desktop notification on agent completion/);
   assert.match(report, /print session title on app exit/);
-  assert.match(report, /show N logo on fresh startup/);
+  assert.match(report, /show N logo, version, tips, and startup status/);
   assert.match(report, /tool calls browser/);
   assert.match(report, /\/usage history graph modal/);
   assert.match(report, /workspace top bar/);

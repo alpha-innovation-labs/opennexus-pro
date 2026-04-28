@@ -52,6 +52,8 @@ export interface ParentContext {
 export interface ElementSelection {
   /** CSS selector that uniquely identifies this element */
   selector: string;
+  /** Compact DOM path for human-readable agent navigation */
+  location?: string;
   /** HTML tag name (lowercase) */
   tag: string;
   /** Element ID if present */
