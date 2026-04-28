@@ -12,6 +12,7 @@ import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
  * @param version Nexus package version.
  * @param status Startup status summary.
  * @param width Maximum visible content width.
+ * @param tip Startup tip selected for this session.
  * @returns Styled startup hero lines.
  */
 export function buildStartupHeroLines(
@@ -19,6 +20,7 @@ export function buildStartupHeroLines(
 	version: string,
 	status: StartupHeroStatus,
 	width: number,
+	tip: string,
 ): string[] {
 	const statusLine = theme.fg("text", truncateToWidth(formatStartupHeroStatus(status), width, "…"));
 	return [
@@ -26,7 +28,7 @@ export function buildStartupHeroLines(
 		"",
 		buildStartupHeroVersionLine(theme, version, width),
 		"",
-		...buildStartupHeroTipLines(theme, width),
+		...buildStartupHeroTipLines(theme, width, tip),
 		"",
 		statusLine,
 	];

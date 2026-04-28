@@ -7,7 +7,6 @@ import type { StartupHeroStatus } from "./types.js";
  * @returns Human-readable status line.
  */
 export function formatStartupHeroStatus(status: StartupHeroStatus): string {
-	const skillLabel = status.activeSkillCount === 1 ? "skill" : "skills";
-	const agentsLabel = status.agentsMdLoaded ? "AGENTS.md active" : "AGENTS.md inactive";
-	return `${status.activeSkillCount} active ${skillLabel} • ${agentsLabel}`;
+	const agentsIcon = status.agentsMdLoaded ? "✓" : "✗";
+	return `Skills (${status.activeSkillCount}) ✓  AGENTS.md ${agentsIcon}`;
 }

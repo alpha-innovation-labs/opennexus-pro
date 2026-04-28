@@ -1,16 +1,14 @@
 import { truncateToWidth } from "@mariozechner/pi-tui";
-import { startupHeroTips } from "./startupHeroTips.js";
 import type { StartupHeroTheme } from "./types.js";
 
 /**
- * Builds the startup hero TIP section.
+ * Builds the startup hero TIP line.
  *
  * @param theme UI theme formatter.
  * @param width Maximum visible width.
- * @returns Styled TIP section lines.
+ * @param tip Startup tip selected for this session.
+ * @returns Styled single-line TIP section.
  */
-export function buildStartupHeroTipLines(theme: StartupHeroTheme, width: number): string[] {
-	const title = theme.fg("accent", theme.bold ? theme.bold("TIP") : "TIP");
-	const tips = startupHeroTips.map((tip) => theme.fg("text", truncateToWidth(`• ${tip}`, width, "…")));
-	return [title, ...tips];
+export function buildStartupHeroTipLines(theme: StartupHeroTheme, width: number, tip: string): string[] {
+	return [theme.fg("text", truncateToWidth(`TIP ${tip}`, width, "…"))];
 }

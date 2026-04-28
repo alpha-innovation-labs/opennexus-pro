@@ -95,8 +95,8 @@ test("startup hero shows above the editor on fresh startup and clears on the fir
 		const rendered = widget.render(80).join("\n");
 		assert.match(rendered, /███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗/u);
 		assert.match(rendered, /Nexus v/u);
-		assert.match(rendered, /TIP/u);
-		assert.match(rendered, /2 active skills • AGENTS\.md active/u);
+		assert.match(rendered, /TIP .+/u);
+		assert.match(rendered, /Skills \(2\) ✓  AGENTS\.md ✓/u);
 		assert.deepEqual(calls[1], { key: startupHeroWidgetKey, value: undefined, placement: "aboveEditor" });
 	} finally {
 		process.argv = originalArgv;

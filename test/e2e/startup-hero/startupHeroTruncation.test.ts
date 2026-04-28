@@ -22,10 +22,17 @@ test("startup hero keeps the Nexus wordmark readable at narrow terminal widths",
 
 test("startup hero is hidden when the terminal is narrower than the wordmark", () => {
 	const terminalColumns = 39;
-	const lines = buildCenteredStartupHeroLines(createTestTheme(), 30, terminalColumns, "1.2.3", {
-		activeSkillCount: 3,
-		agentsMdLoaded: true,
-	});
+	const lines = buildCenteredStartupHeroLines(
+		createTestTheme(),
+		30,
+		terminalColumns,
+		"1.2.3",
+		{
+			activeSkillCount: 3,
+			agentsMdLoaded: true,
+		},
+		"Press Ctrl+V to paste clipboard images.",
+	);
 
 	assert.deepEqual(lines, []);
 	assert.ok(lines.every((line) => visibleWidth(line) <= terminalColumns));

@@ -2,6 +2,7 @@ import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { createStartupHeroWidget } from "./createStartupHeroWidget.js";
 import { getStartupHeroStatus } from "./getStartupHeroStatus.js";
 import { getStartupHeroVersion } from "./getStartupHeroVersion.js";
+import { pickStartupHeroTip } from "./pickStartupHeroTip.js";
 import { startupHeroWidgetKey } from "./startupHeroWidgetKey.js";
 
 /**
@@ -12,9 +13,10 @@ import { startupHeroWidgetKey } from "./startupHeroWidgetKey.js";
 export function showStartupHero(ctx: ExtensionContext): void {
 	const version = getStartupHeroVersion();
 	const status = getStartupHeroStatus(ctx.getSystemPrompt());
+	const tip = pickStartupHeroTip();
 	ctx.ui.setWidget(
 		startupHeroWidgetKey,
-		(tui, theme) => createStartupHeroWidget(tui, theme, version, status),
+		(tui, theme) => createStartupHeroWidget(tui, theme, version, status, tip),
 		{ placement: "aboveEditor" },
 	);
 }

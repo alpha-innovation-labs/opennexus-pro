@@ -9,10 +9,17 @@ test("startup hero renders version, tips, skills, and AGENTS.md status in the te
 	const viewport = await renderComponentInVirtualTerminal(
 		() =>
 			new LinesComponent(() =>
-				buildCenteredStartupHeroLines(createTestTheme(), 32, 72, "1.2.3", {
-					activeSkillCount: 4,
-					agentsMdLoaded: true,
-				}),
+				buildCenteredStartupHeroLines(
+					createTestTheme(),
+					32,
+					72,
+					"1.2.3",
+					{
+						activeSkillCount: 4,
+						agentsMdLoaded: true,
+					},
+					"Press Ctrl+V to paste clipboard images.",
+				),
 			),
 		72,
 		32,
@@ -21,7 +28,7 @@ test("startup hero renders version, tips, skills, and AGENTS.md status in the te
 
 	assert.match(output, /Nexus v1\.2\.3/u);
 	assert.match(output, /TIP/u);
-	assert.match(output, /Use @ to attach files/u);
-	assert.match(output, /Press Ctrl\+V to paste clipboard images\./u);
-	assert.match(output, /4 active skills • AGENTS\.md active/u);
+	assert.doesNotMatch(output, /Use @ to attach files/u);
+	assert.match(output, /TIP Press Ctrl\+V to paste clipboard images\./u);
+	assert.match(output, /Skills \(4\) ✓  AGENTS\.md ✓/u);
 });
