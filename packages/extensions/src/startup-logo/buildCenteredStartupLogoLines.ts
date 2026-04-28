@@ -1,3 +1,4 @@
+import { visibleWidth } from "@mariozechner/pi-tui";
 import { buildStartupLogoLines } from "./buildStartupLogoLines.js";
 import { calculateStartupLogoTopPadding } from "./calculateStartupLogoTopPadding.js";
 import { centerStartupLogoLines } from "./centerStartupLogoLines.js";
@@ -17,7 +18,11 @@ export function buildCenteredStartupLogoLines(
 	terminalRows: number,
 	terminalColumns: number,
 ): string[] {
-	const logoLines = centerStartupLogoLines(buildStartupLogoLines(theme), terminalColumns);
+	const uncenteredLogoLines = buildStartupLogoLines(theme);
+	const logoWidth = Math.max(0, ...uncenteredLogoLines.map((line) => visibleWidth(line)));
+	if (logoWidth > terminalColumns) return [];
+
+	const logoLines = centerStartupLogoLines(uncenteredLogoLines, terminalColumns);
 	const bottomPaddingLines = Array.from({ length: STARTUP_LOGO_BOTTOM_PADDING_LINES }, () => "");
 	const topPaddingLineCount = calculateStartupLogoTopPadding(terminalRows, logoLines.length + bottomPaddingLines.length);
 	return [...Array.from({ length: topPaddingLineCount }, () => ""), ...logoLines, ...bottomPaddingLines];
