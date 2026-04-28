@@ -1,6 +1,7 @@
 import { Key, matchesKey, type Component } from "@mariozechner/pi-tui";
 import { centerModalLine } from "./centerModalLine.js";
 import { computeModalWidth } from "./computeModalWidth.js";
+import { renderFooterRows } from "./renderFooterRows.js";
 import { renderFullWidthRows } from "./renderFullWidthRows.js";
 import { renderModalBorder } from "./renderModalBorder.js";
 import { renderModalPanes } from "./renderModalPanes.js";
@@ -80,7 +81,7 @@ export class SharedModal implements Component {
 
     if (this.footerLines.length > 0) {
       lines.push(renderModalBorder(this.theme, "├", "─", "┤", innerWidth));
-      lines.push(...renderFullWidthRows(this.theme, this.footerLines, innerWidth));
+      lines.push(...renderFooterRows(this.theme, this.footerLines, innerWidth));
     }
 
     lines.push(renderModalBorder(this.theme, "└", "─", "┘", innerWidth));

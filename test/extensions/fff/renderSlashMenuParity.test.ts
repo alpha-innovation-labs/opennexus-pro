@@ -1,4 +1,7 @@
 import assert from "node:assert/strict";
+import { mkdtemp, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
 import { SlashMenuModal } from "../../../packages/extensions/src/neo-editor/features/menu/SlashMenuModal.js";
 import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../packages/extensions/src/neo-editor/features/menu/registerSlashCommand.js";
@@ -81,21 +84,40 @@ test("slash menu renders grouped top-level rows", async () => {
   assert.match(output, /✦ aaa-extension/);
 });
 
-test("slash menu opens separate prompt and skill command menus", async () => {
+test("slash menu opens custom command and skill submenus", async () => {
+  const sourceDir = await mkdtemp(join(tmpdir(), "nexus-menu-resource-"));
+  const promptPath = join(sourceDir, "prompt.md");
+  const skillPath = join(sourceDir, "SKILL.md");
+  await writeFile(promptPath, "# Prompt Review\n\nFull prompt markdown body from file.", "utf8");
+  await writeFile(skillPath, "# Debug Skill\n\nFull skill markdown body from file.", "utf8");
   const commands = () => [
-    { name: "prompt:review", description: "Review prompt", source: "prompt", sourceInfo: { type: "project", path: "prompt.md" } },
-    { name: "skill:debug", description: "Debug skill", source: "skill", sourceInfo: { type: "project", path: "SKILL.md" } },
+    { name: "prompt:review", description: "Review prompt description", source: "prompt", sourceInfo: { scope: "project", source: "project", origin: "top-level", path: promptPath } },
+    { name: "skill:debug", description: "Debug skill description", source: "skill", sourceInfo: { scope: "project", source: "project", origin: "top-level", path: skillPath } },
   ] as never;
   let submitted = "";
   const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, (value) => { submitted = value; }, commands);
 
-  modal.setQuery("prompts");
+  modal.setQuery("custom");
   await modal.refresh();
   modal.handleInput("\r");
   await Promise.resolve();
   let output = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
-  assert.match(output, /Prompts/u);
-  assert.match(output, /> prompt:review/u);
+  assert.match(output, /Custom Commands/u);
+  assert.match(output, /● All \[1\].*○ Global \[2\].*○ Local \[3\]/u);
+  assert.doesNotMatch(output, /Details/u);
+  assert.match(output, /›  prompt:review/u);
+  assert.match(output, /\s1 ┊ Prompt Review/u);
+  assert.match(output, /Full prompt markdown body from file/u);
+  assert.match(output, /List\s+· Tab details/u);
+  assert.match(output, /─{10,}/u);
+  assert.doesNotMatch(output, /Review prompt description/u);
+  modal.handleInput("\t");
+  modal.handleInput("j");
+  output = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
+  assert.match(output, /Detail\s+· Tab list · j\/k scroll · Ctrl\+D\/Ctrl\+U page/u);
+  assert.doesNotMatch(output, /List · Tab details · j\/k/u);
+  assert.match(output, /Search > \/\s/u);
+  modal.handleInput("\t");
   modal.handleInput("\r");
   assert.equal(submitted, "/prompt:review");
 
@@ -103,13 +125,57 @@ test("slash menu opens separate prompt and skill command menus", async () => {
   const skillsModal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, (value) => { submitted = value; }, commands);
   skillsModal.setQuery("skills");
   await skillsModal.refresh();
+  let topOutput = (await renderComponentInVirtualTerminal(() => skillsModal, 120, 30)).join("\n");
+  assert.match(topOutput, /› skills/u);
+  assert.doesNotMatch(topOutput, /skill:debug/u);
   skillsModal.handleInput("\r");
   await Promise.resolve();
   output = (await renderComponentInVirtualTerminal(() => skillsModal, 120, 30)).join("\n");
   assert.match(output, /Skills/u);
-  assert.match(output, /> skill:debug/u);
+  assert.match(output, /● All \[1\].*○ Global \[2\].*○ Local \[3\]/u);
+  assert.doesNotMatch(output, /Details/u);
+  assert.match(output, /›  skill:debug/u);
+  assert.match(output, /\s1 ┊ Debug Skill/u);
+  assert.match(output, /Full skill markdown body from file/u);
+  assert.doesNotMatch(output, /Debug skill description/u);
   skillsModal.handleInput("\r");
   assert.equal(submitted, "/skill:debug");
+});
+
+test("resource command submenus filter local and global scopes with number keys", async () => {
+  const sourceDir = await mkdtemp(join(tmpdir(), "nexus-menu-scope-"));
+  const localPrompt = join(sourceDir, "local.md");
+  const globalPrompt = join(sourceDir, "global.md");
+  await writeFile(localPrompt, "# Local Prompt", "utf8");
+  await writeFile(globalPrompt, "# Global Prompt", "utf8");
+  const commands = () => [
+    { name: "prompt:local", description: "Local", source: "prompt", sourceInfo: { scope: "project", source: "project", origin: "top-level", path: localPrompt } },
+    { name: "prompt:global", description: "Global", source: "prompt", sourceInfo: { scope: "user", source: "user", origin: "top-level", path: globalPrompt } },
+  ] as never;
+  const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, () => undefined, commands);
+
+  modal.setQuery("custom");
+  await modal.refresh();
+  modal.handleInput("\r");
+  await Promise.resolve();
+  let output = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
+  assert.match(output, /● All \[1\]/u);
+  assert.match(output, /prompt:local/u);
+  assert.match(output, /prompt:global/u);
+
+  modal.handleInput("2");
+  await Promise.resolve();
+  output = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
+  assert.match(output, /● Global \[2\]/u);
+  assert.match(output, / prompt:global/u);
+  assert.doesNotMatch(output, /prompt:local/u);
+
+  modal.handleInput("3");
+  await Promise.resolve();
+  output = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
+  assert.match(output, /● Local \[3\]/u);
+  assert.match(output, / prompt:local/u);
+  assert.doesNotMatch(output, /prompt:global/u);
 });
 
 test("model menu renders provider groups without preview", async () => {

@@ -19,7 +19,7 @@ test("createTopLevelItems groups commands and sorts labels inside each group", (
   const chatItems = items.filter((item) => item.groupLabel === "Chat").map((item) => item.value);
   const authItems = items.filter((item) => item.groupLabel === "Auth").map((item) => item.value);
 
-  assert.deepEqual(authItems, ["login", "logout", "model"]);
+  assert.deepEqual(authItems, ["login", "logout", "model", "thinking"]);
   assert.deepEqual(chatItems, [...chatItems].sort((left, right) => left.localeCompare(right, undefined, { sensitivity: "base" })));
   assert.equal(items.find((item) => item.value === "settings")?.label, "settings");
   assert.equal(items.some((item) => item.value === "scoped-models"), false);
@@ -39,12 +39,15 @@ test("createTopLevelItems uses extension-declared menu groups", () => {
   assert.ok(extensionIndex > -1 && generalIndex > extensionIndex);
 });
 
-test("createTopLevelItems adds separate prompt and skill menus when available", () => {
+test("createTopLevelItems adds custom command and skill submenus when available", () => {
   const items = createTopLevelItems([
     { name: "prompt:review", description: "Review", source: "prompt" },
     { name: "skill:debug", description: "Debug", source: "skill" },
   ]);
 
+  assert.equal(items.find((item) => item.value === "prompts")?.label, "custom commands");
   assert.equal(items.find((item) => item.value === "prompts")?.groupLabel, "Resources");
+  assert.equal(items.find((item) => item.value === "skills")?.label, "skills");
   assert.equal(items.find((item) => item.value === "skills")?.groupLabel, "Resources");
+  assert.equal(items.some((item) => item.value === "skill:debug"), false);
 });

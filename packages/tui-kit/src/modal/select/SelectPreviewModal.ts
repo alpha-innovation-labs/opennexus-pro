@@ -4,6 +4,7 @@ import { computeModalWidth } from "../computeModalWidth.js";
 import { computePaneWidths as computeSharedPaneWidths } from "../computePaneWidths.js";
 import { createRightPaneLines } from "./createRightPaneLines.js";
 import { createSelectList } from "./createSelectList.js";
+import { SHARED_MODAL_FOOTER_BORDER } from "../SHARED_MODAL_FOOTER_BORDER.js";
 import { createTwoPaneFooterLine } from "./createTwoPaneFooterLine.js";
 import { createTwoPaneHeaderLine } from "./createTwoPaneHeaderLine.js";
 import { createTwoPaneShells } from "./createTwoPaneShells.js";
@@ -22,6 +23,7 @@ export class SelectPreviewModal extends SharedModal {
   private items: AutocompleteItem[] = [];
   private leftTitle: string;
   private listHeight = 16;
+  private showHeaderFocusMarkers = true;
   private onSelectionChange?: (item: AutocompleteItem | null) => void;
   private pendingRightGotoStart = false;
   private readonly itemMaxLines?: SelectPreviewModalOptions["itemMaxLines"];
@@ -31,6 +33,7 @@ export class SelectPreviewModal extends SharedModal {
   private modalMaxWidthRatio: number;
   private modalMinWidth: number;
   private readonly leftPaneRatio: number;
+  private footerHintLines: string[] = [];
   private rightLines: string[] = [];
   private rightScrollOffset = 0;
   private rightTitle: string;
@@ -82,8 +85,14 @@ export class SelectPreviewModal extends SharedModal {
   /** Updates visible pane titles. */
   setTitles(leftTitle: string, rightTitle: string): void { this.leftTitle = leftTitle; this.rightTitle = rightTitle; }
 
+  /** Updates whether the header shows focus markers. */
+  setHeaderFocusMarkers(visible: boolean): void { this.showHeaderFocusMarkers = visible; }
+
   /** Updates the footer prompt line. */
   setBottom(title: string | undefined, value: string, prefix = this.bottomPrefix): void { this.bottomTitle = title; this.bottomValue = value; this.bottomPrefix = prefix; }
+
+  /** Updates helper footer lines rendered above the prompt line. */
+  setFooterHintLines(lines: string[]): void { this.footerHintLines = lines; }
 
   /** Updates visible pane set. */
   setPaneVisibility(showLeftPane: boolean, showRightPane: boolean): void { this.showLeftPane = showLeftPane; this.showRightPane = showRightPane; }
@@ -141,7 +150,8 @@ export class SelectPreviewModal extends SharedModal {
     const computedWidth = computeModalWidth(width, this.modalMinWidth, this.modalMaxWidthRatio);
     const modalWidth = this.modalMaxWidth === undefined ? computedWidth : Math.min(computedWidth, this.modalMaxWidth, width);
     const innerWidth = Math.max(1, modalWidth - 2);
-    const bodyHeight = getTwoPaneBodyHeight();
+    const footerHintRowCount = this.footerHintLines.length > 0 ? this.footerHintLines.length + 1 : 0;
+    const bodyHeight = Math.max(1, getTwoPaneBodyHeight() - footerHintRowCount);
     const listHeight = this.bottomTitle ? bodyHeight - 2 : bodyHeight;
     this.resizeList(listHeight);
     const shells = createTwoPaneShells({ activePane: this.activePane, innerWidth, leftPaneMaxWidth: this.leftPaneMaxWidth, leftPaneRatio: this.leftPaneRatio, showLeftPane: this.showLeftPane, showRightPane: this.showRightPane });
@@ -150,8 +160,9 @@ export class SelectPreviewModal extends SharedModal {
     this.rightScrollOffset = right.rightScrollOffset;
     const leftLines = this.selectList.render(widths[0] ?? innerWidth).slice(0, listHeight);
     while (leftLines.length < listHeight) leftLines.push("");
-    this.headerLines = [createTwoPaneHeaderLine({ activePane: this.activePane, leftTitle: this.leftTitle, rightTitle: this.rightTitle, showLeftPane: this.showLeftPane, showRightPane: this.showRightPane, uiTheme: this.uiTheme })];
-    this.footerLines = createTwoPaneFooterLine({ bottomPrefix: this.bottomPrefix, bottomTitle: this.bottomTitle, bottomValue: this.bottomValue });
+    this.headerLines = [createTwoPaneHeaderLine({ activePane: this.activePane, leftTitle: this.leftTitle, rightTitle: this.rightTitle, showFocusMarkers: this.showHeaderFocusMarkers, leftWidth: widths[0], rightWidth: widths.at(-1), showLeftPane: this.showLeftPane, showRightPane: this.showRightPane, uiTheme: this.uiTheme })];
+    const footerSeparator = this.footerHintLines.length > 0 ? [SHARED_MODAL_FOOTER_BORDER] : [];
+    this.footerLines = [...this.footerHintLines, ...footerSeparator, ...createTwoPaneFooterLine({ bottomPrefix: this.bottomPrefix, bottomTitle: this.bottomTitle, bottomValue: this.bottomValue })];
     this.panes = [...(this.showLeftPane ? [{ ...shells[0]!, lines: leftLines }] : []), ...(this.showRightPane ? [{ ...shells[shells.length - 1]!, lines: right.lines }] : [])];
   }
 

@@ -1,3 +1,4 @@
+import { getResourceCommandScope } from "./getResourceCommandScope.js";
 import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types.js";
 
 /**
@@ -18,7 +19,9 @@ export function createSourceCommandLeaves(
       kind: "command",
       label: command.name,
       description: command.description ?? "No description",
-      groupLabel: source === "prompt" ? "Prompts" : "Skills",
+      groupLabel: source === "prompt" ? "Custom Commands" : "Skills",
+      sourcePath: command.sourceInfo?.path,
+      sourceScope: getResourceCommandScope(command) === "local" ? "project" : getResourceCommandScope(command) === "global" ? "user" : command.sourceInfo?.scope,
       value: command.name,
     }));
 }

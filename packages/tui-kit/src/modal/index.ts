@@ -1,3 +1,4 @@
+export { SHARED_MODAL_FOOTER_BORDER } from "./SHARED_MODAL_FOOTER_BORDER.js";
 export { SharedModal } from "./SharedModal.js";
 export { SelectPreviewModal } from "./select/SelectPreviewModal.js";
 export { computeTwoPaneWidths } from "./select/computeTwoPaneWidths.js";

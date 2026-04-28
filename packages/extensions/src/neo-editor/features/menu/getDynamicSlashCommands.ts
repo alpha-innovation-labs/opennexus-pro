@@ -12,5 +12,6 @@ export function getDynamicSlashCommands(getCommands: ExtensionAPI["getCommands"]
     name: command.name,
     description: command.description,
     source: command.source,
+    sourceInfo: command.sourceInfo,
   }));
 }

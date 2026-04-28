@@ -23,11 +23,13 @@ export type TwoPaneRightInputResult = {
  */
 export function handleTwoPaneRightInput(state: TwoPaneRightInputState): TwoPaneRightInputResult {
   if (matchesKey(state.data, Key.ctrl("c"))) return { ...state, activePane: "right", close: true };
-  if (matchesKey(state.data, Key.escape)) return { ...state, activePane: "left", close: false, pendingRightGotoStart: false };
+  if (matchesKey(state.data, Key.escape) || matchesKey(state.data, Key.tab)) return { ...state, activePane: "left", close: false, pendingRightGotoStart: false };
   if (state.data === "G") return { ...state, activePane: "right", close: false, pendingRightGotoStart: false, rightScrollOffset: maxOffset(state.rightLinesLength) };
   if (state.data === "g") return handleGotoStart(state);
   if (state.data === "j" || matchesKey(state.data, Key.down) || matchesKey(state.data, Key.ctrl("n"))) return scrollBy(state, 1);
   if (state.data === "k" || matchesKey(state.data, Key.up) || matchesKey(state.data, Key.ctrl("p"))) return scrollBy(state, -1);
+  if (matchesKey(state.data, Key.ctrl("d"))) return scrollBy(state, Math.max(1, Math.floor(getTwoPaneBodyHeight() / 2)));
+  if (matchesKey(state.data, Key.ctrl("u"))) return scrollBy(state, -Math.max(1, Math.floor(getTwoPaneBodyHeight() / 2)));
   return { ...state, activePane: "right", close: false, pendingRightGotoStart: false };
 }
 

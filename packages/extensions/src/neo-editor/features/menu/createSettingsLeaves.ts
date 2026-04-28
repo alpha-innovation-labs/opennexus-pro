@@ -1,6 +1,6 @@
 import { SettingsManager } from "../../../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js";
 import { getAvailableThemes } from "../../../../../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/theme/theme.js";
-import { supportsXhigh } from "@mariozechner/pi-ai";
+import { createThinkingSettingLeaf } from "./createThinkingSettingLeaf.js";
 import { sortSlashMenuItemsByLabel } from "./sortSlashMenuItemsByLabel.js";
 import type { SlashMenuLeaf } from "./types.js";
 
@@ -18,12 +18,6 @@ export async function createSettingsLeaves(
   model: { reasoning?: boolean } | undefined,
 ): Promise<SlashMenuLeaf[]> {
   const settings = SettingsManager.create(cwd);
-  const thinkingOptions = !model?.reasoning
-    ? ["off"]
-    : supportsXhigh(model as never)
-      ? ["off", "minimal", "low", "medium", "high", "xhigh"]
-      : ["off", "minimal", "low", "medium", "high"];
-
   return sortSlashMenuItemsByLabel([
     { kind: "toggle", label: "Auto-compact", description: "Automatically compact context when it gets too large", value: "autoCompact", currentValue: String(settings.getCompactionEnabled()), options: ["true", "false"] },
     { kind: "toggle", label: "Show images", description: "Render images inline in terminal", value: "showImages", currentValue: String(settings.getShowImages()), options: ["true", "false"] },
@@ -37,7 +31,7 @@ export async function createSettingsLeaves(
     { kind: "setting", label: "Steering mode", description: "Enter while streaming queues steering messages", value: "steeringMode", currentValue: settings.getSteeringMode(), options: ["one-at-a-time", "all"] },
     { kind: "setting", label: "Follow-up mode", description: "Alt+Enter queues follow-up messages until agent stops", value: "followUpMode", currentValue: settings.getFollowUpMode(), options: ["one-at-a-time", "all"] },
     { kind: "setting", label: "Transport", description: "Preferred transport for providers that support multiple transports", value: "transport", currentValue: settings.getTransport(), options: ["sse", "websocket", "auto"] },
-    { kind: "setting", label: "Thinking level", description: "Reasoning depth for thinking-capable models", value: "thinking", currentValue: thinkingLevel, options: thinkingOptions },
+    createThinkingSettingLeaf(thinkingLevel, model),
     { kind: "theme", label: "Theme", description: "Color theme for the interface", value: "theme", currentValue: settings.getTheme() || "dark", options: getAvailableThemes() },
     { kind: "toggle", label: "Hide thinking", description: "Hide thinking blocks in assistant responses", value: "hideThinkingBlock", currentValue: String(settings.getHideThinkingBlock()), options: ["true", "false"] },
     { kind: "toggle", label: "Collapse changelog", description: "Show condensed changelog after updates", value: "collapseChangelog", currentValue: String(settings.getCollapseChangelog()), options: ["true", "false"] },

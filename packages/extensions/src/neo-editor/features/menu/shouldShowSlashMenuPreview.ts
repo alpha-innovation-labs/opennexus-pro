@@ -7,5 +7,5 @@ import type { SlashMenuLevel } from "./SlashMenuLevel.js";
  * @returns True when the level needs a right preview pane.
  */
 export function shouldShowSlashMenuPreview(level: SlashMenuLevel): boolean {
-  return level === "resume";
+  return level === "resume" || level === "prompts" || level === "skills";
 }

@@ -15,6 +15,7 @@ import { createScopedModelLeaves } from "./createScopedModelLeaves.js";
 import { getDynamicSlashCommands } from "./getDynamicSlashCommands.js";
 import { createSettingChoiceLeaves } from "./createSettingChoiceLeaves.js";
 import { createSlashMenuPreviewLines } from "./createSlashMenuPreviewLines.js";
+import { createThinkingSettingLeaf } from "./createThinkingSettingLeaf.js";
 import { createTopLevelItems } from "./createTopLevelItems.js";
 import { encodeSlashMenuValue } from "./encodeSlashMenuValue.js";
 import { createResumeScopeHeaderTitle } from "./resume-scope/createResumeScopeHeaderTitle.js";
@@ -28,6 +29,11 @@ import { getSettingChoiceTitle } from "./getSettingChoiceTitle.js";
 import { getSlashMenuItemIcon } from "./getSlashMenuItemIcon.js";
 import { getSlashMenuLevelTitle } from "./getSlashMenuLevelTitle.js";
 import { getTreeToggleUserId } from "./tree/getTreeToggleUserId.js";
+import type { ResourceCommandScope } from "./ResourceCommandScope.js";
+import { renderResourceCommandScopeTabs } from "./renderResourceCommandScopeTabs.js";
+import { selectResourceCommandScopeByKey } from "./selectResourceCommandScopeByKey.js";
+import { createResourceCommandFooterHint } from "./createResourceCommandFooterHint.js";
+import { formatResourceCommandLabel } from "./formatResourceCommandLabel.js";
 import { handleSlashMenuInput } from "./handleSlashMenuInput.js";
 import { showSessionInfoModal } from "./session-info/showSessionInfoModal.js";
 import { handleTopLevelMenuEnter } from "./handleTopLevelMenuEnter.js";
@@ -62,6 +68,7 @@ export class SlashMenuModal extends SelectPreviewModal {
   private readonly previewCache = new Map<string, string[]>();
   private readonly resumeLeavesCache = new Map<ResumeScope, SlashMenuLeaf[]>();
   private resumeScope: ResumeScope = "current";
+  private resourceScope: ResourceCommandScope = "all";
 
   constructor(
     private readonly ctx: ExtensionContext,
@@ -125,6 +132,9 @@ export class SlashMenuModal extends SelectPreviewModal {
       this.handleNameInput(data);
       return;
     }
+    if (this.handleResourceScopeInput(data)) return;
+    if (this.handleResourcePreviewFocusInput(data)) return;
+    if (this.handleResourcePreviewInput(data)) return;
     if (this.handleResumeScopeInput(data)) return;
     if (this.handleTreeNavigationInput(data)) return;
     if (this.handleTreeSearchActivationInput(data)) return;
@@ -206,6 +216,49 @@ export class SlashMenuModal extends SelectPreviewModal {
   }
 
   /**
+   * Moves focus to the resource command markdown preview pane.
+   *
+   * @param data Raw keyboard input.
+   * @returns True when handled.
+   */
+  private handleResourcePreviewFocusInput(data: string): boolean {
+    if ((this.level !== "prompts" && this.level !== "skills") || !matchesKey(data, Key.tab) || this.isRightPaneFocused()) return false;
+    this.focusRightPane();
+    this.requestRender();
+    return true;
+  }
+
+  /**
+   * Toggles resource command scope filters.
+   *
+   * @param data Raw keyboard input.
+   * @returns True when handled.
+   */
+  private handleResourceScopeInput(data: string): boolean {
+    if (this.level !== "prompts" && this.level !== "skills") return false;
+    const scope = selectResourceCommandScopeByKey(data);
+    if (!scope) return false;
+    this.resourceScope = scope;
+    this.query = "";
+    this.setBottom("Search", "", "> /");
+    void this.refresh();
+    return true;
+  }
+
+  /**
+   * Routes input to a focused resource preview pane.
+   *
+   * @param data Raw keyboard input.
+   * @returns True when handled.
+   */
+  private handleResourcePreviewInput(data: string): boolean {
+    if ((this.level !== "prompts" && this.level !== "skills") || !this.isRightPaneFocused()) return false;
+    super.handleInput(data);
+    this.requestRender();
+    return true;
+  }
+
+  /**
    * Creates leaves for the current menu level, reusing cached resume leaves during search.
    *
    * @returns Current level leaves.
@@ -214,7 +267,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "setting-choice" && this.pendingSettingLeaf) return createSettingChoiceLeaves(this.pendingSettingLeaf);
     if (this.level === "name-input") return [createNameInputLeaf(this.nameInput)];
     if (this.level === "resume") return getCachedResumeLeaves(this.resumeLeavesCache, this.ctx, this.resumeScope);
-    return createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.expandedTreeUserIds, this.resumeScope, this.getDynamicCommands());
+    return createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.expandedTreeUserIds, this.resumeScope, this.getDynamicCommands(), this.resourceScope);
   }
 
   /**
@@ -228,7 +281,8 @@ export class SlashMenuModal extends SelectPreviewModal {
 
   private renderItems(items: Array<SlashMenuLeaf | SlashMenuSection>, leftTitle: string): void {
     if (this.level === "resume") this.setTitles(createResumeScopeHeaderTitle(this.resumeScope), "");
-    else this.setTitles(leftTitle, "Preview");
+    else this.setTitles(leftTitle, this.level === "prompts" || this.level === "skills" ? renderResourceCommandScopeTabs(this.resourceScope, this.ctx.ui.theme) : "Preview");
+    this.setHeaderFocusMarkers(this.level !== "prompts" && this.level !== "skills");
     this.setItems(toAutocompleteItems(items.map((item) => this.formatVisibleItem(item))));
     this.selectedPreviewItem = items[0];
     this.resumePreviewState.renderedPreviewKey = undefined;
@@ -251,6 +305,7 @@ export class SlashMenuModal extends SelectPreviewModal {
       if (item.value === "hotkeys") return this.openHotkeysPanel();
       if (item.value === "name") return this.openSessionNameInput();
       if (item.value === "session") return this.openSessionInfoPanel();
+      if (item.value === "thinking") return this.openSettingChoice(createThinkingSettingLeaf(this.getThinkingLevel(), this.ctx.model));
       await handleTopLevelMenuEnter(this.ctx, item.value, (level) => this.openLevel(level), this.onCommandPicked);
       return;
     }
@@ -284,7 +339,12 @@ export class SlashMenuModal extends SelectPreviewModal {
     }
     if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select ${encodeSlashMenuValue(item.value)}`);
     if (this.level === "prompts" || this.level === "skills") return void this.onCommandPicked(`/${item.value}`);
+    if (this.level === "login" && item.value === "import") return void this.openLevel("login-import");
+    if (this.level === "login-import" && item.value.startsWith("import:")) {
+      return void this.onCommandPicked(`/nexus-login-import ${item.value.slice("import:".length)}`);
+    }
     if (this.level === "login") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
+    if (this.level === "login-providers") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
     if (this.level === "logout") return void this.onCommandPicked(`/nexus-logout-select ${item.value}`);
   }
 
@@ -308,6 +368,7 @@ export class SlashMenuModal extends SelectPreviewModal {
       this.resumeScope = "current";
       this.resumeLeavesCache.clear();
     }
+    if (this.level === "prompts" || this.level === "skills") this.resourceScope = "all";
     this.setBottom("Search", "", "> /");
     await this.refresh();
   }
@@ -415,8 +476,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     const settingValue = this.pendingSettingLeaf.value;
     const status = applySlashMenuSettingValue(this.ctx, this.pendingSettingLeaf, value, this.setThinkingLevel);
     if (status) this.ctx.ui.notify(status, "info");
-    this.previousLevels.pop();
-    this.level = "settings";
+    this.level = this.previousLevels.pop() ?? "settings";
     this.query = "";
     this.searchActive = false;
     this.setBottom("Search", "", "> /");
@@ -461,6 +521,7 @@ export class SlashMenuModal extends SelectPreviewModal {
   }
 
   override render(width: number): string[] {
+    this.setFooterHintLines(this.createFooterHintLines());
     const item = this.selectedPreviewItem;
     if (this.level === "resume" && item) {
       updateResumePreview({
@@ -479,8 +540,18 @@ export class SlashMenuModal extends SelectPreviewModal {
     return super.render(width);
   }
 
+  /**
+   * Creates helper footer lines for the current menu state.
+   *
+   * @returns Helper footer lines.
+   */
+  private createFooterHintLines(): string[] {
+    if (this.level === "prompts" || this.level === "skills") return [createResourceCommandFooterHint(this.ctx.ui.theme, this.isRightPaneFocused())];
+    return [];
+  }
+
   private previewForItem(item: SlashMenuLeaf | SlashMenuSection): string[] {
-    return createSlashMenuPreviewLines(this.level, item);
+    return createSlashMenuPreviewLines(this.level, item, this.ctx.ui.theme);
   }
 
   private formatVisibleItem(item: SlashMenuLeaf | SlashMenuSection): SlashMenuLeaf | SlashMenuSection {
@@ -490,7 +561,8 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "setting-choice") return { ...item, description: "" };
     if (this.level === "tree") return { ...item, description: "", preserveLabelWhitespace: true };
     if (this.level === "resume") return { ...item, label: `${item.label}\n${item.description}`, description: "", preserveLabelWhitespace: true, resumeRow: true, wrapPreservedLabel: true };
-    if (this.level === "model" || this.level === "login" || this.level === "logout" || this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return { ...item, label: `${icon} ${item.label}`, description: "" };
+    if (this.level === "model" || this.level === "login" || this.level === "login-import" || this.level === "login-providers" || this.level === "logout" || this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return { ...item, label: `${icon} ${item.label}`, description: "" };
+    if (this.level === "prompts" || this.level === "skills") return { ...item, label: formatResourceCommandLabel(icon, item as SlashMenuLeaf), description: "" };
     return { ...item, label: `${icon} ${item.label}` };
   }
 }

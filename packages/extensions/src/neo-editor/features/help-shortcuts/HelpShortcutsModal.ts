@@ -52,7 +52,7 @@ export class HelpShortcutsModal extends SharedModal {
       lines.push(padVisible(leftLines[index] ?? "", columnWidth) + " ".repeat(gap) + padVisible(rightLines[index] ?? "", dialogWidth - columnWidth - gap));
     }
 
-    this.footerLines = [this.uiTheme.fg("dim", "Esc/Ctrl+C/q closes")];
+    this.footerLines = [this.uiTheme.fg("dim", "Tab navigate · Esc/Ctrl+C/q closes")];
     this.panes = [{ id: "hotkeys", size: 1, lines }];
     return super.render(width);
   }

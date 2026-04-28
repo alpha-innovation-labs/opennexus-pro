@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import type { Component } from "@mariozechner/pi-tui";
 import { HelpShortcutsModal } from "../../../packages/extensions/src/neo-editor/features/help-shortcuts/HelpShortcutsModal.js";
+import { renderHelpShortcutRow } from "../../../packages/extensions/src/neo-editor/features/help-shortcuts/renderHelpShortcutRow.js";
 import { PromptlineEditor } from "../../../packages/extensions/src/neo-editor/features/promptline/PromptlineEditor.js";
 import { clearTriggerSession } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/sessionState.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
@@ -72,7 +73,7 @@ test.afterEach(() => {
   clearTriggerSession();
 });
 
-test("help shortcuts modal renders grouped panels with titles in borders", async () => {
+test("help shortcuts modal renders grouped panels with titles in borders and a bottom bar", async () => {
   const modal = new HelpShortcutsModal(createTestTheme() as never, () => undefined);
   const view = await renderComponentInVirtualTerminal(() => modal, 120, 30);
   const text = view.join("\n");
@@ -84,6 +85,22 @@ test("help shortcuts modal renders grouped panels with titles in borders", async
   assert.doesNotMatch(text, /Open sessions/);
   assert.doesNotMatch(text, /Ctrl \+ ;/);
   assert.match(text, /┌.*Navigation.*┐/s);
+  assert.match(text, /Tab navigate · Esc\/Ctrl\+C\/q closes/u);
+});
+
+test("help shortcut rows render shortcut glyphs teal and descriptions as default foreground", () => {
+  const colors: string[] = [];
+  const row = renderHelpShortcutRow({
+    ...createTestTheme(),
+    fg(color: string, value: string): string {
+      colors.push(color);
+      return value;
+    },
+  } as never, { label: "Commands menu", keys: "/" }, 32);
+
+  assert.match(row, /Commands menu/u);
+  assert.match(row, /\//u);
+  assert.deepEqual(colors, ["success"]);
 });
 
 test("question mark as the first editor character opens help instead of typing", async () => {

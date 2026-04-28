@@ -4,6 +4,7 @@ export type RegisteredSlashCommand = {
   name: string;
   description?: string;
   source?: "builtin" | "extension" | "prompt" | "skill";
+  sourceInfo?: { path?: string; scope?: "project" | "user" | "temporary" };
   menuGroup?: string;
   hidden?: boolean;
   handler?: (args: string, ctx: ExtensionCommandContext) => unknown;
@@ -17,6 +18,8 @@ export type SlashMenuLeaf = {
   currentValue?: string;
   groupLabel?: string;
   options?: string[];
+  sourcePath?: string;
+  sourceScope?: "project" | "user" | "temporary";
   preserveLabelWhitespace?: boolean;
   resumeAge?: string;
   resumeRow?: boolean;

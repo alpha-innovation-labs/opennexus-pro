@@ -28,6 +28,7 @@ const TOP_LEVEL_ICONS: Record<string, string> = {
   session: "ⓘ",
   settings: "⚙",
   skills: getResourceMenuIcon(),
+  thinking: "◌",
   Settings: "⚙",
   share: "↗",
   toolcalls: "⚒",
@@ -45,7 +46,11 @@ export function getSlashMenuItemIcon(item: SlashMenuLeaf | SlashMenuSection, lev
   if (level === "setting-choice") return "";
   if (level === "name-input") return "✎";
   if (level === "model" || level === "scoped-models") return "•";
-  if (level === "login" || level === "logout") return "◆";
+  if (level === "login" && item.value === "import") return "▸";
+  if (level === "login") return (item as SlashMenuLeaf).currentValue === "configured" ? "◇" : "◆";
+  if (level === "login-import") return "↥";
+  if (level === "login-providers") return (item as SlashMenuLeaf).currentValue === "configured" ? "◇" : "◆";
+  if (level === "logout") return "◆";
   if (level === "theme") return "◐";
   if (level === "fork") return "⑂";
   if (level === "tree") return "┬";

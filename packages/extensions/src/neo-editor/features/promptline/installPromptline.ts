@@ -1,4 +1,4 @@
-import { subscribeUsageSnapshots } from "@nexus/extensions/usage-meter/index.js";
+import { subscribeUsageSnapshots } from "@nexus/extensions/slashusage/index.js";
 import type { PromptlineContext, PromptlineDeps } from "./types.js";
 import { PromptlineEditor } from "./PromptlineEditor.js";
 import { refreshGitState } from "../../shared/git/refreshGitState.js";

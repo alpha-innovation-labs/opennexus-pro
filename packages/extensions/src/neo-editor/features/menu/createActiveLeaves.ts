@@ -1,16 +1,21 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { createForkLeaves } from "./createForkLeaves.js";
+import { createLoginImportLeaves } from "./createLoginImportLeaves.js";
+import { createLoginLeaves } from "./createLoginLeaves.js";
+import { createLoginProviderLeaves } from "./createLoginProviderLeaves.js";
 import { createModelLeaves } from "./createModelLeaves.js";
 import { createOAuthProviderLeaves } from "./createOAuthProviderLeaves.js";
 import { createResumeLeaves } from "./createResumeLeaves.js";
 import { createScopedModelLeaves } from "./createScopedModelLeaves.js";
 import { createSettingsLeaves } from "./createSettingsLeaves.js";
 import { createSourceCommandLeaves } from "./createSourceCommandLeaves.js";
+import { filterResourceCommandsByScope } from "./filterResourceCommandsByScope.js";
 import { createThemeLeaves } from "./createThemeLeaves.js";
 import { createTreeLeaves } from "./createTreeLeaves.js";
 import { createTreeSummaryLeaves } from "./createTreeSummaryLeaves.js";
 import { listResumeSessions } from "./resume-scope/listResumeSessions.js";
 import type { ResumeScope } from "./resume-scope/ResumeScope.js";
+import type { ResourceCommandScope } from "./ResourceCommandScope.js";
 import type { SlashMenuLevel } from "./SlashMenuLevel.js";
 import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types.js";
 
@@ -23,6 +28,7 @@ import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types.js";
  * @param expandedTreeUserIds Expanded session-tree user ids.
  * @param resumeScope Resume list scope.
  * @param dynamicCommands Live prompt and skill commands.
+ * @param resourceScope Active resource scope filter.
  * @returns Menu leaves for the level.
  */
 export async function createActiveLeaves(
@@ -32,6 +38,7 @@ export async function createActiveLeaves(
   expandedTreeUserIds: ReadonlySet<string> = new Set(),
   resumeScope: ResumeScope = "all",
   dynamicCommands: RegisteredSlashCommand[] = [],
+  resourceScope: ResourceCommandScope = "all",
 ): Promise<SlashMenuLeaf[]> {
   if (level === "settings") return createSettingsLeaves(ctx.cwd, getThinkingLevel(), ctx.model);
   if (level === "theme") return createThemeLeaves(ctx.cwd);
@@ -41,9 +48,11 @@ export async function createActiveLeaves(
   if (level === "tree") return createTreeLeaves(ctx.sessionManager.getTree() as never, expandedTreeUserIds, ctx.ui.theme);
   if (level === "tree-summary") return createTreeSummaryLeaves();
   if (level === "resume") return createResumeLeaves(await listResumeSessions(ctx, resumeScope));
-  if (level === "login") return createOAuthProviderLeaves(ctx, "login");
+  if (level === "login") return createLoginLeaves(ctx);
+  if (level === "login-import") return createLoginImportLeaves();
+  if (level === "login-providers") return createLoginProviderLeaves(ctx);
   if (level === "logout") return createOAuthProviderLeaves(ctx, "logout");
-  if (level === "prompts") return createSourceCommandLeaves(dynamicCommands, "prompt");
-  if (level === "skills") return createSourceCommandLeaves(dynamicCommands, "skill");
+  if (level === "prompts") return createSourceCommandLeaves(filterResourceCommandsByScope(dynamicCommands, resourceScope), "prompt");
+  if (level === "skills") return createSourceCommandLeaves(filterResourceCommandsByScope(dynamicCommands, resourceScope), "skill");
   return [];
 }
