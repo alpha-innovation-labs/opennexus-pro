@@ -13,8 +13,8 @@ export function buildStartupHeroStatusLine(theme: StartupHeroTheme, status: Star
 	const skillActive = status.activeSkillCount > 0;
 	const skillIcon = skillActive ? "✓" : "✗";
 	const agentsIcon = status.agentsMdLoaded ? "✓" : "✗";
-	const skillColor = skillActive ? "toolDiffAdded" : "toolDiffRemoved";
-	const agentsColor = status.agentsMdLoaded ? "toolDiffAdded" : "toolDiffRemoved";
+	const skillColor = skillActive ? "syntaxType" : "error";
+	const agentsColor = status.agentsMdLoaded ? "syntaxType" : "error";
 	const line = `Skills (${status.activeSkillCount}) ${theme.fg(skillColor, skillIcon)}  AGENTS.md ${theme.fg(agentsColor, agentsIcon)}`;
 	return truncateToWidth(line, width, "…");
 }

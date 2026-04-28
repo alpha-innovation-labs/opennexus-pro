@@ -12,7 +12,7 @@ const chosenTip = "Press Ctrl+V to paste clipboard images.";
  * @returns Theme stub with the Pi startup hero color contract.
  */
 function createStrictStartupHeroTheme(): { fg(color: string, value: string): string; bold(value: string): string } {
-	const allowedColors = new Set(["accent", "text", "thinkingText", "toolDiffAdded", "toolDiffRemoved"]);
+	const allowedColors = new Set(["accent", "text", "thinkingText", "syntaxType", "error"]);
 	return {
 		fg(color: string, value: string): string {
 			if (!allowedColors.has(color)) throw new Error(`Unknown theme color: ${color}`);
