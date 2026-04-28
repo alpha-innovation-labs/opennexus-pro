@@ -1,4 +1,9 @@
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
+import type { AuthImportSource } from "@nexus/pi-platform/login-import/model/AuthImportSource.js";
+import type { AuthImportCandidate } from "@nexus/pi-platform/login-import/model/AuthImportCandidate.js";
+import { loadAuthImportCandidates } from "@nexus/pi-platform/login-import/collect/loadAuthImportCandidates.js";
+import { importAuthCandidates } from "@nexus/pi-platform/login-import/import/importAuthCandidates.js";
+import { getAuthImportSourceLabel } from "@nexus/pi-platform/login-import/model/getAuthImportSourceLabel.js";
 import { Key, matchesKey } from "@mariozechner/pi-tui";
 import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
 import { createPanelOverlayOptions } from "../../../overlay/createPanelOverlayOptions.js";
@@ -10,6 +15,7 @@ import { calculateSettingsMenuWidth } from "./calculateSettingsMenuWidth.js";
 import { calculateSinglePaneMenuWidth } from "./calculateSinglePaneMenuWidth.js";
 import { calculateTopLevelMenuWidth } from "./calculateTopLevelMenuWidth.js";
 import { createActiveLeaves } from "./createActiveLeaves.js";
+import { createAuthImportCandidateLeaves } from "./createAuthImportCandidateLeaves.js";
 import { createNameInputLeaf } from "./createNameInputLeaf.js";
 import { createScopedModelLeaves } from "./createScopedModelLeaves.js";
 import { getDynamicSlashCommands } from "./getDynamicSlashCommands.js";
@@ -34,15 +40,18 @@ import { renderResourceCommandScopeTabs } from "./renderResourceCommandScopeTabs
 import { selectResourceCommandScopeByKey } from "./selectResourceCommandScopeByKey.js";
 import { createResourceCommandFooterHint } from "./createResourceCommandFooterHint.js";
 import { formatResourceCommandLabel } from "./formatResourceCommandLabel.js";
+import { formatLoginProviderLabel } from "./formatLoginProviderLabel.js";
 import { handleSlashMenuInput } from "./handleSlashMenuInput.js";
 import { showSessionInfoModal } from "./session-info/showSessionInfoModal.js";
 import { handleTopLevelMenuEnter } from "./handleTopLevelMenuEnter.js";
 import { isSlashTextInput } from "./isSlashTextInput.js";
 import { sanitizeSessionNameInput } from "./sanitizeSessionNameInput.js";
 import { shouldShowSlashMenuPreview } from "./shouldShowSlashMenuPreview.js";
+import { logoutProvider } from "./model/logoutProvider.js";
 import { resolveRequestedSlashMenuLevel } from "./resolveRequestedSlashMenuLevel.js";
 import type { SlashMenuLevel } from "./SlashMenuLevel.js";
 import { toAutocompleteItems } from "./toAutocompleteItems.js";
+import { toggleAuthImportCandidateSelection } from "./toggleAuthImportCandidateSelection.js";
 import type { RegisteredSlashCommand, SlashMenuLeaf, SlashMenuSection } from "./types.js";
 import { updateResumePreview, type ResumePreviewState } from "./updateResumePreview.js";
 
@@ -69,6 +78,9 @@ export class SlashMenuModal extends SelectPreviewModal {
   private readonly resumeLeavesCache = new Map<ResumeScope, SlashMenuLeaf[]>();
   private resumeScope: ResumeScope = "current";
   private resourceScope: ResourceCommandScope = "all";
+  private pendingImportSource?: AuthImportSource;
+  private pendingImportCandidates: AuthImportCandidate[] = [];
+  private readonly importSelection = new Set<string>();
 
   constructor(
     private readonly ctx: ExtensionContext,
@@ -132,6 +144,7 @@ export class SlashMenuModal extends SelectPreviewModal {
       this.handleNameInput(data);
       return;
     }
+    if (this.handleAuthImportCandidateInput(data)) return;
     if (this.handleResourceScopeInput(data)) return;
     if (this.handleResourcePreviewFocusInput(data)) return;
     if (this.handleResourcePreviewInput(data)) return;
@@ -152,6 +165,21 @@ export class SlashMenuModal extends SelectPreviewModal {
       delegateInput: () => super.handleInput(data),
       onCommandPicked: this.onCommandPicked,
     });
+  }
+
+  /**
+   * Handles provider toggles in the auth import candidate level.
+   *
+   * @param data Raw keyboard input.
+   * @returns True when handled.
+   */
+  private handleAuthImportCandidateInput(data: string): boolean {
+    if (this.level !== "login-import-candidates" || data !== " ") return false;
+    const item = this.getSelectedItem();
+    if (!item) return true;
+    toggleAuthImportCandidateSelection(this.importSelection, item.value);
+    void this.refresh(item.value);
+    return true;
   }
 
   /**
@@ -265,6 +293,7 @@ export class SlashMenuModal extends SelectPreviewModal {
    */
   private async createVisibleLeaves(): Promise<SlashMenuLeaf[]> {
     if (this.level === "setting-choice" && this.pendingSettingLeaf) return createSettingChoiceLeaves(this.pendingSettingLeaf);
+    if (this.level === "login-import-candidates") return createAuthImportCandidateLeaves(this.pendingImportCandidates, this.importSelection);
     if (this.level === "name-input") return [createNameInputLeaf(this.nameInput)];
     if (this.level === "resume") return getCachedResumeLeaves(this.resumeLeavesCache, this.ctx, this.resumeScope);
     return createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.expandedTreeUserIds, this.resumeScope, this.getDynamicCommands(), this.resourceScope);
@@ -339,13 +368,13 @@ export class SlashMenuModal extends SelectPreviewModal {
     }
     if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select ${encodeSlashMenuValue(item.value)}`);
     if (this.level === "prompts" || this.level === "skills") return void this.onCommandPicked(`/${item.value}`);
-    if (this.level === "login" && item.value === "import") return void this.openLevel("login-import");
-    if (this.level === "login-import" && item.value.startsWith("import:")) {
-      return void this.onCommandPicked(`/nexus-login-import ${item.value.slice("import:".length)}`);
+    if ((this.level === "login" || this.level === "login-import") && item.value.startsWith("import:")) {
+      return void this.openAuthImportCandidates(item.value.slice("import:".length) as AuthImportSource);
     }
+    if (this.level === "login-import-candidates") return void this.importSelectedAuthCandidates();
     if (this.level === "login") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
     if (this.level === "login-providers") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
-    if (this.level === "logout") return void this.onCommandPicked(`/nexus-logout-select ${item.value}`);
+    if (this.level === "logout") return void this.logoutSelectedProvider(item.value);
   }
 
 
@@ -370,6 +399,67 @@ export class SlashMenuModal extends SelectPreviewModal {
     }
     if (this.level === "prompts" || this.level === "skills") this.resourceScope = "all";
     this.setBottom("Search", "", "> /");
+    await this.refresh();
+  }
+
+  /**
+   * Opens the provider-candidate selection level for an auth import source.
+   *
+   * @param source Import source identifier.
+   */
+  private async openAuthImportCandidates(source: AuthImportSource): Promise<void> {
+    const sourceLabel = getAuthImportSourceLabel(source);
+    try {
+      const { authPath, candidates } = await loadAuthImportCandidates(source, this.ctx.modelRegistry);
+      if (candidates.length === 0) {
+        this.ctx.ui.notify(`No importable ${sourceLabel} providers found at ${authPath}.`, "info");
+        return;
+      }
+      this.previousLevels.push(this.level);
+      this.level = "login-import-candidates";
+      this.pendingImportSource = source;
+      this.pendingImportCandidates = candidates;
+      this.importSelection.clear();
+      this.query = "";
+      this.searchActive = false;
+      this.setBottom("Search", "", "> /");
+      await this.refresh();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      this.ctx.ui.notify(`Import from ${sourceLabel} failed: ${message}`, "error");
+    }
+  }
+
+  /**
+   * Imports the selected auth candidates without leaving the slash modal design.
+   */
+  private async importSelectedAuthCandidates(): Promise<void> {
+    if (!this.pendingImportSource) return;
+    const selectedCandidates = this.pendingImportCandidates.filter((candidate) => this.importSelection.has(candidate.providerId));
+    if (selectedCandidates.length === 0) {
+      this.ctx.ui.notify("No providers selected for import", "info");
+      return;
+    }
+    const sourceLabel = getAuthImportSourceLabel(this.pendingImportSource);
+    const importedProviderIds = importAuthCandidates(this.ctx.modelRegistry.authStorage, selectedCandidates);
+    this.ctx.modelRegistry.refresh();
+    this.ctx.ui.notify(`Imported ${importedProviderIds.join(", ")} from ${sourceLabel}`, "info");
+    this.pendingImportSource = undefined;
+    this.pendingImportCandidates = [];
+    this.importSelection.clear();
+    this.previousLevels.splice(0, this.previousLevels.length, "top");
+    this.level = "login";
+    await this.refresh();
+  }
+
+  /**
+   * Logs out one provider while keeping the slash menu open.
+   *
+   * @param providerId Provider id to remove from auth storage.
+   */
+  private async logoutSelectedProvider(providerId: string): Promise<void> {
+    logoutProvider(this.ctx, providerId);
+    this.ctx.ui.notify(`Logged out of ${providerId}`, "info");
     await this.refresh();
   }
 
@@ -561,8 +651,10 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "setting-choice") return { ...item, description: "" };
     if (this.level === "tree") return { ...item, description: "", preserveLabelWhitespace: true };
     if (this.level === "resume") return { ...item, label: `${item.label}\n${item.description}`, description: "", preserveLabelWhitespace: true, resumeRow: true, wrapPreservedLabel: true };
-    if (this.level === "model" || this.level === "login" || this.level === "login-import" || this.level === "login-providers" || this.level === "logout" || this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return { ...item, label: `${icon} ${item.label}`, description: "" };
+    if ((this.level === "login" || this.level === "login-providers") && !item.value.startsWith("import:")) return { ...item, label: formatLoginProviderLabel(item as SlashMenuLeaf, icon, this.ctx.ui.theme), description: "" };
+    if (this.level === "model" || this.level === "login" || this.level === "login-import" || this.level === "login-import-candidates" || this.level === "login-providers" || this.level === "logout" || this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return { ...item, label: `${icon} ${item.label}`, description: "" };
     if (this.level === "prompts" || this.level === "skills") return { ...item, label: formatResourceCommandLabel(icon, item as SlashMenuLeaf), description: "" };
     return { ...item, label: `${icon} ${item.label}` };
   }
+
 }

@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { createForkLeaves } from "./createForkLeaves.js";
-import { createOAuthProviderLeaves } from "./createOAuthProviderLeaves.js";
+import { createLogoutProviderLeaves } from "./createLogoutProviderLeaves.js";
 import type { SlashMenuLevel } from "./SlashMenuLevel.js";
 
 /**
@@ -37,9 +37,9 @@ export async function handleTopLevelMenuEnter(
   if (value === "skills") return openLevel("skills");
   if (value === "login") return openLevel("login");
   if (value === "logout") {
-    const leaves = createOAuthProviderLeaves(ctx, "logout");
+    const leaves = createLogoutProviderLeaves(ctx);
     if (leaves.length === 0) {
-      ctx.ui.notify("No OAuth providers logged in. Use /login first.", "info");
+      ctx.ui.notify("No providers logged in. Use /login first.", "info");
       return;
     }
     return openLevel("logout");

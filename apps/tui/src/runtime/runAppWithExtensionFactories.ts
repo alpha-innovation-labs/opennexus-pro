@@ -12,6 +12,7 @@ import { applyCompactModeImagePatch } from "@nexus/pi-platform/applyCompactModeI
 import { applyInlineImageOverlayPatch } from "@nexus/pi-platform/inline-image-overlays/applyInlineImageOverlayPatch.js";
 import { applyWorkingLoaderElapsedPatch } from "@nexus/pi-platform/applyWorkingLoaderElapsedPatch.js";
 import { applyHotkeysCommandPatch } from "@nexus/pi-platform/applyHotkeysCommandPatch.js";
+import { applyLoginImportPatch } from "@nexus/pi-platform/login-import/patch/applyLoginImportPatch.js";
 import { applyModelKeybindingsPatch } from "@nexus/pi-platform/applyModelKeybindingsPatch.js";
 import { applyModelChangeDisplayPatch } from "@nexus/pi-platform/applyModelChangeDisplayPatch.js";
 import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch.js";
@@ -27,6 +28,7 @@ import { normalizeUsageStartupArgs } from "@nexus/runtime/cli/normalizeUsageStar
 import { pruneLoggedOutEnabledModels } from "@nexus/pi-platform/settings/pruneLoggedOutEnabledModels.js";
 import { clearStartupScreen } from "./startup-screen/clearStartupScreen.js";
 import { shouldClearStartupScreen } from "./startup-screen/shouldClearStartupScreen.js";
+import { ensureAnnotationsDaemonStarted } from "./annotations-daemon/ensureAnnotationsDaemonStarted.js";
 
 export type CreateExtensionFactories = () => Promise<ExtensionFactory[]>;
 
@@ -61,6 +63,10 @@ export async function runAppWithExtensionFactories(
   logRunAppPhase("ensureEmbeddedPackageDirEnv:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
+  await ensureAnnotationsDaemonStarted();
+  logRunAppPhase("ensureAnnotationsDaemonStarted:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
   await applyNexusConfigPatch();
   logRunAppPhase("applyNexusConfigPatch:done", phaseStartedAt);
 
@@ -83,6 +89,10 @@ export async function runAppWithExtensionFactories(
   phaseStartedAt = performance.now();
   applyHotkeysCommandPatch();
   logRunAppPhase("applyHotkeysCommandPatch:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
+  await applyLoginImportPatch();
+  logRunAppPhase("applyLoginImportPatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   applyToolExecutionSpacingPatch();

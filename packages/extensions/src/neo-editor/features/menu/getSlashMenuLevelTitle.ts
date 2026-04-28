@@ -11,6 +11,7 @@ export function getSlashMenuLevelTitle(level: SlashMenuLevel): string {
   if (level === "scoped-models") return "Scoped Models";
   if (level === "setting-choice") return "Settings";
   if (level === "login-import") return "Import";
+  if (level === "login-import-candidates") return "Import Providers";
   if (level === "login-providers") return "Providers";
   if (level === "name-input") return "Name";
   return level.charAt(0).toUpperCase() + level.slice(1);

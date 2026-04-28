@@ -1,5 +1,4 @@
-import { SettingsManager } from "../../../../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js";
-import { removeProviderFromEnabledModels } from "../model/removeProviderFromEnabledModels.js";
+import { logoutProvider } from "../model/logoutProvider.js";
 import type { InternalSlashHandler } from "./types.js";
 
 /**
@@ -14,8 +13,6 @@ export const handleInternalLogoutCommand: InternalSlashHandler = async (args, ct
     ctx.ui.notify("Missing provider.", "error");
     return;
   }
-  ctx.modelRegistry.authStorage.logout(providerId);
-  removeProviderFromEnabledModels(SettingsManager.create(ctx.cwd), providerId);
-  ctx.modelRegistry.refresh();
+  logoutProvider(ctx, providerId);
   ctx.ui.notify(`Logged out of ${providerId}`, "info");
 };

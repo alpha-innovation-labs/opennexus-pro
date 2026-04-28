@@ -3,6 +3,7 @@ import { createForkLeaves } from "./createForkLeaves.js";
 import { createLoginImportLeaves } from "./createLoginImportLeaves.js";
 import { createLoginLeaves } from "./createLoginLeaves.js";
 import { createLoginProviderLeaves } from "./createLoginProviderLeaves.js";
+import { createLogoutProviderLeaves } from "./createLogoutProviderLeaves.js";
 import { createModelLeaves } from "./createModelLeaves.js";
 import { createOAuthProviderLeaves } from "./createOAuthProviderLeaves.js";
 import { createResumeLeaves } from "./createResumeLeaves.js";
@@ -51,7 +52,7 @@ export async function createActiveLeaves(
   if (level === "login") return createLoginLeaves(ctx);
   if (level === "login-import") return createLoginImportLeaves();
   if (level === "login-providers") return createLoginProviderLeaves(ctx);
-  if (level === "logout") return createOAuthProviderLeaves(ctx, "logout");
+  if (level === "logout") return createLogoutProviderLeaves(ctx);
   if (level === "prompts") return createSourceCommandLeaves(filterResourceCommandsByScope(dynamicCommands, resourceScope), "prompt");
   if (level === "skills") return createSourceCommandLeaves(filterResourceCommandsByScope(dynamicCommands, resourceScope), "skill");
   return [];
