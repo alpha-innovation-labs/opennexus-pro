@@ -16,3 +16,19 @@ test("tron user message bubble renders in the virtual terminal", async () => {
   assert.match(output, /╭/);
   assert.match(output, /╰/);
 });
+
+test("tron user message bubble renders only time on the bottom border", async () => {
+  await initializePiThemes();
+  const viewport = await renderComponentInVirtualTerminal(
+    () => new LinesComponent((width) => renderCompactInputBubble("Plan the refactor", width, {
+      timestamp: new Date(2026, 3, 14, 14, 56),
+      now: new Date(2026, 3, 14, 15, 34),
+    })),
+  );
+
+  const bodyLine = viewport.find((line) => line.includes("Plan the refactor")) ?? "";
+  const bottomLine = viewport.find((line) => line.includes("2:56 PM")) ?? "";
+  assert.doesNotMatch(bodyLine, /2:56 PM/);
+  assert.match(bottomLine, /2:56 PM/);
+  assert.doesNotMatch(bottomLine, /claude-sonnet-4|high|thinking|anthropic/);
+});

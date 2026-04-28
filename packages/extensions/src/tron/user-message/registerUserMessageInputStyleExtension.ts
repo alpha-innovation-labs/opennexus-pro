@@ -1,6 +1,7 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
 import { installUserMessageRenderHook } from "./installUserMessageRenderHook.ts";
+import { registerUserMessageMetadataHandlers } from "./metadata/registerUserMessageMetadataHandlers.ts";
 import { restoreUserMessageRenderer } from "./restoreUserMessageRenderer.ts";
 
 /**
@@ -12,4 +13,5 @@ export default function registerUserMessageInputStyleExtension(_pi: ExtensionAPI
 	logExtensionEvent("user-message-input-style", "init");
 	restoreUserMessageRenderer();
 	installUserMessageRenderHook();
+	registerUserMessageMetadataHandlers(_pi);
 }
