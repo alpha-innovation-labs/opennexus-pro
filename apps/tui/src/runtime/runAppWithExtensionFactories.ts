@@ -10,8 +10,10 @@ import { applyToolExecutionSpacingPatch } from "@nexus/pi-platform/applyToolExec
 import { applyToolGroupCollapsePatch } from "@nexus/pi-platform/applyToolGroupCollapsePatch.js";
 import { applyCompactModeImagePatch } from "@nexus/pi-platform/applyCompactModeImagePatch.js";
 import { applyInlineImageOverlayPatch } from "@nexus/pi-platform/inline-image-overlays/applyInlineImageOverlayPatch.js";
+import { applyWorkingLoaderElapsedPatch } from "@nexus/pi-platform/applyWorkingLoaderElapsedPatch.js";
 import { applyHotkeysCommandPatch } from "@nexus/pi-platform/applyHotkeysCommandPatch.js";
 import { applyModelKeybindingsPatch } from "@nexus/pi-platform/applyModelKeybindingsPatch.js";
+import { applyModelChangeDisplayPatch } from "@nexus/pi-platform/applyModelChangeDisplayPatch.js";
 import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch.js";
 import { ensureEmbeddedPackageDirEnv } from "@nexus/runtime/package/embedded-assets/ensureEmbeddedPackageDirEnv.js";
 import { ensureAgentDirEnv } from "@nexus/runtime/config/ensureAgentDirEnv.js";
@@ -21,6 +23,7 @@ import { extractStartupProfileArgs } from "./startup-profile/extractStartupProfi
 import { logRunAppPhase } from "./startup-profile/logRunAppPhase.js";
 import { setStartupProfileEnabled } from "./startup-profile/setStartupProfileEnabled.js";
 import { normalizeResumeStartupArgs } from "@nexus/runtime/cli/normalizeResumeStartupArgs.js";
+import { normalizeUsageStartupArgs } from "@nexus/runtime/cli/normalizeUsageStartupArgs.js";
 import { pruneLoggedOutEnabledModels } from "@nexus/pi-platform/settings/pruneLoggedOutEnabledModels.js";
 import { clearStartupScreen } from "./startup-screen/clearStartupScreen.js";
 import { shouldClearStartupScreen } from "./startup-screen/shouldClearStartupScreen.js";
@@ -39,7 +42,7 @@ export async function runAppWithExtensionFactories(
   createExtensionFactories: CreateExtensionFactories,
 ): Promise<void> {
   const { args: extractedArgs, startupProfileEnabled } = extractStartupProfileArgs(argv);
-  const rawArgs = normalizeResumeStartupArgs(extractedArgs);
+  const rawArgs = normalizeUsageStartupArgs(normalizeResumeStartupArgs(extractedArgs));
   setStartupProfileEnabled(startupProfileEnabled);
   if (shouldClearStartupScreen(rawArgs, process.stdin, process.stdout)) {
     clearStartupScreen(process.stdout);
@@ -74,6 +77,10 @@ export async function runAppWithExtensionFactories(
   logRunAppPhase("applyModelKeybindingsPatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
+  applyModelChangeDisplayPatch();
+  logRunAppPhase("applyModelChangeDisplayPatch:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
   applyHotkeysCommandPatch();
   logRunAppPhase("applyHotkeysCommandPatch:done", phaseStartedAt);
 
@@ -92,6 +99,10 @@ export async function runAppWithExtensionFactories(
   phaseStartedAt = performance.now();
   applyInlineImageOverlayPatch();
   logRunAppPhase("applyInlineImageOverlayPatch:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
+  applyWorkingLoaderElapsedPatch();
+  logRunAppPhase("applyWorkingLoaderElapsedPatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   await pruneLoggedOutEnabledModels(process.cwd());

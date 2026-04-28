@@ -20,7 +20,7 @@ test("handleInternalModelCommand adds selected model to persisted scoped models"
       savedModels = models;
     },
   })) as unknown as typeof SettingsManager.create;
-  const model = { provider: "openai-codex", id: "gpt-5.5" };
+  const model = { provider: "openai-codex", id: "gpt-5.5", reasoning: true };
   const notifications: Array<{ text: string; level: string }> = [];
 
   await handleInternalModelCommand(
@@ -30,7 +30,7 @@ test("handleInternalModelCommand adds selected model to persisted scoped models"
       modelRegistry: { find: () => model },
       ui: { notify: (text: string, level: string) => notifications.push({ text, level }) },
     } as never,
-    { setModel: async () => true } as never,
+    { getThinkingLevel: () => "high", setModel: async () => true } as never,
   );
 
   assert.deepEqual(savedModels, ["openai-codex/gpt-5.4", "openai-codex/gpt-5.5"]);
@@ -42,14 +42,21 @@ test("handleInternalModelCommand stores model override before setting model and 
     getEnabledModels: () => undefined,
     setEnabledModels: () => undefined,
   })) as unknown as typeof SettingsManager.create;
-  const selectedModel = { provider: "anthropic", id: "claude-sonnet-4.5", contextWindow: 200000 };
+  const selectedModel = { provider: "anthropic", id: "claude-sonnet-4.5", contextWindow: 200000, reasoning: true };
+  let footerText = "";
   const ctx = {
     cwd: process.cwd(),
     get model() {
       return { provider: "openai-codex", id: "gpt-5.5" };
     },
     modelRegistry: { find: () => selectedModel },
-    ui: { notify: () => undefined },
+    sessionManager: { getBranch: () => [] },
+    ui: {
+      notify: () => undefined,
+      setFooter: (factory: (_tui: unknown, theme: { fg(_color: string, value: string): string }) => { render(width: number): string[] }) => {
+        footerText = factory(null, { fg: (_color, value) => value }).render(100).join("\n");
+      },
+    },
   };
   let renderRequests = 0;
   setPromptlineRenderRequest(() => {
@@ -59,6 +66,7 @@ test("handleInternalModelCommand stores model override before setting model and 
   let overrideDuringSetModel: unknown;
 
   await handleInternalModelCommand("anthropic/claude-sonnet-4.5", ctx as never, {
+    getThinkingLevel: () => "high",
     setModel: async () => {
       overrideDuringSetModel = getPromptlineModelOverride();
       return true;
@@ -67,5 +75,6 @@ test("handleInternalModelCommand stores model override before setting model and 
 
   assert.equal(overrideDuringSetModel, selectedModel);
   assert.equal(getPromptlineModelOverride(), selectedModel);
+  assert.match(footerText, /claude-sonnet-4\.5\s+high/u);
   assert.equal(renderRequests, 1);
 });

@@ -11,6 +11,7 @@ export function createNexusUsageText(): string {
 		"  -h, --help                         Show Nexus help",
 		"  -v, --version                      Print Nexus version",
 		"  --sessions                         List resumable sessions",
+		"  --usage                            Open the usage history modal on startup",
 		"  --session-dir <path>               Read sessions from a custom directory",
 		"  --session-dir=<path>               Read sessions from a custom directory",
 		"  --resume [session-id]              Resume from picker, or open a specific session",

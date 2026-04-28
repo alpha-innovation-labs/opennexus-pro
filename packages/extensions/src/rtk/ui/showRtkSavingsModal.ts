@@ -10,7 +10,7 @@ import { RtkSavingsModal } from "./RtkSavingsModal.js";
  * @param report Parsed RTK gain report.
  */
 export async function showRtkSavingsModal(ctx: ExtensionContext, report: RtkGainReport): Promise<void> {
-  await ctx.ui.custom<void>((_tui, theme, _keybindings, done) => new RtkSavingsModal(theme, report, done), {
+  await ctx.ui.custom<void>((tui, theme, _keybindings, done) => new RtkSavingsModal(theme, report, done, () => tui.requestRender()), {
     overlay: true,
     overlayOptions: createPanelOverlayOptions(56, "70%"),
   });

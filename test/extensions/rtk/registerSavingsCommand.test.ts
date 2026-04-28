@@ -15,6 +15,7 @@ test("registerSavingsCommand runs rtk gain using JSON output and opens a savings
       return {
         code: 0,
         stdout: JSON.stringify({
+          daily: [{ commands: 2, input_tokens: 1000, output_tokens: 250, saved_tokens: 750, savings_pct: 75, total_time_ms: 20, avg_time_ms: 10, date: "2026-04-27" }],
           summary: {
             total_commands: 2,
             total_input: 1000,
@@ -47,5 +48,5 @@ test("registerSavingsCommand runs rtk gain using JSON output and opens a savings
   assert.deepEqual(execCalls, [{ command: "rtk", args: ["gain", "--daily", "--weekly", "--monthly", "--format", "json"] }]);
   assert.match(renderedModalLines[0]?.join("\n") ?? "", /Token Savings/u);
   assert.doesNotMatch(renderedModalLines[0]?.join("\n") ?? "", /RTK Token Savings/u);
-  assert.match(renderedModalLines[0]?.join("\n") ?? "", /Saved tokens\s+750/u);
+  assert.match(renderedModalLines[0]?.join("\n") ?? "", /Daily saved\s+750/u);
 });

@@ -5,6 +5,7 @@ import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
 import { ensurePromptlineInstalled } from "./features/promptline/ensurePromptlineInstalled.js";
 import { getPromptlineConfig } from "./features/promptline/config/getPromptlineConfig.js";
 import { refreshPromptlineConfig } from "./features/promptline/config/refreshPromptlineConfig.js";
+import { installPromptlineFooter } from "./features/promptline/installPromptlineFooter.js";
 import { refreshAndRender } from "./features/promptline/refreshAndRender.js";
 import { resetPromptlineState } from "./features/promptline/resetPromptlineState.js";
 import { setPromptlineModelOverride } from "./features/promptline/state.js";
@@ -47,8 +48,9 @@ export default function(pi: ExtensionAPI) {
     await refreshAndRender(ctx, deps);
   });
 
-  pi.on("model_select", async (_event, ctx) => {
-    setPromptlineModelOverride(undefined);
+  pi.on("model_select", async (event, ctx) => {
+    setPromptlineModelOverride(event.model);
+    installPromptlineFooter(ctx, deps, event.model);
     await refreshAndRender(ctx, deps);
   });
 

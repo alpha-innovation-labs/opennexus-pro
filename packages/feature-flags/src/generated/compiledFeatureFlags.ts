@@ -179,6 +179,14 @@ export const compiledFeatureFlags = {
         "user message bubble"
       ]
     },
+    "usage-meter": {
+      "enabled": true,
+      "features": [
+        "inline usage meter",
+        "5-minute historical usage snapshots",
+        "/usage history graph modal"
+      ]
+    },
     "workflows": {
       "enabled": false,
       "features": [

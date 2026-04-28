@@ -1,6 +1,6 @@
 import type { UsageHistoryRecord } from "../history/types.js";
 import { groupUsageHistoryRecords } from "./groupUsageHistoryRecords.js";
-import { renderUsageHistorySeries } from "./renderUsageHistorySeries.js";
+import { renderTimeSeriesChart } from "./renderTimeSeriesChart.js";
 
 /**
  * Creates usage history graph lines for the modal.
@@ -10,7 +10,7 @@ import { renderUsageHistorySeries } from "./renderUsageHistorySeries.js";
  * @returns Rendered modal body lines.
  */
 export function createUsageHistoryLines(records: UsageHistoryRecord[], width: number): string[] {
-  const series = groupUsageHistoryRecords(records).slice(-12);
+  const series = groupUsageHistoryRecords(records).slice(-4);
   if (series.length === 0) return ["No usage history yet.", "Snapshots are captured every 5 minutes while Nexus is running."];
-  return series.map((item) => renderUsageHistorySeries(item, width));
+  return series.flatMap((item) => renderTimeSeriesChart(item, width));
 }

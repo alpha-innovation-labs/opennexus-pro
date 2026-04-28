@@ -1,5 +1,6 @@
 import { mkdir, appendFile } from "node:fs/promises";
-import { getUsageHistoryDirPath } from "./getUsageHistoryDirPath.js";
+import { dirname } from "node:path";
+import { compactUsageHistoryFile } from "./compactUsageHistoryFile.js";
 import { getUsageHistoryFilePath } from "./getUsageHistoryFilePath.js";
 import { serializeUsageHistoryRecord } from "./serializeUsageHistoryRecord.js";
 import type { UsageHistoryRecord } from "./types.js";
@@ -12,6 +13,7 @@ import type { UsageHistoryRecord } from "./types.js";
  */
 export async function appendUsageHistoryRecords(records: UsageHistoryRecord[], filePath = getUsageHistoryFilePath()): Promise<void> {
   if (records.length === 0) return;
-  await mkdir(getUsageHistoryDirPath(), { recursive: true });
+  await mkdir(dirname(filePath), { recursive: true });
   await appendFile(filePath, records.map(serializeUsageHistoryRecord).join(""), "utf8");
+  await compactUsageHistoryFile(filePath);
 }

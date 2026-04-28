@@ -3,6 +3,7 @@ import { copyExportHtmlAssets } from "./copyExportHtmlAssets.mjs";
 import { copyJsonFilesFromDir } from "./copyJsonFilesFromDir.mjs";
 import { copyPath } from "./copyPath.mjs";
 import { copyPiThemeAssets } from "./copyPiThemeAssets.mjs";
+import { writeReleaseFeatureFlagsManifest } from "./writeReleaseFeatureFlagsManifest.mjs";
 
 /**
  * Copies package assets needed by the native binary bundle.
@@ -25,6 +26,7 @@ export async function stageBinaryAssets(bundleDir) {
     resolve("packages", "assets", "src", "default-settings", "settings.json"),
     join(packageDir, "runtime", "config", "default-settings", "settings.json"),
   );
+  await writeReleaseFeatureFlagsManifest(packageDir);
   await copyExportHtmlAssets(packageDir);
   await copyPath(resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "modes", "interactive", "assets"), join(packageDir, "assets"));
 }

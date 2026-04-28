@@ -3,6 +3,7 @@ import type { PromptlineContext, PromptlineDeps } from "./types.js";
 import { PromptlineEditor } from "./PromptlineEditor.js";
 import { refreshGitState } from "../../shared/git/refreshGitState.js";
 import { refreshTransportPreference } from "../../shared/transport/refreshTransportPreference.js";
+import { installPromptlineFooter } from "./installPromptlineFooter.js";
 import { getUsageRenderUnsubscribe, setPromptlineRenderRequest, setUsageRenderUnsubscribe } from "./state.js";
 
 /**
@@ -12,13 +13,7 @@ import { getUsageRenderUnsubscribe, setPromptlineRenderRequest, setUsageRenderUn
  * @param deps Promptline dependencies.
  */
 export function installPromptline(ctx: PromptlineContext, deps: PromptlineDeps): void {
-  ctx.ui.setFooter(() => ({
-    dispose() {},
-    invalidate() {},
-    render(): string[] {
-      return [];
-    },
-  }));
+  installPromptlineFooter(ctx, deps);
 
   ctx.ui.setEditorComponent((tui, theme, keybindings) => {
     setPromptlineRenderRequest(() => tui.requestRender());

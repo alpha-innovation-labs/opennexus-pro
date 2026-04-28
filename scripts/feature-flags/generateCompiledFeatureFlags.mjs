@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
+import { createCompiledFeatureFlagsConfig } from "./createCompiledFeatureFlagsConfig.mjs";
 
 const sourcePath = resolve("feature-flags.json");
 const outputPath = resolve("packages", "feature-flags", "src", "generated", "compiledFeatureFlags.ts");
@@ -24,27 +25,6 @@ function createModuleSource(config) {
 }
 
 /**
- * Disables dev-only entries for compiled production feature flags.
- *
- * @param {Record<string, any>} config Parsed root feature-flag config.
- * @returns {Record<string, any>} Production-safe feature-flag config.
- */
-function createCompiledConfig(config) {
-  return {
-    ...config,
-    extensions: Object.fromEntries(
-      Object.entries(config.extensions).map(([id, value]) => [
-        id,
-        {
-          ...value,
-          enabled: value.devOnly ? false : value.enabled,
-        },
-      ]),
-    ),
-  };
-}
-
-/**
  * Regenerates the compiled feature-flag module from the root JSON file.
  *
  * @returns {Promise<void>}
@@ -52,7 +32,7 @@ function createCompiledConfig(config) {
 async function generateCompiledFeatureFlags() {
   const rawConfig = await readFile(sourcePath, "utf8");
   const parsedConfig = JSON.parse(rawConfig);
-  const moduleSource = createModuleSource(createCompiledConfig(parsedConfig));
+  const moduleSource = createModuleSource(createCompiledFeatureFlagsConfig(parsedConfig));
   await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, moduleSource, "utf8");
 }

@@ -9,7 +9,7 @@ import { registerSlashCommand } from "./neo-editor/features/menu/registerSlashCo
  *
  * @param pi Pi extension API.
  */
-export default function registerCompiledBundledExtensions(pi: ExtensionAPI): void {
+export default async function registerCompiledBundledExtensions(pi: ExtensionAPI): Promise<void> {
   const slashAwarePi = new Proxy(pi, {
     get(target, property, receiver) {
       if (property === "registerCommand") {
@@ -30,5 +30,5 @@ export default function registerCompiledBundledExtensions(pi: ExtensionAPI): voi
 
   registerHotkeysCommandHook();
   registerInternalSlashSelectorCommands(pi);
-  registerCompiledEnabledExtensions(slashAwarePi);
+  await registerCompiledEnabledExtensions(slashAwarePi);
 }

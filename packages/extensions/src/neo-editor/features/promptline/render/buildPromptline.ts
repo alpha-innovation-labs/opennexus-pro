@@ -7,7 +7,6 @@ import { PRIMARY_COLOR, RESET } from "./constants.js";
 import { formatContextTokenUsage } from "./formatContextTokenUsage.js";
 import { getCachedContextUsage } from "./getCachedContextUsage.js";
 import { getContextColor } from "./getContextColor.js";
-import { stripProviderPrefix } from "./stripProviderPrefix.js";
 import { truncateFromStart } from "./truncateFromStart.js";
 
 /**
@@ -27,7 +26,6 @@ export function buildPromptline(
 ): { left: string; right: string } {
   const usage = getCachedContextUsage(ctx);
   const currentModel = getPromptlineModel(ctx);
-  const _modelId = stripProviderPrefix(currentModel?.id ?? "no-model");
   const _thinking = getThinkingLevel();
   const branch = getGitState().branch;
 

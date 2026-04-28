@@ -11,6 +11,7 @@ import { registerObservationsExtension } from "../observations/registerObservati
 import { registerRtkExtension } from "../rtk/registerRtkExtension.js";
 import { registerStartupLogoExtension } from "../startup-logo/registerStartupLogoExtension.js";
 import registerTronExtension from "../tron/index.js";
+import registerUsageMeterExtension from "../usage-meter/index.js";
 
 /**
  * Extension ids compiled into the release bundle.
@@ -25,7 +26,8 @@ export const compiledBundledExtensionIds = [
   "observations",
   "rtk",
   "startup-logo",
-  "tron"
+  "tron",
+  "usage-meter"
 ] as const;
 
 const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => void | Promise<void>> = {
@@ -39,6 +41,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "rtk": registerRtkExtension,
   "startup-logo": registerStartupLogoExtension,
   "tron": registerTronExtension,
+  "usage-meter": registerUsageMeterExtension,
 };
 
 /**

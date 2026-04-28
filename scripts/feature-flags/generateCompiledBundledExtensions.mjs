@@ -1,5 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
+import { createCompiledFeatureFlagsConfig } from "./createCompiledFeatureFlagsConfig.mjs";
+import { getCompiledEnabledExtensionIds } from "./getCompiledEnabledExtensionIds.mjs";
 
 const sourcePath = resolve("feature-flags.json");
 const outputPath = resolve("packages", "extensions", "src", "generated", "registerCompiledEnabledExtensions.ts");
@@ -35,6 +37,7 @@ const extensionModules = {
   "term-modal": { importPath: "../term-modal/registerTermModalExtension.js", exportName: "registerTermModalExtension" },
   todo: { importPath: "../todo/registerTodoExtension.js", exportName: "registerTodoExtension" },
   tron: { importPath: "../tron/index.js", exportName: "default", localName: "registerTronExtension" },
+  "usage-meter": { importPath: "../usage-meter/index.js", exportName: "default", localName: "registerUsageMeterExtension" },
   workspace: { importPath: "../workspace/registerWorkspaceExtension.js", exportName: "registerWorkspaceExtension" },
   workflows: { importPath: "../workflows/registerWorkflowsExtension.js", exportName: "registerWorkflowsExtension" },
 };
@@ -109,9 +112,7 @@ function createModuleSource(enabledIds) {
 async function generateCompiledBundledExtensions() {
   const rawConfig = await readFile(sourcePath, "utf8");
   const parsedConfig = JSON.parse(rawConfig);
-  const enabledIds = Object.entries(parsedConfig.extensions)
-    .filter(([, value]) => value.enabled && value.devOnly !== true)
-    .map(([id]) => id);
+  const enabledIds = getCompiledEnabledExtensionIds(createCompiledFeatureFlagsConfig(parsedConfig));
   const moduleSource = createModuleSource(enabledIds);
   await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, moduleSource, "utf8");
