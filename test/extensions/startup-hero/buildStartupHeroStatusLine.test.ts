@@ -4,21 +4,22 @@ import { visibleWidth } from "@mariozechner/pi-tui";
 import { buildStartupHeroStatusLine } from "../../../packages/extensions/src/startup-hero/buildStartupHeroStatusLine.js";
 
 /**
- * Creates a theme that exposes success and error colors as ANSI codes.
+ * Creates a theme that exposes tool diff colors as ANSI codes.
  *
  * @returns Theme stub for status color assertions.
  */
 function createStatusColorTheme(): { fg(color: string, value: string): string } {
 	return {
 		fg(color: string, value: string): string {
-			if (color === "success") return `\u001b[32m${value}\u001b[39m`;
-			if (color === "error") return `\u001b[31m${value}\u001b[39m`;
+			if (color === "toolDiffAdded") return `\u001b[32m${value}\u001b[39m`;
+			if (color === "toolDiffRemoved") return `\u001b[31m${value}\u001b[39m`;
+			if (color === "success" || color === "error") throw new Error(`Unexpected status color: ${color}`);
 			return value;
 		},
 	};
 }
 
-test("startup hero status colors check and x icons", () => {
+test("startup hero status uses tool diff colors for check and x icons", () => {
 	const active = buildStartupHeroStatusLine(createStatusColorTheme(), { activeSkillCount: 1, agentsMdLoaded: true }, 80);
 	const inactive = buildStartupHeroStatusLine(createStatusColorTheme(), { activeSkillCount: 0, agentsMdLoaded: false }, 80);
 
