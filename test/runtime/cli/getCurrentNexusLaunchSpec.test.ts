@@ -60,10 +60,10 @@ test("getCurrentNexusLaunchSpec falls back to the current cli entrypoint outside
   }
 });
 
-test("normalizeResumeStartupArgs preserves bare --resume so Pi owns the resume picker", () => {
+test("normalizeResumeStartupArgs removes bare --resume so Nexus owns the resume picker", () => {
   withClearedResumeEnv(() => {
-    assert.deepEqual(normalizeResumeStartupArgs(["--resume", "--help"]), ["--resume", "--help"]);
-    assert.equal(shouldPrimeStartupResumeModal(), false);
+    assert.deepEqual(normalizeResumeStartupArgs(["--resume"]), []);
+    assert.equal(shouldPrimeStartupResumeModal(), true);
     assert.equal(isResumeLaunch(), true);
   });
 });

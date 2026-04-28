@@ -92,7 +92,10 @@ function renderSelectListItem(options: RenderSelectListLinesOptions, item: Autoc
   const rawLabel = item.label || item.value;
   const description = item.description?.replace(/[\r\n]+/g, " ").trim();
   const maxLines = Math.max(1, options.itemMaxLines?.(item) ?? 1);
-  if ((item as { preserveLabelWhitespace?: boolean }).preserveLabelWhitespace) return renderWhitespaceLabel(options, item, selected, rawLabel);
+  if ((item as { preserveLabelWhitespace?: boolean }).preserveLabelWhitespace) {
+    if ((item as { wrapPreservedLabel?: boolean }).wrapPreservedLabel) return renderWrappedWhitespaceLabel(options, item, selected, rawLabel, maxLines);
+    return renderWhitespaceLabel(options, item, selected, rawLabel);
+  }
   if (description) return renderDescribedItem(options, item, selected, rawLabel, description, maxLines);
   const indent = getItemIndent(item);
   return wrapTextLines(rawLabel, Math.max(1, options.width - 3 - visibleWidth(indent)), maxLines).map((line) => ` ${indent}${styleLabel(options, item, selected, line)}`);
@@ -114,6 +117,37 @@ function renderWhitespaceLabel(options: RenderSelectListLinesOptions, item: Auto
     const labelLine = truncateToWidth(line, lineWidth, "");
     return ` ${indent}${styleLabel(options, item, selected, labelLine)}`;
   });
+}
+
+/**
+ * Renders a preserved multiline item while wrapping its title line.
+ *
+ * @param options Render options.
+ * @param item Item to render.
+ * @param selected Whether the item is selected.
+ * @param rawLabel Raw multiline label.
+ * @param maxLines Maximum rendered lines.
+ * @returns Rendered wrapped rows.
+ */
+function renderWrappedWhitespaceLabel(options: RenderSelectListLinesOptions, item: AutocompleteItem, selected: boolean, rawLabel: string, maxLines: number): string[] {
+  const indent = getItemIndent(item);
+  const lineWidth = Math.max(1, options.width - 3 - visibleWidth(indent));
+  const [title = "", ...details] = rawLabel.split("\n");
+  const detailCount = Math.min(details.length, Math.max(0, maxLines - 1));
+  const titleLines = wrapTextLines(title, lineWidth, Math.max(1, maxLines - detailCount));
+  const resumeAge = (item as { resumeAge?: string }).resumeAge;
+  const rawDetailLines = details.slice(0, Math.max(0, maxLines - titleLines.length));
+  const detailLines = rawDetailLines.map((line) => {
+    if (!resumeAge) return truncateToWidth(line, lineWidth, "");
+    const ageWidth = visibleWidth(resumeAge);
+    const detailWidth = Math.max(1, lineWidth - ageWidth - 1);
+    const detail = truncateToWidth(line, detailWidth, "");
+    const spacing = " ".repeat(Math.max(1, lineWidth - visibleWidth(detail) - ageWidth));
+    return `${detail}${spacing}${resumeAge}`;
+  });
+  const titleRows = titleLines.map((line) => ` ${indent}${styleLabel(options, item, selected, line)}`);
+  const detailRows = detailLines.map((line) => ` ${indent}${options.theme.fg("muted", line)}`);
+  return [...titleRows, ...detailRows].slice(0, maxLines);
 }
 
 /**

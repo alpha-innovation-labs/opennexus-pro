@@ -166,9 +166,11 @@ test("slash modal opens a session name input submenu with the current name prefi
 
 test("slash modal enters the resume submenu without submitting the raw /resume command", async () => {
   const originalList = SessionManager.list;
+  const originalListAll = SessionManager.listAll;
   let submitted = "";
   let renders = 0;
   (SessionManager as any).list = async () => [];
+  (SessionManager as any).listAll = async () => [];
 
   try {
     const { modal } = createSlashModal(
@@ -194,20 +196,81 @@ test("slash modal enters the resume submenu without submitting the raw /resume c
     const viewport = await renderComponentInVirtualTerminal(() => modal, 120, 30);
 
     assert.equal(submitted, "");
-    assert.match(viewport.join("\n"), /Resume/);
+    assert.match(viewport.join("\n"), /◉ Current Folder │ ○ All/u);
     assert.ok(renders > 0);
   } finally {
     (SessionManager as any).list = originalList;
+    (SessionManager as any).listAll = originalListAll;
+  }
+});
+
+test("resume submenu search filters cached leaves without relisting sessions", async () => {
+  const originalList = SessionManager.list;
+  const originalListAll = SessionManager.listAll;
+  const { sessionDir, sessionPath } = await createResumeSessionFixture();
+  let listCalls = 0;
+  let listAllCalls = 0;
+
+  try {
+    (SessionManager as any).list = async () => {
+      listCalls += 1;
+      return [{ path: sessionPath, name: "Cached resume search fixture", modified: new Date() }];
+    };
+    (SessionManager as any).listAll = async () => {
+      listAllCalls += 1;
+      return [];
+    };
+
+    const { modal } = createSlashModal(
+      {
+        ...createContext(),
+        sessionManager: {
+          getSessionDir() {
+            return sessionDir;
+          },
+        },
+      } as never,
+      () => undefined,
+      () => undefined,
+      () => undefined,
+      () => "medium",
+      () => undefined,
+      () => undefined,
+      (() => ({ hide: () => undefined, focus: () => undefined, isFocused: () => true })) as never,
+    );
+
+    modal.setQuery("resume");
+    await modal.refresh();
+    modal.handleInput("\r");
+    await flushAsyncWork();
+    modal.handleInput("c");
+    await flushAsyncWork();
+    modal.handleInput("a");
+    await flushAsyncWork();
+
+    assert.equal(listCalls, 1);
+    assert.equal(listAllCalls, 0);
+  } finally {
+    (SessionManager as any).list = originalList;
+    (SessionManager as any).listAll = originalListAll;
+    await rm(sessionDir, { recursive: true, force: true });
   }
 });
 
 test("resume submenu hides cwd metadata and shows the shared Tron-style transcript preview", async () => {
   const originalList = SessionManager.list;
+  const originalListAll = SessionManager.listAll;
   const { sessionDir, sessionPath } = await createResumeSessionFixture();
 
   try {
     await initializePiThemes();
     (SessionManager as any).list = async () => [{
+      path: sessionPath,
+      name: "Resume transcript fixture",
+      cwd: "/tmp/should-not-render",
+      modified: new Date(),
+    }];
+    (SessionManager as any).listAll = async () => [{
       path: sessionPath,
       name: "Resume transcript fixture",
       cwd: "/tmp/should-not-render",
@@ -248,6 +311,66 @@ test("resume submenu hides cwd metadata and shows the shared Tron-style transcri
     assert.match(output, /read/);
   } finally {
     (SessionManager as any).list = originalList;
+    (SessionManager as any).listAll = originalListAll;
+    await rm(sessionDir, { recursive: true, force: true });
+  }
+});
+
+test("resume submenu shows scope tabs and places metadata below the conversation title", async () => {
+  const originalList = SessionManager.list;
+  const originalListAll = SessionManager.listAll;
+  const { sessionDir, sessionPath } = await createResumeSessionFixture();
+
+  try {
+    (SessionManager as any).list = async () => [{
+      path: sessionPath,
+      name: "Current folder conversation title that should not change row height",
+      modified: new Date(),
+    }];
+    (SessionManager as any).listAll = async () => [{
+      path: sessionPath,
+      name: "Global conversation title",
+      modified: new Date(),
+    }];
+
+    const { modal } = createSlashModal(
+      {
+        ...createContext(),
+        sessionManager: {
+          getSessionDir() {
+            return sessionDir;
+          },
+        },
+      } as never,
+      () => undefined,
+      () => undefined,
+      () => undefined,
+      () => "medium",
+      () => undefined,
+      () => undefined,
+      (() => ({ hide: () => undefined, focus: () => undefined, isFocused: () => true })) as never,
+    );
+
+    modal.setQuery("resume");
+    await modal.refresh();
+    modal.handleInput("\r");
+    const currentView = (await renderComponentInVirtualTerminal(() => modal, 130, 24)).join("\n");
+    const currentLines = currentView.split("\n");
+    const titleLineIndex = currentLines.findIndex((line) => line.includes("Current folder conversation title"));
+    const metadataLineIndex = currentLines.findIndex((line, index) => index > titleLineIndex && line.includes("󰀄"));
+
+    assert.match(currentView, /◉ Current Folder │ ○ All/u);
+    assert.ok(titleLineIndex >= 0);
+    assert.equal(metadataLineIndex, titleLineIndex + 1);
+    assert.doesNotMatch(currentLines[titleLineIndex]!, /󰀄/u);
+
+    modal.handleInput("\t");
+    const allView = (await renderComponentInVirtualTerminal(() => modal, 130, 24)).join("\n");
+    assert.match(allView, /○ Current Folder │ ◉ All/u);
+    assert.match(allView, /Global conversation title/u);
+  } finally {
+    (SessionManager as any).list = originalList;
+    (SessionManager as any).listAll = originalListAll;
     await rm(sessionDir, { recursive: true, force: true });
   }
 });

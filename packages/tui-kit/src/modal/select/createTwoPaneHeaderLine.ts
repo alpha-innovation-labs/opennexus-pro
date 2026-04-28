@@ -18,6 +18,7 @@ export type TwoPaneHeaderOptions = {
 export function createTwoPaneHeaderLine(options: TwoPaneHeaderOptions): string {
   const left = options.activePane === "left" ? options.uiTheme.fg("accent", `● ${options.leftTitle}`) : options.uiTheme.fg("muted", `○ ${options.leftTitle}`);
   const right = options.activePane === "right" ? options.uiTheme.fg("accent", `● ${options.rightTitle}`) : options.uiTheme.fg("muted", `○ ${options.rightTitle}`);
+  if (options.showLeftPane && options.showRightPane && options.rightTitle.trim() === "") return options.leftTitle;
   if (options.showLeftPane && options.showRightPane) return `${left} │ ${right}`;
   return options.showLeftPane ? left : right;
 }

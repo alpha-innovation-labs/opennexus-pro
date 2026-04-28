@@ -24,10 +24,12 @@ export function updateResumePreview(input: {
   setRightLines: (lines: string[]) => void;
   requestRender: () => void;
   isStillSelected: (item: SlashMenuLeaf | SlashMenuSection) => boolean;
+  leftPaneRatio?: number;
 }): void {
   const dialogWidth = Math.max(80, Math.min(input.width, Math.floor(input.width * 0.9)));
   const innerWidth = Math.max(78, dialogWidth - 2);
-  const { rightWidth } = computeTwoPaneWidths(innerWidth, true, input.isRightPaneFocused() ? 0.3 : 0.6);
+  const leftPaneRatio = input.leftPaneRatio ?? (input.isRightPaneFocused() ? 0.3 : 0.6);
+  const { rightWidth } = computeTwoPaneWidths(innerWidth, true, leftPaneRatio);
   const previewWidth = Math.max(24, rightWidth);
   const previewKey = `resume:${input.item.value}`;
   if (input.state.renderedPreviewKey === previewKey && input.state.renderedPreviewWidth === previewWidth) return;

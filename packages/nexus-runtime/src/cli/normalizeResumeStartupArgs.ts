@@ -20,7 +20,8 @@ export function normalizeResumeStartupArgs(args: string[]): string[] {
 
   if (request.mode === "picker") {
     process.env[resumeLaunchEnvVar] = "1";
-    return [...args];
+    process.env[startupResumeEnvVar] = "1";
+    return args.filter((_, index) => index !== request.flagIndex);
   }
 
   return [...args];

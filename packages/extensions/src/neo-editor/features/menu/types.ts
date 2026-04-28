@@ -18,6 +18,9 @@ export type SlashMenuLeaf = {
   groupLabel?: string;
   options?: string[];
   preserveLabelWhitespace?: boolean;
+  resumeAge?: string;
+  resumeRow?: boolean;
+  wrapPreservedLabel?: boolean;
   treeParentUserId?: string;
   treeFocusEntryId?: string;
   treeRole?: "user" | "thinking" | "tool";
@@ -29,4 +32,7 @@ export type SlashMenuSection = {
   value: string;
   groupLabel?: string;
   preserveLabelWhitespace?: boolean;
+  resumeAge?: string;
+  resumeRow?: boolean;
+  wrapPreservedLabel?: boolean;
 };

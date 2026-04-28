@@ -1,5 +1,4 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { SessionManager } from "../../../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/session-manager.js";
 import { createForkLeaves } from "./createForkLeaves.js";
 import { createModelLeaves } from "./createModelLeaves.js";
 import { createOAuthProviderLeaves } from "./createOAuthProviderLeaves.js";
@@ -9,6 +8,8 @@ import { createSettingsLeaves } from "./createSettingsLeaves.js";
 import { createThemeLeaves } from "./createThemeLeaves.js";
 import { createTreeLeaves } from "./createTreeLeaves.js";
 import { createTreeSummaryLeaves } from "./createTreeSummaryLeaves.js";
+import { listResumeSessions } from "./resume-scope/listResumeSessions.js";
+import type { ResumeScope } from "./resume-scope/ResumeScope.js";
 import type { SlashMenuLevel } from "./SlashMenuLevel.js";
 import type { SlashMenuLeaf } from "./types.js";
 
@@ -25,6 +26,7 @@ export async function createActiveLeaves(
   level: SlashMenuLevel,
   getThinkingLevel: () => string,
   expandedTreeUserIds: ReadonlySet<string> = new Set(),
+  resumeScope: ResumeScope = "all",
 ): Promise<SlashMenuLeaf[]> {
   if (level === "settings") return createSettingsLeaves(ctx.cwd, getThinkingLevel(), ctx.model);
   if (level === "theme") return createThemeLeaves(ctx.cwd);
@@ -33,7 +35,7 @@ export async function createActiveLeaves(
   if (level === "fork") return createForkLeaves(ctx.sessionManager.getEntries() as never);
   if (level === "tree") return createTreeLeaves(ctx.sessionManager.getTree() as never, expandedTreeUserIds, ctx.ui.theme);
   if (level === "tree-summary") return createTreeSummaryLeaves();
-  if (level === "resume") return createResumeLeaves(await SessionManager.list(ctx.cwd, ctx.sessionManager.getSessionDir()));
+  if (level === "resume") return createResumeLeaves(await listResumeSessions(ctx, resumeScope));
   if (level === "login") return createOAuthProviderLeaves(ctx, "login");
   if (level === "logout") return createOAuthProviderLeaves(ctx, "logout");
   return [];

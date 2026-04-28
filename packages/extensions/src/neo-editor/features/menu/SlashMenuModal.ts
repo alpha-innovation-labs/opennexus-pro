@@ -16,6 +16,10 @@ import { createSettingChoiceLeaves } from "./createSettingChoiceLeaves.js";
 import { createSlashMenuPreviewLines } from "./createSlashMenuPreviewLines.js";
 import { createTopLevelItems } from "./createTopLevelItems.js";
 import { encodeSlashMenuValue } from "./encodeSlashMenuValue.js";
+import { createResumeScopeHeaderTitle } from "./resume-scope/createResumeScopeHeaderTitle.js";
+import { getCachedResumeLeaves } from "./resume-scope/getCachedResumeLeaves.js";
+import { getNextResumeScope } from "./resume-scope/getNextResumeScope.js";
+import type { ResumeScope } from "./resume-scope/ResumeScope.js";
 import { filterMenuItems } from "./filterMenuItems.js";
 import { formatSettingsMenuLabel } from "./formatSettingsMenuLabel.js";
 import { formatTopLevelMenuLabel } from "./formatTopLevelMenuLabel.js";
@@ -35,6 +39,8 @@ import { toAutocompleteItems } from "./toAutocompleteItems.js";
 import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
 import { updateResumePreview, type ResumePreviewState } from "./updateResumePreview.js";
 
+const SLASH_MENU_LEFT_PANE_RATIO = 0.42;
+
 /**
  * Two-pane slash navigator with nested Nexus-owned selector flows.
  */
@@ -53,6 +59,8 @@ export class SlashMenuModal extends SelectPreviewModal {
   private readonly previousLevels: SlashMenuLevel[] = [];
   private readonly resumePreviewState: ResumePreviewState = { previewRequestId: 0 };
   private readonly previewCache = new Map<string, string[]>();
+  private readonly resumeLeavesCache = new Map<ResumeScope, SlashMenuLeaf[]>();
+  private resumeScope: ResumeScope = "current";
 
   constructor(
     private readonly ctx: ExtensionContext,
@@ -62,7 +70,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     private readonly requestRender: () => void,
     private readonly onCommandPicked: (commandText: string) => void,
   ) {
-    super(ctx.ui.theme, () => undefined, requestClose, undefined, { leftTitle: "Menu", rightTitle: "Preview", bottomTitle: "Search", bottomPrefix: "> /", leftPaneRatio: 0.42 });
+    super(ctx.ui.theme, () => undefined, requestClose, undefined, { leftTitle: "Menu", rightTitle: "Preview", bottomTitle: "Search", bottomPrefix: "> /", leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO, itemMaxLines: (item) => (item as { resumeRow?: boolean }).resumeRow ? 2 : 1 });
     this.setOnPick(() => void this.handleEnter());
   }
 
@@ -92,7 +100,7 @@ export class SlashMenuModal extends SelectPreviewModal {
       this.requestRender();
       return;
     }
-    this.activeLeaves = this.level === "setting-choice" && this.pendingSettingLeaf ? createSettingChoiceLeaves(this.pendingSettingLeaf) : this.level === "name-input" ? [createNameInputLeaf(this.nameInput)] : await createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.expandedTreeUserIds);
+    this.activeLeaves = await this.createVisibleLeaves();
     if (this.level === "settings") {
       const settingsWidth = calculateSettingsMenuWidth(this.activeLeaves);
       this.setModalWidthPolicy(settingsWidth, settingsWidth, 0.9);
@@ -115,6 +123,7 @@ export class SlashMenuModal extends SelectPreviewModal {
       this.handleNameInput(data);
       return;
     }
+    if (this.handleResumeScopeInput(data)) return;
     if (this.handleTreeNavigationInput(data)) return;
     if (this.handleTreeSearchActivationInput(data)) return;
     if (this.isTreeSearchInactive() && this.handleListNavigationInput(data)) return;
@@ -194,8 +203,21 @@ export class SlashMenuModal extends SelectPreviewModal {
     return false;
   }
 
+  /**
+   * Creates leaves for the current menu level, reusing cached resume leaves during search.
+   *
+   * @returns Current level leaves.
+   */
+  private async createVisibleLeaves(): Promise<SlashMenuLeaf[]> {
+    if (this.level === "setting-choice" && this.pendingSettingLeaf) return createSettingChoiceLeaves(this.pendingSettingLeaf);
+    if (this.level === "name-input") return [createNameInputLeaf(this.nameInput)];
+    if (this.level === "resume") return getCachedResumeLeaves(this.resumeLeavesCache, this.ctx, this.resumeScope);
+    return createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.expandedTreeUserIds, this.resumeScope);
+  }
+
   private renderItems(items: Array<SlashMenuLeaf | SlashMenuSection>, leftTitle: string): void {
-    this.setTitles(leftTitle, "Preview");
+    if (this.level === "resume") this.setTitles(createResumeScopeHeaderTitle(this.resumeScope), "");
+    else this.setTitles(leftTitle, "Preview");
     this.setItems(toAutocompleteItems(items.map((item) => this.formatVisibleItem(item))));
     this.selectedPreviewItem = items[0];
     this.resumePreviewState.renderedPreviewKey = undefined;
@@ -270,6 +292,10 @@ export class SlashMenuModal extends SelectPreviewModal {
       this.scopedSelection = new Set(leaves.filter((leaf) => leaf.label.startsWith("✓")).map((leaf) => leaf.value));
     }
     if (this.level === "tree") this.expandedTreeUserIds.clear();
+    if (this.level === "resume") {
+      this.resumeScope = "current";
+      this.resumeLeavesCache.clear();
+    }
     this.setBottom("Search", "", "> /");
     await this.refresh();
   }
@@ -327,6 +353,43 @@ export class SlashMenuModal extends SelectPreviewModal {
   private async openSessionInfoPanel(): Promise<void> {
     this.requestClose();
     await showSessionInfoModal(this.ctx);
+  }
+
+  /**
+   * Handles resume-source switching shortcuts.
+   *
+   * @param data Raw keyboard input.
+   * @returns True when the key switched resume source.
+   */
+  private handleResumeScopeInput(data: string): boolean {
+    if (this.level !== "resume") return false;
+    if (data === "\t") {
+      void this.setResumeScope(getNextResumeScope(this.resumeScope));
+      return true;
+    }
+    if (matchesKey(data, Key.left)) {
+      void this.setResumeScope("current");
+      return true;
+    }
+    if (matchesKey(data, Key.right)) {
+      void this.setResumeScope("all");
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Sets the resume source and refreshes the resume menu.
+   *
+   * @param scope Source to display.
+   */
+  private async setResumeScope(scope: ResumeScope): Promise<void> {
+    if (this.resumeScope === scope) return;
+    this.resumeScope = scope;
+    this.query = "";
+    this.searchActive = false;
+    this.setBottom("Search", "", "> /");
+    await this.refresh();
   }
 
   private async openSettingChoice(leaf: SlashMenuLeaf): Promise<void> {
@@ -395,6 +458,7 @@ export class SlashMenuModal extends SelectPreviewModal {
         state: this.resumePreviewState,
         previewCache: this.previewCache,
         isRightPaneFocused: () => this.isRightPaneFocused(),
+        leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO,
         setRightLines: (lines) => this.setRightLines(lines),
         requestRender: this.requestRender,
         isStillSelected: (previewItem) => this.selectedPreviewItem?.value === previewItem.value,
@@ -413,6 +477,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "settings") return { ...item, label: formatSettingsMenuLabel(item.label, (item as SlashMenuLeaf).currentValue, this.ctx.ui.theme, icon), description: "", preserveLabelWhitespace: true };
     if (this.level === "setting-choice") return { ...item, description: "" };
     if (this.level === "tree") return { ...item, description: "", preserveLabelWhitespace: true };
+    if (this.level === "resume") return { ...item, label: `${item.label}\n${item.description}`, description: "", preserveLabelWhitespace: true, resumeRow: true, wrapPreservedLabel: true };
     if (this.level === "model" || this.level === "login" || this.level === "logout" || this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return { ...item, label: `${icon} ${item.label}`, description: "" };
     return { ...item, label: `${icon} ${item.label}` };
   }
