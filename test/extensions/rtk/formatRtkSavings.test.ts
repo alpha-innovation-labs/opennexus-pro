@@ -18,7 +18,7 @@ test("formatRtkSavings renders a compact Nexus savings summary from RTK gain JSO
 
   assert.equal(
     formatRtkSavings(report),
-    "RTK saved 28.3M tokens (76.1%)\n5,282 commands · 37.1M in → 9.9M out",
+    "Nexus saved 28.3M tokens (76.1%)\n5,282 commands · 37.1M in → 9.9M out",
   );
 });
 

@@ -4,6 +4,9 @@ import { getRtkExecutionCwd } from "../runtime/getRtkExecutionCwd.js";
 import { formatRtkSavings } from "../savings/formatRtkSavings.js";
 import { getRtkGainJsonArgs } from "../savings/getRtkGainJsonArgs.js";
 import { parseRtkGainJson } from "../savings/parseRtkGainJson.js";
+import { fetchOpenRouterModelOptions } from "../pricing/fetchOpenRouterModelOptions.js";
+import { getEarliestRtkGainDate } from "../savings/getEarliestRtkGainDate.js";
+import { collectSessionTokenUsage } from "../usage/collectSessionTokenUsage.js";
 import { showRtkSavingsModal } from "../ui/showRtkSavingsModal.js";
 
 /**
@@ -13,7 +16,7 @@ import { showRtkSavingsModal } from "../ui/showRtkSavingsModal.js";
  */
 export function registerSavingsCommand(pi: ExtensionAPI): void {
   pi.registerCommand("savings", withSlashMenuGroup({
-    description: "Show RTK token savings",
+    description: "Show Nexus token savings",
     handler: async (_args, ctx) => {
       const result = await pi.exec("rtk", ["gain", ...getRtkGainJsonArgs()], {
         cwd: getRtkExecutionCwd(ctx),
@@ -27,9 +30,13 @@ export function registerSavingsCommand(pi: ExtensionAPI): void {
         return;
       }
 
-      const report = parseRtkGainJson(result.stdout);
+      const rtk = parseRtkGainJson(result.stdout);
+      const usage = await collectSessionTokenUsage(getEarliestRtkGainDate(rtk));
+      const availableModels = await fetchOpenRouterModelOptions().catch(() => []);
+      const selectedModel = availableModels.find((model) => model.id.endsWith(`/${usage.mostUsedModel}`)) ?? availableModels[0];
+      const report = { availableModels, pricing: selectedModel?.pricing, pricingModelId: selectedModel?.id, rtk, usage };
       if (ctx.hasUI) await showRtkSavingsModal(ctx, report);
-      else console.log(formatRtkSavings(report));
+      else console.log(formatRtkSavings(rtk));
     },
-  }, "Diagnostics"));
+  }, "Extensions"));
 }

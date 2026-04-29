@@ -31,11 +31,12 @@ test("RtkSavingsModal renders savings inside a framed modal with period tabs", (
   assert.match(dailyOutput, /○ Weekly/u);
   assert.match(dailyOutput, /○ Monthly/u);
   assert.doesNotMatch(dailyOutput, /RTK Token Savings/u);
-  assert.match(dailyOutput, /Daily saved\s+80/u);
-  assert.match(dailyOutput, /Commands\s+1/u);
-  assert.match(dailyOutput, /Efficiency\s+\[.*\]\s+80%/u);
-  assert.equal(getMetricValueColumn(dailyOutput, "Daily saved"), getMetricValueColumn(dailyOutput, "Commands"));
-  assert.equal(getMetricValueColumn(dailyOutput, "Daily saved"), getMetricValueColumn(dailyOutput, "Efficiency"));
+  assert.match(dailyOutput, /Total input\s+100/u);
+  assert.match(dailyOutput, /Total output\s+20/u);
+  assert.match(dailyOutput, /Nexus input saved\s+80/u);
+  assert.match(dailyOutput, /Saved share\s+\[.*\]\s+40%/u);
+  assert.equal(getMetricValueColumn(dailyOutput, "Total input"), getMetricValueColumn(dailyOutput, "Total output"));
+  assert.equal(getMetricValueColumn(dailyOutput, "Total input"), getMetricValueColumn(dailyOutput, "Saved share"));
   assert.doesNotMatch(dailyOutput, /runtime/iu);
   assert.doesNotMatch(dailyOutput, /Esc close/u);
   assert.doesNotMatch(dailyOutput, /Saved .*tokens ·/u);
@@ -43,17 +44,79 @@ test("RtkSavingsModal renders savings inside a framed modal with period tabs", (
   modal.handleInput("\t");
   const weeklyOutput = modal.render(100).join("\n");
   assert.match(weeklyOutput, /● Weekly/u);
-  assert.match(weeklyOutput, /Weekly saved\s+750/u);
-  assert.equal(getMetricValueColumn(weeklyOutput, "Weekly saved"), getMetricValueColumn(weeklyOutput, "Commands"));
+  assert.match(weeklyOutput, /Nexus input saved\s+750/u);
+  assert.equal(getMetricValueColumn(weeklyOutput, "Nexus input saved"), getMetricValueColumn(weeklyOutput, "Saved share"));
 
   modal.handleInput("\t");
   const monthlyOutput = modal.render(100).join("\n");
   assert.match(monthlyOutput, /● Monthly/u);
-  assert.match(monthlyOutput, /Monthly saved\s+900/u);
+  assert.match(monthlyOutput, /Nexus input saved\s+900/u);
   assert.equal(renderRequests, 2);
 
   assert.ok(colors.includes("success"));
   assert.ok(colors.includes("accent"));
+});
+
+test("RtkSavingsModal switches only between pre-priced OpenRouter models", () => {
+  const colors: string[] = [];
+  const modal = new RtkSavingsModal({ fg: (color, value) => {
+    colors.push(color);
+    return value;
+  } }, {
+    availableModels: [
+      { id: "openai/gpt-5.5", label: "GPT 5.5", pricing: { cachedInput: 0.0000005, input: 0.000005, modelId: "openai/gpt-5.5", output: 0.00003 } },
+      { id: "moonshotai/kimi-k2.5", label: "Kimi K2.5", pricing: { cachedInput: 0.00000022, input: 0.00000044, modelId: "moonshotai/kimi-k2.5", output: 0.000002 } },
+    ],
+    pricing: { cachedInput: 0.0000005, input: 0.000005, modelId: "openai/gpt-5.5", output: 0.00003 },
+    pricingModelId: "openai/gpt-5.5",
+    rtk: {
+      daily: [{ commands: 1, input_tokens: 1000, output_tokens: 500, saved_tokens: 750, savings_pct: 75, total_time_ms: 20, avg_time_ms: 10, date: "2026-04-27" }],
+      summary: { total_commands: 1, total_input: 1000, total_output: 500, total_saved: 750, avg_savings_pct: 75, total_time_ms: 20, avg_time_ms: 10 },
+    },
+    usage: { daily: [{ cacheRead: 0, cacheWrite: 0, input: 1000, key: "2026-04-27", modelTokens: {}, output: 500, total: 1500 }], monthly: [], mostUsedModel: null, summary: { cacheRead: 0, cacheWrite: 0, input: 1000, output: 500, total: 1500 }, weekly: [] },
+  }, () => undefined);
+
+  modal.handleInput("m");
+  modal.handleInput("j");
+  modal.handleInput("\r");
+  const output = modal.render(100).join("\n");
+
+  assert.match(output, /OpenRouter moonshotai\/kimi-k2\.5 \(m\)/u);
+  assert.match(output, /Total cost\s+\$0\.00/u);
+  assert.match(output, /Nexus \$ saved\s+\$0\.00/u);
+  assert.ok(colors.includes("error"));
+  assert.ok(colors.includes("success"));
+});
+
+test("RtkSavingsModal opens filterable model pricing panel with m marker", () => {
+  const modal = new RtkSavingsModal({ fg: (_color, value) => value }, {
+    availableModels: [
+      { id: "openai/gpt-5.5", label: "GPT 5.5", pricing: { cachedInput: 0.0000005, input: 0.000005, modelId: "openai/gpt-5.5", output: 0.00003 } },
+      { id: "moonshotai/kimi-k2.5", label: "Kimi K2.5", pricing: { cachedInput: 0.00000022, input: 0.00000044, modelId: "moonshotai/kimi-k2.5", output: 0.000002 } },
+      ...Array.from({ length: 20 }, (_, index) => ({ id: `provider/model-${index}`, label: `Extra Model ${index}`, pricing: { cachedInput: 0, input: 0, modelId: `provider/model-${index}`, output: 0 } })),
+    ],
+    pricingModelId: "openai/gpt-5.5",
+    rtk: {
+      daily: [{ commands: 1, input_tokens: 100, output_tokens: 20, saved_tokens: 80, savings_pct: 80, total_time_ms: 5, avg_time_ms: 5, date: "2026-04-27" }],
+      summary: { total_commands: 1, total_input: 100, total_output: 20, total_saved: 80, avg_savings_pct: 80, total_time_ms: 5, avg_time_ms: 5 },
+    },
+  }, () => undefined);
+
+  modal.handleInput("m");
+  const output = modal.render(100).join("\n");
+
+  assert.match(output, /Pricing model/u);
+  assert.match(output, /GPT 5\.5 \(m\)/u);
+  assert.match(output, /Filter: type to filter/u);
+  assert.ok(output.split("\n").length < 20);
+
+  modal.handleInput("K");
+  modal.handleInput("i");
+  const filteredOutput = modal.render(100).join("\n");
+
+  assert.match(filteredOutput, /Kimi K2\.5/u);
+  assert.doesNotMatch(filteredOutput, /Extra Model/u);
+  assert.match(filteredOutput, /Filter: Ki/u);
 });
 
 /**

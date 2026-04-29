@@ -11,7 +11,7 @@ import { formatTokenCount } from "./formatTokenCount.js";
 export function formatRtkSavings(report: RtkGainReport): string {
   const summary = report.summary;
   return [
-    `RTK saved ${formatTokenCount(summary.total_saved)} tokens (${formatPercent(summary.avg_savings_pct)})`,
+    `Nexus saved ${formatTokenCount(summary.total_saved)} tokens (${formatPercent(summary.avg_savings_pct)})`,
     `${summary.total_commands.toLocaleString()} commands · ${formatTokenCount(summary.total_input)} in → ${formatTokenCount(summary.total_output)} out`,
   ].join("\n");
 }
