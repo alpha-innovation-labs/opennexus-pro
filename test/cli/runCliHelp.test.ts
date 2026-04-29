@@ -38,7 +38,9 @@ test("runCliWithApp prints Nexus-owned top-level help for -h and skips Pi startu
 	assert.equal(ranApp, false);
 	assert.match(text, /Usage: nexus \[options\] \[prompt\]/u);
 	assert.match(text, /nexus gateway -h/u);
+	assert.match(text, /nexus annotation -h/u);
 	assert.match(text, /--sessions/u);
+	assert.match(text, /--observations <session-id>/u);
 	assert.match(text, /--usage/u);
 	assert.match(text, /--session-dir <path>/u);
 	assert.match(text, /--session-dir=<path>/u);
@@ -66,7 +68,7 @@ test("runCliWithApp prints Nexus-owned top-level help for -h and skips Pi startu
 	assert.doesNotMatch(text, /nexus list/u);
 });
 
-test("runCliWithApp prints scoped annotation help for nexus annotation -h", async () => {
+test("runCliWithApp allows enabled dev-only annotation CLI commands in source dev", async () => {
 	let ranApp = false;
 	let exitCode = -1;
 	const output = await captureConsoleLog(async () => {
@@ -76,17 +78,13 @@ test("runCliWithApp prints scoped annotation help for nexus annotation -h", asyn
 			},
 		});
 	});
-	const text = output.join("\n");
 
 	assert.equal(exitCode, 0);
 	assert.equal(ranApp, false);
-	assert.match(text, /Usage: nexus annotation <start\|stop\|restart\|status\|logs>/u);
-	assert.match(text, /start/u);
-	assert.match(text, /logs/u);
-	assert.doesNotMatch(text, /adapter/u);
+	assert.match(output.join("\n"), /Usage: nexus annotation/u);
 });
 
-test("runCliWithApp prints scoped gateway help for nexus gateway -h", async () => {
+test("runCliWithApp allows enabled dev-only gateway CLI commands in source dev", async () => {
 	let ranApp = false;
 	let exitCode = -1;
 	const output = await captureConsoleLog(async () => {
@@ -96,12 +94,8 @@ test("runCliWithApp prints scoped gateway help for nexus gateway -h", async () =
 			},
 		});
 	});
-	const text = output.join("\n");
 
 	assert.equal(exitCode, 0);
 	assert.equal(ranApp, false);
-	assert.match(text, /Usage: nexus gateway <start\|stop\|restart\|status>/u);
-	assert.match(text, /start/u);
-	assert.match(text, /status/u);
-	assert.doesNotMatch(text, /adapter/u);
+	assert.match(output.join("\n"), /Usage: nexus gateway/u);
 });

@@ -26,7 +26,7 @@ test("createTopLevelItems groups commands and sorts labels inside each group", (
   assert.equal(items.some((item) => item.label === "Settings"), false);
 });
 
-test("createTopLevelItems uses extension-declared menu groups", () => {
+test("createTopLevelItems forces extension commands into the Extensions group", () => {
   registerSlashCommand({ name: "aaa-extension", description: "Extension command", source: "extension", menuGroup: "Chat" });
   registerSlashCommand({ name: "zzz-general", description: "General command" });
 
@@ -34,9 +34,9 @@ test("createTopLevelItems uses extension-declared menu groups", () => {
   const extensionIndex = items.findIndex((item) => item.value === "aaa-extension");
   const generalIndex = items.findIndex((item) => item.value === "zzz-general");
 
-  assert.equal(items[extensionIndex]?.groupLabel, "Chat");
+  assert.equal(items[extensionIndex]?.groupLabel, "Extensions");
   assert.equal(items[generalIndex]?.groupLabel, "System");
-  assert.ok(extensionIndex > -1 && generalIndex > extensionIndex);
+  assert.ok(generalIndex > -1 && extensionIndex > generalIndex);
 });
 
 test("createTopLevelItems adds custom command and skill submenus when available", () => {

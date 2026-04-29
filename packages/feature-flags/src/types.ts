@@ -1,13 +1,16 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
-export type ExtensionFeatureFlagConfig = {
+export type FeatureFlagConfig = {
   devOnly?: boolean;
   enabled: boolean;
   features: string[];
 };
 
+export type ExtensionFeatureFlagConfig = FeatureFlagConfig;
+
 export type FeatureFlagsConfig = {
   extensions: Record<string, ExtensionFeatureFlagConfig>;
+  other?: Record<string, FeatureFlagConfig>;
 };
 
 export type ExtensionFeatureFlag = {

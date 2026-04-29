@@ -1,4 +1,5 @@
 import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { getSourceEntrypointPath } from "@nexus/gateway-core/process/getSourceEntrypointPath.js";
 import { getTsxRuntimeBinaryPath } from "@nexus/gateway-core/process/getTsxRuntimeBinaryPath.js";
 import { isBundledBinary } from "../package/isBundledBinary.js";
@@ -14,11 +15,11 @@ export function getCurrentNexusLaunchSpec(args: string[]): GatewayLaunchSpec {
   const sourceEntrypoint = getSourceEntrypointPath();
   const tsxBinaryPath = getTsxRuntimeBinaryPath();
   const currentEntrypoint = process.argv[1];
+  const normalizedCurrentEntrypoint = currentEntrypoint ? resolve(currentEntrypoint) : undefined;
   const bundledBinary = isBundledBinary(import.meta.url);
-  const isRunningSourceEntrypoint = currentEntrypoint === sourceEntrypoint;
-  const isRunningProjectSource = Boolean(currentEntrypoint?.startsWith(process.cwd()));
+  const isRunningSourceEntrypoint = normalizedCurrentEntrypoint === sourceEntrypoint;
 
-  if (!bundledBinary && (isRunningSourceEntrypoint || isRunningProjectSource) && existsSync(sourceEntrypoint) && existsSync(tsxBinaryPath)) {
+  if (!bundledBinary && isRunningSourceEntrypoint && existsSync(sourceEntrypoint) && existsSync(tsxBinaryPath)) {
     return {
       command: tsxBinaryPath,
       args: [sourceEntrypoint, ...args],

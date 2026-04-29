@@ -16,3 +16,7 @@
 - Reusable UI building blocks live under `src/extensions/shared/`. Before creating new overlay or picker UI, check that folder first — especially `src/extensions/shared/two-pane-select-modal/` for modal reuse.
 
 It is a CATASTROPHIC FAILURE to have a release of this app, expose source code. I repeat: CATASTROPHIC
+
+This project uses Turbo repo.
+Any piece of code is either part of an app in ./apps
+or part of a package in ./packages

@@ -4,6 +4,7 @@ import { registerHotkeysCommandHook } from "./neo-editor/features/help-shortcuts
 import { registerInternalSlashSelectorCommands } from "./neo-editor/features/menu/internal-commands/registerInternalSlashSelectorCommands.js";
 import { registerSlashCommand } from "./neo-editor/features/menu/registerSlashCommand.js";
 import { recordRegisteredShortcut } from "@nexus/tui-kit/shortcuts/recordRegisteredShortcut.js";
+import { registerTelemetryRuntimeExtension } from "./telemetry-runtime/registerTelemetryRuntimeExtension.js";
 
 export { createExtensionFeatureFlags, createExtensionFeatureFlagReport, getEnabledExtensionFeatureFlags, readFeatureFlagsConfig } from "@nexus/feature-flags/index.js";
 
@@ -38,5 +39,6 @@ export default async function index(pi: ExtensionAPI): Promise<void> {
 	});
 	registerHotkeysCommandHook();
 	registerInternalSlashSelectorCommands(pi);
+	registerTelemetryRuntimeExtension(pi);
 	await registerEnabledExtensions(slashAwarePi, createExtensionFeatureFlags());
 }

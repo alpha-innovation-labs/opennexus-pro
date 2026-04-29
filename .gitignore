@@ -7,3 +7,5 @@ node_modules/
 .dolt/
 *.db
 .beads-credential-key
+apps/marketing-videos/out
+apps/marketing-videos/out

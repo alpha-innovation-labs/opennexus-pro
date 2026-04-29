@@ -13,5 +13,5 @@ export function registerKanbanCommand(pi: ExtensionAPI): void {
 		handler: async (_args, ctx) => {
 			await showKanbanModal(ctx);
 		},
-	}, "Workspace"));
+	}, "Extensions"));
 }

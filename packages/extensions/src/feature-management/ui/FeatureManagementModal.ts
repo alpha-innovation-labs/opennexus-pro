@@ -2,24 +2,30 @@ import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
 import { Key, matchesKey } from "@mariozechner/pi-tui";
 import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
 import type { FeatureFlagConfigPatch } from "../model/updateFeatureFlagsConfig.js";
-import type { FeatureManagementControl, FeatureStatusRow } from "../model/types.js";
+import type { FeatureManagementControl, FeatureManagementTab, FeatureStatusRow } from "../model/types.js";
 import { createFeatureAutocompleteItems } from "./createFeatureAutocompleteItems.js";
+import { createFeatureManagementHeader } from "./createFeatureManagementHeader.js";
 import { filterFeatureStatusRows } from "./filterFeatureStatusRows.js";
+import { filterFeatureStatusRowsByTab } from "./filterFeatureStatusRowsByTab.js";
+import { getFeatureManagementHeaderWidth } from "./getFeatureManagementHeaderWidth.js";
 import { getFeatureStatusRowForItem } from "./getFeatureStatusRowForItem.js";
+import { getNextFeatureManagementTab } from "./getNextFeatureManagementTab.js";
 import { isFeatureFilterTextInput } from "./isFeatureFilterTextInput.js";
 
 export type FeatureManagementUpdate = (
 	extensionId: string,
 	patch: FeatureFlagConfigPatch,
+	row: FeatureStatusRow,
 ) => FeatureStatusRow[];
 
 /**
- * Single-pane modal for browsing and editing extension feature flags.
+ * Single-pane modal for browsing and editing extension and non-extension feature flags.
  */
 export class FeatureManagementModal extends SelectPreviewModal {
 	private activeControl: FeatureManagementControl = "status";
+	private activeTab: FeatureManagementTab = "all";
 	private filterQuery = "";
-	private readonly theme: ExtensionCommandContext["ui"]["theme"];
+	private readonly rowTheme: ExtensionCommandContext["ui"]["theme"];
 	private rows: FeatureStatusRow[];
 
 	/**
@@ -41,24 +47,33 @@ export class FeatureManagementModal extends SelectPreviewModal {
 			showRightPane: false,
 		});
 		this.rows = rows;
-		this.theme = theme;
+		this.rowTheme = theme;
+		this.setHeaderFocusMarkers(false);
 		this.setOnPick(() => this.toggleSelectedControl());
 		this.refreshBottom();
 		this.refreshItems();
 	}
 
 	/**
-	 * Routes keyboard input for field focus and row toggles.
+	 * Routes keyboard input for tab navigation, field focus, and row toggles.
 	 *
 	 * @param data Raw keyboard input.
 	 */
 	override handleInput(data: string): void {
+		if (matchesKey(data, Key.shift("tab"))) {
+			this.moveToNextTab(-1);
+			return;
+		}
 		if (matchesKey(data, Key.tab)) {
-			this.moveToNextControl();
+			this.moveToNextTab(1);
 			return;
 		}
 		if (matchesKey(data, Key.enter)) {
 			this.toggleSelectedControl();
+			return;
+		}
+		if (data === " " || matchesKey(data, Key.right)) {
+			this.moveToNextControl();
 			return;
 		}
 		if (this.clearFilterOnEscape(data)) return;
@@ -72,6 +87,17 @@ export class FeatureManagementModal extends SelectPreviewModal {
 	private moveToNextControl(): void {
 		this.activeControl = this.activeControl === "status" ? "channel" : "status";
 		this.refreshItems(this.getSelectedItem()?.value);
+	}
+
+	/**
+	 * Switches the active feature category tab.
+	 *
+	 * @param direction Tab traversal direction.
+	 */
+	private moveToNextTab(direction: 1 | -1): void {
+		this.activeTab = getNextFeatureManagementTab(this.activeTab, direction);
+		this.refreshBottom();
+		this.refreshItems();
 	}
 
 	/**
@@ -117,7 +143,7 @@ export class FeatureManagementModal extends SelectPreviewModal {
 		if (!row) return;
 
 		const patch = this.createPatch(row);
-		this.rows = this.onUpdate?.(row.extensionId, patch) ?? this.applyLocalPatch(row.extensionId, patch);
+		this.rows = this.onUpdate?.(row.extensionId, patch, row) ?? this.applyLocalPatch(row.extensionId, patch, row);
 		this.refreshItems(row.extensionId);
 	}
 
@@ -128,31 +154,31 @@ export class FeatureManagementModal extends SelectPreviewModal {
 	 * @returns Patch that flips the focused control.
 	 */
 	private createPatch(row: FeatureStatusRow): FeatureFlagConfigPatch {
-		if (this.activeControl === "status") {
-			return { status: row.status === "enabled" ? "disabled" : "enabled" };
-		}
+		if (this.activeControl === "status") return { status: row.status === "enabled" ? "disabled" : "enabled" };
 		return { channel: row.channel === "production" ? "dev" : "production" };
 	}
 
 	/**
 	 * Applies a row patch without persistence for tests and read-only callers.
 	 *
-	 * @param extensionId Extension id to update.
+	 * @param extensionId Feature id to update.
 	 * @param patch Status or channel change.
+	 * @param targetRow Existing row being updated.
 	 * @returns Updated rows.
 	 */
-	private applyLocalPatch(extensionId: string, patch: FeatureFlagConfigPatch): FeatureStatusRow[] {
-		return this.rows.map((row) => (row.extensionId === extensionId ? { ...row, ...patch } : row));
+	private applyLocalPatch(extensionId: string, patch: FeatureFlagConfigPatch, targetRow: FeatureStatusRow): FeatureStatusRow[] {
+		return this.rows.map((row) => (row.extensionId === extensionId && row.category === targetRow.category ? { ...row, ...patch } : row));
 	}
 
 	/**
 	 * Rebuilds modal items while preserving the current row selection.
 	 *
-	 * @param selectedValue Selected extension id to restore.
+	 * @param selectedValue Selected feature id to restore.
 	 */
 	private refreshItems(selectedValue = this.getSelectedItem()?.value): void {
-		const visibleRows = filterFeatureStatusRows(this.rows, this.filterQuery);
-		this.setItems(createFeatureAutocompleteItems(visibleRows, this.activeControl, this.theme));
+		const tabRows = filterFeatureStatusRowsByTab(this.rows, this.activeTab);
+		const visibleRows = filterFeatureStatusRows(tabRows, this.filterQuery);
+		this.setItems(createFeatureAutocompleteItems(visibleRows, this.activeControl, this.rowTheme));
 		if (selectedValue) this.selectValue(selectedValue);
 	}
 
@@ -161,5 +187,16 @@ export class FeatureManagementModal extends SelectPreviewModal {
 	 */
 	private refreshBottom(): void {
 		this.setBottom("Search", this.filterQuery, "> ");
+	}
+
+	/**
+	 * Renders the modal with top-right feature category tabs.
+	 *
+	 * @param width Available terminal width.
+	 * @returns Rendered modal lines.
+	 */
+	override render(width: number): string[] {
+		this.setTitles(createFeatureManagementHeader("Features", this.activeTab, getFeatureManagementHeaderWidth(width), this.rowTheme), "");
+		return super.render(width);
 	}
 }

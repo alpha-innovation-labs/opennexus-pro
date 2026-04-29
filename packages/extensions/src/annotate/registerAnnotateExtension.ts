@@ -18,7 +18,7 @@ export function registerAnnotateExtension(pi: ExtensionAPI): void {
   pi.registerCommand("annotate", withSlashMenuGroup({
     description: "Start visual annotation mode in Chrome. Optionally provide a URL.",
     handler: createAnnotateCommandHandler(state),
-  }, "Workspace"));
+  }, "Extensions"));
 
   const registerTool = pi.registerTool as (definition: unknown) => void;
   registerTool(createAnnotateTool(state));

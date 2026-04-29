@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { registerDevExtension } from "../../../packages/extensions/src/dev/registerDevExtension.js";
 
-test("dev extension registers the dev-modal command", () => {
+test("dev extension registers dev-only commands", () => {
   const commands: string[] = [];
   const pi = {
     registerCommand(name: string) {
@@ -12,5 +12,5 @@ test("dev extension registers the dev-modal command", () => {
 
   registerDevExtension(pi as never);
 
-  assert.deepEqual(commands, ["dev-modal"]);
+  assert.deepEqual(commands, ["dev-modal", "telemetry"]);
 });

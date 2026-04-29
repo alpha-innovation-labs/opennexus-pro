@@ -3,6 +3,7 @@ import registerCompiledEnabledExtensions from "./generated/registerCompiledEnabl
 import { registerHotkeysCommandHook } from "./neo-editor/features/help-shortcuts/registerHotkeysCommandHook.js";
 import { registerInternalSlashSelectorCommands } from "./neo-editor/features/menu/internal-commands/registerInternalSlashSelectorCommands.js";
 import { registerSlashCommand } from "./neo-editor/features/menu/registerSlashCommand.js";
+import { registerTelemetryRuntimeExtension } from "./telemetry-runtime/registerTelemetryRuntimeExtension.js";
 
 /**
  * Registers the release-bundled extension set compiled from feature-flags.json.
@@ -30,5 +31,6 @@ export default async function registerCompiledBundledExtensions(pi: ExtensionAPI
 
   registerHotkeysCommandHook();
   registerInternalSlashSelectorCommands(pi);
+  registerTelemetryRuntimeExtension(pi);
   await registerCompiledEnabledExtensions(slashAwarePi);
 }

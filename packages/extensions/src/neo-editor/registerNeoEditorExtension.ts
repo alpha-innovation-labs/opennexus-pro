@@ -8,11 +8,13 @@ import { refreshPromptlineConfig } from "./features/promptline/config/refreshPro
 import { refreshAndRender } from "./features/promptline/refreshAndRender.js";
 import { resetPromptlineState } from "./features/promptline/resetPromptlineState.js";
 import { getPromptlineRenderRequest, setPromptlineModelOverride } from "./features/promptline/state.js";
+import { registerPromptlineStatusWidget } from "./features/promptline/status-widget/registerPromptlineStatusWidget.js";
 import { primeStartupLoginModal } from "./primeStartupLoginModal.js";
 import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
 
 export default function(pi: ExtensionAPI) {
   logExtensionEvent("neo-editor", "init");
+  registerPromptlineStatusWidget(pi);
 
   const deps = {
     exec: pi.exec,

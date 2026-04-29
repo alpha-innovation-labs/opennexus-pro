@@ -48,6 +48,25 @@ test("exit-message skips fresh interactive shutdowns without real messages", asy
 	clearExitMessage();
 });
 
+test("exit-message skips non-interactive turns", async () => {
+	clearExitMessage();
+	let turnEndHandler: ((event: unknown, ctx: TestContext) => void) | undefined;
+	const pi = {
+		getSessionName() {
+			return "Current system title";
+		},
+		on(eventName: string, handler: (event: unknown, ctx: TestContext) => void) {
+			if (eventName === "turn_end") turnEndHandler = handler;
+		},
+	};
+
+	registerExitMessageExtension(pi as never);
+	assert.ok(turnEndHandler);
+	turnEndHandler?.({}, createTestContext("session-id", false, [{ type: "message" }]));
+	assert.equal(getExitMessage(), undefined);
+	clearExitMessage();
+});
+
 test("exit-message skips non-interactive shutdowns", async () => {
 	clearExitMessage();
 	let shutdownHandler: ((event: unknown, ctx: TestContext) => void) | undefined;

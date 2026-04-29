@@ -60,6 +60,36 @@ test("getCurrentNexusLaunchSpec falls back to the current cli entrypoint outside
   }
 });
 
+test("getCurrentNexusLaunchSpec normalizes relative source entrypoint paths", () => {
+  const originalArgv = process.argv;
+
+  process.argv = ["/usr/local/bin/node", "apps/tui/src/index.ts", "gateway", "start"];
+
+  try {
+    const spec = getCurrentNexusLaunchSpec(["gateway", "__gateway-runner"]);
+
+    assert.match(spec.command, /tsx$/);
+    assert.match(spec.args.join(" "), /src\/index\.ts gateway __gateway-runner/);
+  } finally {
+    process.argv = originalArgv;
+  }
+});
+
+test("getCurrentNexusLaunchSpec does not treat package source imports as a tsx-launched source entrypoint", () => {
+  const originalArgv = process.argv;
+
+  process.argv = ["/usr/local/bin/node", "/opt/homebrew/bin/nexus", "gateway", "restart"];
+
+  try {
+    const spec = getCurrentNexusLaunchSpec(["gateway", "__gateway-runner"]);
+
+    assert.equal(spec.command, process.execPath);
+    assert.deepEqual(spec.args, ["/opt/homebrew/bin/nexus", "gateway", "__gateway-runner"]);
+  } finally {
+    process.argv = originalArgv;
+  }
+});
+
 test("normalizeResumeStartupArgs removes bare --resume so Nexus owns the resume picker", () => {
   withClearedResumeEnv(() => {
     assert.deepEqual(normalizeResumeStartupArgs(["--resume"]), []);

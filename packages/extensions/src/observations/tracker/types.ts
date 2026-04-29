@@ -40,5 +40,6 @@ export type ObservationState = {
 	cwd: string;
 	sessionFile: string | null;
 	updatedAt: number;
+	summary: string;
 	topics: ObservationTopic[];
 };

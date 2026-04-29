@@ -91,7 +91,7 @@ function getRowWindowStart(selectedRowIndex: number, maxVisible: number, rowCoun
 function renderSelectListItem(options: RenderSelectListLinesOptions, item: AutocompleteItem, selected: boolean): string[] {
   const rawLabel = item.label || item.value;
   const description = item.description?.replace(/[\r\n]+/g, " ").trim();
-  const maxLines = Math.max(1, options.itemMaxLines?.(item) ?? 1);
+  const maxLines = getItemMaxLines(options, item, rawLabel);
   if ((item as { preserveLabelWhitespace?: boolean }).preserveLabelWhitespace) {
     if ((item as { wrapPreservedLabel?: boolean }).wrapPreservedLabel) return renderWrappedWhitespaceLabel(options, item, selected, rawLabel, maxLines);
     return renderWhitespaceLabel(options, item, selected, rawLabel);
@@ -201,6 +201,19 @@ function getGroupLabel(item: AutocompleteItem): string | undefined {
  */
 function getItemIndent(item: AutocompleteItem): string {
   return getGroupLabel(item) ? "  " : "";
+}
+
+/**
+ * Calculates the maximum lines allowed for an item.
+ *
+ * @param options Render options.
+ * @param item Item to inspect.
+ * @param rawLabel Label before wrapping.
+ * @returns Maximum rendered lines.
+ */
+function getItemMaxLines(options: RenderSelectListLinesOptions, item: AutocompleteItem, rawLabel: string): number {
+  if ((item as { wrapToFit?: boolean }).wrapToFit) return Math.max(1, rawLabel.length);
+  return Math.max(1, options.itemMaxLines?.(item) ?? 1);
 }
 
 /** Styles a label segment. */

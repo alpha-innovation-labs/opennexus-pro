@@ -7,6 +7,7 @@ import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 const rows: FeatureStatusRow[] = [
 	{
+		category: "extensions",
 		extensionId: "alpha",
 		feature: "alpha",
 		status: "enabled",
@@ -14,6 +15,7 @@ const rows: FeatureStatusRow[] = [
 		group: "Production",
 	},
 	{
+		category: "extensions",
 		extensionId: "dev-tools",
 		feature: "dev-tools",
 		status: "disabled",
@@ -71,7 +73,7 @@ test("/features modal clears the active filter on escape before closing", () => 
 	assert.match(output, /alpha\s+› enabled/u);
 });
 
-test("/features modal uses tab to choose the status or channel toggle", () => {
+test("/features modal uses space to choose the status or channel toggle", () => {
 	let updatedRows = rows;
 	const patches: Array<{ extensionId: string; patch: { channel?: string; status?: string } }> = [];
 	const modal = new FeatureManagementModal(createTestTheme(), rows, () => {}, (extensionId, patch) => {
@@ -81,7 +83,7 @@ test("/features modal uses tab to choose the status or channel toggle", () => {
 	});
 
 	modal.handleInput("\r");
-	modal.handleInput("\t");
+	modal.handleInput(" ");
 	modal.handleInput("\r");
 	modal.handleInput("\x1b[B");
 	modal.handleInput("\r");
@@ -91,4 +93,33 @@ test("/features modal uses tab to choose the status or channel toggle", () => {
 		{ extensionId: "dev-tools", patch: { channel: "production" } },
 		{ extensionId: "alpha", patch: { channel: "dev" } },
 	]);
+});
+
+test("/features modal uses tab and shift+tab to switch All, Extensions, and Other", () => {
+	const modal = new FeatureManagementModal(createTestTheme(), [
+		...rows,
+		{
+			category: "other",
+			extensionId: "gateway",
+			feature: "gateway",
+			status: "disabled",
+			channel: "dev",
+			group: "Playground",
+		},
+	], () => {});
+
+	modal.handleInput("\t");
+	const extensionsOutput = modal.render(140).join("\n");
+	modal.handleInput("\t");
+	const otherOutput = modal.render(140).join("\n");
+	modal.handleInput("\x1b[Z");
+	const restoredOutput = modal.render(140).join("\n");
+
+	assert.match(extensionsOutput, /○ All \| ● Extensions \| ○ Other/u);
+	assert.match(extensionsOutput, /alpha/u);
+	assert.doesNotMatch(extensionsOutput, /gateway/u);
+	assert.match(otherOutput, /○ All \| ○ Extensions \| ● Other/u);
+	assert.match(otherOutput, /gateway/u);
+	assert.doesNotMatch(otherOutput, /alpha\s+› enabled/u);
+	assert.match(restoredOutput, /○ All \| ● Extensions \| ○ Other/u);
 });

@@ -24,6 +24,7 @@ export type SlashMenuLeaf = {
   resumeAge?: string;
   resumeRow?: boolean;
   wrapPreservedLabel?: boolean;
+  wrapToFit?: boolean;
   treeParentUserId?: string;
   treeFocusEntryId?: string;
   treeRole?: "user" | "thinking" | "tool";
@@ -38,4 +39,5 @@ export type SlashMenuSection = {
   resumeAge?: string;
   resumeRow?: boolean;
   wrapPreservedLabel?: boolean;
+  wrapToFit?: boolean;
 };

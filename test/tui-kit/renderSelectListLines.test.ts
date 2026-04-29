@@ -47,3 +47,23 @@ test("wrapped preserved rows do not insert empty padding lines and align muted a
   assert.equal(lines.some((line) => line.trim() === ""), false);
   assert.equal(colors.includes("muted"), true);
 });
+
+test("wrap-to-fit rows hard wrap long labels instead of truncating", () => {
+  const lines = renderSelectListLines({
+    items: [
+      {
+        value: "skill:long",
+        label: "›  supercalifragilisticexpialidocious",
+        description: "",
+        wrapToFit: true,
+      } as never,
+    ],
+    maxVisible: 10,
+    selectedIndex: 0,
+    theme: createTestTheme() as never,
+    width: 14,
+  }).map((line) => stripAnsi(line));
+
+  assert.deepEqual(lines, [" › ", " supercalifr", " isticexpial", " ious"]);
+  assert.equal(lines.join(" ").includes("…"), false);
+});

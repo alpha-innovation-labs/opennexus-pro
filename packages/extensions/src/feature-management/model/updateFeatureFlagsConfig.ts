@@ -1,5 +1,5 @@
-import type { FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
-import type { FeatureReleaseChannel, FeatureRuntimeStatus } from "./types.js";
+import type { FeatureFlagConfig, FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
+import type { FeatureReleaseChannel, FeatureRuntimeStatus, FeatureStatusCategory } from "./types.js";
 
 export type FeatureFlagConfigPatch = {
 	channel?: FeatureReleaseChannel;
@@ -10,16 +10,19 @@ export type FeatureFlagConfigPatch = {
  * Applies a feature-management modal change to an immutable feature-flag config copy.
  *
  * @param config Current feature-flag config.
- * @param extensionId Extension id to update.
+ * @param featureId Feature id to update.
  * @param patch Status or channel change to apply.
+ * @param category Feature category that owns the id.
  * @returns Updated feature-flag config.
  */
 export function updateFeatureFlagsConfig(
 	config: FeatureFlagsConfig,
-	extensionId: string,
+	featureId: string,
 	patch: FeatureFlagConfigPatch,
+	category: FeatureStatusCategory = "extensions",
 ): FeatureFlagsConfig {
-	const current = config.extensions[extensionId];
+	const entries = category === "extensions" ? config.extensions : config.other;
+	const current = entries?.[featureId];
 	if (!current) return config;
 
 	const nextValue = {
@@ -28,10 +31,21 @@ export function updateFeatureFlagsConfig(
 		...(patch.channel === "dev" ? { devOnly: true, enabled: false } : {}),
 	};
 
+	if (category === "extensions") {
+		return {
+			...config,
+			extensions: {
+				...config.extensions,
+				[featureId]: nextValue,
+			},
+		};
+	}
+
 	return {
-		extensions: {
-			...config.extensions,
-			[extensionId]: nextValue,
+		...config,
+		other: {
+			...(config.other ?? {}),
+			[featureId]: nextValue,
 		},
 	};
 }
@@ -39,14 +53,11 @@ export function updateFeatureFlagsConfig(
 /**
  * Creates the base config value while removing devOnly for production channel edits.
  *
- * @param current Current extension feature-flag value.
+ * @param current Current feature-flag value.
  * @param channel Optional channel patch.
- * @returns Extension feature-flag value base for the update.
+ * @returns Feature-flag value base for the update.
  */
-function createChannelBase(
-	current: FeatureFlagsConfig["extensions"][string],
-	channel?: FeatureReleaseChannel,
-): FeatureFlagsConfig["extensions"][string] {
+function createChannelBase(current: FeatureFlagConfig, channel?: FeatureReleaseChannel): FeatureFlagConfig {
 	if (channel !== "production") return current;
 	const { devOnly: _devOnly, ...withoutDevOnly } = current;
 	return withoutDevOnly;

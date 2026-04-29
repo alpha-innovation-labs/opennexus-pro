@@ -13,5 +13,5 @@ export function registerCmuxCommand(pi: ExtensionAPI): void {
 		handler: async (_args, ctx) => {
 			await showCmuxWorkspaceShellsModal(ctx);
 		},
-	}, "Workspace"));
+	}, "Extensions"));
 }

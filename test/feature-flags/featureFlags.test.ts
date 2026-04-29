@@ -84,7 +84,7 @@ test("release generators rebuild compiled feature flags and extension ids from t
     const originalConfig = await readRootFeatureFlagsConfig();
     const originalCompiledFeatureFlagsSource = await readFile("packages/feature-flags/src/generated/compiledFeatureFlags.ts", "utf8");
     const originalCompiledExtensionsSource = await readFile("packages/extensions/src/generated/registerCompiledEnabledExtensions.ts", "utf8");
-    const modifiedConfig = createModifiedFeatureFlagsConfig(originalConfig, ["annotate", "workspace"]);
+    const modifiedConfig = createModifiedFeatureFlagsConfig(originalConfig, ["annotate", "notify", "workspace"]);
 
     try {
       await writeRootFeatureFlagsConfig(modifiedConfig);
@@ -93,10 +93,13 @@ test("release generators rebuild compiled feature flags and extension ids from t
       const compiledFeatureFlagsSource = await readFile("packages/feature-flags/src/generated/compiledFeatureFlags.ts", "utf8");
       const compiledExtensionsSource = await readFile("packages/extensions/src/generated/registerCompiledEnabledExtensions.ts", "utf8");
 
-      assert.match(compiledFeatureFlagsSource, /"annotate": \{[\s\S]*?"enabled": true/);
-      assert.match(compiledFeatureFlagsSource, /"workspace": \{[\s\S]*?"enabled": true/);
-      assert.match(compiledExtensionsSource, /export const compiledBundledExtensionIds = \[\n  "annotate",\n  "workspace"\n\] as const;/);
+      assert.doesNotMatch(compiledFeatureFlagsSource, /"annotate": \{/);
+      assert.match(compiledFeatureFlagsSource, /"notify": \{[\s\S]*?"enabled": true/);
+      assert.doesNotMatch(compiledFeatureFlagsSource, /"workspace": \{/);
+      assert.match(compiledExtensionsSource, /export const compiledBundledExtensionIds = \[\n  "notify"\n\] as const;/);
       assert.doesNotMatch(compiledExtensionsSource, /dev-modal/);
+      assert.doesNotMatch(compiledExtensionsSource, /registerCompiledFeatureManagementExtension/);
+      assert.doesNotMatch(compiledExtensionsSource, /registerAnnotateExtension/);
     } finally {
       await writeRootFeatureFlagsConfig(originalConfig);
       await runFeatureFlagGenerators();
@@ -106,12 +109,13 @@ test("release generators rebuild compiled feature flags and extension ids from t
   });
 });
 
-test("compiled production feature flags disable dev-only extensions", () => {
+test("compiled production feature flags exclude dev-only extensions", () => {
   const bundledConfig = getBundledFeatureFlagsConfig();
 
-  assert.equal(bundledConfig.extensions.dev?.devOnly, true);
-  assert.equal(bundledConfig.extensions.dev?.enabled, false);
-  assert.equal(bundledConfig.extensions["feature-management"]?.enabled, true);
+  assert.equal(bundledConfig.extensions.dev, undefined);
+  assert.equal(bundledConfig.extensions.annotate, undefined);
+  assert.equal(bundledConfig.extensions["feature-management"], undefined);
+  assert.ok(Object.values(bundledConfig.extensions).every((extension) => !extension.devOnly));
 });
 
 test("release build pipeline regenerates compiled feature flag artifacts before bundling", () => {

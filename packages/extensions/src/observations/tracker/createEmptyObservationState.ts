@@ -18,6 +18,7 @@ export function createEmptyObservationState(
 		cwd,
 		sessionFile,
 		updatedAt: Date.now(),
+		summary: "",
 		topics: [],
 	};
 }

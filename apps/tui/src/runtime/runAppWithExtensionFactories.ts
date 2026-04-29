@@ -1,3 +1,4 @@
+import { platform, release } from "node:os";
 import type { ExtensionFactory } from "@mariozechner/pi-coding-agent";
 import { createAppArgs } from "../cli/createAppArgs.js";
 import { resolveBundledExtensionFactories } from "./extensions/resolveBundledExtensionFactories.js";
@@ -29,6 +30,7 @@ import { pruneLoggedOutEnabledModels } from "@nexus/pi-platform/settings/pruneLo
 import { clearStartupScreen } from "./startup-screen/clearStartupScreen.js";
 import { shouldClearStartupScreen } from "./startup-screen/shouldClearStartupScreen.js";
 import { ensureAnnotationsDaemonStarted } from "./annotations-daemon/ensureAnnotationsDaemonStarted.js";
+import { sendTelemetryEventSafely } from "@nexus/observability/telemetry/sendTelemetryEventSafely.js";
 
 export type CreateExtensionFactories = () => Promise<ExtensionFactory[]>;
 
@@ -52,7 +54,17 @@ export async function runAppWithExtensionFactories(
   clearStartupProfileLog();
   clearExitMessage();
   registerExitMessageProcessHandler();
+  const appStartedAt = performance.now();
   logStartupProfileEvent("runApp", "start", { argv: rawArgs });
+  void sendTelemetryEventSafely("app.start", {
+    "os.platform": platform(),
+    "os.release": release(),
+    "node.version": process.versions.node,
+    "terminal.term": process.env.TERM,
+    "terminal.program": process.env.TERM_PROGRAM,
+    "terminal.color": process.env.COLORTERM,
+    "terminal.wt_session": process.env.WT_SESSION ? true : undefined,
+  });
 
   let phaseStartedAt = performance.now();
   ensureAgentDirEnv();
@@ -122,6 +134,9 @@ export async function runAppWithExtensionFactories(
   const args = createAppArgs(rawArgs);
   const extensionFactories = await resolveBundledExtensionFactories(rawArgs, createExtensionFactories);
   logRunAppPhase("prepareArgsAndExtensions:done", phaseStartedAt);
+  void sendTelemetryEventSafely("startup.duration", {
+    "startup.duration_ms": Number((performance.now() - appStartedAt).toFixed(3)),
+  });
 
   phaseStartedAt = performance.now();
   const { main } = await import("@mariozechner/pi-coding-agent");
@@ -131,6 +146,9 @@ export async function runAppWithExtensionFactories(
   phaseStartedAt = performance.now();
   await main(args, { extensionFactories });
   logRunAppPhase("piMain:done", phaseStartedAt);
+  void sendTelemetryEventSafely("app.exit", {
+    "process.exit_code": process.exitCode ?? 0,
+  });
 
   printExitMessage();
 }

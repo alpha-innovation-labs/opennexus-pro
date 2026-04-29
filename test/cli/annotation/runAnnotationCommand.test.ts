@@ -3,7 +3,7 @@ import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
-import { runCliWithApp } from "../../../apps/tui/src/cli/runCliWithApp.js";
+import { runAnnotationCommand } from "../../../apps/tui/src/cli/annotation/runAnnotationCommand.js";
 import { getAnnotationsDaemonLogPath } from "../../../packages/annotations-daemon-core/src/paths/getAnnotationsDaemonLogPath.js";
 
 /**
@@ -47,11 +47,7 @@ test("nexus annotation status reports the stopped daemon", async () => {
     let ranApp = false;
     let exitCode = -1;
     const output = await captureConsoleLog(async () => {
-      exitCode = await runCliWithApp(["annotation", "status"], {
-        async runApp() {
-          ranApp = true;
-        },
-      });
+      exitCode = await runAnnotationCommand(["annotation", "status"]);
     });
 
     assert.equal(exitCode, 0);
@@ -66,7 +62,7 @@ test("nexus annotation logs prints path and recent daemon log lines", async () =
     await mkdir(dirname(logPath), { recursive: true });
     await writeFile(logPath, "line one\nline two\n", "utf8");
     const output = await captureConsoleLog(async () => {
-      await runCliWithApp(["annotation", "logs"], { async runApp() {} });
+      await runAnnotationCommand(["annotation", "logs"]);
     });
 
     assert.match(output, /annotation daemon log:/);

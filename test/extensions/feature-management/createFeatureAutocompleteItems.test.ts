@@ -7,6 +7,7 @@ import type { FeatureStatusRow } from "../../../packages/extensions/src/feature-
 
 const rows: FeatureStatusRow[] = [
 	{
+		category: "extensions",
 		extensionId: "alpha",
 		feature: "alpha",
 		status: "enabled",
@@ -14,6 +15,7 @@ const rows: FeatureStatusRow[] = [
 		group: "Production",
 	},
 	{
+		category: "extensions",
 		extensionId: "longer-feature",
 		feature: "longer-feature",
 		status: "disabled",

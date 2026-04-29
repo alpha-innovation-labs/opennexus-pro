@@ -123,7 +123,7 @@ export function registerWorkspaceExtension(pi: ExtensionAPI): void {
 		handler: async (_args, ctx) => {
 			await showSessionsModal(ctx);
 		},
-	}, "Workspace"));
+	}, "Extensions"));
 
 	pi.registerShortcut("ctrl+;", {
 		description: "Prime the editor to auto-submit /sessions",

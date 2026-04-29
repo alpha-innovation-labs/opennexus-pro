@@ -17,6 +17,7 @@ export function toAutocompleteItems(records: Array<SlashMenuLeaf | SlashMenuSect
     resumeAge: (record as { resumeAge?: string }).resumeAge,
     resumeRow: (record as { resumeRow?: boolean }).resumeRow,
     wrapPreservedLabel: (record as { wrapPreservedLabel?: boolean }).wrapPreservedLabel,
+    wrapToFit: (record as { wrapToFit?: boolean }).wrapToFit,
     sourcePath: (record as { sourcePath?: string }).sourcePath,
     treeRole: (record as { treeRole?: string }).treeRole,
     treeFocusEntryId: (record as { treeFocusEntryId?: string }).treeFocusEntryId,

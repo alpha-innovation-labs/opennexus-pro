@@ -7,8 +7,13 @@ import { isGatewayCommand } from "./gateway/isGatewayCommand.js";
 import { isGatewayRunnerCommand } from "./gateway/isGatewayRunnerCommand.js";
 import { runGatewayCommand } from "./gateway/runGatewayCommand.js";
 import { isAnnotationsDaemonRunnerCommand } from "./annotations-daemon/isAnnotationsDaemonRunnerCommand.js";
+import { isCliFeatureAvailable } from "./features/isCliFeatureAvailable.js";
+import { printUnavailableCliFeature } from "./features/printUnavailableCliFeature.js";
 import { hasHelpFlag } from "./help/hasHelpFlag.js";
 import { printNexusUsage } from "./help/printNexusUsage.js";
+import { hasObservationsFlag } from "./observations/hasObservationsFlag.js";
+import { printObservationsList } from "./observations/printObservationsList.js";
+import { readObservationsSessionIdArg } from "./observations/readObservationsSessionIdArg.js";
 import { hasSessionsFlag } from "./sessions/hasSessionsFlag.js";
 import { printSessionsTable } from "./sessions/printSessionsTable.js";
 import { readSessionDirArg } from "./sessions/readSessionDirArg.js";
@@ -33,20 +38,36 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   }
 
   if (isGatewayRunnerCommand(argv)) {
+    if (!isCliFeatureAvailable("gateway")) {
+      printUnavailableCliFeature("gateway");
+      return 1;
+    }
     await runGatewayDaemon();
     return 0;
   }
 
   if (isAnnotationsDaemonRunnerCommand(argv)) {
+    if (!isCliFeatureAvailable("annotation")) {
+      printUnavailableCliFeature("annotation");
+      return 1;
+    }
     await runAnnotationsDaemon();
     return 0;
   }
 
   if (isGatewayCommand(argv)) {
+    if (!isCliFeatureAvailable("gateway")) {
+      printUnavailableCliFeature("gateway");
+      return 1;
+    }
     return runGatewayCommand(argv);
   }
 
   if (isAnnotationCommand(argv)) {
+    if (!isCliFeatureAvailable("annotation")) {
+      printUnavailableCliFeature("annotation");
+      return 1;
+    }
     return runAnnotationCommand(argv);
   }
 
@@ -58,6 +79,17 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   if (hasSessionsFlag(argv)) {
     ensureAgentDirEnv();
     await printSessionsTable(process.cwd(), readSessionDirArg(argv));
+    return 0;
+  }
+
+  if (hasObservationsFlag(argv)) {
+    ensureAgentDirEnv();
+    const sessionId = readObservationsSessionIdArg(argv);
+    if (!sessionId) {
+      console.error("Usage: nexus --observations <session-id>");
+      return 1;
+    }
+    await printObservationsList(sessionId, process.cwd());
     return 0;
   }
 

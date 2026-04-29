@@ -42,8 +42,8 @@ export async function showFeaturesModal(
 	 * @param patch Feature flag patch to apply.
 	 * @returns Refreshed feature-management rows.
 	 */
-	function updateConfig(extensionId: string, patch: FeatureFlagConfigPatch) {
-		config = updateFeatureFlagsConfig(config, extensionId, patch);
+	function updateConfig(extensionId: string, patch: FeatureFlagConfigPatch, row: { category: "extensions" | "other" }) {
+		config = updateFeatureFlagsConfig(config, extensionId, patch, row.category);
 		writeConfig(config);
 		return createRows();
 	}

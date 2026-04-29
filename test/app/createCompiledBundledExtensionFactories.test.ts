@@ -49,8 +49,8 @@ test("compiled bundled extension ids are available to the release entrypoint", (
   assert.ok(compiledBundledExtensionIds.length > 0);
   const releaseIds = compiledBundledExtensionIds as readonly string[];
   assert.ok(!releaseIds.includes("dev"));
-  assert.ok(releaseIds.includes("feature-management"));
-  assert.ok(releaseIds.includes("annotate"));
+  assert.ok(!releaseIds.includes("feature-management"));
+  assert.ok(!releaseIds.includes("annotate"));
   assert.ok(!releaseIds.includes("context-usage"));
   assert.ok(!releaseIds.includes("workspace"));
   assert.ok(!releaseIds.includes("workflows"));
@@ -74,9 +74,10 @@ test("the compiled bundled extension entrypoint follows the bundled feature flag
   await assert.doesNotReject(() => factories[0](pi as never));
   assert.ok(!shortcuts.includes("ctrl+i"));
   assert.ok(!shortcuts.includes("ctrl+;"));
-  assert.ok(tools.includes("annotate"));
-  assert.ok(tools.includes("read_pending_annotations"));
-  assert.ok(tools.includes("claim_annotation"));
-  assert.ok(tools.includes("resolve_annotation"));
+  assert.ok(!tools.includes("annotate"));
+  assert.ok(!tools.includes("read_pending_annotations"));
+  assert.ok(!tools.includes("claim_annotation"));
+  assert.ok(!tools.includes("resolve_annotation"));
   assert.ok(!commands.includes("dev-modal"));
+  assert.ok(!commands.includes("features"));
 });

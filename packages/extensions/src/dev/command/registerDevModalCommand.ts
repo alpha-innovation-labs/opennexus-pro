@@ -13,5 +13,5 @@ export function registerDevModalCommand(pi: ExtensionAPI): void {
     handler: async (_args, ctx) => {
       await showDevModal(ctx);
     },
-  }, "Developer"));
+  }, "Extensions"));
 }

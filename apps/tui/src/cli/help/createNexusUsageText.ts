@@ -1,9 +1,15 @@
+export type NexusUsageFeatureOptions = {
+	annotation?: boolean;
+	gateway?: boolean;
+};
+
 /**
  * Creates the Nexus-owned top-level CLI help text.
  *
+ * @param features CLI feature visibility options.
  * @returns Help text for supported Nexus CLI surfaces.
  */
-export function createNexusUsageText(): string {
+export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): string {
 	return [
 		"Usage: nexus [options] [prompt]",
 		"",
@@ -11,6 +17,7 @@ export function createNexusUsageText(): string {
 		"  -h, --help                         Show Nexus help",
 		"  -v, --version                      Print Nexus version",
 		"  --sessions                         List resumable sessions",
+		"  --observations <session-id>         Print observations for a session",
 		"  --usage                            Open the usage history modal on startup",
 		"  --session-dir <path>               Read sessions from a custom directory",
 		"  --session-dir=<path>               Read sessions from a custom directory",
@@ -27,21 +34,39 @@ export function createNexusUsageText(): string {
 		"  --mode <mode>                      Select run mode",
 		"  --theme <path>                     Load an extra theme",
 		"  --prompt-template <path>           Load extra prompt templates",
-		"",
-		"Commands:",
-		"  nexus gateway -h                   Show gateway commands",
-		"  nexus gateway start                Start the background gateway",
-		"  nexus gateway stop                 Stop the background gateway",
-		"  nexus gateway restart              Restart the background gateway",
-		"  nexus gateway status               Show gateway status",
-		"  nexus annotation -h                Show annotation daemon commands",
-		"  nexus annotation start             Start the annotation daemon",
-		"  nexus annotation stop              Stop the annotation daemon",
-		"  nexus annotation restart           Restart the annotation daemon",
-		"  nexus annotation status            Show annotation daemon status",
-		"  nexus annotation logs              Show annotation daemon logs",
+		...createCommandUsageLines(features),
 		"",
 		"Notes:",
 		"  Unknown prompts and other interactive flags are passed to the Nexus TUI.",
 	].join("\n");
+}
+
+/**
+ * Creates the visible top-level command help lines.
+ *
+ * @param features CLI feature visibility options.
+ * @returns Command-section lines, or no lines when no commands are visible.
+ */
+function createCommandUsageLines(features: NexusUsageFeatureOptions): string[] {
+	const lines: string[] = [];
+	if (features.gateway) {
+		lines.push(
+			"  nexus gateway -h                   Show gateway commands",
+			"  nexus gateway start                Start the background gateway",
+			"  nexus gateway stop                 Stop the background gateway",
+			"  nexus gateway restart              Restart the background gateway",
+			"  nexus gateway status               Show gateway status",
+		);
+	}
+	if (features.annotation) {
+		lines.push(
+			"  nexus annotation -h                Show annotation daemon commands",
+			"  nexus annotation start             Start the annotation daemon",
+			"  nexus annotation stop              Stop the annotation daemon",
+			"  nexus annotation restart           Restart the annotation daemon",
+			"  nexus annotation status            Show annotation daemon status",
+			"  nexus annotation logs              Show annotation daemon logs",
+		);
+	}
+	return lines.length > 0 ? ["", "Commands:", ...lines] : [];
 }

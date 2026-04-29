@@ -20,6 +20,13 @@ test("feature status rows expose enabled state, channel, and group per extension
 				features: ["gamma tool"],
 			},
 		},
+		other: {
+			gateway: {
+				devOnly: true,
+				enabled: true,
+				features: ["gateway cli commands"],
+			},
+		},
 	};
 	const runtimeConfig: FeatureFlagsConfig = {
 		extensions: {
@@ -37,10 +44,18 @@ test("feature status rows expose enabled state, channel, and group per extension
 				features: ["gamma tool"],
 			},
 		},
+		other: {
+			gateway: {
+				devOnly: true,
+				enabled: false,
+				features: ["gateway cli commands"],
+			},
+		},
 	};
 
 	assert.deepEqual(createFeatureStatusRows(config, runtimeConfig), [
 		{
+			category: "extensions",
 			extensionId: "alpha",
 			feature: "alpha",
 			status: "enabled",
@@ -48,6 +63,7 @@ test("feature status rows expose enabled state, channel, and group per extension
 			group: "Production",
 		},
 		{
+			category: "extensions",
 			extensionId: "beta",
 			feature: "beta",
 			status: "enabled",
@@ -55,11 +71,20 @@ test("feature status rows expose enabled state, channel, and group per extension
 			group: "Playground",
 		},
 		{
+			category: "extensions",
 			extensionId: "gamma",
 			feature: "gamma",
 			status: "disabled",
 			channel: "production",
 			group: "Production",
+		},
+		{
+			category: "other",
+			extensionId: "gateway",
+			feature: "gateway",
+			status: "disabled",
+			channel: "dev",
+			group: "Playground",
 		},
 	]);
 });

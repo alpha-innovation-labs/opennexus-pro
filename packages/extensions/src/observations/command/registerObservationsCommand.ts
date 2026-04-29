@@ -15,7 +15,7 @@ export function registerObservationsCommand(pi: ExtensionAPI): void {
 		handler: async (_args, ctx) => {
 			await showObservationsModal(ctx);
 		},
-	}, "Chat"));
+	}, "Extensions"));
 	pi.registerShortcut("ctrl+/", {
 		description: "Open observations for the current conversation",
 		handler: async (ctx) => {

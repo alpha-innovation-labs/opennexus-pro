@@ -13,5 +13,5 @@ export function registerSubagentCommands(pi: ExtensionAPI): void {
     handler: async (_args, ctx) => {
       await showSubagentHistoryModal(ctx);
     },
-  }, "Chat"));
+  }, "Extensions"));
 }

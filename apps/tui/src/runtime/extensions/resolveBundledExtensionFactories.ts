@@ -1,5 +1,6 @@
 import type { ExtensionFactory } from "@mariozechner/pi-coding-agent";
 import { hasNoExtensionsFlag } from "../../cli/extensions/hasNoExtensionsFlag.js";
+import { hasPrintModeFlag } from "../../cli/print/hasPrintModeFlag.js";
 
 export type CreateExtensionFactories = () => Promise<ExtensionFactory[]>;
 
@@ -14,7 +15,7 @@ export async function resolveBundledExtensionFactories(
   argv: string[],
   createExtensionFactories: CreateExtensionFactories,
 ): Promise<ExtensionFactory[]> {
-  if (hasNoExtensionsFlag(argv)) {
+  if (hasNoExtensionsFlag(argv) || hasPrintModeFlag(argv)) {
     return [];
   }
 

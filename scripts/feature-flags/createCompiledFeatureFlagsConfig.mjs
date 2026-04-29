@@ -7,14 +7,27 @@
 export function createCompiledFeatureFlagsConfig(config) {
   return {
     ...config,
-    extensions: Object.fromEntries(
-      Object.entries(config.extensions).map(([id, value]) => [
+    extensions: createCompiledFeatureFlagCategory(config.extensions),
+    other: createCompiledFeatureFlagCategory(config.other ?? {}),
+  };
+}
+
+/**
+ * Removes development-only entries from one feature-flag category.
+ *
+ * @param {Record<string, any>} category Parsed feature-flag category.
+ * @returns {Record<string, any>} Production-safe category entries.
+ */
+function createCompiledFeatureFlagCategory(category) {
+  return Object.fromEntries(
+    Object.entries(category)
+      .filter(([, value]) => !value.devOnly)
+      .map(([id, value]) => [
         id,
         {
           ...value,
-          enabled: id === "dev" ? false : value.enabled,
+          enabled: value.enabled,
         },
       ]),
-    ),
-  };
+  );
 }

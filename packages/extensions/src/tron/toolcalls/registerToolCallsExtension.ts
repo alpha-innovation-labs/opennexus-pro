@@ -15,5 +15,5 @@ export default function registerToolCallsExtension(pi: ExtensionAPI): void {
 		handler: async (_args, ctx) => {
 			await showToolCallsModal(ctx as never);
 		},
-	}, "Chat"));
+	}, "Extensions"));
 }

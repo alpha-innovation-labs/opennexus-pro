@@ -37,8 +37,10 @@
       "enabled": true,
       "features": [
         "/dev-modal command",
+        "/telemetry command",
         "dev-only modal variation playground",
-        "tab and shift+tab modal variant cycling"
+        "tab and shift+tab modal variant cycling",
+        "dev-only telemetry event toggles"
       ]
     },
     "exit-message": {
@@ -200,6 +202,24 @@
         "session switcher",
         "ctrl+; shortcut",
         "workspace top bar"
+      ],
+      "devOnly": true
+    }
+  },
+  "other": {
+    "gateway": {
+      "enabled": true,
+      "features": [
+        "nexus gateway CLI commands",
+        "background adapter gateway daemon"
+      ],
+      "devOnly": true
+    },
+    "annotation": {
+      "enabled": true,
+      "features": [
+        "nexus annotation CLI commands",
+        "annotation daemon lifecycle commands"
       ],
       "devOnly": true
     }

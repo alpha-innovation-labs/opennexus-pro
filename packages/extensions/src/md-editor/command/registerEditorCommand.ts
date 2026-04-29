@@ -11,5 +11,5 @@ export function registerEditorCommand(pi: ExtensionAPI): void {
 		handler: async (_args, ctx) => {
 			await showMdEditorModal(ctx);
 		},
-	}, "Workspace"));
+	}, "Extensions"));
 }

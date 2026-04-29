@@ -1,5 +1,7 @@
 import { readFile } from "node:fs/promises";
+import { buildObservationSummary } from "./buildObservationSummary.js";
 import { createEmptyObservationState } from "./createEmptyObservationState.js";
+import { truncateObservationSummary } from "./truncateObservationSummary.js";
 import type { ObservationState } from "./types.js";
 
 /**
@@ -20,11 +22,12 @@ export async function readObservationState(
 	try {
 		const content = await readFile(statePath, "utf8");
 		const parsed = JSON.parse(content) as ObservationState;
-		return {
+		const state = {
 			conversationId,
 			cwd,
 			sessionFile,
 			updatedAt: parsed.updatedAt ?? Date.now(),
+			summary: typeof parsed.summary === "string" ? parsed.summary : "",
 			topics: Array.isArray(parsed.topics)
 				? parsed.topics.map((topic, index) => ({
 					index: typeof topic?.index === "number" ? topic.index : index + 1,
@@ -36,6 +39,8 @@ export async function readObservationState(
 				}))
 				: [],
 		};
+		state.summary = state.summary ? truncateObservationSummary(state.summary) : buildObservationSummary(state);
+		return state;
 	} catch {
 		return createEmptyObservationState(conversationId, cwd, sessionFile);
 	}

@@ -26,7 +26,7 @@ function createContext(models = [
     model: { provider: "anthropic", id: "claude-3" },
     modelRegistry: {
       getAvailable: () => models,
-      authStorage: { get: () => undefined },
+      authStorage: { get: () => undefined, hasAuth: () => false, list: () => [] },
     },
     sessionManager: {
       getEntries: () => [{ id: "entry-1", type: "message", message: { role: "user", content: "Fork from this message" } }],
@@ -93,6 +93,7 @@ test("slash menu opens custom command and skill submenus", async () => {
   const commands = () => [
     { name: "prompt:review", description: "Review prompt description", source: "prompt", sourceInfo: { scope: "project", source: "project", origin: "top-level", path: promptPath } },
     { name: "skill:debug", description: "Debug skill description", source: "skill", sourceInfo: { scope: "project", source: "project", origin: "top-level", path: skillPath } },
+    { name: "skill:supercalifragilisticexpialidocious", description: "Long skill description", source: "skill", sourceInfo: { scope: "project", source: "project", origin: "top-level", path: skillPath } },
   ] as never;
   let submitted = "";
   const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, (value) => { submitted = value; }, commands);
@@ -134,7 +135,10 @@ test("slash menu opens custom command and skill submenus", async () => {
   assert.match(output, /Skills/u);
   assert.match(output, /● All \[1\].*○ Global \[2\].*○ Local \[3\]/u);
   assert.doesNotMatch(output, /Details/u);
-  assert.match(output, /›  skill:debug/u);
+  assert.match(output, /›  debug/u);
+  assert.match(output, /supercalifragilisticexpialidocious/u);
+  assert.doesNotMatch(output, /›  skill:debug/u);
+  assert.doesNotMatch(output, /skill:supercalifragilisticexpialidocious/u);
   assert.match(output, /\s1 ┊ Debug Skill/u);
   assert.match(output, /Full skill markdown body from file/u);
   assert.doesNotMatch(output, /Debug skill description/u);
@@ -197,7 +201,7 @@ test("login menu renders as a single pane without provider id preview", async ()
   await modal.openLevel("login");
   const output = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
 
-  assert.match(output, /◆ Anthropic/);
+  assert.match(output, /◇ Anthropic/);
   assert.doesNotMatch(output, /Preview/);
   assert.doesNotMatch(output, /anthropic\s*│/);
 });
@@ -209,7 +213,7 @@ test("model menu redirects to login when no provider models are available", asyn
   const output = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
 
   assert.match(output, /Login/);
-  assert.match(output, /◆ Anthropic/);
+  assert.match(output, /◇ Anthropic/);
   assert.doesNotMatch(output, /No matching items/);
 });
 

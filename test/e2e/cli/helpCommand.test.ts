@@ -21,6 +21,7 @@ test("nexus -h prints Nexus-owned help without starting Pi", async () => {
 		assert.equal(result.code, 0);
 		assert.match(result.output, /Usage: nexus \[options\] \[prompt\]/u);
 		assert.match(result.output, /nexus gateway -h/u);
+		assert.match(result.output, /nexus annotation -h/u);
 		assert.match(result.output, /--session-dir=<path>/u);
 		assert.match(result.output, /--resume \[session-id\]/u);
 		assert.match(result.output, /-r \[session-id\]/u);
@@ -42,7 +43,7 @@ test("nexus -h prints Nexus-owned help without starting Pi", async () => {
 	}
 });
 
-test("nexus gateway -h prints scoped gateway help", async () => {
+test("source nexus gateway -h prints scoped gateway help when enabled", async () => {
 	const homeDir = await createReleaseTestHome();
 	const env = createReleaseTestEnv(homeDir);
 
@@ -56,7 +57,7 @@ test("nexus gateway -h prints scoped gateway help", async () => {
 		assert.equal(result.timedOut, false);
 		assert.equal(result.code, 0);
 		assert.match(result.output, /Usage: nexus gateway <start\|stop\|restart\|status>/u);
-		assert.doesNotMatch(result.output, /adapter/u);
+		assert.doesNotMatch(result.output, /nexus gateway is not available/u);
 	} finally {
 		await removeReleaseTestHome(homeDir);
 	}

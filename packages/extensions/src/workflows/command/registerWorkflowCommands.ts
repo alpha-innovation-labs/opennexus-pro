@@ -25,7 +25,7 @@ export function registerWorkflowCommands(pi: ExtensionAPI): void {
       addWorkflowRun(run);
       pi.sendUserMessage(createWorkflowStartRequest(definition, run, args));
     },
-  }, "Chat"));
+  }, "Extensions"));
 
   pi.registerCommand("workflows", withSlashMenuGroup({
     description: "Show workflow runs.",
@@ -33,5 +33,5 @@ export function registerWorkflowCommands(pi: ExtensionAPI): void {
       if (!ctx.hasUI) return;
       await showWorkflowRunsModal(ctx);
     },
-  }, "Chat"));
+  }, "Extensions"));
 }

@@ -1,4 +1,6 @@
 import { extractAssistantTextFromAgentEndEvent } from "../runtime/extractAssistantTextFromAgentEndEvent.js";
+import { rejectTelegramRpcRequest } from "./rejectTelegramRpcRequest.js";
+import { resolveTelegramRpcRequest } from "./resolveTelegramRpcRequest.js";
 import type { TelegramRpcSession } from "./types.js";
 
 /**
@@ -17,15 +19,19 @@ export function handleTelegramRpcEvent(session: TelegramRpcSession, event: unkno
   currentRequest.onEvent?.(event);
 
   if (record.type === "response" && record.id === currentRequest.requestId && record.success === false) {
-    clearTimeout(currentRequest.timeout);
-    session.currentRequest = undefined;
-    currentRequest.reject(new Error(record.error ?? "Nexus RPC prompt request failed"));
+    rejectTelegramRpcRequest(session, currentRequest, new Error(record.error ?? "Nexus RPC prompt request failed"));
     return;
   }
 
   if (record.type === "agent_end") {
-    clearTimeout(currentRequest.timeout);
-    session.currentRequest = undefined;
-    currentRequest.resolve(extractAssistantTextFromAgentEndEvent(record));
+    try {
+      resolveTelegramRpcRequest(session, currentRequest, extractAssistantTextFromAgentEndEvent(record));
+    } catch (error) {
+      rejectTelegramRpcRequest(
+        session,
+        currentRequest,
+        error instanceof Error ? error : new Error(String(error)),
+      );
+    }
   }
 }

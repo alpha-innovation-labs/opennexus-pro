@@ -29,7 +29,7 @@ export function registerTermModalExtension(pi: ExtensionAPI): void {
 		handler: async (_args, ctx) => {
 			await openTerminalOverlay(state, ctx, "main");
 		},
-	}, "Workspace"));
+	}, "Extensions"));
 	pi.registerCommand("term-restart", withSlashMenuGroup({
 		description: "Restart the floating terminal shell.",
 		handler: async (_args, ctx) => {
@@ -41,19 +41,19 @@ export function registerTermModalExtension(pi: ExtensionAPI): void {
 			const session = getActiveTerminalSession(state);
 			if (ctx.hasUI) ctx.ui.notify(`Terminal failed to start: ${session.pty.error()}`, "error");
 		},
-	}, "Workspace"));
+	}, "Extensions"));
 	pi.registerCommand("term-clear", withSlashMenuGroup({
 		description: "Clear the floating terminal buffer.",
 		handler: async (_args, ctx) => {
 			clearTerminalBuffer(state);
 			if (ctx.hasUI) ctx.ui.notify("Terminal buffer cleared.", "info");
 		},
-	}, "Workspace"));
+	}, "Extensions"));
 	pi.registerCommand("term-close", withSlashMenuGroup({
 		description: "Close the floating terminal modal.",
 		handler: async (_args, ctx) => {
 			closeTerminalOverlay(state);
 			if (ctx.hasUI) ctx.ui.notify("Terminal modal closed.", "info");
 		},
-	}, "Workspace"));
+	}, "Extensions"));
 }

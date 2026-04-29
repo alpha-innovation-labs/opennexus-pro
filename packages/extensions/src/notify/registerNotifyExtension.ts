@@ -7,7 +7,8 @@ import { sendNotifyMessage } from "./runtime/sendNotifyMessage.js";
  * @param pi Pi extension API.
  */
 export function registerNotifyExtension(pi: ExtensionAPI): void {
-	pi.on("agent_end", async () => {
+	pi.on("agent_end", async (_event, ctx) => {
+		if (!ctx.hasUI) return;
 		sendNotifyMessage("Nexus", "Ready for input");
 	});
 }

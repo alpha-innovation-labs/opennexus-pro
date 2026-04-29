@@ -18,5 +18,5 @@ export function registerFeatureManagementExtensionWithConfig(
 		handler: async (_args, ctx) => {
 			await showFeaturesModal(ctx, readConfig);
 		},
-	}, "Developer"));
+	}, "Extensions"));
 }

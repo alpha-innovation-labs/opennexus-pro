@@ -37,3 +37,27 @@ test("resolveBundledExtensionFactories disables factories for -ne", async () => 
   assert.equal(called, false);
   assert.deepEqual(factories, []);
 });
+
+test("resolveBundledExtensionFactories disables factories for print mode", async () => {
+  let called = false;
+
+  const factories = await resolveBundledExtensionFactories(["-p", "hello"], async () => {
+    called = true;
+    return [() => {}];
+  });
+
+  assert.equal(called, false);
+  assert.deepEqual(factories, []);
+});
+
+test("resolveBundledExtensionFactories disables factories for long print mode", async () => {
+  let called = false;
+
+  const factories = await resolveBundledExtensionFactories(["--print", "hello"], async () => {
+    called = true;
+    return [() => {}];
+  });
+
+  assert.equal(called, false);
+  assert.deepEqual(factories, []);
+});

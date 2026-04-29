@@ -8,17 +8,18 @@ import type { FeatureFlagsConfig } from "./types.js";
  * @returns Feature-flag config with runtime availability applied.
  */
 export function applySystemExtensionAvailability(config: FeatureFlagsConfig): FeatureFlagsConfig {
-	const cmuxAvailable = isCmuxCommandAvailable();
+  const cmuxAvailable = isCmuxCommandAvailable();
 
-	return {
-		extensions: Object.fromEntries(
-			Object.entries(config.extensions).map(([id, value]) => [
-				id,
-				{
-					...value,
-					enabled: id === "cmux" ? value.enabled && cmuxAvailable : value.enabled,
-				},
-			]),
-		),
-	};
+  return {
+    ...config,
+    extensions: Object.fromEntries(
+      Object.entries(config.extensions).map(([id, value]) => [
+        id,
+        {
+          ...value,
+          enabled: id === "cmux" ? value.enabled && cmuxAvailable : value.enabled,
+        },
+      ]),
+    ),
+  };
 }

@@ -24,5 +24,5 @@ export function registerUsageCommand(pi: ExtensionAPI): void {
         ctx.ui.notify(getUsageTextForModel(ctx.model), "info");
       }
     },
-  }, "Configuration"));
+  }, "Extensions"));
 }

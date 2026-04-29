@@ -3,6 +3,11 @@ import test from "node:test";
 import { formatResourceCommandLabel } from "../../../packages/extensions/src/neo-editor/features/menu/formatResourceCommandLabel.js";
 
 test("formatResourceCommandLabel uses local and global icons", () => {
-  assert.equal(formatResourceCommandLabel("›", { kind: "command", label: "skill:local", value: "skill:local", description: "", sourceScope: "project" }), "›  skill:local");
-  assert.equal(formatResourceCommandLabel("›", { kind: "command", label: "skill:global", value: "skill:global", description: "", sourceScope: "user" }), "›  skill:global");
+  assert.equal(formatResourceCommandLabel("›", { kind: "command", label: "prompt:local", value: "prompt:local", description: "", sourceScope: "project" }), "›  prompt:local");
+  assert.equal(formatResourceCommandLabel("›", { kind: "command", label: "prompt:global", value: "prompt:global", description: "", sourceScope: "user" }), "›  prompt:global");
+});
+
+test("formatResourceCommandLabel hides the skill namespace in labels", () => {
+  assert.equal(formatResourceCommandLabel("›", { kind: "command", label: "skill:local", value: "skill:local", description: "", sourceScope: "project" }), "›  local");
+  assert.equal(formatResourceCommandLabel("›", { kind: "command", label: "skill:global", value: "skill:global", description: "", sourceScope: "user" }), "›  global");
 });

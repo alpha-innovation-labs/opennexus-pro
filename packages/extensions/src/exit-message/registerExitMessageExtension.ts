@@ -11,6 +11,7 @@ import { updateExitMessageFromSessionTitle } from "./updateExitMessageFromSessio
 export function registerExitMessageExtension(pi: ExtensionAPI): void {
 	let sawTurn = false;
 	pi.on("turn_end", (_event, ctx) => {
+		if (!ctx.hasUI) return;
 		sawTurn = true;
 		updateExitMessageFromSessionTitle(pi, ctx);
 	});
