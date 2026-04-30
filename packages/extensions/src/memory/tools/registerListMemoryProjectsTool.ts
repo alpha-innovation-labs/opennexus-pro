@@ -11,6 +11,7 @@ import { listMemoryProjects } from "../storage/listMemoryProjects.js";
 export function registerListMemoryProjectsTool(pi: ExtensionAPI): void {
 	pi.registerTool({
 		name: "memory_list_projects",
+		renderShell: "self",
 		skipLeadingSpacer: true,
 		label: "List Memory Projects",
 		description: "List existing global Nexus memory projects before storing knowledge.",

@@ -10,6 +10,7 @@ import { fetchTweetWithJina } from "../twitter/fetchTweetWithJina.js";
 export function registerFetchTweetMemoryTool(pi: ExtensionAPI): void {
 	pi.registerTool({
 		name: "memory_fetch_tweet",
+		renderShell: "self",
 		skipLeadingSpacer: true,
 		label: "Fetch Tweet",
 		description: "Fetch a Twitter/X status URL through Jina Reader for Nexus memory processing.",

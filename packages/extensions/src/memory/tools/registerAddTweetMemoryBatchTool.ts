@@ -27,6 +27,7 @@ export function registerAddTweetMemoryBatchTool(pi: ExtensionAPI): void {
 	});
 	pi.registerTool({
 		name: "memory_add_tweets",
+		renderShell: "self",
 		skipLeadingSpacer: true,
 		label: "Add Tweet Memories",
 		description: "Write multiple approved tweet memories and commit them as one git operation.",

@@ -13,6 +13,7 @@ import { writeTweetReference } from "../storage/writeTweetReference.js";
 export function registerAddTweetMemoryTool(pi: ExtensionAPI): void {
 	pi.registerTool({
 		name: "memory_add_tweet",
+		renderShell: "self",
 		skipLeadingSpacer: true,
 		label: "Add Tweet Memory",
 		description: "Write approved tweet raw and distilled markdown into the global Nexus memory tree.",
