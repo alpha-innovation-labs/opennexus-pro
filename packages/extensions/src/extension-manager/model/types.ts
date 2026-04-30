@@ -1,7 +1,7 @@
 /**
  * Extension source shown in the extension manager.
  */
-export type ManagedExtensionKind = "core" | "user";
+export type ManagedExtensionKind = "core" | "third-party";
 
 /**
  * Runtime status shown for an installed extension.
@@ -21,4 +21,4 @@ export type ManagedExtensionRow = {
 /**
  * Visible tab in the extension manager modal.
  */
-export type ExtensionManagerTab = "all" | "core" | "user";
+export type ExtensionManagerTab = "all" | "core" | "third-party";

@@ -1,6 +1,7 @@
 import { getBundledCommandsPath } from "@nexus/assets/commands/getBundledCommandsPath.js";
 import { getBundledThemesPath } from "@nexus/assets/themes/getBundledThemesPath.js";
 import { appendNoExtensionsArg } from "./extensions/appendNoExtensionsArg.js";
+import { filterVerboseStartupArg } from "./filterVerboseStartupArg.js";
 import { addBaseSystemPromptArg } from "./system-prompt/addBaseSystemPromptArg.js";
 
 /**
@@ -10,7 +11,7 @@ import { addBaseSystemPromptArg } from "./system-prompt/addBaseSystemPromptArg.j
  * @returns Arguments with bundled runtime resources configured.
  */
 export function createAppArgs(inputArgs: string[]): string[] {
-  const args = appendNoExtensionsArg(addBaseSystemPromptArg([...inputArgs]));
+  const args = filterVerboseStartupArg(appendNoExtensionsArg(addBaseSystemPromptArg([...inputArgs])));
   const bundledThemesPath = getBundledThemesPath();
   const bundledCommandsPath = getBundledCommandsPath();
 

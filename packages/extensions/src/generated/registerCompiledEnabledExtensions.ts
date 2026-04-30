@@ -6,7 +6,7 @@ import { createTelemetryExtensionApi } from "@nexus/feature-flags/createTelemetr
 import { registerAiProvidersExtension } from "../ai-providers/registerAiProvidersExtension.js";
 import { registerCmuxExtension } from "../cmux/registerCmuxExtension.js";
 import { registerExitMessageExtension } from "../exit-message/registerExitMessageExtension.js";
-import { registerCompiledFeatureManagementExtension } from "../feature-management/registerCompiledFeatureManagementExtension.js";
+import { registerExtensionManagerExtension } from "../extension-manager/registerExtensionManagerExtension.js";
 import registerFffExtension from "../fff/index.js";
 import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension.js";
 import { registerNotifyExtension } from "../notify/registerNotifyExtension.js";
@@ -22,7 +22,7 @@ export const compiledBundledExtensionIds = [
   "ai-providers",
   "cmux",
   "exit-message",
-  "feature-management",
+  "extension-manager",
   "fff",
   "neo-editor",
   "notify",
@@ -36,7 +36,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "ai-providers": registerAiProvidersExtension,
   "cmux": registerCmuxExtension,
   "exit-message": registerExitMessageExtension,
-  "feature-management": registerCompiledFeatureManagementExtension,
+  "extension-manager": registerExtensionManagerExtension,
   "fff": registerFffExtension,
   "neo-editor": registerNeoEditorExtension,
   "notify": registerNotifyExtension,

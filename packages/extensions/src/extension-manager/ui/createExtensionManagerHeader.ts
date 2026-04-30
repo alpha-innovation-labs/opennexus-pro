@@ -1,4 +1,3 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
 import type { ExtensionManagerTab } from "../model/types.js";
 import { formatExtensionManagerTabs } from "./formatExtensionManagerTabs.js";
 
@@ -15,7 +14,7 @@ export function createExtensionManagerHeader(
 	title: string,
 	activeTab: ExtensionManagerTab,
 	width: number,
-	theme: ExtensionCommandContext["ui"]["theme"],
+	theme: { fg(color: string, value: string): string },
 ): string {
 	const tabs = formatExtensionManagerTabs(activeTab, theme);
 	const gap = Math.max(1, width - title.length - tabs.length);

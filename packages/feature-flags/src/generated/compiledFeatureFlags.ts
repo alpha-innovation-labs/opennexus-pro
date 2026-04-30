@@ -27,11 +27,12 @@ export const compiledFeatureFlags = {
         "print session title on app exit"
       ]
     },
-    "feature-management": {
+    "extension-manager": {
       "enabled": true,
       "features": [
-        "/features and /extensions commands",
+        "/extensions command",
         "installed extension list",
+        "core and user extension tabs",
         "per-user extension enable and disable controls"
       ]
     },

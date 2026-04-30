@@ -1,10 +1,9 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
 import type { ExtensionManagerTab } from "../model/types.js";
 
 const labels: Record<ExtensionManagerTab, string> = {
 	all: "All",
 	core: "Core",
-	user: "User",
+	"third-party": "Third-party",
 };
 
 /**
@@ -14,8 +13,8 @@ const labels: Record<ExtensionManagerTab, string> = {
  * @param theme Active UI theme.
  * @returns Renderable tab label.
  */
-export function formatExtensionManagerTabs(activeTab: ExtensionManagerTab, theme: ExtensionCommandContext["ui"]["theme"]): string {
+export function formatExtensionManagerTabs(activeTab: ExtensionManagerTab, theme: { fg(color: string, value: string): string }): string {
 	return (Object.keys(labels) as ExtensionManagerTab[])
-		.map((tab) => theme.secondary(`${tab === activeTab ? "●" : "○"} ${labels[tab]}`))
-		.join(theme.muted(" | "));
+		.map((tab) => tab === activeTab ? theme.fg("accent", `● ${labels[tab]}`) : theme.fg("muted", `○ ${labels[tab]}`))
+		.join(theme.fg("dim", " | "));
 }

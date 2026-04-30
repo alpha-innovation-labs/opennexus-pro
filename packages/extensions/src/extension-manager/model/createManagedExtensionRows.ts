@@ -21,7 +21,7 @@ export function createManagedExtensionRows(config: FeatureFlagsConfig, userConfi
 		.filter(([id]) => !coreIds.has(id))
 		.map(([id, extension]) => ({
 			id,
-			kind: "user" as const,
+			kind: "third-party" as const,
 			status: extension.enabled === false ? "disabled" as const : "enabled" as const,
 			features: [],
 		}));

@@ -7,6 +7,7 @@ import { logStartupProfileEvent } from "@nexus/observability/startup-profile/log
 import { clearExitMessage } from "@nexus/extensions/exit-message/state/clearExitMessage.js";
 import { applyStartupUpdateSilencePatch } from "@nexus/pi-platform/applyStartupUpdateSilencePatch.js";
 import { applyStartupChangelogSilencePatch } from "@nexus/pi-platform/applyStartupChangelogSilencePatch.js";
+import { applyStartupHelpSilencePatch } from "@nexus/pi-platform/applyStartupHelpSilencePatch.js";
 import { applyToolExecutionSpacingPatch } from "@nexus/pi-platform/applyToolExecutionSpacingPatch.js";
 import { applyToolGroupCollapsePatch } from "@nexus/pi-platform/applyToolGroupCollapsePatch.js";
 import { applyCompactModeImagePatch } from "@nexus/pi-platform/applyCompactModeImagePatch.js";
@@ -91,6 +92,10 @@ export async function runAppWithExtensionFactories(
   phaseStartedAt = performance.now();
   applyStartupChangelogSilencePatch();
   logRunAppPhase("applyStartupChangelogSilencePatch:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
+  await applyStartupHelpSilencePatch();
+  logRunAppPhase("applyStartupHelpSilencePatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   applyModelKeybindingsPatch();

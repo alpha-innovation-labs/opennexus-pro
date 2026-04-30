@@ -1,0 +1,61 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { ExtensionManagerModal } from "../../../packages/extensions/src/extension-manager/ui/ExtensionManagerModal.js";
+import type { ManagedExtensionRow } from "../../../packages/extensions/src/extension-manager/model/types.js";
+import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
+import { createTestTheme } from "../../support/theme/createTestTheme.js";
+
+const rows: ManagedExtensionRow[] = [
+	{ id: "core-alpha", kind: "core", status: "enabled", features: ["core feature"] },
+	{ id: "third-party-beta", kind: "third-party", status: "disabled", features: [] },
+];
+
+test("/extensions modal renders installed extension rows grouped by Core and Third-party", async () => {
+	const viewport = await renderComponentInVirtualTerminal(
+		() => new ExtensionManagerModal(createTestTheme(), rows, () => {}),
+		140,
+		30,
+	);
+	const output = viewport.join("\n");
+
+	assert.match(output, /Extensions/u);
+	assert.match(output, /● All \| ○ Core \| ○ Third-party/u);
+	assert.match(output, /Core/u);
+	assert.match(output, /Third-party/u);
+	assert.match(output, /core-alpha\s+› enabled/u);
+	assert.match(output, /third-party-beta\s+› disabled/u);
+	assert.doesNotMatch(output, /enabled\s+core/u);
+});
+
+test("/extensions modal switches between core and third-party tabs", () => {
+	const modal = new ExtensionManagerModal(createTestTheme(), rows, () => {});
+
+	modal.handleInput("\t");
+	const coreOutput = modal.render(140).join("\n");
+	modal.handleInput("\t");
+	const thirdPartyOutput = modal.render(140).join("\n");
+
+	assert.match(coreOutput, /○ All \| ● Core \| ○ Third-party/u);
+	assert.match(coreOutput, /core-alpha/u);
+	assert.doesNotMatch(coreOutput, /third-party-beta/u);
+	assert.match(thirdPartyOutput, /○ All \| ○ Core \| ● Third-party/u);
+	assert.match(thirdPartyOutput, /third-party-beta/u);
+	assert.doesNotMatch(thirdPartyOutput, /core-alpha/u);
+});
+
+test("/extensions modal toggles selected extension enablement", () => {
+	const updates: Array<{ extensionId: string; enabled: boolean }> = [];
+	const modal = new ExtensionManagerModal(createTestTheme(), rows, () => {}, (extensionId, enabled) => {
+		updates.push({ extensionId, enabled });
+		return rows.map((row) => (row.id === extensionId ? { ...row, status: enabled ? "enabled" : "disabled" } : row));
+	});
+
+	modal.handleInput("\r");
+	modal.handleInput("\x1b[B");
+	modal.handleInput(" ");
+
+	assert.deepEqual(updates, [
+		{ extensionId: "core-alpha", enabled: false },
+		{ extensionId: "third-party-beta", enabled: true },
+	]);
+});

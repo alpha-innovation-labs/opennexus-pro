@@ -5,6 +5,7 @@ import { registerCmuxExtension } from "@nexus/extensions/cmux/registerCmuxExtens
 import { registerContextUsageExtension } from "@nexus/extensions/context-usage/registerContextUsageExtension.js";
 import { registerDevExtension } from "@nexus/extensions/dev/registerDevExtension.js";
 import { registerExitMessageExtension } from "@nexus/extensions/exit-message/registerExitMessageExtension.js";
+import { registerExtensionManagerExtension } from "@nexus/extensions/extension-manager/registerExtensionManagerExtension.js";
 import { registerFeatureManagementExtension } from "@nexus/extensions/feature-management/registerFeatureManagementExtension.js";
 import registerFffExtension from "@nexus/extensions/fff/index.js";
 import { registerKanbanExtension } from "@nexus/extensions/kanban/registerKanbanExtension.js";
@@ -36,6 +37,7 @@ export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) 
     cmux: registerCmuxExtension,
     "context-usage": registerContextUsageExtension,
     dev: registerDevExtension,
+    "extension-manager": registerExtensionManagerExtension,
     "feature-management": registerFeatureManagementExtension,
     fff: registerFffExtension,
     rtk: registerRtkExtension,

@@ -1,6 +1,8 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
-import type { AutocompleteItem } from "@nexus/tui-kit/modal/index.js";
+import type { AutocompleteItem } from "@mariozechner/pi-tui";
 import type { ManagedExtensionRow } from "../model/types.js";
+import { formatManagedExtensionRow } from "./formatManagedExtensionRow.js";
+import { getManagedExtensionColumnWidth } from "./getManagedExtensionColumnWidth.js";
+import { getManagedExtensionGroupLabel } from "./getManagedExtensionGroupLabel.js";
 
 /**
  * Creates autocomplete items for managed extension rows.
@@ -11,10 +13,13 @@ import type { ManagedExtensionRow } from "../model/types.js";
  */
 export function createManagedExtensionItems(
 	rows: ManagedExtensionRow[],
-	theme: ExtensionCommandContext["ui"]["theme"],
+	theme: { fg(color: string, value: string): string },
 ): AutocompleteItem[] {
+	const extensionColumnWidth = getManagedExtensionColumnWidth(rows);
 	return rows.map((row) => ({
-		label: `${row.id} ${theme.muted("›")} ${row.status} ${theme.muted(row.kind)}`,
+		groupLabel: getManagedExtensionGroupLabel(row.kind),
+		label: formatManagedExtensionRow(row, extensionColumnWidth, theme).trimEnd(),
 		value: row.id,
+		preserveLabelWhitespace: true,
 	}));
 }

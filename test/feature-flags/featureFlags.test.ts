@@ -25,8 +25,7 @@ import { writeRootFeatureFlagsConfig } from "../support/feature-flags/writeRootF
 test("source runtime feature flags come from the root json config", async () => {
   const rootConfig = await readRootFeatureFlagsConfig();
   const runtimeConfig = readFeatureFlagsConfig();
-  const expectedUserConfig = applyUserExtensionConfig(rootConfig);
-  const expectedRuntimeConfig = applySystemExtensionAvailability(expectedUserConfig);
+  const expectedRuntimeConfig = applySystemExtensionAvailability(applyUserExtensionConfig(rootConfig));
   const flags = createExtensionFeatureFlags();
   const enabledIds = getEnabledExtensionFeatureFlags(flags)
     .map((flag) => flag.id)
@@ -37,7 +36,7 @@ test("source runtime feature flags come from the root json config", async () => 
     .sort();
   const report = createExtensionFeatureFlagReport(flags);
 
-  assert.deepEqual(runtimeConfig, expectedUserConfig);
+  assert.deepEqual(runtimeConfig, rootConfig);
   assert.equal(flags.length, Object.keys(rootConfig.extensions).length);
   assert.ok(flags.every((flag) => flag.features.length > 0));
   assert.deepEqual(enabledIds, expectedEnabledIds);
@@ -84,8 +83,10 @@ test("user config overrides built-in extension enabled state", async () => {
     const runtimeConfig = readFeatureFlagsConfig();
     const enabledIds = getEnabledExtensionFeatureFlags(createExtensionFeatureFlags()).map((flag) => flag.id);
 
-    assert.equal(runtimeConfig.extensions.notify?.enabled, false);
-    assert.equal(runtimeConfig.extensions.workspace?.enabled, true);
+    assert.equal(runtimeConfig.extensions.notify?.enabled, true);
+    assert.equal(runtimeConfig.extensions.workspace?.enabled, false);
+    assert.equal(applyUserExtensionConfig(runtimeConfig).extensions.notify?.enabled, false);
+    assert.equal(applyUserExtensionConfig(runtimeConfig).extensions.workspace?.enabled, true);
     assert.equal(runtimeConfig.extensions.missing, undefined);
     assert.equal(enabledIds.includes("notify"), false);
     assert.equal(enabledIds.includes("workspace"), true);

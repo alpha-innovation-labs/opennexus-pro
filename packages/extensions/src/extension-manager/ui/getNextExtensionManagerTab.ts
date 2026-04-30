@@ -1,6 +1,6 @@
 import type { ExtensionManagerTab } from "../model/types.js";
 
-const tabs: ExtensionManagerTab[] = ["all", "core", "user"];
+const tabs: ExtensionManagerTab[] = ["all", "core", "third-party"];
 
 /**
  * Gets the next extension manager tab for keyboard navigation.
