@@ -1,4 +1,6 @@
+import { getGlobalEditorTriggerConfigPath } from "./getGlobalEditorTriggerConfigPath.js";
 import { readEditorTriggerConfig } from "./readEditorTriggerConfig.js";
+import { readEditorTriggerConfigFile } from "./readEditorTriggerConfigFile.js";
 import { writeEditorTriggerConfig } from "./writeEditorTriggerConfig.js";
 
 /**
@@ -11,9 +13,10 @@ export async function ensureSubmitTrigger(cwd: string, text: string): Promise<vo
 	const config = await readEditorTriggerConfig(cwd);
 	const exists = config.rules.some((rule) => rule.action?.type === "submit" && (rule.match?.mode ?? "exact") === "exact" && rule.match?.text === text);
 	if (exists) return;
-	config.rules.push({
+	const writableConfig = await readEditorTriggerConfigFile(getGlobalEditorTriggerConfigPath());
+	writableConfig.rules.push({
 		match: { text, mode: "exact" },
 		action: { type: "submit" },
 	});
-	await writeEditorTriggerConfig(cwd, config);
+	await writeEditorTriggerConfig(writableConfig);
 }

@@ -1,3 +1,4 @@
+import { getBundledEditorTriggerConfig } from "./getBundledEditorTriggerConfig.js";
 import { getEditorTriggerConfigPath } from "./getEditorTriggerConfigPath.js";
 import { getGlobalEditorTriggerConfigPath } from "./getGlobalEditorTriggerConfigPath.js";
 import { mergeEditorTriggerConfigs } from "./mergeEditorTriggerConfigs.js";
@@ -15,5 +16,5 @@ export async function readEditorTriggerConfig(cwd: string): Promise<EditorTrigge
 		readEditorTriggerConfigFile(getGlobalEditorTriggerConfigPath()),
 		readEditorTriggerConfigFile(getEditorTriggerConfigPath(cwd)),
 	]);
-	return mergeEditorTriggerConfigs(globalConfig, projectConfig);
+	return mergeEditorTriggerConfigs(getBundledEditorTriggerConfig(), globalConfig, projectConfig);
 }

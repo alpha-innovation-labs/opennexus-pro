@@ -34,7 +34,7 @@ test("refreshPromptlineConfig caches trigger rules and Neo settings from disk", 
 
     const config = await refreshPromptlineConfig(cwd);
 
-    assert.deepEqual(config.triggerConfig.rules, [{ match: { text: "/reload" }, action: { type: "submit" } }]);
+    assert.ok(config.triggerConfig.rules.some((rule) => rule.match.text === "/reload" && rule.action.type === "submit"));
     assert.equal(config.neoConfig.clearEditorOnTriggerSubmit, false);
     assert.deepEqual(getPromptlineConfig(), config);
   } finally {
