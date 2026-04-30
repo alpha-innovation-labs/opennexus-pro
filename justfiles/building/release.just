@@ -9,6 +9,7 @@ release:
     APP_NAME="nexus"
     PREFIX_DIR="${npm_config_prefix:-$(npm prefix -g)}"
     AGENT_DIR="${HOME}/.local/share/${APP_NAME}/agent"
+    CONFIG_DIR="${HOME}/.config/${APP_NAME}"
     BIN_PATH="${PREFIX_DIR}/bin/${APP_NAME}"
     NPM_PACKAGE_DIR=".release/npm-package"
     PACK_DIR=".release/packed"
@@ -27,11 +28,11 @@ release:
     echo "📦 Installing ${APP_NAME} globally with npm..."
     npm install -g --force "${PACK_DIR}/${PACKAGE_TGZ}"
 
-    mkdir -p "${AGENT_DIR}"
-    if [ -f .nexus/extensions/neo-editor/editor-triggers.json ]; then
-        cp .nexus/extensions/neo-editor/editor-triggers.json "${AGENT_DIR}/editor-triggers.json"
-    elif [ ! -f "${AGENT_DIR}/editor-triggers.json" ]; then
-        printf '{}\n' > "${AGENT_DIR}/editor-triggers.json"
+    mkdir -p "${AGENT_DIR}" "${CONFIG_DIR}"
+    if [ -f .nexus/extensions/neo-editor/editor-triggers.json ] && [ ! -f "${CONFIG_DIR}/editor-triggers.json" ]; then
+        cp .nexus/extensions/neo-editor/editor-triggers.json "${CONFIG_DIR}/editor-triggers.json"
+    elif [ ! -f "${CONFIG_DIR}/editor-triggers.json" ]; then
+        printf '{}\n' > "${CONFIG_DIR}/editor-triggers.json"
     fi
 
     echo "🔎 Verifying launcher..."

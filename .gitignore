@@ -9,3 +9,4 @@ node_modules/
 .beads-credential-key
 apps/marketing-videos/out
 apps/marketing-videos/out
+logs
