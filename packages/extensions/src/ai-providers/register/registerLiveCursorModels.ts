@@ -1,4 +1,5 @@
 import type { ExtensionAPI, ProviderConfig } from "@mariozechner/pi-coding-agent";
+import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent.js";
 import type { OAuthCredentials } from "@mariozechner/pi-ai";
 import { createLiveCursorProviderModelConfig } from "./createLiveCursorProviderModelConfig.js";
 import { getCursorModelsSilently } from "./getCursorModelsSilently.js";
@@ -18,6 +19,9 @@ export async function registerLiveCursorModels(
 	credentials: OAuthCredentials,
 ): Promise<void> {
 	const discoveredModels = await getCursorModelsSilently(credentials.access);
+	logStartupProfileEvent("ai-providers", "cursorLiveModels:discovered", {
+		count: discoveredModels.length,
+	});
 	if (discoveredModels.length === 0) return;
 
 	registerProvider("cursor", {

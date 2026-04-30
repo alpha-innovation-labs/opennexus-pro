@@ -1,5 +1,6 @@
 import type { ExtensionAPI, ProviderConfig } from "@mariozechner/pi-coding-agent";
 import type { OAuthCredentials } from "@mariozechner/pi-ai";
+import { setStoredCursorModelLoader } from "./cursorStoredModelLoader.js";
 import { registerLiveCursorModels } from "./registerLiveCursorModels.js";
 import { registerStoredCursorModels } from "./registerStoredCursorModels.js";
 
@@ -48,7 +49,7 @@ function createCursorProviderConfigWithoutFallback(
  * @param pi Original Pi extension API.
  * @returns Extension API that suppresses the Cursor fallback model list.
  */
-export function createCursorProviderWithoutFallbackApi(pi: ExtensionAPI, startupTasks: Promise<void>[] = []): ExtensionAPI {
+export function createCursorProviderWithoutFallbackApi(pi: ExtensionAPI): ExtensionAPI {
 	let cursorProviderRegistrationCount = 0;
 	const originalRegisterProvider = pi.registerProvider.bind(pi);
 
@@ -82,7 +83,7 @@ export function createCursorProviderWithoutFallbackApi(pi: ExtensionAPI, startup
 				if (cursorProviderRegistrationCount === 1) {
 					const sanitizedConfig = createCursorProviderConfigWithoutFallback(config, originalRegisterProvider);
 					originalRegisterProvider(name, sanitizedConfig);
-					startupTasks.push(registerStoredCursorModels(originalRegisterProvider, sanitizedConfig));
+					setStoredCursorModelLoader(() => registerStoredCursorModels(originalRegisterProvider, sanitizedConfig));
 					return;
 				}
 

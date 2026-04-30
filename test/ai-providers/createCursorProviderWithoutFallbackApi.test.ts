@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import type { ExtensionAPI, ProviderConfig, ProviderModelConfig } from "@mariozechner/pi-coding-agent";
 import { createCursorProviderWithoutFallbackApi } from "../../packages/extensions/src/ai-providers/register/createCursorProviderWithoutFallbackApi.js";
+import { ensureStoredCursorModelsRegistered, resetStoredCursorModelLoaderForTests, setStoredCursorModelLoader } from "../../packages/extensions/src/ai-providers/register/cursorStoredModelLoader.js";
 
 interface ProviderRegistration {
 	name: string;
@@ -82,4 +83,18 @@ test("createCursorProviderWithoutFallbackApi leaves non-Cursor providers unchang
 
 	assert.equal(registrations[0]?.name, "other");
 	assert.deepEqual(registrations[0]?.config.models, [model]);
+});
+
+test("ensureStoredCursorModelsRegistered runs the deferred Cursor loader once", async () => {
+	resetStoredCursorModelLoaderForTests();
+	let calls = 0;
+	setStoredCursorModelLoader(async () => {
+		calls += 1;
+	});
+
+	await ensureStoredCursorModelsRegistered();
+	await ensureStoredCursorModelsRegistered();
+
+	assert.equal(calls, 1);
+	resetStoredCursorModelLoaderForTests();
 });

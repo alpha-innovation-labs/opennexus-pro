@@ -15,7 +15,7 @@ const STARTUP_HERO_BOTTOM_PADDING_LINES = 1;
  * @param terminalColumns Current terminal column count.
  * @param version Nexus package version.
  * @param status Startup status summary.
- * @param tip Startup tip selected for this session.
+ * @param startupDurationBadge Optional startup duration badge.
  * @returns Padded and centered startup hero lines.
  */
 export function buildCenteredStartupHeroLines(
@@ -24,13 +24,13 @@ export function buildCenteredStartupHeroLines(
 	terminalColumns: number,
 	version: string,
 	status: StartupHeroStatus,
-	tip: string,
+	startupDurationBadge?: string,
 ): string[] {
 	const logoLines = buildStartupHeroLogoLines(theme);
 	const logoWidth = Math.max(0, ...logoLines.map((line) => visibleWidth(line)));
 	if (logoWidth > terminalColumns) return [];
 
-	const heroLines = centerStartupHeroLines(buildStartupHeroLines(theme, version, status, terminalColumns, tip), terminalColumns);
+	const heroLines = centerStartupHeroLines(buildStartupHeroLines(theme, version, status, terminalColumns, startupDurationBadge), terminalColumns);
 	const emptyFullWidthLine = " ".repeat(terminalColumns);
 	const bottomPaddingLines = Array.from({ length: STARTUP_HERO_BOTTOM_PADDING_LINES }, () => emptyFullWidthLine);
 	const topPaddingLineCount = calculateStartupHeroTopPadding(terminalRows, heroLines.length + bottomPaddingLines.length);

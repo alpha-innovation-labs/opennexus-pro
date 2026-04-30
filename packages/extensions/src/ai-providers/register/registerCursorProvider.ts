@@ -1,5 +1,6 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import registerCursorProviderExtension from "pi-cursor-provider";
+import { configureCursorBridgeFactory } from "./configureCursorBridgeFactory.js";
 import { createCursorProviderWithoutFallbackApi } from "./createCursorProviderWithoutFallbackApi.js";
 
 /**
@@ -9,7 +10,6 @@ import { createCursorProviderWithoutFallbackApi } from "./createCursorProviderWi
  * @returns A promise that resolves after the Cursor proxy-backed provider is registered.
  */
 export async function registerCursorProvider(pi: ExtensionAPI): Promise<void> {
-  const startupTasks: Promise<void>[] = [];
-  await registerCursorProviderExtension(createCursorProviderWithoutFallbackApi(pi, startupTasks));
-  await Promise.all(startupTasks);
+  configureCursorBridgeFactory();
+  await registerCursorProviderExtension(createCursorProviderWithoutFallbackApi(pi));
 }

@@ -16,6 +16,7 @@ import { calculateSinglePaneMenuWidth } from "./calculateSinglePaneMenuWidth.js"
 import { calculateTopLevelMenuWidth } from "./calculateTopLevelMenuWidth.js";
 import { createActiveLeaves } from "./createActiveLeaves.js";
 import { createAuthImportCandidateLeaves } from "./createAuthImportCandidateLeaves.js";
+import { createLoadingLeaf } from "./createLoadingLeaf.js";
 import { createNameInputLeaf } from "./createNameInputLeaf.js";
 import { createScopedModelLeaves } from "./createScopedModelLeaves.js";
 import { getDynamicSlashCommands } from "./getDynamicSlashCommands.js";
@@ -90,6 +91,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     private readonly requestRender: () => void,
     private readonly onCommandPicked: (commandText: string) => void,
     private readonly getCommands: ExtensionAPI["getCommands"] = () => [],
+    private readonly ensureModelMenuReady: () => Promise<void> = async () => undefined,
   ) {
     super(ctx.ui.theme, () => undefined, requestClose, undefined, { leftTitle: "Menu", rightTitle: "Preview", bottomTitle: "Search", bottomPrefix: "> /", leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO, itemMaxLines: (item) => (item as { resumeRow?: boolean }).resumeRow ? 2 : 1 });
     this.setOnPick(() => void this.handleEnter());
@@ -351,6 +353,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "setting-choice") return this.applySettingChoice(item.value);
     if (this.level === "theme") return this.applyLeafByValue(item.value);
     if (this.level === "model") {
+      if (item.value === "__loading__") return;
       this.onCommandPicked(`/nexus-model-select ${item.value}`);
       return;
     }
@@ -385,6 +388,19 @@ export class SlashMenuModal extends SelectPreviewModal {
    */
   async openLevel(level: SlashMenuLevel): Promise<void> {
     this.previousLevels.push(this.level);
+    if (level === "model") {
+      this.level = "model";
+      this.query = "";
+      this.searchActive = false;
+      this.setBottom("Search", "", "> /");
+      this.renderItems([createLoadingLeaf("Loading Cursor models…")], "Models");
+      this.requestRender();
+      await this.ensureModelMenuReady();
+      this.ctx.modelRegistry.refresh();
+      this.level = resolveRequestedSlashMenuLevel(this.ctx, level);
+      await this.refresh();
+      return;
+    }
     this.level = resolveRequestedSlashMenuLevel(this.ctx, level);
     this.query = "";
     this.searchActive = false;

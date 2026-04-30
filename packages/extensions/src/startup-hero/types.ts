@@ -1,6 +1,7 @@
 export interface StartupHeroStatus {
 	activeSkillCount: number;
 	agentsMdLoaded: boolean;
+	enabledExtensionCount: number;
 }
 
 export interface StartupHeroTheme {

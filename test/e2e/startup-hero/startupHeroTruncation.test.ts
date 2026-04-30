@@ -7,6 +7,12 @@ import { LinesComponent } from "../../support/component/LinesComponent.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
+const startupStatus = {
+	activeSkillCount: 3,
+	agentsMdLoaded: true,
+	enabledExtensionCount: 10,
+};
+
 test("startup hero keeps the Nexus wordmark readable at narrow terminal widths", async () => {
 	const viewport = await renderComponentInVirtualTerminal(
 		() => new LinesComponent(() => buildStartupHeroLogoLines(createTestTheme())),
@@ -27,11 +33,7 @@ test("startup hero renders full-width centered lines", () => {
 		30,
 		terminalColumns,
 		"1.2.3",
-		{
-			activeSkillCount: 3,
-			agentsMdLoaded: true,
-		},
-		"Press Ctrl+V to paste clipboard images.",
+		startupStatus,
 	);
 
 	assert.ok(lines.length > 0);
@@ -46,11 +48,7 @@ test("startup hero is hidden when the terminal is narrower than the wordmark", (
 		30,
 		terminalColumns,
 		"1.2.3",
-		{
-			activeSkillCount: 3,
-			agentsMdLoaded: true,
-		},
-		"Press Ctrl+V to paste clipboard images.",
+		startupStatus,
 	);
 
 	assert.deepEqual(lines, []);

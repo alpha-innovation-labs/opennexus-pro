@@ -9,7 +9,7 @@ import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
  * @param theme UI theme formatter.
  * @param version Nexus package version.
  * @param status Startup status summary.
- * @param tip Startup tip selected for this session.
+ * @param startupDurationBadge Optional startup duration badge.
  * @returns Component that renders the padded startup hero.
  */
 export function createStartupHeroWidget(
@@ -17,7 +17,7 @@ export function createStartupHeroWidget(
 	theme: StartupHeroTheme,
 	version: string,
 	status: StartupHeroStatus,
-	tip: string,
+	startupDurationBadge?: string,
 ): Component {
 	return {
 		/**
@@ -27,7 +27,7 @@ export function createStartupHeroWidget(
 		 * @returns Startup hero lines.
 		 */
 		render(width: number): string[] {
-			return buildCenteredStartupHeroLines(theme, tui.terminal.rows, width, version, status, tip);
+			return buildCenteredStartupHeroLines(theme, tui.terminal.rows, width, version, status, startupDurationBadge);
 		},
 		/** Invalidates cached rendering state. */
 		invalidate(): void {},

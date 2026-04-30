@@ -26,6 +26,7 @@ import { logRunAppPhase } from "./startup-profile/logRunAppPhase.js";
 import { setStartupProfileEnabled } from "./startup-profile/setStartupProfileEnabled.js";
 import { normalizeResumeStartupArgs } from "@nexus/runtime/cli/normalizeResumeStartupArgs.js";
 import { normalizeUsageStartupArgs } from "@nexus/runtime/cli/normalizeUsageStartupArgs.js";
+import { startupStartedAtEnvVar } from "@nexus/extensions/startup-hero/startupStartedAtEnvVar.js";
 import { pruneLoggedOutEnabledModels } from "@nexus/pi-platform/settings/pruneLoggedOutEnabledModels.js";
 import { clearStartupScreen } from "./startup-screen/clearStartupScreen.js";
 import { shouldClearStartupScreen } from "./startup-screen/shouldClearStartupScreen.js";
@@ -55,6 +56,7 @@ export async function runAppWithExtensionFactories(
   clearExitMessage();
   registerExitMessageProcessHandler();
   const appStartedAt = performance.now();
+  process.env[startupStartedAtEnvVar] = String(appStartedAt);
   logStartupProfileEvent("runApp", "start", { argv: rawArgs });
   void sendTelemetryEventSafely("app.start", {
     "os.platform": platform(),
@@ -132,8 +134,12 @@ export async function runAppWithExtensionFactories(
 
   phaseStartedAt = performance.now();
   const args = createAppArgs(rawArgs);
+  logRunAppPhase("createAppArgs:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
   const extensionFactories = await resolveBundledExtensionFactories(rawArgs, createExtensionFactories);
-  logRunAppPhase("prepareArgsAndExtensions:done", phaseStartedAt);
+  logRunAppPhase("resolveBundledExtensionFactories:done", phaseStartedAt);
+  logStartupProfileEvent("runApp", "prepareArgsAndExtensions:done");
   void sendTelemetryEventSafely("startup.duration", {
     "startup.duration_ms": Number((performance.now() - appStartedAt).toFixed(3)),
   });

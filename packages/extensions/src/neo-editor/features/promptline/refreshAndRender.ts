@@ -15,13 +15,20 @@ export async function refreshAndRender(ctx: PromptlineContext, deps: PromptlineR
   logExtensionEvent("neo-editor", "refreshAndRender:start", {
     sessionFile: ctx.sessionManager.getSessionFile() ?? null,
   });
-  await Promise.all([
+  getPromptlineRenderRequest()?.();
+  void Promise.all([
     refreshGitState(deps.exec),
     refreshTransportPreference(ctx.cwd),
     refreshUsageForContext(ctx, true),
-  ]);
-  getPromptlineRenderRequest()?.();
-  logExtensionEvent("neo-editor", "refreshAndRender:done", {
-    sessionFile: ctx.sessionManager.getSessionFile() ?? null,
+  ]).then(() => {
+    getPromptlineRenderRequest()?.();
+    logExtensionEvent("neo-editor", "refreshAndRender:done", {
+      sessionFile: ctx.sessionManager.getSessionFile() ?? null,
+    });
+  }).catch((error: unknown) => {
+    logExtensionEvent("neo-editor", "refreshAndRender:error", {
+      message: error instanceof Error ? error.message : String(error),
+    });
+    getPromptlineRenderRequest()?.();
   });
 }

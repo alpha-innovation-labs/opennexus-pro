@@ -96,8 +96,8 @@ test("startup hero shows above the editor on fresh startup and clears on the fir
 		assert.match(rendered, /███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗/u);
 		assert.match(rendered, /v\d+\.\d+\.\d+/u);
 		assert.doesNotMatch(rendered, /Nexus v/u);
-		assert.match(rendered, /TIP .+/u);
-		assert.match(rendered, /Skills \(2\) ✓  AGENTS\.md ✓/u);
+		assert.doesNotMatch(rendered, /TIP/u);
+		assert.match(rendered, /󰧑 Skills \(2\) ✓   AGENTS\.md ✓   Extensions \(\d+\) ✓/u);
 		assert.deepEqual(calls[1], { key: startupHeroWidgetKey, value: undefined, placement: "aboveEditor" });
 	} finally {
 		process.argv = originalArgv;

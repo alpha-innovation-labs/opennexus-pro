@@ -1,6 +1,5 @@
 import { buildStartupHeroLogoLines } from "./buildStartupHeroLogoLines.js";
 import { buildStartupHeroStatusLine } from "./buildStartupHeroStatusLine.js";
-import { buildStartupHeroTipLines } from "./buildStartupHeroTipLines.js";
 import { buildStartupHeroVersionLine } from "./buildStartupHeroVersionLine.js";
 import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
 
@@ -11,7 +10,7 @@ import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
  * @param version Nexus package version.
  * @param status Startup status summary.
  * @param width Maximum visible content width.
- * @param tip Startup tip selected for this session.
+ * @param startupDurationBadge Optional startup duration badge.
  * @returns Styled startup hero lines.
  */
 export function buildStartupHeroLines(
@@ -19,15 +18,13 @@ export function buildStartupHeroLines(
 	version: string,
 	status: StartupHeroStatus,
 	width: number,
-	tip: string,
+	startupDurationBadge?: string,
 ): string[] {
 	const statusLine = buildStartupHeroStatusLine(theme, status, width);
 	return [
 		...buildStartupHeroLogoLines(theme),
 		"",
-		buildStartupHeroVersionLine(theme, version, width),
-		"",
-		...buildStartupHeroTipLines(theme, width, tip),
+		buildStartupHeroVersionLine(theme, version, width, startupDurationBadge),
 		"",
 		statusLine,
 	];

@@ -11,10 +11,16 @@ import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
  */
 export function buildStartupHeroStatusLine(theme: StartupHeroTheme, status: StartupHeroStatus, width: number): string {
 	const skillActive = status.activeSkillCount > 0;
-	const skillIcon = skillActive ? "✓" : "✗";
-	const agentsIcon = status.agentsMdLoaded ? "✓" : "✗";
+	const skillStatusIcon = skillActive ? "✓" : "✗";
+	const agentsStatusIcon = status.agentsMdLoaded ? "✓" : "✗";
+	const extensionStatusIcon = status.enabledExtensionCount > 0 ? "✓" : "✗";
 	const skillColor = skillActive ? "syntaxType" : "error";
 	const agentsColor = status.agentsMdLoaded ? "syntaxType" : "error";
-	const line = `Skills (${status.activeSkillCount}) ${theme.fg(skillColor, skillIcon)}  AGENTS.md ${theme.fg(agentsColor, agentsIcon)}`;
+	const extensionColor = status.enabledExtensionCount > 0 ? "syntaxType" : "error";
+	const line = [
+		`󰧑 Skills (${status.activeSkillCount}) ${theme.fg(skillColor, skillStatusIcon)}`,
+		` AGENTS.md ${theme.fg(agentsColor, agentsStatusIcon)}`,
+		` Extensions (${status.enabledExtensionCount}) ${theme.fg(extensionColor, extensionStatusIcon)}`,
+	].join("  ");
 	return truncateToWidth(line, width, "…");
 }

@@ -13,21 +13,21 @@ import { stopUsageHistorySampler } from "./history/stopUsageHistorySampler.js";
  */
 export function registerSlashUsageExtension(pi: ExtensionAPI): void {
 	registerUsageCommand(pi);
-	const refreshUsage = async (ctx: ExtensionContext, force = false) => {
+	const refreshUsage = (ctx: ExtensionContext, force = false): void => {
 		if (!ctx.hasUI) return;
-		await refreshUsageForContext(ctx, force);
+		void refreshUsageForContext(ctx, force).catch(() => undefined);
 	};
 	pi.on("session_start", async (event, ctx) => {
 		startUsageHistorySampler(ctx.cwd, ctx);
-		await refreshUsage(ctx, true);
+		refreshUsage(ctx, true);
 		await primeStartupUsageModal(event.reason, ctx);
 	});
 	pi.on("turn_end", async (_event, ctx) => {
-		await refreshUsage(ctx, true);
+		refreshUsage(ctx, true);
 	});
 	pi.on("model_select", async (_event, ctx) => {
 		startUsageHistorySampler(ctx.cwd, ctx);
-		await refreshUsage(ctx, true);
+		refreshUsage(ctx, true);
 	});
 	pi.on("session_shutdown", async (_event, ctx) => {
 		stopUsageHistorySampler(ctx.cwd);

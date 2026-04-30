@@ -1,4 +1,5 @@
 import type { ExtensionAPI, ProviderConfig } from "@mariozechner/pi-coding-agent";
+import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent.js";
 import { readStoredProviderOAuthCredentials } from "./readStoredProviderOAuthCredentials.js";
 import { registerLiveCursorModels } from "./registerLiveCursorModels.js";
 
@@ -13,6 +14,10 @@ export async function registerStoredCursorModels(
 	config: ProviderConfig,
 ): Promise<void> {
 	const credentials = await readStoredProviderOAuthCredentials("cursor");
-	if (!credentials) return;
+	if (!credentials) {
+		logStartupProfileEvent("ai-providers", "cursorStoredModels:noCredentials");
+		return;
+	}
+	logStartupProfileEvent("ai-providers", "cursorStoredModels:credentialsFound");
 	await registerLiveCursorModels(registerProvider, config, credentials);
 }

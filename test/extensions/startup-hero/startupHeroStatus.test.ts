@@ -16,11 +16,15 @@ test("startup hero status counts active skills and detects AGENTS.md", () => {
 		"</available_skills>",
 	].join("\n"));
 
-	assert.deepEqual(status, { activeSkillCount: 2, agentsMdLoaded: true });
+	assert.equal(status.activeSkillCount, 2);
+	assert.equal(status.agentsMdLoaded, true);
+	assert.ok(status.enabledExtensionCount > 0);
 });
 
 test("startup hero status handles no active project context", () => {
 	const status = getStartupHeroStatus("Current working directory: /workspace");
 
-	assert.deepEqual(status, { activeSkillCount: 0, agentsMdLoaded: false });
+	assert.equal(status.activeSkillCount, 0);
+	assert.equal(status.agentsMdLoaded, false);
+	assert.ok(status.enabledExtensionCount > 0);
 });

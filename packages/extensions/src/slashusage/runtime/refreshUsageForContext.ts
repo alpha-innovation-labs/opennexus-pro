@@ -2,6 +2,7 @@ import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { detectProviderFromModel } from "../providers/detectProviderFromModel.js";
 import { getUsageFetcher } from "../providers/getUsageFetcher.js";
 import { getUsageSnapshot } from "../store/getUsageSnapshot.js";
+import { setUsageLoading } from "../store/setUsageLoading.js";
 import { setUsageSnapshot } from "../store/setUsageSnapshot.js";
 import type { UsageSnapshot } from "../types.js";
 import { shouldRefreshUsage } from "./shouldRefreshUsage.js";
@@ -18,7 +19,12 @@ export async function refreshUsageForContext(ctx: ExtensionContext, force = fals
 	if (!provider) return undefined;
 	const current = getUsageSnapshot(provider);
 	if (!shouldRefreshUsage(current, force)) return current;
-	const next = await getUsageFetcher(provider)();
-	setUsageSnapshot(next);
-	return next;
+	setUsageLoading(provider, true);
+	try {
+		const next = await getUsageFetcher(provider)();
+		setUsageSnapshot(next);
+		return next;
+	} finally {
+		setUsageLoading(provider, false);
+	}
 }

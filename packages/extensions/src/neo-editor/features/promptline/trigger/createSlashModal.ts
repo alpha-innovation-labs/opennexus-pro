@@ -1,4 +1,5 @@
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
+import { ensureStoredCursorModelsRegistered } from "@nexus/extensions/ai-providers/register/cursorStoredModelLoader.js";
 import { SlashMenuModal } from "../../menu/SlashMenuModal.js";
 import type { TriggerModalHandle, ShowOverlay } from "./types.js";
 
@@ -31,7 +32,7 @@ export function createSlashModal(
     requestClose();
     requestRender();
     submitText(commandText);
-  }, getCommands);
+  }, getCommands, ensureStoredCursorModelsRegistered);
   const handle = showOverlay(modal, {
     anchor: "center",
     width: "100%",
