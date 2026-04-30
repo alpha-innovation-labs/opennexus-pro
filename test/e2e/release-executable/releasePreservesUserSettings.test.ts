@@ -4,7 +4,7 @@ import { join } from "node:path";
 import test from "node:test";
 import { createReleaseTestEnv } from "./createReleaseTestEnv.js";
 import { createReleaseTestHome } from "./createReleaseTestHome.js";
-import { getInstalledAgentDirPath } from "./getInstalledAgentDirPath.js";
+import { getInstalledConfigDirPath } from "./getInstalledConfigDirPath.js";
 import { removeReleaseTestHome } from "./removeReleaseTestHome.js";
 import { runCommand } from "./runCommand.js";
 import { withLockedReleaseBuild } from "./withLockedReleaseBuild.js";
@@ -18,8 +18,8 @@ test("just release preserves preexisting user settings", async () => {
   await withLockedReleaseBuild(async () => {
     const homeDir = await createReleaseTestHome();
     const env = createReleaseTestEnv(homeDir);
-    const installedAgentDir = getInstalledAgentDirPath(homeDir);
-    const installedSettingsPath = join(installedAgentDir, "settings.json");
+    const installedConfigDir = getInstalledConfigDirPath(homeDir);
+    const installedSettingsPath = join(installedConfigDir, "settings.json");
     const userSettings = {
       theme: "light",
       editorPaddingX: 3,
@@ -28,7 +28,7 @@ test("just release preserves preexisting user settings", async () => {
       defaultProvider: "openai",
     };
 
-    await mkdir(installedAgentDir, { recursive: true });
+    await mkdir(installedConfigDir, { recursive: true });
     await writeFile(installedSettingsPath, `${JSON.stringify(userSettings, null, 2)}\n`, "utf8");
 
     try {

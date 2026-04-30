@@ -1,9 +1,12 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { readFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
 import {
   applySystemExtensionAvailability,
+  applyUserExtensionConfig,
   createExtensionFeatureFlagReport,
   createExtensionFeatureFlags,
   getBundledFeatureFlagsConfig,
@@ -22,7 +25,8 @@ import { writeRootFeatureFlagsConfig } from "../support/feature-flags/writeRootF
 test("source runtime feature flags come from the root json config", async () => {
   const rootConfig = await readRootFeatureFlagsConfig();
   const runtimeConfig = readFeatureFlagsConfig();
-  const expectedRuntimeConfig = applySystemExtensionAvailability(rootConfig);
+  const expectedUserConfig = applyUserExtensionConfig(rootConfig);
+  const expectedRuntimeConfig = applySystemExtensionAvailability(expectedUserConfig);
   const flags = createExtensionFeatureFlags();
   const enabledIds = getEnabledExtensionFeatureFlags(flags)
     .map((flag) => flag.id)
@@ -33,7 +37,7 @@ test("source runtime feature flags come from the root json config", async () => 
     .sort();
   const report = createExtensionFeatureFlagReport(flags);
 
-  assert.deepEqual(runtimeConfig, rootConfig);
+  assert.deepEqual(runtimeConfig, expectedUserConfig);
   assert.equal(flags.length, Object.keys(rootConfig.extensions).length);
   assert.ok(flags.every((flag) => flag.features.length > 0));
   assert.deepEqual(enabledIds, expectedEnabledIds);
@@ -52,6 +56,44 @@ test("source runtime feature flags come from the root json config", async () => 
   assert.match(report, /\/usage history graph modal/);
   assert.match(report, /workspace top bar/);
   assert.match(report, /dev-only modal variation playground/);
+});
+
+test("user config overrides built-in extension enabled state", async () => {
+  const originalHome = process.env.HOME;
+  const home = await mkdtemp(join(tmpdir(), "nexus-user-config-"));
+
+  try {
+    process.env.HOME = home;
+    const configDir = join(home, ".config", "nexus");
+    await mkdir(configDir, { recursive: true });
+    await writeFile(join(configDir, "config.json"), JSON.stringify({
+      extensions: {
+        notify: { enabled: false },
+        workspace: { enabled: true },
+        missing: { enabled: true },
+      },
+    }));
+  } catch (error) {
+    await rm(home, { recursive: true, force: true });
+    if (originalHome) process.env.HOME = originalHome;
+    else delete process.env.HOME;
+    throw error;
+  }
+
+  try {
+    const runtimeConfig = readFeatureFlagsConfig();
+    const enabledIds = getEnabledExtensionFeatureFlags(createExtensionFeatureFlags()).map((flag) => flag.id);
+
+    assert.equal(runtimeConfig.extensions.notify?.enabled, false);
+    assert.equal(runtimeConfig.extensions.workspace?.enabled, true);
+    assert.equal(runtimeConfig.extensions.missing, undefined);
+    assert.equal(enabledIds.includes("notify"), false);
+    assert.equal(enabledIds.includes("workspace"), true);
+  } finally {
+    await rm(home, { recursive: true, force: true });
+    if (originalHome) process.env.HOME = originalHome;
+    else delete process.env.HOME;
+  }
 });
 
 test("source runtime picks up root json changes without regenerating release artifacts", async () => {
@@ -114,7 +156,6 @@ test("compiled production feature flags exclude dev-only extensions", () => {
 
   assert.equal(bundledConfig.extensions.dev, undefined);
   assert.equal(bundledConfig.extensions.annotate, undefined);
-  assert.equal(bundledConfig.extensions["feature-management"], undefined);
   assert.ok(Object.values(bundledConfig.extensions).every((extension) => !extension.devOnly));
 });
 

@@ -5,47 +5,36 @@ import { join } from "node:path";
 import { getGlobalEditorTriggerConfigPath } from "../../../packages/extensions/src/neo-editor/features/editor-triggers/getGlobalEditorTriggerConfigPath.js";
 
 /**
- * Restores the supported agent-dir environment variables.
+ * Restores the supported config-dir environment variable.
  *
- * @param nexusValue Previous Nexus env value.
- * @param piValue Previous Pi env value.
+ * @param nexusValue Previous Nexus config env value.
  */
-function restoreAgentDirEnv(nexusValue: string | undefined, piValue: string | undefined): void {
+function restoreConfigDirEnv(nexusValue: string | undefined): void {
   if (nexusValue === undefined) {
-    delete process.env.NEXUS_CODING_AGENT_DIR;
+    delete process.env.NEXUS_CONFIG_DIR;
   } else {
-    process.env.NEXUS_CODING_AGENT_DIR = nexusValue;
-  }
-
-  if (piValue === undefined) {
-    delete process.env.PI_CODING_AGENT_DIR;
-  } else {
-    process.env.PI_CODING_AGENT_DIR = piValue;
+    process.env.NEXUS_CONFIG_DIR = nexusValue;
   }
 }
 
-test("getGlobalEditorTriggerConfigPath uses the Nexus agent dir env override", () => {
-  const previousNexus = process.env.NEXUS_CODING_AGENT_DIR;
-  const previousPi = process.env.PI_CODING_AGENT_DIR;
-  process.env.NEXUS_CODING_AGENT_DIR = "/tmp/nexus-agent";
-  process.env.PI_CODING_AGENT_DIR = "/tmp/pi-agent";
+test("getGlobalEditorTriggerConfigPath uses the Nexus config dir env override", () => {
+  const previousNexus = process.env.NEXUS_CONFIG_DIR;
+  process.env.NEXUS_CONFIG_DIR = "/tmp/nexus-config";
 
   try {
-    assert.equal(getGlobalEditorTriggerConfigPath(), "/tmp/nexus-agent/editor-triggers.json");
+    assert.equal(getGlobalEditorTriggerConfigPath(), "/tmp/nexus-config/editor-triggers.json");
   } finally {
-    restoreAgentDirEnv(previousNexus, previousPi);
+    restoreConfigDirEnv(previousNexus);
   }
 });
 
-test("getGlobalEditorTriggerConfigPath falls back to the installed Nexus agent dir", () => {
-  const previousNexus = process.env.NEXUS_CODING_AGENT_DIR;
-  const previousPi = process.env.PI_CODING_AGENT_DIR;
-  delete process.env.NEXUS_CODING_AGENT_DIR;
-  delete process.env.PI_CODING_AGENT_DIR;
+test("getGlobalEditorTriggerConfigPath falls back to the installed Nexus config dir", () => {
+  const previousNexus = process.env.NEXUS_CONFIG_DIR;
+  delete process.env.NEXUS_CONFIG_DIR;
 
   try {
-    assert.equal(getGlobalEditorTriggerConfigPath(), join(homedir(), ".local", "share", "nexus", "agent", "editor-triggers.json"));
+    assert.equal(getGlobalEditorTriggerConfigPath(), join(homedir(), ".config", "nexus", "editor-triggers.json"));
   } finally {
-    restoreAgentDirEnv(previousNexus, previousPi);
+    restoreConfigDirEnv(previousNexus);
   }
 });

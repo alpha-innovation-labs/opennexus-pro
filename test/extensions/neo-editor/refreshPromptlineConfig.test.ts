@@ -8,15 +8,15 @@ import { getPromptlineConfig } from "../../../packages/extensions/src/neo-editor
 import { refreshPromptlineConfig } from "../../../packages/extensions/src/neo-editor/features/promptline/config/refreshPromptlineConfig.js";
 
 /**
- * Creates one temporary project and agent config sandbox.
+ * Creates one temporary project and user config sandbox.
  *
- * @returns Temporary cwd and agent dir.
+ * @returns Temporary cwd and config dir.
  */
-async function createConfigSandbox(): Promise<{ cwd: string; agentDir: string }> {
+async function createConfigSandbox(): Promise<{ cwd: string; configDir: string }> {
   const cwd = await mkdtemp(join(tmpdir(), "nexus-promptline-cwd-"));
-  const agentDir = await mkdtemp(join(tmpdir(), "nexus-promptline-agent-"));
+  const configDir = await mkdtemp(join(tmpdir(), "nexus-promptline-config-"));
   await mkdir(join(cwd, ".nexus", "extensions", "neo-editor"), { recursive: true });
-  return { cwd, agentDir };
+  return { cwd, configDir };
 }
 
 test.afterEach(() => {
@@ -24,14 +24,12 @@ test.afterEach(() => {
 });
 
 test("refreshPromptlineConfig caches trigger rules and Neo settings from disk", async () => {
-  const originalAgentDir = process.env.NEXUS_CODING_AGENT_DIR;
-  const originalPiAgentDir = process.env.PI_CODING_AGENT_DIR;
-  const { cwd, agentDir } = await createConfigSandbox();
+  const originalConfigDir = process.env.NEXUS_CONFIG_DIR;
+  const { cwd, configDir } = await createConfigSandbox();
 
   try {
-    process.env.NEXUS_CODING_AGENT_DIR = agentDir;
-    process.env.PI_CODING_AGENT_DIR = agentDir;
-    await writeFile(join(agentDir, "editor-triggers.json"), JSON.stringify({ rules: [{ match: { text: "/reload" }, action: { type: "submit" } }] }));
+    process.env.NEXUS_CONFIG_DIR = configDir;
+    await writeFile(join(configDir, "editor-triggers.json"), JSON.stringify({ rules: [{ match: { text: "/reload" }, action: { type: "submit" } }] }));
     await writeFile(join(cwd, ".nexus", "extensions", "neo-editor", "config.json"), JSON.stringify({ clearEditorOnTriggerSubmit: false }));
 
     const config = await refreshPromptlineConfig(cwd);
@@ -40,11 +38,9 @@ test("refreshPromptlineConfig caches trigger rules and Neo settings from disk", 
     assert.equal(config.neoConfig.clearEditorOnTriggerSubmit, false);
     assert.deepEqual(getPromptlineConfig(), config);
   } finally {
-    if (originalAgentDir === undefined) delete process.env.NEXUS_CODING_AGENT_DIR;
-    else process.env.NEXUS_CODING_AGENT_DIR = originalAgentDir;
-    if (originalPiAgentDir === undefined) delete process.env.PI_CODING_AGENT_DIR;
-    else process.env.PI_CODING_AGENT_DIR = originalPiAgentDir;
+    if (originalConfigDir === undefined) delete process.env.NEXUS_CONFIG_DIR;
+    else process.env.NEXUS_CONFIG_DIR = originalConfigDir;
     await rm(cwd, { recursive: true, force: true });
-    await rm(agentDir, { recursive: true, force: true });
+    await rm(configDir, { recursive: true, force: true });
   }
 });

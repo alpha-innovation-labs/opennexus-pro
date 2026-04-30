@@ -1,8 +1,12 @@
 import assert from "node:assert/strict";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
 import { createTelemetryConfig } from "../../packages/observability/src/telemetry/createTelemetryConfig.js";
 import { createTelemetryPayload } from "../../packages/observability/src/telemetry/createTelemetryPayload.js";
 import { sanitizeTelemetryAttributes } from "../../packages/observability/src/telemetry/sanitizeTelemetryAttributes.js";
+import { readTelemetryFeatureEnabled } from "../../packages/observability/src/telemetry/readTelemetryFeatureEnabled.js";
 import { sendTelemetryEvent } from "../../packages/observability/src/telemetry/sendTelemetryEvent.js";
 import { setTelemetryEventEnabled } from "../../packages/observability/src/telemetry/setTelemetryEventEnabled.js";
 import type { TelemetryConfig } from "../../packages/observability/src/telemetry/types.js";
@@ -25,6 +29,13 @@ function createOkResponse(): Response {
 
 test("createTelemetryConfig enables telemetry by default", () => {
   assert.equal(createTelemetryConfig({}).enabled, true);
+});
+
+test("readTelemetryFeatureEnabled respects the /features telemetry toggle", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "nexus-telemetry-feature-"));
+  await writeFile(join(dir, "feature-flags.json"), JSON.stringify({ other: { telemetry: { enabled: false } } }));
+  assert.equal(readTelemetryFeatureEnabled(dir), false);
+  await rm(dir, { recursive: true, force: true });
 });
 
 test("sanitizeTelemetryAttributes removes unsafe keys and values", () => {

@@ -12,7 +12,7 @@ import { createTestTheme } from "../../support/theme/createTestTheme.js";
  * @param entries Active branch entries.
  * @returns Extension context stub.
  */
-function createContext(entries: Array<{ type: string }>) {
+function createContext(entries: Array<{ type: string; message?: { role: string; content: unknown }; content?: unknown }>) {
 	return {
 		model: { id: "gpt-5.5" },
 		ui: { theme: createTestTheme() },
@@ -41,6 +41,20 @@ test("promptline status widget renders title and duration after conversation mes
 
 	assert.equal(line?.startsWith(" "), false);
 	assert.match(line ?? "", /Locate footer status display code/);
+	assert.match(line ?? "", /\(\d+s\)/);
+	assert.match(line ?? "", /gpt-5\.5/);
+});
+
+test("promptline status widget falls back to latest user prompt while release sessions are unnamed", () => {
+	const widget = createPromptlineStatusWidget(
+		createContext([{ type: "message", message: { role: "user", content: "Greet the user" } }]) as never,
+		() => "high",
+		() => undefined,
+	);
+	const [line] = widget.render(120);
+
+	assert.equal(line?.startsWith(" "), false);
+	assert.match(line ?? "", /Greet the user/);
 	assert.match(line ?? "", /\(\d+s\)/);
 	assert.match(line ?? "", /gpt-5\.5/);
 });
