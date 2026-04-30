@@ -1,5 +1,4 @@
-import { getAgentDirPath } from "@nexus/runtime/config/getAgentDirPath.js";
-import { join } from "node:path";
+import { getUserSettingsPath } from "@nexus/runtime/config/getUserSettingsPath.js";
 import { readJsonFile } from "./readJsonFile.js";
 
 /**
@@ -8,5 +7,5 @@ import { readJsonFile } from "./readJsonFile.js";
  * @returns Global settings object.
  */
 export async function readGlobalSettings(): Promise<Record<string, unknown>> {
-  return (await readJsonFile<Record<string, unknown>>(join(getAgentDirPath(), "settings.json"))) ?? {};
+  return (await readJsonFile<Record<string, unknown>>(getUserSettingsPath())) ?? {};
 }

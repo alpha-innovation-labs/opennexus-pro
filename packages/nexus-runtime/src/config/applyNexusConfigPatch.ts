@@ -1,9 +1,10 @@
-import { join } from "node:path";
 import { getAgentDir } from "../../../../node_modules/@mariozechner/pi-coding-agent/dist/config.js";
 import { readBundledDefaultSettings } from "@nexus/assets/default-settings/readBundledDefaultSettings.js";
 import { getDefaultThemeName } from "./getDefaultThemeName.js";
 import { getProjectSettingsPath } from "./getProjectSettingsPath.js";
 import { getProjectThemesPath } from "./getProjectThemesPath.js";
+import { getUserSettingsPath } from "./getUserSettingsPath.js";
+import { getUserThemesPath } from "./getUserThemesPath.js";
 import { mergeSettings, type SettingsRecord } from "./mergeSettings.js";
 
 type SettingsManagerModule = typeof import("../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js");
@@ -70,7 +71,8 @@ export async function applyNexusConfigPatch(): Promise<void> {
   };
 
   patchedSettingsManager.create = function createNexusSettingsManager(cwd = process.cwd(), agentDir = getAgentDir()) {
-    const storage = new FileSettingsStorage(cwd, agentDir) as unknown as { projectSettingsPath: string };
+    const storage = new FileSettingsStorage(cwd, agentDir) as unknown as { globalSettingsPath: string; projectSettingsPath: string };
+    storage.globalSettingsPath = getUserSettingsPath();
     storage.projectSettingsPath = getProjectSettingsPath(cwd);
     return patchedSettingsManager.fromStorage(storage);
   };
@@ -90,7 +92,7 @@ export async function applyNexusConfigPatch(): Promise<void> {
 
     const themes: unknown[] = [];
     const diagnostics: unknown[] = [];
-    for (const dir of [join(this.agentDir, "themes"), getProjectThemesPath(this.cwd)]) {
+    for (const dir of [getUserThemesPath(), getProjectThemesPath(this.cwd)]) {
       this.loadThemesFromDir(dir, themes, diagnostics);
     }
 

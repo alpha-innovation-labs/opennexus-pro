@@ -1,5 +1,4 @@
-import { join } from "node:path";
-import { getAgentDirPath } from "@nexus/runtime/config/getAgentDirPath.js";
+import { getUserEditorTriggersPath } from "@nexus/runtime/config/getUserEditorTriggersPath.js";
 
 /**
  * Returns the global editor-trigger config file path.
@@ -7,5 +6,5 @@ import { getAgentDirPath } from "@nexus/runtime/config/getAgentDirPath.js";
  * @returns Absolute global config file path.
  */
 export function getGlobalEditorTriggerConfigPath(): string {
-	return join(getAgentDirPath(), "editor-triggers.json");
+  return getUserEditorTriggersPath();
 }
