@@ -20,6 +20,7 @@ export type SharedModalPane = {
  */
 export type SharedModalOptions = {
   footerLines?: string[];
+  fullScreen?: boolean;
   headerLines?: string[];
   maxWidth?: number;
   maxWidthRatio?: number;

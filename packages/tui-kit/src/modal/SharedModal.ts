@@ -14,6 +14,7 @@ export class SharedModal implements Component {
   protected footerLines: string[];
   protected headerLines: string[];
   protected panes: SharedModalPane[];
+  private fullScreen: boolean;
   private maxWidth?: number;
   private maxWidthRatio: number;
   private minWidth: number;
@@ -27,6 +28,7 @@ export class SharedModal implements Component {
    */
   constructor(options: SharedModalOptions) {
     this.footerLines = options.footerLines ?? [];
+    this.fullScreen = options.fullScreen ?? false;
     this.headerLines = options.headerLines ?? [];
     this.maxWidth = options.maxWidth;
     this.maxWidthRatio = options.maxWidthRatio ?? 0.9;
@@ -54,10 +56,11 @@ export class SharedModal implements Component {
    * @param maxWidth Maximum desired width.
    * @param maxWidthRatio Maximum terminal-width ratio.
    */
-  setWidthPolicy(minWidth: number, maxWidth?: number, maxWidthRatio = this.maxWidthRatio): void {
+  setWidthPolicy(minWidth: number, maxWidth?: number, maxWidthRatio = this.maxWidthRatio, fullScreen = this.fullScreen): void {
     this.minWidth = minWidth;
     this.maxWidth = maxWidth;
     this.maxWidthRatio = maxWidthRatio;
+    this.fullScreen = fullScreen;
   }
 
   /**
@@ -67,8 +70,8 @@ export class SharedModal implements Component {
    * @returns Rendered modal lines.
    */
   render(width: number): string[] {
-    const computedWidth = computeModalWidth(width, this.minWidth, this.maxWidthRatio);
-    const modalWidth = this.maxWidth === undefined ? computedWidth : Math.min(computedWidth, this.maxWidth, width);
+    const computedWidth = this.fullScreen ? width : computeModalWidth(width, this.minWidth, this.maxWidthRatio);
+    const modalWidth = this.fullScreen ? width : this.maxWidth === undefined ? computedWidth : Math.min(computedWidth, this.maxWidth, width);
     const innerWidth = Math.max(1, modalWidth - 2);
     const lines = [renderModalBorder(this.theme, "┌", "─", "┐", innerWidth)];
 
@@ -85,7 +88,7 @@ export class SharedModal implements Component {
     }
 
     lines.push(renderModalBorder(this.theme, "└", "─", "┘", innerWidth));
-    return lines.map((line) => centerModalLine(line, width));
+    return this.fullScreen ? lines : lines.map((line) => centerModalLine(line, width));
   }
 
   /**

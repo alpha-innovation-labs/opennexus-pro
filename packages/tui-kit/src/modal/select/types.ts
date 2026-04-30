@@ -14,6 +14,7 @@ export type SelectPreviewItemStyleFns = {
 export type SelectPreviewModalOptions = {
   bottomPrefix?: string;
   bottomTitle?: string;
+  fullScreen?: boolean;
   itemMaxLines?: (item: AutocompleteItem) => number;
   itemStyles?: SelectPreviewItemStyleFns;
   leftPaneMaxWidth?: number;

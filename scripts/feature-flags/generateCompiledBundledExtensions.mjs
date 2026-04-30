@@ -26,6 +26,7 @@ const extensionModules = {
   kanban: { importPath: "../kanban/registerKanbanExtension.js", exportName: "registerKanbanExtension" },
   "md-editor": { importPath: "../md-editor/registerMdEditorExtension.js", exportName: "registerMdEditorExtension" },
   "neo-editor": { importPath: "../neo-editor/registerNeoEditorExtension.js", exportName: "default", localName: "registerNeoEditorExtension" },
+  memory: { importPath: "../memory/registerMemoryExtension.js", exportName: "registerMemoryExtension" },
   notify: { importPath: "../notify/registerNotifyExtension.js", exportName: "registerNotifyExtension" },
   observations: { importPath: "../observations/registerObservationsExtension.js", exportName: "registerObservationsExtension" },
   "exit-message": { importPath: "../exit-message/registerExitMessageExtension.js", exportName: "registerExitMessageExtension" },

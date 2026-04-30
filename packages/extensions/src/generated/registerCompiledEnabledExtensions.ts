@@ -9,6 +9,7 @@ import { registerExitMessageExtension } from "../exit-message/registerExitMessag
 import { registerExtensionManagerExtension } from "../extension-manager/registerExtensionManagerExtension.js";
 import registerFffExtension from "../fff/index.js";
 import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension.js";
+import { registerMemoryExtension } from "../memory/registerMemoryExtension.js";
 import { registerNotifyExtension } from "../notify/registerNotifyExtension.js";
 import { registerRtkExtension } from "../rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "../startup-hero/registerStartupHeroExtension.js";
@@ -25,6 +26,7 @@ export const compiledBundledExtensionIds = [
   "extension-manager",
   "fff",
   "neo-editor",
+  "memory",
   "notify",
   "rtk",
   "startup-hero",
@@ -39,6 +41,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "extension-manager": registerExtensionManagerExtension,
   "fff": registerFffExtension,
   "neo-editor": registerNeoEditorExtension,
+  "memory": registerMemoryExtension,
   "notify": registerNotifyExtension,
   "rtk": registerRtkExtension,
   "startup-hero": registerStartupHeroExtension,

@@ -26,6 +26,7 @@ export class SelectPreviewModal extends SharedModal {
   private showHeaderFocusMarkers = true;
   private onSelectionChange?: (item: AutocompleteItem | null) => void;
   private pendingRightGotoStart = false;
+  private readonly fullScreen: boolean;
   private readonly itemMaxLines?: SelectPreviewModalOptions["itemMaxLines"];
   private readonly itemStyles?: SelectPreviewModalOptions["itemStyles"];
   private readonly leftPaneMaxWidth?: number;
@@ -49,7 +50,8 @@ export class SelectPreviewModal extends SharedModal {
     onSelectionChange?: (item: AutocompleteItem | null) => void,
     options?: SelectPreviewModalOptions,
   ) {
-    super({ theme: uiTheme, panes: [], minWidth: options?.minWidth ?? 80, maxWidth: options?.maxWidth, maxWidthRatio: options?.maxWidthRatio ?? 0.9, onClose: closeHandler });
+    super({ theme: uiTheme, panes: [], minWidth: options?.minWidth ?? 80, maxWidth: options?.maxWidth, maxWidthRatio: options?.maxWidthRatio ?? 0.9, fullScreen: options?.fullScreen, onClose: closeHandler });
+    this.fullScreen = options?.fullScreen ?? false;
     this.modalMinWidth = options?.minWidth ?? 80;
     this.modalMaxWidth = options?.maxWidth;
     this.modalMaxWidthRatio = options?.maxWidthRatio ?? 0.9;
@@ -102,7 +104,7 @@ export class SelectPreviewModal extends SharedModal {
     this.modalMinWidth = minWidth;
     this.modalMaxWidth = maxWidth;
     this.modalMaxWidthRatio = maxWidthRatio;
-    this.setWidthPolicy(minWidth, maxWidth, maxWidthRatio);
+    this.setWidthPolicy(minWidth, maxWidth, maxWidthRatio, this.fullScreen);
   }
 
   /** Routes keyboard input to the focused pane. */
@@ -140,18 +142,18 @@ export class SelectPreviewModal extends SharedModal {
   protected isRightPaneFocused(): boolean { return this.activePane === "right"; }
 
   /** Scrolls the right preview pane to the end. */
-  protected scrollRightToEnd(): void { this.rightScrollOffset = Math.max(0, this.rightLines.length - Math.max(1, getTwoPaneBodyHeight())); this.pendingRightGotoStart = false; }
+  protected scrollRightToEnd(): void { this.rightScrollOffset = Math.max(0, this.rightLines.length - Math.max(1, getTwoPaneBodyHeight(this.fullScreen))); this.pendingRightGotoStart = false; }
 
   /** Creates the select-list child. */
   private createList(items: AutocompleteItem[]): PlainSelectList { return createSelectList(this.uiTheme, this.listHeight, this.onPick, this.closeHandler, this.onSelectionChange, this.itemStyles, this.itemMaxLines, items); }
 
   /** Recomputes SharedModal header, panes, and footer. */
   private syncSharedModalState(width: number): void {
-    const computedWidth = computeModalWidth(width, this.modalMinWidth, this.modalMaxWidthRatio);
-    const modalWidth = this.modalMaxWidth === undefined ? computedWidth : Math.min(computedWidth, this.modalMaxWidth, width);
+    const computedWidth = this.fullScreen ? width : computeModalWidth(width, this.modalMinWidth, this.modalMaxWidthRatio);
+    const modalWidth = this.fullScreen ? width : this.modalMaxWidth === undefined ? computedWidth : Math.min(computedWidth, this.modalMaxWidth, width);
     const innerWidth = Math.max(1, modalWidth - 2);
     const footerHintRowCount = this.footerHintLines.length > 0 ? this.footerHintLines.length + 1 : 0;
-    const bodyHeight = Math.max(1, getTwoPaneBodyHeight() - footerHintRowCount);
+    const bodyHeight = Math.max(1, getTwoPaneBodyHeight(this.fullScreen) - footerHintRowCount);
     const listHeight = this.bottomTitle ? bodyHeight - 2 : bodyHeight;
     this.resizeList(listHeight);
     const shells = createTwoPaneShells({ activePane: this.activePane, innerWidth, leftPaneMaxWidth: this.leftPaneMaxWidth, leftPaneRatio: this.leftPaneRatio, showLeftPane: this.showLeftPane, showRightPane: this.showRightPane });

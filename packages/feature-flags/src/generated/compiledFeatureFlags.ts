@@ -54,6 +54,16 @@ export const compiledFeatureFlags = {
         "macOS ctrl+v image paste fallback"
       ]
     },
+    "memory": {
+      "enabled": true,
+      "features": [
+        "/memory two-pane browser",
+        "tweet capture through Jina Reader",
+        "memory project discovery before writes",
+        "git-backed operation commits",
+        "Projects-compatible markdown memory storage"
+      ]
+    },
     "notify": {
       "enabled": true,
       "features": [

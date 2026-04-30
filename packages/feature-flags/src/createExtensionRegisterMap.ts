@@ -11,6 +11,7 @@ import registerFffExtension from "@nexus/extensions/fff/index.js";
 import { registerKanbanExtension } from "@nexus/extensions/kanban/registerKanbanExtension.js";
 import { registerMdEditorExtension } from "@nexus/extensions/md-editor/registerMdEditorExtension.js";
 import registerNeoEditorExtension from "@nexus/extensions/neo-editor/registerNeoEditorExtension.js";
+import { registerMemoryExtension } from "@nexus/extensions/memory/registerMemoryExtension.js";
 import { registerNotifyExtension } from "@nexus/extensions/notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "@nexus/extensions/observations/registerObservationsExtension.js";
 import { registerPlaygroundExtension } from "@nexus/extensions/playground/registerPlaygroundExtension.js";
@@ -44,6 +45,7 @@ export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) 
     kanban: registerKanbanExtension,
     "md-editor": registerMdEditorExtension,
     "neo-editor": registerNeoEditorExtension,
+    memory: registerMemoryExtension,
     notify: registerNotifyExtension,
     observations: registerObservationsExtension,
     "exit-message": registerExitMessageExtension,
