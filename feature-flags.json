@@ -49,6 +49,15 @@
         "print session title on app exit"
       ]
     },
+    "extension-manager": {
+      "enabled": true,
+      "features": [
+        "/extensions command",
+        "installed extension list",
+        "core and user extension tabs",
+        "per-user extension enable and disable controls"
+      ]
+    },
     "feature-management": {
       "enabled": true,
       "features": [
@@ -222,6 +231,14 @@
         "annotation daemon lifecycle commands"
       ],
       "devOnly": true
+    },
+    "telemetry": {
+      "enabled": false,
+      "features": [
+        "SigNoz OTLP telemetry",
+        "PostHog product analytics",
+        "anonymous event toggles"
+      ]
     }
   }
 }

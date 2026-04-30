@@ -4,6 +4,7 @@ import {
   TELEMETRY_ENDPOINT_ENV,
   TELEMETRY_VERSION_ENV,
 } from "./constants.js";
+import { readTelemetryFeatureEnabled } from "./readTelemetryFeatureEnabled.js";
 import type { TelemetryConfig } from "./types.js";
 
 /**
@@ -14,7 +15,7 @@ import type { TelemetryConfig } from "./types.js";
  */
 export function createTelemetryConfig(env: NodeJS.ProcessEnv = process.env): TelemetryConfig {
   return {
-    enabled: true,
+    enabled: readTelemetryFeatureEnabled(),
     endpoint: env[TELEMETRY_ENDPOINT_ENV] || DEFAULT_TELEMETRY_ENDPOINT,
     serviceName: DEFAULT_TELEMETRY_SERVICE_NAME,
     serviceVersion: env[TELEMETRY_VERSION_ENV] || "unknown",

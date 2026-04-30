@@ -1,4 +1,5 @@
 import { applySystemExtensionAvailability } from "./applySystemExtensionAvailability.js";
+import { applyUserExtensionConfig } from "./applyUserExtensionConfig.js";
 import { createExtensionRegisterMap } from "./createExtensionRegisterMap.js";
 import { readFeatureFlagsConfig } from "./readFeatureFlagsConfig.js";
 import type { ExtensionFeatureFlag } from "./types.js";
@@ -9,7 +10,7 @@ import type { ExtensionFeatureFlag } from "./types.js";
  * @returns Extension flags with metadata and register handlers.
  */
 export function createExtensionFeatureFlags(): ExtensionFeatureFlag[] {
-  const config = applySystemExtensionAvailability(readFeatureFlagsConfig());
+  const config = applySystemExtensionAvailability(applyUserExtensionConfig(readFeatureFlagsConfig()));
   const registerMap = createExtensionRegisterMap();
 
   return Object.entries(config.extensions).map(([id, value]) => {

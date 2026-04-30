@@ -27,6 +27,14 @@ export const compiledFeatureFlags = {
         "print session title on app exit"
       ]
     },
+    "feature-management": {
+      "enabled": true,
+      "features": [
+        "/features and /extensions commands",
+        "installed extension list",
+        "per-user extension enable and disable controls"
+      ]
+    },
     "fff": {
       "enabled": true,
       "features": [
@@ -84,5 +92,14 @@ export const compiledFeatureFlags = {
       ]
     }
   },
-  "other": {}
+  "other": {
+    "telemetry": {
+      "enabled": false,
+      "features": [
+        "SigNoz OTLP telemetry",
+        "PostHog product analytics",
+        "anonymous event toggles"
+      ]
+    }
+  }
 } satisfies FeatureFlagsConfig;

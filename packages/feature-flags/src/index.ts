@@ -1,4 +1,5 @@
 export { applySystemExtensionAvailability } from "./applySystemExtensionAvailability.js";
+export { applyUserExtensionConfig } from "./applyUserExtensionConfig.js";
 export { createExtensionFeatureFlagReport } from "./createExtensionFeatureFlagReport.js";
 export { createExtensionFeatureFlags } from "./createExtensionFeatureFlags.js";
 export { getBundledFeatureFlagsConfig } from "./getBundledFeatureFlagsConfig.js";

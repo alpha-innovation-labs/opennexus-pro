@@ -14,6 +14,10 @@ const extensionModules = {
     importPath: "../context-usage/registerContextUsageExtension.js",
     exportName: "registerContextUsageExtension",
   },
+  "extension-manager": {
+    importPath: "../extension-manager/registerExtensionManagerExtension.js",
+    exportName: "registerExtensionManagerExtension",
+  },
   "feature-management": {
     importPath: "../feature-management/registerCompiledFeatureManagementExtension.js",
     exportName: "registerCompiledFeatureManagementExtension",
@@ -52,6 +56,7 @@ function createModuleSource(enabledIds) {
   const imports = [
     'import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";',
     'import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";',
+    'import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensionConfig.js";',
     'import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";',
     'import { createTelemetryExtensionApi } from "@nexus/feature-flags/createTelemetryExtensionApi.js";',
   ];
@@ -94,7 +99,7 @@ function createModuleSource(enabledIds) {
     " * @param pi Pi extension API.",
     " */",
     "export default async function registerCompiledEnabledExtensions(pi: ExtensionAPI): Promise<void> {",
-    "  const config = applySystemExtensionAvailability(getBundledFeatureFlagsConfig());",
+    "  const config = applySystemExtensionAvailability(applyUserExtensionConfig(getBundledFeatureFlagsConfig()));",
     "",
     "  for (const id of compiledBundledExtensionIds) {",
     "    if (!config.extensions[id]?.enabled) continue;",
