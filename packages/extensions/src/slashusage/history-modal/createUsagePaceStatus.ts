@@ -4,7 +4,6 @@ import { parseUsageWindowDurationMs } from "./parseUsageWindowDurationMs.js";
 const RED = "\x1b[38;2;210;90;90m";
 const TEAL = "\x1b[38;2;125;214;198m";
 const RESET = "\x1b[0m";
-const DAY_MS = 24 * 60 * 60 * 1000;
 
 export type UsagePaceStatus = {
   expectedPercent: number;
@@ -55,7 +54,6 @@ export function formatUsagePaceStatus(status: UsagePaceStatus): string {
  * @returns Expected usage percentage.
  */
 function calculateExpectedPercent(elapsedMs: number, durationMs: number): number {
-  if (durationMs >= DAY_MS) return Math.round(100 / Math.max(1, Math.round(durationMs / DAY_MS)));
   const elapsedRatio = Math.max(0, Math.min(1, elapsedMs / durationMs));
   return Math.round(elapsedRatio * 100);
 }

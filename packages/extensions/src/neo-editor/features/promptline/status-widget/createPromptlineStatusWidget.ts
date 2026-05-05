@@ -8,7 +8,7 @@ import { padPromptlineFrameToWidth } from "../layout/padPromptlineFrameToWidth.j
 import { buildPromptlineStatusLine } from "./buildPromptlineStatusLine.js";
 import { createPromptlineBadge } from "./createPromptlineBadge.js";
 import { getPromptlineSessionRunTimeLabel } from "./getPromptlineSessionRunTimeLabel.js";
-import { getVisiblePromptlineSessionName } from "./getVisiblePromptlineSessionName.js";
+import { getPromptlineStatusTitle } from "./getPromptlineStatusTitle.js";
 
 const MODEL_BADGE_BG = "\x1b[48;2;180;45;45m";
 const THINKING_BADGE_BG = "\x1b[48;2;214;86;86m";
@@ -34,15 +34,15 @@ export function createPromptlineStatusWidget(
 			const badges = `${createPromptlineBadge(modelId, MODEL_BADGE_BG)}${createPromptlineBadge(thinking, THINKING_BADGE_BG)}`;
 			const hasMessages = hasConversationMessages(ctx);
 			const frameWidth = getPromptlineFrameWidth(width, hasMessages);
-			const sessionName = getVisiblePromptlineSessionName(getSessionName);
-			const runTime = hasMessages && sessionName ? ctx.ui.theme.fg("muted", getPromptlineSessionRunTimeLabel()) : undefined;
-			const line = buildPromptlineStatusLine(badges, runTime, sessionName, frameWidth, ctx.ui.theme);
+			const title = getPromptlineStatusTitle(getSessionName, ctx);
+			const runTime = hasMessages && title ? ctx.ui.theme.fg("muted", getPromptlineSessionRunTimeLabel()) : undefined;
+			const line = buildPromptlineStatusLine(badges, runTime, title, frameWidth, ctx.ui.theme);
 			const renderedWidth = visibleWidth(line);
 			if (renderedWidth > frameWidth) {
 				logExtensionEvent("promptline-status-widget", "overflow", {
 					width: frameWidth,
 					renderedWidth,
-					sessionName: sessionName ?? null,
+					sessionName: title ?? null,
 				});
 			}
 			return padPromptlineFrameToWidth([line], width, frameWidth);

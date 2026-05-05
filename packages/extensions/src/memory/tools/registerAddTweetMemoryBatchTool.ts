@@ -1,5 +1,4 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { StringEnum } from "@mariozechner/pi-ai";
 import { Type } from "typebox";
 import { commitMemoryOperation } from "../git/commitMemoryOperation.js";
 import { resolveMemoryRoot } from "../settings/resolveMemoryRoot.js";
@@ -14,21 +13,15 @@ export function registerAddTweetMemoryBatchTool(pi: ExtensionAPI): void {
 	const itemSchema = Type.Object({
 		projectName: Type.String(),
 		projectDescription: Type.Optional(Type.String()),
-		kind: StringEnum(["app", "package"] as const),
-		appName: Type.Optional(Type.String()),
-		packageGroup: Type.Optional(Type.String()),
-		packageName: Type.Optional(Type.String()),
-		featureName: Type.Optional(Type.String()),
+		topicName: Type.String(),
 		tweetUrl: Type.String(),
 		title: Type.String(),
 		rawMarkdown: Type.String(),
-		distilledMarkdown: Type.String(),
+		distilledMarkdown: Type.String({ description: "One line, maximum 240 characters." }),
 		keywords: Type.Optional(Type.Array(Type.String())),
 	});
 	pi.registerTool({
 		name: "memory_add_tweets",
-		renderShell: "self",
-		skipLeadingSpacer: true,
 		label: "Add Tweet Memories",
 		description: "Write multiple approved tweet memories and commit them as one git operation.",
 		promptSnippet: "Use memory_add_tweets when storing multiple tweet memories so they share one git commit",

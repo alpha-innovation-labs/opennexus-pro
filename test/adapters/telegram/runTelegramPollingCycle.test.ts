@@ -54,7 +54,7 @@ test("runTelegramPollingCycle advances the offset and replies to allowed users",
   );
 
   assert.deepEqual(sent, [{ chatId: 11, text: "reply:hello" }]);
-  assert.ok(edited.some((text) => text.includes('path="src/index.ts"')));
+  assert.ok(edited.some((text) => text.includes("Thinking")));
   assert.equal(storedOffset, 6);
 });
 

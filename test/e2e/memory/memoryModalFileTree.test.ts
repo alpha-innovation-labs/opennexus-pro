@@ -6,59 +6,36 @@ import { renderComponentInVirtualTerminal } from "../../support/render/renderCom
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 const items: MemoryItem[] = [
-	{
-		label: "nexus/packages/ai-sdk/cursor-sdk/reference/raw/cursor-sdk-announcement",
-		path: "/memory/nexus/packages/ai-sdk/cursor-sdk/reference/raw/cursor-sdk-announcement.md",
-		relativePath: "nexus/packages/ai-sdk/cursor-sdk/reference/raw/cursor-sdk-announcement.md",
-		content: "Raw Cursor SDK tweet",
-	},
-	{
-		label: "nexus/packages/ai-sdk/cursor-sdk/reference/references",
-		path: "/memory/nexus/packages/ai-sdk/cursor-sdk/reference/references.md",
-		relativePath: "nexus/packages/ai-sdk/cursor-sdk/reference/references.md",
-		content: "## References\n\n- cursor-sdk-announcement-distilled.md: SDK note",
-	},
-	{
-		label: "nexus/packages/ai-sdk/cursor-sdk/reference/cursor-sdk-announcement-distilled",
-		path: "/memory/nexus/packages/ai-sdk/cursor-sdk/reference/cursor-sdk-announcement-distilled.md",
-		relativePath: "nexus/packages/ai-sdk/cursor-sdk/reference/cursor-sdk-announcement-distilled.md",
-		content: "## Cursor SDK announcement",
-	},
-	{
-		label: "nexus/nexus",
-		path: "/memory/nexus/nexus.md",
-		relativePath: "nexus/nexus.md",
-		content: "## Nexus",
-	},
+	{ label: "nexus/references/cursor-sdk", path: "/memory/nexus/references/cursor-sdk.md", relativePath: "nexus/references/cursor-sdk.md", content: "Raw Cursor SDK tweet" },
+	{ label: "nexus/marketing", path: "/memory/nexus/marketing.md", relativePath: "nexus/marketing.md", content: "- cursor-sdk.md: Try a Cursor SDK launch post." },
 ];
 
-test("/memory modal renders project root before nested files as a file-only tree", async () => {
+test("/memory modal renders topics and collapsed references per project", async () => {
 	const viewport = await renderComponentInVirtualTerminal(() => new MemoryModal(createTestTheme(), items, () => {}, async () => undefined), 120, 34);
 	const output = viewport.join("\n");
-	const rootIndex = output.indexOf(" nexus");
-	const referenceIndex = output.indexOf("└─  references");
-	const nestedIndex = output.indexOf("├─  cursor-sdk-announcement-distilled");
-	const rawIndex = output.indexOf("└─ 󰯊 cursor-sdk-announcement");
+	const projectIndex = output.indexOf(" nexus");
+	const topicIndex = output.indexOf("├─  marketing");
+	const referencesIndex = output.indexOf("└─  references");
 
-	assert.ok(rootIndex >= 0, output);
-	assert.ok(referenceIndex > rootIndex, output);
-	assert.ok(nestedIndex > referenceIndex, output);
-	assert.ok(rawIndex > nestedIndex, output);
-	assert.match(output, /\/memory\/nexus\/nexus\.md/u);
-	assert.doesNotMatch(output, / file /u);
-	assert.doesNotMatch(output, //u);
+	assert.ok(projectIndex >= 0, output);
+	assert.ok(topicIndex > projectIndex, output);
+	assert.ok(referencesIndex > topicIndex, output);
+	assert.doesNotMatch(output, /cursor-sdk\s/u);
 });
 
-test("/memory modal d deletes the selected memory item", () => {
+test("/memory modal expands references and d deletes selected topic", () => {
 	const deleted: string[] = [];
 	const modal = new MemoryModal(createTestTheme(), items, () => {}, async (item) => {
 		deleted.push(item.relativePath);
 	});
 
+	modal.handleInput("j");
 	modal.handleInput("d");
-	const output = modal.render(100).join("\n");
+	modal.handleInput("j");
+	modal.handleInput("\r");
+	const output = modal.render(120).join("\n");
 
-	assert.deepEqual(deleted, ["nexus/nexus.md"]);
-	assert.doesNotMatch(output, / nexus\s/u);
-	assert.match(output, /cursor-sdk-announcement-dis/u);
+	assert.deepEqual(deleted, ["nexus/marketing.md"]);
+	assert.doesNotMatch(output, /marketing/u);
+	assert.match(output, /└─ 󰯊 cursor-sdk/u);
 });
