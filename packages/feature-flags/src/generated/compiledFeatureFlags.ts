@@ -61,6 +61,7 @@ export const compiledFeatureFlags = {
         "tweet capture through Jina Reader",
         "memory project discovery before writes",
         "git-backed operation commits",
+        "topic-first memory query tool",
         "Projects-compatible markdown memory storage"
       ]
     },
@@ -70,6 +71,14 @@ export const compiledFeatureFlags = {
         "desktop notification on agent completion",
         "macOS submarine sound by default",
         "NEXUS_NOTIFY_SOUND_CMD override"
+      ]
+    },
+    "observations": {
+      "enabled": true,
+      "features": [
+        "observation tracking",
+        "status widget",
+        "/observations command"
       ]
     },
     "rtk": {

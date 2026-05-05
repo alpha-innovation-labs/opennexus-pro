@@ -76,7 +76,7 @@
       ]
     },
     "kanban": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "/extension command",
         "two-pane task board modal",
@@ -85,7 +85,7 @@
       "devOnly": true
     },
     "md-editor": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "/editor command",
         "demo.md Markdown line modal",
@@ -112,6 +112,7 @@
         "tweet capture through Jina Reader",
         "memory project discovery before writes",
         "git-backed operation commits",
+        "topic-first memory query tool",
         "Projects-compatible markdown memory storage"
       ]
     },
@@ -129,8 +130,7 @@
         "observation tracking",
         "status widget",
         "/observations command"
-      ],
-      "devOnly": true
+      ]
     },
     "playground": {
       "devOnly": true,
@@ -152,6 +152,16 @@
       "features": [
         "show N logo, version, tips, and startup status"
       ]
+    },
+    "smart-eval": {
+      "enabled": true,
+      "features": [
+        "historical assistant turn evaluation",
+        "compact footer score",
+        "/eval-toggle detailed question toggle",
+        "/eval-refresh background regeneration"
+      ],
+      "devOnly": true
     },
     "sub-agent-status-widget": {
       "enabled": false,
@@ -181,7 +191,7 @@
       "devOnly": true
     },
     "todo": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "todo modal",
         "ctrl+\\ shortcut"

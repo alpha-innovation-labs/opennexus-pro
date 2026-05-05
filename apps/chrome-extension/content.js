@@ -28,6 +28,7 @@
   const Z_INDEX_TOOLTIP = 2147483647;
   const IS_MAC = /Mac|iPhone|iPad/.test(navigator.platform);
   const ALT_KEY_LABEL = IS_MAC ? "⌥" : "Alt";
+  const LAUNCHER_VISIBILITY_STORAGE_KEY = "nexusAnnotateLauncherVisible";
   
   // HTML escape to prevent XSS when inserting user-controlled content
   function escapeHtml(str) {
@@ -188,13 +189,13 @@
       align-items: center;
       justify-content: center;
       gap: 0.375rem;
-      width: 52px;
-      height: 52px;
-      padding: 0.25rem;
-      border-radius: 26px;
-      background: #050505;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border-radius: 50%;
+      background: transparent;
       color: #fff;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
+      box-shadow: none;
       font-family: var(--pi-font-ui);
       pointer-events: auto;
       user-select: none;
@@ -205,6 +206,11 @@
 
     #pi-launcher.pi-launcher-expanded {
       width: 245px;
+      height: 44px;
+      padding: 0.375rem;
+      border-radius: 1.5rem;
+      background: #050505;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
       justify-content: flex-start;
       overflow: hidden;
     }
@@ -850,7 +856,8 @@
       showLauncher();
       sendResponse?.(getLauncherState());
     } else if (msg.type === "HIDE_LAUNCHER") {
-      hideAllAnnotationUi();
+      deactivate();
+      hideLauncher();
       sendResponse?.(getLauncherState());
     } else if (msg.type === "GET_LAUNCHER_STATE") {
       sendResponse?.(getLauncherState());
@@ -887,6 +894,24 @@
   }
 
   /**
+   * Reads the persisted launcher visibility preference for this origin.
+   *
+   * @returns {boolean} True when the launcher should be restored on reload.
+   */
+  function readLauncherVisibilityPreference() {
+    return window.localStorage.getItem(LAUNCHER_VISIBILITY_STORAGE_KEY) === "true";
+  }
+
+  /**
+   * Persists the launcher visibility preference for this origin.
+   *
+   * @param {boolean} visible Whether the launcher should persist across reloads.
+   */
+  function writeLauncherVisibilityPreference(visible) {
+    window.localStorage.setItem(LAUNCHER_VISIBILITY_STORAGE_KEY, String(visible));
+  }
+
+  /**
    * Reads current launcher visibility state for the extension popup.
    *
    * @returns {{ available: boolean, visible: boolean, expanded: boolean, active: boolean }} Launcher state.
@@ -912,10 +937,21 @@
   }
 
   /**
+   * Handles clicks on the launcher shell when the visible target is the collapsed N.
+   *
+   * @param {MouseEvent} event Launcher click event.
+   */
+  function handleLauncherShellClick(event) {
+    if (event.target !== launcherEl) return;
+    setLauncherExpanded(!launcherEl.classList.contains("pi-launcher-expanded"));
+  }
+
+  /**
    * Shows the compact launcher toolbar used to start annotation mode.
    */
   function showLauncher() {
     if (!isLocalhostPage() || isActive || launcherEl) return;
+    writeLauncherVisibilityPreference(true);
     ensureStyles();
     launcherEl = document.createElement("div");
     launcherEl.id = "pi-launcher";
@@ -929,11 +965,12 @@
     `;
     document.body.appendChild(launcherEl);
     setLauncherExpanded(false);
+    launcherEl.addEventListener("click", handleLauncherShellClick);
     document.getElementById("pi-launcher-toggle")?.addEventListener("click", () => {
       setLauncherExpanded(!launcherEl.classList.contains("pi-launcher-expanded"));
     });
     document.getElementById("pi-launcher-start")?.addEventListener("click", () => {
-      hideLauncher({ keepStyles: true });
+      hideLauncher({ keepStyles: true, keepPreference: true });
       activate();
     });
     document.getElementById("pi-launcher-close")?.addEventListener("click", () => setLauncherExpanded(false));
@@ -945,6 +982,7 @@
    * @param {{ keepStyles?: boolean }} options Launcher cleanup options.
    */
   function hideLauncher(options = {}) {
+    if (!options.keepPreference) writeLauncherVisibilityPreference(false);
     launcherEl?.remove();
     launcherEl = null;
     if (!options.keepStyles && !isActive) {
@@ -968,6 +1006,13 @@
     if (launcherEl) hideLauncher();
     else showLauncher();
   }
+
+  /**
+   * Restores the launcher after page reload when the extension toggle left it visible.
+   */
+  function restoreLauncherVisibility() {
+    if (isLocalhostPage() && readLauncherVisibilityPreference()) showLauncher();
+  }
   
   function activate() {
     if (!isLocalhostPage()) return;
@@ -978,7 +1023,7 @@
     }
     isActive = true;
     
-    hideLauncher({ keepStyles: true });
+    hideLauncher({ keepStyles: true, keepPreference: true });
     ensureStyles();
     
     // Create UI
@@ -3389,5 +3434,6 @@
     }
   }
   
+  restoreLauncherVisibility();
   console.log("[pi-annotate] Content script ready (v0.4.0)");
 })();

@@ -11,6 +11,7 @@ import registerFffExtension from "../fff/index.js";
 import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension.js";
 import { registerMemoryExtension } from "../memory/registerMemoryExtension.js";
 import { registerNotifyExtension } from "../notify/registerNotifyExtension.js";
+import { registerObservationsExtension } from "../observations/registerObservationsExtension.js";
 import { registerRtkExtension } from "../rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "../startup-hero/registerStartupHeroExtension.js";
 import registerTronExtension from "../tron/index.js";
@@ -28,6 +29,7 @@ export const compiledBundledExtensionIds = [
   "neo-editor",
   "memory",
   "notify",
+  "observations",
   "rtk",
   "startup-hero",
   "tron",
@@ -43,6 +45,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "neo-editor": registerNeoEditorExtension,
   "memory": registerMemoryExtension,
   "notify": registerNotifyExtension,
+  "observations": registerObservationsExtension,
   "rtk": registerRtkExtension,
   "startup-hero": registerStartupHeroExtension,
   "tron": registerTronExtension,

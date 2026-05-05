@@ -33,6 +33,8 @@ import { clearStartupScreen } from "./startup-screen/clearStartupScreen.js";
 import { shouldClearStartupScreen } from "./startup-screen/shouldClearStartupScreen.js";
 import { ensureAnnotationsDaemonStarted } from "./annotations-daemon/ensureAnnotationsDaemonStarted.js";
 import { sendTelemetryEventSafely } from "@nexus/observability/telemetry/sendTelemetryEventSafely.js";
+import { isHarnessModeEnabled } from "./harness/isHarnessModeEnabled.js";
+import { runHarnessMode } from "./harness/runHarnessMode.js";
 
 export type CreateExtensionFactories = () => Promise<ExtensionFactory[]>;
 
@@ -148,6 +150,12 @@ export async function runAppWithExtensionFactories(
   void sendTelemetryEventSafely("startup.duration", {
     "startup.duration_ms": Number((performance.now() - appStartedAt).toFixed(3)),
   });
+
+  if (isHarnessModeEnabled()) {
+    await runHarnessMode({ argv: args, extensionFactories });
+    printExitMessage();
+    return;
+  }
 
   phaseStartedAt = performance.now();
   const { main } = await import("@mariozechner/pi-coding-agent");

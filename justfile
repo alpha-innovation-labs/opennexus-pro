@@ -19,7 +19,7 @@ help:
     @echo "  just \033[0;33mdev --observations <session-id>\033[0m \033[0;32mPrint observations for a session\033[0m"
     @echo "  just \033[0;33mdev --resume <session-id>\033[0m \033[0;32mOpen a persisted session directly\033[0m"
     @echo "  just \033[0;33mdev-profile\033[0m             \033[0;32mCompare startup profiling with and without --no-extensions\033[0m"
-    @echo "  just \033[0;33mdemo\033[0m                   \033[0;32mRun the Cursor SDK playground harness\033[0m"
+    @echo "  just \033[0;33mplayground\033[0m             \033[0;32mRun the Cursor SDK playground harness\033[0m"
     @echo "  just \033[0;33mwterm\033[0m                  \033[0;32mRun just dev inside a browser terminal\033[0m"
     @echo "  just \033[0;33mtest\033[0m                    \033[0;32mRun the test suite\033[0m"
     @echo "  just \033[0;33mrelease\033[0m                 \033[0;32mBuild and install ~/.local/bin/nexus\033[0m"
@@ -39,7 +39,7 @@ help:
 import 'justfiles/development/dev.just'
 import 'justfiles/development/web.just'
 import 'justfiles/development/dev-profile.just'
-import 'justfiles/development/demo.just'
+import 'justfiles/development/playground.just'
 import 'justfiles/development/wterm.just'
 
 # ============================================================================
