@@ -2,29 +2,24 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { TweetReferenceInput } from "../types/TweetReferenceInput.js";
 import { slugifyMemoryName } from "../path/slugifyMemoryName.js";
-import { createProjectIndexFiles } from "./createProjectIndexFiles.js";
-import { formatDistilledTweetReference } from "./formatDistilledTweetReference.js";
 import { formatRawTweetReference } from "./formatRawTweetReference.js";
-import { resolveReferenceDirectory } from "./resolveReferenceDirectory.js";
-import { upsertReferenceIndexEntry } from "./upsertReferenceIndexEntry.js";
+import { upsertTopicEntry } from "./upsertTopicEntry.js";
 
 /**
- * Writes raw and distilled tweet reference files into the memory tree.
+ * Writes a raw tweet reference and one-line topic entry.
  *
  * @param root Memory root directory.
  * @param input Tweet reference input.
  * @returns Written file paths.
  */
-export async function writeTweetReference(root: string, input: TweetReferenceInput): Promise<{ rawPath: string; distilledPath: string }> {
-	await createProjectIndexFiles(root, input);
-	const referenceDir = resolveReferenceDirectory(root, input);
-	const slug = slugifyMemoryName(input.title || input.tweetUrl);
-	const rawPath = join(referenceDir, "raw", `${slug}.md`);
-	const distilledFileName = `${slug}-distilled.md`;
-	const distilledPath = join(referenceDir, distilledFileName);
-	await mkdir(join(referenceDir, "raw"), { recursive: true });
-	await writeFile(rawPath, formatRawTweetReference(input), "utf8");
-	await writeFile(distilledPath, formatDistilledTweetReference(input), "utf8");
-	await upsertReferenceIndexEntry(referenceDir, distilledFileName, input);
-	return { rawPath, distilledPath };
+export async function writeTweetReference(root: string, input: TweetReferenceInput): Promise<{ referencePath: string; topicPath: string }> {
+	const projectRoot = join(root, slugifyMemoryName(input.projectName));
+	const referencesDir = join(projectRoot, "references");
+	const referenceName = `${slugifyMemoryName(input.title || input.tweetUrl)}.md`;
+	const referencePath = join(referencesDir, referenceName);
+	const topicPath = join(projectRoot, `${slugifyMemoryName(input.topicName)}.md`);
+	await mkdir(referencesDir, { recursive: true });
+	await writeFile(referencePath, formatRawTweetReference(input), "utf8");
+	await upsertTopicEntry(topicPath, referenceName, input);
+	return { referencePath, topicPath };
 }

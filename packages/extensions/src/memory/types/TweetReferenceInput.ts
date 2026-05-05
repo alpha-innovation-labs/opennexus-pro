@@ -1,12 +1,8 @@
-/** Parameters required to create a tweet reference pair. */
+/** Parameters required to store a tweet memory reference and topic entry. */
 export type TweetReferenceInput = {
 	projectName: string;
 	projectDescription?: string;
-	kind: "app" | "package";
-	appName?:
-	packageGroup?: string;
-	packageName?: string;
-	featureName?: string;
+	topicName: string;
 	tweetUrl: string;
 	title: string;
 	rawMarkdown: string;

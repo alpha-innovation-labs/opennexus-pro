@@ -7,5 +7,5 @@ import type { TweetReferenceInput } from "../types/TweetReferenceInput.js";
  * @returns Markdown source content.
  */
 export function formatRawTweetReference(input: TweetReferenceInput): string {
-	return `---\ntitle: ${input.title}\nversion: tweet\nupdated: ${input.updated}\nsource: ${input.tweetUrl}\npurpose: Raw tweet capture for Nexus memory.\n---\n\n## Source Capture\n\n${input.rawMarkdown.trim()}\n\n----\n\n## Breaking Changes\n\n### From version tweet\n\n- Not applicable.\n`;
+	return `---\ntitle: ${input.title}\nversion: tweet\nupdated: ${input.updated}\nsource: ${input.tweetUrl}\ntopic: ${input.topicName}\npurpose: Raw tweet capture for Nexus memory.\n---\n\n## Source Capture\n\n${input.rawMarkdown.trim()}\n`;
 }
