@@ -17,6 +17,7 @@ import { registerObservationsExtension } from "@nexus/extensions/observations/re
 import { registerPlaygroundExtension } from "@nexus/extensions/playground/registerPlaygroundExtension.js";
 import { registerRtkExtension } from "@nexus/extensions/rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "@nexus/extensions/startup-hero/registerStartupHeroExtension.js";
+import { registerSmartEvalExtension } from "@nexus/extensions/smart-eval/registerSmartEvalExtension.js";
 import registerSubAgentsExtension from "@nexus/extensions/sub-agents/index.js";
 import registerSubagentStatusWidgetExtension from "@nexus/extensions/sub-agent-status-widget/registerSubagentStatusWidgetExtension.js";
 import { registerTermModalExtension } from "@nexus/extensions/term-modal/registerTermModalExtension.js";
@@ -50,6 +51,7 @@ export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) 
     observations: registerObservationsExtension,
     "exit-message": registerExitMessageExtension,
     "startup-hero": registerStartupHeroExtension,
+    "smart-eval": registerSmartEvalExtension,
     "sub-agents": registerSubAgentsExtension,
     "sub-agent-status-widget": registerSubagentStatusWidgetExtension,
     playground: registerPlaygroundExtension,
