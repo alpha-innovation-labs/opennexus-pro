@@ -6,6 +6,7 @@ import { colorSecondaryText } from "../colors/colorSecondaryText.ts";
 import { colorToolCallIcon } from "../colors/colorToolCallIcon.ts";
 import { measureTronRender } from "../profiling/measureTronRender.js";
 import { isCompactModeThinkingExpanded } from "../collapse/thinkingVisibility.ts";
+import { createSmartEvalFooterText } from "../../smart-eval/render/createSmartEvalFooterText.js";
 
 const THINKING_ICON = "󰧑";
 const TOOL_ICON = "󰘧";
@@ -52,7 +53,7 @@ function wrapPlainText(text: string, width: number): string[] {
  * @returns Styled metadata text.
  */
 function renderMeta(summary: ReturnType<typeof getCollapsedToolGroupSummary>): string {
-	return [
+	const baseMeta = [
 		colorToolCallIcon(THINKING_ICON),
 		colorSecondaryText(" · "),
 		colorToolCallIcon(TOOL_ICON),
@@ -62,6 +63,7 @@ function renderMeta(summary: ReturnType<typeof getCollapsedToolGroupSummary>): s
 			? ""
 			: `${colorSecondaryText(" · ")}${theme.fg("syntaxType", `+${summary.addedLineCount}`)} ${theme.fg("error", `-${summary.removedLineCount}`)}`,
 	].join("");
+	return createSmartEvalFooterText(baseMeta, summary.assistantTimestamp, theme);
 }
 
 /**
@@ -81,11 +83,12 @@ export class CollapsedToolGroupCall {
 			const summary = getCollapsedToolGroupSummary(this.toolCallId);
 			const neighbors = getCollapsedSummaryNeighbors(summary.leaderToolCallId);
 			const innerWidth = Math.max(1, width - 2);
-			const metaPlain = [
+			const metaPlainBase = [
 				`${THINKING_ICON} · ${TOOL_ICON} ${summary.toolCallCount}`,
 				summary.durationLabel,
 				summary.addedLineCount === 0 && summary.removedLineCount === 0 ? "" : `+${summary.addedLineCount} -${summary.removedLineCount}`,
 			].filter(Boolean).join(" · ");
+			const metaPlain = createSmartEvalFooterText(metaPlainBase, summary.assistantTimestamp, { fg: (_name, text) => text });
 			const metaColumnWidth = Math.min(META_COLUMN_WIDTH, Math.max(1, innerWidth - 6));
 			const shownMetaPlain = truncateToWidth(metaPlain, metaColumnWidth, "…");
 			const shownMetaWidth = visibleWidth(shownMetaPlain);

@@ -17,6 +17,7 @@ export function getCollapsedToolGroupSummary(toolCallId: string): {
 	fullThinkingText: string;
 	toolCallCount: number;
 	durationLabel?: string;
+	assistantTimestamp?: number;
 } {
 	const leaderToolCallId = collapsedToolGroupLeaderByToolCallId.get(toolCallId) ?? toolCallId;
 	const stats = collapsedToolGroupStatsByLeader.get(leaderToolCallId);
@@ -37,5 +38,6 @@ export function getCollapsedToolGroupSummary(toolCallId: string): {
 		fullThinkingText: stats?.fullThinkingText ?? stats?.summaryText ?? "Thinking…",
 		toolCallCount,
 		durationLabel,
+		assistantTimestamp: stats?.lastAssistantTimestamp,
 	};
 }

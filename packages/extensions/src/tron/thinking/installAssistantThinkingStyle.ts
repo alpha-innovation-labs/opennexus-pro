@@ -70,7 +70,7 @@ export function installAssistantThinkingStyle(): void {
     const durationLabel = typeof message.timestamp === "number" ? getAssistantMessageTiming(message.timestamp) : undefined;
     if (hasVisibleContent && !component.hasToolCalls && durationLabel) {
       if (!shouldTightenThinkingOuterSpacing) component.contentContainer.addChild(new Spacer(1));
-      component.contentContainer.addChild(createAssistantMetaText(theme, durationLabel));
+      component.contentContainer.addChild(createAssistantMetaText(theme, durationLabel, message.timestamp));
     }
     if (!component.hasToolCalls && message.stopReason === "aborted") {
       const abortMessage = message.errorMessage && message.errorMessage !== "Request was aborted" ? message.errorMessage : "Operation aborted";

@@ -4,6 +4,10 @@ import { registerHotkeysCommandHook } from "./neo-editor/features/help-shortcuts
 import { registerInternalSlashSelectorCommands } from "./neo-editor/features/menu/internal-commands/registerInternalSlashSelectorCommands.js";
 import { registerSlashCommand } from "./neo-editor/features/menu/registerSlashCommand.js";
 import { registerTelemetryRuntimeExtension } from "./telemetry-runtime/registerTelemetryRuntimeExtension.js";
+import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";
+import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensionConfig.js";
+import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
+import { createTronToolWrappingExtensionApi } from "./tron/compact-tool-lines/createTronToolWrappingExtensionApi.js";
 
 /**
  * Registers the release-bundled extension set compiled from feature-flags.json.
@@ -11,7 +15,9 @@ import { registerTelemetryRuntimeExtension } from "./telemetry-runtime/registerT
  * @param pi Pi extension API.
  */
 export default async function registerCompiledBundledExtensions(pi: ExtensionAPI): Promise<void> {
-  const slashAwarePi = new Proxy(pi, {
+  const config = applySystemExtensionAvailability(applyUserExtensionConfig(getBundledFeatureFlagsConfig()));
+  const toolAwarePi = config.extensions.tron?.enabled ? createTronToolWrappingExtensionApi(pi) : pi;
+  const slashAwarePi = new Proxy(toolAwarePi, {
     get(target, property, receiver) {
       if (property === "registerCommand") {
         return (name: string, definition: Record<string, unknown>) => {

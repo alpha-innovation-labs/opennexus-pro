@@ -7,6 +7,7 @@ import { BorderedToolResult } from "./BorderedToolResult.ts";
 import { FailedToolCallResult } from "./FailedToolCallResult.ts";
 import { getBuiltInTools } from "./getBuiltInTools.ts";
 import { getToolErrorText } from "./getToolErrorText.ts";
+import { markCompactWrappedToolDefinition } from "./markCompactWrappedToolDefinition.ts";
 import { renderCompactResult } from "./renderCompactResult.ts";
 import { renderSummary } from "./renderSummary.ts";
 import { summarizeArgs } from "./summarizeArgs.ts";
@@ -21,7 +22,7 @@ import type { BuiltInTools } from "./types.ts";
 export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof BuiltInTools): void {
 	const original = getBuiltInTools(process.cwd())[toolName];
 
-	(pi.registerTool as (definition: unknown) => void)({
+	(pi.registerTool as (definition: unknown) => void)(markCompactWrappedToolDefinition({
 		name: toolName,
 		label: toolName,
 		description: original.description,
@@ -51,5 +52,5 @@ export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof Bui
 			}
 			return renderCompactResult(context.toolCallId, result, true, theme);
 		},
-	});
+	}));
 }
