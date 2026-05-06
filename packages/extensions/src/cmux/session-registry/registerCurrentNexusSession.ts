@@ -1,4 +1,5 @@
 import { getCurrentCmuxRenameTarget } from "../runtime/getCurrentCmuxRenameTarget.js";
+import { createNexusResumeCommand } from "./createNexusResumeCommand.js";
 import { getCmuxSessionRegistryPath } from "./getCmuxSessionRegistryPath.js";
 import { normalizeCmuxSessionTitle } from "./normalizeCmuxSessionTitle.js";
 import { readCmuxSessionRegistry } from "./readCmuxSessionRegistry.js";
@@ -26,7 +27,9 @@ export async function registerCurrentNexusSession(sessionId: string, sessionFile
 			sessionId,
 			sessionTitle: normalizeCmuxSessionTitle(sessionTitle),
 			sessionFile,
+			cwd: process.cwd(),
 			pid: process.pid,
+			restoreCommand: createNexusResumeCommand(sessionId),
 			updatedAt: new Date().toISOString(),
 		});
 		await writeCmuxSessionRegistry(registryPath, updated);

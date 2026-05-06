@@ -2,7 +2,6 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { registerCmuxCommand } from "./command/registerCmuxCommand.js";
 import { notifyCmuxPaneCompletion } from "./notifyCmuxPaneCompletion.js";
 import { registerCurrentNexusSession } from "./session-registry/registerCurrentNexusSession.js";
-import { unregisterCurrentNexusSession } from "./session-registry/unregisterCurrentNexusSession.js";
 import { setCmuxTitleSyncEnabled } from "./state/setCmuxTitleSyncEnabled.js";
 
 /**
@@ -19,8 +18,7 @@ export function registerCmuxExtension(pi: ExtensionAPI): void {
 	pi.on("agent_end", async () => {
 		await notifyCmuxPaneCompletion(pi.getSessionName() ?? "");
 	});
-	pi.on("session_shutdown", async () => {
+	pi.on("session_shutdown", () => {
 		setCmuxTitleSyncEnabled(false);
-		await unregisterCurrentNexusSession();
 	});
 }

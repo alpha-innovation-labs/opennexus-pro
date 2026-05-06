@@ -1,4 +1,4 @@
-import { tmpdir } from "node:os";
+import { getAgentDirPath } from "@nexus/runtime/config/getAgentDirPath.js";
 import { join } from "node:path";
 
 const CMUX_SESSION_REGISTRY_ENV = "NEXUS_CMUX_SESSION_REGISTRY";
@@ -9,5 +9,5 @@ const CMUX_SESSION_REGISTRY_ENV = "NEXUS_CMUX_SESSION_REGISTRY";
  * @returns Absolute registry file path.
  */
 export function getCmuxSessionRegistryPath(): string {
-	return process.env[CMUX_SESSION_REGISTRY_ENV]?.trim() || join(tmpdir(), `nexus-cmux-sessions-${process.getuid?.() ?? "user"}.json`);
+	return process.env[CMUX_SESSION_REGISTRY_ENV]?.trim() || join(getAgentDirPath(), "cmux-session-registry.json");
 }
