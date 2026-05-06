@@ -19,35 +19,15 @@
  * correctly after upgrade.
  */
 
-import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { localeMaps, type TranslationMap } from "./localeMaps.js";
 import { I18N_NAMESPACE } from "./state/i18n-bridge.js";
 import { replayFromBranch } from "./state/replay.js";
 import { replaceState } from "./state/store.js";
 import { registerTodosCommand, registerTodoTool, TOOL_NAME } from "./todo.js";
 import { TodoOverlay } from "./todo-overlay.js";
 
-type TranslationMap = Readonly<Record<string, string>>;
 type I18nSDK = { registerStrings: (namespace: string, byLocale: Record<string, TranslationMap>) => void };
-
-function loadLocale(code: string): TranslationMap {
-	// A missing or malformed locale file degrades gracefully: registerStrings
-	// records an empty map for the locale, so render-time `t(key, fallback)`
-	// returns the canonical English literal at the call site. Crashing here
-	// would take the entire todo extension offline at module init —
-	// publish-manifest miss would brick the extension.
-	try {
-		return JSON.parse(
-			readFileSync(fileURLToPath(new URL(`./locales/${code}.json`, import.meta.url)), "utf-8"),
-		) as TranslationMap;
-	} catch (err) {
-		console.warn(
-			`rpiv-todo: failed to load locales/${code}.json — falling back to English (${(err as Error).message})`,
-		);
-		return {};
-	}
-}
 
 // Dynamic import keeps `@juicesharp/rpiv-i18n` a soft optional peer: when the
 // SDK is installed alongside this package the strings register and
@@ -55,16 +35,7 @@ function loadLocale(code: string): TranslationMap {
 // no-op, and the bridge's English-fallback shim keeps the extension online.
 try {
 	const sdk = (await import("@juicesharp/rpiv-i18n")) as I18nSDK;
-	sdk.registerStrings(I18N_NAMESPACE, {
-		de: loadLocale("de"),
-		en: loadLocale("en"),
-		es: loadLocale("es"),
-		fr: loadLocale("fr"),
-		pt: loadLocale("pt"),
-		"pt-BR": loadLocale("pt-BR"),
-		ru: loadLocale("ru"),
-		uk: loadLocale("uk"),
-	});
+	sdk.registerStrings(I18N_NAMESPACE, localeMaps);
 } catch {
 	// SDK absent — extension still loads with English-only UI.
 }

@@ -1,4 +1,4 @@
-import { getCurrentNexusLaunchSpec } from "@nexus/runtime/cli/getCurrentNexusLaunchSpec.js";
+import { createNexusRestoreLaunchSpec } from "./createNexusRestoreLaunchSpec.js";
 import { shellQuote } from "./shellQuote.js";
 
 export type NexusRestoreCommand = {
@@ -14,7 +14,7 @@ export type NexusRestoreCommand = {
  * @returns Structured command metadata and shell input.
  */
 export function createNexusResumeCommand(sessionId: string): NexusRestoreCommand {
-	const launchSpec = getCurrentNexusLaunchSpec(["--resume", sessionId]);
+	const launchSpec = createNexusRestoreLaunchSpec(["--resume", sessionId]);
 	const input = [...[launchSpec.command], ...launchSpec.args].map(shellQuote).join(" ");
 	return { command: launchSpec.command, args: launchSpec.args, input };
 }
