@@ -14,10 +14,6 @@ import type { WalletModalState } from "./WalletModalState.js";
  * @returns Shared modal panes.
  */
 export function createWalletModalPanes(state: WalletModalState, contentWidth = 120, fullScreenRows = 40): SharedModalPane[] {
-	if (state.trending) {
-		const lines = state.trending.loading ? ["Loading Jupiter top trending assets..."] : state.trending.error ? [state.trending.error] : formatTrendingAssetTable(state.trending.assets);
-		return [{ id: "wallet-trending", size: 1, minWidth: 72, lines }];
-	}
 	if (state.chart) {
 		const lines = state.chart.loading
 			? [`Loading ${state.chart.label} price chart...`]
@@ -25,6 +21,10 @@ export function createWalletModalPanes(state: WalletModalState, contentWidth = 1
 				? [state.chart.error]
 				: renderTokenPriceChart(state.chart.label, state.chart.candles, Math.max(20, contentWidth - 4), getWalletModalChartHeight(fullScreenRows));
 		return [{ id: "wallet-token-chart", size: 1, minWidth: 72, lines }];
+	}
+	if (state.trending) {
+		const lines = state.trending.loading ? ["Loading Jupiter top trending assets..."] : state.trending.error ? [state.trending.error] : formatTrendingAssetTable(state.trending.assets, state.selectedTrendingIndex);
+		return [{ id: "wallet-trending", size: 1, minWidth: 72, lines }];
 	}
 	const balanceLines = state.snapshots.length > 0 ? formatWalletSnapshots(state.snapshots, state.selectedTokenIndex).split("\n") : ["No cached balances yet.", "Press r to refresh SOL and SPL tokens from public Solana RPC."];
 	return [{ id: "wallet-balances", size: 1, minWidth: 72, lines: balanceLines }];

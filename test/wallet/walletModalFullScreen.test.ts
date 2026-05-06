@@ -9,7 +9,7 @@ test("WalletModal renders full screen width and height", () => {
 		onClose: () => undefined,
 		onRefresh: async () => undefined,
 		onRenderNeeded: () => undefined,
-		state: { loading: false, selectedTokenIndex: 0, snapshots: [], status: "", updatedAt: "" },
+		state: { loading: false, selectedTokenIndex: 0, selectedTrendingIndex: 0, snapshots: [], status: "", updatedAt: "" },
 		theme: createTestTheme(),
 	});
 	const lines = modal.render(120);

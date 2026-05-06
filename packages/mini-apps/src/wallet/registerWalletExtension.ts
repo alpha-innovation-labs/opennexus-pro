@@ -10,6 +10,6 @@ export function registerWalletExtension(pi: ExtensionAPI): void {
 	pi.registerCommand("wallet", {
 		description: "Show Phantom wallet balances from a Keychain-stored recovery phrase",
 		handler: handleWalletExtensionCommand,
-		menuGroup: "Mini-apps",
+		menuGroup: "Mini-Apps",
 	});
 }

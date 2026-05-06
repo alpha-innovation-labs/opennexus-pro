@@ -1,3 +1,4 @@
+import { parseTrendingSparklines } from "./parseTrendingSparklines.js";
 import type { TrendingAsset } from "./TrendingAsset.js";
 
 /**
@@ -8,6 +9,7 @@ import type { TrendingAsset } from "./TrendingAsset.js";
  */
 export function parseTrendingAssets(payload: unknown): TrendingAsset[] {
 	const assets = Array.isArray((payload as { assets?: unknown })?.assets) ? (payload as { assets: unknown[] }).assets : [];
+	const sparklines = parseTrendingSparklines(payload);
 	return assets.flatMap((asset) => {
 		const row = asset as Record<string, unknown>;
 		const id = String(row.id ?? "");
@@ -32,6 +34,7 @@ export function parseTrendingAssets(payload: unknown): TrendingAsset[] {
 				sellVolume: Number.isFinite(Number(stats6h.sellVolume)) ? Number(stats6h.sellVolume) : undefined,
 				numTraders: Number.isFinite(Number(stats6h.numTraders)) ? Number(stats6h.numTraders) : undefined,
 			} : undefined,
+			sparkline: sparklines[id],
 		}];
 	});
 }

@@ -15,5 +15,5 @@ export async function loadCachedWalletRows(mnemonic: string, count: number): Pro
 	const cache = await readWalletBalanceCache(getWalletCachePath(process.env));
 	const publicKeys = derivePhantomPublicKeys(mnemonic, count);
 	const snapshots = pickCachedWalletSnapshots(cache, publicKeys);
-	return { snapshots, updatedAt: cache.updatedAt, loading: false, selectedTokenIndex: 0, status: snapshots.length > 0 ? "Showing cached balances." : "No cache found; fetching once now." };
+	return { snapshots, updatedAt: cache.updatedAt, loading: false, selectedTokenIndex: 0, selectedTrendingIndex: 0, status: snapshots.length > 0 ? "Showing cached balances." : "No cache found; fetching once now." };
 }

@@ -18,5 +18,5 @@ export async function refreshWalletRows(mnemonic: string, count: number): Promis
 	const snapshots = await readWalletSnapshots({ mnemonic, count, rpcUrl: createSolanaRpcUrl(process.env) });
 	const cache = mergeWalletSnapshots(await readWalletBalanceCache(cachePath), snapshots);
 	await writeWalletBalanceCache(cachePath, cache);
-	return { snapshots, updatedAt: cache.updatedAt, loading: false, selectedTokenIndex: 0, status: "Cache refreshed from public Solana RPC." };
+	return { snapshots, updatedAt: cache.updatedAt, loading: false, selectedTokenIndex: 0, selectedTrendingIndex: 0, status: "Cache refreshed from public Solana RPC." };
 }

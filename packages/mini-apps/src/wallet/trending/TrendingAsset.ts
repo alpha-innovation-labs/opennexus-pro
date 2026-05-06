@@ -1,6 +1,8 @@
 /**
  * One Jupiter top-trending asset row used by the wallet modal.
  */
+import type { TrendingSparklinePoint } from "./TrendingSparklinePoint.js";
+
 export interface TrendingAsset {
 	id: string;
 	name: string;
@@ -16,4 +18,5 @@ export interface TrendingAsset {
 		sellVolume?: number;
 		numTraders?: number;
 	};
+	sparkline?: TrendingSparklinePoint[];
 }

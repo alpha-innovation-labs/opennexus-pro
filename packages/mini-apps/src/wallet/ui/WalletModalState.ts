@@ -11,6 +11,7 @@ export interface WalletModalState {
 	updatedAt: string;
 	loading: boolean;
 	selectedTokenIndex: number;
+	selectedTrendingIndex: number;
 	chart?: {
 		label: string;
 		mint: string;

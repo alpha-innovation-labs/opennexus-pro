@@ -7,6 +7,7 @@ import { createWalletModalHeader } from "./createWalletModalHeader.js";
 import { createWalletModalPanes } from "./createWalletModalPanes.js";
 import { getWalletModalChartAssets } from "./getWalletModalChartAssets.js";
 import { getWalletTokenLabel } from "./getWalletTokenLabel.js";
+import { sortTrendingAssetsByVolume } from "@nexus/mini-apps/wallet/trending/sortTrendingAssetsByVolume.js";
 import type { WalletModalState } from "./WalletModalState.js";
 
 /**
@@ -29,8 +30,18 @@ export class WalletModal extends SharedModal {
 
 	/** Handles wallet modal keyboard input. */
 	override handleInput(data: string): void {
-		if ((this.state.chart || this.state.trending) && (matchesKey(data, Key.escape) || data === "q")) {
+		if (this.state.chart && (matchesKey(data, Key.escape) || data === "q")) {
+			this.setState({ ...this.state, chart: undefined, status: this.state.trending ? "Press Esc to return to balances." : "Showing cached balances." });
+			return;
+		}
+		if (this.state.trending && (matchesKey(data, Key.escape) || data === "q")) {
 			this.setState({ ...this.state, chart: undefined, trending: undefined, status: "Showing cached balances." });
+			return;
+		}
+		if (!this.state.chart && this.state.trending && (data === "j" || matchesKey(data, Key.down))) return this.selectTrendingAsset(1);
+		if (!this.state.chart && this.state.trending && (data === "k" || matchesKey(data, Key.up))) return this.selectTrendingAsset(-1);
+		if (!this.state.chart && this.state.trending && matchesKey(data, Key.enter)) {
+			void this.openSelectedTrendingChart();
 			return;
 		}
 		if (!this.state.chart && !this.state.trending && (data === "h" || data === "H")) {
@@ -70,24 +81,36 @@ export class WalletModal extends SharedModal {
 		this.setState({ ...this.state, status: "Loading Jupiter top trending assets...", trending: { assets: [], loading: true } });
 		try {
 			const assets = await fetchTopTrendingAssets();
-			this.setState({ ...this.state, status: "Press Esc to return to balances.", trending: { assets, loading: false } });
+			this.setState({ ...this.state, selectedTrendingIndex: 0, status: "Press Esc to return to balances.", trending: { assets, loading: false } });
 		} catch (error) {
 			const message = error instanceof Error ? error.message : "Trending assets fetch failed.";
 			this.setState({ ...this.state, status: message, trending: { assets: [], loading: false, error: message } });
 		}
 	}
 
+	/** Opens the selected trending token's Jupiter 4-hour price chart. */
+	private async openSelectedTrendingChart(): Promise<void> {
+		const asset = sortTrendingAssetsByVolume(this.state.trending?.assets ?? [])[this.state.selectedTrendingIndex];
+		if (!asset) return;
+		await this.openAssetChart(asset.symbol || asset.name || asset.id, asset.id);
+	}
+
 	/** Opens the selected token's Jupiter 4-hour price chart. */
 	private async openSelectedTokenChart(): Promise<void> {
 		const asset = getWalletModalChartAssets(this.state)[this.state.selectedTokenIndex];
 		if (!asset) return;
-		this.setState({ ...this.state, status: "Loading asset price chart...", chart: { label: asset.label, mint: asset.mint, candles: [], loading: true } });
+		await this.openAssetChart(asset.label, asset.mint);
+	}
+
+	/** Opens a Jupiter 4-hour price chart for one asset. */
+	private async openAssetChart(label: string, mint: string): Promise<void> {
+		this.setState({ ...this.state, status: "Loading asset price chart...", chart: { label, mint, candles: [], loading: true } });
 		try {
-			const candles = await fetchTokenPriceCandles(asset.mint, DEFAULT_TOKEN_PRICE_CANDLE_COUNT);
-			this.setState({ ...this.state, status: "Press Esc to return to balances.", chart: { label: asset.label, mint: asset.mint, candles, loading: false } });
+			const candles = await fetchTokenPriceCandles(mint, DEFAULT_TOKEN_PRICE_CANDLE_COUNT);
+			this.setState({ ...this.state, status: "Press Esc to return.", chart: { label, mint, candles, loading: false } });
 		} catch (error) {
 			const message = error instanceof Error ? error.message : "Asset price chart failed.";
-			this.setState({ ...this.state, status: message, chart: { label: asset.label, mint: asset.mint, candles: [], loading: false, error: message } });
+			this.setState({ ...this.state, status: message, chart: { label, mint, candles: [], loading: false, error: message } });
 		}
 	}
 
@@ -97,6 +120,14 @@ export class WalletModal extends SharedModal {
 		if (count === 0) return;
 		const next = (this.state.selectedTokenIndex + direction + count) % count;
 		this.setState({ ...this.state, selectedTokenIndex: next });
+	}
+
+	/** Moves trending asset selection by one step. */
+	private selectTrendingAsset(direction: 1 | -1): void {
+		const count = Math.min(50, this.state.trending?.assets.length ?? 0);
+		if (count === 0) return;
+		const next = (this.state.selectedTrendingIndex + direction + count) % count;
+		this.setState({ ...this.state, selectedTrendingIndex: next });
 	}
 
 	/** Renders the wallet modal and inline token images when terminal supports them. */
