@@ -9,7 +9,11 @@ test("RtkSavingsModal renders savings inside a framed modal with period tabs", (
     colors.push(color);
     return value;
   } }, {
-    daily: [{ commands: 1, input_tokens: 100, output_tokens: 20, saved_tokens: 80, savings_pct: 80, total_time_ms: 5, avg_time_ms: 5, date: "2026-04-27" }],
+    daily: [
+      { commands: 1, input_tokens: 500, output_tokens: 50, saved_tokens: 500, savings_pct: 100, total_time_ms: 5, avg_time_ms: 5, date: "2026-03-20" },
+      { commands: 1, input_tokens: 20, output_tokens: 5, saved_tokens: 20, savings_pct: 100, total_time_ms: 5, avg_time_ms: 5, date: "2026-04-01" },
+      { commands: 1, input_tokens: 100, output_tokens: 20, saved_tokens: 80, savings_pct: 80, total_time_ms: 5, avg_time_ms: 5, date: "2026-04-27" },
+    ],
     monthly: [{ commands: 3, input_tokens: 1200, output_tokens: 300, saved_tokens: 900, savings_pct: 75, total_time_ms: 30, avg_time_ms: 10, month: "2026-04" }],
     summary: {
       total_commands: 3,
@@ -29,7 +33,7 @@ test("RtkSavingsModal renders savings inside a framed modal with period tabs", (
   assert.match(dailyOutput, /Token Savings/u);
   assert.match(dailyOutput, /● Daily/u);
   assert.match(dailyOutput, /○ Weekly/u);
-  assert.match(dailyOutput, /○ Monthly/u);
+  assert.match(dailyOutput, /○ 30 days/u);
   assert.doesNotMatch(dailyOutput, /RTK Token Savings/u);
   assert.match(dailyOutput, /Total input\s+100/u);
   assert.match(dailyOutput, /Total output\s+20/u);
@@ -49,8 +53,8 @@ test("RtkSavingsModal renders savings inside a framed modal with period tabs", (
 
   modal.handleInput("\t");
   const monthlyOutput = modal.render(100).join("\n");
-  assert.match(monthlyOutput, /● Monthly/u);
-  assert.match(monthlyOutput, /Nexus input saved\s+900/u);
+  assert.match(monthlyOutput, /● 30 days/u);
+  assert.match(monthlyOutput, /Nexus input saved\s+100/u);
   assert.equal(renderRequests, 2);
 
   assert.ok(colors.includes("success"));

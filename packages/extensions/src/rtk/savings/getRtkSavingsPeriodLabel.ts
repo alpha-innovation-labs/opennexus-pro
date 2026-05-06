@@ -9,5 +9,5 @@ import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey.js";
 export function getRtkSavingsPeriodLabel(period: RtkSavingsPeriodKey): string {
   if (period === "daily") return "Daily";
   if (period === "weekly") return "Weekly";
-  return "Monthly";
+  return "30 days";
 }

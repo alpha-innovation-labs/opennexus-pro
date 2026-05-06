@@ -2,6 +2,7 @@ import type { RtkGainPeriod } from "./RtkGainPeriod.js";
 import type { RtkGainReport } from "./RtkGainReport.js";
 import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey.js";
 import { getLatestRtkGainPeriod } from "./getLatestRtkGainPeriod.js";
+import { getRollingRtkGainPeriod } from "./getRollingRtkGainPeriod.js";
 
 /**
  * Resolves the latest RTK gain row for a selected period.
@@ -13,5 +14,5 @@ import { getLatestRtkGainPeriod } from "./getLatestRtkGainPeriod.js";
 export function getRtkSavingsPeriod(report: RtkGainReport, period: RtkSavingsPeriodKey): RtkGainPeriod | undefined {
   if (period === "daily") return getLatestRtkGainPeriod(report.daily);
   if (period === "weekly") return getLatestRtkGainPeriod(report.weekly);
-  return getLatestRtkGainPeriod(report.monthly);
+  return getRollingRtkGainPeriod(report.daily, 30) ?? getLatestRtkGainPeriod(report.monthly);
 }
