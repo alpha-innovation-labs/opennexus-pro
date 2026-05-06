@@ -9,7 +9,7 @@ import type { TriggerModalHandle, ShowOverlay } from "./types.js";
  * @param ctx Extension context.
  * @param requestClose Close callback.
  * @param requestRender Render callback.
- * @param _setText Editor text setter.
+ * @param setText Editor text setter.
  * @param getThinkingLevel Thinking-level getter.
  * @param setThinkingLevel Thinking-level setter.
  * @param submitText Editor submit callback.
@@ -21,7 +21,7 @@ export function createSlashModal(
   ctx: ExtensionContext,
   requestClose: () => void,
   requestRender: () => void,
-  _setText: (value: string) => void,
+  setText: (value: string) => void,
   getThinkingLevel: () => string,
   setThinkingLevel: (value: string) => void,
   submitText: (value: string) => void,
@@ -32,7 +32,11 @@ export function createSlashModal(
     requestClose();
     requestRender();
     submitText(commandText);
-  }, getCommands, ensureStoredCursorModelsRegistered);
+  }, getCommands, ensureStoredCursorModelsRegistered, (commandText) => {
+    requestClose();
+    setText(commandText);
+    requestRender();
+  });
   const handle = showOverlay(modal, {
     anchor: "center",
     width: "100%",

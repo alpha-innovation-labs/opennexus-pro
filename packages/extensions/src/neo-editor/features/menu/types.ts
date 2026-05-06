@@ -25,9 +25,6 @@ export type SlashMenuLeaf = {
   resumeRow?: boolean;
   wrapPreservedLabel?: boolean;
   wrapToFit?: boolean;
-  treeParentUserId?: string;
-  treeFocusEntryId?: string;
-  treeRole?: "user" | "thinking" | "tool";
 };
 
 export type SlashMenuSection = {

@@ -7,13 +7,11 @@ import { handleInternalLogoutCommand } from "./handleInternalLogoutCommand.js";
 import { handleInternalModelCommand } from "./handleInternalModelCommand.js";
 import { handleInternalResumeCommand } from "./handleInternalResumeCommand.js";
 import { handleInternalScopedModelsCommand } from "./handleInternalScopedModelsCommand.js";
-import { handleInternalTreeCommand } from "./handleInternalTreeCommand.js";
 
 const commands = {
   "nexus-model-select": handleInternalModelCommand,
   "nexus-resume-select": handleInternalResumeCommand,
   "nexus-fork-select": handleInternalForkCommand,
-  "nexus-tree-select": handleInternalTreeCommand,
   "nexus-scoped-models-save": handleInternalScopedModelsCommand,
   "nexus-login-select": handleInternalLoginCommand,
   "nexus-login-import": handleInternalLoginImportCommand,

@@ -36,7 +36,6 @@ import { formatTopLevelMenuLabel } from "./formatTopLevelMenuLabel.js";
 import { getSettingChoiceTitle } from "./getSettingChoiceTitle.js";
 import { getSlashMenuItemIcon } from "./getSlashMenuItemIcon.js";
 import { getSlashMenuLevelTitle } from "./getSlashMenuLevelTitle.js";
-import { getTreeToggleUserId } from "./tree/getTreeToggleUserId.js";
 import type { ResourceCommandScope } from "./ResourceCommandScope.js";
 import { renderResourceCommandScopeTabs } from "./renderResourceCommandScopeTabs.js";
 import { selectResourceCommandScopeByKey } from "./selectResourceCommandScopeByKey.js";
@@ -69,10 +68,8 @@ export class SlashMenuModal extends SelectPreviewModal {
   private activeLeaves: SlashMenuLeaf[] = [];
   private nameInput = "";
   private pendingSettingLeaf?: SlashMenuLeaf;
-  private pendingTreeEntryId = "";
   private scopedSelection = new Set<string>();
   private searchActive = false;
-  private readonly expandedTreeUserIds = new Set<string>();
   private selectedPreviewItem?: SlashMenuLeaf | SlashMenuSection;
   private readonly previousLevels: SlashMenuLevel[] = [];
   private readonly resumePreviewState: ResumePreviewState = { previewRequestId: 0 };
@@ -93,6 +90,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     private readonly onCommandPicked: (commandText: string) => void,
     private readonly getCommands: ExtensionAPI["getCommands"] = () => [],
     private readonly ensureModelMenuReady: () => Promise<void> = async () => undefined,
+    private readonly onCommandPrefill: (commandText: string) => void = onCommandPicked,
   ) {
     super(ctx.ui.theme, () => undefined, requestClose, undefined, { leftTitle: "Menu", rightTitle: "Preview", bottomTitle: "Search", bottomPrefix: "> /", leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO, itemMaxLines: (item) => (item as { resumeRow?: boolean }).resumeRow ? 2 : 1 });
     this.setOnPick(() => void this.handleEnter());
@@ -152,10 +150,6 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.handleResourcePreviewFocusInput(data)) return;
     if (this.handleResourcePreviewInput(data)) return;
     if (this.handleResumeScopeInput(data)) return;
-    if (this.handleTreeNavigationInput(data)) return;
-    if (this.handleTreeSearchActivationInput(data)) return;
-    if (this.isTreeSearchInactive() && this.handleListNavigationInput(data)) return;
-    if (this.isTreeSearchInactive() && (isSlashTextInput(data) || data === "\u007f" || matchesKey(data, Key.backspace))) return;
     handleSlashMenuInput({
       data,
       level: this.level,
@@ -183,67 +177,6 @@ export class SlashMenuModal extends SelectPreviewModal {
     toggleAuthImportCandidateSelection(this.importSelection, item.value);
     void this.refresh(item.value);
     return true;
-  }
-
-  /**
-   * Handles tree-specific focus and expansion shortcuts before search input.
-   *
-   * @param data Raw keyboard input.
-   * @returns True when handled.
-   */
-  private handleTreeNavigationInput(data: string): boolean {
-    if (this.level !== "tree" || this.searchActive) return false;
-    if (matchesKey(data, Key.enter)) {
-      this.focusSelectedTreeItem();
-      return true;
-    }
-    if (data === "l" || matchesKey(data, Key.right)) {
-      void this.setSelectedTreeExpanded(true);
-      return true;
-    }
-    if (data === "h" || matchesKey(data, Key.left)) {
-      void this.setSelectedTreeExpanded(false);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Activates tree-only slash-menu search mode.
-   *
-   * @param data Raw keyboard input.
-   * @returns True when handled.
-   */
-  private handleTreeSearchActivationInput(data: string): boolean {
-    if (this.level !== "tree" || this.searchActive || data !== "/") return false;
-    this.searchActive = true;
-    this.query = "";
-    this.setBottom("Search", "", "> /");
-    this.requestRender();
-    return true;
-  }
-
-  /**
-   * Returns whether tree search is inactive and printable keys should be ignored.
-   *
-   * @returns True when tree search has not been activated.
-   */
-  private isTreeSearchInactive(): boolean {
-    return this.level === "tree" && !this.searchActive;
-  }
-
-  /**
-   * Routes non-search list navigation keys to the select list.
-   *
-   * @param data Raw keyboard input.
-   * @returns True when handled.
-   */
-  private handleListNavigationInput(data: string): boolean {
-    if (data === "j" || data === "k" || data === "g" || data === "G" || matchesKey(data, Key.up) || matchesKey(data, Key.down) || matchesKey(data, Key.ctrl("n")) || matchesKey(data, Key.ctrl("p"))) {
-      super.handleInput(data);
-      return true;
-    }
-    return false;
   }
 
   /**
@@ -299,7 +232,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "login-import-candidates") return createAuthImportCandidateLeaves(this.pendingImportCandidates, this.importSelection);
     if (this.level === "name-input") return [createNameInputLeaf(this.nameInput)];
     if (this.level === "resume") return getCachedResumeLeaves(this.resumeLeavesCache, this.ctx, this.resumeScope);
-    return createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.expandedTreeUserIds, this.resumeScope, this.getDynamicCommands(), this.resourceScope);
+    return createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.resumeScope, this.getDynamicCommands(), this.resourceScope);
   }
 
   /**
@@ -338,6 +271,11 @@ export class SlashMenuModal extends SelectPreviewModal {
       if (item.value === "name") return this.openSessionNameInput();
       if (item.value === "session") return this.openSessionInfoPanel();
       if (item.value === "thinking") return this.openSettingChoice(createThinkingSettingLeaf(this.getThinkingLevel(), this.ctx.model));
+      const selectedTopItem = this.topItems.find((entry) => entry.value === item.value);
+      if (selectedTopItem?.groupLabel === "Custom Commands") {
+        this.onCommandPrefill(`/${item.value} `);
+        return;
+      }
       await handleTopLevelMenuEnter(this.ctx, item.value, (level) => this.openLevel(level), this.onCommandPicked);
       return;
     }
@@ -364,14 +302,9 @@ export class SlashMenuModal extends SelectPreviewModal {
       return;
     }
     if (this.level === "fork") return void this.onCommandPicked(`/nexus-fork-select ${item.value}`);
-    if (this.level === "tree") return void this.focusSelectedTreeItem();
-    if (this.level === "tree-summary") {
-      const encodedInstructions = item.value === "custom-summary" ? ` ${encodeSlashMenuValue(await this.ctx.ui.editor("Custom summarization instructions") ?? "")}` : "";
-      this.onCommandPicked(`/nexus-tree-select ${this.pendingTreeEntryId} ${String(item.value !== "nosummary")}${encodedInstructions}`);
-      return;
-    }
     if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select ${encodeSlashMenuValue(item.value)}`);
-    if (this.level === "prompts" || this.level === "skills") return void this.onCommandPicked(`/${item.value}`);
+    if (this.level === "prompts") return void this.onCommandPrefill(`/${item.value} `);
+    if (this.level === "skills") return void this.onCommandPicked(`/${item.value}`);
     if ((this.level === "login" || this.level === "login-import") && item.value.startsWith("import:")) {
       return void this.openAuthImportCandidates(item.value.slice("import:".length) as AuthImportSource);
     }
@@ -409,7 +342,6 @@ export class SlashMenuModal extends SelectPreviewModal {
       const leaves = createScopedModelLeaves(this.ctx);
       this.scopedSelection = new Set(leaves.filter((leaf) => leaf.label.startsWith("✓")).map((leaf) => leaf.value));
     }
-    if (this.level === "tree") this.expandedTreeUserIds.clear();
     if (this.level === "resume") {
       this.resumeScope = "current";
       this.resumeLeavesCache.clear();
@@ -590,31 +522,6 @@ export class SlashMenuModal extends SelectPreviewModal {
     await this.refresh(settingValue);
   }
 
-  /**
-   * Focuses the currently selected tree row.
-   */
-  private focusSelectedTreeItem(): void {
-    const selected = this.getSelectedItem() as ({ value: string; treeFocusEntryId?: string } | null);
-    if (!selected) return;
-    const leaf = this.activeLeaves.find((entry) => entry.value === selected.value);
-    const focusEntryId = leaf?.treeFocusEntryId ?? selected.treeFocusEntryId ?? selected.value;
-    this.onCommandPicked(`/nexus-tree-select ${focusEntryId} false`);
-  }
-
-  /**
-   * Sets tree children visibility for the selected conversation row.
-   *
-   * @param expanded Whether children should be visible.
-   */
-  private async setSelectedTreeExpanded(expanded: boolean): Promise<void> {
-    const selected = this.getSelectedItem() as ({ value: string; treeParentUserId?: string } | null);
-    const leaf = this.activeLeaves.find((entry) => entry.value === selected?.value);
-    const userId = getTreeToggleUserId(leaf) ?? selected?.treeParentUserId;
-    if (!userId) return;
-    if (expanded) this.expandedTreeUserIds.add(userId); else this.expandedTreeUserIds.delete(userId);
-    await this.refresh(userId);
-  }
-
   private async handleEscape(): Promise<void> {
     if (this.level === "top") {
       this.requestClose();
@@ -666,7 +573,6 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "top") return { ...item, label: formatTopLevelMenuLabel(item.label, item.description, this.ctx.ui.theme, icon), description: "", preserveLabelWhitespace: true };
     if (this.level === "settings") return { ...item, label: formatSettingsMenuLabel(item.label, (item as SlashMenuLeaf).currentValue, this.ctx.ui.theme, icon), description: "", preserveLabelWhitespace: true };
     if (this.level === "setting-choice") return { ...item, description: "" };
-    if (this.level === "tree") return { ...item, description: "", preserveLabelWhitespace: true };
     if (this.level === "resume") return { ...item, label: `${item.label}\n${item.description}`, description: "", preserveLabelWhitespace: true, resumeRow: true, wrapPreservedLabel: true };
     if ((this.level === "login" || this.level === "login-providers") && !item.value.startsWith("import:")) return { ...item, label: formatLoginProviderLabel(item as SlashMenuLeaf, icon, this.ctx.ui.theme), description: "" };
     if (this.level === "model" || this.level === "login" || this.level === "login-import" || this.level === "login-import-candidates" || this.level === "login-providers" || this.level === "logout" || this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return { ...item, label: `${icon} ${item.label}`, description: "" };

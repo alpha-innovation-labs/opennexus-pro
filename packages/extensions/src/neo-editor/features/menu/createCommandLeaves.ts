@@ -13,7 +13,7 @@ export function createCommandLeaves(): SlashMenuLeaf[] {
   const commands = [...readBuiltinSlashCommands(), ...getRegisteredSlashCommands()];
   const deduped = new Map(commands.map((command) => [command.name, command]));
   return [...deduped.values()]
-    .filter((command) => !["changelog", "fff-features", "quit", "scoped-models", "settings", "tree"].includes(command.name) && command.hidden !== true)
+    .filter((command) => !["changelog", "fff-features", "quit", "scoped-models", "settings"].includes(command.name) && command.hidden !== true)
     .map((command) => ({
       kind: "command",
       label: command.name,

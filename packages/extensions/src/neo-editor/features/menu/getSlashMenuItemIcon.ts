@@ -54,8 +54,6 @@ export function getSlashMenuItemIcon(item: SlashMenuLeaf | SlashMenuSection, lev
   if (level === "logout") return "◆";
   if (level === "theme") return "◐";
   if (level === "fork") return "⑂";
-  if (level === "tree") return "┬";
-  if (level === "tree-summary") return "▸";
   if (level === "resume") return "↩";
   if (level === "prompts" || level === "skills") return getResourceMenuIcon();
   if (level === "settings") {
@@ -63,5 +61,5 @@ export function getSlashMenuItemIcon(item: SlashMenuLeaf | SlashMenuSection, lev
     if ((item as SlashMenuLeaf).kind === "toggle") return "◉";
     return "▸";
   }
-  return TOP_LEVEL_ICONS[item.value] ?? (item.groupLabel === "Extensions" ? "✦" : "›");
+  return TOP_LEVEL_ICONS[item.value] ?? (["Extensions", "Mini-Apps"].includes(item.groupLabel ?? "") ? "✦" : "›");
 }

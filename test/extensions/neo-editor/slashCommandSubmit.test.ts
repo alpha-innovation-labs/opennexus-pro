@@ -8,6 +8,7 @@ import { SessionManager } from "@mariozechner/pi-coding-agent";
 import { primeStartupResumeModal } from "../../../packages/extensions/src/neo-editor/primeStartupResumeModal.js";
 import { WhichKeyModal } from "../../../packages/extensions/src/neo-editor/features/which-key/WhichKeyModal.js";
 import { createSlashModal } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/createSlashModal.js";
+import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../packages/extensions/src/neo-editor/features/menu/registerSlashCommand.js";
 import { startupResumeEnvVar } from "../../../packages/nexus-runtime/src/cli/normalizeResumeStartupArgs.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
@@ -76,6 +77,81 @@ async function createResumeSessionFixture(): Promise<{ sessionDir: string; sessi
   } as never);
   return { sessionDir, sessionPath: manager.getSessionFile()! };
 }
+
+test("slash modal prefills a custom command without submitting it", async () => {
+  let text = "";
+  let submitted = "";
+  let closed = false;
+  const { modal } = createSlashModal(
+    createContext() as never,
+    () => { closed = true; },
+    () => undefined,
+    (value) => { text = value; },
+    () => "medium",
+    () => undefined,
+    (value) => { submitted = value; },
+    (() => ({ hide: () => undefined, focus: () => undefined, isFocused: () => true })) as never,
+    () => [{ name: "git-commit", description: "Commit changes", source: "prompt" }] as never,
+  );
+
+  modal.setQuery("git");
+  await modal.refresh();
+  modal.handleInput("\r");
+  await flushAsyncWork();
+
+  assert.equal(text, "/git-commit ");
+  assert.equal(submitted, "");
+  assert.equal(closed, true);
+});
+
+test("slash modal submits a picked extension command immediately", async () => {
+  let text = "";
+  let submitted = "";
+  clearRegisteredSlashCommands();
+  registerSlashCommand({ name: "git-commit", description: "Commit changes", source: "extension" });
+  const { modal } = createSlashModal(
+    createContext() as never,
+    () => undefined,
+    () => undefined,
+    (value) => { text = value; },
+    () => "medium",
+    () => undefined,
+    (value) => { submitted = value; },
+    (() => ({ hide: () => undefined, focus: () => undefined, isFocused: () => true })) as never,
+  );
+
+  modal.setQuery("git");
+  await modal.refresh();
+  modal.handleInput("\r");
+  await flushAsyncWork();
+
+  assert.equal(text, "");
+  assert.equal(submitted, "/git-commit");
+  clearRegisteredSlashCommands();
+});
+
+test("slash modal submits the built-in tree command for Pi to handle", async () => {
+  let text = "";
+  let submitted = "";
+  const { modal } = createSlashModal(
+    createContext() as never,
+    () => undefined,
+    () => undefined,
+    (value) => { text = value; },
+    () => "medium",
+    () => undefined,
+    (value) => { submitted = value; },
+    (() => ({ hide: () => undefined, focus: () => undefined, isFocused: () => true })) as never,
+  );
+
+  modal.setQuery("tree");
+  await modal.refresh();
+  modal.handleInput("\r");
+  await flushAsyncWork();
+
+  assert.equal(text, "");
+  assert.equal(submitted, "/tree");
+});
 
 test("slash modal opens the custom settings submenu on settings pick", async () => {
   let text = "unchanged";

@@ -28,10 +28,6 @@ export async function handleTopLevelMenuEnter(
     }
     return openLevel("fork");
   }
-  if (value === "tree") {
-    ctx.ui.notify("Session tree is temporarily disabled", "info");
-    return;
-  }
   if (value === "resume") return openLevel("resume");
   if (value === "prompts") return openLevel("prompts");
   if (value === "skills") return openLevel("skills");

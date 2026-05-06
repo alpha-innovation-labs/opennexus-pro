@@ -79,7 +79,7 @@ test("slash modal filters commands immediately outside tree and closes on ctrl+c
   assert.equal(closed, true);
 });
 
-test("slash modal hides tree while the feature is disabled", async () => {
+test("slash modal shows the tree command in the top-level menu", async () => {
   const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, () => undefined);
 
   await modal.refresh();
@@ -90,8 +90,8 @@ test("slash modal hides tree while the feature is disabled", async () => {
   modal.handleInput("e");
   const filteredView = await renderComponentInVirtualTerminal(() => modal, 120, 30);
 
-  assert.doesNotMatch(topView.join("\n"), /Navigate session tree/u);
-  assert.doesNotMatch(filteredView.join("\n"), /Navigate session tree/u);
+  assert.match(topView.join("\n"), /Navigate session tree/u);
+  assert.match(filteredView.join("\n"), /Navigate session tree/u);
 });
 
 test("slash session opens the Nexus-owned session info modal", async () => {

@@ -2,6 +2,7 @@ import type { RegisteredSlashCommand, SlashMenuLeaf, SlashMenuSection } from "./
 import { createCommandLeaves } from "./createCommandLeaves.js";
 import { createDynamicCommandItems } from "./createDynamicCommandItems.js";
 import { createThinkingTopLevelItem } from "./createThinkingTopLevelItem.js";
+import { createTopLevelPromptCommandLeaves } from "./createTopLevelPromptCommandLeaves.js";
 import { groupAndSortTopLevelItems } from "./groupAndSortTopLevelItems.js";
 
 /**
@@ -18,5 +19,11 @@ export function createTopLevelItems(dynamicCommands: RegisteredSlashCommand[] = 
     groupLabel: "Configuration",
     value: "settings",
   };
-  return groupAndSortTopLevelItems([...commandLeaves, createThinkingTopLevelItem(), ...createDynamicCommandItems(dynamicCommands), settingsSection]);
+  return groupAndSortTopLevelItems([
+    ...commandLeaves,
+    createThinkingTopLevelItem(),
+    ...createDynamicCommandItems(dynamicCommands),
+    ...createTopLevelPromptCommandLeaves(dynamicCommands),
+    settingsSection,
+  ]);
 }

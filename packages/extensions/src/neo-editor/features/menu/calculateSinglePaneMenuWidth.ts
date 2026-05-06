@@ -16,7 +16,7 @@ const SINGLE_PANE_MAX_WIDTH = 96;
  */
 export function calculateSinglePaneMenuWidth(items: Array<SlashMenuLeaf | SlashMenuSection>, level: SlashMenuLevel): number {
   const widestRow = items.reduce((widest, item) => {
-    const iconWidth = level === "tree" ? 0 : visibleWidth(getSlashMenuItemIcon(item, level)) + 1;
+    const iconWidth = visibleWidth(getSlashMenuItemIcon(item, level)) + 1;
     const labelWidth = iconWidth + visibleWidth(item.label);
     const descriptionWidth = shouldMeasureDescription(level) && item.description ? labelWidth + 2 + visibleWidth(item.description) : labelWidth;
     const groupWidth = visibleWidth(item.groupLabel ?? "");
@@ -32,5 +32,5 @@ export function calculateSinglePaneMenuWidth(items: Array<SlashMenuLeaf | SlashM
  * @returns True when descriptions are visible.
  */
 function shouldMeasureDescription(level: SlashMenuLevel): boolean {
-  return level === "fork" || level === "tree-summary";
+  return level === "fork";
 }

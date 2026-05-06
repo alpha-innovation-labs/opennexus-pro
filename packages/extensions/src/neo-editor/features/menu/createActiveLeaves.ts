@@ -12,8 +12,6 @@ import { createSettingsLeaves } from "./createSettingsLeaves.js";
 import { createSourceCommandLeaves } from "./createSourceCommandLeaves.js";
 import { filterResourceCommandsByScope } from "./filterResourceCommandsByScope.js";
 import { createThemeLeaves } from "./createThemeLeaves.js";
-import { createTreeLeaves } from "./createTreeLeaves.js";
-import { createTreeSummaryLeaves } from "./createTreeSummaryLeaves.js";
 import { listResumeSessions } from "./resume-scope/listResumeSessions.js";
 import type { ResumeScope } from "./resume-scope/ResumeScope.js";
 import type { ResourceCommandScope } from "./ResourceCommandScope.js";
@@ -26,7 +24,6 @@ import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types.js";
  * @param ctx Extension context.
  * @param level Current menu level.
  * @param getThinkingLevel Current thinking-level getter.
- * @param expandedTreeUserIds Expanded session-tree user ids.
  * @param resumeScope Resume list scope.
  * @param dynamicCommands Live prompt and skill commands.
  * @param resourceScope Active resource scope filter.
@@ -36,7 +33,6 @@ export async function createActiveLeaves(
   ctx: ExtensionContext,
   level: SlashMenuLevel,
   getThinkingLevel: () => string,
-  expandedTreeUserIds: ReadonlySet<string> = new Set(),
   resumeScope: ResumeScope = "all",
   dynamicCommands: RegisteredSlashCommand[] = [],
   resourceScope: ResourceCommandScope = "all",
@@ -46,8 +42,6 @@ export async function createActiveLeaves(
   if (level === "model") return createModelLeaves(ctx);
   if (level === "scoped-models") return createScopedModelLeaves(ctx);
   if (level === "fork") return createForkLeaves(ctx.sessionManager.getEntries() as never);
-  if (level === "tree") return createTreeLeaves(ctx.sessionManager.getTree() as never, expandedTreeUserIds, ctx.ui.theme);
-  if (level === "tree-summary") return createTreeSummaryLeaves();
   if (level === "resume") return createResumeLeaves(await listResumeSessions(ctx, resumeScope));
   if (level === "login") return createLoginLeaves(ctx);
   if (level === "login-import") return createLoginImportLeaves();

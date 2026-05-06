@@ -84,6 +84,26 @@ test("slash menu renders grouped top-level rows", async () => {
   assert.match(output, /✦ aaa-extension/);
 });
 
+test("slash menu renders top-level custom commands individually while keeping the resources submenu", async () => {
+  const commands = () => [
+    { name: "prompt:plan", description: "Plan prompt description", source: "prompt", sourceInfo: { scope: "project" } },
+    { name: "prompt:review", description: "Review prompt description", source: "prompt", sourceInfo: { scope: "project" } },
+    { name: "skill:debug", description: "Debug skill description", source: "skill", sourceInfo: { scope: "project" } },
+  ] as never;
+  const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, () => undefined, commands);
+
+  modal.setQuery("prompt");
+  await modal.refresh();
+  const output = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
+
+  assert.match(output, /Resources/u);
+  assert.match(output, /Custom Commands/u);
+  assert.match(output, /› custom commands/u);
+  assert.match(output, /› prompt:plan/u);
+  assert.match(output, /› prompt:review/u);
+  assert.doesNotMatch(output, /skill:debug/u);
+});
+
 test("slash menu opens custom command and skill submenus", async () => {
   const sourceDir = await mkdtemp(join(tmpdir(), "nexus-menu-resource-"));
   const promptPath = join(sourceDir, "prompt.md");
@@ -120,7 +140,7 @@ test("slash menu opens custom command and skill submenus", async () => {
   assert.match(output, /Search > \/\s/u);
   modal.handleInput("\t");
   modal.handleInput("\r");
-  assert.equal(submitted, "/prompt:review");
+  assert.equal(submitted, "/prompt:review ");
 
   submitted = "";
   const skillsModal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, (value) => { submitted = value; }, commands);
@@ -218,7 +238,7 @@ test("model menu redirects to login when no provider models are available", asyn
 });
 
 test("slash submenus stay single-pane except resume transcript preview", async () => {
-  const singlePaneLevels = ["theme", "scoped-models", "fork", "tree", "tree-summary", "login", "logout"] as const;
+  const singlePaneLevels = ["theme", "scoped-models", "fork", "login", "logout"] as const;
 
   for (const level of singlePaneLevels) {
     const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, () => undefined);
