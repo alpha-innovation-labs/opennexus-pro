@@ -27,7 +27,7 @@ const PRIMARY_COLOR = "error";
 export class PromptlineEditor extends CustomEditor {
   private promptAutocompleteProvider?: AutocompleteProvider;
   private readonly modalState: TriggerModalState = {};
-  private whichKeyModal?: { handleInput(data: string): void };
+  private whichKeyModal?: { handleInput(data: string): void; getEditorMirrorText(): string };
   private promptAutocompletePrefix = "";
   private triggerSubmitInFlight = false;
 
@@ -136,6 +136,8 @@ export class PromptlineEditor extends CustomEditor {
   override handleInput(data: string): void {
     if (this.whichKeyModal) {
       this.whichKeyModal.handleInput(data);
+      super.setText(this.whichKeyModal.getEditorMirrorText());
+      if (this.onChange) this.onChange(this.getText());
       this.tui.requestRender();
       return;
     }

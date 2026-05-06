@@ -102,6 +102,15 @@ export class WhichKeyModal extends SharedModal {
   }
 
   /**
+   * Returns the editor text that mirrors current hotkeys filter state.
+   *
+   * @returns Editor text while filtering, otherwise empty text.
+   */
+  getEditorMirrorText(): string {
+    return this.filterActive ? `/${this.filterQuery}` : "";
+  }
+
+  /**
    * Renders grouped shortcut panels.
    *
    * @param width Available terminal width.

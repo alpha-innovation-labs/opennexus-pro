@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { SessionManager } from "@mariozechner/pi-coding-agent";
 import { AtModal } from "../../../packages/extensions/src/neo-editor/features/promptline/AtModal.js";
 import { SlashMenuModal } from "../../../packages/extensions/src/neo-editor/features/menu/SlashMenuModal.js";
 import { clearRegisteredSlashCommands } from "../../../packages/extensions/src/neo-editor/features/menu/registerSlashCommand.js";
@@ -122,6 +123,27 @@ test("fork modal renders message text directly beside the fork number", async ()
 
   assert.match(rendered, /#1 First fork prompt should sit beside the number/u);
   assert.doesNotMatch(rendered, /#1\s{8,}First fork prompt/u);
+});
+
+test("resume modal renders as fullscreen width and height", async () => {
+  const originalRows = process.stdout.rows;
+  const originalList = SessionManager.list;
+  process.stdout.rows = 18;
+  (SessionManager as any).list = async () => [{ path: "/tmp/session.jsonl", name: "Resume target", modified: new Date() }];
+  try {
+    const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, () => undefined);
+
+    await modal.openLevel("resume");
+    const view = await renderComponentInVirtualTerminal(() => modal, 100, 18);
+
+    assert.equal(view.length, 18);
+    assert.equal(view[0]?.startsWith("┌"), true);
+    assert.equal(view[0]?.length, 100);
+    assert.match(view.join("\n"), /Resume target/u);
+  } finally {
+    process.stdout.rows = originalRows;
+    (SessionManager as any).list = originalList;
+  }
 });
 
 test("at modal keeps navigation inside the picker in the virtual terminal", async () => {

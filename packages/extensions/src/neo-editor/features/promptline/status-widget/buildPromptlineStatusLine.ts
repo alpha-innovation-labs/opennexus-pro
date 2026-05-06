@@ -21,8 +21,11 @@ export function buildPromptlineStatusLine(
 	const gap = " ";
 	if (!runTime || !sessionName) return truncateToWidth(badges, width, theme.fg("dim" as never, "…"));
 	const titleRaw = theme.fg("muted" as never, sessionName);
-	const reservedWidth = visibleWidth(badges) + visibleWidth(gap) + visibleWidth(runTime) + visibleWidth(gap);
-	if (reservedWidth >= width) return truncateToWidth(`${badges}${gap}${runTime}`, width, theme.fg("dim" as never, "…"));
-	const title = truncateToWidth(titleRaw, Math.max(1, width - reservedWidth), theme.fg("dim" as never, "…"));
-	return `${badges}${gap}${runTime}${gap}${title}`;
+	const titlePrefix = `${badges}${gap}`;
+	const titleWidth = width - visibleWidth(titlePrefix) - visibleWidth(runTime) - visibleWidth(gap);
+	if (titleWidth <= 0) return truncateToWidth(`${badges}${gap}${runTime}`, width, theme.fg("dim" as never, "…"));
+	const title = truncateToWidth(titleRaw, titleWidth, theme.fg("dim" as never, "…"));
+	const left = `${titlePrefix}${title}`;
+	const padding = " ".repeat(Math.max(1, width - visibleWidth(left) - visibleWidth(runTime)));
+	return `${left}${padding}${runTime}`;
 }

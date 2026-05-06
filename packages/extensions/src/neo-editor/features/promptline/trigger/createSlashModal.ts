@@ -41,7 +41,7 @@ export function createSlashModal(
     anchor: "center",
     width: "100%",
     minWidth: 80,
-    maxHeight: "85%",
+    maxHeight: "100%",
   });
   return { modal, handle };
 }

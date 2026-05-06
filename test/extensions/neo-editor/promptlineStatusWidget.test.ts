@@ -43,7 +43,7 @@ test("promptline status widget renders title and duration after conversation mes
 	assert.equal(line?.startsWith(" "), false);
 	assert.match(line ?? "", /Locate footer status display code/);
 	assert.doesNotMatch(line ?? "", /120×/);
-	assert.match(line ?? "", /\(\d+s\)/);
+	assert.match(line ?? "", /\[⏱ \d+s\]$/);
 	assert.match(line ?? "", /gpt-5\.5/);
 });
 
@@ -57,7 +57,7 @@ test("promptline status widget falls back to latest user prompt while release se
 
 	assert.equal(line?.startsWith(" "), false);
 	assert.match(line ?? "", /Greet the user/);
-	assert.match(line ?? "", /\(\d+s\)/);
+	assert.match(line ?? "", /\[⏱ \d+s\]$/);
 	assert.match(line ?? "", /gpt-5\.5/);
 });
 
@@ -71,7 +71,15 @@ test("promptline status widget uses the live model override", () => {
 });
 
 test("promptline status line stays within its frame width", () => {
-	const line = buildPromptlineStatusLine("model high", "(3s)", "A very long session title", 18, createTestTheme());
+	const line = buildPromptlineStatusLine("model high", "[⏱ 3s]", "A very long session title", 18, createTestTheme());
 
 	assert.ok(visibleWidth(line) <= 18);
+});
+
+test("promptline status line right-aligns runtime after the session title", () => {
+	const line = buildPromptlineStatusLine("gpt-5.5  medium", "[⏱ 10m8s]", "Find neo prompt dimension display code", 80, createTestTheme());
+
+	assert.equal(visibleWidth(line), 80);
+	assert.ok(line.startsWith("gpt-5.5  medium Find neo prompt dimension display code"));
+	assert.ok(line.endsWith("[⏱ 10m8s]"));
 });

@@ -111,6 +111,7 @@ export class SlashMenuModal extends SelectPreviewModal {
    * Refreshes the visible list for the current menu level.
    */
   async refresh(selectedValue?: string): Promise<void> {
+    this.setFullScreenMode(this.level === "resume");
     this.setPaneVisibility(true, shouldShowSlashMenuPreview(this.level));
     this.setModalWidthPolicy(80, undefined, 0.9);
     if (this.level === "top") {

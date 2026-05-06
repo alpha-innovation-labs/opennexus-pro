@@ -25,6 +25,6 @@ export async function showStartupResumeModal(ctx: ExtensionContext): Promise<voi
     return modal;
   }, {
     overlay: true,
-    overlayOptions: createPanelOverlayOptions(80, "85%"),
+    overlayOptions: createPanelOverlayOptions(80, "100%"),
   });
 }
