@@ -32,12 +32,16 @@ async function startTestServer(): Promise<{ baseUrl: string; close: () => Promis
 async function withAgentDir(fn: () => Promise<void>): Promise<void> {
   const agentDir = await mkdtemp(join(tmpdir(), "nexus-annotations-api-"));
   const previousAgentDir = process.env.NEXUS_CODING_AGENT_DIR;
+  const previousDisableAgent = process.env.NEXUS_ANNOTATION_DISABLE_AGENT;
   process.env.NEXUS_CODING_AGENT_DIR = agentDir;
+  process.env.NEXUS_ANNOTATION_DISABLE_AGENT = "1";
   try {
     await fn();
   } finally {
     if (previousAgentDir === undefined) delete process.env.NEXUS_CODING_AGENT_DIR;
     else process.env.NEXUS_CODING_AGENT_DIR = previousAgentDir;
+    if (previousDisableAgent === undefined) delete process.env.NEXUS_ANNOTATION_DISABLE_AGENT;
+    else process.env.NEXUS_ANNOTATION_DISABLE_AGENT = previousDisableAgent;
     await rm(agentDir, { recursive: true, force: true });
   }
 }
@@ -49,10 +53,16 @@ test("annotations daemon HTTP API stores, lists, claims, and resolves annotation
       const createResponse = await fetch(`${server.baseUrl}/annotations`, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ success: true, url: "https://example.com", elements: [] }),
+        body: JSON.stringify({ success: true, url: "https://example.com", workspaceDir: "/tmp/project-a", elements: [] }),
       });
       assert.equal(createResponse.status, 201);
-      const created = await createResponse.json() as { annotation: { id: string } };
+      const created = await createResponse.json() as { annotation: { id: string }, conversation: { id: string, workspaceDir: string } };
+
+      const conversationResponse = await fetch(`${server.baseUrl}/annotation-conversation?url=${encodeURIComponent("https://example.com")}`);
+      const conversationBody = await conversationResponse.json() as { conversation: { id: string, annotationIds: string[] } };
+      assert.equal(conversationBody.conversation.id, created.conversation.id);
+      assert.equal(created.conversation.workspaceDir, "/tmp/project-a");
+      assert.deepEqual(conversationBody.conversation.annotationIds, [created.annotation.id]);
 
       const listResponse = await fetch(`${server.baseUrl}/annotations?status=pending`);
       const listed = await listResponse.json() as { annotations: unknown[] };

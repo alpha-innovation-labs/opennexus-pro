@@ -154,6 +154,8 @@ export interface AnnotationResult {
   prompt?: string;
   /** URL of the annotated page */
   url?: string;
+  /** Local project directory used by the real Nexus annotation agent */
+  workspaceDir?: string;
   /** Viewport dimensions at time of capture */
   viewport?: Viewport;
   /** True if user cancelled the annotation */
