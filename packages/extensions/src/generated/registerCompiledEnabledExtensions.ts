@@ -10,6 +10,7 @@ import { registerExtensionManagerExtension } from "../extension-manager/register
 import { registerVendorWebsearchExtension } from "../vendor-runtime/registerVendorWebsearchExtension.js";
 import { registerVendorMcpAdapterExtension } from "../vendor-runtime/registerVendorMcpAdapterExtension.js";
 import { registerVendorRpivTodoExtension } from "../vendor-runtime/registerVendorRpivTodoExtension.js";
+import { registerVendorRpivAskUserQuestionExtension } from "../vendor-runtime/registerVendorRpivAskUserQuestionExtension.js";
 import { registerOhMyPiLspExtension } from "../oh-my-pi-lsp/registerOhMyPiLspExtension.js";
 import registerFffExtension from "../fff/index.js";
 import { registerMdEditorExtension } from "@nexus/mini-apps/md-editor/registerMdEditorExtension.js";
@@ -35,6 +36,7 @@ export const compiledBundledExtensionIds = [
   "websearch",
   "mcp-adapter",
   "rpiv-todo",
+  "rpiv-ask-user-question",
   "oh-my-pi-lsp",
   "fff",
   "md-editor",
@@ -58,6 +60,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "websearch": registerVendorWebsearchExtension,
   "mcp-adapter": registerVendorMcpAdapterExtension,
   "rpiv-todo": registerVendorRpivTodoExtension,
+  "rpiv-ask-user-question": registerVendorRpivAskUserQuestionExtension,
   "oh-my-pi-lsp": registerOhMyPiLspExtension,
   "fff": registerFffExtension,
   "md-editor": registerMdEditorExtension,

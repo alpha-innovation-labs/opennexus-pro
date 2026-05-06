@@ -68,7 +68,7 @@ export const compiledFeatureFlags = {
       "category": "extension"
     },
     "rpiv-ask-user-question": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "ask-user-question tool backed by vendored @juicesharp/rpiv-ask-user-question",
         "typed option prompts"

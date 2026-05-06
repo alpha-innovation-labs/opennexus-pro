@@ -110,6 +110,11 @@ For files marked "Skip for now":
 
 - Leave them untouched.
 
+When all commit work is complete:
+
+- Mark every todo item created during this commit-assistant session as completed.
+- Do this before sending the final report.
+
 ## Safety constraints
 
 - Never commit obvious secret files without explicit user confirmation.
