@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import registerCompiledEnabledExtensions from "./generated/registerCompiledEnabledExtensions.js";
-import { registerHotkeysCommandHook } from "./neo-editor/features/help-shortcuts/registerHotkeysCommandHook.js";
+import { registerWhichKeyCommandHook } from "./neo-editor/features/which-key/registerWhichKeyCommandHook.js";
 import { registerInternalSlashSelectorCommands } from "./neo-editor/features/menu/internal-commands/registerInternalSlashSelectorCommands.js";
 import { registerSlashCommand } from "./neo-editor/features/menu/registerSlashCommand.js";
 import { registerTelemetryRuntimeExtension } from "./telemetry-runtime/registerTelemetryRuntimeExtension.js";
@@ -8,6 +8,7 @@ import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySyst
 import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensionConfig.js";
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
 import { createTronToolWrappingExtensionApi } from "./tron/compact-tool-lines/createTronToolWrappingExtensionApi.js";
+import { recordRegisteredShortcut } from "@nexus/tui-kit/shortcuts/recordRegisteredShortcut.js";
 
 /**
  * Registers the release-bundled extension set compiled from feature-flags.json.
@@ -31,11 +32,17 @@ export default async function registerCompiledBundledExtensions(pi: ExtensionAPI
           return target.registerCommand(name, definition as never);
         };
       }
+      if (property === "registerShortcut") {
+        return (shortcut: string, definition: Record<string, unknown>) => {
+          recordRegisteredShortcut(shortcut, definition);
+          return target.registerShortcut(shortcut as never, definition as never);
+        };
+      }
       return Reflect.get(target, property, receiver);
     },
   });
 
-  registerHotkeysCommandHook();
+  registerWhichKeyCommandHook();
   registerInternalSlashSelectorCommands(pi);
   registerTelemetryRuntimeExtension(pi);
   await registerCompiledEnabledExtensions(slashAwarePi);

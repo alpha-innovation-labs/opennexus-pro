@@ -7,7 +7,8 @@ import { getAuthImportSourceLabel } from "@nexus/pi-platform/login-import/model/
 import { Key, matchesKey } from "@mariozechner/pi-tui";
 import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
 import { createPanelOverlayOptions } from "../../../overlay/createPanelOverlayOptions.js";
-import { HelpShortcutsModal } from "../help-shortcuts/HelpShortcutsModal.js";
+import { getRegisteredWhichKeyShortcuts } from "../which-key/getRegisteredWhichKeyShortcuts.js";
+import { WhichKeyModal } from "../which-key/WhichKeyModal.js";
 import { applySlashMenuLeaf } from "./applySlashMenuLeaf.js";
 import { applySlashMenuSettingValue } from "./applySlashMenuSettingValue.js";
 import { calculateModelMenuWidth } from "./calculateModelMenuWidth.js";
@@ -489,9 +490,9 @@ export class SlashMenuModal extends SelectPreviewModal {
 
   private async openHotkeysPanel(): Promise<void> {
     this.requestClose();
-    await this.ctx.ui.custom<void>((_tui, theme, _keybindings, done) => new HelpShortcutsModal(theme, done), {
+    await this.ctx.ui.custom<void>((_tui, theme, keybindings, done) => new WhichKeyModal(theme, keybindings as never, getRegisteredWhichKeyShortcuts(), done), {
       overlay: true,
-      overlayOptions: createPanelOverlayOptions(80),
+      overlayOptions: createPanelOverlayOptions(92, "100%") as never,
     });
   }
 

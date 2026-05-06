@@ -4,7 +4,8 @@ import { matchesKey } from "@mariozechner/pi-tui";
 import { readClipboardImageViaMacOsJxa } from "@nexus/runtime/clipboard-image/readClipboardImageViaMacOsJxa.js";
 import { writeClipboardImageTempFile } from "@nexus/runtime/clipboard-image/writeClipboardImageTempFile.js";
 import { wrapAutocompleteProviderForCwd } from "../../../fff/editor/wrapAutocompleteProviderForCwd.js";
-import { openHelpShortcutsModal } from "../help-shortcuts/openHelpShortcutsModal.js";
+import { getRegisteredWhichKeyShortcuts } from "../which-key/getRegisteredWhichKeyShortcuts.js";
+import { openWhichKeyModal } from "../which-key/openWhichKeyModal.js";
 import { findMatchingTrigger } from "../editor-triggers/findMatchingTrigger.js";
 import { isReloadCommandText } from "./isReloadCommandText.js";
 import { logRenderedOverflow } from "./logRenderedOverflow.js";
@@ -26,7 +27,7 @@ const PRIMARY_COLOR = "error";
 export class PromptlineEditor extends CustomEditor {
   private promptAutocompleteProvider?: AutocompleteProvider;
   private readonly modalState: TriggerModalState = {};
-  private helpShortcutsModal?: { handleInput(data: string): void };
+  private whichKeyModal?: { handleInput(data: string): void };
   private promptAutocompletePrefix = "";
   private triggerSubmitInFlight = false;
 
@@ -109,17 +110,17 @@ export class PromptlineEditor extends CustomEditor {
     super.setText(text);
     this.handleConfiguredTriggers(this.getText());
   }
-  /** Opens the keyboard shortcuts modal from an empty editor. */
-  private openHelpShortcutsModal(): void {
-    const opened = openHelpShortcutsModal(this.uiTheme, this.tui.showOverlay.bind(this.tui) as never, () => {
-      this.helpShortcutsModal = undefined;
+  /** Opens the which-key modal from an empty editor. */
+  private openWhichKeyModal(): void {
+    const opened = openWhichKeyModal(this.uiTheme, this.editorKeybindings, getRegisteredWhichKeyShortcuts(), this.tui.showOverlay.bind(this.tui) as never, () => {
+      this.whichKeyModal = undefined;
       this.tui.requestRender();
     });
-    this.helpShortcutsModal = opened.modal;
+    this.whichKeyModal = opened.modal;
     this.tui.requestRender();
   }
-  /** Returns whether a help trigger should open the shortcuts modal. */
-  private shouldOpenHelpShortcuts(data: string): boolean {
+  /** Returns whether a help trigger should open the which-key modal. */
+  private shouldOpenWhichKey(data: string): boolean {
     const cursor = this.getCursor();
     return data === "?" && this.getText().length === 0 && cursor.line === 0 && cursor.col === 0;
   }
@@ -133,14 +134,14 @@ export class PromptlineEditor extends CustomEditor {
     return true;
   }
   override handleInput(data: string): void {
-    if (this.helpShortcutsModal) {
-      this.helpShortcutsModal.handleInput(data);
+    if (this.whichKeyModal) {
+      this.whichKeyModal.handleInput(data);
       this.tui.requestRender();
       return;
     }
     if (this.handleClipboardImagePaste(data)) return;
-    if (this.shouldOpenHelpShortcuts(data)) {
-      this.openHelpShortcutsModal();
+    if (this.shouldOpenWhichKey(data)) {
+      this.openWhichKeyModal();
       return;
     }
     const activeSession = getTriggerSession();

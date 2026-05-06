@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { Component } from "@mariozechner/pi-tui";
-import { HelpShortcutsModal } from "../../../packages/extensions/src/neo-editor/features/help-shortcuts/HelpShortcutsModal.js";
+import { WhichKeyModal } from "../../../packages/extensions/src/neo-editor/features/which-key/WhichKeyModal.js";
 import { renderHelpShortcutRow } from "../../../packages/extensions/src/neo-editor/features/help-shortcuts/renderHelpShortcutRow.js";
 import { PromptlineEditor } from "../../../packages/extensions/src/neo-editor/features/promptline/PromptlineEditor.js";
 import { clearTriggerSession } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/sessionState.js";
@@ -18,6 +18,22 @@ async function flushAsyncWork(): Promise<void> {
  *
  * @returns Editor theme stub.
  */
+function createKeybindings() {
+  return {
+    matches: () => false,
+    getResolvedBindings: () => ({
+      "tui.input.submit": "enter",
+      "app.model.select": "ctrl+l",
+      "app.model.cycleForward": "ctrl+p",
+    }),
+    getDefinition: (keybinding: string) => {
+      if (keybinding === "app.model.select") return { description: "Open model selector" };
+      if (keybinding === "app.model.cycleForward") return { description: "Cycle to next model" };
+      return { description: "Submit input" };
+    },
+  };
+}
+
 function createEditorTheme() {
   return {
     borderColor(value: string): string {
@@ -69,23 +85,82 @@ function createContext() {
   };
 }
 
+let originalRows: number | undefined;
+
+test.beforeEach(() => {
+  originalRows = process.stdout.rows;
+  process.stdout.rows = 30;
+});
+
 test.afterEach(() => {
+  process.stdout.rows = originalRows;
   clearTriggerSession();
 });
 
-test("help shortcuts modal renders grouped panels with titles in borders and a bottom bar", async () => {
-  const modal = new HelpShortcutsModal(createTestTheme() as never, () => undefined);
+test("which-key modal renders Pi groups with titles in borders and a bottom bar", async () => {
+  const modal = new WhichKeyModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
   const view = await renderComponentInVirtualTerminal(() => modal, 120, 30);
   const text = view.join("\n");
 
-  assert.match(text, /Basics/);
-  assert.match(text, /Editor Triggers/);
-  assert.match(text, /Modes/);
+  assert.match(text, /Nexus Triggers/);
+  assert.match(text, /Input/);
+  assert.match(text, /Models & Thinking/);
   assert.match(text, /Commands menu/);
   assert.doesNotMatch(text, /Open sessions/);
   assert.doesNotMatch(text, /Ctrl \+ ;/);
-  assert.match(text, /┌.*Navigation.*┐/s);
-  assert.match(text, /Tab navigate · Esc\/Ctrl\+C\/q closes/u);
+  assert.match(text, /┌.*Nexus Triggers.*┐/s);
+  assert.match(text, /j\/k scroll/u);
+  assert.match(text, /gg top · G bottom/u);
+  assert.doesNotMatch(text, /Filter: type to filter keys or labels/);
+});
+
+test("which-key modal filters entries by typed key text", async () => {
+  const modal = new WhichKeyModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
+
+  modal.handleInput("/");
+  modal.handleInput("m");
+  modal.handleInput("o");
+  modal.handleInput("d");
+  const text = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
+
+  assert.match(text, /Open model selector/);
+  assert.doesNotMatch(text, /Submit input/);
+  assert.match(text, /Filter: mod/);
+});
+
+test("which-key modal filters by pressed ctrl chords", async () => {
+  const modal = new WhichKeyModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
+
+  modal.handleInput("/");
+  modal.handleInput("\u0010");
+  const text = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
+
+  assert.match(text, /Cycle to next model/);
+  assert.doesNotMatch(text, /Submit input/);
+  assert.match(text, /Filter: ctrl\+p/);
+});
+
+test("which-key modal ignores printable filters until slash enters filter mode", async () => {
+  const modal = new WhichKeyModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
+
+  modal.handleInput("m");
+  modal.handleInput("o");
+  modal.handleInput("d");
+  const text = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
+
+  assert.match(text, /Submit input/);
+  assert.doesNotMatch(text, /Filter: mod/);
+});
+
+test("which-key modal backspace edits the filter query", async () => {
+  const modal = new WhichKeyModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
+
+  modal.setFilterQuery("modez");
+  modal.handleInput("\u007f");
+  const text = (await renderComponentInVirtualTerminal(() => modal, 120, 30)).join("\n");
+
+  assert.match(text, /Filter: mode/);
+  assert.match(text, /Open model selector/);
 });
 
 test("help shortcut rows render shortcut glyphs teal and descriptions as default foreground", () => {
@@ -126,7 +201,7 @@ test("question mark as the first editor character opens help instead of typing",
       },
     } as never,
     createEditorTheme() as never,
-    { matches: () => false } as never,
+    createKeybindings() as never,
     createContext() as never,
     createTestTheme() as never,
     () => "medium",
@@ -139,6 +214,6 @@ test("question mark as the first editor character opens help instead of typing",
   editor.handleInput("?");
   await flushAsyncWork();
 
-  assert.ok(overlay instanceof HelpShortcutsModal);
+  assert.ok(overlay instanceof WhichKeyModal);
   assert.equal(editor.getText(), "");
 });
