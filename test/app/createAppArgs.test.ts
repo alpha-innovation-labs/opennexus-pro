@@ -5,20 +5,19 @@ import { createAppArgs } from "../../apps/tui/src/cli/createAppArgs.js";
 import { baseSystemPrompt } from "../../packages/assets/src/prompts/base-system-prompt/baseSystemPrompt.js";
 import { getBundledThemesPath } from "../../packages/assets/src/themes/getBundledThemesPath.js";
 
-test("createAppArgs prepends bundled themes, bundled commands, the base system prompt, and --no-extensions", () => {
+test("createAppArgs prepends bundled themes, bundled commands, and the base system prompt", () => {
   assert.deepEqual(createAppArgs(["--help"]), [
     "--theme",
     getBundledThemesPath(),
     "--prompt-template",
     getBundledCommandsPath(),
-    "--no-extensions",
     "--append-system-prompt",
     baseSystemPrompt,
     "--help",
   ]);
 });
 
-test("createAppArgs avoids duplicating --no-extensions", () => {
+test("createAppArgs preserves an explicit --no-extensions opt-out", () => {
   assert.deepEqual(createAppArgs(["--no-extensions", "--help"]), [
     "--theme",
     getBundledThemesPath(),
@@ -31,7 +30,7 @@ test("createAppArgs avoids duplicating --no-extensions", () => {
   ]);
 });
 
-test("createAppArgs preserves the short no-extensions flag", () => {
+test("createAppArgs preserves the short no-extensions opt-out", () => {
   assert.deepEqual(createAppArgs(["-ne", "--help"]), [
     "--theme",
     getBundledThemesPath(),

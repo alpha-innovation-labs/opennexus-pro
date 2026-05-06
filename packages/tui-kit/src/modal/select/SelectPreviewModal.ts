@@ -26,7 +26,7 @@ export class SelectPreviewModal extends SharedModal {
   private showHeaderFocusMarkers = true;
   private onSelectionChange?: (item: AutocompleteItem | null) => void;
   private pendingRightGotoStart = false;
-  private readonly fullScreen: boolean;
+  private fullScreen: boolean;
   private readonly itemMaxLines?: SelectPreviewModalOptions["itemMaxLines"];
   private readonly itemStyles?: SelectPreviewModalOptions["itemStyles"];
   private readonly leftPaneMaxWidth?: number;
@@ -98,6 +98,12 @@ export class SelectPreviewModal extends SharedModal {
 
   /** Updates visible pane set. */
   setPaneVisibility(showLeftPane: boolean, showRightPane: boolean): void { this.showLeftPane = showLeftPane; this.showRightPane = showRightPane; }
+
+  /** Updates whether the modal fills the terminal width and height. */
+  setFullScreenMode(fullScreen: boolean): void {
+    this.fullScreen = fullScreen;
+    this.setWidthPolicy(this.modalMinWidth, this.modalMaxWidth, this.modalMaxWidthRatio, this.fullScreen);
+  }
 
   /** Updates modal width policy. */
   setModalWidthPolicy(minWidth: number, maxWidth?: number, maxWidthRatio = this.modalMaxWidthRatio): void {

@@ -15,7 +15,7 @@ function createUiStub() {
   };
 }
 
-test("tool execution spacing patch removes the leading spacer for opted-in tools", () => {
+test("tool execution spacing patch removes the leading spacer for every tool", () => {
   applyToolExecutionSpacingPatch();
 
   const component = new ToolExecutionComponent(
@@ -24,7 +24,6 @@ test("tool execution spacing patch removes the leading spacer for opted-in tools
     {},
     {},
     {
-      skipLeadingSpacer: true,
       renderShell: "self",
       renderCall() {
         return new Text("tool body", 0, 0);

@@ -5,7 +5,7 @@ const LEADING_SPACER_SKIPPED = Symbol("toolExecutionLeadingSpacerSkipped");
 let toolExecutionSpacingPatchApplied = false;
 
 /**
- * Removes Pi's default leading spacer for tool executions that explicitly opt out.
+ * Removes Pi's default leading spacer for every tool execution.
  */
 export function applyToolExecutionSpacingPatch(): void {
   if (toolExecutionSpacingPatchApplied) {
@@ -14,17 +14,12 @@ export function applyToolExecutionSpacingPatch(): void {
 
   const prototype = ToolExecutionComponent.prototype as unknown as {
     addChild(child: unknown): void;
-    toolDefinition?: { skipLeadingSpacer?: boolean };
     [LEADING_SPACER_SKIPPED]?: boolean;
   };
   const originalAddChild = prototype.addChild;
 
   prototype.addChild = function addChildWithoutLeadingSpacer(child: unknown): void {
-    if (
-      this.toolDefinition?.skipLeadingSpacer === true &&
-      this[LEADING_SPACER_SKIPPED] !== true &&
-      child instanceof Spacer
-    ) {
+    if (this[LEADING_SPACER_SKIPPED] !== true && child instanceof Spacer) {
       this[LEADING_SPACER_SKIPPED] = true;
       return;
     }

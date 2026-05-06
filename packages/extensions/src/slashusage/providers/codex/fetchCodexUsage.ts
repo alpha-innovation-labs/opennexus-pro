@@ -35,6 +35,7 @@ export async function fetchCodexUsage(): Promise<UsageSnapshot> {
 			const window = entry.rateLimit?.[kind] as Record<string, unknown> | undefined;
 			if (!window) continue;
 			const seconds = typeof window.limit_window_seconds === "number" ? window.limit_window_seconds : fallbackSeconds;
+			if (!Number.isFinite(seconds) || seconds <= 0) continue;
 			const hours = Math.round(seconds / 3_600);
 			const labelBase = hours >= 144 ? "Week" : hours >= 24 ? "Day" : `${hours}h`;
 			const label = entry.prefix ? `${entry.prefix} ${labelBase}` : labelBase;

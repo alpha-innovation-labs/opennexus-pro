@@ -8,20 +8,32 @@ import type { FeatureFlagsConfig } from "../../../packages/feature-flags/src/typ
  * @returns Updated feature-flag config copy.
  */
 export function createModifiedFeatureFlagsConfig(
-  config: FeatureFlagsConfig,
-  enabledIds: string[],
+	config: FeatureFlagsConfig,
+	enabledIds: string[],
 ): FeatureFlagsConfig {
-  const enabledIdSet = new Set(enabledIds);
+	const enabledIdSet = new Set(enabledIds);
 
-  return {
-    extensions: Object.fromEntries(
-      Object.entries(config.extensions).map(([id, value]) => [
-        id,
-        {
-          ...value,
-          enabled: enabledIdSet.has(id),
-        },
-      ]),
-    ),
-  };
+	return {
+		extensions: Object.fromEntries(
+			Object.entries(config.extensions).map(([id, value]) => [
+				id,
+				{
+					...value,
+					enabled: enabledIdSet.has(id),
+				},
+			]),
+		),
+		other:
+			config.other === undefined
+				? undefined
+				: Object.fromEntries(
+						Object.entries(config.other).map(([id, value]) => [
+							id,
+							{
+								...value,
+								enabled: enabledIdSet.has(id),
+							},
+						]),
+					),
+	};
 }
