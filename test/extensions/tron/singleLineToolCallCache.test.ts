@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { bridgeThinkingToToolCalls } from "../../../packages/extensions/src/tron/activity/bridgeThinkingToToolCalls.js";
 import { resetThinkingToolBridge } from "../../../packages/extensions/src/tron/activity/resetThinkingToolBridge.js";
 import { syncToolCallFrameState } from "../../../packages/extensions/src/tron/activity/syncToolCallFrameState.js";
 import { SingleLineToolCall } from "../../../packages/extensions/src/tron/compact-tool-lines/SingleLineToolCall.js";
@@ -68,6 +69,14 @@ test("single-line tool call defaults to a complete box before live frame sync", 
   const lines = createToolCall("live-tool-before-sync").render(40).map(stripAnsi);
 
   assert.match(lines[0] ?? "", /^┌/);
+  assert.match(lines.at(-1) ?? "", /^└/);
+});
+
+test("single-line tool call honors thinking bridge before live frame sync", () => {
+  bridgeThinkingToToolCalls(["live-tool-before-sync"]);
+  const lines = createToolCall("live-tool-before-sync").render(40).map(stripAnsi);
+
+  assert.doesNotMatch(lines[0] ?? "", /^┌/);
   assert.match(lines.at(-1) ?? "", /^└/);
 });
 

@@ -2,6 +2,7 @@ import { countChangedLines } from "./countChangedLines.ts";
 import { countContentLines } from "./countContentLines.ts";
 import { firstLine } from "./firstLine.ts";
 import { shortenPath } from "./shortenPath.ts";
+import { summarizeGenericObjectArgs } from "./summarizeGenericObjectArgs.js";
 import type { SummaryText } from "./SummaryText.ts";
 import { truncateSingleLine } from "./truncateSingleLine.ts";
 import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart.ts";
@@ -60,6 +61,6 @@ export function summarizeArgs(toolName: string, args: any): SummaryText {
 			if (args.limit) options.push(`limit=${args.limit}`);
 			return { main: shortenPath(args.path || "."), options: options.join(" ") };
 		default:
-			return { main: truncateSingleLine(firstLine(JSON.stringify(args)), 100), options: "" };
+			return summarizeGenericObjectArgs(args);
 	}
 }

@@ -1,4 +1,5 @@
 import { hasToolCallFrameState } from "../activity/hasToolCallFrameState.ts";
+import { shouldBridgeThinkingToTool } from "../activity/shouldBridgeThinkingToTool.ts";
 import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder.ts";
 import { shouldShowToolCallTopBorder } from "../activity/shouldShowToolCallTopBorder.ts";
 import { CompactToolRow } from "../shared/compact-row/CompactToolRow.ts";
@@ -30,7 +31,7 @@ export class SingleLineToolCall {
 	 */
 	render(width: number): string[] {
 		const hasFrameState = hasToolCallFrameState(this.toolCallId);
-		const showTopBorder = hasFrameState ? shouldShowToolCallTopBorder(this.toolCallId) : true;
+		const showTopBorder = shouldBridgeThinkingToTool(this.toolCallId) ? false : (hasFrameState ? shouldShowToolCallTopBorder(this.toolCallId) : true);
 		const showBottomBorder = !this.hasAttachedResult && (hasFrameState ? shouldShowToolCallBottomBorder(this.toolCallId) : true);
 		const frameKey = `${showTopBorder}:${showBottomBorder}:${this.hasAttachedResult}`;
 		if (this.cachedLines && this.cachedWidth === width && this.cachedFrameKey === frameKey) return this.cachedLines;
