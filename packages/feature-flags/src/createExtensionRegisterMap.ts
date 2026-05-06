@@ -16,7 +16,9 @@ import { registerMemoryExtension } from "@nexus/mini-apps/memory/registerMemoryE
 import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension.js";
 import { registerNotifyExtension } from "@nexus/extensions/notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "@nexus/extensions/observations/registerObservationsExtension.js";
+import { registerOhMyPiLspExtension } from "@nexus/extensions/oh-my-pi-lsp/registerOhMyPiLspExtension.js";
 import { registerPlaygroundExtension } from "@nexus/mini-apps/playground/registerPlaygroundExtension.js";
+import { registerPromptsExtension } from "@nexus/extensions/prompts/registerPromptsExtension.js";
 import { registerRtkExtension } from "@nexus/extensions/rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "@nexus/extensions/startup-hero/registerStartupHeroExtension.js";
 import { registerSmartEvalExtension } from "@nexus/extensions/smart-eval/registerSmartEvalExtension.js";
@@ -29,43 +31,58 @@ import { registerWalletExtension } from "@nexus/mini-apps/wallet/registerWalletE
 import registerSlashusageExtension from "@nexus/extensions/slashusage/index.js";
 import { registerWorkspaceExtension } from "@nexus/mini-apps/workspace/registerWorkspaceExtension.js";
 import { registerWorkflowsExtension } from "@nexus/mini-apps/workflows/registerWorkflowsExtension.js";
+import { registerVendorMcpAdapterExtension } from "@nexus/extensions/vendor-runtime/registerVendorMcpAdapterExtension.js";
+import { registerVendorPiLensExtension } from "@nexus/extensions/vendor-runtime/registerVendorPiLensExtension.js";
+import { registerVendorRpivAskUserQuestionExtension } from "@nexus/extensions/vendor-runtime/registerVendorRpivAskUserQuestionExtension.js";
+import { registerVendorRpivTodoExtension } from "@nexus/extensions/vendor-runtime/registerVendorRpivTodoExtension.js";
+import { registerVendorWebsearchExtension } from "@nexus/extensions/vendor-runtime/registerVendorWebsearchExtension.js";
 
 /**
  * Creates the code-backed extension registration map.
  *
  * @returns Extension registration map by id.
  */
-export function createExtensionRegisterMap(): Record<string, (pi: ExtensionAPI) => void | Promise<void>> {
-  return {
-    "ai-providers": registerAiProvidersExtension,
-    annotate: registerAnnotateExtension,
-    cmux: registerCmuxExtension,
-    "context-usage": registerContextUsageExtension,
-    dev: registerDevExtension,
-    "extension-manager": registerExtensionManagerExtension,
-    "feature-management": registerFeatureManagementExtension,
-    fff: registerFffExtension,
-    impeccable: registerImpeccableExtension,
-    rtk: registerRtkExtension,
-    kanban: registerKanbanExtension,
-    "md-editor": registerMdEditorExtension,
-    "neo-editor": registerNeoEditorExtension,
-    memory: registerMemoryExtension,
-    "mini-app-manager": registerMiniAppManagerExtension,
-    notify: registerNotifyExtension,
-    observations: registerObservationsExtension,
-    "exit-message": registerExitMessageExtension,
-    "startup-hero": registerStartupHeroExtension,
-    "smart-eval": registerSmartEvalExtension,
-    "sub-agents": registerSubAgentsExtension,
-    "sub-agent-status-widget": registerSubagentStatusWidgetExtension,
-    playground: registerPlaygroundExtension,
-    "term-modal": registerTermModalExtension,
-    todo: registerTodoExtension,
-    tron: registerTronExtension,
-    wallet: registerWalletExtension,
-    slashusage: registerSlashusageExtension,
-    workspace: registerWorkspaceExtension,
-    workflows: registerWorkflowsExtension,
-  };
+export function createExtensionRegisterMap(): Record<
+	string,
+	(pi: ExtensionAPI) => void | Promise<void>
+> {
+	return {
+		"ai-providers": registerAiProvidersExtension,
+		annotate: registerAnnotateExtension,
+		cmux: registerCmuxExtension,
+		"context-usage": registerContextUsageExtension,
+		dev: registerDevExtension,
+		"extension-manager": registerExtensionManagerExtension,
+		"feature-management": registerFeatureManagementExtension,
+		fff: registerFffExtension,
+		impeccable: registerImpeccableExtension,
+		rtk: registerRtkExtension,
+		kanban: registerKanbanExtension,
+		"md-editor": registerMdEditorExtension,
+		"neo-editor": registerNeoEditorExtension,
+		memory: registerMemoryExtension,
+		"mini-app-manager": registerMiniAppManagerExtension,
+		notify: registerNotifyExtension,
+		observations: registerObservationsExtension,
+		"oh-my-pi-lsp": registerOhMyPiLspExtension,
+		prompts: registerPromptsExtension,
+		"exit-message": registerExitMessageExtension,
+		"startup-hero": registerStartupHeroExtension,
+		"smart-eval": registerSmartEvalExtension,
+		"sub-agents": registerSubAgentsExtension,
+		"sub-agent-status-widget": registerSubagentStatusWidgetExtension,
+		playground: registerPlaygroundExtension,
+		"term-modal": registerTermModalExtension,
+		todo: registerTodoExtension,
+		tron: registerTronExtension,
+		wallet: registerWalletExtension,
+		slashusage: registerSlashusageExtension,
+		workspace: registerWorkspaceExtension,
+		workflows: registerWorkflowsExtension,
+		websearch: registerVendorWebsearchExtension,
+		"mcp-adapter": registerVendorMcpAdapterExtension,
+		"rpiv-todo": registerVendorRpivTodoExtension,
+		"rpiv-ask-user-question": registerVendorRpivAskUserQuestionExtension,
+		"pi-lens": registerVendorPiLensExtension,
+	};
 }

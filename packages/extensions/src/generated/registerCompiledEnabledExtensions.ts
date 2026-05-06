@@ -7,18 +7,22 @@ import { registerAiProvidersExtension } from "../ai-providers/registerAiProvider
 import { registerCmuxExtension } from "../cmux/registerCmuxExtension.js";
 import { registerExitMessageExtension } from "../exit-message/registerExitMessageExtension.js";
 import { registerExtensionManagerExtension } from "../extension-manager/registerExtensionManagerExtension.js";
+import { registerVendorWebsearchExtension } from "../vendor-runtime/registerVendorWebsearchExtension.js";
+import { registerVendorMcpAdapterExtension } from "../vendor-runtime/registerVendorMcpAdapterExtension.js";
+import { registerVendorRpivTodoExtension } from "../vendor-runtime/registerVendorRpivTodoExtension.js";
+import { registerOhMyPiLspExtension } from "../oh-my-pi-lsp/registerOhMyPiLspExtension.js";
 import registerFffExtension from "../fff/index.js";
-import registerImpeccableExtension from "../impeccable/index.js";
 import { registerMdEditorExtension } from "@nexus/mini-apps/md-editor/registerMdEditorExtension.js";
-import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension.js";
 import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension.js";
 import { registerMemoryExtension } from "@nexus/mini-apps/memory/registerMemoryExtension.js";
 import { registerNotifyExtension } from "../notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "../observations/registerObservationsExtension.js";
+import { registerPromptsExtension } from "../prompts/registerPromptsExtension.js";
 import { registerRtkExtension } from "../rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "../startup-hero/registerStartupHeroExtension.js";
 import registerTronExtension from "../tron/index.js";
 import registerSlashusageExtension from "../slashusage/index.js";
+import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension.js";
 
 /**
  * Extension ids compiled into the release bundle.
@@ -28,18 +32,22 @@ export const compiledBundledExtensionIds = [
   "cmux",
   "exit-message",
   "extension-manager",
+  "websearch",
+  "mcp-adapter",
+  "rpiv-todo",
+  "oh-my-pi-lsp",
   "fff",
-  "impeccable",
   "md-editor",
-  "mini-app-manager",
   "neo-editor",
   "memory",
   "notify",
   "observations",
+  "prompts",
   "rtk",
   "startup-hero",
   "tron",
-  "slashusage"
+  "slashusage",
+  "mini-app-manager"
 ] as const;
 
 const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => void | Promise<void>> = {
@@ -47,18 +55,22 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "cmux": registerCmuxExtension,
   "exit-message": registerExitMessageExtension,
   "extension-manager": registerExtensionManagerExtension,
+  "websearch": registerVendorWebsearchExtension,
+  "mcp-adapter": registerVendorMcpAdapterExtension,
+  "rpiv-todo": registerVendorRpivTodoExtension,
+  "oh-my-pi-lsp": registerOhMyPiLspExtension,
   "fff": registerFffExtension,
-  "impeccable": registerImpeccableExtension,
   "md-editor": registerMdEditorExtension,
-  "mini-app-manager": registerMiniAppManagerExtension,
   "neo-editor": registerNeoEditorExtension,
   "memory": registerMemoryExtension,
   "notify": registerNotifyExtension,
   "observations": registerObservationsExtension,
+  "prompts": registerPromptsExtension,
   "rtk": registerRtkExtension,
   "startup-hero": registerStartupHeroExtension,
   "tron": registerTronExtension,
   "slashusage": registerSlashusageExtension,
+  "mini-app-manager": registerMiniAppManagerExtension,
 };
 
 /**
@@ -70,7 +82,7 @@ export default async function registerCompiledEnabledExtensions(pi: ExtensionAPI
   const config = applySystemExtensionAvailability(applyUserExtensionConfig(getBundledFeatureFlagsConfig()));
 
   for (const id of compiledBundledExtensionIds) {
-    if (!config.extensions[id]?.enabled) continue;
+    if (!(config.extensions[id]?.enabled ?? config.other?.[id]?.enabled)) continue;
     await compiledBundledExtensionRegisterMap[id]?.(createTelemetryExtensionApi(pi, id));
   }
 }

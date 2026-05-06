@@ -40,6 +40,59 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
+    "websearch": {
+      "enabled": true,
+      "features": [
+        "web_search tool backed by vendored pi-web-access",
+        "code_search tool",
+        "fetch_content tool",
+        "get_search_content tool"
+      ],
+      "category": "extension"
+    },
+    "mcp-adapter": {
+      "enabled": true,
+      "features": [
+        "MCP server adapter backed by vendored pi-mcp-adapter",
+        "MCP slash commands",
+        "MCP tool proxying"
+      ],
+      "category": "extension"
+    },
+    "rpiv-todo": {
+      "enabled": true,
+      "features": [
+        "RPIV model todo tools backed by vendored @juicesharp/rpiv-todo",
+        "live todo overlay"
+      ],
+      "category": "extension"
+    },
+    "rpiv-ask-user-question": {
+      "enabled": false,
+      "features": [
+        "ask-user-question tool backed by vendored @juicesharp/rpiv-ask-user-question",
+        "typed option prompts"
+      ],
+      "category": "extension"
+    },
+    "pi-lens": {
+      "enabled": false,
+      "features": [
+        "code feedback backed by vendored pi-lens",
+        "LSP and linter feedback",
+        "structural analysis"
+      ],
+      "category": "extension"
+    },
+    "oh-my-pi-lsp": {
+      "enabled": true,
+      "features": [
+        "in-house LSP tool ported from Oh My Pi",
+        "diagnostics, hover, definitions, references, symbols, rename previews, and code actions",
+        "40-language server config registry with project-local binary discovery"
+      ],
+      "category": "extension"
+    },
     "fff": {
       "enabled": true,
       "features": [
@@ -50,7 +103,7 @@ export const compiledFeatureFlags = {
       "category": "extension"
     },
     "impeccable": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "/impeccable command",
         "/impeccable live - Interactive visual variant mode",
@@ -68,15 +121,6 @@ export const compiledFeatureFlags = {
         "hidden persistent per-line chats",
         "live reload with diff acceptance",
         "Tron-styled right-panel mini chat"
-      ],
-      "category": "mini-app"
-    },
-    "mini-app-manager": {
-      "enabled": true,
-      "features": [
-        "/mini-apps command",
-        "installed mini-app list",
-        "mini-app enable and disable controls"
       ],
       "category": "mini-app"
     },
@@ -118,6 +162,15 @@ export const compiledFeatureFlags = {
         "observation tracking",
         "status widget",
         "/observations command"
+      ],
+      "category": "extension"
+    },
+    "prompts": {
+      "enabled": true,
+      "features": [
+        "/SystemPrompt prompt viewer",
+        "system prompt editing",
+        "system prompt reset to default"
       ],
       "category": "extension"
     },
@@ -165,6 +218,15 @@ export const compiledFeatureFlags = {
         "anonymous event toggles"
       ],
       "category": "extension"
+    },
+    "mini-app-manager": {
+      "enabled": true,
+      "features": [
+        "/mini-apps command",
+        "installed mini-app list",
+        "mini-app enable and disable controls"
+      ],
+      "category": "mini-app"
     }
   }
 } satisfies FeatureFlagsConfig;
