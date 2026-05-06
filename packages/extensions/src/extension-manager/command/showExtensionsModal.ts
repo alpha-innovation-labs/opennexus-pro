@@ -5,6 +5,8 @@ import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionE
 import { createPanelOverlayOptions } from "../../overlay/createPanelOverlayOptions.js";
 import { createManagedExtensionRows } from "../model/createManagedExtensionRows.js";
 import { updateManagedExtensionRows } from "../model/updateManagedExtensionRows.js";
+import { createNexusPackageManager } from "../package/createNexusPackageManager.js";
+import { fetchNpmPackageSearchRows } from "../package/fetchNpmPackageSearchRows.js";
 import { ExtensionManagerModal } from "../ui/ExtensionManagerModal.js";
 
 /**
@@ -18,7 +20,9 @@ export async function showExtensionsModal(ctx: ExtensionCommandContext): Promise
 		return;
 	}
 
-	let rows = createManagedExtensionRows(getBundledFeatureFlagsConfig(), readNexusUserConfig());
+	const packageRuntime = createNexusPackageManager(ctx.cwd);
+	const readRows = () => createManagedExtensionRows(getBundledFeatureFlagsConfig(), readNexusUserConfig(), packageRuntime.packageManager.listConfiguredPackages());
+	let rows = readRows();
 
 	/**
 	 * Persists a user extension preference and returns refreshed rows.
@@ -33,8 +37,40 @@ export async function showExtensionsModal(ctx: ExtensionCommandContext): Promise
 		return rows;
 	}
 
+	/** Installs a third-party package and refreshes rows. */
+	async function installPackage(source: string) {
+		await packageRuntime.packageManager.installAndPersist(source);
+		await packageRuntime.settingsManager.flush();
+		ctx.ui.notify(`Installed ${source}. Restart Nexus to load it.`, "info");
+		rows = readRows();
+		return rows;
+	}
+
+	/** Removes a third-party package and refreshes rows. */
+	async function removePackage(source: string) {
+		await packageRuntime.packageManager.removeAndPersist(source);
+		await packageRuntime.settingsManager.flush();
+		ctx.ui.notify(`Removed ${source}. Restart Nexus to unload it.`, "info");
+		rows = readRows();
+		return rows;
+	}
+
+	/** Updates a third-party package and refreshes rows. */
+	async function updatePackage(source: string) {
+		await packageRuntime.packageManager.update(source);
+		ctx.ui.notify(`Updated ${source}. Restart Nexus to reload it.`, "info");
+		rows = readRows();
+		return rows;
+	}
+
 	await ctx.ui.custom<undefined>(
-		(_tui, theme, _keybindings, done) => new ExtensionManagerModal(theme, rows, done, updateExtension),
+		(_tui, theme, _keybindings, done) => new ExtensionManagerModal(theme, rows, done, {
+			onUpdate: updateExtension,
+			onInstallPackage: installPackage,
+			onRemovePackage: removePackage,
+			onUpdatePackage: updatePackage,
+			onSearchPackages: async (query, currentRows) => fetchNpmPackageSearchRows(query, new Set(currentRows.map((row) => row.source).filter((source): source is string => !!source))),
+		}),
 		{
 			overlay: true,
 			overlayOptions: createPanelOverlayOptions(80, "85%") as never,

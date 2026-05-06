@@ -3,6 +3,7 @@ import { Key, matchesKey } from "@mariozechner/pi-tui";
 import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
 import { updateManagedExtensionRows } from "../model/updateManagedExtensionRows.js";
 import type { ExtensionManagerTab, ManagedExtensionRow } from "../model/types.js";
+import type { ExtensionManagerCallbacks } from "./ExtensionManagerCallbacks.js";
 import { createExtensionManagerHeader } from "./createExtensionManagerHeader.js";
 import { createManagedExtensionItems } from "./createManagedExtensionItems.js";
 import { filterManagedExtensionRows } from "./filterManagedExtensionRows.js";
@@ -19,6 +20,8 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 	private activeTab: ExtensionManagerTab = "all";
 	private filterQuery = "";
 	private rows: ManagedExtensionRow[];
+	private searchRows: ManagedExtensionRow[] = [];
+	private pendingAction: string | null = null;
 
 	/**
 	 * Creates the extension manager modal.
@@ -32,13 +35,13 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 		private readonly rowTheme: ExtensionCommandContext["ui"]["theme"],
 		rows: ManagedExtensionRow[],
 		done: (result: undefined) => void,
-		private readonly onUpdate?: ExtensionManagerUpdate,
+		private readonly callbacksOrUpdate?: ExtensionManagerUpdate | ExtensionManagerCallbacks,
 		private readonly title = "Extensions",
 	) {
 		super(rowTheme, () => undefined, () => done(undefined), undefined, { leftTitle: title, showRightPane: false });
 		this.rows = rows;
 		this.setHeaderFocusMarkers(false);
-		this.setOnPick(() => this.toggleSelectedExtension());
+		this.setOnPick(() => void this.activateSelectedRow());
 		this.refreshBottom();
 		this.refreshItems();
 	}
@@ -51,7 +54,9 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 	override handleInput(data: string): void {
 		if (matchesKey(data, Key.shift("tab"))) return this.moveToNextTab(-1);
 		if (matchesKey(data, Key.tab)) return this.moveToNextTab(1);
-		if (matchesKey(data, Key.enter) || data === " ") return this.toggleSelectedExtension();
+		if (data === "d") return void this.removeSelectedPackage();
+		if (data === "u") return void this.updateSelectedPackage();
+		if (matchesKey(data, Key.enter) || data === " ") return void this.activateSelectedRow();
 		if (this.clearFilterOnEscape(data)) return;
 		if (this.handleFilterInput(data)) return;
 		super.handleInput(data);
@@ -75,18 +80,30 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 	 */
 	private moveToNextTab(direction: 1 | -1): void {
 		this.activeTab = getNextExtensionManagerTab(this.activeTab, direction);
+		this.refreshBottom();
 		this.refreshItems();
+		void this.refreshSearchRows();
 	}
 
 	/**
 	 * Toggles the selected extension enabled state.
 	 */
-	private toggleSelectedExtension(): void {
-		const item = this.getSelectedItem();
-		const row = this.rows.find((candidate) => candidate.id === item?.value);
-		if (!row) return;
+	private async activateSelectedRow(): Promise<void> {
+		const row = this.getSelectedRow();
+		if (!row || this.pendingAction) return;
+		if (row.rowType === "search") return this.installPackage(row);
+		this.toggleSelectedExtension(row);
+	}
+
+	/**
+	 * Toggles one extension enabled state.
+	 *
+	 * @param row Selected extension row.
+	 */
+	private toggleSelectedExtension(row: ManagedExtensionRow): void {
 		const enabled = row.status !== "enabled";
-		this.rows = this.onUpdate?.(row.id, enabled) ?? updateManagedExtensionRows(this.rows, row.id, enabled ? "enabled" : "disabled");
+		const update = typeof this.callbacksOrUpdate === "function" ? this.callbacksOrUpdate : this.callbacksOrUpdate?.onUpdate;
+		this.rows = update?.(row.id, enabled) ?? updateManagedExtensionRows(this.rows, row.id, enabled ? "enabled" : "disabled");
 		this.refreshItems(row.id);
 	}
 
@@ -101,6 +118,7 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 		this.filterQuery = "";
 		this.refreshBottom();
 		this.refreshItems();
+		void this.refreshSearchRows();
 		return true;
 	}
 
@@ -116,6 +134,7 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 		else return false;
 		this.refreshBottom();
 		this.refreshItems();
+		void this.refreshSearchRows();
 		return true;
 	}
 
@@ -125,7 +144,8 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 	 * @param selectedValue Selected extension id to restore.
 	 */
 	private refreshItems(selectedValue = this.getSelectedItem()?.value): void {
-		this.setItems(createManagedExtensionItems(filterManagedExtensionRows(this.rows, this.activeTab, this.filterQuery), this.rowTheme));
+		const rows = filterManagedExtensionRows([...this.rows, ...this.searchRows], this.activeTab, this.filterQuery);
+		this.setItems(createManagedExtensionItems(rows, this.rowTheme));
 		if (selectedValue) this.selectValue(selectedValue);
 	}
 
@@ -133,6 +153,47 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 	 * Refreshes the search footer.
 	 */
 	private refreshBottom(): void {
-		this.setBottom("Search", this.filterQuery, "> ");
+		const label = this.activeTab === "third-party" ? "Search/install" : "Search";
+		const hint = this.pendingAction ?? (this.activeTab === "third-party" ? "Enter install/toggle · u update · d remove · type to search npm" : "Enter/Space toggle · Tab switch tabs");
+		this.setFooterHintLines([this.rowTheme.fg("dim", hint)]);
+		this.setBottom(label, this.filterQuery, "> ");
+	}
+
+	/** Refreshes async npm search rows for the third-party tab. */
+	private async refreshSearchRows(): Promise<void> {
+		const search = typeof this.callbacksOrUpdate === "function" ? undefined : this.callbacksOrUpdate?.onSearchPackages;
+		if (this.activeTab !== "third-party" || !search) { this.searchRows = []; this.refreshItems(); return; }
+		const query = this.filterQuery;
+		try { this.searchRows = await search(query, this.rows); if (query === this.filterQuery) this.refreshItems(); }
+		catch { this.searchRows = []; this.refreshItems(); }
+	}
+
+	/** Returns the currently selected row. */
+	private getSelectedRow(): ManagedExtensionRow | undefined {
+		const value = this.getSelectedItem()?.value;
+		return [...this.rows, ...this.searchRows].find((row) => row.id === value);
+	}
+
+	/** Installs one selected npm package row. */
+	private async installPackage(row: ManagedExtensionRow): Promise<void> {
+		if (!row.source || typeof this.callbacksOrUpdate === "function" || !this.callbacksOrUpdate?.onInstallPackage) return;
+		this.pendingAction = `Installing ${row.source}…`; this.refreshBottom();
+		this.rows = await this.callbacksOrUpdate.onInstallPackage(row.source); this.searchRows = []; this.pendingAction = null; this.refreshBottom(); this.refreshItems(row.id);
+	}
+
+	/** Removes one configured package row from Nexus settings. */
+	private async removeSelectedPackage(): Promise<void> {
+		const row = this.getSelectedRow();
+		if (row?.rowType !== "package" || !row.source || typeof this.callbacksOrUpdate === "function" || !this.callbacksOrUpdate?.onRemovePackage) return;
+		this.pendingAction = `Removing ${row.source}…`; this.refreshBottom();
+		this.rows = await this.callbacksOrUpdate.onRemovePackage(row.source); this.pendingAction = null; this.refreshBottom(); this.refreshItems();
+	}
+
+	/** Updates one configured package through Pi's package manager. */
+	private async updateSelectedPackage(): Promise<void> {
+		const row = this.getSelectedRow();
+		if (row?.rowType !== "package" || !row.source || typeof this.callbacksOrUpdate === "function" || !this.callbacksOrUpdate?.onUpdatePackage) return;
+		this.pendingAction = `Updating ${row.source}…`; this.refreshBottom();
+		this.rows = await this.callbacksOrUpdate.onUpdatePackage(row.source); this.pendingAction = null; this.refreshBottom(); this.refreshItems(row.id);
 	}
 }

@@ -15,8 +15,9 @@ export function formatManagedExtensionRow(
 	extensionColumnWidth: number,
 	theme: { fg(color: string, value: string): string },
 ): string {
+	const details = row.rowType === "package" && row.source ? ` · ${row.source}` : row.rowType === "search" ? " · npm search" : "";
 	return [
 		padManagedExtensionColumn(row.id, extensionColumnWidth),
-		`› ${colorManagedExtensionStatus(row.status, theme)}`,
+		`› ${colorManagedExtensionStatus(row.status, theme)}${theme.fg("dim", details)}`,
 	].join("  ");
 }

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { createManagedExtensionRows } from "../../../packages/extensions/src/extension-manager/model/createManagedExtensionRows.js";
 import { ExtensionManagerModal } from "../../../packages/extensions/src/extension-manager/ui/ExtensionManagerModal.js";
 import type { ManagedExtensionRow } from "../../../packages/extensions/src/extension-manager/model/types.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
@@ -9,6 +10,23 @@ const rows: ManagedExtensionRow[] = [
 	{ id: "core-alpha", kind: "core", status: "enabled", features: ["core feature"] },
 	{ id: "third-party-beta", kind: "third-party", status: "disabled", features: [] },
 ];
+
+test("/extensions rows keep core and third-party groups contiguous", () => {
+	const managedRows = createManagedExtensionRows(
+		{
+			extensions: {
+				"alpha-core": { enabled: true, features: [] },
+				"zeta-core": { enabled: true, features: [] },
+			},
+		},
+		{ extensions: { "middle-user": { enabled: true } } },
+		[{ source: "npm:lazy-pi", scope: "user", filtered: false }],
+	);
+
+	assert.deepEqual(managedRows.map((row) => row.kind), ["core", "core", "third-party", "third-party"]);
+	assert.deepEqual(managedRows.map((row) => row.id), ["alpha-core", "zeta-core", "lazy-pi", "middle-user"]);
+	assert.equal(managedRows[2]?.rowType, "package");
+});
 
 test("/extensions modal renders installed extension rows grouped by Core and Third-party", async () => {
 	const viewport = await renderComponentInVirtualTerminal(
@@ -58,4 +76,26 @@ test("/extensions modal toggles selected extension enablement", () => {
 		{ extensionId: "core-alpha", enabled: false },
 		{ extensionId: "third-party-beta", enabled: true },
 	]);
+});
+
+test("/extensions third-party tab searches and installs npm package rows", async () => {
+	let installedSource = "";
+	const modal = new ExtensionManagerModal(createTestTheme(), rows, () => {}, {
+		onInstallPackage: async (source) => {
+			installedSource = source;
+			return [...rows, { id: "lazy-pi", kind: "third-party", status: "enabled", features: [source], rowType: "package", source }];
+		},
+		onSearchPackages: async () => [{ id: "lazy-pi", kind: "third-party", status: "available", features: ["Package manager"], rowType: "search", source: "npm:lazy-pi" }],
+	});
+
+	modal.handleInput("\t");
+	modal.handleInput("\t");
+	modal.handleInput("l");
+	await new Promise((resolve) => setTimeout(resolve, 0));
+	const searchOutput = modal.render(140).join("\n");
+	assert.match(searchOutput, /lazy-pi\s+› available/u);
+	modal.handleInput("\r");
+	await new Promise((resolve) => setTimeout(resolve, 0));
+
+	assert.equal(installedSource, "npm:lazy-pi");
 });

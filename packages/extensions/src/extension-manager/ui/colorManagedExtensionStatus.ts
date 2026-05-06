@@ -11,5 +11,6 @@ export function colorManagedExtensionStatus(
 	status: ManagedExtensionStatus,
 	theme: { fg(color: string, value: string): string },
 ): string {
+	if (status === "available") return theme.fg("accent", status);
 	return theme.fg(status === "enabled" ? "syntaxType" : "error", status);
 }
