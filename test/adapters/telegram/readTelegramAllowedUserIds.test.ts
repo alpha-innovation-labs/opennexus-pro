@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readTelegramAllowedUserIds } from "../../../packages/social-adapters/src/telegram/config/readTelegramAllowedUserIds.js";
+import { readTelegramAllowedUserIds } from "../../../packages/mini-apps/src/social-chat/adapters/telegram/config/readTelegramAllowedUserIds.js";
 
 test("readTelegramAllowedUserIds parses a trimmed csv env var", () => {
   const previous = process.env.TELEGRAM_ALLOWED_USER_IDS;

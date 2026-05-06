@@ -1,6 +1,7 @@
 import { Key, matchesKey, type Component } from "@mariozechner/pi-tui";
 import { centerModalLine } from "./centerModalLine.js";
 import { computeModalWidth } from "./computeModalWidth.js";
+import { createEmptyModalRows } from "./createEmptyModalRows.js";
 import { renderFooterRows } from "./renderFooterRows.js";
 import { renderFullWidthRows } from "./renderFullWidthRows.js";
 import { renderModalBorder } from "./renderModalBorder.js";
@@ -15,6 +16,7 @@ export class SharedModal implements Component {
   protected headerLines: string[];
   protected panes: SharedModalPane[];
   private fullScreen: boolean;
+  private fullScreenRows?: number | (() => number);
   private maxWidth?: number;
   private maxWidthRatio: number;
   private minWidth: number;
@@ -29,6 +31,7 @@ export class SharedModal implements Component {
   constructor(options: SharedModalOptions) {
     this.footerLines = options.footerLines ?? [];
     this.fullScreen = options.fullScreen ?? false;
+    this.fullScreenRows = options.fullScreenRows;
     this.headerLines = options.headerLines ?? [];
     this.maxWidth = options.maxWidth;
     this.maxWidthRatio = options.maxWidthRatio ?? 0.9;
@@ -56,11 +59,12 @@ export class SharedModal implements Component {
    * @param maxWidth Maximum desired width.
    * @param maxWidthRatio Maximum terminal-width ratio.
    */
-  setWidthPolicy(minWidth: number, maxWidth?: number, maxWidthRatio = this.maxWidthRatio, fullScreen = this.fullScreen): void {
+  setWidthPolicy(minWidth: number, maxWidth?: number, maxWidthRatio = this.maxWidthRatio, fullScreen = this.fullScreen, fullScreenRows = this.fullScreenRows): void {
     this.minWidth = minWidth;
     this.maxWidth = maxWidth;
     this.maxWidthRatio = maxWidthRatio;
     this.fullScreen = fullScreen;
+    this.fullScreenRows = fullScreenRows;
   }
 
   /**
@@ -82,13 +86,31 @@ export class SharedModal implements Component {
 
     lines.push(...renderModalPanes(this.theme, this.panes, innerWidth));
 
+    if (this.fullScreen) {
+      const footerHeight = this.footerLines.length > 0 ? this.footerLines.length + 1 : 0;
+      const bottomBorderHeight = 1;
+      const targetRows = this.getFullScreenRows();
+      lines.push(...createEmptyModalRows(Math.max(0, targetRows - lines.length - footerHeight - bottomBorderHeight), innerWidth, (value) => this.theme.fg("borderMuted", value)));
+    }
+
     if (this.footerLines.length > 0) {
       lines.push(renderModalBorder(this.theme, "├", "─", "┤", innerWidth));
       lines.push(...renderFooterRows(this.theme, this.footerLines, innerWidth));
     }
 
     lines.push(renderModalBorder(this.theme, "└", "─", "┘", innerWidth));
-    return this.fullScreen ? lines : lines.map((line) => centerModalLine(line, width));
+    return this.fullScreen ? lines.slice(0, this.getFullScreenRows()) : lines.map((line) => centerModalLine(line, width));
+  }
+
+  /**
+   * Returns target fullscreen row count.
+   *
+   * @returns Fullscreen row count.
+   */
+  private getFullScreenRows(): number {
+    if (typeof this.fullScreenRows === "function") return Math.max(1, Math.floor(this.fullScreenRows()));
+    if (typeof this.fullScreenRows === "number") return Math.max(1, Math.floor(this.fullScreenRows));
+    return Math.max(1, process.stdout.rows || 40);
   }
 
   /**

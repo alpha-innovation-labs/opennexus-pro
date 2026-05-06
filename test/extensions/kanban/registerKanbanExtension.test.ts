@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerKanbanExtension } from "../../../packages/extensions/src/kanban/registerKanbanExtension.js";
+import { registerKanbanExtension } from "../../../packages/mini-apps/src/kanban/registerKanbanExtension.js";
 
-test("kanban extension registers the extension command", () => {
+test("kanban mini-app registers the kanban command", () => {
 	const commands: string[] = [];
 
 	registerKanbanExtension({
@@ -11,5 +11,5 @@ test("kanban extension registers the extension command", () => {
 		},
 	} as never);
 
-	assert.deepEqual(commands, ["extension"]);
+	assert.deepEqual(commands, ["kanban"]);
 });

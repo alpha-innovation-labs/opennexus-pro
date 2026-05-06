@@ -4,7 +4,7 @@ import { join } from "node:path";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { mkdtemp } from "node:fs/promises";
-import { deleteMemoryFile } from "../../../packages/extensions/src/memory/storage/deleteMemoryFile.js";
+import { deleteMemoryFile } from "../../../packages/mini-apps/src/memory/storage/deleteMemoryFile.js";
 
 test("deleteMemoryFile removes empty parent folders up to memory root", async () => {
 	const root = await mkdtemp(join(tmpdir(), "nexus-memory-delete-"));

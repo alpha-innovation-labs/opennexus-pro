@@ -21,10 +21,11 @@ test("feature status rows expose enabled state, channel, and group per extension
 			},
 		},
 		other: {
-			gateway: {
+			"social-chat": {
+				category: "mini-app",
 				devOnly: true,
 				enabled: true,
-				features: ["gateway cli commands"],
+				features: ["social chat CLI commands"],
 			},
 		},
 	};
@@ -45,10 +46,11 @@ test("feature status rows expose enabled state, channel, and group per extension
 			},
 		},
 		other: {
-			gateway: {
+			"social-chat": {
+				category: "mini-app",
 				devOnly: true,
 				enabled: false,
-				features: ["gateway cli commands"],
+				features: ["social chat CLI commands"],
 			},
 		},
 	};
@@ -56,6 +58,7 @@ test("feature status rows expose enabled state, channel, and group per extension
 	assert.deepEqual(createFeatureStatusRows(config, runtimeConfig), [
 		{
 			category: "extensions",
+			sourceCategory: "extensions",
 			extensionId: "alpha",
 			feature: "alpha",
 			status: "enabled",
@@ -64,6 +67,7 @@ test("feature status rows expose enabled state, channel, and group per extension
 		},
 		{
 			category: "extensions",
+			sourceCategory: "extensions",
 			extensionId: "beta",
 			feature: "beta",
 			status: "enabled",
@@ -72,6 +76,7 @@ test("feature status rows expose enabled state, channel, and group per extension
 		},
 		{
 			category: "extensions",
+			sourceCategory: "extensions",
 			extensionId: "gamma",
 			feature: "gamma",
 			status: "disabled",
@@ -79,9 +84,10 @@ test("feature status rows expose enabled state, channel, and group per extension
 			group: "Production",
 		},
 		{
-			category: "other",
-			extensionId: "gateway",
-			feature: "gateway",
+			category: "mini-apps",
+			sourceCategory: "other",
+			extensionId: "social-chat",
+			feature: "social-chat",
 			status: "disabled",
 			channel: "dev",
 			group: "Playground",

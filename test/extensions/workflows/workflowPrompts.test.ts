@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getWorkflowEngineerPrompt } from "../../../packages/extensions/src/workflows/prompts/getWorkflowEngineerPrompt.js";
-import { getWorkflowLibrarianPrompt } from "../../../packages/extensions/src/workflows/prompts/getWorkflowLibrarianPrompt.js";
+import { getWorkflowEngineerPrompt } from "../../../packages/mini-apps/src/workflows/prompts/getWorkflowEngineerPrompt.js";
+import { getWorkflowLibrarianPrompt } from "../../../packages/mini-apps/src/workflows/prompts/getWorkflowLibrarianPrompt.js";
 
 test("engineer prompt declares mode-driven instruction injection", () => {
   const prompt = getWorkflowEngineerPrompt();

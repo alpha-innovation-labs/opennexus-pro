@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { MemoryModal } from "../../../packages/extensions/src/memory/modal/MemoryModal.js";
-import type { MemoryItem } from "../../../packages/extensions/src/memory/types/MemoryItem.js";
+import { MemoryModal } from "../../../packages/mini-apps/src/memory/modal/MemoryModal.js";
+import type { MemoryItem } from "../../../packages/mini-apps/src/memory/types/MemoryItem.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

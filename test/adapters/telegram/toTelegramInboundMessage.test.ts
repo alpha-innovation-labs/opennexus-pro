@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { toTelegramInboundMessage } from "../../../packages/social-adapters/src/telegram/runtime/toTelegramInboundMessage.js";
+import { toTelegramInboundMessage } from "../../../packages/mini-apps/src/social-chat/adapters/telegram/runtime/toTelegramInboundMessage.js";
 
 test("toTelegramInboundMessage keeps allowed text messages", () => {
   const message = toTelegramInboundMessage(

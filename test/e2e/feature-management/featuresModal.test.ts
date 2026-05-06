@@ -8,6 +8,7 @@ import { createTestTheme } from "../../support/theme/createTestTheme.js";
 const rows: FeatureStatusRow[] = [
 	{
 		category: "extensions",
+		sourceCategory: "extensions",
 		extensionId: "alpha",
 		feature: "alpha",
 		status: "enabled",
@@ -16,6 +17,7 @@ const rows: FeatureStatusRow[] = [
 	},
 	{
 		category: "extensions",
+		sourceCategory: "extensions",
 		extensionId: "dev-tools",
 		feature: "dev-tools",
 		status: "disabled",
@@ -95,31 +97,35 @@ test("/features modal uses space to choose the status or channel toggle", () => 
 	]);
 });
 
-test("/features modal uses tab and shift+tab to switch All, Extensions, and Other", () => {
+test("/features modal uses tab and shift+tab to switch Extensions and Mini-Apps", () => {
 	const modal = new FeatureManagementModal(createTestTheme(), [
 		...rows,
 		{
-			category: "other",
-			extensionId: "gateway",
-			feature: "gateway",
+			category: "mini-apps",
+			sourceCategory: "other",
+			extensionId: "social-chat",
+			feature: "social-chat",
 			status: "disabled",
 			channel: "dev",
 			group: "Playground",
 		},
 	], () => {});
 
-	modal.handleInput("\t");
 	const extensionsOutput = modal.render(140).join("\n");
 	modal.handleInput("\t");
-	const otherOutput = modal.render(140).join("\n");
+	const miniAppsOutput = modal.render(140).join("\n");
+	modal.handleInput("\t");
+	const cycledOutput = modal.render(140).join("\n");
 	modal.handleInput("\x1b[Z");
 	const restoredOutput = modal.render(140).join("\n");
 
-	assert.match(extensionsOutput, /○ All \| ● Extensions \| ○ Other/u);
+	assert.match(extensionsOutput, /● Extensions \| ○ Mini-Apps/u);
+	assert.doesNotMatch(extensionsOutput, /All|Other/u);
 	assert.match(extensionsOutput, /alpha/u);
-	assert.doesNotMatch(extensionsOutput, /gateway/u);
-	assert.match(otherOutput, /○ All \| ○ Extensions \| ● Other/u);
-	assert.match(otherOutput, /gateway/u);
-	assert.doesNotMatch(otherOutput, /alpha\s+› enabled/u);
-	assert.match(restoredOutput, /○ All \| ● Extensions \| ○ Other/u);
+	assert.doesNotMatch(extensionsOutput, /social-chat/u);
+	assert.match(miniAppsOutput, /○ Extensions \| ● Mini-Apps/u);
+	assert.match(miniAppsOutput, /social-chat/u);
+	assert.doesNotMatch(miniAppsOutput, /alpha\s+› enabled/u);
+	assert.match(cycledOutput, /● Extensions \| ○ Mini-Apps/u);
+	assert.match(restoredOutput, /○ Extensions \| ● Mini-Apps/u);
 });

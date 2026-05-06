@@ -6,6 +6,8 @@ import { ensureCleanDir } from "../binary/ensureCleanDir.mjs";
 import { getReleaseNpmPackageDir } from "./getReleaseNpmPackageDir.mjs";
 import { readRootPackageMetadata } from "./readRootPackageMetadata.mjs";
 import { createPortablePostinstallScript } from "./createPortablePostinstallScript.mjs";
+import { getReleasePackagePlatformFields } from "./getReleasePackagePlatformFields.mjs";
+import { getReleasePackageDependencies } from "./getReleasePackageDependencies.mjs";
 
 /**
  * Creates the temporary npm package that installs the binary-only Nexus release.
@@ -15,6 +17,8 @@ import { createPortablePostinstallScript } from "./createPortablePostinstallScri
  */
 export async function createReleaseNpmPackage(packageDir = getReleaseNpmPackageDir()) {
   const { version, dependencies } = await readRootPackageMetadata();
+  const { os, cpu } = getReleasePackagePlatformFields();
+  const releaseDependencies = getReleasePackageDependencies(dependencies);
   const bundleDir = getBundleDir();
   await ensureCleanDir(packageDir);
   await mkdir(join(packageDir, "bin"), { recursive: true });
@@ -46,14 +50,10 @@ export async function createReleaseNpmPackage(packageDir = getReleaseNpmPackageD
         nexus: "bin/nexus",
         opennexus: "bin/nexus",
       },
-      dependencies: {
-        "@ff-labs/fff-node": dependencies["@ff-labs/fff-node"],
-        "@xterm/headless": dependencies["@xterm/headless"],
-        "node-pty": dependencies["node-pty"],
-      },
+      dependencies: releaseDependencies,
       files: ["bin", "nexus", "assets", "commands", "export-html", "runtime", "theme", "package.json"],
-      os: ["darwin"],
-      cpu: ["arm64"],
+      os,
+      cpu,
     }, null, 2)}\n`,
     "utf8",
   );

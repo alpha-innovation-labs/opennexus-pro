@@ -3,10 +3,10 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { claimAnnotation } from "../../packages/annotations-daemon-core/src/locks/claimAnnotation.js";
-import { resolveAnnotation } from "../../packages/annotations-daemon-core/src/locks/resolveAnnotation.js";
-import { addAnnotation } from "../../packages/annotations-daemon-core/src/store/addAnnotation.js";
-import { listAnnotations } from "../../packages/annotations-daemon-core/src/store/listAnnotations.js";
+import { claimAnnotation } from "../../packages/mini-apps/src/annotation/core/locks/claimAnnotation.js";
+import { resolveAnnotation } from "../../packages/mini-apps/src/annotation/core/locks/resolveAnnotation.js";
+import { addAnnotation } from "../../packages/mini-apps/src/annotation/core/store/addAnnotation.js";
+import { listAnnotations } from "../../packages/mini-apps/src/annotation/core/store/listAnnotations.js";
 
 /**
  * Runs a test with an isolated Nexus agent directory.

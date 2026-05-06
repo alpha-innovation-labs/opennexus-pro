@@ -1,4 +1,4 @@
-import { getWorkflowEngineerPrompt } from "../workflows/prompts/getWorkflowEngineerPrompt.js";
+import { getWorkflowEngineerPrompt } from "@nexus/mini-apps/workflows/prompts/getWorkflowEngineerPrompt.js";
 import { getLibrarianPromptText } from "./agents/librarian.js";
 import type { AgentConfig } from "./types.js";
 

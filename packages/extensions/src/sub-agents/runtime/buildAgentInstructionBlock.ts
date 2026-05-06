@@ -1,4 +1,4 @@
-import { getWorkflowEngineerModePrompt } from "../../workflows/prompts/getWorkflowEngineerModePrompt.js";
+import { getWorkflowEngineerModePrompt } from "@nexus/mini-apps/workflows/prompts/getWorkflowEngineerModePrompt.js";
 import { getAgentConfig } from "../agent-types.js";
 
 /**

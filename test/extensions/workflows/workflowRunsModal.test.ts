@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { WorkflowRunsModal } from "../../../packages/extensions/src/workflows/modal/WorkflowRunsModal.js";
+import { WorkflowRunsModal } from "../../../packages/mini-apps/src/workflows/modal/WorkflowRunsModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

@@ -1,4 +1,4 @@
-import type { FeatureFlagConfig, FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
+import type { FeatureFlagConfig, FeatureFlagsConfig, FeatureProductCategory } from "@nexus/feature-flags/types.js";
 import { getFeatureManagementGroup } from "./getFeatureManagementGroup.js";
 import type { FeatureStatusCategory, FeatureStatusRow } from "./types.js";
 
@@ -22,13 +22,13 @@ export function createFeatureStatusRows(
 /**
  * Creates status rows for a single feature category.
  *
- * @param category Feature category assigned to every row.
+ * @param sourceCategory Source config category assigned to every row.
  * @param config Static category config.
  * @param runtimeConfig Runtime-adjusted category config.
  * @returns Display rows for the category.
  */
 function createCategoryFeatureStatusRows(
-	category: FeatureStatusCategory,
+	sourceCategory: "extensions" | "other",
 	config: Record<string, FeatureFlagConfig>,
 	runtimeConfig: Record<string, FeatureFlagConfig>,
 ): FeatureStatusRow[] {
@@ -37,7 +37,8 @@ function createCategoryFeatureStatusRows(
 		const channel = value.devOnly ? "dev" : "production";
 
 		return {
-			category,
+			category: getFeatureStatusCategory(value.category),
+			sourceCategory,
 			extensionId: featureId,
 			feature: featureId,
 			status,
@@ -45,4 +46,14 @@ function createCategoryFeatureStatusRows(
 			group: getFeatureManagementGroup(channel),
 		};
 	});
+}
+
+/**
+ * Maps persisted product category metadata to the modal tab category.
+ *
+ * @param category Optional product category from feature-flags config.
+ * @returns Feature-management tab category.
+ */
+function getFeatureStatusCategory(category: FeatureProductCategory | undefined): FeatureStatusCategory {
+	return category === "mini-app" ? "mini-apps" : "extensions";
 }

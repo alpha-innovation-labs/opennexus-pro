@@ -2,16 +2,17 @@ import assert from "node:assert/strict";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { getSourceEntrypointPath } from "../../packages/nexus-runtime/src/cli/getSourceEntrypointPath.js";
 import test from "node:test";
-import { getGatewayStatus } from "../../packages/gateway-core/src/commands/getGatewayStatus.js";
-import { startGateway } from "../../packages/gateway-core/src/commands/startGateway.js";
-import { stopGateway } from "../../packages/gateway-core/src/commands/stopGateway.js";
+import { getGatewayStatus } from "../../packages/mini-apps/src/social-chat/core/commands/getGatewayStatus.js";
+import { startGateway } from "../../packages/mini-apps/src/social-chat/core/commands/startGateway.js";
+import { stopGateway } from "../../packages/mini-apps/src/social-chat/core/commands/stopGateway.js";
 
 /**
  * Waits for the gateway to reach the requested running state.
  *
  * @param expectedRunning Desired running value.
- * @returns Matching gateway status.
+ * @returns Matching social-chat status.
  */
 async function waitForGatewayRunningState(expectedRunning: boolean) {
   const deadline = Date.now() + 8000;
@@ -31,7 +32,9 @@ async function waitForGatewayRunningState(expectedRunning: boolean) {
 test("startGateway launches the daemon in the background and stopGateway stops it", async () => {
   const agentDir = await mkdtemp(join(tmpdir(), "nexus-gateway-"));
   const previousAgentDir = process.env.NEXUS_CODING_AGENT_DIR;
+  const originalArgv = process.argv;
   process.env.NEXUS_CODING_AGENT_DIR = agentDir;
+  process.argv = [process.execPath, getSourceEntrypointPath(), "social-chat", "start"];
 
   try {
     const startResult = await startGateway();
@@ -50,6 +53,7 @@ test("startGateway launches the daemon in the background and stopGateway stops i
     assert.equal(stoppedStatus.running, false);
   } finally {
     await stopGateway();
+    process.argv = originalArgv;
     if (previousAgentDir === undefined) {
       delete process.env.NEXUS_CODING_AGENT_DIR;
     } else {

@@ -1,5 +1,5 @@
 import type { FeatureFlagConfig, FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
-import type { FeatureReleaseChannel, FeatureRuntimeStatus, FeatureStatusCategory } from "./types.js";
+import type { FeatureFlagSourceCategory, FeatureReleaseChannel, FeatureRuntimeStatus } from "./types.js";
 
 export type FeatureFlagConfigPatch = {
 	channel?: FeatureReleaseChannel;
@@ -19,7 +19,7 @@ export function updateFeatureFlagsConfig(
 	config: FeatureFlagsConfig,
 	featureId: string,
 	patch: FeatureFlagConfigPatch,
-	category: FeatureStatusCategory = "extensions",
+	category: FeatureFlagSourceCategory = "extensions",
 ): FeatureFlagsConfig {
 	const entries = category === "extensions" ? config.extensions : config.other;
 	const current = entries?.[featureId];

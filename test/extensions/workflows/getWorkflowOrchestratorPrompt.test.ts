@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getWorkflowOrchestratorPrompt } from "../../../packages/extensions/src/workflows/logic/getWorkflowOrchestratorPrompt.js";
+import { getWorkflowOrchestratorPrompt } from "../../../packages/mini-apps/src/workflows/logic/getWorkflowOrchestratorPrompt.js";
 
 test("builds a continuous workflow prompt with steering instructions", () => {
   const prompt = getWorkflowOrchestratorPrompt("Fix the background session modal");

@@ -37,7 +37,7 @@ test("runCliWithApp prints Nexus-owned top-level help for -h and skips Pi startu
 	assert.equal(exitCode, 0);
 	assert.equal(ranApp, false);
 	assert.match(text, /Usage: nexus \[options\] \[prompt\]/u);
-	assert.match(text, /nexus gateway -h/u);
+	assert.match(text, /nexus social-chat -h/u);
 	assert.match(text, /nexus annotation -h/u);
 	assert.match(text, /--sessions/u);
 	assert.match(text, /--observations <session-id>/u);
@@ -56,10 +56,10 @@ test("runCliWithApp prints Nexus-owned top-level help for -h and skips Pi startu
 	assert.match(text, /--mode <mode>/u);
 	assert.match(text, /--theme <path>/u);
 	assert.match(text, /--prompt-template <path>/u);
-	assert.match(text, /nexus gateway start/u);
-	assert.match(text, /nexus gateway stop/u);
-	assert.match(text, /nexus gateway restart/u);
-	assert.match(text, /nexus gateway status/u);
+	assert.match(text, /nexus social-chat start/u);
+	assert.match(text, /nexus social-chat stop/u);
+	assert.match(text, /nexus social-chat restart/u);
+	assert.match(text, /nexus social-chat status/u);
 	assert.match(text, /nexus annotation start/u);
 	assert.match(text, /nexus annotation stop/u);
 	assert.match(text, /nexus annotation restart/u);
@@ -88,7 +88,7 @@ test("runCliWithApp allows enabled dev-only gateway CLI commands in source dev",
 	let ranApp = false;
 	let exitCode = -1;
 	const output = await captureConsoleLog(async () => {
-		exitCode = await runCliWithApp(["gateway", "-h"], {
+		exitCode = await runCliWithApp(["social-chat", "-h"], {
 			async runApp() {
 				ranApp = true;
 			},
@@ -97,5 +97,5 @@ test("runCliWithApp allows enabled dev-only gateway CLI commands in source dev",
 
 	assert.equal(exitCode, 0);
 	assert.equal(ranApp, false);
-	assert.match(output.join("\n"), /Usage: nexus gateway/u);
+	assert.match(output.join("\n"), /Usage: nexus social-chat/u);
 });

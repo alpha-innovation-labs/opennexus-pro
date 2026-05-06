@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { extractAssistantTextFromAgentEndEvent } from "../../../packages/social-adapters/src/telegram/runtime/extractAssistantTextFromAgentEndEvent.js";
+import { extractAssistantTextFromAgentEndEvent } from "../../../packages/mini-apps/src/social-chat/adapters/telegram/runtime/extractAssistantTextFromAgentEndEvent.js";
 
 test("extractAssistantTextFromAgentEndEvent reads the final assistant text", () => {
   assert.equal(

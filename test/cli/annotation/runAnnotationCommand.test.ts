@@ -3,8 +3,8 @@ import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import test from "node:test";
-import { runAnnotationCommand } from "../../../apps/tui/src/cli/annotation/runAnnotationCommand.js";
-import { getAnnotationsDaemonLogPath } from "../../../packages/annotations-daemon-core/src/paths/getAnnotationsDaemonLogPath.js";
+import { runAnnotationCommand } from "../../../packages/mini-apps/src/annotation/runAnnotationCommand.js";
+import { getAnnotationsDaemonLogPath } from "../../../packages/mini-apps/src/annotation/core/paths/getAnnotationsDaemonLogPath.js";
 
 /**
  * Captures console.log output during a CLI test.

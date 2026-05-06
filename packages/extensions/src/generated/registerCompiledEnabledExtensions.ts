@@ -8,8 +8,11 @@ import { registerCmuxExtension } from "../cmux/registerCmuxExtension.js";
 import { registerExitMessageExtension } from "../exit-message/registerExitMessageExtension.js";
 import { registerExtensionManagerExtension } from "../extension-manager/registerExtensionManagerExtension.js";
 import registerFffExtension from "../fff/index.js";
+import registerImpeccableExtension from "../impeccable/index.js";
+import { registerMdEditorExtension } from "@nexus/mini-apps/md-editor/registerMdEditorExtension.js";
+import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension.js";
 import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension.js";
-import { registerMemoryExtension } from "../memory/registerMemoryExtension.js";
+import { registerMemoryExtension } from "@nexus/mini-apps/memory/registerMemoryExtension.js";
 import { registerNotifyExtension } from "../notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "../observations/registerObservationsExtension.js";
 import { registerRtkExtension } from "../rtk/registerRtkExtension.js";
@@ -26,6 +29,9 @@ export const compiledBundledExtensionIds = [
   "exit-message",
   "extension-manager",
   "fff",
+  "impeccable",
+  "md-editor",
+  "mini-app-manager",
   "neo-editor",
   "memory",
   "notify",
@@ -42,6 +48,9 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "exit-message": registerExitMessageExtension,
   "extension-manager": registerExtensionManagerExtension,
   "fff": registerFffExtension,
+  "impeccable": registerImpeccableExtension,
+  "md-editor": registerMdEditorExtension,
+  "mini-app-manager": registerMiniAppManagerExtension,
   "neo-editor": registerNeoEditorExtension,
   "memory": registerMemoryExtension,
   "notify": registerNotifyExtension,

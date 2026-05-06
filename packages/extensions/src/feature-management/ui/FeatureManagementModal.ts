@@ -23,7 +23,7 @@ export type FeatureManagementUpdate = (
  */
 export class FeatureManagementModal extends SelectPreviewModal {
 	private activeControl: FeatureManagementControl = "status";
-	private activeTab: FeatureManagementTab = "all";
+	private activeTab: FeatureManagementTab = "extensions";
 	private filterQuery = "";
 	private readonly rowTheme: ExtensionCommandContext["ui"]["theme"];
 	private rows: FeatureStatusRow[];
@@ -167,7 +167,7 @@ export class FeatureManagementModal extends SelectPreviewModal {
 	 * @returns Updated rows.
 	 */
 	private applyLocalPatch(extensionId: string, patch: FeatureFlagConfigPatch, targetRow: FeatureStatusRow): FeatureStatusRow[] {
-		return this.rows.map((row) => (row.extensionId === extensionId && row.category === targetRow.category ? { ...row, ...patch } : row));
+		return this.rows.map((row) => (row.extensionId === extensionId && row.sourceCategory === targetRow.sourceCategory ? { ...row, ...patch } : row));
 	}
 
 	/**

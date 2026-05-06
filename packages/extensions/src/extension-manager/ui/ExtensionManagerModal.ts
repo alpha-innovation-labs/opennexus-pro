@@ -33,8 +33,9 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 		rows: ManagedExtensionRow[],
 		done: (result: undefined) => void,
 		private readonly onUpdate?: ExtensionManagerUpdate,
+		private readonly title = "Extensions",
 	) {
-		super(rowTheme, () => undefined, () => done(undefined), undefined, { leftTitle: "Extensions", showRightPane: false });
+		super(rowTheme, () => undefined, () => done(undefined), undefined, { leftTitle: title, showRightPane: false });
 		this.rows = rows;
 		this.setHeaderFocusMarkers(false);
 		this.setOnPick(() => this.toggleSelectedExtension());
@@ -63,7 +64,7 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 	 * @returns Rendered modal lines.
 	 */
 	override render(width: number): string[] {
-		this.setTitles(createExtensionManagerHeader("Extensions", this.activeTab, getExtensionManagerHeaderWidth(width), this.rowTheme), "");
+		this.setTitles(createExtensionManagerHeader(this.title, this.activeTab, getExtensionManagerHeaderWidth(width), this.rowTheme), "");
 		return super.render(width);
 	}
 

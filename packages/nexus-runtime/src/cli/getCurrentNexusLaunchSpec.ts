@@ -1,9 +1,9 @@
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
-import { getSourceEntrypointPath } from "@nexus/gateway-core/process/getSourceEntrypointPath.js";
-import { getTsxRuntimeBinaryPath } from "@nexus/gateway-core/process/getTsxRuntimeBinaryPath.js";
 import { isBundledBinary } from "../package/isBundledBinary.js";
-import type { GatewayLaunchSpec } from "@nexus/gateway-core/process/types.js";
+import { getSourceEntrypointPath } from "./getSourceEntrypointPath.js";
+import { getTsxRuntimeBinaryPath } from "./getTsxRuntimeBinaryPath.js";
+import type { NexusLaunchSpec } from "./types.js";
 
 /**
  * Resolves how the current Nexus process should relaunch itself.
@@ -11,7 +11,7 @@ import type { GatewayLaunchSpec } from "@nexus/gateway-core/process/types.js";
  * @param args CLI arguments for the child run.
  * @returns Launch command and arguments for the current Nexus install.
  */
-export function getCurrentNexusLaunchSpec(args: string[]): GatewayLaunchSpec {
+export function getCurrentNexusLaunchSpec(args: string[]): NexusLaunchSpec {
   const sourceEntrypoint = getSourceEntrypointPath();
   const tsxBinaryPath = getTsxRuntimeBinaryPath();
   const currentEntrypoint = process.argv[1];

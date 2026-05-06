@@ -20,7 +20,7 @@ test("nexus -h prints Nexus-owned help without starting Pi", async () => {
 		assert.equal(result.timedOut, false);
 		assert.equal(result.code, 0);
 		assert.match(result.output, /Usage: nexus \[options\] \[prompt\]/u);
-		assert.match(result.output, /nexus gateway -h/u);
+		assert.match(result.output, /nexus social-chat -h/u);
 		assert.match(result.output, /nexus annotation -h/u);
 		assert.match(result.output, /--session-dir=<path>/u);
 		assert.match(result.output, /--resume \[session-id\]/u);
@@ -35,20 +35,20 @@ test("nexus -h prints Nexus-owned help without starting Pi", async () => {
 		assert.match(result.output, /--mode <mode>/u);
 		assert.match(result.output, /--theme <path>/u);
 		assert.match(result.output, /--prompt-template <path>/u);
-		assert.match(result.output, /nexus gateway start/u);
-		assert.match(result.output, /nexus gateway status/u);
+		assert.match(result.output, /nexus social-chat start/u);
+		assert.match(result.output, /nexus social-chat status/u);
 		assert.doesNotMatch(result.output, /nexus list/u);
 	} finally {
 		await removeReleaseTestHome(homeDir);
 	}
 });
 
-test("source nexus gateway -h prints scoped gateway help when enabled", async () => {
+test("source nexus social-chat -h prints scoped gateway help when enabled", async () => {
 	const homeDir = await createReleaseTestHome();
 	const env = createReleaseTestEnv(homeDir);
 
 	try {
-		const result = await runCommand(buildSourceCliCommand(["gateway", "-h"]), {
+		const result = await runCommand(buildSourceCliCommand(["social-chat", "-h"]), {
 			cwd: process.cwd(),
 			env,
 			timeoutMs: 25_000,
@@ -56,8 +56,28 @@ test("source nexus gateway -h prints scoped gateway help when enabled", async ()
 
 		assert.equal(result.timedOut, false);
 		assert.equal(result.code, 0);
-		assert.match(result.output, /Usage: nexus gateway <start\|stop\|restart\|status>/u);
-		assert.doesNotMatch(result.output, /nexus gateway is not available/u);
+		assert.match(result.output, /Usage: nexus social-chat <start\|stop\|restart\|status>/u);
+		assert.doesNotMatch(result.output, /nexus social-chat is not available/u);
+	} finally {
+		await removeReleaseTestHome(homeDir);
+	}
+});
+
+test("source nexus annotation -h prints scoped annotation help when enabled", async () => {
+	const homeDir = await createReleaseTestHome();
+	const env = createReleaseTestEnv(homeDir);
+
+	try {
+		const result = await runCommand(buildSourceCliCommand(["annotation", "-h"]), {
+			cwd: process.cwd(),
+			env,
+			timeoutMs: 25_000,
+		});
+
+		assert.equal(result.timedOut, false);
+		assert.equal(result.code, 0);
+		assert.match(result.output, /Usage: nexus annotation <start\|stop\|restart\|status\|logs>/u);
+		assert.doesNotMatch(result.output, /nexus annotation is not available/u);
 	} finally {
 		await removeReleaseTestHome(homeDir);
 	}

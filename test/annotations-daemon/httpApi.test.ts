@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { AddressInfo } from "node:net";
 import test from "node:test";
-import { createAnnotationsDaemonServer } from "../../packages/annotations-daemon-core/src/server/createAnnotationsDaemonServer.js";
+import { createAnnotationsDaemonServer } from "../../packages/mini-apps/src/annotation/core/server/createAnnotationsDaemonServer.js";
 
 /**
  * Starts a test daemon server on a random local port.

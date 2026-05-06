@@ -1,3 +1,4 @@
+import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensionConfig.js";
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
 import { readFeatureFlagsConfig } from "@nexus/feature-flags/readFeatureFlagsConfig.js";
 import type { CliFeatureFlagsConfigResult } from "./types.js";
@@ -9,8 +10,8 @@ import type { CliFeatureFlagsConfigResult } from "./types.js";
  */
 export function readCliFeatureFlagsConfig(): CliFeatureFlagsConfigResult {
 	try {
-		return { config: readFeatureFlagsConfig(), source: "source" };
+		return { config: applyUserExtensionConfig(readFeatureFlagsConfig()), source: "source" };
 	} catch {
-		return { config: getBundledFeatureFlagsConfig(), source: "compiled" };
+		return { config: applyUserExtensionConfig(getBundledFeatureFlagsConfig()), source: "compiled" };
 	}
 }

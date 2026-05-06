@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { renderAssistantEntry } from "../../../packages/extensions/src/playground/ui/renderAssistantEntry.js";
+import { renderAssistantEntry } from "../../../packages/mini-apps/src/playground/ui/renderAssistantEntry.js";
 import { LinesComponent } from "../../support/component/LinesComponent.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";

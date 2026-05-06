@@ -4,7 +4,7 @@
  * DevTools-like element picker with inline note cards:
  * - Hover to highlight elements
  * - Alt/Option+scroll to cycle through parent elements
- * - Click to select (shift+click for multi)
+ * - Click to add elements to the multi-selection
  * - Per-element floating note cards with comments
  * - Bottom panel for overall context
  */
@@ -22,13 +22,14 @@
   const SCREENSHOT_PADDING = 20;
   const TEXT_MAX_LENGTH = 500;
   const Z_INDEX_CONNECTORS = 2147483643;
-  const Z_INDEX_MARKERS = 2147483644;
-  const Z_INDEX_HIGHLIGHT = 2147483645;
+  const Z_INDEX_MARKERS = 2147483646;
+  const Z_INDEX_HIGHLIGHT = 2147483644;
   const Z_INDEX_PANEL = 2147483646;
   const Z_INDEX_TOOLTIP = 2147483647;
   const IS_MAC = /Mac|iPhone|iPad/.test(navigator.platform);
   const ALT_KEY_LABEL = IS_MAC ? "⌥" : "Alt";
   const LAUNCHER_VISIBILITY_STORAGE_KEY = "nexusAnnotateLauncherVisible";
+  const WORKSPACE_DIR_STORAGE_KEY = "nexusAnnotateWorkspaceDir";
   
   // HTML escape to prevent XSS when inserting user-controlled content
   function escapeHtml(str) {
@@ -41,9 +42,10 @@
       .replace(/'/g, "&#039;");
   }
   
-  // Check if element is part of pi-annotate UI (by id or class)
+  // Check if element is part of extension UI and should not be annotated.
   function isPiElement(el) {
     if (!el) return false;
+    if (el.closest?.("#nexus-annotation-agent-sidebar")) return true;
     if (el.id?.startsWith("pi-")) return true;
     const cls = el.className;
     if (!cls) return false;
@@ -72,8 +74,8 @@
   
   let isActive = false;
   let requestId = null;
-  let multiSelectMode = false;
-  let screenshotMode = "each"; // "each" | "full" | "none"
+  let screenshotMode = "none"; // screenshots are disabled for annotation-agent submissions
+  let liveMode = true;
   
   // Element picker state
   let elementStack = [];
@@ -85,7 +87,11 @@
   let notesContainer = null;
   let connectorsEl = null;
   let elementComments = new Map(); // index → comment string
+  let elementFeedbackHistory = new Map(); // index → latest submitted feedback
+  let elementResolutionStatus = new Map(); // index → "draft" | "submitted" | "resolved"
+  let elementAnnotationIds = new Map(); // index → daemon annotation id
   let openNotes = new Set();       // indices of currently open notes
+  let noteAnchors = new Map();     // index → {x, y} click position
   let notePositions = new Map();   // index → {x, y} manual position overrides
   let dragState = null;            // { card, startX, startY, startLeft, startTop }
   
@@ -130,9 +136,9 @@
       --pi-fg: #e0e0e0;
       --pi-fg-muted: #808080;
       --pi-fg-dim: #666666;
-      --pi-accent: #8abeb7;
-      --pi-accent-hover: #9dcec7;
-      --pi-accent-muted: rgba(138, 190, 183, 0.15);
+      --pi-accent: #d25a5a;
+      --pi-accent-hover: #e06a6a;
+      --pi-accent-muted: rgba(210, 90, 90, 0.16);
       --pi-border: #5f87ff;
       --pi-border-muted: #505050;
       --pi-border-focus: #7a7a8a;
@@ -157,9 +163,9 @@
         --pi-fg: #1a1a1a;
         --pi-fg-muted: #6c6c6c;
         --pi-fg-dim: #8a8a8a;
-        --pi-accent: #5f8787;
-        --pi-accent-hover: #4a7272;
-        --pi-accent-muted: rgba(95, 135, 135, 0.15);
+        --pi-accent: #b94f4f;
+        --pi-accent-hover: #9f4141;
+        --pi-accent-muted: rgba(185, 79, 79, 0.14);
         --pi-border: #5f87af;
         --pi-border-muted: #b0b0b0;
         --pi-border-focus: #8a8a9a;
@@ -516,6 +522,32 @@
     .pi-note-textarea::placeholder {
       color: var(--pi-fg-dim);
     }
+
+    .pi-note-status {
+      margin-top: 8px;
+      padding: 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--pi-fg-muted);
+      font: 12px/1.4 var(--pi-font-ui);
+    }
+
+    .pi-note-status.resolved {
+      border: 1px solid rgba(101, 240, 183, 0.45);
+      color: #65f0b7;
+    }
+
+    .pi-note-done {
+      margin-top: 8px;
+      width: 100%;
+      border: 1px solid rgba(101, 240, 183, 0.45);
+      border-radius: 6px;
+      background: rgba(101, 240, 183, 0.12);
+      color: #65f0b7;
+      padding: 7px 9px;
+      cursor: pointer;
+      font: 700 12px var(--pi-font-ui);
+    }
     
     /* ═══════════════════════════════════════════════════════════════════
        Bottom Panel
@@ -523,20 +555,23 @@
     #pi-panel {
       position: fixed;
       bottom: 1.25rem;
-      right: 1.25rem;
-      width: min(860px, calc(100vw - 2.5rem));
+      right: calc(1.25rem + var(--nexus-annotation-sidebar-offset, 0px));
+      width: min(860px, calc(100vw - 2.5rem - var(--nexus-annotation-sidebar-offset, 0px)));
       background: #1a1a1a;
       color: #fff;
       font-family: var(--pi-font-ui);
-      padding: 0.375rem;
+      padding: 0.5rem;
       z-index: ${Z_INDEX_PANEL};
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
       border: none;
       border-radius: 1.5rem;
-      display: flex;
+      display: grid;
+      grid-template-columns: auto minmax(260px, 1fr) auto;
+      grid-template-areas:
+        "live workspace close"
+        "count context submit";
       align-items: center;
       gap: 0.375rem;
-      flex-wrap: wrap;
       pointer-events: auto;
       user-select: none;
       animation: pi-toolbar-enter 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) both;
@@ -550,13 +585,7 @@
     #pi-panel * { box-sizing: border-box; }
 
     .pi-header {
-      display: flex;
-      align-items: center;
-      gap: 0.375rem;
-      margin: 0;
-      padding: 0;
-      border: none;
-      flex: 0 0 auto;
+      display: contents;
     }
 
     .pi-logo {
@@ -578,6 +607,8 @@
     .pi-hint { display: none; }
 
     .pi-close {
+      grid-area: close;
+      justify-self: end;
       width: 34px;
       height: 34px;
       border-radius: 50%;
@@ -595,12 +626,7 @@
     .pi-close:active { transform: scale(0.92); }
 
     .pi-toolbar {
-      display: flex;
-      align-items: center;
-      gap: 0.375rem;
-      margin: 0;
-      flex: 1 1 auto;
-      min-width: 280px;
+      display: contents;
     }
 
     .pi-mode-toggle {
@@ -636,6 +662,8 @@
       color: var(--pi-accent-hover);
     }
 
+    #pi-live-toggle { grid-area: live; justify-self: start; }
+
     .pi-screenshot-toggle {
       display: flex;
       align-items: center;
@@ -656,6 +684,7 @@
     .pi-spacer { display: none; }
 
     .pi-count {
+      grid-area: count;
       position: relative;
       min-width: 18px;
       height: 18px;
@@ -756,9 +785,8 @@
     }
 
     .pi-context-row {
+      display: contents;
       margin: 0;
-      flex: 1 1 220px;
-      min-width: 180px;
     }
 
     .pi-context-row input {
@@ -782,12 +810,15 @@
 
     .pi-context-row input::placeholder { color: rgba(255, 255, 255, 0.42); }
 
+    #pi-workspace-dir { grid-area: workspace; text-align: center; cursor: pointer; }
+    #pi-context { grid-area: context; }
+
     .pi-actions {
+      grid-area: submit;
       display: flex;
       justify-content: flex-end;
       padding: 0;
       border: none;
-      flex: 0 0 auto;
     }
 
     .pi-buttons { display: flex; gap: 0.375rem; }
@@ -805,13 +836,6 @@
     }
 
     .pi-btn:active { transform: scale(0.96); }
-
-    .pi-btn-cancel {
-      background: transparent;
-      color: rgba(255, 255, 255, 0.72);
-    }
-
-    .pi-btn-cancel:hover { background: rgba(255, 56, 60, 0.24); color: #ff383c; }
 
     .pi-btn-submit {
       background: var(--pi-accent);
@@ -856,8 +880,7 @@
       showLauncher();
       sendResponse?.(getLauncherState());
     } else if (msg.type === "HIDE_LAUNCHER") {
-      deactivate();
-      hideLauncher();
+      hideToolbarOnly();
       sendResponse?.(getLauncherState());
     } else if (msg.type === "GET_LAUNCHER_STATE") {
       sendResponse?.(getLauncherState());
@@ -891,6 +914,45 @@
    */
   function isLocalhostPage() {
     return window.location.hostname.includes("localhost");
+  }
+
+  /**
+   * Reads the persisted workspace directory for the real Nexus agent.
+   *
+   * @returns {string} Workspace directory path.
+   */
+  function readWorkspaceDirPreference() {
+    return window.localStorage.getItem(WORKSPACE_DIR_STORAGE_KEY) || "";
+  }
+
+  /**
+   * Persists the workspace directory for the real Nexus agent.
+   *
+   * @param {string} workspaceDir Local project directory.
+   */
+  function writeWorkspaceDirPreference(workspaceDir) {
+    window.localStorage.setItem(WORKSPACE_DIR_STORAGE_KEY, workspaceDir);
+  }
+
+  /**
+   * Ensures the workspace input shows the directory that will be submitted.
+   */
+  function syncWorkspaceDirInput() {
+    const input = document.getElementById("pi-workspace-dir");
+    if (input && !input.value) input.value = readWorkspaceDirPreference();
+  }
+
+  /**
+   * Opens the browser's native directory picker affordance.
+   */
+  async function openWorkspacePicker() {
+    const input = document.getElementById("pi-workspace-dir");
+    if (window.showDirectoryPicker) {
+      await window.showDirectoryPicker();
+      input?.focus();
+      return;
+    }
+    document.getElementById("pi-workspace-picker")?.click();
   }
 
   /**
@@ -957,23 +1019,12 @@
     launcherEl.id = "pi-launcher";
     launcherEl.setAttribute("aria-label", "Nexus annotation launcher");
     launcherEl.innerHTML = `
-      <button class="pi-launcher-mark" id="pi-launcher-toggle" title="Toggle annotation toolbar">N</button>
-      <span class="pi-launcher-controls">
-        <button class="pi-launcher-primary" id="pi-launcher-start">Start annotation</button>
-        <button class="pi-launcher-close" id="pi-launcher-close" title="Collapse annotation toolbar">×</button>
-      </span>
+      <button class="pi-launcher-mark" id="pi-launcher-toggle" title="Start annotation">N</button>
     `;
     document.body.appendChild(launcherEl);
-    setLauncherExpanded(false);
-    launcherEl.addEventListener("click", handleLauncherShellClick);
     document.getElementById("pi-launcher-toggle")?.addEventListener("click", () => {
-      setLauncherExpanded(!launcherEl.classList.contains("pi-launcher-expanded"));
-    });
-    document.getElementById("pi-launcher-start")?.addEventListener("click", () => {
-      hideLauncher({ keepStyles: true, keepPreference: true });
       activate();
     });
-    document.getElementById("pi-launcher-close")?.addEventListener("click", () => setLauncherExpanded(false));
   }
 
   /**
@@ -981,49 +1032,37 @@
    *
    * @param {{ keepStyles?: boolean }} options Launcher cleanup options.
    */
-  function hideLauncher(options = {}) {
-    if (!options.keepPreference) writeLauncherVisibilityPreference(false);
-    launcherEl?.remove();
-    launcherEl = null;
-    if (!options.keepStyles && !isActive) {
-      styleEl?.remove();
-      styleEl = null;
-    }
+  function hideLauncher() {
+    showLauncher();
   }
 
   /**
    * Toggles the compact launcher toolbar from the extension action.
    */
   function toggleLauncher() {
-    if (!isLocalhostPage()) {
-      hideLauncher();
-      return;
-    }
+    if (!isLocalhostPage()) return;
     if (isActive) {
-      deactivate();
+      hideToolbarOnly();
       return;
     }
-    if (launcherEl) hideLauncher();
-    else showLauncher();
+    showLauncher();
   }
 
   /**
    * Restores the launcher after page reload when the extension toggle left it visible.
    */
   function restoreLauncherVisibility() {
-    if (isLocalhostPage() && readLauncherVisibilityPreference()) showLauncher();
+    if (isLocalhostPage()) showLauncher();
   }
   
   function activate() {
     if (!isLocalhostPage()) return;
     if (isActive) {
-      console.log("[pi-annotate] Restarting session (new request)");
-      resetState();
+      if (panelEl) panelEl.style.display = "";
       return;
     }
     isActive = true;
-    
-    hideLauncher({ keepStyles: true, keepPreference: true });
+    showLauncher();
     ensureStyles();
     
     // Create UI
@@ -1054,11 +1093,15 @@
     selectedElements = [];
     elementScreenshots = new Map();
     elementComments = new Map();
+    elementFeedbackHistory = new Map();
+    elementResolutionStatus = new Map();
+    elementAnnotationIds = new Map();
+    noteAnchors = new Map();
     openNotes = new Set();
     notePositions = new Map();
     dragState = null;
-    multiSelectMode = false;
-    screenshotMode = "each";
+    screenshotMode = "none";
+    liveMode = true;
     debugMode = false;
     resetCSSVarCache();
     etchMode = false;
@@ -1080,36 +1123,9 @@
     hideHighlight();
     hideTooltip();
     
-    // Reset mode toggle buttons
-    const singleBtn = document.getElementById("pi-mode-single");
-    const multiBtn = document.getElementById("pi-mode-multi");
-    if (singleBtn && multiBtn) {
-      singleBtn.classList.add("active");
-      multiBtn.classList.remove("active");
-    }
-    
-    // Reset screenshot mode buttons
-    const eachBtn = document.getElementById("pi-ss-each");
-    const fullBtn = document.getElementById("pi-ss-full");
-    const noneBtn = document.getElementById("pi-ss-none");
-    if (eachBtn && fullBtn && noneBtn) {
-      eachBtn.classList.add("active");
-      fullBtn.classList.remove("active");
-      noneBtn.classList.remove("active");
-    }
-    
     // Clear context input
     const contextEl = document.getElementById("pi-context");
     if (contextEl) contextEl.value = "";
-    
-    // Reset debug mode checkbox
-    const debugCheckbox = document.getElementById("pi-debug-mode");
-    if (debugCheckbox) debugCheckbox.checked = false;
-
-    const etchCheckbox = document.getElementById("pi-etch-mode");
-    if (etchCheckbox) etchCheckbox.checked = false;
-    const etchToggle = etchCheckbox?.closest(".pi-etch-toggle");
-    if (etchToggle) etchToggle.classList.remove("recording");
     
     // Update count
     const countEl = document.getElementById("pi-count");
@@ -1151,12 +1167,16 @@
     selectedElements = [];
     elementScreenshots = new Map();
     elementComments = new Map();
+    elementFeedbackHistory = new Map();
+    elementResolutionStatus = new Map();
+    elementAnnotationIds = new Map();
+    noteAnchors = new Map();
     openNotes = new Set();
     notePositions = new Map();
     dragState = null;
     requestId = null;
-    multiSelectMode = false;
-    screenshotMode = "each";
+    screenshotMode = "none";
+    liveMode = true;
     debugMode = false;
     resetCSSVarCache();
     etchMode = false;
@@ -1211,86 +1231,35 @@
     panelEl.id = "pi-panel";
     panelEl.innerHTML = `
       <div class="pi-header">
-        <span class="pi-logo">Nexus Annotate</span>
         <span class="pi-hint">Click elements • ${ALT_KEY_LABEL}+scroll cycles parents • ESC to close</span>
         <button class="pi-close" id="pi-close" title="Close (ESC)">×</button>
       </div>
       <div class="pi-toolbar">
-        <div class="pi-mode-toggle">
-          <button class="pi-mode-btn active" id="pi-mode-single" title="Click replaces selection">Single</button>
-          <button class="pi-mode-btn" id="pi-mode-multi" title="Click adds to selection">Multi</button>
-        </div>
-        <div class="pi-screenshot-toggle">
-          <span class="pi-toggle-label">Screenshot</span>
-          <button class="pi-ss-btn active" id="pi-ss-each" title="Crop screenshot to each element">Crop</button>
-          <button class="pi-ss-btn" id="pi-ss-full" title="Capture entire viewport">Full</button>
-          <button class="pi-ss-btn" id="pi-ss-none" title="No screenshots">None</button>
-        </div>
+        <button class="pi-ss-btn active" id="pi-live-toggle" title="Submit each note to Nexus when Enter is pressed">Live</button>
         <div class="pi-spacer"></div>
         <span class="pi-count" id="pi-count">0 selected</span>
-        <label class="pi-notes-toggle" title="Show/hide all note cards">
-          <input type="checkbox" id="pi-notes-visible" checked />
-          <span>Notes</span>
-        </label>
-        <label class="pi-notes-toggle" title="Capture computed styles, layout, and CSS variables">
-          <input type="checkbox" id="pi-debug-mode" />
-          <span>Debug</span>
-        </label>
-        <label class="pi-notes-toggle pi-etch-toggle" title="Record DevTools edits (style, class, CSS rule changes)">
-          <input type="checkbox" id="pi-etch-mode" />
-          <span>Etch</span>
-          <span class="pi-etch-badge" id="pi-etch-count" style="display:none"></span>
-        </label>
       </div>
       <div class="pi-context-row">
+        <input type="text" id="pi-workspace-dir" placeholder="Project directory for Nexus agent" value="${escapeHtml(readWorkspaceDirPreference())}" />
         <input type="text" id="pi-context" placeholder="General context (optional)..." />
       </div>
       <div class="pi-actions">
         <div class="pi-buttons">
-          <button class="pi-btn pi-btn-cancel" id="pi-cancel">Hide</button>
           <button class="pi-btn pi-btn-submit" id="pi-submit">Submit</button>
         </div>
       </div>
+      <input type="file" id="pi-workspace-picker" webkitdirectory directory style="display:none" />
     `;
     document.body.appendChild(panelEl);
+    syncWorkspaceDirInput();
     
     document.getElementById("pi-close").addEventListener("click", hideActiveAnnotationPanel);
-    document.getElementById("pi-cancel").addEventListener("click", hideActiveAnnotationPanel);
     document.getElementById("pi-submit").addEventListener("click", handleSubmit);
-    
-    // Mode toggle
-    document.getElementById("pi-mode-single").addEventListener("click", () => setMultiMode(false));
-    document.getElementById("pi-mode-multi").addEventListener("click", () => setMultiMode(true));
-    
-    // Screenshot mode toggle
-    document.getElementById("pi-ss-each").addEventListener("click", () => setScreenshotMode("each"));
-    document.getElementById("pi-ss-full").addEventListener("click", () => setScreenshotMode("full"));
-    document.getElementById("pi-ss-none").addEventListener("click", () => setScreenshotMode("none"));
-    
-    // Notes visibility toggle
-    document.getElementById("pi-notes-visible").addEventListener("change", (e) => {
-      if (e.target.checked) {
-        expandAllNotes();
-      } else {
-        collapseAllNotes();
-      }
+    document.getElementById("pi-live-toggle").addEventListener("click", toggleLiveMode);
+    document.getElementById("pi-workspace-dir").addEventListener("change", (event) => {
+      writeWorkspaceDirPreference(event.target.value.trim());
     });
-    
-    // Debug mode toggle
-    document.getElementById("pi-debug-mode").addEventListener("change", (e) => {
-      debugMode = e.target.checked;
-    });
-
-    document.getElementById("pi-etch-mode").addEventListener("change", (e) => {
-      const toggle = e.target.closest(".pi-etch-toggle");
-      if (e.target.checked) {
-        startEtchCapture();
-        if (toggle) toggle.classList.add("recording");
-      } else {
-        stopEtchCapture();
-        if (toggle) toggle.classList.remove("recording");
-      }
-    });
+    document.getElementById("pi-workspace-dir").addEventListener("click", () => void openWorkspacePicker());
     
     // Stop events from reaching the page
     panelEl.addEventListener("mousemove", e => e.stopPropagation(), true);
@@ -1303,57 +1272,37 @@
     }, true);
   }
   
-  function setMultiMode(isMulti) {
-    multiSelectMode = isMulti;
-    const singleBtn = document.getElementById("pi-mode-single");
-    const multiBtn = document.getElementById("pi-mode-multi");
-    if (singleBtn && multiBtn) {
-      singleBtn.classList.toggle("active", !isMulti);
-      multiBtn.classList.toggle("active", isMulti);
-    }
-  }
-  
-  function setScreenshotMode(mode) {
-    screenshotMode = mode;
-    const eachBtn = document.getElementById("pi-ss-each");
-    const fullBtn = document.getElementById("pi-ss-full");
-    const noneBtn = document.getElementById("pi-ss-none");
-    if (eachBtn && fullBtn && noneBtn) {
-      eachBtn.classList.toggle("active", mode === "each");
-      fullBtn.classList.toggle("active", mode === "full");
-      noneBtn.classList.toggle("active", mode === "none");
-    }
+  /**
+   * Toggles live note submission mode.
+   */
+  function toggleLiveMode() {
+    liveMode = !liveMode;
+    document.getElementById("pi-live-toggle")?.classList.toggle("active", liveMode);
+    window.NexusAnnotationSidebar?.show?.();
   }
   
   // ─────────────────────────────────────────────────────────────────────
   // Note Card Functions
   // ─────────────────────────────────────────────────────────────────────
   
-  function calculateNotePosition(element, cardWidth = 280, cardHeight = 150) {
+  function getMainAppRightEdge() {
+    const sidebarOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nexus-annotation-sidebar-offset")) || 0;
+    return window.innerWidth - sidebarOffset;
+  }
+  
+  function calculateNotePosition(element, cardWidth = 280, cardHeight = 150, anchor = null) {
     const rect = element.getBoundingClientRect();
-    const vw = window.innerWidth;
+    const vw = getMainAppRightEdge();
     const vh = window.innerHeight;
     const panelHeight = document.getElementById("pi-panel")?.offsetHeight || 96;
     const margin = 16;
-    
-    // Try right side first
-    if (rect.right + margin + cardWidth < vw) {
-      return { x: rect.right + margin, y: Math.max(margin, rect.top) };
-    }
-    // Try left side
-    if (rect.left - margin - cardWidth > 0) {
-      return { x: rect.left - margin - cardWidth, y: Math.max(margin, rect.top) };
-    }
-    // Try below
-    if (rect.bottom + margin + cardHeight < vh - panelHeight) {
-      return { x: Math.max(margin, rect.left), y: rect.bottom + margin };
-    }
-    // Try above
-    if (rect.top - margin - cardHeight > 0) {
-      return { x: Math.max(margin, rect.left), y: rect.top - margin - cardHeight };
-    }
-    // Fallback: offset from element
-    return { x: Math.min(rect.right + margin, vw - cardWidth - margin), y: Math.max(margin, rect.top) };
+    const xAnchor = anchor?.x ?? Math.min(Math.max(rect.left, margin), vw - margin);
+    const yAnchor = anchor?.y ?? rect.top;
+    const x = Math.max(margin, Math.min(xAnchor - cardWidth / 2, vw - cardWidth - margin));
+    const yAbove = yAnchor - cardHeight - margin;
+    const yBelow = yAnchor + margin;
+    const y = yAbove > margin ? yAbove : Math.min(yBelow, vh - panelHeight - cardHeight - margin);
+    return { x, y: Math.max(margin, y) };
   }
   
   function hasOverlap(rect1, rect2, margin = 8) {
@@ -1394,8 +1343,8 @@
       attempts++;
     }
     
-    // Clamp to viewport
-    const vw = window.innerWidth;
+    // Clamp to main app area, excluding the Nexus agent sidebar.
+    const vw = getMainAppRightEdge();
     const vh = window.innerHeight;
     const panelHeight = document.getElementById("pi-panel")?.offsetHeight || 96;
     adjusted.x = Math.max(16, Math.min(adjusted.x, vw - cardSize.width - 16));
@@ -1418,7 +1367,7 @@
     if (notePositions.has(index)) {
       adjustedPos = notePositions.get(index);
     } else {
-      const position = calculateNotePosition(sel.element);
+      const position = calculateNotePosition(sel.element, 280, 150, noteAnchors.get(index));
       adjustedPos = adjustForCollisions(
         position,
         { width: 280, height: 150 },
@@ -1440,13 +1389,12 @@
       <div class="pi-note-header">
         <span class="pi-note-badge">${index + 1}</span>
         <span class="pi-note-selector" title="${escapeHtml(sel.selector)}">${escapeHtml(label)}</span>
-        <button class="pi-note-expand" title="Expand to parent">▲</button>
-        <button class="pi-note-contract" title="Contract to child">▼</button>
-        <button class="pi-note-screenshot ${hasScreenshot ? "active" : ""}" title="Toggle screenshot">📷</button>
         <button class="pi-note-close" title="Remove element">×</button>
       </div>
       <div class="pi-note-body">
         <textarea class="pi-note-textarea" placeholder="Describe changes for this element...">${escapeHtml(comment)}</textarea>
+        <div class="pi-note-status" data-role="status" style="display:none"></div>
+        <button class="pi-note-done" data-role="done" style="display:none">✓ Mark done</button>
       </div>
     `;
     
@@ -1464,25 +1412,15 @@
       event.preventDefault();
       event.stopPropagation();
       elementComments.set(getIndex(), textarea.value);
+      if (liveMode) void submitLiveNote(getIndex());
       textarea.blur();
     });
     
-    const screenshotBtn = card.querySelector(".pi-note-screenshot");
-    screenshotBtn.addEventListener("click", () => {
-      const idx = getIndex();
-      const current = elementScreenshots.get(idx) !== false;
-      elementScreenshots.set(idx, !current);
-      screenshotBtn.classList.toggle("active", !current);
-    });
-    
+    const doneBtn = card.querySelector('[data-role="done"]');
+    doneBtn.addEventListener("click", () => removeElement(getIndex()));
+
     const closeBtn = card.querySelector(".pi-note-close");
     closeBtn.addEventListener("click", () => removeElement(getIndex()));
-    
-    const expandBtn = card.querySelector(".pi-note-expand");
-    expandBtn.addEventListener("click", () => expandElement(getIndex()));
-    
-    const contractBtn = card.querySelector(".pi-note-contract");
-    contractBtn.addEventListener("click", () => contractElement(getIndex()));
     
     const selectorEl = card.querySelector(".pi-note-selector");
     selectorEl.addEventListener("click", () => {
@@ -1497,12 +1435,109 @@
     notesContainer.appendChild(card);
     openNotes.add(index);
     
+    updateNoteResolutionCard(index);
+
     // Focus textarea
     textarea.focus();
     
     return card;
   }
   
+  /**
+   * Updates one note card with submitted/resolved feedback history.
+   *
+   * @param {number} index Selected element index.
+   */
+  function updateNoteResolutionCard(index) {
+    const card = notesContainer?.querySelector(`[data-index="${index}"]`);
+    if (!card) return;
+    const statusEl = card.querySelector('[data-role="status"]');
+    const doneBtn = card.querySelector('[data-role="done"]');
+    const status = elementResolutionStatus.get(index);
+    const feedback = elementFeedbackHistory.get(index);
+    if (!status || !feedback) {
+      statusEl.style.display = "none";
+      doneBtn.style.display = "none";
+      return;
+    }
+    statusEl.style.display = "block";
+    statusEl.classList.toggle("resolved", status === "resolved");
+    statusEl.textContent = status === "resolved" ? `Resolved: ${feedback}` : `Submitted: ${feedback}`;
+    doneBtn.style.display = status === "resolved" ? "block" : "none";
+  }
+
+  /**
+   * Marks one note card as submitted to the real Nexus chat.
+   *
+   * @param {number} index Selected element index.
+   */
+  function markNoteSubmitted(index) {
+    const feedback = (elementComments.get(index) || "").trim() || "No per-element note.";
+    elementFeedbackHistory.set(index, feedback);
+    elementResolutionStatus.set(index, "submitted");
+    updateNoteResolutionCard(index);
+  }
+
+  /**
+   * Marks currently selected note cards as submitted to the real Nexus chat.
+   */
+  function markSelectedNotesSubmitted() {
+    selectedElements.forEach((_selection, index) => markNoteSubmitted(index));
+  }
+
+  /**
+   * Marks submitted note cards as resolved after the real Nexus chat finishes.
+   */
+  function markAnnotationResolved(annotationId) {
+    selectedElements.forEach((_selection, index) => {
+      if (elementAnnotationIds.get(index) !== annotationId) return;
+      elementResolutionStatus.set(index, "resolved");
+      updateNoteResolutionCard(index);
+    });
+  }
+
+  /**
+   * Creates a serializable annotation element for one selected element.
+   *
+   * @param {number} index Selected element index.
+   * @returns Serialized element payload.
+   */
+  function createSubmittedElement(index) {
+    const selection = selectedElements[index];
+    if (!selection) return null;
+    const { element, ...rest } = selection;
+    return { ...rest, comment: elementComments.get(index) || "" };
+  }
+
+  /**
+   * Submits one note immediately when live mode is enabled.
+   *
+   * @param {number} index Selected element index.
+   */
+  async function submitLiveNote(index) {
+    const element = createSubmittedElement(index);
+    if (!element) return;
+    const workspaceDir = document.getElementById("pi-workspace-dir")?.value?.trim() || readWorkspaceDirPreference();
+    const prompt = (elementComments.get(index) || "").trim();
+    writeWorkspaceDirPreference(workspaceDir);
+    markNoteSubmitted(index);
+    window.NexusAnnotationSidebar?.show?.();
+    const response = await chrome.runtime.sendMessage({
+      type: "ANNOTATIONS_COMPLETE",
+      requestId,
+      result: {
+        success: true,
+        elements: [element],
+        screenshots: [],
+        prompt,
+        url: window.location.href,
+        workspaceDir,
+        viewport: { width: window.innerWidth, height: window.innerHeight },
+      },
+    });
+    if (response?.annotation?.id) elementAnnotationIds.set(index, response.annotation.id);
+  }
+
   function toggleNote(index) {
     if (openNotes.has(index)) {
       // Close note
@@ -1609,6 +1644,10 @@
     
     elementScreenshots = reindexMap(elementScreenshots);
     elementComments = reindexMap(elementComments);
+    elementFeedbackHistory = reindexMap(elementFeedbackHistory);
+    elementResolutionStatus = reindexMap(elementResolutionStatus);
+    elementAnnotationIds = reindexMap(elementAnnotationIds);
+    noteAnchors = reindexMap(noteAnchors);
     notePositions = reindexMap(notePositions);
     openNotes = reindexSet(openNotes);
     
@@ -1867,7 +1906,7 @@
   // ─────────────────────────────────────────────────────────────────────
   
   function onMouseMove(e) {
-    if (!isActive || e.target.closest("#pi-panel") || e.target.closest(".pi-note-card")) {
+    if (!isActive || e.target.closest("#nexus-annotation-agent-sidebar") || e.target.closest("#pi-panel") || e.target.closest(".pi-note-card")) {
       hideHighlight();
       hideTooltip();
       return;
@@ -1900,7 +1939,7 @@
   }
   
   function onWheel(e) {
-    if (!isActive || !elementStack.length || e.target.closest("#pi-panel") || e.target.closest(".pi-note-card")) return;
+    if (!isActive || !elementStack.length || e.target.closest("#nexus-annotation-agent-sidebar") || e.target.closest("#pi-panel") || e.target.closest(".pi-note-card")) return;
     
     if (!e.altKey) return;
     
@@ -1916,7 +1955,7 @@
   }
   
   function onClick(e) {
-    if (!isActive || e.target.closest("#pi-panel") || e.target.closest(".pi-note-card")) return;
+    if (!isActive || e.target.closest("#nexus-annotation-agent-sidebar") || e.target.closest("#pi-panel") || e.target.closest(".pi-note-card")) return;
     
     e.preventDefault();
     e.stopPropagation();
@@ -1932,20 +1971,12 @@
       return;
     }
     
-    // Not selected - add it
-    const addToExisting = multiSelectMode || e.shiftKey;
-    if (!addToExisting) {
-      // Clear existing selections
-      collapseAllNotes();
-      selectedElements = [];
-      elementScreenshots = new Map();
-      elementComments = new Map();
-      notePositions = new Map();
-    }
+    // Not selected - add it without clearing existing selections.
     selectElement(el);
     
-    // Auto-open note for the newly selected element
+    // Auto-open note above the clicked point.
     const newIndex = selectedElements.length - 1;
+    noteAnchors.set(newIndex, { x: e.clientX, y: e.clientY });
     createNoteCard(newIndex);
     
     updateBadges();
@@ -1956,7 +1987,16 @@
     if (!isActive) return;
     if (e.key === "Escape") {
       e.preventDefault();
-      hideActiveAnnotationPanel();
+      const focusedCard = document.activeElement?.closest?.(".pi-note-card");
+      if (focusedCard) {
+        const index = Number.parseInt(focusedCard.dataset.index, 10);
+        const comment = (elementComments.get(index) || "").trim();
+        if (!comment && elementResolutionStatus.get(index) !== "submitted") {
+          removeElement(index);
+          return;
+        }
+      }
+      hideToolbarOnly();
     }
   }
   
@@ -1974,7 +2014,7 @@
       if (!card) return;
       
       const rect = card.getBoundingClientRect();
-      const vw = window.innerWidth;
+      const vw = getMainAppRightEdge();
       const vh = window.innerHeight;
       
       let newX = card.offsetLeft;
@@ -2563,6 +2603,10 @@
     const nextSelections = [];
     const nextScreenshots = new Map();
     const nextComments = new Map();
+    const nextFeedbackHistory = new Map();
+    const nextResolutionStatus = new Map();
+    const nextAnnotationIds = new Map();
+    const nextAnchors = new Map();
     const nextPositions = new Map();
     const nextOpenNotes = new Set();
     
@@ -2576,6 +2620,18 @@
         }
         if (elementComments.has(i)) {
           nextComments.set(nextIndex, elementComments.get(i));
+        }
+        if (elementFeedbackHistory.has(i)) {
+          nextFeedbackHistory.set(nextIndex, elementFeedbackHistory.get(i));
+        }
+        if (elementResolutionStatus.has(i)) {
+          nextResolutionStatus.set(nextIndex, elementResolutionStatus.get(i));
+        }
+        if (elementAnnotationIds.has(i)) {
+          nextAnnotationIds.set(nextIndex, elementAnnotationIds.get(i));
+        }
+        if (noteAnchors.has(i)) {
+          nextAnchors.set(nextIndex, noteAnchors.get(i));
         }
         if (notePositions.has(i)) {
           nextPositions.set(nextIndex, notePositions.get(i));
@@ -2593,6 +2649,10 @@
       selectedElements = nextSelections;
       elementScreenshots = nextScreenshots;
       elementComments = nextComments;
+      elementFeedbackHistory = nextFeedbackHistory;
+      elementResolutionStatus = nextResolutionStatus;
+      elementAnnotationIds = nextAnnotationIds;
+      noteAnchors = nextAnchors;
       notePositions = nextPositions;
       
       notesContainer.innerHTML = "";
@@ -3289,6 +3349,8 @@
   
   async function handleSubmit() {
     const context = document.getElementById("pi-context")?.value?.trim() || "";
+    const workspaceDir = document.getElementById("pi-workspace-dir")?.value?.trim() || readWorkspaceDirPreference();
+    writeWorkspaceDirPreference(workspaceDir);
     
     // Re-capture debug data for all elements if debug mode is on at submit time
     // (handles elements selected before debug was enabled)
@@ -3393,7 +3455,14 @@
       }
     }
     
-    chrome.runtime.sendMessage({
+    if (markersContainer) markersContainer.style.display = "";
+    if (notesContainer) notesContainer.style.display = "";
+    if (connectorsEl) connectorsEl.style.display = "";
+    if (panelEl) panelEl.style.display = "";
+    updateBadges();
+    updateConnectors();
+
+    const response = await chrome.runtime.sendMessage({
       type: "ANNOTATIONS_COMPLETE",
       requestId,
       result: {
@@ -3403,20 +3472,32 @@
         screenshots,
         prompt: context,
         url: window.location.href,
+        workspaceDir,
         viewport: { width: window.innerWidth, height: window.innerHeight },
         editCapture,
       },
     });
-    
-    deactivate();
+
+    markSelectedNotesSubmitted();
+    if (response?.annotation?.id) {
+      selectedElements.forEach((_selection, index) => elementAnnotationIds.set(index, response.annotation.id));
+    }
+    window.NexusAnnotationSidebar?.show?.();
   }
   
+  /**
+   * Hides the bottom toolbar while keeping selected notes and annotation state.
+   */
+  function hideToolbarOnly() {
+    if (panelEl) panelEl.style.display = "none";
+    showLauncher();
+  }
+
   /**
    * Hides active annotation controls without cancelling or submitting the session.
    */
   function hideActiveAnnotationPanel() {
-    deactivate();
-    showLauncher();
+    hideToolbarOnly();
   }
 
   function handleCancel() {
@@ -3434,6 +3515,10 @@
     }
   }
   
+  window.addEventListener("nexus-annotation-agent-resolved", (event) => {
+    const annotationId = event.detail?.annotationId;
+    if (annotationId) markAnnotationResolved(annotationId);
+  });
   restoreLauncherVisibility();
   console.log("[pi-annotate] Content script ready (v0.4.0)");
 })();

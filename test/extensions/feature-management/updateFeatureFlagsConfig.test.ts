@@ -29,3 +29,21 @@ test("feature flag config updates preserve feature lists while toggling status a
 	});
 	assert.equal(config.extensions.alpha?.enabled, true);
 });
+
+test("feature flag config updates mini-apps through their source bucket", () => {
+	const config: FeatureFlagsConfig = {
+		extensions: {},
+		other: {
+			"social-chat": {
+				category: "mini-app",
+				enabled: false,
+				features: ["social chat CLI commands"],
+			},
+		},
+	};
+
+	const updated = updateFeatureFlagsConfig(config, "social-chat", { status: "enabled" }, "other");
+
+	assert.equal(updated.other?.["social-chat"]?.enabled, true);
+	assert.equal(updated.other?.["social-chat"]?.category, "mini-app");
+});

@@ -9,8 +9,8 @@ import { readFile, writeFile } from "node:fs/promises";
  */
 export async function patchBundledPiConfig(bundledEntryPath) {
   const sourceCode = await readFile(bundledEntryPath, "utf8");
-  const dirnameMatch = sourceCode.match(/if \(isBunBinary\) {\n    return (dirname\d*)\(process\.execPath\);\n  }\n  let dir = __dirname2;/);
-  const joinMatch = sourceCode.match(/existsSync2\((join\d*)\(dir, "package\.json"\)\)/);
+  const dirnameMatch = sourceCode.match(/if \(isBunBinary\) {\n\s+return (dirname\d*)\(process\.execPath\);\n\s+}\n\s+let dir = __dirname2;/);
+  const joinMatch = sourceCode.match(/existsSync\d*\((join\d*)\(dir, "package\.json"\)\)/);
 
   if (!dirnameMatch || !joinMatch) {
     throw new Error("Failed to patch bundled Pi package-dir lookup.");

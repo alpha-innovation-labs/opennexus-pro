@@ -8,6 +8,5 @@ import type { FeatureManagementTab, FeatureStatusRow } from "../model/types.js";
  * @returns Rows visible for the selected tab.
  */
 export function filterFeatureStatusRowsByTab(rows: FeatureStatusRow[], tab: FeatureManagementTab): FeatureStatusRow[] {
-	if (tab === "all") return rows;
 	return rows.filter((row) => row.category === tab);
 }

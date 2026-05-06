@@ -1,4 +1,4 @@
-import { startAnnotationsDaemon } from "@nexus/annotations-daemon-core/commands/startAnnotationsDaemon.js";
+import { startAnnotationsDaemon } from "@nexus/mini-apps/annotation/core/commands/startAnnotationsDaemon.js";
 
 /**
  * Ensures the local annotations daemon is running for browser feedback capture.

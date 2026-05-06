@@ -1,9 +1,8 @@
 import type { FeatureManagementTab } from "../model/types.js";
 
 const FEATURE_MANAGEMENT_TAB_LABELS: Record<FeatureManagementTab, string> = {
-	all: "All",
 	extensions: "Extensions",
-	other: "Other",
+	"mini-apps": "Mini-Apps",
 };
 
 /**

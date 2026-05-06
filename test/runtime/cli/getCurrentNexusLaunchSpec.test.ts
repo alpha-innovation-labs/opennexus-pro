@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getSourceEntrypointPath } from "../../../packages/gateway-core/src/process/getSourceEntrypointPath.js";
+import { getSourceEntrypointPath } from "../../../packages/nexus-runtime/src/cli/getSourceEntrypointPath.js";
 import { getCurrentNexusLaunchSpec } from "../../../packages/nexus-runtime/src/cli/getCurrentNexusLaunchSpec.js";
 import {
   isResumeLaunch,
@@ -51,10 +51,10 @@ test("getCurrentNexusLaunchSpec falls back to the current cli entrypoint outside
   process.argv = ["/usr/local/bin/node", "/opt/homebrew/bin/nexus", "--resume"];
 
   try {
-    const spec = getCurrentNexusLaunchSpec(["gateway", "__gateway-runner"]);
+    const spec = getCurrentNexusLaunchSpec(["social-chat", "__social-chat-runner"]);
 
     assert.equal(spec.command, process.execPath);
-    assert.deepEqual(spec.args, ["/opt/homebrew/bin/nexus", "gateway", "__gateway-runner"]);
+    assert.deepEqual(spec.args, ["/opt/homebrew/bin/nexus", "social-chat", "__social-chat-runner"]);
   } finally {
     process.argv = originalArgv;
   }
@@ -63,13 +63,13 @@ test("getCurrentNexusLaunchSpec falls back to the current cli entrypoint outside
 test("getCurrentNexusLaunchSpec normalizes relative source entrypoint paths", () => {
   const originalArgv = process.argv;
 
-  process.argv = ["/usr/local/bin/node", "apps/tui/src/index.ts", "gateway", "start"];
+  process.argv = ["/usr/local/bin/node", "apps/tui/src/index.ts", "social-chat", "start"];
 
   try {
-    const spec = getCurrentNexusLaunchSpec(["gateway", "__gateway-runner"]);
+    const spec = getCurrentNexusLaunchSpec(["social-chat", "__social-chat-runner"]);
 
     assert.match(spec.command, /tsx$/);
-    assert.match(spec.args.join(" "), /src\/index\.ts gateway __gateway-runner/);
+    assert.match(spec.args.join(" "), /src\/index\.ts social-chat __social-chat-runner/);
   } finally {
     process.argv = originalArgv;
   }
@@ -78,13 +78,13 @@ test("getCurrentNexusLaunchSpec normalizes relative source entrypoint paths", ()
 test("getCurrentNexusLaunchSpec does not treat package source imports as a tsx-launched source entrypoint", () => {
   const originalArgv = process.argv;
 
-  process.argv = ["/usr/local/bin/node", "/opt/homebrew/bin/nexus", "gateway", "restart"];
+  process.argv = ["/usr/local/bin/node", "/opt/homebrew/bin/nexus", "social-chat", "restart"];
 
   try {
-    const spec = getCurrentNexusLaunchSpec(["gateway", "__gateway-runner"]);
+    const spec = getCurrentNexusLaunchSpec(["social-chat", "__social-chat-runner"]);
 
     assert.equal(spec.command, process.execPath);
-    assert.deepEqual(spec.args, ["/opt/homebrew/bin/nexus", "gateway", "__gateway-runner"]);
+    assert.deepEqual(spec.args, ["/opt/homebrew/bin/nexus", "social-chat", "__social-chat-runner"]);
   } finally {
     process.argv = originalArgv;
   }

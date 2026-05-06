@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createJsonLineParser } from "../../../packages/social-adapters/src/telegram/rpc/createJsonLineParser.js";
+import { createJsonLineParser } from "../../../packages/mini-apps/src/social-chat/adapters/telegram/rpc/createJsonLineParser.js";
 
 test("createJsonLineParser emits complete JSON lines across chunks", () => {
   const values: unknown[] = [];

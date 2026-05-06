@@ -48,7 +48,7 @@ Source: `src/feature-flags/generated/compiledFeatureFlags.ts`, where these are d
 
 ### External-channel status
 
-- The gateway supports `nexus gateway <start|stop|restart|status>`. Source: `apps/tui/src/cli/gateway/createGatewayUsageText.ts`.
+- The gateway supports `nexus social-chat <start|stop|restart|status>`. Source: `apps/tui/src/cli/gateway/createGatewayUsageText.ts`.
 - Telegram polling is enabled when `TELEGRAM_BOT_TOKEN` and `TELEGRAM_ALLOWED_USER_IDS` are present. Source: `README.md`.
 - Built-in adapters are Telegram and Discord; Telegram is active polling, Discord is planned. Source: `.agents/skills/nexus/adapters.md`.
 

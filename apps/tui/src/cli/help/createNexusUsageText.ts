@@ -1,6 +1,6 @@
 export type NexusUsageFeatureOptions = {
 	annotation?: boolean;
-	gateway?: boolean;
+	socialChat?: boolean;
 };
 
 /**
@@ -26,7 +26,7 @@ export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): s
 		"  --resume=<session-id>              Open a specific session directly",
 		"  --session <session-id>             Open a specific session directly",
 		"  --startup-profile                  Write startup timings to /tmp/nexus-startup-profile.log",
-		"  --no-extensions, -ne               Disable bundled extension registration",
+		"  --no-extensions, -ne               Disable extension registration",
 		"",
 		"Passthrough options:",
 		"  -p <prompt>                        Submit a prompt and exit",
@@ -49,13 +49,13 @@ export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): s
  */
 function createCommandUsageLines(features: NexusUsageFeatureOptions): string[] {
 	const lines: string[] = [];
-	if (features.gateway) {
+	if (features.socialChat) {
 		lines.push(
-			"  nexus gateway -h                   Show gateway commands",
-			"  nexus gateway start                Start the background gateway",
-			"  nexus gateway stop                 Stop the background gateway",
-			"  nexus gateway restart              Restart the background gateway",
-			"  nexus gateway status               Show gateway status",
+			"  nexus social-chat -h               Show social chat commands",
+			"  nexus social-chat start            Start the background social chat daemon",
+			"  nexus social-chat stop             Stop the background social chat daemon",
+			"  nexus social-chat restart          Restart the background social chat daemon",
+			"  nexus social-chat status           Show social chat daemon status",
 		);
 	}
 	if (features.annotation) {

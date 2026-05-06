@@ -10,12 +10,18 @@ import type { FeatureFlagsConfig } from "./types.js";
 export function applyUserExtensionConfig(config: FeatureFlagsConfig): FeatureFlagsConfig {
 	const userConfig = readNexusUserConfig();
 	const extensions = { ...config.extensions };
+	const other = { ...(config.other ?? {}) };
 
 	for (const [id, preference] of Object.entries(userConfig.extensions ?? {})) {
+		if (typeof preference.enabled !== "boolean") continue;
 		const bundledExtension = extensions[id];
-		if (!bundledExtension || typeof preference.enabled !== "boolean") continue;
-		extensions[id] = { ...bundledExtension, enabled: preference.enabled };
+		if (bundledExtension) {
+			extensions[id] = { ...bundledExtension, enabled: preference.enabled };
+			continue;
+		}
+		const bundledOtherFeature = other[id];
+		if (bundledOtherFeature) other[id] = { ...bundledOtherFeature, enabled: preference.enabled };
 	}
 
-	return { ...config, extensions };
+	return { ...config, extensions, other };
 }

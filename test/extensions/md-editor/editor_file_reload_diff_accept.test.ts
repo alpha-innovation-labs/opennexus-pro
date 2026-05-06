@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { trackMarkdownDiff } from "../../../packages/extensions/src/md-editor/diff/trackMarkdownDiff.js";
-import { renderMarkdownDiffTokens } from "../../../packages/extensions/src/md-editor/diff/renderMarkdownDiffTokens.js";
+import { trackMarkdownDiff } from "../../../packages/mini-apps/src/md-editor/diff/trackMarkdownDiff.js";
+import { renderMarkdownDiffTokens } from "../../../packages/mini-apps/src/md-editor/diff/renderMarkdownDiffTokens.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 test("editor_file_reload_diff_accept", () => {

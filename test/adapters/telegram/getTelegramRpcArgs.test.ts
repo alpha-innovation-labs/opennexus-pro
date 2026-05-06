@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getTelegramRpcArgs } from "../../../packages/social-adapters/src/telegram/rpc/getTelegramRpcArgs.js";
-import { getTelegramChatSessionDir } from "../../../packages/social-adapters/src/telegram/session/getTelegramChatSessionDir.js";
+import { getTelegramRpcArgs } from "../../../packages/mini-apps/src/social-chat/adapters/telegram/rpc/getTelegramRpcArgs.js";
+import { getTelegramChatSessionDir } from "../../../packages/mini-apps/src/social-chat/adapters/telegram/session/getTelegramChatSessionDir.js";
 
 test("getTelegramRpcArgs disables extensions for the child nexus process", () => {
   const args = getTelegramRpcArgs(42);

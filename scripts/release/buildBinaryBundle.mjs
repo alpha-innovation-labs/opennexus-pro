@@ -11,6 +11,7 @@ import { runBunBuild } from "./binary/runBunBuild.mjs";
 import { stageBinaryAssets } from "./binary/stageBinaryAssets.mjs";
 import { transpileBundleForObfuscation } from "./binary/transpileBundleForObfuscation.mjs";
 import { writeEmbeddedPackageAssetsModule } from "./binary/writeEmbeddedPackageAssetsModule.mjs";
+import { getReleaseTargetOptions } from "./binary/getReleaseTargetOptions.mjs";
 
 const bundleDir = getBundleDir();
 const buildWorkDir = getBuildWorkDir();
@@ -30,10 +31,12 @@ export async function buildBinaryBundle() {
   await patchBundledPiConfig(bundledEntryPath);
   const obfuscatedEntryPath = await obfuscateEntryPoint(bundledEntryPath, buildWorkDir);
 
+  const targetOptions = getReleaseTargetOptions();
   await runBunBuild([
     "build",
     "--compile",
     "--minify",
+    ...(targetOptions.bunTarget ? ["--target", targetOptions.bunTarget] : []),
     obfuscatedEntryPath,
     "--outfile",
     join(bundleDir, "nexus"),

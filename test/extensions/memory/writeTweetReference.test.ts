@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import assert from "node:assert/strict";
 import test from "node:test";
-import { writeTweetReference } from "../../../packages/extensions/src/memory/storage/writeTweetReference.js";
+import { writeTweetReference } from "../../../packages/mini-apps/src/memory/storage/writeTweetReference.js";
 
 test("writeTweetReference creates raw reference and topic note", async () => {
 	const root = await mkdtemp(join(tmpdir(), "nexus-memory-"));

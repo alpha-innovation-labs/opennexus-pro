@@ -1,8 +1,0 @@
-commands:
-  install: npm install
-  test: npm test
-  test_focused: node_modules/.bin/tsx --test --test-concurrency=1
-  build: npm run build:release
-  generate_feature_flags: npm run generate:feature-flags
-
-services: {}

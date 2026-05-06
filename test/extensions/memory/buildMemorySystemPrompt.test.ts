@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildMemorySystemPrompt } from "../../../packages/extensions/src/memory/prompt/buildMemorySystemPrompt.js";
+import { buildMemorySystemPrompt } from "../../../packages/mini-apps/src/memory/prompt/buildMemorySystemPrompt.js";
 
 test("buildMemorySystemPrompt adds tweet memory instructions for Twitter links", () => {
 	const prompt = buildMemorySystemPrompt("save https://x.com/user/status/123 please");

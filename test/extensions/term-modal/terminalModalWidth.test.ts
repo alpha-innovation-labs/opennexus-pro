@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { visibleWidth } from "@mariozechner/pi-tui";
-import { TerminalModal } from "../../../packages/extensions/src/term-modal/ui/TerminalModal.js";
+import { TerminalModal } from "../../../packages/mini-apps/src/term-modal/ui/TerminalModal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

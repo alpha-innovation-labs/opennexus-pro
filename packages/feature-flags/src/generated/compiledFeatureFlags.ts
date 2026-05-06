@@ -11,7 +11,8 @@ export const compiledFeatureFlags = {
         "oh-my-pi provider login entries",
         "manual credential prompts for additional providers",
         "/login provider availability"
-      ]
+      ],
+      "category": "extension"
     },
     "cmux": {
       "enabled": true,
@@ -19,13 +20,15 @@ export const compiledFeatureFlags = {
         "sync session title to cmux pane title",
         "notify cmux tab when pane is done",
         "/cmux workspace shell session view"
-      ]
+      ],
+      "category": "extension"
     },
     "exit-message": {
       "enabled": true,
       "features": [
         "print session title on app exit"
-      ]
+      ],
+      "category": "extension"
     },
     "extension-manager": {
       "enabled": true,
@@ -34,7 +37,8 @@ export const compiledFeatureFlags = {
         "installed extension list",
         "core and user extension tabs",
         "per-user extension enable and disable controls"
-      ]
+      ],
+      "category": "extension"
     },
     "fff": {
       "enabled": true,
@@ -42,7 +46,39 @@ export const compiledFeatureFlags = {
         "FFF-backed read override",
         "FFF-backed grep override",
         "FFF-powered @ file autocomplete"
-      ]
+      ],
+      "category": "extension"
+    },
+    "impeccable": {
+      "enabled": true,
+      "features": [
+        "/impeccable command",
+        "/impeccable live - Interactive visual variant mode",
+        "/impeccable craft - Shape then build end-to-end",
+        "/impeccable critique - UX design review",
+        "/impeccable polish - Final quality pass"
+      ],
+      "category": "extension"
+    },
+    "md-editor": {
+      "enabled": true,
+      "features": [
+        "/editor command",
+        "demo.md Markdown line modal",
+        "hidden persistent per-line chats",
+        "live reload with diff acceptance",
+        "Tron-styled right-panel mini chat"
+      ],
+      "category": "mini-app"
+    },
+    "mini-app-manager": {
+      "enabled": true,
+      "features": [
+        "/mini-apps command",
+        "installed mini-app list",
+        "mini-app enable and disable controls"
+      ],
+      "category": "mini-app"
     },
     "neo-editor": {
       "enabled": true,
@@ -52,7 +88,8 @@ export const compiledFeatureFlags = {
         "@ file autocomplete",
         "editor trigger submit",
         "macOS ctrl+v image paste fallback"
-      ]
+      ],
+      "category": "extension"
     },
     "memory": {
       "enabled": true,
@@ -63,7 +100,8 @@ export const compiledFeatureFlags = {
         "git-backed operation commits",
         "topic-first memory query tool",
         "Projects-compatible markdown memory storage"
-      ]
+      ],
+      "category": "mini-app"
     },
     "notify": {
       "enabled": true,
@@ -71,7 +109,8 @@ export const compiledFeatureFlags = {
         "desktop notification on agent completion",
         "macOS submarine sound by default",
         "NEXUS_NOTIFY_SOUND_CMD override"
-      ]
+      ],
+      "category": "extension"
     },
     "observations": {
       "enabled": true,
@@ -79,20 +118,23 @@ export const compiledFeatureFlags = {
         "observation tracking",
         "status widget",
         "/observations command"
-      ]
+      ],
+      "category": "extension"
     },
     "rtk": {
       "enabled": true,
       "features": [
         "rtk rewrite for bash",
         "rtk-native read/find/ls/grep tools"
-      ]
+      ],
+      "category": "extension"
     },
     "startup-hero": {
       "enabled": true,
       "features": [
         "show N logo, version, tips, and startup status"
-      ]
+      ],
+      "category": "extension"
     },
     "tron": {
       "enabled": true,
@@ -101,7 +143,8 @@ export const compiledFeatureFlags = {
         "thinking style",
         "tool calls browser",
         "user message bubble"
-      ]
+      ],
+      "category": "extension"
     },
     "slashusage": {
       "enabled": true,
@@ -109,7 +152,8 @@ export const compiledFeatureFlags = {
         "inline slashusage",
         "5-minute historical usage snapshots",
         "/usage history graph modal"
-      ]
+      ],
+      "category": "extension"
     }
   },
   "other": {
@@ -119,7 +163,8 @@ export const compiledFeatureFlags = {
         "SigNoz OTLP telemetry",
         "PostHog product analytics",
         "anonymous event toggles"
-      ]
+      ],
+      "category": "extension"
     }
   }
 } satisfies FeatureFlagsConfig;

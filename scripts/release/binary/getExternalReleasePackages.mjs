@@ -1,5 +1,6 @@
 import { getFffPlatformPackageName } from "./getFffPlatformPackageName.mjs";
 import { getFfiRsPlatformPackageName } from "./getFfiRsPlatformPackageName.mjs";
+import { getReleaseTargetOptions } from "./getReleaseTargetOptions.mjs";
 
 const BASE_EXTERNAL_RELEASE_PACKAGES = ["@ff-labs/fff-node", "ffi-rs"];
 
@@ -9,9 +10,10 @@ const BASE_EXTERNAL_RELEASE_PACKAGES = ["@ff-labs/fff-node", "ffi-rs"];
  * @returns {string[]} External package names.
  */
 export function getExternalReleasePackages() {
+  const targetOptions = getReleaseTargetOptions();
   return [
     ...BASE_EXTERNAL_RELEASE_PACKAGES,
-    getFffPlatformPackageName(),
-    getFfiRsPlatformPackageName(),
+    getFffPlatformPackageName(targetOptions),
+    getFfiRsPlatformPackageName(targetOptions),
   ];
 }

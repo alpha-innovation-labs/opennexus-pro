@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { TerminalModal } from "../../../packages/extensions/src/term-modal/ui/TerminalModal.js";
+import { TerminalModal } from "../../../packages/mini-apps/src/term-modal/ui/TerminalModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

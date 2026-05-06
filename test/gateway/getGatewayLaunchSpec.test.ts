@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getGatewayLaunchSpec } from "../../packages/gateway-core/src/process/getGatewayLaunchSpec.js";
-import { getSourceEntrypointPath } from "../../packages/gateway-core/src/process/getSourceEntrypointPath.js";
+import { getGatewayLaunchSpec } from "../../packages/mini-apps/src/social-chat/core/process/getGatewayLaunchSpec.js";
+import { getSourceEntrypointPath } from "../../packages/nexus-runtime/src/cli/getSourceEntrypointPath.js";
 
 test("getGatewayLaunchSpec launches the source entrypoint through tsx in source mode", () => {
   const originalArgv = process.argv;
@@ -10,7 +10,7 @@ test("getGatewayLaunchSpec launches the source entrypoint through tsx in source 
   try {
     const spec = getGatewayLaunchSpec();
 
-    assert.match(spec.args.join(" "), /src\/index\.ts gateway __gateway-runner/);
+    assert.match(spec.args.join(" "), /src\/index\.ts social-chat __social-chat-runner/);
     assert.match(spec.command, /tsx$/);
   } finally {
     process.argv = originalArgv;
@@ -26,7 +26,7 @@ test("getGatewayLaunchSpec relaunches the current Nexus cli entrypoint outside s
     const spec = getGatewayLaunchSpec();
 
     assert.equal(spec.command, process.execPath);
-    assert.deepEqual(spec.args, ["/opt/homebrew/bin/nexus", "gateway", "__gateway-runner"]);
+    assert.deepEqual(spec.args, ["/opt/homebrew/bin/nexus", "social-chat", "__social-chat-runner"]);
   } finally {
     process.argv = originalArgv;
   }

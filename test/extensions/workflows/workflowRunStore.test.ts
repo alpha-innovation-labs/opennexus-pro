@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createWorkflowRun } from "../../../packages/extensions/src/workflows/state/createWorkflowRun.js";
-import { getWorkflowDefinitions } from "../../../packages/extensions/src/workflows/state/getWorkflowDefinitions.js";
-import { addWorkflowRun, getActiveWorkflowRun, updateActiveWorkflowStep } from "../../../packages/extensions/src/workflows/state/workflowRunStore.js";
+import { createWorkflowRun } from "../../../packages/mini-apps/src/workflows/state/createWorkflowRun.js";
+import { getWorkflowDefinitions } from "../../../packages/mini-apps/src/workflows/state/getWorkflowDefinitions.js";
+import { addWorkflowRun, getActiveWorkflowRun, updateActiveWorkflowStep } from "../../../packages/mini-apps/src/workflows/state/workflowRunStore.js";
 
 test("updates active workflow steps", () => {
   const run = createWorkflowRun(getWorkflowDefinitions()[0]!, "Test request");

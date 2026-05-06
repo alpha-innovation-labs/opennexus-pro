@@ -32,6 +32,8 @@ import { pruneLoggedOutEnabledModels } from "@nexus/pi-platform/settings/pruneLo
 import { clearStartupScreen } from "./startup-screen/clearStartupScreen.js";
 import { shouldClearStartupScreen } from "./startup-screen/shouldClearStartupScreen.js";
 import { ensureAnnotationsDaemonStarted } from "./annotations-daemon/ensureAnnotationsDaemonStarted.js";
+import { isAnnotationsDaemonStartupFeatureEnabled } from "./annotations-daemon/isAnnotationsDaemonStartupFeatureEnabled.js";
+import { shouldStartAnnotationsDaemon } from "./annotations-daemon/shouldStartAnnotationsDaemon.js";
 import { sendTelemetryEventSafely } from "@nexus/observability/telemetry/sendTelemetryEventSafely.js";
 import { isHarnessModeEnabled } from "./harness/isHarnessModeEnabled.js";
 import { runHarnessMode } from "./harness/runHarnessMode.js";
@@ -80,7 +82,7 @@ export async function runAppWithExtensionFactories(
   logRunAppPhase("ensureEmbeddedPackageDirEnv:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
-  await ensureAnnotationsDaemonStarted();
+  if (shouldStartAnnotationsDaemon(rawArgs, isAnnotationsDaemonStartupFeatureEnabled())) await ensureAnnotationsDaemonStarted();
   logRunAppPhase("ensureAnnotationsDaemonStarted:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();

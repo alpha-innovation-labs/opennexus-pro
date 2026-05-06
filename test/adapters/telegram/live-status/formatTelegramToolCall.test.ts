@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { formatTelegramToolCall } from "../../../../packages/social-adapters/src/telegram/live-status/formatTelegramToolCall.js";
+import { formatTelegramToolCall } from "../../../../packages/mini-apps/src/social-chat/adapters/telegram/live-status/formatTelegramToolCall.js";
 
 test("formatTelegramToolCall includes write stats and params", () => {
   assert.equal(

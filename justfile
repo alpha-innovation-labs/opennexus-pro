@@ -30,6 +30,7 @@ help:
     @echo "  just \033[0;33mimport-auth\033[0m             \033[0;32mCopy ~/.pi auth.json into Nexus\033[0m"
     @echo "  just \033[0;33mcodexbar-sync\033[0m            \033[0;32mCheck upstream CodexBar usage-provider changes\033[0m"
     @echo "  just \033[0;33muninstall\033[0m               \033[0;32mRemove ~/.local/bin/nexus and its bundle\033[0m"
+    @echo "  just \033[0;33mupdate\033[0m                 \033[0;32mRefresh mirrored third-party vendor extensions\033[0m"
     @echo "  just \033[0;33mupgrade\033[0m                \033[0;32mCheck and upgrade all packages to latest\033[0m"
     @echo ""
 
@@ -60,4 +61,5 @@ import 'justfiles/testing/test.just'
 import 'justfiles/utilities/import-auth.just'
 import 'justfiles/utilities/codexbar-sync.just'
 import 'justfiles/utilities/uninstall.just'
+import 'justfiles/utilities/update.just'
 import 'justfiles/utilities/upgrade.just'

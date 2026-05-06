@@ -31,7 +31,7 @@ const BUILTIN_MENU_GROUPS: Record<string, string> = {
  * @returns Visible menu group label.
  */
 export function getSlashCommandMenuGroup(command: RegisteredSlashCommand): string {
-  if (command.source === "extension") return "Extensions";
   if (command.menuGroup?.trim()) return command.menuGroup.trim();
+  if (command.source === "extension") return "Extensions";
   return BUILTIN_MENU_GROUPS[command.name] ?? "System";
 }

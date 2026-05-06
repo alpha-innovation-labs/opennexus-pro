@@ -6,15 +6,17 @@
         "oh-my-pi provider login entries",
         "manual credential prompts for additional providers",
         "/login provider availability"
-      ]
+      ],
+      "category": "extension"
     },
     "annotate": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "annotate command",
         "annotate tool",
         "chrome extension bridge"
       ],
+      "category": "mini-app",
       "devOnly": true
     },
     "cmux": {
@@ -23,14 +25,16 @@
         "sync session title to cmux pane title",
         "notify cmux tab when pane is done",
         "/cmux workspace shell session view"
-      ]
+      ],
+      "category": "extension"
     },
     "context-usage": {
       "enabled": false,
       "features": [
         "context_usage tool for current chat context window usage"
       ],
-      "devOnly": true
+      "devOnly": true,
+      "category": "extension"
     },
     "dev": {
       "devOnly": true,
@@ -41,13 +45,15 @@
         "dev-only modal variation playground",
         "tab and shift+tab modal variant cycling",
         "dev-only telemetry event toggles"
-      ]
+      ],
+      "category": "extension"
     },
     "exit-message": {
       "enabled": true,
       "features": [
         "print session title on app exit"
-      ]
+      ],
+      "category": "extension"
     },
     "extension-manager": {
       "enabled": true,
@@ -56,7 +62,61 @@
         "installed extension list",
         "core and user extension tabs",
         "per-user extension enable and disable controls"
-      ]
+      ],
+      "category": "extension"
+    },
+    "websearch": {
+      "enabled": true,
+      "features": [
+        "web_search tool backed by vendored pi-web-access",
+        "code_search tool",
+        "fetch_content tool",
+        "get_search_content tool"
+      ],
+      "category": "extension"
+    },
+    "mcp-adapter": {
+      "enabled": true,
+      "features": [
+        "MCP server adapter backed by vendored pi-mcp-adapter",
+        "MCP slash commands",
+        "MCP tool proxying"
+      ],
+      "category": "extension"
+    },
+    "rpiv-todo": {
+      "enabled": true,
+      "features": [
+        "RPIV model todo tools backed by vendored @juicesharp/rpiv-todo",
+        "live todo overlay"
+      ],
+      "category": "extension"
+    },
+    "rpiv-ask-user-question": {
+      "enabled": false,
+      "features": [
+        "ask-user-question tool backed by vendored @juicesharp/rpiv-ask-user-question",
+        "typed option prompts"
+      ],
+      "category": "extension"
+    },
+    "pi-lens": {
+      "enabled": false,
+      "features": [
+        "code feedback backed by vendored pi-lens",
+        "LSP and linter feedback",
+        "structural analysis"
+      ],
+      "category": "extension"
+    },
+    "oh-my-pi-lsp": {
+      "enabled": true,
+      "features": [
+        "in-house LSP tool ported from Oh My Pi",
+        "diagnostics, hover, definitions, references, symbols, rename previews, and code actions",
+        "40-language server config registry with project-local binary discovery"
+      ],
+      "category": "extension"
     },
     "feature-management": {
       "enabled": true,
@@ -65,7 +125,8 @@
         "feature status modal",
         "production and dev channel labels"
       ],
-      "devOnly": true
+      "devOnly": true,
+      "category": "extension"
     },
     "fff": {
       "enabled": true,
@@ -73,15 +134,28 @@
         "FFF-backed read override",
         "FFF-backed grep override",
         "FFF-powered @ file autocomplete"
-      ]
+      ],
+      "category": "extension"
+    },
+    "impeccable": {
+      "enabled": false,
+      "features": [
+        "/impeccable command",
+        "/impeccable live - Interactive visual variant mode",
+        "/impeccable craft - Shape then build end-to-end",
+        "/impeccable critique - UX design review",
+        "/impeccable polish - Final quality pass"
+      ],
+      "category": "extension"
     },
     "kanban": {
-      "enabled": true,
+      "enabled": false,
       "features": [
-        "/extension command",
+        "/kanban command",
         "two-pane task board modal",
         "temporary in-loop and completed task data"
       ],
+      "category": "mini-app",
       "devOnly": true
     },
     "md-editor": {
@@ -93,7 +167,7 @@
         "live reload with diff acceptance",
         "Tron-styled right-panel mini chat"
       ],
-      "devOnly": true
+      "category": "mini-app"
     },
     "neo-editor": {
       "enabled": true,
@@ -103,7 +177,8 @@
         "@ file autocomplete",
         "editor trigger submit",
         "macOS ctrl+v image paste fallback"
-      ]
+      ],
+      "category": "extension"
     },
     "memory": {
       "enabled": true,
@@ -114,7 +189,8 @@
         "git-backed operation commits",
         "topic-first memory query tool",
         "Projects-compatible markdown memory storage"
-      ]
+      ],
+      "category": "mini-app"
     },
     "notify": {
       "enabled": true,
@@ -122,7 +198,8 @@
         "desktop notification on agent completion",
         "macOS submarine sound by default",
         "NEXUS_NOTIFY_SOUND_CMD override"
-      ]
+      ],
+      "category": "extension"
     },
     "observations": {
       "enabled": true,
@@ -130,7 +207,17 @@
         "observation tracking",
         "status widget",
         "/observations command"
-      ]
+      ],
+      "category": "extension"
+    },
+    "prompts": {
+      "enabled": true,
+      "features": [
+        "/SystemPrompt prompt viewer",
+        "system prompt editing",
+        "system prompt reset to default"
+      ],
+      "category": "extension"
     },
     "playground": {
       "devOnly": true,
@@ -138,30 +225,34 @@
       "features": [
         "playground modal",
         "ctrl+i shortcut"
-      ]
+      ],
+      "category": "mini-app"
     },
     "rtk": {
       "enabled": true,
       "features": [
         "rtk rewrite for bash",
         "rtk-native read/find/ls/grep tools"
-      ]
+      ],
+      "category": "extension"
     },
     "startup-hero": {
       "enabled": true,
       "features": [
         "show N logo, version, tips, and startup status"
-      ]
+      ],
+      "category": "extension"
     },
     "smart-eval": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "historical assistant turn evaluation",
         "compact footer score",
         "/eval-toggle detailed question toggle",
         "/eval-refresh background regeneration"
       ],
-      "devOnly": true
+      "devOnly": true,
+      "category": "extension"
     },
     "sub-agent-status-widget": {
       "enabled": false,
@@ -170,7 +261,8 @@
         "live agent status lines",
         "replaces Pi default working loader"
       ],
-      "devOnly": true
+      "devOnly": true,
+      "category": "extension"
     },
     "sub-agents": {
       "enabled": false,
@@ -179,7 +271,8 @@
         "custom context providers",
         "background result lookup and steering"
       ],
-      "devOnly": true
+      "devOnly": true,
+      "category": "extension"
     },
     "term-modal": {
       "enabled": false,
@@ -188,7 +281,8 @@
         "/term commands",
         "terminal shortcuts"
       ],
-      "devOnly": true
+      "devOnly": true,
+      "category": "mini-app"
     },
     "todo": {
       "enabled": true,
@@ -196,7 +290,8 @@
         "todo modal",
         "ctrl+\\ shortcut"
       ],
-      "devOnly": true
+      "devOnly": true,
+      "category": "mini-app"
     },
     "tron": {
       "enabled": true,
@@ -205,7 +300,8 @@
         "thinking style",
         "tool calls browser",
         "user message bubble"
-      ]
+      ],
+      "category": "extension"
     },
     "slashusage": {
       "enabled": true,
@@ -213,7 +309,18 @@
         "inline slashusage",
         "5-minute historical usage snapshots",
         "/usage history graph modal"
-      ]
+      ],
+      "category": "extension"
+    },
+    "wallet": {
+      "enabled": true,
+      "features": [
+        "/wallet Phantom balance lookup",
+        "macOS Keychain recovery phrase storage",
+        "public Solana RPC balance queries"
+      ],
+      "devOnly": true,
+      "category": "mini-app"
     },
     "workflows": {
       "enabled": false,
@@ -223,7 +330,8 @@
         "workflow Engineer prompt",
         "continuous subagent steering instructions"
       ],
-      "devOnly": true
+      "devOnly": true,
+      "category": "mini-app"
     },
     "workspace": {
       "enabled": false,
@@ -232,24 +340,18 @@
         "ctrl+; shortcut",
         "workspace top bar"
       ],
-      "devOnly": true
+      "devOnly": true,
+      "category": "mini-app"
     }
   },
   "other": {
-    "gateway": {
-      "enabled": true,
-      "features": [
-        "nexus gateway CLI commands",
-        "background adapter gateway daemon"
-      ],
-      "devOnly": true
-    },
     "annotation": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "nexus annotation CLI commands",
         "annotation daemon lifecycle commands"
       ],
+      "category": "mini-app",
       "devOnly": true
     },
     "telemetry": {
@@ -258,7 +360,26 @@
         "SigNoz OTLP telemetry",
         "PostHog product analytics",
         "anonymous event toggles"
-      ]
+      ],
+      "category": "extension"
+    },
+    "social-chat": {
+      "enabled": true,
+      "features": [
+        "nexus social-chat CLI commands",
+        "background social adapter daemon"
+      ],
+      "devOnly": true,
+      "category": "mini-app"
+    },
+    "mini-app-manager": {
+      "enabled": true,
+      "features": [
+        "/mini-apps command",
+        "installed mini-app list",
+        "mini-app enable and disable controls"
+      ],
+      "category": "mini-app"
     }
   }
 }

@@ -1,12 +1,5 @@
 import { ensureAgentDirEnv } from "@nexus/runtime/config/ensureAgentDirEnv.js";
-import { runAnnotationsDaemon } from "@nexus/annotations-daemon-core/runner/runAnnotationsDaemon.js";
-import { runGatewayDaemon } from "@nexus/gateway-core/runner/runGatewayDaemon.js";
-import { isAnnotationCommand } from "./annotation/isAnnotationCommand.js";
-import { runAnnotationCommand } from "./annotation/runAnnotationCommand.js";
-import { isGatewayCommand } from "./gateway/isGatewayCommand.js";
-import { isGatewayRunnerCommand } from "./gateway/isGatewayRunnerCommand.js";
-import { runGatewayCommand } from "./gateway/runGatewayCommand.js";
-import { isAnnotationsDaemonRunnerCommand } from "./annotations-daemon/isAnnotationsDaemonRunnerCommand.js";
+import { findMiniAppCommand, findMiniAppRunnerCommand, getMiniAppManifests } from "@nexus/mini-apps/index.js";
 import { isCliFeatureAvailable } from "./features/isCliFeatureAvailable.js";
 import { printUnavailableCliFeature } from "./features/printUnavailableCliFeature.js";
 import { hasHelpFlag } from "./help/hasHelpFlag.js";
@@ -37,38 +30,24 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
     return 0;
   }
 
-  if (isGatewayRunnerCommand(argv)) {
-    if (!isCliFeatureAvailable("gateway")) {
-      printUnavailableCliFeature("gateway");
+  const miniAppManifests = getMiniAppManifests();
+  const runnerMiniApp = findMiniAppRunnerCommand(miniAppManifests, argv);
+  if (runnerMiniApp) {
+    if (!isCliFeatureAvailable(runnerMiniApp.id)) {
+      printUnavailableCliFeature(runnerMiniApp.id);
       return 1;
     }
-    await runGatewayDaemon();
+    await runnerMiniApp.runRunner();
     return 0;
   }
 
-  if (isAnnotationsDaemonRunnerCommand(argv)) {
-    if (!isCliFeatureAvailable("annotation")) {
-      printUnavailableCliFeature("annotation");
+  const commandMiniApp = findMiniAppCommand(miniAppManifests, argv);
+  if (commandMiniApp) {
+    if (!isCliFeatureAvailable(commandMiniApp.id)) {
+      printUnavailableCliFeature(commandMiniApp.id);
       return 1;
     }
-    await runAnnotationsDaemon();
-    return 0;
-  }
-
-  if (isGatewayCommand(argv)) {
-    if (!isCliFeatureAvailable("gateway")) {
-      printUnavailableCliFeature("gateway");
-      return 1;
-    }
-    return runGatewayCommand(argv);
-  }
-
-  if (isAnnotationCommand(argv)) {
-    if (!isCliFeatureAvailable("annotation")) {
-      printUnavailableCliFeature("annotation");
-      return 1;
-    }
-    return runAnnotationCommand(argv);
+    return commandMiniApp.runCommand(argv);
   }
 
   if (hasHelpFlag(argv)) {

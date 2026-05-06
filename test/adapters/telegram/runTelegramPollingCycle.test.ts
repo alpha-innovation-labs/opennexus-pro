@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { runTelegramPollingCycle } from "../../../packages/social-adapters/src/telegram/polling/runTelegramPollingCycle.js";
+import { runTelegramPollingCycle } from "../../../packages/mini-apps/src/social-chat/adapters/telegram/polling/runTelegramPollingCycle.js";
 
 test("runTelegramPollingCycle advances the offset and replies to allowed users", async () => {
   const sent: Array<{ chatId: number; text: string }> = [];

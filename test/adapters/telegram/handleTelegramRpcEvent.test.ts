@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { handleTelegramRpcEvent } from "../../../packages/social-adapters/src/telegram/rpc/handleTelegramRpcEvent.js";
-import type { TelegramRpcSession } from "../../../packages/social-adapters/src/telegram/rpc/types.js";
+import { handleTelegramRpcEvent } from "../../../packages/mini-apps/src/social-chat/adapters/telegram/rpc/handleTelegramRpcEvent.js";
+import type { TelegramRpcSession } from "../../../packages/mini-apps/src/social-chat/adapters/telegram/rpc/types.js";
 
 /**
  * Creates a fake session with one active request.

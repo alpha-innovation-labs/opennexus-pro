@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import path from "node:path";
 import test from "node:test";
-import { createLineChatPrompt } from "../../../packages/extensions/src/md-editor/chat/createLineChatPrompt.js";
-import type { MarkdownFileSnapshot } from "../../../packages/extensions/src/md-editor/file/computeMarkdownFileSnapshot.js";
+import { createLineChatPrompt } from "../../../packages/mini-apps/src/md-editor/chat/createLineChatPrompt.js";
+import type { MarkdownFileSnapshot } from "../../../packages/mini-apps/src/md-editor/file/computeMarkdownFileSnapshot.js";
 
 test("editor_line_chat_context_refresh", () => {
 	const snapshot: MarkdownFileSnapshot = { filePath: path.join(process.cwd(), "demo.md"), content: "one\ntwo", lines: ["one", "two"], mtimeMs: 2, contentHash: "two" };

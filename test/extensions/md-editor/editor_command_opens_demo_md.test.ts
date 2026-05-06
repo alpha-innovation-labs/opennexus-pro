@@ -3,8 +3,8 @@ import { mkdtemp, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { loadDemoMarkdownFile } from "../../../packages/extensions/src/md-editor/file/loadDemoMarkdownFile.js";
-import { registerEditorCommand } from "../../../packages/extensions/src/md-editor/command/registerEditorCommand.js";
+import { loadDemoMarkdownFile } from "../../../packages/mini-apps/src/md-editor/file/loadDemoMarkdownFile.js";
+import { registerEditorCommand } from "../../../packages/mini-apps/src/md-editor/command/registerEditorCommand.js";
 
 test("editor_command_opens_demo_md", async () => {
 	const cwd = await mkdtemp(path.join(os.tmpdir(), "md-editor-"));

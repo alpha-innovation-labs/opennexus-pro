@@ -8,7 +8,7 @@ const outputPath = resolve("packages", "extensions", "src", "generated", "regist
 
 const extensionModules = {
   "ai-providers": { importPath: "../ai-providers/registerAiProvidersExtension.js", exportName: "registerAiProvidersExtension" },
-  annotate: { importPath: "../annotate/registerAnnotateExtension.js", exportName: "registerAnnotateExtension" },
+  annotate: { importPath: "@nexus/mini-apps/annotate/registerAnnotateExtension.js", exportName: "registerAnnotateExtension" },
   cmux: { importPath: "../cmux/registerCmuxExtension.js", exportName: "registerCmuxExtension" },
   "context-usage": {
     importPath: "../context-usage/registerContextUsageExtension.js",
@@ -23,10 +23,15 @@ const extensionModules = {
     exportName: "registerCompiledFeatureManagementExtension",
   },
   fff: { importPath: "../fff/index.js", exportName: "default", localName: "registerFffExtension" },
-  kanban: { importPath: "../kanban/registerKanbanExtension.js", exportName: "registerKanbanExtension" },
-  "md-editor": { importPath: "../md-editor/registerMdEditorExtension.js", exportName: "registerMdEditorExtension" },
+  impeccable: { importPath: "../impeccable/index.js", exportName: "default", localName: "registerImpeccableExtension" },
+  kanban: { importPath: "@nexus/mini-apps/kanban/registerKanbanExtension.js", exportName: "registerKanbanExtension" },
+  "md-editor": { importPath: "@nexus/mini-apps/md-editor/registerMdEditorExtension.js", exportName: "registerMdEditorExtension" },
   "neo-editor": { importPath: "../neo-editor/registerNeoEditorExtension.js", exportName: "default", localName: "registerNeoEditorExtension" },
-  memory: { importPath: "../memory/registerMemoryExtension.js", exportName: "registerMemoryExtension" },
+  memory: { importPath: "@nexus/mini-apps/memory/registerMemoryExtension.js", exportName: "registerMemoryExtension" },
+  "mini-app-manager": {
+    importPath: "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension.js",
+    exportName: "registerMiniAppManagerExtension",
+  },
   notify: { importPath: "../notify/registerNotifyExtension.js", exportName: "registerNotifyExtension" },
   observations: { importPath: "../observations/registerObservationsExtension.js", exportName: "registerObservationsExtension" },
   "exit-message": { importPath: "../exit-message/registerExitMessageExtension.js", exportName: "registerExitMessageExtension" },
@@ -37,14 +42,15 @@ const extensionModules = {
     exportName: "default",
     localName: "registerSubagentStatusWidgetExtension",
   },
-  playground: { importPath: "../playground/registerPlaygroundExtension.js", exportName: "registerPlaygroundExtension" },
+  playground: { importPath: "@nexus/mini-apps/playground/registerPlaygroundExtension.js", exportName: "registerPlaygroundExtension" },
   rtk: { importPath: "../rtk/registerRtkExtension.js", exportName: "registerRtkExtension" },
-  "term-modal": { importPath: "../term-modal/registerTermModalExtension.js", exportName: "registerTermModalExtension" },
-  todo: { importPath: "../todo/registerTodoExtension.js", exportName: "registerTodoExtension" },
+  "term-modal": { importPath: "@nexus/mini-apps/term-modal/registerTermModalExtension.js", exportName: "registerTermModalExtension" },
+  todo: { importPath: "@nexus/mini-apps/todo/registerTodoExtension.js", exportName: "registerTodoExtension" },
   tron: { importPath: "../tron/index.js", exportName: "default", localName: "registerTronExtension" },
   slashusage: { importPath: "../slashusage/index.js", exportName: "default", localName: "registerSlashusageExtension" },
-  workspace: { importPath: "../workspace/registerWorkspaceExtension.js", exportName: "registerWorkspaceExtension" },
-  workflows: { importPath: "../workflows/registerWorkflowsExtension.js", exportName: "registerWorkflowsExtension" },
+  wallet: { importPath: "@nexus/mini-apps/wallet/registerWalletExtension.js", exportName: "registerWalletExtension" },
+  workspace: { importPath: "@nexus/mini-apps/workspace/registerWorkspaceExtension.js", exportName: "registerWorkspaceExtension" },
+  workflows: { importPath: "@nexus/mini-apps/workflows/registerWorkflowsExtension.js", exportName: "registerWorkflowsExtension" },
 };
 
 /**

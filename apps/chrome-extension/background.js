@@ -194,6 +194,28 @@ async function checkAnnotationDaemonStatus() {
   }
 }
 
+/**
+ * Stores completed annotations directly when native messaging is unavailable.
+ *
+ * @param {object} msg Content-script completion payload.
+ * @returns {Promise<void>}
+ */
+async function storeAnnotationDirectly(msg) {
+  if (msg?.type !== "ANNOTATIONS_COMPLETE" || !msg.result?.success) return null;
+  try {
+    const response = await fetch("http://127.0.0.1:47321/annotations", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(msg.result),
+    });
+    if (!response.ok) console.error("[pi-annotate] Annotation daemon rejected capture:", response.status);
+    return await response.json().catch(() => null);
+  } catch (err) {
+    console.error("[pi-annotate] Annotation daemon capture failed:", err?.message || err);
+    return null;
+  }
+}
+
 function connectNative() {
   if (nativePort) return nativePort;
 
@@ -327,6 +349,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   
   if (["ANNOTATIONS_COMPLETE", "CANCEL"].includes(msg.type)) {
     if (requestId) requestTabs.delete(requestId);
+    if (!nativePort && msg.type === "ANNOTATIONS_COMPLETE") {
+      storeAnnotationDirectly(msg).then(sendResponse);
+      return true;
+    }
     console.log("[pi-annotate] Forwarding to native host:", msg.type);
     sendToNative(msg);
   }

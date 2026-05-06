@@ -3,8 +3,8 @@ import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
 import test from "node:test";
-import { formatResult } from "../../../packages/extensions/src/annotate/format/formatResult.js";
-import type { AnnotationResult } from "../../../packages/extensions/src/annotate/types.js";
+import { formatResult } from "../../../packages/mini-apps/src/annotate/format/formatResult.js";
+import type { AnnotationResult } from "../../../packages/mini-apps/src/annotate/types.js";
 
 const tinyPng =
   "data:image/png;base64," +
