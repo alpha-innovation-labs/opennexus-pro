@@ -5,23 +5,24 @@ import { LinesComponent } from "../../support/component/LinesComponent.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
-test("startup hero renders version, skills, AGENTS.md, and extension status in the terminal", async () => {
+test("startup hero renders version, skills, AGENTS.md, extension status, and mini-app status in the terminal", async () => {
 	const viewport = await renderComponentInVirtualTerminal(
 		() =>
 			new LinesComponent(() =>
 				buildCenteredStartupHeroLines(
 					createTestTheme(),
 					32,
-					72,
+					96,
 					"1.2.3",
 					{
 						activeSkillCount: 4,
 						agentsMdLoaded: true,
 						enabledExtensionCount: 10,
+						enabledMiniAppCount: 5,
 					},
 				),
 			),
-		72,
+		96,
 		32,
 	);
 	const output = viewport.join("\n");
@@ -30,5 +31,5 @@ test("startup hero renders version, skills, AGENTS.md, and extension status in t
 	assert.doesNotMatch(output, /Nexus v/u);
 	assert.doesNotMatch(output, /TIP/u);
 	assert.doesNotMatch(output, /Use @ to attach files/u);
-	assert.match(output, /󰧑 Skills \(4\) ✓   AGENTS\.md ✓   Extensions \(10\) ✓/u);
+	assert.match(output, /󰧑 Skills \(4\) ✓   AGENTS\.md ✓   Extensions \(10\) ✓  󱂬 Mini-Apps \(5\) ✓/u);
 });

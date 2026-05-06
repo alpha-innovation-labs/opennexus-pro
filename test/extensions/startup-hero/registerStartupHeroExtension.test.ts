@@ -77,6 +77,8 @@ function createStartupHeroHarness(): {
 
 test("startup hero shows above the editor on fresh startup and clears on the first turn", () => {
 	const originalArgv = process.argv;
+	const originalResumeLaunch = process.env[resumeLaunchEnvVar];
+	delete process.env[resumeLaunchEnvVar];
 	process.argv = ["node", "nexus"];
 
 	try {
@@ -97,10 +99,12 @@ test("startup hero shows above the editor on fresh startup and clears on the fir
 		assert.match(rendered, /v\d+\.\d+\.\d+/u);
 		assert.doesNotMatch(rendered, /Nexus v/u);
 		assert.doesNotMatch(rendered, /TIP/u);
-		assert.match(rendered, /󰧑 Skills \(2\) ✓   AGENTS\.md ✓   Extensions \(\d+\) ✓/u);
+		assert.match(rendered, /󰧑 Skills \(2\) ✓   AGENTS\.md ✓   Extensions \(\d+\) ✓  󱂬 Mini-Apps \(\d+\) ✓/u);
 		assert.deepEqual(calls[1], { key: startupHeroWidgetKey, value: undefined, placement: "aboveEditor" });
 	} finally {
 		process.argv = originalArgv;
+		if (originalResumeLaunch === undefined) delete process.env[resumeLaunchEnvVar];
+		else process.env[resumeLaunchEnvVar] = originalResumeLaunch;
 	}
 });
 

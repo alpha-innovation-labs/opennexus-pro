@@ -1,5 +1,6 @@
 import { countActiveSkillsInSystemPrompt } from "./countActiveSkillsInSystemPrompt.js";
 import { countEnabledStartupHeroExtensions } from "./countEnabledStartupHeroExtensions.js";
+import { countEnabledStartupHeroMiniApps } from "./countEnabledStartupHeroMiniApps.js";
 import { isAgentsMdLoadedInSystemPrompt } from "./isAgentsMdLoadedInSystemPrompt.js";
 import type { StartupHeroStatus } from "./types.js";
 
@@ -14,5 +15,6 @@ export function getStartupHeroStatus(systemPrompt: string): StartupHeroStatus {
 		activeSkillCount: countActiveSkillsInSystemPrompt(systemPrompt),
 		agentsMdLoaded: isAgentsMdLoadedInSystemPrompt(systemPrompt),
 		enabledExtensionCount: countEnabledStartupHeroExtensions(),
+		enabledMiniAppCount: countEnabledStartupHeroMiniApps(),
 	};
 }

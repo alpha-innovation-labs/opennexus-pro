@@ -8,6 +8,7 @@ const startupStatus = {
 	activeSkillCount: 3,
 	agentsMdLoaded: true,
 	enabledExtensionCount: 10,
+	enabledMiniAppCount: 5,
 };
 
 test("startup hero widget renders logo, version, and status above the prompt", () => {

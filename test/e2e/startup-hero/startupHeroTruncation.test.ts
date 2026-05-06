@@ -11,6 +11,7 @@ const startupStatus = {
 	activeSkillCount: 3,
 	agentsMdLoaded: true,
 	enabledExtensionCount: 10,
+	enabledMiniAppCount: 5,
 };
 
 test("startup hero keeps the Nexus wordmark readable at narrow terminal widths", async () => {
