@@ -7,6 +7,6 @@
  */
 export function getPromptlineFrameWidth(terminalWidth: number, hasMessages: boolean): number {
 	const halfWidth = Math.max(1, Math.floor(terminalWidth / 2));
-	if (hasMessages || halfWidth < 40) return terminalWidth;
+	if (hasMessages || halfWidth < 60) return terminalWidth;
 	return halfWidth;
 }

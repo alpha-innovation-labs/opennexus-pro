@@ -11,8 +11,8 @@ test("promptline uses half width for wide empty conversations and full width aft
 });
 
 test("promptline uses full width when half-width would be too narrow", () => {
-	assert.equal(getPromptlineFrameWidth(79, false), 79);
-	assert.equal(getPromptlineFrameWidth(80, false), 40);
+	assert.equal(getPromptlineFrameWidth(119, false), 119);
+	assert.equal(getPromptlineFrameWidth(120, false), 60);
 });
 
 test("promptline compact frame is centered inside the terminal", () => {
