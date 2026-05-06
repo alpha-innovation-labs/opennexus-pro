@@ -18,10 +18,11 @@ export function buildPromptlineStatusLine(
 	width: number,
 	theme: ExtensionContext["ui"]["theme"],
 ): string {
-	if (!runTime || !sessionName) return truncateToWidth(badges, width, theme.fg("dim" as never, "…"));
 	const gap = " ";
+	if (!runTime || !sessionName) return truncateToWidth(badges, width, theme.fg("dim" as never, "…"));
 	const titleRaw = theme.fg("muted" as never, sessionName);
 	const reservedWidth = visibleWidth(badges) + visibleWidth(gap) + visibleWidth(runTime) + visibleWidth(gap);
+	if (reservedWidth >= width) return truncateToWidth(`${badges}${gap}${runTime}`, width, theme.fg("dim" as never, "…"));
 	const title = truncateToWidth(titleRaw, Math.max(1, width - reservedWidth), theme.fg("dim" as never, "…"));
 	return `${badges}${gap}${runTime}${gap}${title}`;
 }

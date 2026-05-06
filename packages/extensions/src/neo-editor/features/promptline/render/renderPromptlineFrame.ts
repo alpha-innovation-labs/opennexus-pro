@@ -35,8 +35,10 @@ export function renderPromptlineFrame(
   const top = borderColor("╭")
     + renderPromptlineBorder(borderColor, uiTheme, innerWidth, buildPromptline(ctx, uiTheme, getThinkingLevel, innerWidth))
     + borderColor("╮");
+  const usageText = renderUsageText(uiTheme, getUsageTextForModel(getPromptlineModel(ctx)));
+  const bottomLabel = usageText;
   const bottom = borderColor("╰")
-    + renderBottomBorderLabel(borderColor, uiTheme, innerWidth, renderUsageText(uiTheme, getUsageTextForModel(getPromptlineModel(ctx))))
+    + renderBottomBorderLabel(borderColor, uiTheme, innerWidth, bottomLabel)
     + borderColor("╯");
   const contentLines = editorContent.map((entry) => padToWidth(entry, innerWidth));
 

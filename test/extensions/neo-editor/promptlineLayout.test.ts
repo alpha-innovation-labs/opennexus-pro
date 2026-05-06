@@ -5,9 +5,14 @@ import { getPromptlineFrameWidth } from "../../../packages/extensions/src/neo-ed
 import { hasConversationMessages } from "../../../packages/extensions/src/neo-editor/features/promptline/layout/hasConversationMessages.js";
 import { padPromptlineFrameToWidth } from "../../../packages/extensions/src/neo-editor/features/promptline/layout/padPromptlineFrameToWidth.js";
 
-test("promptline uses half width for empty conversations and full width after messages", () => {
+test("promptline uses half width for wide empty conversations and full width after messages", () => {
 	assert.equal(getPromptlineFrameWidth(120, false), 60);
 	assert.equal(getPromptlineFrameWidth(120, true), 120);
+});
+
+test("promptline uses full width when half-width would be too narrow", () => {
+	assert.equal(getPromptlineFrameWidth(79, false), 79);
+	assert.equal(getPromptlineFrameWidth(80, false), 40);
 });
 
 test("promptline compact frame is centered inside the terminal", () => {
