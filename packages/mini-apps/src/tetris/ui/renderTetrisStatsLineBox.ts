@@ -1,3 +1,4 @@
+import { visibleWidth } from "@mariozechner/pi-tui";
 import type { TetrisGame } from "../game/types.js";
 import { renderTetrisBox } from "./renderTetrisBox.js";
 
@@ -12,12 +13,19 @@ import { renderTetrisBox } from "./renderTetrisBox.js";
  */
 export function renderTetrisStatsLineBox(theme: any, game: TetrisGame, width: number, musicPlaying: boolean): string[] {
 	const status = game.gameOver ? "Game Over" : game.paused ? "Paused" : "Playing";
-	const line = [
+	const fullLine = [
 		`${theme.fg("dim", "Score")} ${theme.fg("accent", String(game.score))}`,
 		`${theme.fg("dim", "Lines")} ${theme.fg("syntaxType", String(game.lines))}`,
 		`${theme.fg("dim", "Level")} ${theme.fg("warning", String(game.level))}`,
 		`${theme.fg("dim", "State")} ${theme.fg(game.gameOver ? "error" : game.paused ? "warning" : "success", status)}`,
 		`${theme.fg("dim", "Music")} ${theme.fg(musicPlaying ? "syntaxType" : "error", musicPlaying ? "On" : "Off")}`,
 	].join("  ");
-	return renderTetrisBox(theme, "Score", [line], width, 3);
+	const compactLine = [
+		`${theme.fg("dim", "S")} ${theme.fg("accent", String(game.score))}`,
+		`${theme.fg("dim", "L")} ${theme.fg("syntaxType", String(game.lines))}`,
+		`${theme.fg("dim", "Lv")} ${theme.fg("warning", String(game.level))}`,
+		`${theme.fg(game.gameOver ? "error" : game.paused ? "warning" : "success", status)}`,
+		`${theme.fg("dim", "M")} ${theme.fg(musicPlaying ? "syntaxType" : "error", musicPlaying ? "On" : "Off")}`,
+	].join("  ");
+	return renderTetrisBox(theme, "Score", [visibleWidth(fullLine) <= Math.max(1, width - 2) ? fullLine : compactLine], width, 3);
 }
