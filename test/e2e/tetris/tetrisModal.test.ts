@@ -5,7 +5,9 @@ import { tickTetrisGame } from "../../../packages/mini-apps/src/tetris/game/tick
 import { moveTetrisPiece } from "../../../packages/mini-apps/src/tetris/game/moveTetrisPiece.js";
 import { getTetrisCellHeight } from "../../../packages/mini-apps/src/tetris/ui/getTetrisCellHeight.js";
 import { getTetrisCellWidth } from "../../../packages/mini-apps/src/tetris/ui/getTetrisCellWidth.js";
+import { stopTetrisMusicRuntime } from "../../../packages/mini-apps/src/tetris/music/tetrisMusicRuntime.js";
 import { setTetrisMusicPreference } from "../../../packages/mini-apps/src/tetris/music/tetrisMusicPreference.js";
+import { setTetrisSettingsPreference } from "../../../packages/mini-apps/src/tetris/settings/tetrisSettingsPreference.js";
 import { TetrisModal } from "../../../packages/mini-apps/src/tetris/ui/TetrisModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
@@ -98,6 +100,7 @@ test("/tetris keeps music disabled across pause and resume", () => {
 	assert.doesNotMatch(modal.render(120).join("\n"), /Music\s+On/u);
 	assert.match(modal.render(120).join("\n"), /Music\s+Off/u);
 	modal.dispose();
+	stopTetrisMusicRuntime();
 });
 
 test("/tetris close preserves enabled music for resume", () => {
@@ -108,6 +111,7 @@ test("/tetris close preserves enabled music for resume", () => {
 
 	assert.doesNotMatch(second.render(120).join("\n"), /Music\s+Off/u);
 	second.dispose();
+	stopTetrisMusicRuntime();
 });
 
 test("/tetris remembers disabled music across panel reopen", () => {
@@ -119,6 +123,7 @@ test("/tetris remembers disabled music across panel reopen", () => {
 
 	assert.match(second.render(120).join("\n"), /Music\s+Off/u);
 	second.dispose();
+	stopTetrisMusicRuntime();
 	setTetrisMusicPreference(true);
 });
 
@@ -128,6 +133,19 @@ test("/tetris compact layout keeps hotkeys visible", () => {
 
 	assert.match(output, /Hotkeys/u);
 	assert.match(output, /f\s+Fullscre/u);
+});
+
+test("/tetris fullscreen hotkey uses shared modal handling", () => {
+	setTetrisSettingsPreference({ fullscreen: false });
+	let renders = 0;
+	const modal = new TetrisModal({ requestRender() { renders += 1; }, terminal: { rows: 40 } } as never, theme, createTetrisGame(), () => {}, { autoStart: false, autoStartMusic: false });
+
+	assert.ok(modal.render(120).length < 40);
+	modal.handleInput("f");
+
+	assert.equal(modal.render(120).length, 40);
+	assert.ok(renders > 0);
+	setTetrisSettingsPreference({ fullscreen: false });
 });
 
 test("/tetris compact layout fits exact short modal height", () => {
