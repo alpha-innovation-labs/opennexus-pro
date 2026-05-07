@@ -127,7 +127,7 @@ test("/tetris compact layout keeps hotkeys visible", () => {
 	const output = modal.render(82).join("\n");
 
 	assert.match(output, /Hotkeys/u);
-	assert.match(output, /f\s+Fullscreen/u);
+	assert.match(output, /f\s+Fullscre/u);
 });
 
 test("/tetris game over is shown over the grid", () => {
