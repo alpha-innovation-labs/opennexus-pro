@@ -78,7 +78,7 @@ export class TetrisModal extends SharedModal implements Focusable {
 	override render(width: number): string[] {
 		const modalWidth = this.fullscreenEnabled ? width : Math.min(width, 116, Math.max(40, Math.floor(width * 0.94)));
 		const innerWidth = Math.max(1, modalWidth - 2);
-		const bodyHeight = this.fullscreenEnabled ? Math.max(12, (this.tui.terminal?.rows ?? 30) - 4) : Math.max(12, Math.min(34, (this.tui.terminal?.rows ?? 30) - 8));
+		const bodyHeight = this.fullscreenEnabled ? Math.max(12, (this.tui.terminal?.rows ?? 30) - 6) : Math.max(12, Math.min(28, (this.tui.terminal?.rows ?? 30) - 10));
 		this.panes = [{ id: "tetris", size: 1, lines: createTetrisModalLines(this.theme, this.game, innerWidth, bodyHeight, this.musicEnabled && isTetrisMusicRunning()) }];
 		return super.render(width);
 	}
@@ -106,7 +106,6 @@ export class TetrisModal extends SharedModal implements Focusable {
 	private close(): void {
 		this.game.paused = true;
 		this.stopTimer();
-		this.stopMusic();
 		this.closeModal();
 	}
 

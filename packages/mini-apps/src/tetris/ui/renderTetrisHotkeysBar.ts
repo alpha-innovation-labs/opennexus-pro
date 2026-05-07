@@ -12,5 +12,5 @@ import { wrapTetrisText } from "./wrapTetrisText.js";
  */
 export function renderTetrisHotkeysBar(theme: any, width: number, height: number): string[] {
 	const parts = getTetrisHotkeyRows().map(([key, label]) => `${theme.fg("accent", key)} ${label}`);
-	return renderTetrisBox(theme, "Hotkeys", wrapTetrisText(parts, Math.max(1, width - 2)), width, height);
+	return renderTetrisBox(theme, "Hotkeys", wrapTetrisText(parts, Math.max(1, width - 2), theme.fg("borderAccent", " | ")), width, height);
 }
