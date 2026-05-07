@@ -106,7 +106,6 @@ export class TetrisModal extends SharedModal implements Focusable {
 	private close(): void {
 		this.game.paused = true;
 		this.stopTimer();
-		this.stopMusic();
 		this.closeModal();
 	}
 
