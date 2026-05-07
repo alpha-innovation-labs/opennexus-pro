@@ -7,7 +7,7 @@ import { rotateTetrisPiece } from "../game/rotateTetrisPiece.js";
 import { softDropTetrisPiece } from "../game/softDropTetrisPiece.js";
 import { tickTetrisGame } from "../game/tickTetrisGame.js";
 import type { TetrisGame, TetrisModalOptions } from "../game/types.js";
-import { ensureTetrisMusicRunning, isTetrisMusicRunning, stopTetrisMusicRuntime } from "../music/tetrisMusicRuntime.js";
+import { ensureTetrisMusicRunning, isTetrisMusicRunning, pauseTetrisMusicRuntime, stopTetrisMusicRuntime } from "../music/tetrisMusicRuntime.js";
 import { getTetrisMusicPreference, setTetrisMusicPreference } from "../music/tetrisMusicPreference.js";
 import { getTetrisSettingsPreference, setTetrisSettingsPreference } from "../settings/tetrisSettingsPreference.js";
 import { createTetrisModalLines } from "./createTetrisModalLines.js";
@@ -106,6 +106,7 @@ export class TetrisModal extends SharedModal implements Focusable {
 	private close(): void {
 		this.game.paused = true;
 		this.stopTimer();
+		if (this.musicEnabled) pauseTetrisMusicRuntime();
 		this.closeModal();
 	}
 
