@@ -100,7 +100,7 @@ test("/tetris keeps music disabled across pause and resume", () => {
 	modal.dispose();
 });
 
-test("/tetris close and reopen does not disable enabled music", () => {
+test("/tetris close pauses music without disabling preference", () => {
 	setTetrisMusicPreference(true);
 	const first = new TetrisModal({ requestRender() {}, terminal: { rows: 28 } } as never, theme, createTetrisGame(), () => {}, { autoStart: false });
 	first.handleInput("\x1b");
