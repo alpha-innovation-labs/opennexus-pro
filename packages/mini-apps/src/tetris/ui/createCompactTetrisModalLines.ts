@@ -17,7 +17,7 @@ import { renderTetrisStatsLineBox } from "./renderTetrisStatsLineBox.js";
  * @returns Compact body lines.
  */
 export function createCompactTetrisModalLines(theme: any, game: TetrisGame, width: number, height: number, musicPlaying: boolean): string[] {
-	const statsHeight = 3;
+	const statsHeight = 7;
 	const nextHeight = Math.min(5, Math.max(0, height - statsHeight - 8));
 	const hotkeysHeight = Math.min(6, Math.max(3, height - statsHeight - nextHeight - 8));
 	const boardHeight = Math.max(4, height - statsHeight - nextHeight - hotkeysHeight);
