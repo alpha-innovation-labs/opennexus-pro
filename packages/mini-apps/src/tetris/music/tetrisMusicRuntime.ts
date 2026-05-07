@@ -1,4 +1,5 @@
 import type { ChildProcess } from "node:child_process";
+import { registerTetrisMusicShutdown } from "./registerTetrisMusicShutdown.js";
 import { startTetrisMusic } from "./startTetrisMusic.js";
 import { stopTetrisMusic } from "./stopTetrisMusic.js";
 
@@ -16,6 +17,7 @@ export function isTetrisMusicRunning(): boolean {
 /** Starts the shared Tetris music process if needed. */
 export function ensureTetrisMusicRunning(): void {
 	if (musicProcess) return;
+	registerTetrisMusicShutdown();
 	musicProcess = startTetrisMusic();
 }
 

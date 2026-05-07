@@ -1,4 +1,5 @@
 import type { TetrisGame } from "../game/types.js";
+import { createCompactTetrisModalLines } from "./createCompactTetrisModalLines.js";
 import { createTetrisDividerLine } from "./createTetrisDividerLine.js";
 import { createWideTetrisModalLines } from "./createWideTetrisModalLines.js";
 import { renderScaledTetrisBoard } from "./renderScaledTetrisBoard.js";
@@ -16,6 +17,7 @@ import { renderTetrisStatusLine } from "./renderTetrisStatusLine.js";
  * @returns Body lines for the shared modal pane.
  */
 export function createTetrisModalLines(theme: any, game: TetrisGame, width: number, height: number, musicPlaying = false): string[] {
+	if (width < 90) return createCompactTetrisModalLines(theme, game, width, height, musicPlaying);
 	if (width >= 90) return createWideTetrisModalLines(theme, game, width, height, musicPlaying);
 	const chromeHeight = 3;
 	const boardHeight = Math.max(3, height - chromeHeight);

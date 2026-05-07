@@ -122,6 +122,22 @@ test("/tetris remembers disabled music across panel reopen", () => {
 	setTetrisMusicPreference(true);
 });
 
+test("/tetris compact layout keeps hotkeys visible", () => {
+	const modal = new TetrisModal({ requestRender() {}, terminal: { rows: 32 } } as never, theme, createTetrisGame(), () => {}, { autoStart: false, autoStartMusic: false });
+	const output = modal.render(82).join("\n");
+
+	assert.match(output, /Hotkeys/u);
+	assert.match(output, /f\s+Fullscreen/u);
+});
+
+test("/tetris game over is shown over the grid", () => {
+	const game = createTetrisGame();
+	game.gameOver = true;
+	const modal = new TetrisModal({ requestRender() {}, terminal: { rows: 28 } } as never, theme, game, () => {}, { autoStart: false, autoStartMusic: false });
+
+	assert.match(modal.render(120).join("\n"), /Game Over!/u);
+});
+
 test("/tetris resumes the same paused game when opened again", () => {
 	const game = createTetrisGame();
 	moveTetrisPiece(game, -1);

@@ -1,15 +1,17 @@
 import { spawn, type ChildProcess } from "node:child_process";
 import { getTetrisMusicAssetPath } from "./getTetrisMusicAssetPath.js";
+import { getTetrisMusicPlayerScript } from "./getTetrisMusicPlayerScript.js";
 
 /**
- * Starts looping the Tetris music through the macOS audio player.
+ * Starts looping the Tetris music through the first available OS audio player.
  *
  * @returns Child process for the loop, or null when audio is unavailable.
  */
 export function startTetrisMusic(): ChildProcess | null {
 	const assetPath = getTetrisMusicAssetPath();
-	if (!assetPath || process.platform !== "darwin") return null;
-	return spawn("bash", ["-lc", "while true; do afplay \"$0\" || exit 0; done", assetPath], {
+	const playerScript = getTetrisMusicPlayerScript();
+	if (!assetPath || !playerScript) return null;
+	return spawn("bash", ["-lc", playerScript, assetPath], {
 		detached: true,
 		stdio: "ignore",
 	});

@@ -25,6 +25,10 @@ export function renderScaledTetrisBoard(theme: any, game: TetrisGame, width: num
 	const rows = getTetrisRenderCells(game).map((row) => centerTetrisLine(renderScaledTetrisRow(theme, row, columnWidths), width));
 	const visibleRows = Math.max(0, height - 2);
 	const clippedRows = rows.slice(0, visibleRows);
+	if (game.gameOver && clippedRows.length > 0) {
+		const overlayRow = Math.floor(clippedRows.length / 2);
+		clippedRows[overlayRow] = centerTetrisLine(theme.fg("error", theme.bold(" Game Over! ")), width);
+	}
 	return [topBorder, ...clippedRows, bottomBorder].slice(0, height);
 }
 
