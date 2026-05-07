@@ -130,6 +130,15 @@ test("/tetris compact layout keeps hotkeys visible", () => {
 	assert.match(output, /f\s+Fullscre/u);
 });
 
+test("/tetris compact layout fits exact short modal height", () => {
+	const modal = new TetrisModal({ requestRender() {}, terminal: { rows: 18 } } as never, theme, createTetrisGame(), () => {}, { autoStart: false, autoStartMusic: false });
+	const lines = modal.render(82);
+
+	assert.ok(lines.length <= 18);
+	assert.match(lines.at(-1) ?? "", /^\s*└/u);
+	assert.match(lines.join("\n"), /Hotkeys/u);
+});
+
 test("/tetris game over is shown over the grid", () => {
 	const game = createTetrisGame();
 	game.gameOver = true;

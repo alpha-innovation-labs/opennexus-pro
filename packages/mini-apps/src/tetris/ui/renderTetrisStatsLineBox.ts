@@ -18,5 +18,5 @@ export function renderTetrisStatsLineBox(theme: any, game: TetrisGame, width: nu
 		`${theme.fg("dim", "Level")} ${theme.fg("warning", String(game.level))}`,
 		`${theme.fg("dim", "State")} ${theme.fg(game.gameOver ? "error" : game.paused ? "warning" : "success", status)}`,
 		`${theme.fg("dim", "Music")} ${theme.fg(musicPlaying ? "syntaxType" : "error", musicPlaying ? "On" : "Off")}`,
-	], width, 7);
+	], width, Math.min(7, Math.max(3, width)));
 }
