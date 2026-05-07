@@ -1,5 +1,5 @@
 import { buildStartupHeroLogoLines } from "./buildStartupHeroLogoLines.js";
-import { buildStartupHeroStatusLine } from "./buildStartupHeroStatusLine.js";
+import { buildStartupHeroStatusLines } from "./buildStartupHeroStatusLines.js";
 import { buildStartupHeroVersionLine } from "./buildStartupHeroVersionLine.js";
 import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
 
@@ -20,12 +20,12 @@ export function buildStartupHeroLines(
 	width: number,
 	startupDurationBadge?: string,
 ): string[] {
-	const statusLine = buildStartupHeroStatusLine(theme, status, width);
+	const statusLines = buildStartupHeroStatusLines(theme, status, width);
 	return [
 		...buildStartupHeroLogoLines(theme),
 		"",
 		buildStartupHeroVersionLine(theme, version, width, startupDurationBadge),
 		"",
-		statusLine,
+		...statusLines,
 	];
 }

@@ -36,6 +36,17 @@ test("startup hero shows version, skills, AGENTS.md, extension status, and mini-
 	assert.ok(lines.every((line) => visibleWidth(line) <= 100));
 });
 
+test("startup hero wraps status items onto multiple lines at narrow widths", () => {
+	const lines = buildStartupHeroLines(createTestTheme(), "1.2.3", { activeSkillCount: 4, agentsMdLoaded: true, enabledExtensionCount: 24, enabledMiniAppCount: 7 }, 44);
+	const output = lines.join("\n");
+
+	assert.match(output, /󰧑 Skills \(4\) ✓   AGENTS\.md ✓/u);
+	assert.match(output, / Extensions \(24\) ✓/u);
+	assert.match(output, /󱂬 Mini-Apps \(7\) ✓/u);
+	assert.doesNotMatch(output, /…/u);
+	assert.ok(lines.every((line) => visibleWidth(line) <= 44));
+});
+
 test("startup hero uses only Pi-supported theme colors", () => {
 	const lines = buildStartupHeroLines(createStrictStartupHeroTheme(), "1.2.3", {
 		activeSkillCount: 3,

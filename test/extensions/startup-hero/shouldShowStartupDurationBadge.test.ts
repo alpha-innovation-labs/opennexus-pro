@@ -5,3 +5,7 @@ import { shouldShowStartupDurationBadge } from "../../../packages/extensions/src
 test("startup duration badge is enabled for source dev runs", () => {
 	assert.equal(shouldShowStartupDurationBadge(import.meta.url), true);
 });
+
+test("startup duration badge is enabled for bundled production runs", () => {
+	assert.equal(shouldShowStartupDurationBadge("file:///snapshot/nexus/index.js"), true);
+});
