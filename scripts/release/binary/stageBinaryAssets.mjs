@@ -3,6 +3,7 @@ import { copyExportHtmlAssets } from "./copyExportHtmlAssets.mjs";
 import { copyJsonFilesFromDir } from "./copyJsonFilesFromDir.mjs";
 import { copyPath } from "./copyPath.mjs";
 import { copyPiThemeAssets } from "./copyPiThemeAssets.mjs";
+import { copyTetrisMusicAsset } from "./copyTetrisMusicAsset.mjs";
 import { writeReleaseFeatureFlagsManifest } from "./writeReleaseFeatureFlagsManifest.mjs";
 
 /**
@@ -27,6 +28,7 @@ export async function stageBinaryAssets(bundleDir) {
     join(packageDir, "runtime", "config", "default-settings", "settings.json"),
   );
   await writeReleaseFeatureFlagsManifest(packageDir);
+  await copyTetrisMusicAsset(packageDir);
   await copyExportHtmlAssets(packageDir);
   await copyPath(resolve("node_modules", "pi-cursor-provider", "h2-bridge.mjs"), join(packageDir, "runtime", "cursor", "h2-bridge.mjs"));
   await copyPath(resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "modes", "interactive", "assets"), join(packageDir, "assets"));

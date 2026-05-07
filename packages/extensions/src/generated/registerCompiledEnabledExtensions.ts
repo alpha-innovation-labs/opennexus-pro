@@ -4,6 +4,7 @@ import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensio
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
 import { createTelemetryExtensionApi } from "@nexus/feature-flags/createTelemetryExtensionApi.js";
 import { registerAiProvidersExtension } from "../ai-providers/registerAiProvidersExtension.js";
+import { registerAutoUpdateExtension } from "../auto-update/registerAutoUpdateExtension.js";
 import { registerCmuxExtension } from "../cmux/registerCmuxExtension.js";
 import { registerExitMessageExtension } from "../exit-message/registerExitMessageExtension.js";
 import { registerExtensionManagerExtension } from "../extension-manager/registerExtensionManagerExtension.js";
@@ -21,6 +22,7 @@ import { registerObservationsExtension } from "../observations/registerObservati
 import { registerPromptsExtension } from "../prompts/registerPromptsExtension.js";
 import { registerRtkExtension } from "../rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "../startup-hero/registerStartupHeroExtension.js";
+import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension.js";
 import registerTronExtension from "../tron/index.js";
 import registerSlashusageExtension from "../slashusage/index.js";
 import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension.js";
@@ -30,6 +32,7 @@ import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manag
  */
 export const compiledBundledExtensionIds = [
   "ai-providers",
+  "auto-update",
   "cmux",
   "exit-message",
   "extension-manager",
@@ -47,6 +50,7 @@ export const compiledBundledExtensionIds = [
   "prompts",
   "rtk",
   "startup-hero",
+  "tetris",
   "tron",
   "slashusage",
   "mini-app-manager"
@@ -54,6 +58,7 @@ export const compiledBundledExtensionIds = [
 
 const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => void | Promise<void>> = {
   "ai-providers": registerAiProvidersExtension,
+  "auto-update": registerAutoUpdateExtension,
   "cmux": registerCmuxExtension,
   "exit-message": registerExitMessageExtension,
   "extension-manager": registerExtensionManagerExtension,
@@ -71,6 +76,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "prompts": registerPromptsExtension,
   "rtk": registerRtkExtension,
   "startup-hero": registerStartupHeroExtension,
+  "tetris": registerTetrisExtension,
   "tron": registerTronExtension,
   "slashusage": registerSlashusageExtension,
   "mini-app-manager": registerMiniAppManagerExtension,

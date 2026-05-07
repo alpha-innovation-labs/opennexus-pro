@@ -21,6 +21,10 @@ const extensionModules = {
 		importPath: "@nexus/mini-apps/annotate/registerAnnotateExtension.js",
 		exportName: "registerAnnotateExtension",
 	},
+	"auto-update": {
+		importPath: "../auto-update/registerAutoUpdateExtension.js",
+		exportName: "registerAutoUpdateExtension",
+	},
 	cmux: {
 		importPath: "../cmux/registerCmuxExtension.js",
 		exportName: "registerCmuxExtension",
@@ -121,6 +125,10 @@ const extensionModules = {
 		importPath: "@nexus/mini-apps/todo/registerTodoExtension.js",
 		exportName: "registerTodoExtension",
 	},
+	tetris: {
+		importPath: "@nexus/mini-apps/tetris/registerTetrisExtension.js",
+		exportName: "registerTetrisExtension",
+	},
 	tron: {
 		importPath: "../tron/index.js",
 		exportName: "default",
@@ -163,6 +171,10 @@ const extensionModules = {
 	"pi-lens": {
 		importPath: "../vendor-runtime/registerVendorPiLensExtension.js",
 		exportName: "registerVendorPiLensExtension",
+	},
+	"pi-queue": {
+		importPath: "../vendor-runtime/registerVendorPiQueueExtension.js",
+		exportName: "registerVendorPiQueueExtension",
 	},
 };
 

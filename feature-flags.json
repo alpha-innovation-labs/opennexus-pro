@@ -19,6 +19,15 @@
       "category": "mini-app",
       "devOnly": true
     },
+    "auto-update": {
+      "enabled": true,
+      "features": [
+        "async startup npm version check",
+        "Nexus update confirmation modal",
+        "prompted npm install for approved updates"
+      ],
+      "category": "extension"
+    },
     "cmux": {
       "enabled": true,
       "features": [
@@ -106,6 +115,15 @@
         "code feedback backed by vendored pi-lens",
         "LSP and linter feedback",
         "structural analysis"
+      ],
+      "category": "extension"
+    },
+    "pi-queue": {
+      "enabled": false,
+      "features": [
+        "FIFO queue backed by vendored @dhruv2mars/pi-queue",
+        "queue/steer mode toggle",
+        "queued message status"
       ],
       "category": "extension"
     },
@@ -291,6 +309,15 @@
         "ctrl+\\ shortcut"
       ],
       "devOnly": true,
+      "category": "mini-app"
+    },
+    "tetris": {
+      "enabled": true,
+      "features": [
+        "/tetris command",
+        "full-screen keyboard-controlled Tetris modal",
+        "Escape hide with paused shared session resume"
+      ],
       "category": "mini-app"
     },
     "tron": {

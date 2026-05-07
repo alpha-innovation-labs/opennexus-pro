@@ -15,5 +15,6 @@ export type NexusPackageSource = string | { source: string; extensions?: string[
  */
 export type NexusUserConfig = {
 	extensions?: Record<string, NexusUserExtensionConfig>;
+	miniApps?: Record<string, Record<string, unknown>>;
 	packages?: NexusPackageSource[];
 };

@@ -14,6 +14,15 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
+    "auto-update": {
+      "enabled": true,
+      "features": [
+        "async startup npm version check",
+        "Nexus update confirmation modal",
+        "prompted npm install for approved updates"
+      ],
+      "category": "extension"
+    },
     "cmux": {
       "enabled": true,
       "features": [
@@ -81,6 +90,15 @@ export const compiledFeatureFlags = {
         "code feedback backed by vendored pi-lens",
         "LSP and linter feedback",
         "structural analysis"
+      ],
+      "category": "extension"
+    },
+    "pi-queue": {
+      "enabled": false,
+      "features": [
+        "FIFO queue backed by vendored @dhruv2mars/pi-queue",
+        "queue/steer mode toggle",
+        "queued message status"
       ],
       "category": "extension"
     },
@@ -188,6 +206,15 @@ export const compiledFeatureFlags = {
         "show N logo, version, tips, and startup status"
       ],
       "category": "extension"
+    },
+    "tetris": {
+      "enabled": true,
+      "features": [
+        "/tetris command",
+        "full-screen keyboard-controlled Tetris modal",
+        "Escape hide with paused shared session resume"
+      ],
+      "category": "mini-app"
     },
     "tron": {
       "enabled": true,

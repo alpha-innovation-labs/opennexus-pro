@@ -1,6 +1,7 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { registerAiProvidersExtension } from "@nexus/extensions/ai-providers/registerAiProvidersExtension.js";
 import { registerAnnotateExtension } from "@nexus/mini-apps/annotate/registerAnnotateExtension.js";
+import { registerAutoUpdateExtension } from "@nexus/extensions/auto-update/registerAutoUpdateExtension.js";
 import { registerCmuxExtension } from "@nexus/extensions/cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "@nexus/extensions/context-usage/registerContextUsageExtension.js";
 import { registerDevExtension } from "@nexus/extensions/dev/registerDevExtension.js";
@@ -25,6 +26,7 @@ import { registerSmartEvalExtension } from "@nexus/extensions/smart-eval/registe
 import registerSubAgentsExtension from "@nexus/extensions/sub-agents/index.js";
 import registerSubagentStatusWidgetExtension from "@nexus/extensions/sub-agent-status-widget/registerSubagentStatusWidgetExtension.js";
 import { registerTermModalExtension } from "@nexus/mini-apps/term-modal/registerTermModalExtension.js";
+import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension.js";
 import { registerTodoExtension } from "@nexus/mini-apps/todo/registerTodoExtension.js";
 import registerTronExtension from "@nexus/extensions/tron/index.js";
 import { registerWalletExtension } from "@nexus/mini-apps/wallet/registerWalletExtension.js";
@@ -33,6 +35,7 @@ import { registerWorkspaceExtension } from "@nexus/mini-apps/workspace/registerW
 import { registerWorkflowsExtension } from "@nexus/mini-apps/workflows/registerWorkflowsExtension.js";
 import { registerVendorMcpAdapterExtension } from "@nexus/extensions/vendor-runtime/registerVendorMcpAdapterExtension.js";
 import { registerVendorPiLensExtension } from "@nexus/extensions/vendor-runtime/registerVendorPiLensExtension.js";
+import { registerVendorPiQueueExtension } from "@nexus/extensions/vendor-runtime/registerVendorPiQueueExtension.js";
 import { registerVendorRpivAskUserQuestionExtension } from "@nexus/extensions/vendor-runtime/registerVendorRpivAskUserQuestionExtension.js";
 import { registerVendorRpivTodoExtension } from "@nexus/extensions/vendor-runtime/registerVendorRpivTodoExtension.js";
 import { registerVendorWebsearchExtension } from "@nexus/extensions/vendor-runtime/registerVendorWebsearchExtension.js";
@@ -49,6 +52,7 @@ export function createExtensionRegisterMap(): Record<
 	return {
 		"ai-providers": registerAiProvidersExtension,
 		annotate: registerAnnotateExtension,
+		"auto-update": registerAutoUpdateExtension,
 		cmux: registerCmuxExtension,
 		"context-usage": registerContextUsageExtension,
 		dev: registerDevExtension,
@@ -73,6 +77,7 @@ export function createExtensionRegisterMap(): Record<
 		"sub-agent-status-widget": registerSubagentStatusWidgetExtension,
 		playground: registerPlaygroundExtension,
 		"term-modal": registerTermModalExtension,
+		tetris: registerTetrisExtension,
 		todo: registerTodoExtension,
 		tron: registerTronExtension,
 		wallet: registerWalletExtension,
@@ -84,5 +89,6 @@ export function createExtensionRegisterMap(): Record<
 		"rpiv-todo": registerVendorRpivTodoExtension,
 		"rpiv-ask-user-question": registerVendorRpivAskUserQuestionExtension,
 		"pi-lens": registerVendorPiLensExtension,
+		"pi-queue": registerVendorPiQueueExtension,
 	};
 }
