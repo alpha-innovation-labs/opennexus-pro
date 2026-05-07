@@ -6,6 +6,11 @@ import { renderFooterRows } from "./renderFooterRows.js";
 import { renderFullWidthRows } from "./renderFullWidthRows.js";
 import { renderModalBorder } from "./renderModalBorder.js";
 import { renderModalPanes } from "./renderModalPanes.js";
+import { createModalHotkeyFooterSegments } from "./hotkeys/createModalHotkeyFooterSegments.js";
+import { wrapModalHotkeyFooterSegments } from "./hotkeys/wrapModalHotkeyFooterSegments.js";
+import { getModalWindowRows } from "./scroll/getModalWindowRows.js";
+import { handleModalScrollInput } from "./scroll/handleModalScrollInput.js";
+import { renderModalWithScrollableBody } from "./scroll/renderModalWithScrollableBody.js";
 import type { SharedModalOptions, SharedModalPane, SharedModalTheme } from "./types.js";
 
 /**
@@ -13,14 +18,21 @@ import type { SharedModalOptions, SharedModalPane, SharedModalTheme } from "./ty
  */
 export class SharedModal implements Component {
   protected footerLines: string[];
+  protected footerHotkeys: SharedModalOptions["footerHotkeys"];
   protected headerLines: string[];
   protected panes: SharedModalPane[];
-  private fullScreen: boolean;
-  private fullScreenRows?: number | (() => number);
+  private sharedFullScreen: boolean;
+  private readonly fullScreenHotkey: string | false;
+  private sharedFullScreenRows?: number | (() => number);
   private maxWidth?: number;
   private maxWidthRatio: number;
   private minWidth: number;
   private readonly onClose?: () => void;
+  private readonly onFullScreenChange?: (enabled: boolean) => void;
+  private overflowMaxScrollOffset = 0;
+  private overflowPendingGotoStart = false;
+  private overflowScrollOffset = 0;
+  private overflowVisibleRows = 1;
   protected readonly theme: SharedModalTheme;
 
   /**
@@ -29,14 +41,17 @@ export class SharedModal implements Component {
    * @param options Modal configuration.
    */
   constructor(options: SharedModalOptions) {
+    this.footerHotkeys = options.footerHotkeys ?? [];
     this.footerLines = options.footerLines ?? [];
-    this.fullScreen = options.fullScreen ?? false;
-    this.fullScreenRows = options.fullScreenRows;
+    this.sharedFullScreen = options.fullScreen ?? false;
+    this.fullScreenHotkey = options.fullScreenHotkey ?? "f";
+    this.sharedFullScreenRows = options.fullScreenRows;
     this.headerLines = options.headerLines ?? [];
     this.maxWidth = options.maxWidth;
     this.maxWidthRatio = options.maxWidthRatio ?? 0.9;
     this.minWidth = options.minWidth ?? 80;
     this.onClose = options.onClose;
+    this.onFullScreenChange = options.onFullScreenChange;
     this.panes = options.panes;
     this.theme = options.theme;
   }
@@ -49,7 +64,23 @@ export class SharedModal implements Component {
   handleInput(data: string): void {
     if (matchesKey(data, Key.escape) || matchesKey(data, Key.ctrl("c"))) {
       this.onClose?.();
+      return;
     }
+
+    if (this.fullScreenHotkey !== false && data === this.fullScreenHotkey) {
+      this.toggleFullScreen();
+      return;
+    }
+
+    const scrollResult = handleModalScrollInput({
+      data,
+      maxScrollOffset: this.overflowMaxScrollOffset,
+      pendingGotoStart: this.overflowPendingGotoStart,
+      scrollOffset: this.overflowScrollOffset,
+      visibleRows: this.overflowVisibleRows,
+    });
+    this.overflowPendingGotoStart = scrollResult.pendingGotoStart;
+    this.overflowScrollOffset = scrollResult.scrollOffset;
   }
 
   /**
@@ -59,12 +90,12 @@ export class SharedModal implements Component {
    * @param maxWidth Maximum desired width.
    * @param maxWidthRatio Maximum terminal-width ratio.
    */
-  setWidthPolicy(minWidth: number, maxWidth?: number, maxWidthRatio = this.maxWidthRatio, fullScreen = this.fullScreen, fullScreenRows = this.fullScreenRows): void {
+  setWidthPolicy(minWidth: number, maxWidth?: number, maxWidthRatio = this.maxWidthRatio, fullScreen = this.sharedFullScreen, fullScreenRows = this.sharedFullScreenRows): void {
     this.minWidth = minWidth;
     this.maxWidth = maxWidth;
     this.maxWidthRatio = maxWidthRatio;
-    this.fullScreen = fullScreen;
-    this.fullScreenRows = fullScreenRows;
+    this.sharedFullScreen = fullScreen;
+    this.sharedFullScreenRows = fullScreenRows;
   }
 
   /**
@@ -74,32 +105,43 @@ export class SharedModal implements Component {
    * @returns Rendered modal lines.
    */
   render(width: number): string[] {
-    const computedWidth = this.fullScreen ? width : computeModalWidth(width, this.minWidth, this.maxWidthRatio);
-    const modalWidth = this.fullScreen ? width : this.maxWidth === undefined ? computedWidth : Math.min(computedWidth, this.maxWidth, width);
+    const computedWidth = this.sharedFullScreen ? width : computeModalWidth(width, this.minWidth, this.maxWidthRatio);
+    const modalWidth = this.sharedFullScreen ? width : this.maxWidth === undefined ? computedWidth : Math.min(computedWidth, this.maxWidth, width);
     const innerWidth = Math.max(1, modalWidth - 2);
-    const lines = [renderModalBorder(this.theme, "┌", "─", "┐", innerWidth)];
+    const topRows = [renderModalBorder(this.theme, "┌", "─", "┐", innerWidth)];
 
     if (this.headerLines.length > 0) {
-      lines.push(...renderFullWidthRows(this.theme, this.headerLines, innerWidth));
-      lines.push(renderModalBorder(this.theme, "├", "─", "┤", innerWidth));
+      topRows.push(...renderFullWidthRows(this.theme, this.headerLines, innerWidth));
+      topRows.push(renderModalBorder(this.theme, "├", "─", "┤", innerWidth));
     }
 
-    lines.push(...renderModalPanes(this.theme, this.panes, innerWidth));
+    const bodyRows = renderModalPanes(this.theme, this.panes, innerWidth);
+    const shouldShowBaseHotkeys = this.footerHotkeys !== undefined && this.footerHotkeys.length > 0 || bodyRows.length > this.getBodyRowBudget(topRows.length, this.footerLines.length, 1);
+    const footerLines = this.getRenderedFooterLines(shouldShowBaseHotkeys, innerWidth);
+    const bottomRows = footerLines.length > 0
+      ? [renderModalBorder(this.theme, "├", "─", "┤", innerWidth), ...renderFooterRows(this.theme, footerLines, innerWidth), renderModalBorder(this.theme, "└", "─", "┘", innerWidth)]
+      : [renderModalBorder(this.theme, "└", "─", "┘", innerWidth)];
 
-    if (this.fullScreen) {
-      const footerHeight = this.footerLines.length > 0 ? this.footerLines.length + 1 : 0;
-      const bottomBorderHeight = 1;
+    if (this.sharedFullScreen) {
       const targetRows = this.getFullScreenRows();
-      lines.push(...createEmptyModalRows(Math.max(0, targetRows - lines.length - footerHeight - bottomBorderHeight), innerWidth, (value) => this.theme.fg("borderMuted", value)));
+      bodyRows.push(...createEmptyModalRows(Math.max(0, targetRows - topRows.length - bodyRows.length - bottomRows.length), innerWidth, (value) => this.theme.fg("borderMuted", value)));
     }
 
-    if (this.footerLines.length > 0) {
-      lines.push(renderModalBorder(this.theme, "├", "─", "┤", innerWidth));
-      lines.push(...renderFooterRows(this.theme, this.footerLines, innerWidth));
-    }
+    const visibleRows = this.getVisibleRows(topRows.length + bodyRows.length + bottomRows.length);
+    const overflow = renderModalWithScrollableBody(this.theme, topRows, bodyRows, bottomRows, visibleRows, this.overflowScrollOffset);
+    this.overflowMaxScrollOffset = overflow.maxScrollOffset;
+    this.overflowScrollOffset = overflow.scrollOffset;
+    this.overflowVisibleRows = overflow.visibleBodyRows;
 
-    lines.push(renderModalBorder(this.theme, "└", "─", "┘", innerWidth));
-    return this.fullScreen ? lines.slice(0, this.getFullScreenRows()) : lines.map((line) => centerModalLine(line, width));
+    return this.sharedFullScreen ? overflow.lines : overflow.lines.map((line) => centerModalLine(line, width));
+  }
+
+  /**
+   * Toggles full-screen rendering and notifies the owner.
+   */
+  private toggleFullScreen(): void {
+    this.sharedFullScreen = !this.sharedFullScreen;
+    this.onFullScreenChange?.(this.sharedFullScreen);
   }
 
   /**
@@ -108,15 +150,50 @@ export class SharedModal implements Component {
    * @returns Fullscreen row count.
    */
   private getFullScreenRows(): number {
-    if (typeof this.fullScreenRows === "function") return Math.max(1, Math.floor(this.fullScreenRows()));
-    if (typeof this.fullScreenRows === "number") return Math.max(1, Math.floor(this.fullScreenRows));
-    return Math.max(1, process.stdout.rows || 40);
+    if (typeof this.sharedFullScreenRows === "function") return Math.max(1, Math.floor(this.sharedFullScreenRows()));
+    if (typeof this.sharedFullScreenRows === "number") return Math.max(1, Math.floor(this.sharedFullScreenRows));
+    return getModalWindowRows(40);
+  }
+
+  /**
+   * Returns the current terminal height available to the modal.
+   *
+   * @param renderedRows Number of rows produced by the modal before clipping.
+   * @returns Visible row budget.
+   */
+  private getVisibleRows(renderedRows: number): number {
+    if (this.sharedFullScreen) return this.getFullScreenRows();
+    return getModalWindowRows(renderedRows);
+  }
+
+  /**
+   * Returns body rows available after fixed modal chrome.
+   *
+   * @param topRowCount Count of fixed top rows.
+   * @param footerLineCount Count of caller-provided footer rows.
+   * @param hotkeyFooterLineCount Count of shared hotkey footer rows.
+   * @returns Available body row count.
+   */
+  private getBodyRowBudget(topRowCount: number, footerLineCount: number, hotkeyFooterLineCount: number): number {
+    const visibleRows = this.getVisibleRows(topRowCount + footerLineCount + hotkeyFooterLineCount + 2);
+    const footerChromeRows = footerLineCount + hotkeyFooterLineCount > 0 ? 2 : 1;
+    return Math.max(1, visibleRows - topRowCount - footerLineCount - hotkeyFooterLineCount - footerChromeRows);
+  }
+
+  /**
+   * Returns footer lines plus the shared hotkey row when needed.
+   *
+   * @param showBaseHotkeys Whether scroll hotkeys should be displayed.
+   * @returns Footer lines rendered at the bottom of the modal.
+   */
+  private getRenderedFooterLines(showBaseHotkeys: boolean, width: number): string[] {
+    const segments = createModalHotkeyFooterSegments(this.theme, this.footerHotkeys ?? [], showBaseHotkeys);
+    if (segments.length === 0) return this.footerLines;
+    return [...wrapModalHotkeyFooterSegments(this.theme, segments, width), ...this.footerLines];
   }
 
   /**
    * Clears render caches for theme changes.
    */
-  invalidate(): void {
-    return undefined;
-  }
+  invalidate(): void { return undefined; }
 }

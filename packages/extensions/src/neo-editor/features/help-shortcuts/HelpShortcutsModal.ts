@@ -29,7 +29,9 @@ export class HelpShortcutsModal extends SharedModal {
   handleInput(data: string): void {
     if (matchesKey(data, Key.escape) || matchesKey(data, Key.ctrl("c")) || data === "q") {
       this.closeModal();
+      return;
     }
+    super.handleInput(data);
   }
 
   /**
@@ -52,7 +54,8 @@ export class HelpShortcutsModal extends SharedModal {
       lines.push(padVisible(leftLines[index] ?? "", columnWidth) + " ".repeat(gap) + padVisible(rightLines[index] ?? "", dialogWidth - columnWidth - gap));
     }
 
-    this.footerLines = [this.uiTheme.fg("dim", "Tab navigate · Esc/Ctrl+C/q closes")];
+    this.footerHotkeys = [{ key: "Tab", label: "navigate" }, { key: "Esc/Ctrl+C/q", label: "closes" }];
+    this.footerLines = [];
     this.panes = [{ id: "hotkeys", size: 1, lines }];
     return super.render(width);
   }
