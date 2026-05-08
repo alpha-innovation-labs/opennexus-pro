@@ -16,6 +16,7 @@ export async function showDevModal(ctx: ExtensionContext): Promise<void> {
 
   await ctx.ui.custom<void>((tui, theme, _keybindings, done) => {
     return new DevModal({
+      fullScreenRows: () => tui.terminal.rows,
       onClose: done,
       onRenderNeeded: () => tui.requestRender(),
       theme,
@@ -23,6 +24,6 @@ export async function showDevModal(ctx: ExtensionContext): Promise<void> {
     });
   }, {
     overlay: true,
-    overlayOptions: createPanelOverlayOptions(50, "70%"),
+    overlayOptions: createPanelOverlayOptions(50, "100%"),
   });
 }

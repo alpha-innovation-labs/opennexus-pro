@@ -7,6 +7,7 @@ import { cycleDevModalIndex } from "./cycleDevModalIndex.js";
 import type { DevModalTheme, DevModalVariation } from "./types.js";
 
 export type DevModalOptions = {
+  fullScreenRows?: number | (() => number);
   onClose: () => void;
   onRenderNeeded: () => void;
   theme: DevModalTheme;
@@ -31,9 +32,11 @@ export class DevModal extends SharedModal {
     super({
       footerLines: createDevModalFooter(options.theme),
       headerLines: createDevModalHeader(options.variations, 0, options.theme),
+      fullScreenRows: options.fullScreenRows,
       maxWidthRatio: 0.7,
       minWidth: 50,
       onClose: options.onClose,
+      onFullScreenChange: options.onRenderNeeded,
       panes: firstVariation ? createDevModalPanes(firstVariation, options.theme) : [],
       theme: options.theme,
     });

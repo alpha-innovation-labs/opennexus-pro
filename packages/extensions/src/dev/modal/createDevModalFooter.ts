@@ -7,5 +7,5 @@ import type { DevModalTheme } from "./types.js";
  * @returns Footer rows.
  */
 export function createDevModalFooter(theme: DevModalTheme): string[] {
-  return [theme.fg("muted", "Tab / Shift+Tab switches variations · Esc closes")];
+  return [theme.fg("muted", "Tab / Shift+Tab switches variations · f toggles fullscreen · Esc closes")];
 }

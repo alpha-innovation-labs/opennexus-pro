@@ -39,6 +39,27 @@ test("dev modal cycles variations with tab and shift tab", async () => {
   assert.match(mainViewport.join("\n"), /● Main/);
 });
 
+test("dev modal fullscreen fills configured rows and keeps its bottom border", async () => {
+  let renderNeeded = false;
+  const modal = new DevModal({
+    fullScreenRows: 16,
+    onClose: () => undefined,
+    onRenderNeeded: () => {
+      renderNeeded = true;
+    },
+    theme: createTestTheme(),
+    variations: createDevModalVariations(),
+  });
+
+  modal.handleInput("f");
+  const viewport = await renderComponentInVirtualTerminal(() => modal, 80, 16);
+
+  assert.equal(renderNeeded, true);
+  assert.equal(viewport.length, 16);
+  assert.equal(viewport[0]?.startsWith("┌"), true);
+  assert.equal(viewport.at(-1)?.startsWith("└"), true);
+});
+
 test("dev modal calls close on escape", () => {
   let closed = false;
   const modal = new DevModal({
