@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { Component } from "@mariozechner/pi-tui";
-import { WhichKeyModal } from "../../../packages/extensions/src/neo-editor/features/which-key/WhichKeyModal.js";
+import { HotkeysModal } from "../../../packages/extensions/src/hotkeys/HotkeysModal.js";
 import { renderHelpShortcutRow } from "../../../packages/extensions/src/neo-editor/features/help-shortcuts/renderHelpShortcutRow.js";
 import { PromptlineEditor } from "../../../packages/extensions/src/neo-editor/features/promptline/PromptlineEditor.js";
 import { clearTriggerSession } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/sessionState.js";
@@ -97,8 +97,8 @@ test.afterEach(() => {
   clearTriggerSession();
 });
 
-test("which-key modal renders Pi groups with titles in borders and a bottom bar", async () => {
-  const modal = new WhichKeyModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
+test("hotkeys modal renders Pi groups with titles in borders and a bottom bar", async () => {
+  const modal = new HotkeysModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
   const view = await renderComponentInVirtualTerminal(() => modal, 120, 30);
   const text = view.join("\n");
 
@@ -114,8 +114,8 @@ test("which-key modal renders Pi groups with titles in borders and a bottom bar"
   assert.doesNotMatch(text, /Filter: type to filter keys or labels/);
 });
 
-test("which-key modal filters entries by typed key text", async () => {
-  const modal = new WhichKeyModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
+test("hotkeys modal filters entries by typed key text", async () => {
+  const modal = new HotkeysModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
 
   modal.handleInput("/");
   modal.handleInput("m");
@@ -128,8 +128,8 @@ test("which-key modal filters entries by typed key text", async () => {
   assert.match(text, /Filter: mod/);
 });
 
-test("which-key modal filters by pressed ctrl chords", async () => {
-  const modal = new WhichKeyModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
+test("hotkeys modal filters by pressed ctrl chords", async () => {
+  const modal = new HotkeysModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
 
   modal.handleInput("/");
   modal.handleInput("\u0010");
@@ -140,8 +140,8 @@ test("which-key modal filters by pressed ctrl chords", async () => {
   assert.match(text, /Filter: ctrl\+p/);
 });
 
-test("which-key modal ignores printable filters until slash enters filter mode", async () => {
-  const modal = new WhichKeyModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
+test("hotkeys modal ignores printable filters until slash enters filter mode", async () => {
+  const modal = new HotkeysModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
 
   modal.handleInput("m");
   modal.handleInput("o");
@@ -152,8 +152,8 @@ test("which-key modal ignores printable filters until slash enters filter mode",
   assert.doesNotMatch(text, /Filter: mod/);
 });
 
-test("which-key modal backspace edits the filter query", async () => {
-  const modal = new WhichKeyModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
+test("hotkeys modal backspace edits the filter query", async () => {
+  const modal = new HotkeysModal(createTestTheme() as never, createKeybindings(), [], () => undefined);
 
   modal.setFilterQuery("modez");
   modal.handleInput("\u007f");
@@ -214,6 +214,6 @@ test("question mark as the first editor character opens help instead of typing",
   editor.handleInput("?");
   await flushAsyncWork();
 
-  assert.ok(overlay instanceof WhichKeyModal);
+  assert.ok(overlay instanceof HotkeysModal);
   assert.equal(editor.getText(), "");
 });
