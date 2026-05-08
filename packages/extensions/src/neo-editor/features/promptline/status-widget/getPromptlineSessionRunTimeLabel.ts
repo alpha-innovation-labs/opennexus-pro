@@ -7,5 +7,5 @@ import { getPromptlineSessionStartedAt } from "./getPromptlineSessionStartedAt.j
  * @returns Runtime label wrapped in a stopwatch badge.
  */
 export function getPromptlineSessionRunTimeLabel(): string {
-	return `[⏱ ${formatPromptlineSessionRunTime(Date.now() - getPromptlineSessionStartedAt())}]`;
+	return `[ ⏱ ${formatPromptlineSessionRunTime(Date.now() - getPromptlineSessionStartedAt())}]`;
 }

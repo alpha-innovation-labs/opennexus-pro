@@ -1,11 +1,15 @@
 import { CustomEditor, type ExtensionAPI, type ExtensionContext } from "@mariozechner/pi-coding-agent";
+import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
 import type { AutocompleteItem, AutocompleteProvider } from "@mariozechner/pi-tui";
 import { matchesKey } from "@mariozechner/pi-tui";
 import { readClipboardImageViaMacOsJxa } from "@nexus/runtime/clipboard-image/readClipboardImageViaMacOsJxa.js";
 import { writeClipboardImageTempFile } from "@nexus/runtime/clipboard-image/writeClipboardImageTempFile.js";
+import { handleClipboardImagePaste } from "./clipboard/handleClipboardImagePaste.js";
+import { extractCompleteBracketedPaste } from "./paste/extractCompleteBracketedPaste.js";
+import { normalizeBracketedPasteText } from "./paste/normalizeBracketedPasteText.js";
 import { wrapAutocompleteProviderForCwd } from "../../../fff/editor/wrapAutocompleteProviderForCwd.js";
-import { getRegisteredWhichKeyShortcuts } from "../which-key/getRegisteredWhichKeyShortcuts.js";
-import { openWhichKeyModal } from "../which-key/openWhichKeyModal.js";
+import { getRegisteredHotkeysShortcuts } from "../../../hotkeys/getRegisteredHotkeysShortcuts.js";
+import { openHotkeysModal } from "../../../hotkeys/openHotkeysModal.js";
 import { findMatchingTrigger } from "../editor-triggers/findMatchingTrigger.js";
 import { isReloadCommandText } from "./isReloadCommandText.js";
 import { logRenderedOverflow } from "./logRenderedOverflow.js";
@@ -27,7 +31,7 @@ const PRIMARY_COLOR = "error";
 export class PromptlineEditor extends CustomEditor {
   private promptAutocompleteProvider?: AutocompleteProvider;
   private readonly modalState: TriggerModalState = {};
-  private whichKeyModal?: { handleInput(data: string): void; getEditorMirrorText(): string };
+  private hotkeysModal?: { handleInput(data: string): void; getEditorMirrorText(): string };
   private promptAutocompletePrefix = "";
   private triggerSubmitInFlight = false;
 
@@ -110,40 +114,52 @@ export class PromptlineEditor extends CustomEditor {
     super.setText(text);
     this.handleConfiguredTriggers(this.getText());
   }
-  /** Opens the which-key modal from an empty editor. */
-  private openWhichKeyModal(): void {
-    const opened = openWhichKeyModal(this.uiTheme, this.editorKeybindings, getRegisteredWhichKeyShortcuts(), this.tui.showOverlay.bind(this.tui) as never, () => {
-      this.whichKeyModal = undefined;
+  /** Opens the hotkeys modal from an empty editor. */
+  private openHotkeysModal(): void {
+    const opened = openHotkeysModal(this.uiTheme, this.editorKeybindings, getRegisteredHotkeysShortcuts(), this.tui.showOverlay.bind(this.tui) as never, () => {
+      this.hotkeysModal = undefined;
       this.tui.requestRender();
     });
-    this.whichKeyModal = opened.modal;
+    this.hotkeysModal = opened.modal;
     this.tui.requestRender();
   }
-  /** Returns whether a help trigger should open the which-key modal. */
-  private shouldOpenWhichKey(data: string): boolean {
+  /** Returns whether a help trigger should open the hotkeys modal. */
+  private shouldOpenHotkeys(data: string): boolean {
     const cursor = this.getCursor();
-    return data === "?" && this.getText().length === 0 && cursor.line === 0 && cursor.col === 0;
+    return isRuntimeExtensionFeatureEnabled("hotkeys") && data === "?" && this.getText().length === 0 && cursor.line === 0 && cursor.col === 0;
   }
-  /** Handles Pi's configured image-paste key without registering a conflicting extension shortcut. */
-  private handleClipboardImagePaste(data: string): boolean {
-    if (process.platform !== "darwin") return false;
-    if (!this.editorKeybindings.matches(data, "app.clipboard.pasteImage")) return false;
-    const image = readClipboardImageViaMacOsJxa();
-    if (!image) return true;
-    this.ctx.ui.pasteToEditor(writeClipboardImageTempFile(image));
+  /** Inserts a complete bracketed paste as raw text instead of Pi's paste marker. */
+  private handleRawBracketedPaste(data: string): boolean {
+    const paste = extractCompleteBracketedPaste(data);
+    if (!paste) return false;
+    if (paste.before) super.handleInput(paste.before);
+    this.insertTextAtCursor(normalizeBracketedPasteText(paste.content));
+    if (paste.after) this.handleInput(paste.after);
     return true;
   }
+  /** Handles Pi's configured image-paste key without swallowing normal text paste. */
+  private handleClipboardImagePaste(data: string): boolean {
+    return handleClipboardImagePaste({
+      platform: process.platform,
+      data,
+      matchesPasteImage: (value) => this.editorKeybindings.matches(value, "app.clipboard.pasteImage"),
+      readImage: readClipboardImageViaMacOsJxa,
+      writeTempFile: writeClipboardImageTempFile,
+      pasteToEditor: (value) => this.ctx.ui.pasteToEditor(value),
+    });
+  }
   override handleInput(data: string): void {
-    if (this.whichKeyModal) {
-      this.whichKeyModal.handleInput(data);
-      super.setText(this.whichKeyModal.getEditorMirrorText());
+    if (this.hotkeysModal) {
+      this.hotkeysModal.handleInput(data);
+      super.setText(this.hotkeysModal.getEditorMirrorText());
       if (this.onChange) this.onChange(this.getText());
       this.tui.requestRender();
       return;
     }
     if (this.handleClipboardImagePaste(data)) return;
-    if (this.shouldOpenWhichKey(data)) {
-      this.openWhichKeyModal();
+    if (this.handleRawBracketedPaste(data)) return;
+    if (this.shouldOpenHotkeys(data)) {
+      this.openHotkeysModal();
       return;
     }
     const activeSession = getTriggerSession();
@@ -162,6 +178,11 @@ export class PromptlineEditor extends CustomEditor {
     const triggerSessionStart = isTriggerTextStart(data)
       ? resolveTriggerSessionStart(data, line.slice(0, cursor.col), this.getText())
       : null;
+    if (triggerSessionStart?.kind === "slash" && !isRuntimeExtensionFeatureEnabled("slash-menu")) {
+      super.handleInput(data);
+      this.handleConfiguredTriggers(this.getText());
+      return;
+    }
     if (triggerSessionStart) {
       startTriggerSession(triggerSessionStart.kind, triggerSessionStart.prefix);
       super.handleInput(data);

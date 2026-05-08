@@ -1,6 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { ensureStoredCursorModelsRegistered } from "@nexus/extensions/ai-providers/register/cursorStoredModelLoader.js";
-import { SlashMenuModal } from "../../menu/SlashMenuModal.js";
+import { SlashMenuModal } from "@nexus/extensions/slash-menu/SlashMenuModal.js";
 import type { TriggerModalHandle, ShowOverlay } from "./types.js";
 
 /**
