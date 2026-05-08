@@ -1,13 +1,27 @@
 import { Type } from "@mariozechner/pi-ai";
 import { defineTool, type ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { formatContextUsage } from "./formatContextUsage.js";
+import { withSlashMenuGroup } from "../slash-menu/withSlashMenuGroup.js";
+import { getContextUsageToolText } from "./getContextUsageToolText.js";
+import { setLatestSystemPromptOptions } from "./contextUsageState.js";
+import { showContextUsageCommand } from "./showContextUsageCommand.js";
 
 /**
- * Registers a tool that reports the current session context-window usage.
+ * Registers context usage tool and /context command.
  *
  * @param pi Pi extension API.
  */
 export function registerContextUsageExtension(pi: ExtensionAPI): void {
+  pi.on("before_agent_start", (event) => {
+    setLatestSystemPromptOptions(event.systemPromptOptions);
+  });
+
+  pi.registerCommand("context", withSlashMenuGroup({
+    description: "Show current context-window usage",
+    handler: async (_args, ctx) => {
+      await showContextUsageCommand(ctx);
+    },
+  }, "Extensions"));
+
   pi.registerTool(
     defineTool({
       name: "context_usage",
@@ -20,7 +34,7 @@ export function registerContextUsageExtension(pi: ExtensionAPI): void {
       parameters: Type.Object({}),
       async execute(_toolCallId, _params, _signal, _onUpdate, ctx) {
         return {
-          content: [{ type: "text", text: formatContextUsage(ctx.getContextUsage() ?? null) }],
+          content: [{ type: "text", text: await getContextUsageToolText(ctx) }],
           details: undefined,
         };
       },
