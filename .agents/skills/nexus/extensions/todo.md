@@ -11,7 +11,7 @@
 
 - Enabled in `feature-flags.json`: `false`
 - Declared features:
-  - todo modal
+  - todo tool and live overlay
   - ctrl+\ shortcut
 
 ## Key files
@@ -36,4 +36,4 @@
 
 - Start with the first listed file to find the public entrypoint, registration boundary, or top-level contract for this area.
 - Then use the root files for shared types, config, or provenance notes and descend into the subfolder whose name matches the behavior you need.
-- `src/extensions/todo/README.md` says this is a project-scoped todo modal opened with `Ctrl+\` and split into `model/`, `storage/`, `runtime/`, and `ui/`.
+- `src/extensions/todo/README.md` says this is a project-scoped todo tool and live overlay opened with `/todos` and split into `model/`, `storage/`, `runtime/`, and `ui/`.

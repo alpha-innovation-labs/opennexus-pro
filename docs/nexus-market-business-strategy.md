@@ -40,7 +40,7 @@ The production compiled extension set is defined by `src/feature-flags/generated
 These should not be marketed as generally available until promoted into the release bundle.
 
 - Playground: playground modal, `ctrl+i` shortcut.
-- Todo: todo modal, `ctrl+\` shortcut.
+- Todo: todo tool and live overlay, `/todos` command.
 - Workflows: `/workflow` command, Librarian and Engineer prompts, continuous subagent steering instructions.
 - Workspace: session switcher, `ctrl+;` shortcut, workspace top bar.
 
