@@ -17,6 +17,7 @@ export type ScrollableModalBodyResult = {
  * @param bottomRows Rows that must stay pinned to the bottom.
  * @param visibleRows Available terminal rows.
  * @param requestedScrollOffset Desired body scroll offset.
+ * @param showScrollbar Whether to draw an overflow scrollbar.
  * @returns Visible modal rows and clamped body scroll metadata.
  */
 export function renderModalWithScrollableBody(
@@ -26,6 +27,7 @@ export function renderModalWithScrollableBody(
   bottomRows: string[],
   visibleRows: number,
   requestedScrollOffset: number,
+  showScrollbar = true,
 ): ScrollableModalBodyResult {
   const rowBudget = Math.max(1, Math.floor(visibleRows));
   const frameRows = [...topRows, ...bodyRows, ...bottomRows];
@@ -35,7 +37,7 @@ export function renderModalWithScrollableBody(
   const maxScrollOffset = Math.max(0, bodyRows.length - visibleBodyRows);
   const scrollOffset = Math.max(0, Math.min(maxScrollOffset, requestedScrollOffset));
   const visibleBody = bodyRows.slice(scrollOffset, scrollOffset + visibleBodyRows);
-  const bodyWithScrollbar = renderBodyScrollbar(theme, visibleBody, scrollOffset, maxScrollOffset, bodyRows.length);
+  const bodyWithScrollbar = showScrollbar ? renderBodyScrollbar(theme, visibleBody, scrollOffset, maxScrollOffset, bodyRows.length) : visibleBody;
   const fixedFrame = [...topRows, ...bodyWithScrollbar, ...bottomRows];
 
   return {

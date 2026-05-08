@@ -219,7 +219,7 @@ function getItemMaxLines(options: RenderSelectListLinesOptions, item: Autocomple
 /** Styles a label segment. */
 function styleLabel(options: RenderSelectListLinesOptions, item: AutocompleteItem, selected: boolean, text: string): string {
   if (options.styles?.label) return options.styles.label(item, selected, text, options.theme);
-  return selected ? options.theme.fg("accent", options.theme.bold(text)) : text;
+  return selected ? options.theme.fg("syntaxType", options.theme.bold(text)) : text;
 }
 
 /** Styles a description segment. */

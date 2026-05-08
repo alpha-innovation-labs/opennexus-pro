@@ -50,7 +50,7 @@ export class SelectPreviewModal extends SharedModal {
     onSelectionChange?: (item: AutocompleteItem | null) => void,
     options?: SelectPreviewModalOptions,
   ) {
-    super({ theme: uiTheme, panes: [], minWidth: options?.minWidth ?? 80, maxWidth: options?.maxWidth, maxWidthRatio: options?.maxWidthRatio ?? 0.9, fullScreen: options?.fullScreen, onClose: closeHandler });
+    super({ theme: uiTheme, panes: [], minWidth: options?.minWidth ?? 80, maxWidth: options?.maxWidth, maxWidthRatio: options?.maxWidthRatio ?? 0.9, fullScreen: options?.fullScreen, onClose: closeHandler, overflowScrollbar: false });
     this.fullScreen = options?.fullScreen ?? false;
     this.modalMinWidth = options?.minWidth ?? 80;
     this.modalMaxWidth = options?.maxWidth;

@@ -14,6 +14,7 @@ export type SharedModalPane = {
   id: string;
   size: number;
   lines: string[];
+  contentType?: "plain" | "markdown";
   minWidth?: number;
 };
 
@@ -33,6 +34,7 @@ export type SharedModalOptions = {
   minWidth?: number;
   onClose?: () => void;
   onFullScreenChange?: (enabled: boolean) => void;
+  overflowScrollbar?: boolean;
   panes: SharedModalPane[];
   theme: SharedModalTheme;
 };

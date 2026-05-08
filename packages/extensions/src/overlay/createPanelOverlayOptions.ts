@@ -1,24 +1,44 @@
+import type { SizeValue } from "@mariozechner/pi-tui";
+
+export type PanelOverlayWidthMode = "full" | "modal";
+
+export type PanelOverlayConfig = {
+  widthMode?: PanelOverlayWidthMode;
+};
+
 export type PanelOverlayOptions = {
   anchor: "center";
-  width: "100%";
+  width: SizeValue;
   minWidth: number;
-  maxHeight: string;
+  maxHeight: SizeValue;
 };
 
 /**
- * Creates full-width overlay options for centered panels.
+ * Resolves the overlay compositing width for centered panels.
  *
- * The overlay itself spans the terminal to mask underlying text; each panel component
- * controls its own visible percentage width through its modal width policy.
- *
- * @param minWidth Minimum overlay width.
- * @param maxHeight Maximum overlay height.
- * @returns Full-width centered overlay options.
+ * @param minWidth Minimum modal width.
+ * @param widthMode Overlay width behavior.
+ * @returns Full terminal width or modal-sized width.
  */
-export function createPanelOverlayOptions(minWidth: number, maxHeight = "90%"): PanelOverlayOptions {
+function resolvePanelOverlayWidth(minWidth: number, widthMode: PanelOverlayWidthMode): SizeValue {
+  return widthMode === "modal" ? minWidth : "100%";
+}
+
+/**
+ * Creates overlay options for centered panels.
+ *
+ * Full mode spans the terminal to mask underlying text. Modal mode constrains the
+ * overlay rectangle to the panel width so only the occupied area is composited.
+ *
+ * @param minWidth Minimum overlay and modal width.
+ * @param maxHeight Maximum overlay height.
+ * @param config Overlay behavior configuration.
+ * @returns Centered overlay options.
+ */
+export function createPanelOverlayOptions(minWidth: number, maxHeight: SizeValue = "90%", config: PanelOverlayConfig = {}): PanelOverlayOptions {
   return {
     anchor: "center",
-    width: "100%",
+    width: resolvePanelOverlayWidth(minWidth, config.widthMode ?? "full"),
     minWidth,
     maxHeight,
   };

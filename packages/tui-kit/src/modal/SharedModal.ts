@@ -5,6 +5,7 @@ import { createEmptyModalRows } from "./createEmptyModalRows.js";
 import { renderFooterRows } from "./renderFooterRows.js";
 import { renderFullWidthRows } from "./renderFullWidthRows.js";
 import { renderModalBorder } from "./renderModalBorder.js";
+import { renderModalBorderWithPaneSeparators } from "./renderModalBorderWithPaneSeparators.js";
 import { renderModalPanes } from "./renderModalPanes.js";
 import { createModalHotkeyFooterSegments } from "./hotkeys/createModalHotkeyFooterSegments.js";
 import { wrapModalHotkeyFooterSegments } from "./hotkeys/wrapModalHotkeyFooterSegments.js";
@@ -26,6 +27,7 @@ export class SharedModal implements Component {
   private sharedFullScreenRows?: number | (() => number);
   private maxWidth?: number;
   private maxWidthRatio: number;
+  private overflowScrollbar: boolean;
   private minWidth: number;
   private readonly onClose?: () => void;
   private readonly onFullScreenChange?: (enabled: boolean) => void;
@@ -49,6 +51,7 @@ export class SharedModal implements Component {
     this.headerLines = options.headerLines ?? [];
     this.maxWidth = options.maxWidth;
     this.maxWidthRatio = options.maxWidthRatio ?? 0.9;
+    this.overflowScrollbar = options.overflowScrollbar ?? true;
     this.minWidth = options.minWidth ?? 80;
     this.onClose = options.onClose;
     this.onFullScreenChange = options.onFullScreenChange;
@@ -108,19 +111,25 @@ export class SharedModal implements Component {
     const computedWidth = this.sharedFullScreen ? width : computeModalWidth(width, this.minWidth, this.maxWidthRatio);
     const modalWidth = this.sharedFullScreen ? width : this.maxWidth === undefined ? computedWidth : Math.min(computedWidth, this.maxWidth, width);
     const innerWidth = Math.max(1, modalWidth - 2);
-    const topRows = [renderModalBorder(this.theme, "┌", "─", "┐", innerWidth)];
+    const topBorder = this.headerLines.length > 0
+      ? renderModalBorder(this.theme, "┌", "─", "┐", innerWidth)
+      : renderModalBorderWithPaneSeparators(this.theme, "┌", "─", "┬", "┐", innerWidth, this.panes);
+    const topRows = [topBorder];
 
     if (this.headerLines.length > 0) {
       topRows.push(...renderFullWidthRows(this.theme, this.headerLines, innerWidth));
-      topRows.push(renderModalBorder(this.theme, "├", "─", "┤", innerWidth));
+      topRows.push(renderModalBorderWithPaneSeparators(this.theme, "├", "─", "┼", "┤", innerWidth, this.panes));
     }
 
     const bodyRows = renderModalPanes(this.theme, this.panes, innerWidth);
     const shouldShowBaseHotkeys = this.footerHotkeys !== undefined && this.footerHotkeys.length > 0 || bodyRows.length > this.getBodyRowBudget(topRows.length, this.footerLines.length, 1);
     const footerLines = this.getRenderedFooterLines(shouldShowBaseHotkeys, innerWidth);
+    const bottomBorder = footerLines.length > 0
+      ? renderModalBorder(this.theme, "└", "─", "┘", innerWidth)
+      : renderModalBorderWithPaneSeparators(this.theme, "└", "─", "┴", "┘", innerWidth, this.panes);
     const bottomRows = footerLines.length > 0
-      ? [renderModalBorder(this.theme, "├", "─", "┤", innerWidth), ...renderFooterRows(this.theme, footerLines, innerWidth), renderModalBorder(this.theme, "└", "─", "┘", innerWidth)]
-      : [renderModalBorder(this.theme, "└", "─", "┘", innerWidth)];
+      ? [renderModalBorderWithPaneSeparators(this.theme, "├", "─", "┼", "┤", innerWidth, this.panes), ...renderFooterRows(this.theme, footerLines, innerWidth), bottomBorder]
+      : [bottomBorder];
 
     if (this.sharedFullScreen) {
       const targetRows = this.getFullScreenRows();
@@ -128,7 +137,7 @@ export class SharedModal implements Component {
     }
 
     const visibleRows = this.getVisibleRows(topRows.length + bodyRows.length + bottomRows.length);
-    const overflow = renderModalWithScrollableBody(this.theme, topRows, bodyRows, bottomRows, visibleRows, this.overflowScrollOffset);
+    const overflow = renderModalWithScrollableBody(this.theme, topRows, bodyRows, bottomRows, visibleRows, this.overflowScrollOffset, this.overflowScrollbar);
     this.overflowMaxScrollOffset = overflow.maxScrollOffset;
     this.overflowScrollOffset = overflow.scrollOffset;
     this.overflowVisibleRows = overflow.visibleBodyRows;

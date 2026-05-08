@@ -11,6 +11,7 @@ export { renderFullWidthRows } from "./renderFullWidthRows.js";
 export { renderModalBorder } from "./renderModalBorder.js";
 export { renderModalPanes } from "./renderModalPanes.js";
 export { renderPaneRow } from "./renderPaneRow.js";
+export { renderSharedModalPaneLines } from "./renderSharedModalPaneLines.js";
 export type { SharedModalHotkey } from "./hotkeys/types.js";
 export type { SharedModalOptions, SharedModalPane, SharedModalTheme } from "./types.js";
 export type { SelectPreviewItemStyleFns, SelectPreviewModalOptions, SelectPreviewTheme } from "./select/types.js";
