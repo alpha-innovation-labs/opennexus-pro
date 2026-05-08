@@ -1,4 +1,4 @@
-import { renderFeaturesSection } from "../features/features-section/components/render-features-section.js";
+import { renderFeatureShowcase } from "../features/feature-showcase/components/render-feature-showcase.js";
 import { renderFooter } from "../features/footer/components/render-footer.js";
 import { renderHero } from "../features/hero/components/render-hero.js";
 import { renderNavbar } from "../features/navigation/components/render-navbar.js";
@@ -23,9 +23,11 @@ export function renderPage(): string {
     ${renderNavbar()}
     <main>
       ${renderHero()}
-      ${renderFeaturesSection()}
+      ${renderFeatureShowcase()}
     </main>
     ${renderFooter()}
+    <script src="/scripts/theme-toggle.js" defer></script>
+    <script src="/scripts/feature-nav.js" defer></script>
   </body>
 </html>`;
 }

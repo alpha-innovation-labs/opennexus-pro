@@ -19,6 +19,7 @@ export function renderHero(): string {
           <a class="secondary-button" href="#features">Explore features</a>
         </div>
       </div>
+      <div class="hero-stripes" aria-hidden="true"></div>
       ${renderTerminalDemo()}
     </section>
   `;

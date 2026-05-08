@@ -181,6 +181,12 @@ var FLAG_UNDERLINE = 8;
 var FLAG_REVERSE = 32;
 var FLAG_INVISIBLE = 64;
 var FLAG_STRIKETHROUGH = 128;
+function rgbToCSS(packed) {
+  const r = packed >> 16 & 255;
+  const g = packed >> 8 & 255;
+  const b = packed & 255;
+  return `rgb(${r},${g},${b})`;
+}
 function colorToCSS(index) {
   if (index === DEFAULT_COLOR)
     return null;
@@ -196,19 +202,32 @@ function colorToCSS(index) {
   const level = (index - 232) * 10 + 8;
   return `rgb(${level},${level},${level})`;
 }
-function buildCellStyle(fg, bg, flags) {
-  let fgC = fg, bgC = bg;
+function cellFgCSS(fg, fgRgb) {
+  if (fgRgb !== void 0)
+    return rgbToCSS(fgRgb);
+  return colorToCSS(fg);
+}
+function cellBgCSS(bg, bgRgb) {
+  if (bgRgb !== void 0)
+    return rgbToCSS(bgRgb);
+  return colorToCSS(bg);
+}
+function buildCellStyle(fg, bg, flags, fgRgb, bgRgb) {
+  let fgIdx = fg, bgIdx = bg, fgR = fgRgb, bgR = bgRgb;
   if (flags & FLAG_REVERSE) {
-    const tmp = fgC;
-    fgC = bgC;
-    bgC = tmp;
-    if (fgC === DEFAULT_COLOR)
-      fgC = 0;
-    if (bgC === DEFAULT_COLOR)
-      bgC = 7;
+    const tmpIdx = fgIdx;
+    fgIdx = bgIdx;
+    bgIdx = tmpIdx;
+    const tmpR = fgR;
+    fgR = bgR;
+    bgR = tmpR;
+    if (fgR === void 0 && fgIdx === DEFAULT_COLOR)
+      fgIdx = 0;
+    if (bgR === void 0 && bgIdx === DEFAULT_COLOR)
+      bgIdx = 7;
   }
-  const fgCSS = colorToCSS(fgC);
-  const bgCSS = colorToCSS(bgC);
+  const fgCSS = cellFgCSS(fgIdx, fgR);
+  const bgCSS = cellBgCSS(bgIdx, bgR);
   let style = "";
   if (fgCSS)
     style += `color:${fgCSS};`;
@@ -231,25 +250,22 @@ function buildCellStyle(fg, bg, flags) {
     style += "visibility:hidden;";
   return style;
 }
-function appendRun(parent, text, style) {
-  const span = document.createElement("span");
-  if (style)
-    span.style.cssText = style;
-  span.textContent = text;
-  parent.appendChild(span);
+function escapeHTML(text) {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
-function resolveColors(fg, bg, flags) {
-  let fgC = fg, bgC = bg;
+function resolveColors(fg, bg, flags, fgRgb, bgRgb) {
+  let fgIdx = fg, bgIdx = bg, fgR = fgRgb, bgR = bgRgb;
   if (flags & FLAG_REVERSE) {
-    [fgC, bgC] = [bgC, fgC];
-    if (fgC === DEFAULT_COLOR)
-      fgC = 0;
-    if (bgC === DEFAULT_COLOR)
-      bgC = 7;
+    [fgIdx, bgIdx] = [bgIdx, fgIdx];
+    [fgR, bgR] = [bgR, fgR];
+    if (fgR === void 0 && fgIdx === DEFAULT_COLOR)
+      fgIdx = 0;
+    if (bgR === void 0 && bgIdx === DEFAULT_COLOR)
+      bgIdx = 7;
   }
   return {
-    fg: colorToCSS(fgC) || "var(--term-fg)",
-    bg: colorToCSS(bgC) || "var(--term-bg)"
+    fg: cellFgCSS(fgIdx, fgR) || "var(--term-fg)",
+    bg: cellBgCSS(bgIdx, bgR) || "var(--term-bg)"
   };
 }
 function getBlockBackground(cp, fg, bg) {
@@ -361,30 +377,29 @@ var Renderer = class {
     this.prevCursorCol = -1;
   }
   _buildRowContent(rowEl, getCell, lineLen, cursorCol, rowIndex) {
-    rowEl.textContent = "";
+    let html = "";
     let runStyle = "";
     let runText = "";
     let runStart = 0;
     const flushRun = (endCol) => {
       if (!runText)
         return;
+      const escaped = escapeHTML(runText);
       if (cursorCol >= runStart && cursorCol < endCol) {
         const offset = cursorCol - runStart;
-        const before = runText.slice(0, offset);
-        const cursorChar = runText[offset];
-        const after = runText.slice(offset + 1);
-        if (before)
-          appendRun(rowEl, before, runStyle);
-        const cursorSpan = document.createElement("span");
-        cursorSpan.className = "term-cursor";
-        if (runStyle)
-          cursorSpan.style.cssText = runStyle;
-        cursorSpan.textContent = cursorChar;
-        rowEl.appendChild(cursorSpan);
-        if (after)
-          appendRun(rowEl, after, runStyle);
+        const chars = [...runText];
+        const before = chars.slice(0, offset).join("");
+        const cursorChar = chars[offset] || " ";
+        const after = chars.slice(offset + 1).join("");
+        if (before) {
+          html += runStyle ? `<span style="${runStyle}">${escapeHTML(before)}</span>` : `<span>${escapeHTML(before)}</span>`;
+        }
+        html += runStyle ? `<span class="term-cursor" style="${runStyle}">${escapeHTML(cursorChar)}</span>` : `<span class="term-cursor">${escapeHTML(cursorChar)}</span>`;
+        if (after) {
+          html += runStyle ? `<span style="${runStyle}">${escapeHTML(after)}</span>` : `<span>${escapeHTML(after)}</span>`;
+        }
       } else {
-        appendRun(rowEl, runText, runStyle);
+        html += runStyle ? `<span style="${runStyle}">${escaped}</span>` : `<span>${escaped}</span>`;
       }
     };
     for (let col = 0; col < this.cols; col++) {
@@ -393,19 +408,17 @@ var Renderer = class {
       const cp = inBounds ? cell.char : 0;
       if (inBounds && cp >= 9600 && cp <= 9631) {
         flushRun(col);
-        const colors = resolveColors(cell.fg, cell.bg, cell.flags);
-        const span = document.createElement("span");
-        span.className = col === cursorCol ? "term-block term-cursor" : "term-block";
-        span.style.background = getBlockBackground(cp, colors.fg, colors.bg);
-        if (cell.flags & FLAG_DIM)
-          span.style.opacity = "0.5";
-        rowEl.appendChild(span);
+        const colors = resolveColors(cell.fg, cell.bg, cell.flags, cell.fgRgb, cell.bgRgb);
+        const cls = col === cursorCol ? "term-block term-cursor" : "term-block";
+        const bg = getBlockBackground(cp, colors.fg, colors.bg);
+        const dim = cell.flags & FLAG_DIM ? "opacity:0.5;" : "";
+        html += `<span class="${cls}" style="background:${bg};${dim}"></span>`;
         runStyle = "";
         runText = "";
         runStart = col + 1;
       } else {
         const ch = inBounds && cp >= 32 ? String.fromCodePoint(cp) : " ";
-        const style = inBounds ? buildCellStyle(cell.fg, cell.bg, cell.flags) : "";
+        const style = inBounds ? buildCellStyle(cell.fg, cell.bg, cell.flags, cell.fgRgb, cell.bgRgb) : "";
         if (style !== runStyle) {
           flushRun(col);
           runStyle = style;
@@ -417,16 +430,19 @@ var Renderer = class {
       }
     }
     flushRun(this.cols);
+    rowEl.innerHTML = html;
     let bgCss = "";
     if (lineLen >= this.cols && this.cols > 0) {
       const lastCell = getCell(this.cols - 1);
-      let bgC = lastCell.bg;
+      let bgIdx = lastCell.bg;
+      let bgR = lastCell.bgRgb;
       if (lastCell.flags & FLAG_REVERSE) {
-        bgC = lastCell.fg;
-        if (bgC === DEFAULT_COLOR)
-          bgC = 7;
+        bgIdx = lastCell.fg;
+        bgR = lastCell.fgRgb;
+        if (bgR === void 0 && bgIdx === DEFAULT_COLOR)
+          bgIdx = 7;
       }
-      bgCss = colorToCSS(bgC) || "";
+      bgCss = cellBgCSS(bgIdx, bgR) || "";
     }
     const boxShadow = bgCss ? `0 1px 0 ${bgCss}` : "";
     if (rowIndex >= 0) {
@@ -440,15 +456,15 @@ var Renderer = class {
       rowEl.style.boxShadow = boxShadow;
     }
   }
-  _buildScrollbackRowEl(bridge, sbOffset) {
+  _buildScrollbackRowEl(core, sbOffset) {
     const rowEl = document.createElement("div");
     rowEl.className = "term-row term-scrollback-row";
-    const lineLen = bridge.getScrollbackLineLen(sbOffset);
-    this._buildRowContent(rowEl, (col) => bridge.getScrollbackCell(sbOffset, col), lineLen, -1, -1);
+    const lineLen = core.getScrollbackLineLen(sbOffset);
+    this._buildRowContent(rowEl, (col) => core.getScrollbackCell(sbOffset, col), lineLen, -1, -1);
     return rowEl;
   }
-  syncScrollback(bridge) {
-    const scrollbackCount = bridge.getScrollbackCount();
+  syncScrollback(core) {
+    const scrollbackCount = core.getScrollbackCount();
     if (scrollbackCount === this._renderedScrollbackCount)
       return;
     if (scrollbackCount > this._renderedScrollbackCount) {
@@ -456,7 +472,7 @@ var Renderer = class {
       const firstGridRow = this.rowEls[0] ?? null;
       const fragment = document.createDocumentFragment();
       for (let i = newCount - 1; i >= 0; i--) {
-        const rowEl = this._buildScrollbackRowEl(bridge, i);
+        const rowEl = this._buildScrollbackRowEl(core, i);
         fragment.appendChild(rowEl);
         this._scrollbackRowEls.push(rowEl);
       }
@@ -471,45 +487,47 @@ var Renderer = class {
     }
     this._renderedScrollbackCount = scrollbackCount;
   }
-  render(bridge) {
-    const rows = bridge.getRows();
-    const cols = bridge.getCols();
+  render(core) {
+    const rows = core.getRows();
+    const cols = core.getCols();
     let resized = false;
     if (rows !== this.rows || cols !== this.cols) {
       this.setup(cols, rows);
       resized = true;
     }
-    this.syncScrollback(bridge);
-    const cursor = bridge.getCursor();
+    this.syncScrollback(core);
+    const cursor = core.getCursor();
     const cursorVisible = cursor.visible;
     const needsCursorUpdate = cursor.row !== this.prevCursorRow || cursor.col !== this.prevCursorCol;
     for (let r = 0; r < this.rows; r++) {
-      const isDirty = resized || bridge.isDirtyRow(r);
+      const isDirty = resized || core.isDirtyRow(r);
       const hadCursor = r === this.prevCursorRow && needsCursorUpdate;
       const hasCursor = r === cursor.row;
       if (isDirty || hadCursor || hasCursor && needsCursorUpdate) {
         const cCol = hasCursor && cursorVisible ? cursor.col : -1;
-        this._buildRowContent(this.rowEls[r], (col) => bridge.getCell(r, col), this.cols, cCol, r);
+        this._buildRowContent(this.rowEls[r], (col) => core.getCell(r, col), this.cols, cCol, r);
       }
     }
     this.prevCursorRow = cursor.row;
     this.prevCursorCol = cursor.col;
-    const lastRowDirty = resized || bridge.isDirtyRow(this.rows - 1);
+    const lastRowDirty = resized || core.isDirtyRow(this.rows - 1);
     if (lastRowDirty) {
-      const bottomRight = bridge.getCell(this.rows - 1, this.cols - 1);
-      let gridBg = bottomRight.bg;
+      const bottomRight = core.getCell(this.rows - 1, this.cols - 1);
+      let gridBgIdx = bottomRight.bg;
+      let gridBgRgb = bottomRight.bgRgb;
       if (bottomRight.flags & FLAG_REVERSE) {
-        gridBg = bottomRight.fg;
-        if (gridBg === DEFAULT_COLOR)
-          gridBg = 7;
+        gridBgIdx = bottomRight.fg;
+        gridBgRgb = bottomRight.fgRgb;
+        if (gridBgRgb === void 0 && gridBgIdx === DEFAULT_COLOR)
+          gridBgIdx = 7;
       }
-      const containerBg = colorToCSS(gridBg) || "";
+      const containerBg = cellBgCSS(gridBgIdx, gridBgRgb) || "";
       if (containerBg !== this.prevContainerBg) {
         this.container.style.background = containerBg;
         this.prevContainerBg = containerBg;
       }
     }
-    bridge.clearDirty();
+    core.clearDirty();
   }
 };
 
@@ -945,11 +963,13 @@ var WTerm = class {
     this.renderer = null;
     this.input = null;
     this.rafId = null;
+    this._renderTimer = null;
     this.resizeObserver = null;
     this._destroyed = false;
     this._shouldScrollToBottom = false;
     this._rowHeight = 0;
     this.element = element;
+    this._coreOption = options.core;
     this.wasmUrl = options.wasmUrl;
     this.cols = options.cols || 80;
     this.rows = options.rows || 24;
@@ -973,7 +993,11 @@ var WTerm = class {
   }
   async init() {
     try {
-      this.bridge = await WasmBridge.load(this.wasmUrl);
+      if (this._coreOption) {
+        this.bridge = this._coreOption;
+      } else {
+        this.bridge = await WasmBridge.load(this.wasmUrl);
+      }
       if (this._destroyed)
         return this;
       this.bridge.init(this.cols, this.rows);
@@ -1053,12 +1077,17 @@ var WTerm = class {
     }
   }
   _scheduleRender() {
-    if (this.rafId == null) {
-      this.rafId = requestAnimationFrame(() => {
-        this.rafId = null;
-        this._doRender();
-      });
-    }
+    if (this._renderTimer != null)
+      return;
+    this._renderTimer = setTimeout(() => {
+      this._renderTimer = null;
+      if (this.rafId == null) {
+        this.rafId = requestAnimationFrame(() => {
+          this.rafId = null;
+          this._doRender();
+        });
+      }
+    }, 0);
   }
   _initialRender() {
     this._doRender();
@@ -1160,6 +1189,8 @@ var WTerm = class {
   }
   destroy() {
     this._destroyed = true;
+    if (this._renderTimer != null)
+      clearTimeout(this._renderTimer);
     if (this.rafId != null)
       cancelAnimationFrame(this.rafId);
     if (this.resizeObserver)

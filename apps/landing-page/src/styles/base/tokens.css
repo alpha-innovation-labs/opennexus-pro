@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap");
+
+:root {
+  color-scheme: light;
+  --bg: #fafafa;
+  --panel: #fafafa;
+  --panel-strong: #ffffff;
+  --line: #e4e4e4;
+  --line-strong: #d4d4d4;
+  --text: #171717;
+  --muted: #525252;
+  --subtle: #737373;
+  --link-blue: #0a72ef;
+  --badge-blue-bg: #171717;
+  --badge-blue-text: #fafafa;
+  --develop-blue: #0a72ef;
+  --preview-pink: #de1d8d;
+  --ship-red: #ff5b4f;
+  --focus-blue: hsla(212, 100%, 48%, 1);
+  --media-ink: #111111;
+  --media-paper: #f5eadf;
+  --media-blue: #2458ff;
+  --media-yellow: #d9b312;
+  --media-red: #dc2626;
+  --stripe-color: rgba(0, 0, 0, 0.08);
+  --nav-bg: #ffffff;
+  --sticky-bg: rgba(250, 250, 250, 0.94);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #000000;
+  --panel: #050505;
+  --panel-strong: #0a0a0a;
+  --line: rgba(255, 255, 255, 0.14);
+  --line-strong: rgba(255, 255, 255, 0.24);
+  --text: #ededed;
+  --muted: #a1a1a1;
+  --subtle: #737373;
+  --link-blue: #52a8ff;
+  --badge-blue-bg: #ededed;
+  --badge-blue-text: #000000;
+  --develop-blue: #52a8ff;
+  --preview-pink: #ff4db8;
+  --ship-red: #ff6b5f;
+  --focus-blue: hsla(212, 100%, 64%, 1);
+  --media-ink: #050505;
+  --media-paper: #1a1a1a;
+  --media-blue: #1f4dff;
+  --media-yellow: #8f7200;
+  --media-red: #8f1d1d;
+  --stripe-color: rgba(255, 255, 255, 0.08);
+  --nav-bg: #050505;
+  --sticky-bg: rgba(0, 0, 0, 0.92);
+}

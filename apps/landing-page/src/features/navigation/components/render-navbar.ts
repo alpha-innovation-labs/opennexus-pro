@@ -13,6 +13,7 @@ export function renderNavbar(): string {
         <div class="nav-links">
           <a href="#demo">Demo</a>
           <a href="#features">Features</a>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle color theme"><img src="/theme-toggle-icon.png" alt="" aria-hidden="true" /><span data-theme-toggle-label>Theme</span></button>
           <a class="nav-cta" href="https://opennexus.xyz/">Open Nexus</a>
         </div>
       </div>

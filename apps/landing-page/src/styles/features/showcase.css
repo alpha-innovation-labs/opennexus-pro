@@ -1,0 +1,42 @@
+.feature-showcase { margin: 0 auto; padding: 0 0 5rem; }
+.showcase-intro { justify-content: center; margin: 0; border-bottom: 1px solid var(--line); padding: 4rem 1.25rem; text-align: center; }
+.showcase-intro h2 { max-width: 17ch; }
+.feature-sticky-nav { position: sticky; top: 4rem; z-index: 40; display: grid; gap: 0; margin: 0 0 4rem; background: var(--sticky-bg); backdrop-filter: blur(18px); border-bottom: 1px solid var(--line); }
+.feature-major-nav, .feature-child-nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+.feature-major-nav { border-bottom: 1px solid var(--line); }
+.feature-major-nav::-webkit-scrollbar, .feature-child-nav::-webkit-scrollbar { display: none; }
+.feature-major-nav a, .feature-child-nav a { white-space: nowrap; color: var(--text); border-right: 1px solid var(--line); }
+.feature-major-nav a { flex: 1 0 auto; min-width: 9rem; padding: 0.8rem 0.9rem; text-align: center; font-size: 0.875rem; font-weight: 500; }
+.feature-child-nav a { padding: 0.65rem 0.8rem; font-size: 0.75rem; font-weight: 500; }
+.feature-major-nav a.is-active, .feature-child-nav a.is-active, .feature-major-nav a:hover, .feature-child-nav a:hover { background: var(--text); color: var(--bg); }
+.showcase-group { scroll-margin-top: 11rem; padding: 0 0 4rem; }
+.showcase-group-heading { display: grid; gap: 1rem; max-width: none; margin: 0 0 2.5rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 4rem 4rem; text-align: left; }
+.showcase-group-heading p:last-child { max-width: 38rem; margin: 0; color: var(--muted); font-size: 1.15rem; line-height: 1.55; }
+.showcase-examples { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.showcase-example { scroll-margin-top: 11rem; display: grid; grid-template-columns: minmax(0, 0.88fr) minmax(320px, 1.12fr); gap: 0; align-items: stretch; border-bottom: 1px solid var(--line); }
+.showcase-example:nth-child(even) .feature-copy-card { grid-column: 2; grid-row: 1; border-right: 0; border-left: 1px solid var(--line); }
+.showcase-example:nth-child(even) .feature-video-card { grid-column: 1; grid-row: 1; }
+.feature-copy-card { align-self: stretch; padding: 2.5rem 2rem; background: var(--panel); border-right: 1px solid var(--line); }
+.feature-copy-card p:not(.eyebrow) { color: var(--muted); line-height: 1.56; font-size: 1rem; }
+.feature-copy-card ul { display: grid; gap: 0.55rem; margin: 1.4rem 0 0; padding: 0; list-style: none; }
+.feature-copy-card li { color: var(--text); font: 500 0.75rem/1.33 "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+.workflow-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 0; border-bottom: 1px solid var(--line); }
+.workflow-step { padding: 1.5rem; background: var(--panel); border-right: 1px solid var(--line); }
+.workflow-step:last-child { border-right: 0; }
+.workflow-step span { display: block; margin-bottom: 0.55rem; font: 500 0.75rem/1.33 "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; }
+.workflow-step strong { display: block; color: var(--text); font-size: 1.5rem; line-height: 1.33; letter-spacing: -0.96px; }
+.workflow-step p { margin: 0.5rem 0 0; color: var(--muted); line-height: 1.56; }
+.workflow-develop span { color: var(--develop-blue); }
+.workflow-preview span { color: var(--preview-pink); }
+.workflow-ship span { color: var(--ship-red); }
+.savings-section { scroll-margin-top: 11rem; padding: 0; border-top: 1px solid var(--line); }
+.savings-card { background: var(--panel); }
+.savings-card h2 { max-width: 13ch; }
+@media (max-width: 860px) {
+  .feature-sticky-nav { top: 4rem; margin-bottom: 2.5rem; }
+  .showcase-example, .workflow-strip { grid-template-columns: 1fr; }
+  .showcase-example:nth-child(even) .feature-copy-card, .showcase-example:nth-child(even) .feature-video-card { grid-column: auto; grid-row: auto; }
+  .showcase-example:nth-child(even) .feature-copy-card, .feature-copy-card { border-right: 0; border-left: 0; border-bottom: 1px solid var(--line); }
+  .workflow-step { border-right: 0; border-bottom: 1px solid var(--line); }
+  .feature-major-nav a { flex-basis: auto; min-width: max-content; }
+}
