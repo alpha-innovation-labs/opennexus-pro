@@ -92,16 +92,10 @@ function checkRateLimit(): void {
 	requestTimestamps.push(now);
 }
 
-/**
- * Keeps valid domain filters while preserving a leading exclusion marker.
- *
- * @param domains Domain filters requested by the user.
- * @returns Domain filters accepted by the Perplexity API.
- */
 function validateDomainFilter(domains: string[]): string[] {
 	return domains.filter((d) => {
 		const domain = d.startsWith("-") ? d.slice(1) : d;
-		return /^[a-zA-Z0-9][a-zA-Z0-9_.-]*\.[a-zA-Z]{2,}$/.test(domain);
+		return /^[a-zA-Z0-9][a-zA-Z0-9-_.]*\.[a-zA-Z]{2,}$/.test(domain);
 	});
 }
 
