@@ -1,4 +1,4 @@
-# Upgrade all packages to latest versions
+# Alias for the merged project update workflow
 
 upgrade:
-    npx npm-check-updates -u && npm install
+    just update
