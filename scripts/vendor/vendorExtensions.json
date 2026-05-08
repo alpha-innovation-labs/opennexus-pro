@@ -10,16 +10,6 @@
     "target": "packages/extensions/src/vendor/mcp-adapter"
   },
   {
-    "id": "rpiv-todo",
-    "source": "@juicesharp/rpiv-todo",
-    "target": "packages/extensions/src/vendor/rpiv-todo"
-  },
-  {
-    "id": "rpiv-ask-user-question",
-    "source": "@juicesharp/rpiv-ask-user-question",
-    "target": "packages/extensions/src/vendor/rpiv-ask-user-question"
-  },
-  {
     "id": "pi-lens",
     "source": "pi-lens",
     "target": "packages/extensions/src/vendor/pi-lens"

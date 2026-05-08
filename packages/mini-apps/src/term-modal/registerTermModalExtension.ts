@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { withSlashMenuGroup } from "@nexus/extensions/neo-editor/features/menu/withSlashMenuGroup.js";
+import { withSlashMenuGroup } from "@nexus/extensions/slash-menu/withSlashMenuGroup.js";
 import { registerConfiguredTermShortcuts } from "./keybindings/registerConfiguredTermShortcuts.js";
 import { attachTerminalSession } from "./runtime/attachTerminalSession.js";
 import { clearTerminalBuffer } from "./runtime/clearTerminalBuffer.js";

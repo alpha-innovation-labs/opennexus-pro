@@ -9,7 +9,7 @@ import { clearPromptlineConfig } from "../../../packages/extensions/src/neo-edit
 import { getPromptlineConfig } from "../../../packages/extensions/src/neo-editor/features/promptline/config/getPromptlineConfig.js";
 import { refreshPromptlineConfig } from "../../../packages/extensions/src/neo-editor/features/promptline/config/refreshPromptlineConfig.js";
 import { clearTriggerSession } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/sessionState.js";
-import { showStartupResumeModal } from "../../../packages/extensions/src/neo-editor/features/menu/internal-commands/showStartupResumeModal.js";
+import { showStartupResumeModal } from "../../../packages/extensions/src/slash-menu/internal-commands/showStartupResumeModal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 /**
  * Waits for queued async work to settle.

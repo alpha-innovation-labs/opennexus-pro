@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { filterMenuItems } from "../../../packages/extensions/src/neo-editor/features/menu/filterMenuItems.js";
+import { filterMenuItems } from "../../../packages/extensions/src/slash-menu/filterMenuItems.js";
 
 /**
  * Verifies filtering only matches item labels and values, not descriptions.

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { SettingsManager } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js";
-import { handleInternalModelCommand } from "../../../packages/extensions/src/neo-editor/features/menu/internal-commands/handleInternalModelCommand.js";
+import { handleInternalModelCommand } from "../../../packages/extensions/src/slash-menu/internal-commands/handleInternalModelCommand.js";
 import { getPromptlineModelOverride, setPromptlineModelOverride } from "../../../packages/extensions/src/neo-editor/features/promptline/state.js";
 
 const originalCreate = SettingsManager.create;

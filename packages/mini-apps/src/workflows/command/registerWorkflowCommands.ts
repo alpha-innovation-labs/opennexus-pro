@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { withSlashMenuGroup } from "@nexus/extensions/neo-editor/features/menu/withSlashMenuGroup.js";
+import { withSlashMenuGroup } from "@nexus/extensions/slash-menu/withSlashMenuGroup.js";
 import { createWorkflowStartRequest } from "./createWorkflowStartRequest.js";
 import { showWorkflowRunsModal } from "./showWorkflowRunsModal.js";
 import { showWorkflowStartModal } from "./showWorkflowStartModal.js";

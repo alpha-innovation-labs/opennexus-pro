@@ -3,7 +3,7 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { getResourceCommandScope } from "../../../packages/extensions/src/neo-editor/features/menu/getResourceCommandScope.js";
+import { getResourceCommandScope } from "../../../packages/extensions/src/slash-menu/getResourceCommandScope.js";
 
 test("getResourceCommandScope falls back to source path location", async () => {
   const localPath = join(process.cwd(), ".nexus-test-skill.md");

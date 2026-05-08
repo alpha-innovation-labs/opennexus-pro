@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createForkLeaves } from "../../../packages/extensions/src/neo-editor/features/menu/createForkLeaves.js";
+import { createForkLeaves } from "../../../packages/extensions/src/slash-menu/createForkLeaves.js";
 
 test("fork leaves render the message summary directly after the fork number", () => {
 	const leaves = createForkLeaves([

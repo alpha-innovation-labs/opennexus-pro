@@ -1,8 +1,7 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { createExtensionFeatureFlags, registerEnabledExtensions } from "@nexus/feature-flags/index.js";
-import { registerWhichKeyCommandHook } from "./neo-editor/features/which-key/registerWhichKeyCommandHook.js";
-import { registerInternalSlashSelectorCommands } from "./neo-editor/features/menu/internal-commands/registerInternalSlashSelectorCommands.js";
-import { registerSlashCommand } from "./neo-editor/features/menu/registerSlashCommand.js";
+import { clearHotkeysCommandHook } from "./hotkeys/clearHotkeysCommandHook.js";
+import { clearRegisteredSlashCommands, registerSlashCommand } from "./slash-menu/registerSlashCommand.js";
 import { recordRegisteredShortcut } from "@nexus/tui-kit/shortcuts/recordRegisteredShortcut.js";
 import { registerTelemetryRuntimeExtension } from "./telemetry-runtime/registerTelemetryRuntimeExtension.js";
 import { createTronToolWrappingExtensionApi } from "./tron/compact-tool-lines/createTronToolWrappingExtensionApi.js";
@@ -17,12 +16,15 @@ export { createExtensionFeatureFlags, createExtensionFeatureFlagReport, getEnabl
 export default async function index(pi: ExtensionAPI): Promise<void> {
 	const flags = createExtensionFeatureFlags();
 	const isTronEnabled = flags.some((flag) => flag.id === "tron" && flag.enabled);
+	const isSlashMenuEnabled = flags.some((flag) => flag.id === "slash-menu" && flag.enabled);
+	if (!flags.some((flag) => flag.id === "hotkeys" && flag.enabled)) clearHotkeysCommandHook();
+	if (!isSlashMenuEnabled) clearRegisteredSlashCommands();
 	const toolAwarePi = isTronEnabled ? createTronToolWrappingExtensionApi(pi) : pi;
 	const slashAwarePi = new Proxy(toolAwarePi, {
 		get(target, property, receiver) {
 			if (property === "registerCommand") {
 				return (name: string, definition: Record<string, unknown>) => {
-					registerSlashCommand({
+					if (isSlashMenuEnabled) registerSlashCommand({
 						name,
 						description: typeof definition.description === "string" ? definition.description : undefined,
 						source: "extension",
@@ -41,8 +43,6 @@ export default async function index(pi: ExtensionAPI): Promise<void> {
 			return Reflect.get(target, property, receiver);
 		},
 	});
-	registerWhichKeyCommandHook();
-	registerInternalSlashSelectorCommands(pi);
 	registerTelemetryRuntimeExtension(pi);
 	await registerEnabledExtensions(slashAwarePi, flags);
 }

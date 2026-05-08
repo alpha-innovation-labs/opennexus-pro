@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import { SessionManager } from "@mariozechner/pi-coding-agent";
-import { createResumeLeaves } from "../../../packages/extensions/src/neo-editor/features/menu/createResumeLeaves.js";
+import { createResumeLeaves } from "../../../packages/extensions/src/slash-menu/createResumeLeaves.js";
 
 /**
  * Creates one persisted session fixture for resume-summary tests.

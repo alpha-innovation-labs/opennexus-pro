@@ -14,6 +14,15 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
+    "annotate": {
+      "enabled": true,
+      "features": [
+        "annotate command",
+        "annotate tool",
+        "chrome extension bridge"
+      ],
+      "category": "mini-app"
+    },
     "auto-update": {
       "enabled": true,
       "features": [
@@ -59,27 +68,10 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
-    "mcp-adapter": {
+    "ask-user-question": {
       "enabled": true,
       "features": [
-        "MCP server adapter backed by vendored pi-mcp-adapter",
-        "MCP slash commands",
-        "MCP tool proxying"
-      ],
-      "category": "extension"
-    },
-    "rpiv-todo": {
-      "enabled": true,
-      "features": [
-        "RPIV model todo tools backed by vendored @juicesharp/rpiv-todo",
-        "live todo overlay"
-      ],
-      "category": "extension"
-    },
-    "rpiv-ask-user-question": {
-      "enabled": true,
-      "features": [
-        "ask-user-question tool backed by vendored @juicesharp/rpiv-ask-user-question",
+        "ask_user_question tool",
         "typed option prompts"
       ],
       "category": "extension"
@@ -93,17 +85,8 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
-    "pi-queue": {
-      "enabled": false,
-      "features": [
-        "FIFO queue backed by vendored @dhruv2mars/pi-queue",
-        "queue/steer mode toggle",
-        "queued message status"
-      ],
-      "category": "extension"
-    },
     "oh-my-pi-lsp": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "in-house LSP tool ported from Oh My Pi",
         "diagnostics, hover, definitions, references, symbols, rename previews, and code actions",
@@ -117,17 +100,6 @@ export const compiledFeatureFlags = {
         "FFF-backed read override",
         "FFF-backed grep override",
         "FFF-powered @ file autocomplete"
-      ],
-      "category": "extension"
-    },
-    "impeccable": {
-      "enabled": false,
-      "features": [
-        "/impeccable command",
-        "/impeccable live - Interactive visual variant mode",
-        "/impeccable craft - Shape then build end-to-end",
-        "/impeccable critique - UX design review",
-        "/impeccable polish - Final quality pass"
       ],
       "category": "extension"
     },
@@ -153,8 +125,35 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
-    "memory": {
+    "prompt-queue": {
       "enabled": true,
+      "features": [
+        "persisted Neo editor prompt queue",
+        "queue box above promptline",
+        "queue navigation, edit, send, and delete hotkeys"
+      ],
+      "category": "extension"
+    },
+    "hotkeys": {
+      "enabled": true,
+      "features": [
+        "/hotkeys and ? hotkey browser",
+        "hotkey filtering",
+        "hotkey editing and conflict approval"
+      ],
+      "category": "extension"
+    },
+    "slash-menu": {
+      "enabled": true,
+      "features": [
+        "slash command menu opened with /",
+        "command grouping and filtering",
+        "internal model, login, resume, fork, and settings menus"
+      ],
+      "category": "extension"
+    },
+    "memory": {
+      "enabled": false,
       "features": [
         "/memory two-pane browser",
         "tweet capture through Jina Reader",
@@ -207,14 +206,14 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
-    "tetris": {
+    "todo": {
       "enabled": true,
       "features": [
-        "/tetris command",
-        "full-screen keyboard-controlled Tetris modal",
-        "Escape hide with paused shared session resume"
+        "todo tool",
+        "/todos command",
+        "live todo overlay"
       ],
-      "category": "mini-app"
+      "category": "extension"
     },
     "tron": {
       "enabled": true,

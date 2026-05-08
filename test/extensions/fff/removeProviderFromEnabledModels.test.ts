@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { removeProviderFromEnabledModels } from "../../../packages/extensions/src/neo-editor/features/menu/model/removeProviderFromEnabledModels.js";
+import { removeProviderFromEnabledModels } from "../../../packages/extensions/src/slash-menu/model/removeProviderFromEnabledModels.js";
 
 /**
  * Creates fake enabled-model settings for cleanup tests.

@@ -47,11 +47,6 @@ const extensionModules = {
 		exportName: "default",
 		localName: "registerFffExtension",
 	},
-	impeccable: {
-		importPath: "../impeccable/index.js",
-		exportName: "default",
-		localName: "registerImpeccableExtension",
-	},
 	kanban: {
 		importPath: "@nexus/mini-apps/kanban/registerKanbanExtension.js",
 		exportName: "registerKanbanExtension",
@@ -64,6 +59,14 @@ const extensionModules = {
 		importPath: "../neo-editor/registerNeoEditorExtension.js",
 		exportName: "default",
 		localName: "registerNeoEditorExtension",
+	},
+	"hotkeys": {
+		importPath: "../hotkeys/registerHotkeysExtension.js",
+		exportName: "registerHotkeysExtension",
+	},
+	"slash-menu": {
+		importPath: "../slash-menu/registerSlashMenuExtension.js",
+		exportName: "registerSlashMenuExtension",
 	},
 	memory: {
 		importPath: "@nexus/mini-apps/memory/registerMemoryExtension.js",
@@ -122,7 +125,7 @@ const extensionModules = {
 		exportName: "registerTermModalExtension",
 	},
 	todo: {
-		importPath: "@nexus/mini-apps/todo/registerTodoExtension.js",
+		importPath: "../todo/registerTodoExtension.js",
 		exportName: "registerTodoExtension",
 	},
 	tetris: {
@@ -159,22 +162,17 @@ const extensionModules = {
 		importPath: "../vendor-runtime/registerVendorMcpAdapterExtension.js",
 		exportName: "registerVendorMcpAdapterExtension",
 	},
-	"rpiv-todo": {
-		importPath: "../vendor-runtime/registerVendorRpivTodoExtension.js",
-		exportName: "registerVendorRpivTodoExtension",
-	},
-	"rpiv-ask-user-question": {
-		importPath:
-			"../vendor-runtime/registerVendorRpivAskUserQuestionExtension.js",
-		exportName: "registerVendorRpivAskUserQuestionExtension",
+	"ask-user-question": {
+		importPath: "../ask-user-question/registerAskUserQuestionExtension.js",
+		exportName: "registerAskUserQuestionExtension",
 	},
 	"pi-lens": {
 		importPath: "../vendor-runtime/registerVendorPiLensExtension.js",
 		exportName: "registerVendorPiLensExtension",
 	},
-	"pi-queue": {
-		importPath: "../vendor-runtime/registerVendorPiQueueExtension.js",
-		exportName: "registerVendorPiQueueExtension",
+	"prompt-queue": {
+		importPath: "../prompt-queue/registerPromptQueueExtension.js",
+		exportName: "registerPromptQueueExtension",
 	},
 };
 
@@ -191,6 +189,7 @@ function createModuleSource(enabledIds) {
 		'import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensionConfig.js";',
 		'import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";',
 		'import { createTelemetryExtensionApi } from "@nexus/feature-flags/createTelemetryExtensionApi.js";',
+		'import { setRuntimeExtensionFeatureFlags } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";',
 	];
 
 	for (const id of enabledIds) {
@@ -235,6 +234,7 @@ function createModuleSource(enabledIds) {
 		" */",
 		"export default async function registerCompiledEnabledExtensions(pi: ExtensionAPI): Promise<void> {",
 		"  const config = applySystemExtensionAvailability(applyUserExtensionConfig(getBundledFeatureFlagsConfig()));",
+		"  setRuntimeExtensionFeatureFlags(compiledBundledExtensionIds.map((id) => ({ id, enabled: Boolean(config.extensions[id]?.enabled ?? config.other?.[id]?.enabled) })));",
 		"",
 		"  for (const id of compiledBundledExtensionIds) {",
 		"    if (!(config.extensions[id]?.enabled ?? config.other?.[id]?.enabled)) continue;",

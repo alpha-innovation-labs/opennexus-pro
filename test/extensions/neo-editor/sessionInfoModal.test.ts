@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { visibleWidth } from "@mariozechner/pi-tui";
 import { createPanelOverlayOptions } from "../../../packages/extensions/src/overlay/createPanelOverlayOptions.js";
-import { createSessionInfoRows } from "../../../packages/extensions/src/neo-editor/features/menu/session-info/createSessionInfoRows.js";
-import { SessionInfoModal } from "../../../packages/extensions/src/neo-editor/features/menu/session-info/SessionInfoModal.js";
+import { createSessionInfoRows } from "../../../packages/extensions/src/slash-menu/session-info/createSessionInfoRows.js";
+import { SessionInfoModal } from "../../../packages/extensions/src/slash-menu/session-info/SessionInfoModal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

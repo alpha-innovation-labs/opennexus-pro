@@ -1,6 +1,10 @@
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
 import type { FeatureFlagsConfig } from "./types.js";
 
+const LEGACY_EXTENSION_ALIASES: Record<string, string> = {
+	"which-key": "hotkeys",
+};
+
 /**
  * Applies user extension preferences from ~/.config/nexus/config.json.
  *
@@ -12,8 +16,9 @@ export function applyUserExtensionConfig(config: FeatureFlagsConfig): FeatureFla
 	const extensions = { ...config.extensions };
 	const other = { ...(config.other ?? {}) };
 
-	for (const [id, preference] of Object.entries(userConfig.extensions ?? {})) {
+	for (const [rawId, preference] of Object.entries(userConfig.extensions ?? {})) {
 		if (typeof preference.enabled !== "boolean") continue;
+		const id = rawId in extensions ? rawId : LEGACY_EXTENSION_ALIASES[rawId] ?? rawId;
 		const bundledExtension = extensions[id];
 		if (bundledExtension) {
 			extensions[id] = { ...bundledExtension, enabled: preference.enabled };

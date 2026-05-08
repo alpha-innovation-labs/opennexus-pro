@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { logoutProvider } from "../../../packages/extensions/src/neo-editor/features/menu/model/logoutProvider.js";
+import { logoutProvider } from "../../../packages/extensions/src/slash-menu/model/logoutProvider.js";
 
 /**
  * Creates a minimal context fixture for provider logout.

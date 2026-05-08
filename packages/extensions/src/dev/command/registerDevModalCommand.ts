@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { withSlashMenuGroup } from "../../neo-editor/features/menu/withSlashMenuGroup.js";
+import { withSlashMenuGroup } from "../../slash-menu/withSlashMenuGroup.js";
 import { showDevModal } from "../modal/showDevModal.js";
 
 /**

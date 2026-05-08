@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { shouldPrimeStartupResumeModal, startupResumeEnvVar } from "@nexus/runtime/cli/normalizeResumeStartupArgs.js";
-import { showStartupResumeModal } from "./features/menu/internal-commands/showStartupResumeModal.js";
+import { showStartupResumeModal } from "../slash-menu/internal-commands/showStartupResumeModal.js";
 
 /**
  * Opens the Nexus startup resume modal when the CLI was launched with the resume flag.

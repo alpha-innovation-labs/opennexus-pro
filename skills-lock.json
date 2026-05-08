@@ -15,6 +15,11 @@
       "source": "schpet/linear-cli",
       "sourceType": "github",
       "computedHash": "5f8516b9aa8157e7710ec5d029e1c44a0e55be1c3f834f844d0c7f27dae62580"
+    },
+    "remotion-best-practices": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "computedHash": "006f8413941b59eff54a7ce64851b8a2fb79e7a3a5f1a895e97a48f01482553d"
     }
   }
 }

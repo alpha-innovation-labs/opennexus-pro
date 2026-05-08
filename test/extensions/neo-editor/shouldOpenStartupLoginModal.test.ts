@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { shouldOpenStartupLoginModal } from "../../../packages/extensions/src/neo-editor/features/menu/shouldOpenStartupLoginModal.js";
+import { shouldOpenStartupLoginModal } from "../../../packages/extensions/src/slash-menu/shouldOpenStartupLoginModal.js";
 
 /**
  * Creates a startup login predicate context.

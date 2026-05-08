@@ -10,14 +10,13 @@
       "category": "extension"
     },
     "annotate": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "annotate command",
         "annotate tool",
         "chrome extension bridge"
       ],
-      "category": "mini-app",
-      "devOnly": true
+      "category": "mini-app"
     },
     "auto-update": {
       "enabled": true,
@@ -38,12 +37,13 @@
       "category": "extension"
     },
     "context-usage": {
-      "enabled": false,
+      "enabled": true,
       "features": [
-        "context_usage tool for current chat context window usage"
+        "context_usage tool for current chat context window usage",
+        "/context command for current chat context window usage"
       ],
-      "devOnly": true,
-      "category": "extension"
+      "category": "extension",
+      "devOnly": true
     },
     "dev": {
       "devOnly": true,
@@ -85,26 +85,19 @@
       "category": "extension"
     },
     "mcp-adapter": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "MCP server adapter backed by vendored pi-mcp-adapter",
         "MCP slash commands",
         "MCP tool proxying"
       ],
-      "category": "extension"
+      "category": "extension",
+      "devOnly": true
     },
-    "rpiv-todo": {
+    "ask-user-question": {
       "enabled": true,
       "features": [
-        "RPIV model todo tools backed by vendored @juicesharp/rpiv-todo",
-        "live todo overlay"
-      ],
-      "category": "extension"
-    },
-    "rpiv-ask-user-question": {
-      "enabled": true,
-      "features": [
-        "ask-user-question tool backed by vendored @juicesharp/rpiv-ask-user-question",
+        "ask_user_question tool",
         "typed option prompts"
       ],
       "category": "extension"
@@ -118,17 +111,8 @@
       ],
       "category": "extension"
     },
-    "pi-queue": {
-      "enabled": false,
-      "features": [
-        "FIFO queue backed by vendored @dhruv2mars/pi-queue",
-        "queue/steer mode toggle",
-        "queued message status"
-      ],
-      "category": "extension"
-    },
     "oh-my-pi-lsp": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "in-house LSP tool ported from Oh My Pi",
         "diagnostics, hover, definitions, references, symbols, rename previews, and code actions",
@@ -152,17 +136,6 @@
         "FFF-backed read override",
         "FFF-backed grep override",
         "FFF-powered @ file autocomplete"
-      ],
-      "category": "extension"
-    },
-    "impeccable": {
-      "enabled": false,
-      "features": [
-        "/impeccable command",
-        "/impeccable live - Interactive visual variant mode",
-        "/impeccable craft - Shape then build end-to-end",
-        "/impeccable critique - UX design review",
-        "/impeccable polish - Final quality pass"
       ],
       "category": "extension"
     },
@@ -198,8 +171,35 @@
       ],
       "category": "extension"
     },
-    "memory": {
+    "prompt-queue": {
       "enabled": true,
+      "features": [
+        "persisted Neo editor prompt queue",
+        "queue box above promptline",
+        "queue navigation, edit, send, and delete hotkeys"
+      ],
+      "category": "extension"
+    },
+    "hotkeys": {
+      "enabled": true,
+      "features": [
+        "/hotkeys and ? hotkey browser",
+        "hotkey filtering",
+        "hotkey editing and conflict approval"
+      ],
+      "category": "extension"
+    },
+    "slash-menu": {
+      "enabled": true,
+      "features": [
+        "slash command menu opened with /",
+        "command grouping and filtering",
+        "internal model, login, resume, fork, and settings menus"
+      ],
+      "category": "extension"
+    },
+    "memory": {
+      "enabled": false,
       "features": [
         "/memory two-pane browser",
         "tweet capture through Jina Reader",
@@ -305,11 +305,11 @@
     "todo": {
       "enabled": true,
       "features": [
-        "todo modal",
-        "ctrl+\\ shortcut"
+        "todo tool",
+        "/todos command",
+        "live todo overlay"
       ],
-      "devOnly": true,
-      "category": "mini-app"
+      "category": "extension"
     },
     "tetris": {
       "enabled": true,
@@ -318,7 +318,8 @@
         "full-screen keyboard-controlled Tetris modal",
         "Escape hide with paused shared session resume"
       ],
-      "category": "mini-app"
+      "category": "mini-app",
+      "devOnly": true
     },
     "tron": {
       "enabled": true,

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { createLogoutProviderLeaves } from "../../../packages/extensions/src/neo-editor/features/menu/createLogoutProviderLeaves.js";
+import { createLogoutProviderLeaves } from "../../../packages/extensions/src/slash-menu/createLogoutProviderLeaves.js";
 
 /**
  * Creates an extension context with stored auth credentials.

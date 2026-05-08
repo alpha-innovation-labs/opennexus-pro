@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { shouldOpenStartupLoginModal } from "./features/menu/shouldOpenStartupLoginModal.js";
-import { showStartupLoginModal } from "./features/menu/internal-commands/showStartupLoginModal.js";
+import { shouldOpenStartupLoginModal } from "../slash-menu/shouldOpenStartupLoginModal.js";
+import { showStartupLoginModal } from "../slash-menu/internal-commands/showStartupLoginModal.js";
 
 /**
  * Opens the Nexus startup login modal when no provider is configured.

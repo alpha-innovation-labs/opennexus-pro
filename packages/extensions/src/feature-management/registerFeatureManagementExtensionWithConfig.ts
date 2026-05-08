@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import type { FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
-import { withSlashMenuGroup } from "../neo-editor/features/menu/withSlashMenuGroup.js";
+import { withSlashMenuGroup } from "../slash-menu/withSlashMenuGroup.js";
 import { showFeaturesModal } from "./command/showFeaturesModal.js";
 
 /**

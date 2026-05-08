@@ -1,7 +1,7 @@
 import { type ExtensionAPI, type ExtensionContext } from "@mariozechner/pi-coding-agent";
 import type { OverlayHandle, TUI } from "@mariozechner/pi-tui";
 import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
-import { withSlashMenuGroup } from "@nexus/extensions/neo-editor/features/menu/withSlashMenuGroup.js";
+import { withSlashMenuGroup } from "@nexus/extensions/slash-menu/withSlashMenuGroup.js";
 
 type WorkspaceTheme = {
 	fg(color: string, value: string): string;

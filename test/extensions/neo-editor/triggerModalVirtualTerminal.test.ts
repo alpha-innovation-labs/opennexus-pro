@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { SessionManager } from "@mariozechner/pi-coding-agent";
 import { AtModal } from "../../../packages/extensions/src/neo-editor/features/promptline/AtModal.js";
-import { SlashMenuModal } from "../../../packages/extensions/src/neo-editor/features/menu/SlashMenuModal.js";
-import { clearRegisteredSlashCommands } from "../../../packages/extensions/src/neo-editor/features/menu/registerSlashCommand.js";
+import { SlashMenuModal } from "../../../packages/extensions/src/slash-menu/SlashMenuModal.js";
+import { clearRegisteredSlashCommands } from "../../../packages/extensions/src/slash-menu/registerSlashCommand.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

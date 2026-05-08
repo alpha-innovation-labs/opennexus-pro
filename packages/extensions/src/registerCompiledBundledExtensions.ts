@@ -1,8 +1,7 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import registerCompiledEnabledExtensions from "./generated/registerCompiledEnabledExtensions.js";
-import { registerWhichKeyCommandHook } from "./neo-editor/features/which-key/registerWhichKeyCommandHook.js";
-import { registerInternalSlashSelectorCommands } from "./neo-editor/features/menu/internal-commands/registerInternalSlashSelectorCommands.js";
-import { registerSlashCommand } from "./neo-editor/features/menu/registerSlashCommand.js";
+import { clearHotkeysCommandHook } from "./hotkeys/clearHotkeysCommandHook.js";
+import { clearRegisteredSlashCommands, registerSlashCommand } from "./slash-menu/registerSlashCommand.js";
 import { registerTelemetryRuntimeExtension } from "./telemetry-runtime/registerTelemetryRuntimeExtension.js";
 import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";
 import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensionConfig.js";
@@ -17,12 +16,15 @@ import { recordRegisteredShortcut } from "@nexus/tui-kit/shortcuts/recordRegiste
  */
 export default async function registerCompiledBundledExtensions(pi: ExtensionAPI): Promise<void> {
   const config = applySystemExtensionAvailability(applyUserExtensionConfig(getBundledFeatureFlagsConfig()));
+  const isSlashMenuEnabled = config.extensions["slash-menu"]?.enabled === true;
+  if (config.extensions["hotkeys"]?.enabled !== true) clearHotkeysCommandHook();
+  if (!isSlashMenuEnabled) clearRegisteredSlashCommands();
   const toolAwarePi = config.extensions.tron?.enabled ? createTronToolWrappingExtensionApi(pi) : pi;
   const slashAwarePi = new Proxy(toolAwarePi, {
     get(target, property, receiver) {
       if (property === "registerCommand") {
         return (name: string, definition: Record<string, unknown>) => {
-          registerSlashCommand({
+          if (isSlashMenuEnabled) registerSlashCommand({
             name,
             description: typeof definition.description === "string" ? definition.description : undefined,
             source: "extension",
@@ -42,8 +44,6 @@ export default async function registerCompiledBundledExtensions(pi: ExtensionAPI
     },
   });
 
-  registerWhichKeyCommandHook();
-  registerInternalSlashSelectorCommands(pi);
   registerTelemetryRuntimeExtension(pi);
   await registerCompiledEnabledExtensions(slashAwarePi);
 }

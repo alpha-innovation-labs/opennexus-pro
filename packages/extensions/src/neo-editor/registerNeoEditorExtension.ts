@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { readProjectSettings } from "./features/menu/readProjectSettings.js";
+import { readProjectSettings } from "../slash-menu/readProjectSettings.js";
 import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
 import { ensurePromptlineInstalled } from "./features/promptline/ensurePromptlineInstalled.js";
 import { getPromptlineConfig } from "./features/promptline/config/getPromptlineConfig.js";
@@ -15,7 +15,6 @@ import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
 export default function(pi: ExtensionAPI) {
   logExtensionEvent("neo-editor", "init");
   registerPromptlineStatusWidget(pi);
-
   const deps = {
     exec: pi.exec,
     getThinkingLevel: pi.getThinkingLevel.bind(pi),

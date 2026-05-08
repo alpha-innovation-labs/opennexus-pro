@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { updateResumePreview, type ResumePreviewState } from "../../../packages/extensions/src/neo-editor/features/menu/updateResumePreview.js";
+import { updateResumePreview, type ResumePreviewState } from "../../../packages/extensions/src/slash-menu/updateResumePreview.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

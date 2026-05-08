@@ -6,9 +6,9 @@ import test from "node:test";
 import type { Component } from "@mariozechner/pi-tui";
 import { SessionManager } from "@mariozechner/pi-coding-agent";
 import { primeStartupResumeModal } from "../../../packages/extensions/src/neo-editor/primeStartupResumeModal.js";
-import { WhichKeyModal } from "../../../packages/extensions/src/neo-editor/features/which-key/WhichKeyModal.js";
+import { HotkeysModal } from "../../../packages/extensions/src/hotkeys/HotkeysModal.js";
 import { createSlashModal } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/createSlashModal.js";
-import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../packages/extensions/src/neo-editor/features/menu/registerSlashCommand.js";
+import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../packages/extensions/src/slash-menu/registerSlashCommand.js";
 import { startupResumeEnvVar } from "../../../packages/nexus-runtime/src/cli/normalizeResumeStartupArgs.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
@@ -213,7 +213,7 @@ test("slash modal opens Nexus hotkeys modal instead of submitting built-in hotke
 
   assert.equal(submitted, "");
   assert.equal(closed, true);
-  assert.ok(customComponent instanceof WhichKeyModal);
+  assert.ok(customComponent instanceof HotkeysModal);
 });
 
 test("slash modal opens a session name input submenu with the current name prefilled", async () => {

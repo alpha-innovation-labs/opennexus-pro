@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { loadVendorExtension } from "./loadVendorExtension.js";
+import { registerLazyVendorWebsearchTools } from "./registerLazyVendorWebsearchTools.js";
 import { registerVendorSkillResources } from "./registerVendorSkillResources.js";
 
 /**
@@ -9,5 +9,5 @@ import { registerVendorSkillResources } from "./registerVendorSkillResources.js"
  */
 export async function registerVendorWebsearchExtension(pi: ExtensionAPI): Promise<void> {
   registerVendorSkillResources(pi, "websearch");
-  await loadVendorExtension(import("../vendor/websearch/index.js"), pi);
+  registerLazyVendorWebsearchTools(pi);
 }

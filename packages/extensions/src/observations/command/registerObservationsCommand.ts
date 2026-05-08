@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { withSlashMenuGroup } from "../../neo-editor/features/menu/withSlashMenuGroup.js";
+import { withSlashMenuGroup } from "../../slash-menu/withSlashMenuGroup.js";
 import { showObservationsModal } from "./showObservationsModal.js";
 
 /**

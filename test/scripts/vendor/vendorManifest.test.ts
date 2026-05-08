@@ -5,8 +5,6 @@ import { readVendorManifest } from "../../../scripts/vendor/readVendorManifest.m
 const expectedSources = new Map([
   ["websearch", "pi-web-access"],
   ["mcp-adapter", "pi-mcp-adapter"],
-  ["rpiv-todo", "@juicesharp/rpiv-todo"],
-  ["rpiv-ask-user-question", "@juicesharp/rpiv-ask-user-question"],
   ["pi-lens", "pi-lens"],
 ]);
 

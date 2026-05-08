@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { getUsageTextForModel } from "./model/getUsageTextForModel.js";
-import { withSlashMenuGroup } from "../neo-editor/features/menu/withSlashMenuGroup.js";
+import { withSlashMenuGroup } from "../slash-menu/withSlashMenuGroup.js";
 import { appendUsageHistoryRecords } from "./history/appendUsageHistoryRecords.js";
 import { createUsageHistoryRecords } from "./history/createUsageHistoryRecord.js";
 import { showUsageHistoryModal } from "./history-modal/showUsageHistoryModal.js";

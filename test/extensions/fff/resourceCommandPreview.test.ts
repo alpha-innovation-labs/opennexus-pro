@@ -3,7 +3,7 @@ import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { createResourceCommandMarkdown } from "../../../packages/extensions/src/neo-editor/features/menu/createResourceCommandMarkdown.js";
+import { createResourceCommandMarkdown } from "../../../packages/extensions/src/slash-menu/createResourceCommandMarkdown.js";
 
 /**
  * Creates a temporary markdown source file.

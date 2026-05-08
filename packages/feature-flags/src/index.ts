@@ -7,6 +7,7 @@ export { getEnabledExtensionFeatureFlags } from "./getEnabledExtensionFeatureFla
 export { readFeatureFlagsConfig } from "./readFeatureFlagsConfig.js";
 export { readJsonFeatureFlagsConfig } from "./readJsonFeatureFlagsConfig.js";
 export { registerEnabledExtensions } from "./registerEnabledExtensions.js";
+export { isRuntimeExtensionFeatureEnabled, setRuntimeExtensionFeatureFlags, setRuntimeExtensionFeatureState } from "./runtimeExtensionFeatureState.js";
 export { isRuntimeFeatureAvailable } from "./isRuntimeFeatureAvailable.js";
 export { writeFeatureFlagsConfig } from "./writeFeatureFlagsConfig.js";
 export type { ExtensionFeatureFlag, ExtensionFeatureFlagConfig, FeatureFlagConfig, FeatureFlagsConfig } from "./types.js";
