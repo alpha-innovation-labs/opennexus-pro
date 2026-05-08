@@ -14,7 +14,7 @@ export async function showTetrisModal(ctx: ExtensionCommandContext): Promise<voi
 		(tui, theme, _keybindings, done) => new TetrisModal(tui, theme, getTetrisSession(), () => done()),
 		{
 			overlay: true,
-			overlayOptions: createPanelOverlayOptions(116, "90%", { widthMode: "modal" }) as never,
+			overlayOptions: createPanelOverlayOptions(116, "100%") as never,
 		},
 	);
 }

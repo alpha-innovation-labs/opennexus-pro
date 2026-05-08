@@ -37,7 +37,7 @@ export class TetrisModal extends SharedModal implements Focusable {
 		private readonly options: TetrisModalOptions = {},
 	) {
 		super({
-			fullScreen: getTetrisSettingsPreference().fullscreen,
+			fullScreen: options.initialFullScreen ?? getTetrisSettingsPreference().fullscreen,
 			fullScreenRows: () => tui.terminal?.rows ?? 30,
 			headerLines: [theme.fg("accent", theme.bold("Tetris"))],
 			maxWidth: 116,

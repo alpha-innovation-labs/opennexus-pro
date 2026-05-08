@@ -28,5 +28,6 @@ export type TetrisGame = {
 export type TetrisModalOptions = {
 	autoStart?: boolean;
 	autoStartMusic?: boolean;
+	initialFullScreen?: boolean;
 	tickMs?: number;
 };
