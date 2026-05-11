@@ -212,6 +212,16 @@ export const compiledFeatureFlags = {
       ],
       "category": "mini-app"
     },
+    "social-automation": {
+      "enabled": true,
+      "features": [
+        "nexus social-automation CLI commands",
+        "Nitter RSS ingestion",
+        "YouTube RSS ingestion",
+        "yt-dlp audio preparation"
+      ],
+      "category": "mini-app"
+    },
     "mini-app-manager": {
       "enabled": true,
       "features": [

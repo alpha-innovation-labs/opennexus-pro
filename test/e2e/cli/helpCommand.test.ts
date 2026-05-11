@@ -38,6 +38,8 @@ test("nexus -h prints Nexus-owned help without starting Pi", async () => {
 		assert.match(result.output, /--prompt-template <path>/u);
 		assert.match(result.output, /nexus automations start/u);
 		assert.match(result.output, /nexus automations status/u);
+		assert.match(result.output, /nexus social-automation -h/u);
+		assert.match(result.output, /nexus social-automation status/u);
 		assert.doesNotMatch(result.output, /nexus social-chat start/u);
 		assert.doesNotMatch(result.output, /nexus social-chat status/u);
 		assert.doesNotMatch(result.output, /nexus list/u);

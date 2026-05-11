@@ -8,6 +8,7 @@ export function printNexusUsage(): void {
 	console.log(createNexusUsageText({
 		annotation: isCliFeatureAvailable("annotation"),
 		automations: isCliFeatureAvailable("automations"),
+		socialAutomation: isCliFeatureAvailable("social-automation"),
 		socialChat: isCliFeatureAvailable("social-chat"),
 	}));
 }
