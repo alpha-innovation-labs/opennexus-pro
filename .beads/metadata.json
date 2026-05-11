@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "nexus_tui_awesome",
+  "project_id": "49cb3d7f-b37f-4bc7-ad4e-080c385637a0"
+}

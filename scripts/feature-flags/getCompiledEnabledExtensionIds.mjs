@@ -6,10 +6,11 @@
  * @returns {string[]} Compiled enabled extension ids.
  */
 export function getCompiledEnabledExtensionIds(config, registerableIds = new Set(Object.keys(config.extensions))) {
-  return [
+  const ids = [
     ...Object.entries(config.extensions),
     ...Object.entries(config.other ?? {}).filter(([id]) => registerableIds.has(id)),
   ]
     .filter(([, value]) => value.enabled && !value.devOnly)
     .map(([id]) => id);
+  return [...new Set(ids)];
 }

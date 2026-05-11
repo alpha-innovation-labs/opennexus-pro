@@ -1,6 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { registerAiProvidersExtension } from "@nexus/extensions/ai-providers/registerAiProvidersExtension.js";
 import { registerAnnotateExtension } from "@nexus/mini-apps/annotate/registerAnnotateExtension.js";
+import { registerAutomationsExtension } from "@nexus/mini-apps/automations/registerAutomationsExtension.js";
 import { registerAutoUpdateExtension } from "@nexus/extensions/auto-update/registerAutoUpdateExtension.js";
 import { registerCmuxExtension } from "@nexus/extensions-pro/cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "@nexus/extensions/context-usage/registerContextUsageExtension.js";
@@ -44,6 +45,7 @@ export function createExtensionRegisterMap(): Record<
 	return {
 		"ai-providers": registerAiProvidersExtension,
 		annotate: registerAnnotateExtension,
+		automations: registerAutomationsExtension,
 		"auto-update": registerAutoUpdateExtension,
 		cmux: registerCmuxExtension,
 		"context-usage": registerContextUsageExtension,

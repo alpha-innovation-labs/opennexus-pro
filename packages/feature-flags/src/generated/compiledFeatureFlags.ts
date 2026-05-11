@@ -14,6 +14,15 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
+    "automations": {
+      "enabled": true,
+      "features": [
+        "/automations full-screen automation picker",
+        "two-pane automation detail and agent chat editor",
+        "live prompt and schedule update flow"
+      ],
+      "category": "mini-app"
+    },
     "auto-update": {
       "enabled": true,
       "features": [
@@ -193,6 +202,16 @@ export const compiledFeatureFlags = {
     }
   },
   "other": {
+    "automations": {
+      "enabled": true,
+      "features": [
+        "nexus automations CLI commands",
+        "scheduled prompt automation daemon",
+        "SQLite automation and run history storage",
+        "bundled automation templates"
+      ],
+      "category": "mini-app"
+    },
     "mini-app-manager": {
       "enabled": true,
       "features": [

@@ -7,6 +7,7 @@ import { createNexusUsageText } from "./createNexusUsageText.js";
 export function printNexusUsage(): void {
 	console.log(createNexusUsageText({
 		annotation: isCliFeatureAvailable("annotation"),
+		automations: isCliFeatureAvailable("automations"),
 		socialChat: isCliFeatureAvailable("social-chat"),
 	}));
 }

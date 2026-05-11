@@ -1,5 +1,6 @@
 export type NexusUsageFeatureOptions = {
 	annotation?: boolean;
+	automations?: boolean;
 	socialChat?: boolean;
 };
 
@@ -52,6 +53,15 @@ function createCommandUsageLines(features: NexusUsageFeatureOptions): string[] {
 		"  nexus install <source>             Install an extension package",
 		"  nexus uninstall <source>           Uninstall an extension package",
 	];
+	if (features.automations) {
+		lines.push(
+			"  nexus automations -h              Show automation commands",
+			"  nexus automations start           Start the automation daemon",
+			"  nexus automations stop            Stop the automation daemon",
+			"  nexus automations status          Show automation daemon and run summary",
+			"  nexus automations list            List scheduled prompt automations",
+		);
+	}
 	if (features.socialChat) {
 		lines.push(
 			"  nexus social-chat -h               Show social chat commands",

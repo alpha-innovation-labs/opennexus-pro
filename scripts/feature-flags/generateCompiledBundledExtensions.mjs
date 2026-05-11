@@ -21,6 +21,10 @@ const extensionModules = {
 		importPath: "@nexus/mini-apps/annotate/registerAnnotateExtension.js",
 		exportName: "registerAnnotateExtension",
 	},
+	automations: {
+		importPath: "@nexus/mini-apps/automations/registerAutomationsExtension.js",
+		exportName: "registerAutomationsExtension",
+	},
 	"auto-update": {
 		importPath: "../auto-update/registerAutoUpdateExtension.js",
 		exportName: "registerAutoUpdateExtension",
