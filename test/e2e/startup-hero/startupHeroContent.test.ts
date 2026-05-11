@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildCenteredStartupHeroLines } from "../../../packages/extensions/src/startup-hero/buildCenteredStartupHeroLines.js";
+import { buildCenteredStartupHeroLines } from "../../../packages/extension-core/src/startup-hero/buildCenteredStartupHeroLines.js";
 import { LinesComponent } from "../../support/component/LinesComponent.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";

@@ -2,9 +2,9 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { LinesComponent } from "../../support/component/LinesComponent.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
-import { AgentWidget, type AgentActivity, type Theme } from "../../../packages/extensions/src/sub-agents/ui/agent-widget.js";
-import { createAgentActivityTracker } from "../../../packages/extensions/src/sub-agents/ui/createAgentActivityTracker.js";
-import type { AgentRecord } from "../../../packages/extensions/src/sub-agents/types.js";
+import { AgentWidget, type AgentActivity, type Theme } from "../../../packages/extension-core/src/sub-agents/ui/agent-widget.js";
+import { createAgentActivityTracker } from "../../../packages/extension-core/src/sub-agents/ui/createAgentActivityTracker.js";
+import type { AgentRecord } from "../../../packages/extension-core/src/sub-agents/types.js";
 
 /**
  * Creates a fake agent manager for widget rendering tests.

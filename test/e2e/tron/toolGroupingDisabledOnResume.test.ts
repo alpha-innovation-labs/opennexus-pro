@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { bootstrapAssistantActivityGrouping } from "../../../packages/extensions/src/tron/activity/bootstrapAssistantActivityGrouping.ts";
-import { bridgeThinkingToToolCalls } from "../../../packages/extensions/src/tron/activity/bridgeThinkingToToolCalls.ts";
-import { resetAssistantActivityGrouping } from "../../../packages/extensions/src/tron/activity/resetAssistantActivityGrouping.ts";
-import { bridgedToolCallIds } from "../../../packages/extensions/src/tron/activity/state.ts";
+import { bootstrapAssistantActivityGrouping } from "../../../packages/extension-core/src/tron/activity/bootstrapAssistantActivityGrouping.ts";
+import { bridgeThinkingToToolCalls } from "../../../packages/extension-core/src/tron/activity/bridgeThinkingToToolCalls.ts";
+import { resetAssistantActivityGrouping } from "../../../packages/extension-core/src/tron/activity/resetAssistantActivityGrouping.ts";
+import { bridgedToolCallIds } from "../../../packages/extension-core/src/tron/activity/state.ts";
 
 test("tron experimental grouping disable clears stale thinking bridges on resume bootstrap", () => {
 	resetAssistantActivityGrouping();

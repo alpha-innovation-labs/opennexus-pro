@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { refreshAndRender } from "../../../packages/extensions/src/neo-editor/features/promptline/refreshAndRender.js";
+import { refreshAndRender } from "../../../packages/extension-core/src/neo-editor/features/promptline/refreshAndRender.js";
 
 /**
  * Creates a deferred promise for deterministic async timing assertions.

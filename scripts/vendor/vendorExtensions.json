@@ -1,17 +1,1 @@
-[
-  {
-    "id": "websearch",
-    "source": "pi-web-access",
-    "target": "packages/extensions/src/vendor/websearch"
-  },
-  {
-    "id": "mcp-adapter",
-    "source": "pi-mcp-adapter",
-    "target": "packages/extensions/src/vendor/mcp-adapter"
-  },
-  {
-    "id": "pi-lens",
-    "source": "pi-lens",
-    "target": "packages/extensions/src/vendor/pi-lens"
-  }
-]
+[]

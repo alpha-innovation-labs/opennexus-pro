@@ -10,7 +10,7 @@ import { withLockedReleaseBuild } from "./withLockedReleaseBuild.js";
 
 const PROJECT_ROOT = process.cwd();
 
-test("released runtime assets keep node-pty, xterm-headless, and fff working", async () => {
+test("released runtime assets keep fff working", async () => {
   await withLockedReleaseBuild(async () => {
     const homeDir = await createReleaseTestHome();
     const env = createReleaseTestEnv(homeDir);
@@ -30,20 +30,8 @@ test("released runtime assets keep node-pty, xterm-headless, and fff working", a
       ...env,
       PI_PACKAGE_DIR: installedPackageDir,
     }, [
-      "import { createPtyManager } from './packages/mini-apps/src/term-modal/pty/createPtyManager.ts';",
-      "import { createXtermBuffer } from './packages/mini-apps/src/term-modal/buffer/createXtermBuffer.ts';",
-      "import { loadFffNode } from './packages/extensions/src/fff/runtime/loadFffNode.ts';",
+      "import { loadFffNode } from './packages/extension-core/src/fff/runtime/loadFffNode.ts';",
       "void (async () => {",
-      "  const pty = createPtyManager();",
-      "  pty.start(process.cwd(), 80, 24);",
-      "  await new Promise((resolve) => setTimeout(resolve, 200));",
-      "  console.log('ptyError=' + String(pty.error()));",
-      "  console.log('ptyRunning=' + String(pty.isRunning()));",
-      "  pty.kill();",
-      "  const buffer = createXtermBuffer(80, 24, () => {});",
-      "  buffer.write('hello\\r\\n');",
-      "  await new Promise((resolve) => setTimeout(resolve, 50));",
-      "  console.log('xtermLine=' + JSON.stringify(buffer.getDisplayLines(0, 2)));",
       "  const fff = await loadFffNode();",
       "  console.log('fffFileFinder=' + typeof fff.FileFinder?.create);",
       "})().catch((error) => {",
@@ -52,9 +40,6 @@ test("released runtime assets keep node-pty, xterm-headless, and fff working", a
       "});",
     ].join("\n"));
 
-    assert.match(output, /ptyError=null/);
-    assert.match(output, /ptyRunning=true/);
-      assert.match(output, /hello/);
       assert.match(output, /fffFileFinder=function/);
     } finally {
       await removeReleaseTestHome(homeDir);

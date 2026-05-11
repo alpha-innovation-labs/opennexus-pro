@@ -1,4 +1,4 @@
-import { Key, matchesKey } from "@mariozechner/pi-tui";
+import { Key, matchesKey } from "@earendil-works/pi-tui";
 import { getTwoPaneBodyHeight } from "./getTwoPaneBodyHeight.js";
 
 export type TwoPaneRightInputState = {

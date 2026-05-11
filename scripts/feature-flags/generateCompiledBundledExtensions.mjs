@@ -6,7 +6,7 @@ import { getCompiledEnabledExtensionIds } from "./getCompiledEnabledExtensionIds
 const sourcePath = resolve("feature-flags.json");
 const outputPath = resolve(
 	"packages",
-	"extensions",
+	"extension-core",
 	"src",
 	"generated",
 	"registerCompiledEnabledExtensions.ts",
@@ -26,30 +26,26 @@ const extensionModules = {
 		exportName: "registerAutoUpdateExtension",
 	},
 	cmux: {
-		importPath: "../cmux/registerCmuxExtension.js",
+		importPath: "@nexus/extensions-pro/cmux/registerCmuxExtension.js",
 		exportName: "registerCmuxExtension",
 	},
 	"context-usage": {
 		importPath: "../context-usage/registerContextUsageExtension.js",
 		exportName: "registerContextUsageExtension",
 	},
-	"extension-manager": {
-		importPath: "../extension-manager/registerExtensionManagerExtension.js",
-		exportName: "registerExtensionManagerExtension",
+	"pi-packages": {
+		importPath: "../pi-packages/registerPiPackagesExtension.js",
+		exportName: "registerPiPackagesExtension",
 	},
 	"feature-management": {
 		importPath:
-			"../feature-management/registerCompiledFeatureManagementExtension.js",
+			"@nexus/extensions-dev/feature-management/registerCompiledFeatureManagementExtension.js",
 		exportName: "registerCompiledFeatureManagementExtension",
 	},
 	fff: {
 		importPath: "../fff/index.js",
 		exportName: "default",
 		localName: "registerFffExtension",
-	},
-	kanban: {
-		importPath: "@nexus/mini-apps/kanban/registerKanbanExtension.js",
-		exportName: "registerKanbanExtension",
 	},
 	"md-editor": {
 		importPath: "@nexus/mini-apps/md-editor/registerMdEditorExtension.js",
@@ -82,16 +78,16 @@ const extensionModules = {
 		exportName: "registerNotifyExtension",
 	},
 	observations: {
-		importPath: "../observations/registerObservationsExtension.js",
+		importPath: "@nexus/extensions-pro/observations/registerObservationsExtension.js",
 		exportName: "registerObservationsExtension",
 	},
 	"oh-my-pi-lsp": {
-		importPath: "../oh-my-pi-lsp/registerOhMyPiLspExtension.js",
+		importPath: "@nexus/extensions-dev/oh-my-pi-lsp/registerOhMyPiLspExtension.js",
 		exportName: "registerOhMyPiLspExtension",
 	},
-	prompts: {
-		importPath: "../prompts/registerPromptsExtension.js",
-		exportName: "registerPromptsExtension",
+	"system-prompt": {
+		importPath: "../system-prompt/registerSystemPromptExtension.js",
+		exportName: "registerSystemPromptExtension",
 	},
 	"exit-message": {
 		importPath: "../exit-message/registerExitMessageExtension.js",
@@ -112,20 +108,12 @@ const extensionModules = {
 		exportName: "default",
 		localName: "registerSubagentStatusWidgetExtension",
 	},
-	playground: {
-		importPath: "@nexus/mini-apps/playground/registerPlaygroundExtension.js",
-		exportName: "registerPlaygroundExtension",
-	},
 	rtk: {
-		importPath: "../rtk/registerRtkExtension.js",
+		importPath: "@nexus/extensions-pro/rtk/registerRtkExtension.js",
 		exportName: "registerRtkExtension",
 	},
-	"term-modal": {
-		importPath: "@nexus/mini-apps/term-modal/registerTermModalExtension.js",
-		exportName: "registerTermModalExtension",
-	},
 	todo: {
-		importPath: "../todo/registerTodoExtension.js",
+		importPath: "@nexus/extensions-dev/todo/registerTodoExtension.js",
 		exportName: "registerTodoExtension",
 	},
 	tetris: {
@@ -146,29 +134,13 @@ const extensionModules = {
 		importPath: "@nexus/mini-apps/wallet/registerWalletExtension.js",
 		exportName: "registerWalletExtension",
 	},
-	workspace: {
-		importPath: "@nexus/mini-apps/workspace/registerWorkspaceExtension.js",
-		exportName: "registerWorkspaceExtension",
-	},
-	workflows: {
-		importPath: "@nexus/mini-apps/workflows/registerWorkflowsExtension.js",
-		exportName: "registerWorkflowsExtension",
-	},
 	websearch: {
-		importPath: "../vendor-runtime/registerVendorWebsearchExtension.js",
-		exportName: "registerVendorWebsearchExtension",
-	},
-	"mcp-adapter": {
-		importPath: "../vendor-runtime/registerVendorMcpAdapterExtension.js",
-		exportName: "registerVendorMcpAdapterExtension",
+		importPath: "../web-search/registerWebSearchExtension.js",
+		exportName: "registerWebSearchExtension",
 	},
 	"ask-user-question": {
 		importPath: "../ask-user-question/registerAskUserQuestionExtension.js",
 		exportName: "registerAskUserQuestionExtension",
-	},
-	"pi-lens": {
-		importPath: "../vendor-runtime/registerVendorPiLensExtension.js",
-		exportName: "registerVendorPiLensExtension",
 	},
 	"prompt-queue": {
 		importPath: "../prompt-queue/registerPromptQueueExtension.js",
@@ -184,7 +156,7 @@ const extensionModules = {
  */
 function createModuleSource(enabledIds) {
 	const imports = [
-		'import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";',
+		'import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";',
 		'import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";',
 		'import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensionConfig.js";',
 		'import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";',

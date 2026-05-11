@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { bridgeThinkingToToolCalls } from "../../../packages/extensions/src/tron/activity/bridgeThinkingToToolCalls.ts";
-import { resetAssistantActivityGrouping } from "../../../packages/extensions/src/tron/activity/resetAssistantActivityGrouping.ts";
-import { bridgedToolCallIds } from "../../../packages/extensions/src/tron/activity/state.ts";
-import registerCompactToolLinesExtension from "../../../packages/extensions/src/tron/compact-tool-lines/registerCompactToolLinesExtension.ts";
+import { bridgeThinkingToToolCalls } from "../../../packages/extension-core/src/tron/activity/bridgeThinkingToToolCalls.ts";
+import { resetAssistantActivityGrouping } from "../../../packages/extension-core/src/tron/activity/resetAssistantActivityGrouping.ts";
+import { bridgedToolCallIds } from "../../../packages/extension-core/src/tron/activity/state.ts";
+import registerCompactToolLinesExtension from "../../../packages/extension-core/src/tron/compact-tool-lines/registerCompactToolLinesExtension.ts";
 
 type EventHandler = (event: any, ctx?: any) => void;
 

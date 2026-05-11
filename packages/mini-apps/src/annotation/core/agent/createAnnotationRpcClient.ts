@@ -1,4 +1,4 @@
-import { RpcClient } from "@mariozechner/pi-coding-agent";
+import { RpcClient } from "@earendil-works/pi-coding-agent";
 import { getNexusCliPath } from "./getNexusCliPath.js";
 
 /**

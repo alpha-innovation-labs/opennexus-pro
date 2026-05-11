@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import registerCompactToolLinesExtension from "../../../packages/extensions/src/tron/compact-tool-lines/registerCompactToolLinesExtension.js";
-import { bridgeThinkingToToolCalls } from "../../../packages/extensions/src/tron/activity/bridgeThinkingToToolCalls.js";
-import { bridgedToolCallIds } from "../../../packages/extensions/src/tron/activity/state.js";
-import { resetAssistantActivityGrouping } from "../../../packages/extensions/src/tron/activity/resetAssistantActivityGrouping.js";
+import registerCompactToolLinesExtension from "../../../packages/extension-core/src/tron/compact-tool-lines/registerCompactToolLinesExtension.js";
+import { bridgeThinkingToToolCalls } from "../../../packages/extension-core/src/tron/activity/bridgeThinkingToToolCalls.js";
+import { bridgedToolCallIds } from "../../../packages/extension-core/src/tron/activity/state.js";
+import { resetAssistantActivityGrouping } from "../../../packages/extension-core/src/tron/activity/resetAssistantActivityGrouping.js";
 
 /**
  * Creates a minimal extension API harness for lifecycle tests.

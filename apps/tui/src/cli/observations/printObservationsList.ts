@@ -1,5 +1,5 @@
-import { readObservationState } from "@nexus/extensions/observations/tracker/readObservationState.js";
-import { getObservationStatePath } from "@nexus/extensions/observations/shared/getObservationStatePath.js";
+import { readObservationState } from "@nexus/extensions-pro/observations/tracker/readObservationState.js";
+import { getObservationStatePath } from "@nexus/extensions-pro/observations/shared/getObservationStatePath.js";
 import { formatObservationTopicList } from "./formatObservationTopicList.js";
 import { resolveObservationConversationId } from "./resolveObservationConversationId.js";
 

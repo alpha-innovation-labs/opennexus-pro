@@ -1,4 +1,4 @@
-import type { AutocompleteItem } from "@mariozechner/pi-tui";
+import type { AutocompleteItem } from "@earendil-works/pi-tui";
 import { SharedModal } from "../SharedModal.js";
 import { computeModalWidth } from "../computeModalWidth.js";
 import { computePaneWidths as computeSharedPaneWidths } from "../computePaneWidths.js";

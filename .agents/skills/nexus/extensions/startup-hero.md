@@ -1,11 +1,11 @@
 # extensions/startup-hero
 
-- Source path: `packages/extensions/src/startup-hero`
+- Source path: `packages/extension-core/src/startup-hero`
 - Parent: [`extensions`](../extensions.md)
 
 ## What this area covers
 
-`packages/extensions/src/startup-hero` contains the bundled `startup-hero` extension. It renders the Nexus startup hero with the wordmark, version, tips, active skills count, and `AGENTS.md` status.
+`packages/extension-core/src/startup-hero` contains the bundled `startup-hero` extension. It renders the Nexus startup hero with the wordmark, version, tips, active skills count, and `AGENTS.md` status.
 
 ## Feature-flag summary
 
@@ -15,13 +15,13 @@
 
 ## Key files
 
-- `packages/extensions/src/startup-hero/registerStartupHeroExtension.ts`
-- `packages/extensions/src/startup-hero/startupHeroWidgetKey.ts`
-- `packages/extensions/src/startup-hero/showStartupHero.ts`
-- `packages/extensions/src/startup-hero/clearStartupHero.ts`
-- `packages/extensions/src/startup-hero/buildStartupHeroLines.ts`
-- `packages/extensions/src/startup-hero/getStartupHeroStatus.ts`
-- `packages/extensions/src/startup-hero/getStartupHeroVersion.ts`
+- `packages/extension-core/src/startup-hero/registerStartupHeroExtension.ts`
+- `packages/extension-core/src/startup-hero/startupHeroWidgetKey.ts`
+- `packages/extension-core/src/startup-hero/showStartupHero.ts`
+- `packages/extension-core/src/startup-hero/clearStartupHero.ts`
+- `packages/extension-core/src/startup-hero/buildStartupHeroLines.ts`
+- `packages/extension-core/src/startup-hero/getStartupHeroStatus.ts`
+- `packages/extension-core/src/startup-hero/getStartupHeroVersion.ts`
 
 ## Immediate subareas
 
@@ -29,9 +29,9 @@ This folder has no nested directories.
 
 ## Read this first
 
-1. `packages/extensions/src/startup-hero/registerStartupHeroExtension.ts`
-2. `packages/extensions/src/startup-hero/showStartupHero.ts`
-3. `packages/extensions/src/startup-hero/buildStartupHeroLines.ts`
+1. `packages/extension-core/src/startup-hero/registerStartupHeroExtension.ts`
+2. `packages/extension-core/src/startup-hero/showStartupHero.ts`
+3. `packages/extension-core/src/startup-hero/buildStartupHeroLines.ts`
 
 ## Navigation notes
 

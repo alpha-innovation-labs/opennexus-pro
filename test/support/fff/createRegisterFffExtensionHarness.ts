@@ -1,4 +1,4 @@
-import { registerFffExtension } from "../../../packages/extensions/src/fff/registerFffExtension.js";
+import { registerFffExtension } from "../../../packages/extension-core/src/fff/registerFffExtension.js";
 import type { RegisteredTool, TestContext } from "./types.js";
 
 /**

@@ -1,4 +1,4 @@
-import { TUI } from "@mariozechner/pi-tui";
+import { TUI } from "@earendil-works/pi-tui";
 import { compositeOverlayOverImageLine } from "./compositeOverlayOverImageLine.js";
 import { renderWithInlineImageCleanup } from "./renderWithInlineImageCleanup.js";
 import type { TuiWithInlineImageOverlayPatch } from "./types.js";

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { installPromptline } from "../../../packages/extensions/src/neo-editor/features/promptline/installPromptline.js";
+import { installPromptline } from "../../../packages/extension-core/src/neo-editor/features/promptline/installPromptline.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 test("installPromptline hides Pi default footer", () => {

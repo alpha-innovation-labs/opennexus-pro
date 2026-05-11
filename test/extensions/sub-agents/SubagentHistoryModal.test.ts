@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { SubagentHistoryModal } from "../../../packages/extensions/src/sub-agents/ui/SubagentHistoryModal.js";
+import { SubagentHistoryModal } from "../../../packages/extension-core/src/sub-agents/ui/SubagentHistoryModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 
 test("subagent history modal focuses transcript on enter and returns to list on escape", async () => {
-	process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@mariozechner/pi-coding-agent`;
+	process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@earendil-works/pi-coding-agent`;
 	await initializePiThemes();
 	const run = {
 		id: "run-1",

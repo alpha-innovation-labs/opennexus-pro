@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { resolve } from "node:path";
-import { createNexusRpcEntryPath } from "../../../../packages/extensions/src/sub-agents/rpc-entry/createNexusRpcEntryPath.js";
+import { createNexusRpcEntryPath } from "../../../../packages/extension-core/src/sub-agents/rpc-entry/createNexusRpcEntryPath.js";
 
 /**
  * Verifies the local Nexus RPC bootstrap path.
@@ -9,6 +9,6 @@ import { createNexusRpcEntryPath } from "../../../../packages/extensions/src/sub
 test("createNexusRpcEntryPath resolves the local Nexus RPC bootstrap", () => {
   assert.equal(
     createNexusRpcEntryPath(),
-    resolve(process.cwd(), "packages/extensions/src/sub-agents/rpc-entry/nexus-rpc-entry.js"),
+    resolve(process.cwd(), "packages/extension-core/src/sub-agents/rpc-entry/nexus-rpc-entry.js"),
   );
 });

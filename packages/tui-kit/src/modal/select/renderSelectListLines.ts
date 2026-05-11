@@ -1,5 +1,5 @@
-import type { AutocompleteItem } from "@mariozechner/pi-tui";
-import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
+import type { AutocompleteItem } from "@earendil-works/pi-tui";
+import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 import type { SelectPreviewItemStyleFns, SelectPreviewTheme } from "./types.js";
 import { wrapTextLines } from "./wrapTextLines.js";
 
@@ -163,12 +163,35 @@ function renderWrappedWhitespaceLabel(options: RenderSelectListLinesOptions, ite
  */
 function renderDescribedItem(options: RenderSelectListLinesOptions, item: AutocompleteItem, selected: boolean, rawLabel: string, description: string, maxLines: number): string[] {
   const indent = getItemIndent(item);
+  const fixedLabelWidth = (item as { fixedLabelWidth?: number }).fixedLabelWidth;
+  if (fixedLabelWidth !== undefined) return renderFixedLabelDescribedItem(options, item, selected, rawLabel, description, indent, fixedLabelWidth);
   const maxDescriptionWidth = Math.max(4, Math.min(18, Math.floor(options.width * 0.4)));
   const descText = truncateToWidth(description, maxDescriptionWidth, "");
   const labelLines = wrapTextLines(rawLabel, Math.max(1, options.width - 1 - visibleWidth(indent) - visibleWidth(descText) - 1), maxLines);
   const firstLabel = labelLines.shift() || "";
   const spacing = " ".repeat(Math.max(1, options.width - 1 - visibleWidth(indent) - visibleWidth(firstLabel) - visibleWidth(descText)));
   return [` ${indent}${styleLabel(options, item, selected, firstLabel)}${spacing}${styleDescription(options, item, selected, descText)}`, ...labelLines.map((line) => ` ${indent}${styleLabel(options, item, selected, line)}`)];
+}
+
+/**
+ * Renders an item with fixed label width and normally colored description.
+ *
+ * @param options Render options.
+ * @param item Item to render.
+ * @param selected Whether the item is selected.
+ * @param rawLabel Raw label.
+ * @param description Raw description.
+ * @param indent Row indentation.
+ * @param fixedLabelWidth Fixed visible label width.
+ * @returns Rendered item row.
+ */
+function renderFixedLabelDescribedItem(options: RenderSelectListLinesOptions, item: AutocompleteItem, selected: boolean, rawLabel: string, description: string, indent: string, fixedLabelWidth: number): string[] {
+  const labelWidth = Math.max(1, Math.min(fixedLabelWidth, options.width - 6 - visibleWidth(indent)));
+  const label = truncateToWidth(rawLabel, labelWidth, "");
+  const labelPadding = " ".repeat(Math.max(1, labelWidth - visibleWidth(label) + 1));
+  const descriptionWidth = Math.max(1, options.width - 2 - visibleWidth(indent) - labelWidth - 1);
+  const descText = truncateToWidth(description, descriptionWidth, "");
+  return [` ${indent}${styleLabel(options, item, selected, label)}${labelPadding}${styleDescription(options, item, selected, descText)}`];
 }
 
 /**

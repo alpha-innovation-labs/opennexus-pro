@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { RtkSavingsModal } from "../../../packages/extensions/src/rtk/ui/RtkSavingsModal.js";
+import { RtkSavingsModal } from "../../../packages/extensions-pro/src/rtk/ui/RtkSavingsModal.js";
 
 test("RtkSavingsModal renders savings inside a framed modal with period tabs", () => {
   const colors: string[] = [];

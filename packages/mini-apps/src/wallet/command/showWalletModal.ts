@@ -1,4 +1,4 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { createWalletPanelOverlayOptions } from "../ui/createWalletPanelOverlayOptions.js";
 import { loadCachedWalletRows } from "./loadCachedWalletRows.js";
 import { refreshWalletRows } from "./refreshWalletRows.js";

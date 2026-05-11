@@ -3,8 +3,8 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
-import { readPromptQueueItems } from "../../../packages/extensions/src/prompt-queue/readPromptQueueItems.js";
-import { writePromptQueueItems } from "../../../packages/extensions/src/prompt-queue/writePromptQueueItems.js";
+import { readPromptQueueItems } from "../../../packages/extension-core/src/prompt-queue/readPromptQueueItems.js";
+import { writePromptQueueItems } from "../../../packages/extension-core/src/prompt-queue/writePromptQueueItems.js";
 
 test("prompt queue storage writes and reads valid persisted items", async () => {
   const dir = await mkdtemp(join(tmpdir(), "nexus-prompt-queue-"));

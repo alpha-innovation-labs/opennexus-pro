@@ -3,13 +3,13 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { appendUsageHistoryRecords } from "../../../packages/extensions/src/slashusage/history/appendUsageHistoryRecords.js";
-import { compactUsageHistorySeries, USAGE_HISTORY_MAX_POINTS_PER_SERIES } from "../../../packages/extensions/src/slashusage/history/compactUsageHistorySeries.js";
-import { getUsageHistoryFilePath } from "../../../packages/extensions/src/slashusage/history/getUsageHistoryFilePath.js";
-import { getUsageHistoryModelFilePath } from "../../../packages/extensions/src/slashusage/history/getUsageHistoryModelFilePath.js";
-import { readUsageHistoryRecords } from "../../../packages/extensions/src/slashusage/history/readUsageHistoryRecords.js";
-import { sanitizeUsageHistoryModelKey } from "../../../packages/extensions/src/slashusage/history/sanitizeUsageHistoryModelKey.js";
-import { selectChartPoints } from "../../../packages/extensions/src/slashusage/history-modal/selectChartPoints.js";
+import { appendUsageHistoryRecords } from "../../../packages/extension-core/src/slashusage/history/appendUsageHistoryRecords.js";
+import { compactUsageHistorySeries, USAGE_HISTORY_MAX_POINTS_PER_SERIES } from "../../../packages/extension-core/src/slashusage/history/compactUsageHistorySeries.js";
+import { getUsageHistoryFilePath } from "../../../packages/extension-core/src/slashusage/history/getUsageHistoryFilePath.js";
+import { getUsageHistoryModelFilePath } from "../../../packages/extension-core/src/slashusage/history/getUsageHistoryModelFilePath.js";
+import { readUsageHistoryRecords } from "../../../packages/extension-core/src/slashusage/history/readUsageHistoryRecords.js";
+import { sanitizeUsageHistoryModelKey } from "../../../packages/extension-core/src/slashusage/history/sanitizeUsageHistoryModelKey.js";
+import { selectChartPoints } from "../../../packages/extension-core/src/slashusage/history-modal/selectChartPoints.js";
 
 /**
  * Runs a test with an isolated Nexus agent data dir.

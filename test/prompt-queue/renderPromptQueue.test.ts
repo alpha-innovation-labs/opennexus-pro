@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { renderPromptQueue } from "../../packages/extensions/src/prompt-queue/renderPromptQueue.js";
+import { renderPromptQueue } from "../../packages/extension-core/src/prompt-queue/renderPromptQueue.js";
 import { createTestTheme } from "../support/theme/createTestTheme.js";
-import type { PromptQueueItem } from "../../packages/extensions/src/prompt-queue/types.js";
+import type { PromptQueueItem } from "../../packages/extension-core/src/prompt-queue/types.js";
 
 function item(index: number, text = `queued item ${index}`): PromptQueueItem {
   return { id: `item-${index}`, text, createdAt: index };
@@ -27,4 +27,11 @@ test("prompt queue render shows edit mode enter and alt-enter semantics", () => 
 
   assert.match(output, /Enter save edit/u);
   assert.match(output, /Alt\+Enter send now/u);
+});
+
+test("prompt queue render hides pending dispatch status text", () => {
+  const output = renderPromptQueue(120, [item(1, "run tests")], "item-1", false, createTestTheme(), true, false, () => true).join("\n");
+
+  assert.match(output, /run tests/u);
+  assert.doesNotMatch(output, /sending next/u);
 });

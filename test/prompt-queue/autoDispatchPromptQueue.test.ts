@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { PromptQueueController } from "../../packages/extensions/src/prompt-queue/PromptQueueController.js";
-import { schedulePromptQueueDispatch } from "../../packages/extensions/src/prompt-queue/schedulePromptQueueDispatch.js";
+import { PromptQueueController } from "../../packages/extension-core/src/prompt-queue/PromptQueueController.js";
+import { schedulePromptQueueDispatch } from "../../packages/extension-core/src/prompt-queue/schedulePromptQueueDispatch.js";
 
 test("prompt queue auto-dispatch waits for grace and then removes after sending", () => {
   const queue = new PromptQueueController();

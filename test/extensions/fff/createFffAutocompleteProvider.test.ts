@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createFffAutocompleteProvider } from "../../../packages/extensions/src/fff/editor/createFffAutocompleteProvider.js";
+import { createFffAutocompleteProvider } from "../../../packages/extension-core/src/fff/editor/createFffAutocompleteProvider.js";
 
 function createBaseProvider() {
   return {
@@ -25,7 +25,7 @@ test("createFffAutocompleteProvider returns fuzzy @ file suggestions", async () 
     async searchFileCandidates() {
       return [
         {
-          item: { path: "", relativePath: "packages/extensions/src/fff/index.ts", fileName: "index.ts", totalFrecencyScore: 0, gitStatus: "clean" },
+          item: { path: "", relativePath: "packages/extension-core/src/fff/index.ts", fileName: "index.ts", totalFrecencyScore: 0, gitStatus: "clean" },
           score: { matchType: "prefix" },
         },
       ];
@@ -39,10 +39,10 @@ test("createFffAutocompleteProvider returns fuzzy @ file suggestions", async () 
   const suggestions = await provider.getSuggestions(["please inspect @fff/ind"], 0, 23, { signal: new AbortController().signal, force: false });
 
   assert.equal(suggestions?.prefix, "@fff/ind");
-  assert.equal(suggestions?.items[0]?.value, "@packages/extensions/src/fff/index.ts");
+  assert.equal(suggestions?.items[0]?.value, "@packages/extension-core/src/fff/index.ts");
   provider.applyCompletion(["please inspect @fff/ind"], 0, 23, suggestions!.items[0]!, suggestions!.prefix!);
   await new Promise((resolve) => setTimeout(resolve, 0));
-  assert.deepEqual(tracked, [{ query: "@fff/ind", selectedPath: "packages/extensions/src/fff/index.ts" }]);
+  assert.deepEqual(tracked, [{ query: "@fff/ind", selectedPath: "packages/extension-core/src/fff/index.ts" }]);
 });
 
 test("createFffAutocompleteProvider preserves quoted paths with spaces", async () => {

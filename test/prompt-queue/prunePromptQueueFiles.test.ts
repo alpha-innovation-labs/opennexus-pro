@@ -3,7 +3,7 @@ import { mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import test from "node:test";
-import { prunePromptQueueFiles } from "../../packages/extensions/src/prompt-queue/prunePromptQueueFiles.js";
+import { prunePromptQueueFiles } from "../../packages/extension-core/src/prompt-queue/prunePromptQueueFiles.js";
 
 test("prompt queue pruning removes only files for sessions that no longer exist", async () => {
   const root = await mkdtemp(join(tmpdir(), "nexus-prompt-queue-"));

@@ -23,7 +23,6 @@ The production compiled extension set is defined by `src/feature-flags/generated
 - Context-window usage tool: `context_usage` for current chat context use.
 - Exit summary: prints session title on app exit.
 - FFF integration: FFF-backed read override, grep override, and `@` file autocomplete.
-- Kanban modal: `/extension`, two-pane task board modal, temporary in-loop and completed task data.
 - Markdown line editor: `/editor`, `demo.md` Markdown line modal, hidden persistent per-line chats, live reload with diff acceptance, Tron-styled right-panel mini chat.
 - Neo editor: release flag is enabled; deeper repo docs describe custom promptline, slashusage, `@` autocomplete, editor trigger submit, and macOS `ctrl+v` image paste fallback. Sources: compiled flags and `.agents/skills/nexus/extensions/neo-editor.md`.
 - Notifications: desktop notification on agent completion, default macOS submarine sound, `NEXUS_NOTIFY_SOUND_CMD` override.
@@ -32,17 +31,13 @@ The production compiled extension set is defined by `src/feature-flags/generated
 - Startup logo: N logo on fresh startup.
 - Sub-agent status widget: custom subagent working widget, live agent status lines, replaces Pi default loader.
 - Sub-agents: RPC child-process subagent execution, custom context providers, background result lookup, and steering.
-- Terminal modal: persistent shell, `/term` commands, terminal shortcuts.
 - Tron UI: compact tool lines, thinking style, tool calls browser, user message bubble.
 
 ### Development-only or beta features not in the production compiled bundle
 
 These should not be marketed as generally available until promoted into the release bundle.
 
-- Playground: playground modal, `ctrl+i` shortcut.
 - Todo: todo tool and live overlay, `/todos` command.
-- Workflows: `/workflow` command, Librarian and Engineer prompts, continuous subagent steering instructions.
-- Workspace: session switcher, `ctrl+;` shortcut, workspace top bar.
 
 Source: `src/feature-flags/generated/compiledFeatureFlags.ts`, where these are disabled in production and grouped as beta.
 
@@ -298,7 +293,7 @@ Production marketing must match `src/feature-flags/generated/compiledFeatureFlag
 
 ### Treat beta features as roadmap only
 
-Workspace, workflows, todo, and playground are not production-enabled in the compiled release. Use them only in private demos clearly labeled beta.
+Todo is not production-enabled in the compiled release. Use it only in private demos clearly labeled beta.
 
 ### Protect source in every distribution channel
 

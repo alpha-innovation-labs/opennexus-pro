@@ -1,4 +1,4 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { AuthImportSource } from "../model/AuthImportSource.js";
 import type { AuthImportCandidate } from "../model/AuthImportCandidate.js";
 import { AuthImportProviderSelect } from "../ui/AuthImportProviderSelect.js";

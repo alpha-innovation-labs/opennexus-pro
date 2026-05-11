@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { stripAnsi } from "../../../packages/extensions/src/neo-editor/shared/ui/stripAnsi.js";
-import { colorSecondaryText } from "../../../packages/extensions/src/tron/colors/colorSecondaryText.js";
-import { formatUserMessageTime } from "../../../packages/extensions/src/tron/user-message/metadata/formatUserMessageTime.js";
-import { renderBottomBorder } from "../../../packages/extensions/src/tron/user-message/renderBottomBorder.js";
+import { stripAnsi } from "../../../packages/extension-core/src/neo-editor/shared/ui/stripAnsi.js";
+import { colorSecondaryText } from "../../../packages/extension-core/src/tron/colors/colorSecondaryText.js";
+import { formatUserMessageTime } from "../../../packages/extension-core/src/tron/user-message/metadata/formatUserMessageTime.js";
+import { renderBottomBorder } from "../../../packages/extension-core/src/tron/user-message/renderBottomBorder.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 
 const NOW = new Date(2026, 3, 14, 15, 34);

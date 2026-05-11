@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { resolveTriggerSessionStart } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/resolveTriggerSessionStart.js";
+import { resolveTriggerSessionStart } from "../../../packages/extension-core/src/neo-editor/features/promptline/trigger/resolveTriggerSessionStart.js";
 
 test("resolveTriggerSessionStart starts slash only from an empty editor", () => {
   assert.deepEqual(resolveTriggerSessionStart("/", "", ""), { kind: "slash", prefix: "/" });

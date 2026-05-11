@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getPromptQueuePath } from "../../packages/extensions/src/prompt-queue/getPromptQueuePath.js";
+import { getPromptQueuePath } from "../../packages/extension-core/src/prompt-queue/getPromptQueuePath.js";
 
 test("prompt queue path is scoped by session id", () => {
   const alphaPath = getPromptQueuePath("session-alpha");

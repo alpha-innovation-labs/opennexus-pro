@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { bridgeThinkingToToolCalls } from "../../../packages/extensions/src/tron/activity/bridgeThinkingToToolCalls.js";
-import { resetThinkingToolBridge } from "../../../packages/extensions/src/tron/activity/resetThinkingToolBridge.js";
-import { syncToolCallFrameState } from "../../../packages/extensions/src/tron/activity/syncToolCallFrameState.js";
-import { SingleLineToolCall } from "../../../packages/extensions/src/tron/compact-tool-lines/SingleLineToolCall.js";
+import { bridgeThinkingToToolCalls } from "../../../packages/extension-core/src/tron/activity/bridgeThinkingToToolCalls.js";
+import { resetThinkingToolBridge } from "../../../packages/extension-core/src/tron/activity/resetThinkingToolBridge.js";
+import { syncToolCallFrameState } from "../../../packages/extension-core/src/tron/activity/syncToolCallFrameState.js";
+import { SingleLineToolCall } from "../../../packages/extension-core/src/tron/compact-tool-lines/SingleLineToolCall.js";
 
 const theme = {
   fg: (_color: string, text: string) => text,

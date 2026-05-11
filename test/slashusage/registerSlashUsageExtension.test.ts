@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerSlashUsageExtension } from "../../packages/extensions/src/slashusage/registerSlashUsageExtension.js";
+import { registerSlashUsageExtension } from "../../packages/extension-core/src/slashusage/registerSlashUsageExtension.js";
 
 test("registerSlashUsageExtension does not install a duplicate below-editor widget", () => {
   const handlers: Record<string, Function> = {};

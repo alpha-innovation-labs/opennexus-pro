@@ -2,6 +2,7 @@ import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.j
 import type { FeatureFlagsConfig } from "./types.js";
 
 const LEGACY_EXTENSION_ALIASES: Record<string, string> = {
+	prompts: "system-prompt",
 	"which-key": "hotkeys",
 };
 

@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { withSlashMenuGroup } from "@nexus/extensions/slash-menu/withSlashMenuGroup.js";
 import { createAnnotateCommandHandler } from "./command/createAnnotateCommandHandler.js";
 import { createAnnotateRuntimeState } from "./runtime/createAnnotateRuntimeState.js";

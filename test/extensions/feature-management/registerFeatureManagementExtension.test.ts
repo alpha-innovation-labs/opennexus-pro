@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerFeatureManagementExtensionWithConfig } from "../../../packages/extensions/src/feature-management/registerFeatureManagementExtensionWithConfig.js";
+import { registerFeatureManagementExtensionWithConfig } from "../../../packages/extensions-dev/src/feature-management/registerFeatureManagementExtensionWithConfig.js";
 import type { FeatureFlagsConfig } from "../../../packages/feature-flags/src/types.js";
 
 test("feature management extension registers the /features command", () => {

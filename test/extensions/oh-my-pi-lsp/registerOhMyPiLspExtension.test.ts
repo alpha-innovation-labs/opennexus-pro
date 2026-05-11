@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerOhMyPiLspExtension } from "../../../packages/extensions/src/oh-my-pi-lsp/registerOhMyPiLspExtension.js";
+import { registerOhMyPiLspExtension } from "../../../packages/extensions-dev/src/oh-my-pi-lsp/registerOhMyPiLspExtension.js";
 
 /**
  * Regression coverage for extension registration wiring.

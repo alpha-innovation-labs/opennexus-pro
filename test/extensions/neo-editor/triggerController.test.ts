@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getActiveTriggerState } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/getActiveTriggerState.js";
-import { removeTriggerPrefixFromLines } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/removeTriggerPrefixFromLines.js";
-import { routeTriggerInput } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/routeTriggerInput.js";
-import { clearTriggerSession, startTriggerSession } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/sessionState.js";
+import { getActiveTriggerState } from "../../../packages/extension-core/src/neo-editor/features/promptline/trigger/getActiveTriggerState.js";
+import { removeTriggerPrefixFromLines } from "../../../packages/extension-core/src/neo-editor/features/promptline/trigger/removeTriggerPrefixFromLines.js";
+import { routeTriggerInput } from "../../../packages/extension-core/src/neo-editor/features/promptline/trigger/routeTriggerInput.js";
+import { clearTriggerSession, startTriggerSession } from "../../../packages/extension-core/src/neo-editor/features/promptline/trigger/sessionState.js";
 
 /**
  * Resets the active trigger session between tests.

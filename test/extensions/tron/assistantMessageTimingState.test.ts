@@ -6,7 +6,7 @@ import {
   getCurrentAssistantTurnStartedAt,
   resetAssistantMessageTimings,
   startAssistantMessageTiming,
-} from "../../../packages/extensions/src/tron/thinking/assistantMessageTimingState.ts";
+} from "../../../packages/extension-core/src/tron/thinking/assistantMessageTimingState.ts";
 
 test("assistant timing keeps the first LLM start across tool turns", () => {
   resetAssistantMessageTimings();

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import registerNeoEditorExtension from "../../../packages/extensions/src/neo-editor/registerNeoEditorExtension.js";
+import registerNeoEditorExtension from "../../../packages/extension-core/src/neo-editor/registerNeoEditorExtension.js";
 
 /**
  * Creates the minimum Pi stub required to register the Neo editor extension.

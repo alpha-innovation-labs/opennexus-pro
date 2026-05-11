@@ -1,4 +1,4 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { renderSubagentTranscriptLines } from "@nexus/extensions/sub-agents/ui/renderSubagentTranscriptLines.js";
 import type { LineChatMessage, LineChatSession } from "../line-chat/types.js";
 import { renderTronInputLines } from "./renderTronInputLines.js";

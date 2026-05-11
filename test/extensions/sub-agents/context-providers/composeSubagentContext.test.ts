@@ -1,8 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { composeSubagentContext } from "../../../../packages/extensions/src/sub-agents/context-providers/composeSubagentContext.js";
-import { createParentConversationProvider } from "../../../../packages/extensions/src/sub-agents/context-providers/createParentConversationProvider.js";
-import { createSubagentContextRegistry } from "../../../../packages/extensions/src/sub-agents/context-providers/createSubagentContextRegistry.js";
+import { composeSubagentContext } from "../../../../packages/extension-core/src/sub-agents/context-providers/composeSubagentContext.js";
+import { createParentConversationProvider } from "../../../../packages/extension-core/src/sub-agents/context-providers/createParentConversationProvider.js";
+import { createSubagentContextRegistry } from "../../../../packages/extension-core/src/sub-agents/context-providers/createSubagentContextRegistry.js";
 
 /**
  * Creates a tiny extension-context stub for context provider tests.

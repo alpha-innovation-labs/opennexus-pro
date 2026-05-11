@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { resolveRequestedSlashMenuLevel } from "../../../packages/extensions/src/slash-menu/resolveRequestedSlashMenuLevel.js";
+import { resolveRequestedSlashMenuLevel } from "../../../packages/extension-core/src/slash-menu/resolveRequestedSlashMenuLevel.js";
 
 /**
  * Creates a slash-menu context with configurable available models.

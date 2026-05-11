@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { handleClipboardImagePaste } from "../../../packages/extensions/src/neo-editor/features/promptline/clipboard/handleClipboardImagePaste.js";
+import { handleClipboardImagePaste } from "../../../packages/extension-core/src/neo-editor/features/promptline/clipboard/handleClipboardImagePaste.js";
 import type { ClipboardImage } from "../../../packages/nexus-runtime/src/clipboard-image/types.js";
 
 /**

@@ -65,7 +65,6 @@ test("source runtime feature flags come from the root json config", async () => 
 	assert.match(report, /show N logo, version, tips, and startup status/);
 	assert.match(report, /tool calls browser/);
 	assert.match(report, /\/usage history graph modal/);
-	assert.match(report, /workspace top bar/);
 	assert.match(report, /dev-only modal variation playground/);
 });
 
@@ -82,7 +81,7 @@ test("user config overrides built-in extension enabled state", async () => {
 			JSON.stringify({
 				extensions: {
 					notify: { enabled: false },
-					workspace: { enabled: true },
+					memory: { enabled: true },
 					missing: { enabled: true },
 				},
 			}),
@@ -101,18 +100,18 @@ test("user config overrides built-in extension enabled state", async () => {
 		).map((flag) => flag.id);
 
 		assert.equal(runtimeConfig.extensions.notify?.enabled, true);
-		assert.equal(runtimeConfig.extensions.workspace?.enabled, false);
+		assert.equal(runtimeConfig.extensions.memory?.enabled, false);
 		assert.equal(
 			applyUserExtensionConfig(runtimeConfig).extensions.notify?.enabled,
 			false,
 		);
 		assert.equal(
-			applyUserExtensionConfig(runtimeConfig).extensions.workspace?.enabled,
+			applyUserExtensionConfig(runtimeConfig).extensions.memory?.enabled,
 			true,
 		);
 		assert.equal(runtimeConfig.extensions.missing, undefined);
 		assert.equal(enabledIds.includes("notify"), false);
-		assert.equal(enabledIds.includes("workspace"), true);
+		assert.equal(enabledIds.includes("memory"), true);
 	} finally {
 		await rm(home, { recursive: true, force: true });
 		if (originalHome) process.env.HOME = originalHome;
@@ -131,7 +130,7 @@ test("source runtime picks up root json changes without regenerating release art
 		);
 		const modifiedConfig = createModifiedFeatureFlagsConfig(originalConfig, [
 			"annotate",
-			"workspace",
+			"memory",
 		]);
 
 		try {
@@ -151,7 +150,7 @@ test("source runtime picks up root json changes without regenerating release art
 
 			assert.deepEqual(runtimeConfig, modifiedConfig);
 			assert.notDeepEqual(getBundledFeatureFlagsConfig(), modifiedConfig);
-			assert.deepEqual(enabledIds, ["annotate", "workspace"]);
+			assert.deepEqual(enabledIds, ["annotate", "memory"]);
 			assert.equal(
 				compiledFeatureFlagsSource,
 				originalCompiledFeatureFlagsSource,
@@ -173,13 +172,13 @@ test("release generators rebuild compiled feature flags and extension ids from t
 			"utf8",
 		);
 		const originalCompiledExtensionsSource = await readFile(
-			"packages/extensions/src/generated/registerCompiledEnabledExtensions.ts",
+			"packages/extension-core/src/generated/registerCompiledEnabledExtensions.ts",
 			"utf8",
 		);
 		const modifiedConfig = createModifiedFeatureFlagsConfig(originalConfig, [
 			"annotate",
 			"notify",
-			"workspace",
+			"memory",
 		]);
 
 		try {
@@ -191,7 +190,7 @@ test("release generators rebuild compiled feature flags and extension ids from t
 				"utf8",
 			);
 			const compiledExtensionsSource = await readFile(
-				"packages/extensions/src/generated/registerCompiledEnabledExtensions.ts",
+				"packages/extension-core/src/generated/registerCompiledEnabledExtensions.ts",
 				"utf8",
 			);
 
@@ -200,7 +199,7 @@ test("release generators rebuild compiled feature flags and extension ids from t
 				compiledFeatureFlagsSource,
 				/"notify": \{[\s\S]*?"enabled": true/,
 			);
-			assert.doesNotMatch(compiledFeatureFlagsSource, /"workspace": \{/);
+			assert.doesNotMatch(compiledFeatureFlagsSource, /"memory": \{/);
 			assert.match(
 				compiledExtensionsSource,
 				/export const compiledBundledExtensionIds = \[\n {2}"notify"\n\] as const;/,
@@ -226,7 +225,7 @@ test("release generators rebuild compiled feature flags and extension ids from t
 			);
 			assert.equal(
 				await readFile(
-					"packages/extensions/src/generated/registerCompiledEnabledExtensions.ts",
+					"packages/extension-core/src/generated/registerCompiledEnabledExtensions.ts",
 					"utf8",
 				),
 				originalCompiledExtensionsSource,

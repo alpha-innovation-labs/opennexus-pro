@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { detectProviderFromModel } from "../../packages/extensions/src/slashusage/providers/detectProviderFromModel.js";
-import { parseMinimaxUsageResponse } from "../../packages/extensions/src/slashusage/providers/minimax/parseMinimaxUsageResponse.js";
-import { selectUsagePair } from "../../packages/extensions/src/slashusage/model/selectUsagePair.js";
-import type { UsageSnapshot } from "../../packages/extensions/src/slashusage/types.js";
+import { detectProviderFromModel } from "../../packages/extension-core/src/slashusage/providers/detectProviderFromModel.js";
+import { parseMinimaxUsageResponse } from "../../packages/extension-core/src/slashusage/providers/minimax/parseMinimaxUsageResponse.js";
+import { selectUsagePair } from "../../packages/extension-core/src/slashusage/model/selectUsagePair.js";
+import type { UsageSnapshot } from "../../packages/extension-core/src/slashusage/types.js";
 
 test("detectProviderFromModel maps MiniMax Coding Plan providers", () => {
   assert.equal(detectProviderFromModel({ provider: "minimax-code", id: "MiniMax-M2.7" }), "minimax");

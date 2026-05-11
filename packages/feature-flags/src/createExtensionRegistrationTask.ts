@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { createProfiledExtensionApi } from "@nexus/observability/startup-profile/createProfiledExtensionApi.js";
 import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent.js";
 import { createTelemetryExtensionApi } from "./createTelemetryExtensionApi.js";

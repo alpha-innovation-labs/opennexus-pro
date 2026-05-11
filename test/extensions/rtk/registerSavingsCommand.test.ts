@@ -3,7 +3,7 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { registerSavingsCommand } from "../../../packages/extensions/src/rtk/command/registerSavingsCommand.js";
+import { registerSavingsCommand } from "../../../packages/extensions-pro/src/rtk/command/registerSavingsCommand.js";
 
 test("registerSavingsCommand renders usage, RTK savings, and OpenRouter costs", async () => {
   const sessionRoot = await mkdtemp(join(tmpdir(), "nexus-savings-"));

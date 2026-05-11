@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import stripAnsi from "strip-ansi";
 import test from "node:test";
-import { SlashMenuModal } from "../../../packages/extensions/src/slash-menu/SlashMenuModal.js";
-import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../packages/extensions/src/slash-menu/registerSlashCommand.js";
+import { clearRegisteredToolRecords, recordRegisteredTool } from "../../../packages/feature-flags/src/index.js";
+import { SlashMenuModal } from "../../../packages/extension-core/src/slash-menu/SlashMenuModal.js";
+import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../packages/extension-core/src/slash-menu/registerSlashCommand.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
@@ -42,13 +43,19 @@ function getGroupedTools() {
       name: "web_search",
       description: "Search the web using Perplexity AI, Exa, or Gemini.",
       parameters: {},
-      sourceInfo: { scope: "project", source: "project", origin: "top-level", path: "packages/extensions/src/vendor/websearch/index.ts" },
+      sourceInfo: { scope: "project", source: "project", origin: "top-level", path: "packages/extension-core/src/vendor/websearch/index.ts" },
     },
     {
       name: "fetch_content",
       description: "Fetch URLs as readable markdown.",
       parameters: {},
-      sourceInfo: { scope: "project", source: "project", origin: "top-level", path: "packages/extensions/src/vendor/websearch/index.ts" },
+      sourceInfo: { scope: "project", source: "project", origin: "top-level", path: "packages/extension-core/src/vendor/websearch/index.ts" },
+    },
+    {
+      name: "ask_user_question",
+      description: "Ask the user structured questions.",
+      parameters: {},
+      sourceInfo: { scope: "project", source: "project", origin: "top-level", path: "packages/extension-core/src/ask-user-question/ask-user-question.ts" },
     },
   ] as never;
 }
@@ -113,7 +120,7 @@ test("locally registered nexus-prefixed commands stay hidden in wterm", async ()
   }
 });
 
-test("/tools groups structured extension tools by caller in wterm", async () => {
+test("/tools groups structured extension tools by caller in one full-screen list", async () => {
   const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, () => undefined, getCommands, undefined, undefined, getGroupedTools);
 
   modal.setQuery("tools");
@@ -121,24 +128,25 @@ test("/tools groups structured extension tools by caller in wterm", async () => 
   modal.handleInput("\r");
   await Promise.resolve();
 
-  const groupOutput = stripAnsi((await renderComponentInVirtualTerminal(() => modal, 120, 35)).join("\n"));
-  const coreIndex = groupOutput.indexOf("Core");
-  const webSearchIndex = groupOutput.indexOf("Web Search");
+  const toolsOutput = stripAnsi((await renderComponentInVirtualTerminal(() => modal, 120, 60)).join("\n"));
+  const coreIndex = toolsOutput.indexOf("Core");
+  const extensionIndex = toolsOutput.indexOf("Websearch");
+  const askUserQuestionIndex = toolsOutput.indexOf("Ask User Question");
+  const borderWidth = toolsOutput.split("\n").find((line) => line.includes("┌"))?.trim().length ?? 0;
 
+  assert.ok(borderWidth > 100, "/tools uses full-screen modal width");
   assert.ok(coreIndex >= 0, "built-in tools are grouped under Core");
-  assert.ok(webSearchIndex > coreIndex, "extension tools render under the extension group");
-
-  modal.setQuery("web search");
-  await modal.refresh();
-  modal.handleInput("\r");
-  await Promise.resolve();
-
-  const toolsOutput = stripAnsi((await renderComponentInVirtualTerminal(() => modal, 120, 35)).join("\n"));
+  assert.ok(extensionIndex > coreIndex, "extension tools render under the source-derived group");
+  assert.ok(askUserQuestionIndex > coreIndex, "non-web extension tools are not grouped as Core");
+  assert.match(toolsOutput, /bash/u);
+  assert.match(toolsOutput, /ask_user_question/u);
   assert.match(toolsOutput, /fetch_content/u);
   assert.match(toolsOutput, /web_search/u);
 });
 
 test("/tools appears below skills and opens the available tools list in wterm", async () => {
+  clearRegisteredToolRecords();
+  recordRegisteredTool("ask-user-question", { name: "ask_user_question", description: "Ask the user structured questions." });
   const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, () => undefined, getCommands, undefined, undefined, getAllTools);
 
   await modal.refresh();
@@ -154,19 +162,15 @@ test("/tools appears below skills and opens the available tools list in wterm", 
   modal.handleInput("\r");
   await Promise.resolve();
 
-  const groupOutput = stripAnsi((await renderComponentInVirtualTerminal(() => modal, 120, 35)).join("\n"));
-  assert.match(groupOutput, /Tools/u);
-  assert.match(groupOutput, /Core/u);
-
-  modal.setQuery("core");
-  await modal.refresh();
-  modal.handleInput("\r");
-  await Promise.resolve();
-
-  const toolsOutput = stripAnsi((await renderComponentInVirtualTerminal(() => modal, 120, 35)).join("\n"));
+  const toolsOutput = stripAnsi((await renderComponentInVirtualTerminal(() => modal, 120, 60)).join("\n"));
+  assert.match(toolsOutput, /Tools/u);
+  assert.match(toolsOutput, /Core/u);
   assert.match(toolsOutput, /bash/u);
   assert.match(toolsOutput, /Execute bash/u);
   assert.match(toolsOutput, /read/u);
   assert.match(toolsOutput, /Read file con/u);
+  assert.match(toolsOutput, /Ask User Question/u);
+  assert.match(toolsOutput, /ask_user_question/u);
   assert.doesNotMatch(toolsOutput, /ignored/u);
+  clearRegisteredToolRecords();
 });

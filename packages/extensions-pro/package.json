@@ -1,0 +1,11 @@
+{
+  "name": "@nexus/extensions-pro",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./*.js": "./src/*.ts",
+    "./*": "./src/*"
+  },
+  "scripts": {}
+}

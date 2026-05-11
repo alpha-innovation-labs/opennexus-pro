@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { primeStartupUsageModal } from "../../../packages/extensions/src/slashusage/primeStartupUsageModal.js";
+import { primeStartupUsageModal } from "../../../packages/extension-core/src/slashusage/primeStartupUsageModal.js";
 import { startupUsageEnvVar } from "../../../packages/nexus-runtime/src/cli/normalizeUsageStartupArgs.js";
 
 test("primeStartupUsageModal consumes --usage startup intent", async () => {

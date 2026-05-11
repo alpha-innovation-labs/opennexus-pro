@@ -1,5 +1,5 @@
-import { visibleWidth } from "@mariozechner/pi-tui";
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import { visibleWidth } from "@earendil-works/pi-tui";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { formatLeftPanelPrefix } from "./formatLeftPanelPrefix.js";
 import { wrapLeftPanelBody } from "./wrapLeftPanelBody.js";
 

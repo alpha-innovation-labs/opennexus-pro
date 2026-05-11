@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { summarizeArgs } from "../../../packages/extensions/src/tron/compact-tool-lines/summarizeArgs.js";
+import { summarizeArgs } from "../../../packages/extension-core/src/tron/compact-tool-lines/summarizeArgs.js";
 
 test("summarizeArgs extracts todo subject and description without a tool-specific branch", () => {
   const summary = summarizeArgs("todo", {

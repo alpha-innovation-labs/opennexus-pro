@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { compareVersions } from "../../packages/extensions/src/auto-update/model/compareVersions.js";
-import { isNewerVersion } from "../../packages/extensions/src/auto-update/model/isNewerVersion.js";
+import { compareVersions } from "../../packages/extension-core/src/auto-update/model/compareVersions.js";
+import { isNewerVersion } from "../../packages/extension-core/src/auto-update/model/isNewerVersion.js";
 
 test("auto-update compares semantic versions numerically", () => {
 	assert.equal(compareVersions("0.2.10", "0.2.9"), 1);

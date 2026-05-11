@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { renderCompactLine } from "../../../packages/extensions/src/tron/shared/compact-line/renderCompactLine.js";
+import { renderCompactLine } from "../../../packages/extension-core/src/tron/shared/compact-line/renderCompactLine.js";
 
 const theme = {
   fg: (_color: string, text: string) => text,

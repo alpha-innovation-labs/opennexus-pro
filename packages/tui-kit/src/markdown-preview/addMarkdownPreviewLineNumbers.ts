@@ -14,6 +14,15 @@ export function addMarkdownPreviewLineNumbers(rows: MarkdownPreviewRow[], totalW
   });
 }
 
+/** Renders an empty markdown preview row that preserves the line-number gutter. */
+export function renderMarkdownPreviewLineNumberFiller(totalWidth: number, sourceLineCount: number, theme?: MarkdownPreviewTheme): string {
+  const digitWidth = Math.max(2, String(Math.max(1, sourceLineCount)).length);
+  const contentWidth = Math.max(1, totalWidth - digitWidth - 3);
+  const number = styleMarkdownPreviewSegment(theme, "lineNumber", " ".repeat(digitWidth));
+  const separator = styleMarkdownPreviewSegment(theme, "lineNumberSeparator", " │ ");
+  return `${number}${separator}${padMarkdownPreviewLine("", contentWidth)}`;
+}
+
 /** Returns the markdown preview content width after reserving the line-number gutter. */
 export function getMarkdownPreviewNumberedContentWidth(sourceLineCount: number, totalWidth: number): number {
   const digitWidth = Math.max(2, String(Math.max(1, sourceLineCount)).length);

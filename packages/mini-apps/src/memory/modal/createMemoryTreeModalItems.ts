@@ -1,4 +1,4 @@
-import type { AutocompleteItem } from "@mariozechner/pi-tui";
+import type { AutocompleteItem } from "@earendil-works/pi-tui";
 import type { MemoryTreeItem } from "../types/MemoryTreeItem.js";
 import { formatMemoryTreeLabel } from "./formatMemoryTreeLabel.js";
 

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getRtkSavingsPeriod } from "../../../packages/extensions/src/rtk/savings/getRtkSavingsPeriod.js";
-import type { RtkGainReport } from "../../../packages/extensions/src/rtk/savings/RtkGainReport.js";
+import { getRtkSavingsPeriod } from "../../../packages/extensions-pro/src/rtk/savings/getRtkSavingsPeriod.js";
+import type { RtkGainReport } from "../../../packages/extensions-pro/src/rtk/savings/RtkGainReport.js";
 
 const summary = { total_commands: 0, total_input: 0, total_output: 0, total_saved: 0, avg_savings_pct: 0, total_time_ms: 0, avg_time_ms: 0 };
 

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getPromptlineModel } from "../../../packages/extensions/src/neo-editor/features/promptline/getPromptlineModel.js";
-import { setPromptlineModelOverride } from "../../../packages/extensions/src/neo-editor/features/promptline/state.js";
+import { getPromptlineModel } from "../../../packages/extension-core/src/neo-editor/features/promptline/getPromptlineModel.js";
+import { setPromptlineModelOverride } from "../../../packages/extension-core/src/neo-editor/features/promptline/state.js";
 
 test.afterEach(() => {
 	setPromptlineModelOverride(undefined);

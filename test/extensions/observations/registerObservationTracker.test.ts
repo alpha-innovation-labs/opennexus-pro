@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerObservationTracker } from "../../../packages/extensions/src/observations/tracker/registerObservationTracker.js";
+import { registerObservationTracker } from "../../../packages/extensions-pro/src/observations/tracker/registerObservationTracker.js";
 
 test("observation tracker skips non-interactive events", async () => {
 	const handlers = new Map<string, (event: never, ctx: { hasUI: boolean; cwd: string }) => Promise<void>>();

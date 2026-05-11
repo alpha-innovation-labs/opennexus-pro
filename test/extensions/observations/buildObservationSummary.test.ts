@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildObservationSummary } from "../../../packages/extensions/src/observations/tracker/buildObservationSummary.js";
-import type { ObservationState } from "../../../packages/extensions/src/observations/tracker/types.js";
+import { buildObservationSummary } from "../../../packages/extensions-pro/src/observations/tracker/buildObservationSummary.js";
+import type { ObservationState } from "../../../packages/extensions-pro/src/observations/tracker/types.js";
 
 /**
  * Builds a test observation state from topics.

@@ -1,4 +1,4 @@
-import { SessionManager, type SessionInfo } from "@mariozechner/pi-coding-agent";
+import { SessionManager, type SessionInfo } from "@earendil-works/pi-coding-agent";
 
 /**
  * Lists resumable sessions for one working directory.

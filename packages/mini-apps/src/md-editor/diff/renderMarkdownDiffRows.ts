@@ -1,4 +1,4 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { MarkdownDiffRow } from "./MarkdownDiffRow.js";
 import { createLineDiffOperations } from "./createLineDiffOperations.js";
 import { renderInlineMarkdownDiffLine } from "./renderInlineMarkdownDiffLine.js";

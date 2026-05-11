@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerDevExtension } from "../../../packages/extensions/src/dev/registerDevExtension.js";
+import { registerDevExtension } from "../../../packages/extensions-dev/src/dev/registerDevExtension.js";
 
 test("dev extension registers dev-only commands", () => {
   const commands: string[] = [];

@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { registerMemoryCommand } from "./command/registerMemoryCommand.js";
 import { buildMemorySystemPrompt } from "./prompt/buildMemorySystemPrompt.js";
 import { registerAddTweetMemoryBatchTool } from "./tools/registerAddTweetMemoryBatchTool.js";

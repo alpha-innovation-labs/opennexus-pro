@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { visibleWidth } from "@mariozechner/pi-tui";
-import { renderPromptlineEditor } from "../../../packages/extensions/src/neo-editor/features/promptline/render/renderPromptlineEditor.js";
+import { visibleWidth } from "@earendil-works/pi-tui";
+import { renderPromptlineEditor } from "../../../packages/extension-core/src/neo-editor/features/promptline/render/renderPromptlineEditor.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

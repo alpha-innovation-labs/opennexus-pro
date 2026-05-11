@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { Text } from "@mariozechner/pi-tui";
-import { ToolExecutionComponent } from "../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
+import { Text } from "@earendil-works/pi-tui";
+import { ToolExecutionComponent } from "../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
 import { applyToolExecutionSpacingPatch } from "../../packages/pi-platform/src/applyToolExecutionSpacingPatch.js";
 
 /**

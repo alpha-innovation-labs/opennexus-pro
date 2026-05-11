@@ -1,11 +1,11 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensionConfig.js";
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
 import { readFeatureFlagsConfig } from "@nexus/feature-flags/readFeatureFlagsConfig.js";
 import type { FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
-import { ExtensionManagerModal } from "@nexus/extensions/extension-manager/ui/ExtensionManagerModal.js";
-import { updateManagedExtensionRows } from "@nexus/extensions/extension-manager/model/updateManagedExtensionRows.js";
-import { createPanelOverlayOptions } from "@nexus/extensions/overlay/createPanelOverlayOptions.js";
+import { PiPackagesModal } from "@nexus/extensions/pi-packages/ui/PiPackagesModal.js";
+import { updateManagedExtensionRows } from "@nexus/extensions/pi-packages/model/updateManagedExtensionRows.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
 import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled.js";
 import { createManagedMiniAppRows } from "../model/createManagedMiniAppRows.js";
 
@@ -36,7 +36,7 @@ export async function showMiniAppsModal(ctx: ExtensionCommandContext): Promise<v
 	}
 
 	await ctx.ui.custom<undefined>(
-		(_tui, theme, _keybindings, done) => new ExtensionManagerModal(theme, rows, done, updateMiniApp, "Mini-Apps"),
+		(_tui, theme, _keybindings, done) => new PiPackagesModal(theme, rows, done, updateMiniApp, "Mini-Apps", "all"),
 		{
 			overlay: true,
 			overlayOptions: createPanelOverlayOptions(80, "85%") as never,

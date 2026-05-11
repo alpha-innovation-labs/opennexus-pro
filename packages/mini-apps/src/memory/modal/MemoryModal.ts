@@ -1,5 +1,5 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
-import { Key, matchesKey } from "@mariozechner/pi-tui";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
+import { Key, matchesKey } from "@earendil-works/pi-tui";
 import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
 import type { MemoryItem } from "../types/MemoryItem.js";
 import type { MemoryTreeItem } from "../types/MemoryTreeItem.js";

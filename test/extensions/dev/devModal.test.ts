@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createDevModalVariations } from "../../../packages/extensions/src/dev/modal/createDevModalVariations.js";
-import { DevModal } from "../../../packages/extensions/src/dev/modal/DevModal.js";
+import { createDevModalVariations } from "../../../packages/extensions-dev/src/dev/modal/createDevModalVariations.js";
+import { DevModal } from "../../../packages/extensions-dev/src/dev/modal/DevModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

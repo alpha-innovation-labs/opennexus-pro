@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { colorFeatureChannel } from "../../../packages/extensions/src/feature-management/ui/colorFeatureChannel.js";
-import { colorFeatureStatus } from "../../../packages/extensions/src/feature-management/ui/colorFeatureStatus.js";
-import { createFeatureAutocompleteItems } from "../../../packages/extensions/src/feature-management/ui/createFeatureAutocompleteItems.js";
-import type { FeatureStatusRow } from "../../../packages/extensions/src/feature-management/model/types.js";
+import { colorFeatureChannel } from "../../../packages/extensions-dev/src/feature-management/ui/colorFeatureChannel.js";
+import { colorFeatureStatus } from "../../../packages/extensions-dev/src/feature-management/ui/colorFeatureStatus.js";
+import { createFeatureAutocompleteItems } from "../../../packages/extensions-dev/src/feature-management/ui/createFeatureAutocompleteItems.js";
+import type { FeatureStatusRow } from "../../../packages/extensions-dev/src/feature-management/model/types.js";
 
 const rows: FeatureStatusRow[] = [
 	{

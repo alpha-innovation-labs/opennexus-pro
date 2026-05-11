@@ -3,11 +3,11 @@ import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { createAgentsItems } from "../../../packages/extensions/src/context-usage/createAgentsItems.js";
-import { createContextUsageReport } from "../../../packages/extensions/src/context-usage/createContextUsageReport.js";
-import { createRuntimeSnapshot } from "../../../packages/extensions/src/context-usage/createRuntimeSnapshot.js";
-import { createSkillItems } from "../../../packages/extensions/src/context-usage/createSkillItems.js";
-import { registerContextUsageExtension } from "../../../packages/extensions/src/context-usage/registerContextUsageExtension.js";
+import { createAgentsItems } from "../../../packages/extension-core/src/context-usage/createAgentsItems.js";
+import { createContextUsageReport } from "../../../packages/extension-core/src/context-usage/createContextUsageReport.js";
+import { createRuntimeSnapshot } from "../../../packages/extension-core/src/context-usage/createRuntimeSnapshot.js";
+import { createSkillItems } from "../../../packages/extension-core/src/context-usage/createSkillItems.js";
+import { registerContextUsageExtension } from "../../../packages/extension-core/src/context-usage/registerContextUsageExtension.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getTokenUsagePeriod } from "../../../packages/extensions/src/rtk/usage/getTokenUsagePeriod.js";
-import type { TokenUsageReport } from "../../../packages/extensions/src/rtk/usage/TokenUsageReport.js";
+import { getTokenUsagePeriod } from "../../../packages/extensions-pro/src/rtk/usage/getTokenUsagePeriod.js";
+import type { TokenUsageReport } from "../../../packages/extensions-pro/src/rtk/usage/TokenUsageReport.js";
 
 const summary = { cacheRead: 0, cacheWrite: 0, input: 0, output: 0, total: 0 };
 

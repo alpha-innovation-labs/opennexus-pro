@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type { Component } from "@mariozechner/pi-tui";
+import type { Component } from "@earendil-works/pi-tui";
 import { setRuntimeExtensionFeatureState } from "../../../packages/feature-flags/src/runtimeExtensionFeatureState.js";
-import { PromptlineEditor } from "../../../packages/extensions/src/neo-editor/features/promptline/PromptlineEditor.js";
-import { clearTriggerSession } from "../../../packages/extensions/src/neo-editor/features/promptline/trigger/sessionState.js";
-import { HotkeysModal } from "../../../packages/extensions/src/hotkeys/HotkeysModal.js";
+import { PromptlineEditor } from "../../../packages/extension-core/src/neo-editor/features/promptline/PromptlineEditor.js";
+import { clearTriggerSession } from "../../../packages/extension-core/src/neo-editor/features/promptline/trigger/sessionState.js";
+import { HotkeysModal } from "../../../packages/extension-core/src/hotkeys/HotkeysModal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /** Waits one macrotask for overlay work to settle. */

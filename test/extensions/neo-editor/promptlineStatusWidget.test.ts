@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { visibleWidth } from "@mariozechner/pi-tui";
-import { buildPromptlineStatusLine } from "../../../packages/extensions/src/neo-editor/features/promptline/status-widget/buildPromptlineStatusLine.js";
-import { createPromptlineStatusWidget } from "../../../packages/extensions/src/neo-editor/features/promptline/status-widget/createPromptlineStatusWidget.js";
-import { setPromptlineModelOverride } from "../../../packages/extensions/src/neo-editor/features/promptline/state.js";
+import { visibleWidth } from "@earendil-works/pi-tui";
+import { buildPromptlineStatusLine } from "../../../packages/extension-core/src/neo-editor/features/promptline/status-widget/buildPromptlineStatusLine.js";
+import { createPromptlineStatusWidget } from "../../../packages/extension-core/src/neo-editor/features/promptline/status-widget/createPromptlineStatusWidget.js";
+import { setPromptlineModelOverride } from "../../../packages/extension-core/src/neo-editor/features/promptline/state.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

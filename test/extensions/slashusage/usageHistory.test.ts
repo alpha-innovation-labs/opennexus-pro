@@ -3,21 +3,21 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { appendUsageHistoryRecords } from "../../../packages/extensions/src/slashusage/history/appendUsageHistoryRecords.js";
-import { createUsageHistoryRecords } from "../../../packages/extensions/src/slashusage/history/createUsageHistoryRecord.js";
-import { getUsageHistoryFilePath } from "../../../packages/extensions/src/slashusage/history/getUsageHistoryFilePath.js";
-import { getUsageHistoryModelFilePath } from "../../../packages/extensions/src/slashusage/history/getUsageHistoryModelFilePath.js";
-import { getUsageHistoryModelKey } from "../../../packages/extensions/src/slashusage/history/getUsageHistoryModelKey.js";
-import { readUsageHistoryRecords } from "../../../packages/extensions/src/slashusage/history/readUsageHistoryRecords.js";
-import { USAGE_HISTORY_SAMPLE_INTERVAL_MS, startUsageHistorySampler } from "../../../packages/extensions/src/slashusage/history/startUsageHistorySampler.js";
-import { stopUsageHistorySampler } from "../../../packages/extensions/src/slashusage/history/stopUsageHistorySampler.js";
-import { usageHistorySamplers } from "../../../packages/extensions/src/slashusage/history/usageHistorySamplerState.js";
-import { createUsageHistoryFooter } from "../../../packages/extensions/src/slashusage/history-modal/createUsageHistoryFooter.js";
-import { createUsageHistoryModelOptions } from "../../../packages/extensions/src/slashusage/history-modal/createUsageHistoryModelOptions.js";
-import { createUsageHistoryLines } from "../../../packages/extensions/src/slashusage/history-modal/createUsageHistoryLines.js";
-import { showUsageHistoryModal } from "../../../packages/extensions/src/slashusage/history-modal/showUsageHistoryModal.js";
-import { UsageHistoryModal } from "../../../packages/extensions/src/slashusage/history-modal/UsageHistoryModal.js";
-import { clearUsageHistorySelectionState } from "../../../packages/extensions/src/slashusage/history-modal/usageHistorySelectionState.js";
+import { appendUsageHistoryRecords } from "../../../packages/extension-core/src/slashusage/history/appendUsageHistoryRecords.js";
+import { createUsageHistoryRecords } from "../../../packages/extension-core/src/slashusage/history/createUsageHistoryRecord.js";
+import { getUsageHistoryFilePath } from "../../../packages/extension-core/src/slashusage/history/getUsageHistoryFilePath.js";
+import { getUsageHistoryModelFilePath } from "../../../packages/extension-core/src/slashusage/history/getUsageHistoryModelFilePath.js";
+import { getUsageHistoryModelKey } from "../../../packages/extension-core/src/slashusage/history/getUsageHistoryModelKey.js";
+import { readUsageHistoryRecords } from "../../../packages/extension-core/src/slashusage/history/readUsageHistoryRecords.js";
+import { USAGE_HISTORY_SAMPLE_INTERVAL_MS, startUsageHistorySampler } from "../../../packages/extension-core/src/slashusage/history/startUsageHistorySampler.js";
+import { stopUsageHistorySampler } from "../../../packages/extension-core/src/slashusage/history/stopUsageHistorySampler.js";
+import { usageHistorySamplers } from "../../../packages/extension-core/src/slashusage/history/usageHistorySamplerState.js";
+import { createUsageHistoryFooter } from "../../../packages/extension-core/src/slashusage/history-modal/createUsageHistoryFooter.js";
+import { createUsageHistoryModelOptions } from "../../../packages/extension-core/src/slashusage/history-modal/createUsageHistoryModelOptions.js";
+import { createUsageHistoryLines } from "../../../packages/extension-core/src/slashusage/history-modal/createUsageHistoryLines.js";
+import { showUsageHistoryModal } from "../../../packages/extension-core/src/slashusage/history-modal/showUsageHistoryModal.js";
+import { UsageHistoryModal } from "../../../packages/extension-core/src/slashusage/history-modal/UsageHistoryModal.js";
+import { clearUsageHistorySelectionState } from "../../../packages/extension-core/src/slashusage/history-modal/usageHistorySelectionState.js";
 
 /**
  * Runs a test with an isolated Nexus agent data dir.

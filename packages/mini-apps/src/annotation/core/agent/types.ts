@@ -1,4 +1,4 @@
-import type { RpcClient } from "@mariozechner/pi-coding-agent";
+import type { RpcClient } from "@earendil-works/pi-coding-agent";
 
 export interface AnnotationAgentRuntime {
   client: RpcClient;

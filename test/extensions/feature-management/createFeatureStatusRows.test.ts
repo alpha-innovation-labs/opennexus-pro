@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createFeatureStatusRows } from "../../../packages/extensions/src/feature-management/model/createFeatureStatusRows.js";
+import { createFeatureStatusRows } from "../../../packages/extensions-dev/src/feature-management/model/createFeatureStatusRows.js";
 import type { FeatureFlagsConfig } from "../../../packages/feature-flags/src/types.js";
 
 test("feature status rows expose enabled state, channel, and group per extension", () => {
@@ -57,7 +57,7 @@ test("feature status rows expose enabled state, channel, and group per extension
 
 	assert.deepEqual(createFeatureStatusRows(config, runtimeConfig), [
 		{
-			category: "extensions",
+			category: "core",
 			sourceCategory: "extensions",
 			extensionId: "alpha",
 			feature: "alpha",
@@ -66,7 +66,7 @@ test("feature status rows expose enabled state, channel, and group per extension
 			group: "Production",
 		},
 		{
-			category: "extensions",
+			category: "core",
 			sourceCategory: "extensions",
 			extensionId: "beta",
 			feature: "beta",
@@ -75,7 +75,7 @@ test("feature status rows expose enabled state, channel, and group per extension
 			group: "Playground",
 		},
 		{
-			category: "extensions",
+			category: "core",
 			sourceCategory: "extensions",
 			extensionId: "gamma",
 			feature: "gamma",

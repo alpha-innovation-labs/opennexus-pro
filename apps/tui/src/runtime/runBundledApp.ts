@@ -1,4 +1,4 @@
-import { createCompiledBundledExtensionFactories } from "@nexus/extensions/createCompiledBundledExtensionFactories.js";
+import { createCompiledBundledExtensionFactories } from "@nexus/extensions/runtime/createCompiledBundledExtensionFactories.js";
 import { runAppWithExtensionFactories } from "./runAppWithExtensionFactories.js";
 
 /**

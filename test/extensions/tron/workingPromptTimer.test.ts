@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createWorkingPromptTimer } from "../../../packages/extensions/src/tron/working-timer/createWorkingPromptTimer.ts";
-import { formatWorkingPromptMessage } from "../../../packages/extensions/src/tron/working-timer/formatWorkingPromptMessage.ts";
+import { createWorkingPromptTimer } from "../../../packages/extension-core/src/tron/working-timer/createWorkingPromptTimer.ts";
+import { formatWorkingPromptMessage } from "../../../packages/extension-core/src/tron/working-timer/formatWorkingPromptMessage.ts";
 
 /**
  * Creates a minimal working-message context for timer tests.

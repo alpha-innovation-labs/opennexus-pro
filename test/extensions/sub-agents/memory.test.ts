@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { buildMemoryBlock, buildReadOnlyMemoryBlock, resolveMemoryDir } from "../../../packages/extensions/src/sub-agents/memory.js";
+import { buildMemoryBlock, buildReadOnlyMemoryBlock, resolveMemoryDir } from "../../../packages/extension-core/src/sub-agents/memory.js";
 
 /**
  * Saves and restores the HOME environment variable for homedir()-based lookups.

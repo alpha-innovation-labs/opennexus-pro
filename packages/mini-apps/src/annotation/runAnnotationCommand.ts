@@ -3,7 +3,7 @@ import { getAnnotationsDaemonStatus } from "./core/commands/getAnnotationsDaemon
 import { restartAnnotationsDaemon } from "./core/commands/restartAnnotationsDaemon.js";
 import { startAnnotationsDaemon } from "./core/commands/startAnnotationsDaemon.js";
 import { stopAnnotationsDaemon } from "./core/commands/stopAnnotationsDaemon.js";
-import { hasMiniAppHelpFlag } from "../cli/hasMiniAppHelpFlag.js";
+import { hasMiniAppHelpFlag } from "../shared/hasMiniAppHelpFlag.js";
 import { createAnnotationUsageText } from "./createAnnotationUsageText.js";
 import { formatAnnotationRestartMessage } from "./formatAnnotationRestartMessage.js";
 import { formatAnnotationStartMessage } from "./formatAnnotationStartMessage.js";

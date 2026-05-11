@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { calculateStartupHeroTopPadding } from "../../../packages/extensions/src/startup-hero/calculateStartupHeroTopPadding.js";
+import { calculateStartupHeroTopPadding } from "../../../packages/extension-core/src/startup-hero/calculateStartupHeroTopPadding.js";
 
 test("startup hero top padding centers the first editor prompt on normal terminals", () => {
 	assert.equal(calculateStartupHeroTopPadding(40, 5), 12);

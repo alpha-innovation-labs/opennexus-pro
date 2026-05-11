@@ -3,8 +3,8 @@ import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { readCmuxSessionRegistry } from "../../../packages/extensions/src/cmux/session-registry/readCmuxSessionRegistry.js";
-import { registerCurrentNexusSession } from "../../../packages/extensions/src/cmux/session-registry/registerCurrentNexusSession.js";
+import { readCmuxSessionRegistry } from "../../../packages/extensions-pro/src/cmux/session-registry/readCmuxSessionRegistry.js";
+import { registerCurrentNexusSession } from "../../../packages/extensions-pro/src/cmux/session-registry/registerCurrentNexusSession.js";
 
 /**
  * Restores one environment variable after a test mutation.

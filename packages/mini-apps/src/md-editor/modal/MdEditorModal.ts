@@ -1,5 +1,5 @@
-import { Container, Key, matchesKey, truncateToWidth } from "@mariozechner/pi-tui";
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import { Container, Key, matchesKey, truncateToWidth } from "@earendil-works/pi-tui";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { MarkdownFileSnapshot } from "../file/computeMarkdownFileSnapshot.js";
 import { sendLineChatMessage } from "../chat/sendLineChatMessage.js";
 import { renderLineChat } from "../chat/renderLineChat.js";

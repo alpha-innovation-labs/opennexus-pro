@@ -1,4 +1,4 @@
-import type { SessionInfo } from "@mariozechner/pi-coding-agent";
+import type { SessionInfo } from "@earendil-works/pi-coding-agent";
 
 /**
  * Formats the display title for a resumable session.

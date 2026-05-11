@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createSubagentRpcClient } from "../../../../packages/extensions/src/sub-agents/rpc/createSubagentRpcClient.js";
+import { createSubagentRpcClient } from "../../../../packages/extension-core/src/sub-agents/rpc/createSubagentRpcClient.js";
 
 /**
  * Verifies child subagents persist sessions in the main agent dir.

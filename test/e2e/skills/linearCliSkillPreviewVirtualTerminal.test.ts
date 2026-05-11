@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { resolve } from "node:path";
 import stripAnsi from "strip-ansi";
 import test from "node:test";
-import { SlashMenuModal } from "../../../packages/extensions/src/slash-menu/SlashMenuModal.js";
+import { SlashMenuModal } from "../../../packages/extension-core/src/slash-menu/SlashMenuModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

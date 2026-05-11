@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createUsagePaceStatus } from "../../packages/extensions/src/slashusage/history-modal/createUsagePaceStatus.js";
-import type { UsageHistoryRecord } from "../../packages/extensions/src/slashusage/history/types.js";
+import { createUsagePaceStatus } from "../../packages/extension-core/src/slashusage/history-modal/createUsagePaceStatus.js";
+import type { UsageHistoryRecord } from "../../packages/extension-core/src/slashusage/history/types.js";
 
 /**
  * Creates a percent usage history record for pace-status tests.

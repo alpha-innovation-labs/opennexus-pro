@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createSettingLeaf } from "../../../packages/extensions/src/slash-menu/createSettingLeaf.js";
+import { createSettingLeaf } from "../../../packages/extension-core/src/slash-menu/createSettingLeaf.js";
 
 test("createSettingLeaf infers toggle kind for booleans", () => {
   assert.deepEqual(createSettingLeaf("quietStartup", true), {

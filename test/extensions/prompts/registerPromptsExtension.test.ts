@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type { BeforeAgentStartEvent } from "@mariozechner/pi-coding-agent";
-import { registerPromptsExtension } from "../../../packages/extensions/src/prompts/registerPromptsExtension.js";
+import type { BeforeAgentStartEvent } from "@earendil-works/pi-coding-agent";
+import { registerSystemPromptExtension } from "../../../packages/extension-core/src/system-prompt/registerSystemPromptExtension.js";
 
-test("prompts extension registers /SystemPrompt command in Configuration", () => {
+test("system-prompt extension registers /SystemPrompt command in Configuration", () => {
 	let commandName: string | undefined;
 	let menuGroup: string | undefined;
 
-	registerPromptsExtension({
+	registerSystemPromptExtension({
 		on() {},
 		registerCommand(name: string, definition: { menuGroup?: string }) {
 			commandName = name;
@@ -19,7 +19,7 @@ test("prompts extension registers /SystemPrompt command in Configuration", () =>
 	assert.equal(menuGroup, "Configuration");
 });
 
-test("prompts extension applies edited prompt and resets to default", async () => {
+test("system-prompt extension applies edited prompt and resets to default", async () => {
 	let commandHandler: ((args: string, ctx: never) => Promise<void>) | undefined;
 	let beforeAgentStart:
 		| (() => { systemPrompt: string } | undefined)
@@ -32,7 +32,7 @@ test("prompts extension applies edited prompt and resets to default", async () =
 	];
 	const notifications: string[] = [];
 
-	registerPromptsExtension({
+	registerSystemPromptExtension({
 		on(
 			event: string,
 			handler: (
@@ -71,7 +71,7 @@ test("prompts extension applies edited prompt and resets to default", async () =
 	await commandHandler("", ctx as never);
 	assert.equal(beforeAgentStart(), undefined);
 	assert.deepEqual(notifications, [
-		"System prompt updated for future turns.",
+		"User Prompt updated for future turns.",
 		"System prompt reset to default.",
 	]);
 });

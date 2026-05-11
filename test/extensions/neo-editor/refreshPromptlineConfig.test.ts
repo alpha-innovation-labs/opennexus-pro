@@ -3,9 +3,9 @@ import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { clearPromptlineConfig } from "../../../packages/extensions/src/neo-editor/features/promptline/config/clearPromptlineConfig.js";
-import { getPromptlineConfig } from "../../../packages/extensions/src/neo-editor/features/promptline/config/getPromptlineConfig.js";
-import { refreshPromptlineConfig } from "../../../packages/extensions/src/neo-editor/features/promptline/config/refreshPromptlineConfig.js";
+import { clearPromptlineConfig } from "../../../packages/extension-core/src/neo-editor/features/promptline/config/clearPromptlineConfig.js";
+import { getPromptlineConfig } from "../../../packages/extension-core/src/neo-editor/features/promptline/config/getPromptlineConfig.js";
+import { refreshPromptlineConfig } from "../../../packages/extension-core/src/neo-editor/features/promptline/config/refreshPromptlineConfig.js";
 
 /**
  * Creates one temporary project and user config sandbox.

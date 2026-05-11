@@ -25,7 +25,6 @@ A daemon is not the deciding boundary. Product isolation and standalone workflow
 | `notify` | Adds desktop completion notifications. |
 | `observations` | Adds observation tracking/status. |
 | `rtk` | Adds native file/search tools. |
-| `smart-eval` | Adds assistant-turn evaluation/status. |
 | `slashusage` | Adds usage display/history. |
 | `startup-hero` | Enhances startup UI. |
 | `sub-agent-status-widget` | Enhances working-status UI. |
@@ -42,12 +41,7 @@ A daemon is not the deciding boundary. Product isolation and standalone workflow
 | `annotate` | Own browser annotation capture workflow. |
 | `memory` | Own browser, capture, project/topic model, git-backed storage. |
 | `md-editor` | Own editing workflow, modal UI, chats, diff acceptance. |
-| `kanban` | Own task-board workflow. |
 | `todo` | Own todo workflow. |
-| `term-modal` | Own persistent terminal workflow. |
-| `workflows` | Own workflow command and execution model. |
-| `workspace` | Own session/workspace switching experience. |
-| `playground` | Own modal app surface, currently dev-only. |
 
 ## Manifest flow
 

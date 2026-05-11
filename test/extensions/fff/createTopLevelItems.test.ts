@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createTopLevelItems } from "../../../packages/extensions/src/slash-menu/createTopLevelItems.js";
-import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../packages/extensions/src/slash-menu/registerSlashCommand.js";
+import { createTopLevelItems } from "../../../packages/extension-core/src/slash-menu/createTopLevelItems.js";
+import { clearRegisteredSlashCommands, registerSlashCommand } from "../../../packages/extension-core/src/slash-menu/registerSlashCommand.js";
 
 test.beforeEach(() => {
   clearRegisteredSlashCommands();

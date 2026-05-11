@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { createLoginImportLeaves } from "../../../packages/extensions/src/slash-menu/createLoginImportLeaves.js";
-import { createLoginLeaves } from "../../../packages/extensions/src/slash-menu/createLoginLeaves.js";
-import { getSlashMenuItemIcon } from "../../../packages/extensions/src/slash-menu/getSlashMenuItemIcon.js";
+import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
+import { createLoginImportLeaves } from "../../../packages/extension-core/src/slash-menu/createLoginImportLeaves.js";
+import { createLoginLeaves } from "../../../packages/extension-core/src/slash-menu/createLoginLeaves.js";
+import { getSlashMenuItemIcon } from "../../../packages/extension-core/src/slash-menu/getSlashMenuItemIcon.js";
 
 /**
  * Creates the smallest extension context needed by login leaves.

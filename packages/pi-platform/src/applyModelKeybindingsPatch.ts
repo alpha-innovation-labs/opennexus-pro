@@ -1,4 +1,4 @@
-import { KEYBINDINGS } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/core/keybindings.js";
+import { KEYBINDINGS } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/keybindings.js";
 
 type MutableKeybinding = { defaultKeys: string | string[]; description: string };
 

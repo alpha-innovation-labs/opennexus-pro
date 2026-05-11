@@ -1,4 +1,4 @@
-import { Container, getKeybindings, Spacer, Text } from "@mariozechner/pi-tui";
+import { Container, getKeybindings, Spacer, Text } from "@earendil-works/pi-tui";
 import type { LoginAction, LoginActionGroup } from "./LoginAction.js";
 import { flattenLoginActionGroups } from "./flattenLoginActionGroups.js";
 

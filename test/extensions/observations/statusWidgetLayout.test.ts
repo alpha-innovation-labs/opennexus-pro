@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { visibleWidth } from "@mariozechner/pi-tui";
-import { buildObservationsStatusLine } from "../../../packages/extensions/src/observations/status-widget/buildObservationsStatusLine.js";
-import { createObservationsStatusWidget } from "../../../packages/extensions/src/observations/status-widget/createObservationsStatusWidget.js";
-import { setPromptlineModelOverride } from "../../../packages/extensions/src/neo-editor/features/promptline/state.js";
-import { getVisibleSessionName } from "../../../packages/extensions/src/observations/status-widget/getVisibleSessionName.js";
+import { visibleWidth } from "@earendil-works/pi-tui";
+import { buildObservationsStatusLine } from "../../../packages/extensions-pro/src/observations/status-widget/buildObservationsStatusLine.js";
+import { createObservationsStatusWidget } from "../../../packages/extensions-pro/src/observations/status-widget/createObservationsStatusWidget.js";
+import { setPromptlineModelOverride } from "../../../packages/extension-core/src/neo-editor/features/promptline/state.js";
+import { getVisibleSessionName } from "../../../packages/extensions-pro/src/observations/status-widget/getVisibleSessionName.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

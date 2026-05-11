@@ -1,4 +1,4 @@
-import { createAgentSession, DefaultResourceLoader, getAgentDir, SessionManager, type ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import { createAgentSession, DefaultResourceLoader, getAgentDir, SessionManager, type ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { readFile } from "node:fs/promises";
 import { computeMarkdownFileSnapshot, type MarkdownFileSnapshot } from "../file/computeMarkdownFileSnapshot.js";
 import { createLineFingerprint } from "../line-chat/createLineChatKey.js";

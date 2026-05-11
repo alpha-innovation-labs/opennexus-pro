@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { shortenPath } from "../../../packages/extensions/src/tron/compact-tool-lines/shortenPath.js";
-import { truncateSingleLineFromStart } from "../../../packages/extensions/src/tron/compact-tool-lines/truncateSingleLineFromStart.js";
+import { shortenPath } from "../../../packages/extension-core/src/tron/compact-tool-lines/shortenPath.js";
+import { truncateSingleLineFromStart } from "../../../packages/extension-core/src/tron/compact-tool-lines/truncateSingleLineFromStart.js";
 
 test("shortenPath keeps the end of long paths and truncates from the start", () => {
   const shortened = shortenPath(".worktrees/dual-chat-split-pane/src/feature/bootstrapPrimaryPaneFromBranch.ts");

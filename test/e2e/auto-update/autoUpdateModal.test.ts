@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { AutoUpdateModal } from "../../../packages/extensions/src/auto-update/ui/AutoUpdateModal.js";
+import { AutoUpdateModal } from "../../../packages/extension-core/src/auto-update/ui/AutoUpdateModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

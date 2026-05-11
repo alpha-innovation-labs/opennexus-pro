@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type { Component } from "@mariozechner/pi-tui";
-import { showFeaturesModal } from "../../../packages/extensions/src/feature-management/command/showFeaturesModal.js";
+import type { Component } from "@earendil-works/pi-tui";
+import { showFeaturesModal } from "../../../packages/extensions-dev/src/feature-management/command/showFeaturesModal.js";
 import type { FeatureFlagsConfig } from "../../../packages/feature-flags/src/types.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
@@ -67,6 +67,8 @@ test("features modal persists mini-app edits to their source bucket", async () =
 	};
 
 	await showFeaturesModal(ctx as never, () => config, (nextConfig) => savedConfigs.push(nextConfig));
+	(renderedComponent as { handleInput(data: string): void } | null)?.handleInput("\t");
+	(renderedComponent as { handleInput(data: string): void } | null)?.handleInput("\t");
 	(renderedComponent as { handleInput(data: string): void } | null)?.handleInput("\t");
 	(renderedComponent as { handleInput(data: string): void } | null)?.handleInput("\r");
 

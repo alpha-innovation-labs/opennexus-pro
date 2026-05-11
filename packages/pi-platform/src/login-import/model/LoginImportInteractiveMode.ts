@@ -1,4 +1,4 @@
-import type { TUI } from "@mariozechner/pi-tui";
+import type { TUI } from "@earendil-works/pi-tui";
 import type { LoginImportModelRegistry } from "./LoginImportRegistry.js";
 
 export type LoginImportInteractiveMode = {

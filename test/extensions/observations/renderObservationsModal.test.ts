@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { ObservationsModal } from "../../../packages/extensions/src/observations/command/ObservationsModal.js";
+import { ObservationsModal } from "../../../packages/extensions-pro/src/observations/command/ObservationsModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

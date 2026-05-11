@@ -3,7 +3,7 @@ import { access, mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { ensureSubmitTrigger } from "../../../packages/extensions/src/neo-editor/features/editor-triggers/ensureSubmitTrigger.js";
+import { ensureSubmitTrigger } from "../../../packages/extension-core/src/neo-editor/features/editor-triggers/ensureSubmitTrigger.js";
 
 /**
  * Restores the user config directory environment variable.

@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerExitMessageExtension } from "../../../packages/extensions/src/exit-message/registerExitMessageExtension.js";
-import { clearExitMessage } from "../../../packages/extensions/src/exit-message/state/clearExitMessage.js";
-import { getExitMessage } from "../../../packages/extensions/src/exit-message/state/getExitMessage.js";
+import { registerExitMessageExtension } from "../../../packages/extension-core/src/exit-message/registerExitMessageExtension.js";
+import { clearExitMessage } from "../../../packages/extension-core/src/exit-message/state/clearExitMessage.js";
+import { getExitMessage } from "../../../packages/extension-core/src/exit-message/state/getExitMessage.js";
 
 test("exit-message refreshes from the current session id and title after a real turn", async () => {
 	clearExitMessage();

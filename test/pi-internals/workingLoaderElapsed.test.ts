@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { Loader } from "@mariozechner/pi-tui";
+import { Loader } from "@earendil-works/pi-tui";
 import { applyWorkingLoaderElapsedPatch } from "../../packages/pi-platform/src/applyWorkingLoaderElapsedPatch.js";
 import { formatWorkingElapsed } from "../../packages/pi-platform/src/working-loader/formatWorkingElapsed.js";
 

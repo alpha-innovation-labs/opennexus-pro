@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { PromptQueueController } from "../../../packages/extensions/src/prompt-queue/PromptQueueController.js";
+import { PromptQueueController } from "../../../packages/extension-core/src/prompt-queue/PromptQueueController.js";
 
 test("prompt queue appends non-empty messages and ignores empty messages", () => {
   const persisted: unknown[] = [];

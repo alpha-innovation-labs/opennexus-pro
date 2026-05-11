@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { Key } from "@mariozechner/pi-tui";
+import { Key } from "@earendil-works/pi-tui";
 import stripAnsi from "strip-ansi";
 import { SharedModal } from "../../packages/tui-kit/src/modal/SharedModal.js";
 import { createTestTheme } from "../support/theme/createTestTheme.js";

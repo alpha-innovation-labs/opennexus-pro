@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { filterFeatureStatusRows } from "../../../packages/extensions/src/feature-management/ui/filterFeatureStatusRows.js";
-import type { FeatureStatusRow } from "../../../packages/extensions/src/feature-management/model/types.js";
+import { filterFeatureStatusRows } from "../../../packages/extensions-dev/src/feature-management/ui/filterFeatureStatusRows.js";
+import type { FeatureStatusRow } from "../../../packages/extensions-dev/src/feature-management/model/types.js";
 
 const rows: FeatureStatusRow[] = [
 	{

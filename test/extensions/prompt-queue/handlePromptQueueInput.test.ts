@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { handlePromptQueueInput } from "../../../packages/extensions/src/prompt-queue/handlePromptQueueInput.js";
-import { PromptQueueController } from "../../../packages/extensions/src/prompt-queue/PromptQueueController.js";
+import { handlePromptQueueInput } from "../../../packages/extension-core/src/prompt-queue/handlePromptQueueInput.js";
+import { PromptQueueController } from "../../../packages/extension-core/src/prompt-queue/PromptQueueController.js";
 
 test("queue focused e loads the selected message for editing", () => {
   const queue = new PromptQueueController();

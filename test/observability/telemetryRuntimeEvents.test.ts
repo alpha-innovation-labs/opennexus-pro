@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { createTelemetryExtensionApi } from "../../packages/feature-flags/src/createTelemetryExtensionApi.js";
-import { registerTelemetryRuntimeExtension } from "../../packages/extensions/src/telemetry-runtime/registerTelemetryRuntimeExtension.js";
+import { registerTelemetryRuntimeExtension } from "../../packages/extensions-dev/src/telemetry-runtime/registerTelemetryRuntimeExtension.js";
 import { setTelemetryEventEnabled } from "../../packages/observability/src/telemetry/setTelemetryEventEnabled.js";
 
 const calls: Array<{ input: string; init: RequestInit }> = [];

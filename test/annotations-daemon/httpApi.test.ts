@@ -75,6 +75,16 @@ test("annotations daemon HTTP API stores, lists, claims, and resolves annotation
       });
       assert.equal(claimResponse.status, 200);
 
+      const steerResponse = await fetch(`${server.baseUrl}/annotation-conversations/${created.conversation.id}/steer`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ message: "wait for my next note" }),
+      });
+      assert.equal(steerResponse.status, 202);
+
+      const stopResponse = await fetch(`${server.baseUrl}/annotation-conversations/${created.conversation.id}/stop`, { method: "POST" });
+      assert.equal(stopResponse.status, 202);
+
       const resolveResponse = await fetch(`${server.baseUrl}/annotations/${created.annotation.id}/resolve`, {
         method: "POST",
         headers: { "content-type": "application/json" },

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { renderSummary } from "../../../packages/extensions/src/tron/compact-tool-lines/renderSummary.js";
-import { summarizeArgs } from "../../../packages/extensions/src/tron/compact-tool-lines/summarizeArgs.js";
+import { renderSummary } from "../../../packages/extension-core/src/tron/compact-tool-lines/renderSummary.js";
+import { summarizeArgs } from "../../../packages/extension-core/src/tron/compact-tool-lines/summarizeArgs.js";
 
 /**
  * Removes ANSI escape sequences from rendered terminal lines.

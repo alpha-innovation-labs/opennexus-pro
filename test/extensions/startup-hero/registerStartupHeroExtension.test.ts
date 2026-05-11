@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerStartupHeroExtension } from "../../../packages/extensions/src/startup-hero/registerStartupHeroExtension.js";
-import { startupHeroWidgetKey } from "../../../packages/extensions/src/startup-hero/startupHeroWidgetKey.js";
+import { registerStartupHeroExtension } from "../../../packages/extension-core/src/startup-hero/registerStartupHeroExtension.js";
+import { startupHeroWidgetKey } from "../../../packages/extension-core/src/startup-hero/startupHeroWidgetKey.js";
 import { resumeLaunchEnvVar } from "../../../packages/nexus-runtime/src/cli/normalizeResumeStartupArgs.js";
 
 interface WidgetCall {

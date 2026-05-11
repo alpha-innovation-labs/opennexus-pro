@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { fetchLatestNpmVersion } from "../../packages/extensions/src/auto-update/registry/fetchLatestNpmVersion.js";
+import { fetchLatestNpmVersion } from "../../packages/extension-core/src/auto-update/registry/fetchLatestNpmVersion.js";
 
 test("auto-update fetches latest npm dist-tag from the registry", async () => {
 	const calls: string[] = [];

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { visibleWidth } from "@mariozechner/pi-tui";
-import { buildStartupHeroStatusLine } from "../../../packages/extensions/src/startup-hero/buildStartupHeroStatusLine.js";
+import { visibleWidth } from "@earendil-works/pi-tui";
+import { buildStartupHeroStatusLine } from "../../../packages/extension-core/src/startup-hero/buildStartupHeroStatusLine.js";
 
 /**
  * Creates a theme that exposes tool diff summary colors as ANSI codes.

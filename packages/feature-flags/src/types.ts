@@ -1,6 +1,6 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
-export type FeatureProductCategory = "extension" | "mini-app";
+export type FeatureProductCategory = "core" | "dev" | "pro" | "mini-app" | "extension";
 
 export type FeatureFlagConfig = {
   category?: FeatureProductCategory;

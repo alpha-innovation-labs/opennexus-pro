@@ -1,4 +1,4 @@
-import { initTheme } from "@mariozechner/pi-coding-agent";
+import { initTheme } from "@earendil-works/pi-coding-agent";
 
 /**
  * Initializes the Pi theme singleton used by extension renderers in tests.
@@ -6,7 +6,7 @@ import { initTheme } from "@mariozechner/pi-coding-agent";
 export async function initializePiThemes(): Promise<void> {
   initTheme("dark");
   try {
-    const globalThemeModule = await import("/opt/homebrew/lib/node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/theme/theme.js");
+    const globalThemeModule = await import("/opt/homebrew/lib/node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/theme/theme.js");
     globalThemeModule.initTheme?.("dark");
   } catch {}
 }

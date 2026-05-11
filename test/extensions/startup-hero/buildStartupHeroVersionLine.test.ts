@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildStartupHeroVersionLine } from "../../../packages/extensions/src/startup-hero/buildStartupHeroVersionLine.js";
+import { buildStartupHeroVersionLine } from "../../../packages/extension-core/src/startup-hero/buildStartupHeroVersionLine.js";
 
 test("startup hero version uses the thinking text color", () => {
 	const line = buildStartupHeroVersionLine({

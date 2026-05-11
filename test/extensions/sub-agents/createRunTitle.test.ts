@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createRunTitle } from "../../../packages/extensions/src/sub-agents/runtime/createRunTitle.js";
+import { createRunTitle } from "../../../packages/extension-core/src/sub-agents/runtime/createRunTitle.js";
 
 test("createRunTitle prefixes subagent runs and prefers the parent prompt", () => {
   assert.equal(

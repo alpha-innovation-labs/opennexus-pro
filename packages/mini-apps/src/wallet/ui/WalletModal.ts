@@ -1,4 +1,4 @@
-import { Image, Key, matchesKey } from "@mariozechner/pi-tui";
+import { Image, Key, matchesKey } from "@earendil-works/pi-tui";
 import { DEFAULT_TOKEN_PRICE_CANDLE_COUNT } from "@nexus/mini-apps/wallet/chart/DEFAULT_TOKEN_PRICE_CANDLE_COUNT.js";
 import { fetchTokenPriceCandles } from "@nexus/mini-apps/wallet/chart/fetchTokenPriceCandles.js";
 import { fetchTopTrendingAssets } from "@nexus/mini-apps/wallet/trending/fetchTopTrendingAssets.js";

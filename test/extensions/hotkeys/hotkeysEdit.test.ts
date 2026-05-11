@@ -3,7 +3,7 @@ import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { HotkeysModal } from "../../../packages/extensions/src/hotkeys/HotkeysModal.js";
+import { HotkeysModal } from "../../../packages/extension-core/src/hotkeys/HotkeysModal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

@@ -1,4 +1,4 @@
-import { getAgentDir } from "../../../../node_modules/@mariozechner/pi-coding-agent/dist/config.js";
+import { getAgentDir } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/config.js";
 import { readBundledDefaultSettings } from "@nexus/assets/default-settings/readBundledDefaultSettings.js";
 import { getDefaultThemeName } from "./getDefaultThemeName.js";
 import { getProjectSettingsPath } from "./getProjectSettingsPath.js";
@@ -7,8 +7,8 @@ import { getUserSettingsPath } from "./getUserSettingsPath.js";
 import { getUserThemesPath } from "./getUserThemesPath.js";
 import { mergeSettings, type SettingsRecord } from "./mergeSettings.js";
 
-type SettingsManagerModule = typeof import("../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js");
-type ResourceLoaderModule = typeof import("../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/resource-loader.js");
+type SettingsManagerModule = typeof import("../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js");
+type ResourceLoaderModule = typeof import("../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/resource-loader.js");
 
 type LoadThemesResult = {
   themes: unknown[];
@@ -46,8 +46,8 @@ type NexusResourceLoaderPrototype = {
  */
 export async function applyNexusConfigPatch(): Promise<void> {
   const [{ FileSettingsStorage, SettingsManager }, { DefaultResourceLoader }] = await Promise.all([
-    import("../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js"),
-    import("../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/resource-loader.js"),
+    import("../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js"),
+    import("../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/resource-loader.js"),
   ]);
 
   const patchedSettingsManager = SettingsManager as unknown as NexusSettingsManagerClass;

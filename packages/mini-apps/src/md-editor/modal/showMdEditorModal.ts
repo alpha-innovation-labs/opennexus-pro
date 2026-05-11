@@ -1,4 +1,4 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { loadDemoMarkdownFile } from "../file/loadDemoMarkdownFile.js";
 import { watchMarkdownFile } from "../file/watchMarkdownFile.js";
 import { listLineChatSessions } from "../line-chat/listLineChatSessions.js";

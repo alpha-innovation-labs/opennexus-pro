@@ -1,5 +1,5 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/extensions/overlay/createPanelOverlayOptions.js";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
 import { getTetrisSession } from "../game/tetrisSession.js";
 import { TetrisModal } from "../ui/TetrisModal.js";
 

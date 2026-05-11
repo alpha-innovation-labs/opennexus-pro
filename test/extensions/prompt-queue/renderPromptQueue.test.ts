@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { renderPromptQueue } from "../../../packages/extensions/src/prompt-queue/renderPromptQueue.js";
+import { renderPromptQueue } from "../../../packages/extension-core/src/prompt-queue/renderPromptQueue.js";
 
 const theme = {
   fg(color: string, value: string): string {

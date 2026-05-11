@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { createExtensionRuntime, loadExtensionFromFactory } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/core/extensions/loader.js";
-import { ExtensionRunner } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/core/extensions/runner.js";
-import { createEventBus } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/core/event-bus.js";
-import { registerCmuxExtension } from "../../../packages/extensions/src/cmux/registerCmuxExtension.js";
+import { createExtensionRuntime, loadExtensionFromFactory } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/extensions/loader.js";
+import { ExtensionRunner } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/extensions/runner.js";
+import { createEventBus } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/event-bus.js";
+import { registerCmuxExtension } from "../../../packages/extensions-pro/src/cmux/registerCmuxExtension.js";
 import { createFakeCmuxExecutable } from "../../support/cmux/createFakeCmuxExecutable.js";
 import { removeFakeCmuxExecutable } from "../../support/cmux/removeFakeCmuxExecutable.js";
 import { withLockedCmuxEnv } from "../../support/cmux/withLockedCmuxEnv.js";

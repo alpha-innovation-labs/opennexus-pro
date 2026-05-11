@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { formatResourceCommandLabel } from "../../../packages/extensions/src/slash-menu/formatResourceCommandLabel.js";
+import { formatResourceCommandLabel } from "../../../packages/extension-core/src/slash-menu/formatResourceCommandLabel.js";
 
 test("formatResourceCommandLabel uses local and global icons", () => {
   assert.equal(formatResourceCommandLabel("›", { kind: "command", label: "prompt:local", value: "prompt:local", description: "", sourceScope: "project" }), "›  prompt:local");

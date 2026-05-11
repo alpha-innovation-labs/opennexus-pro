@@ -1,4 +1,4 @@
-import { visibleWidth } from "@mariozechner/pi-tui";
+import { visibleWidth } from "@earendil-works/pi-tui";
 import type { TetrisGame } from "../game/types.js";
 import { getTetrisHotkeysBoxHeight } from "./getTetrisHotkeysBoxHeight.js";
 import { getTetrisHotkeysBoxWidth } from "./getTetrisHotkeysBoxWidth.js";

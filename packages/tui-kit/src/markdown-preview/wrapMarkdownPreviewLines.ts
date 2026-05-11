@@ -1,19 +1,21 @@
-import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
+import stripAnsi from "strip-ansi";
+import { visibleWidth } from "@earendil-works/pi-tui";
+import { truncateAnsiToWidth } from "./truncateAnsiToWidth.js";
 
 /** Wraps rendered markdown preview rows to a visible width. */
 export function wrapMarkdownPreviewLines(line: string, width: number): string[] {
   const targetWidth = Math.max(1, Math.floor(width));
-  if (visibleWidth(line) <= targetWidth) return [line];
+  if (visibleWidth(stripAnsi(line)) <= targetWidth) return [line];
   const words = line.split(/(\s+)/u).filter((part) => part.length > 0);
   const rows: string[] = [];
   let current = "";
 
   for (const word of words) {
-    if (current.length === 0 && visibleWidth(word) > targetWidth) {
+    if (current.length === 0 && visibleWidth(stripAnsi(word)) > targetWidth) {
       rows.push(...hardWrapMarkdownPreviewWord(word, targetWidth));
       continue;
     }
-    if (visibleWidth(`${current}${word}`) <= targetWidth) {
+    if (visibleWidth(stripAnsi(`${current}${word}`)) <= targetWidth) {
       current = `${current}${word}`;
       continue;
     }
@@ -29,8 +31,8 @@ export function wrapMarkdownPreviewLines(line: string, width: number): string[] 
 function hardWrapMarkdownPreviewWord(word: string, width: number): string[] {
   const rows: string[] = [];
   let remaining = word;
-  while (visibleWidth(remaining) > width) {
-    const chunk = truncateToWidth(remaining, width, "");
+  while (visibleWidth(stripAnsi(remaining)) > width) {
+    const chunk = truncateAnsiToWidth(remaining, width);
     rows.push(chunk);
     remaining = remaining.slice(chunk.length);
   }

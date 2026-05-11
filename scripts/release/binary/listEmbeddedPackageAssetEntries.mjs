@@ -4,7 +4,7 @@ import { join, relative, resolve } from "node:path";
 const EMBEDDED_ASSET_ROOTS = [
   [resolve("package.json"), "package.json"],
   [resolve("packages", "assets", "src", "themes"), "theme"],
-  [resolve("packages", "assets", "src", "commands", "nexus-git-commit.md"), "commands/nexus-git-commit.md"],
+  [resolve("packages", "assets", "src", "commands", "git-commit.md"), "commands/git-commit.md"],
   [resolve("packages", "assets", "src", "default-settings", "settings.json"), "runtime/config/default-settings/settings.json"],
   [resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "core", "export-html"), "export-html"],
   [resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "modes", "interactive", "assets"), "assets"],

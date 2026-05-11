@@ -1,4 +1,4 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { formatWalletSnapshots } from "@nexus/mini-apps/wallet/format/formatWalletSnapshots.js";
 import { resolveWalletMnemonic } from "@nexus/mini-apps/wallet/command/resolveWalletMnemonic.js";
 import { splitWalletCommandArgs } from "@nexus/mini-apps/wallet/command/splitWalletCommandArgs.js";

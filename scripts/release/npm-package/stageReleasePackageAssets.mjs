@@ -14,7 +14,7 @@ export async function stageReleasePackageAssets(packageDir) {
 
   await copyPiThemeAssets(join(distDir, "modes", "interactive"));
   await copyJsonFilesFromDir(resolve("src", "themes"), join(distDir, "themes"));
-  await copyPath(resolve("src", "commands", "nexus-git-commit.md"), join(distDir, "commands", "nexus-git-commit.md"));
+  await copyPath(resolve("src", "commands", "git-commit.md"), join(distDir, "commands", "git-commit.md"));
   await copyPath(
     resolve("src", "runtime", "config", "default-settings", "settings.json"),
     join(distDir, "runtime", "config", "default-settings", "settings.json"),

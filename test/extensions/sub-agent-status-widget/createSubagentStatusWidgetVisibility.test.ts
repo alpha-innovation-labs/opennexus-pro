@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createSubagentStatusWidget } from "../../../packages/extensions/src/sub-agent-status-widget/ui/createSubagentStatusWidget.js";
-import { sharedSubagentRuntime } from "../../../packages/extensions/src/sub-agents/runtime/sharedSubagentRuntime.js";
-import { createSubagentRun } from "../../../packages/extensions/src/sub-agents/runtime/createSubagentRun.js";
+import { createSubagentStatusWidget } from "../../../packages/extension-core/src/sub-agent-status-widget/ui/createSubagentStatusWidget.js";
+import { sharedSubagentRuntime } from "../../../packages/extension-core/src/sub-agents/runtime/sharedSubagentRuntime.js";
+import { createSubagentRun } from "../../../packages/extension-core/src/sub-agents/runtime/createSubagentRun.js";
 
 /**
  * Creates one minimal theme stub for widget tests.

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { registerNotifyExtension } from "../../../packages/extensions/src/notify/registerNotifyExtension.js";
+import { registerNotifyExtension } from "../../../packages/extension-core/src/notify/registerNotifyExtension.js";
 
 /**
  * Creates a fake Pi API that captures the agent_end handler.

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { buildStartupHeroLogoLines } from "../../../packages/extensions/src/startup-hero/buildStartupHeroLogoLines.js";
+import { buildStartupHeroLogoLines } from "../../../packages/extension-core/src/startup-hero/buildStartupHeroLogoLines.js";
 
 test("startup hero renders real glyphs instead of escaped unicode text", () => {
   const lines = buildStartupHeroLogoLines({ fg: (_name, value) => value });

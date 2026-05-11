@@ -3,7 +3,7 @@ import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { readNexusAuth } from "../../packages/extensions/src/slashusage/shared/readNexusAuth.js";
+import { readNexusAuth } from "../../packages/extension-core/src/slashusage/shared/readNexusAuth.js";
 
 const originalNexusDir = process.env.NEXUS_CODING_AGENT_DIR;
 const originalPiDir = process.env.PI_CODING_AGENT_DIR;

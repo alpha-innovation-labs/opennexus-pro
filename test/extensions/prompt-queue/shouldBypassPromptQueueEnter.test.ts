@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { shouldBypassPromptQueueEnter } from "../../../packages/extensions/src/prompt-queue/shouldBypassPromptQueueEnter.js";
+import { shouldBypassPromptQueueEnter } from "../../../packages/extension-core/src/prompt-queue/shouldBypassPromptQueueEnter.js";
 
 test("prompt queue bypasses enter when trigger modal is active", () => {
   assert.equal(shouldBypassPromptQueueEnter("\r", false, true), true);

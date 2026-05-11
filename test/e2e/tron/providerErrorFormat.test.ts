@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { AssistantMessageComponent } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/assistant-message.js";
-import { installAssistantThinkingStyle } from "../../../packages/extensions/src/tron/thinking/installAssistantThinkingStyle.js";
+import { AssistantMessageComponent } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/components/assistant-message.js";
+import { installAssistantThinkingStyle } from "../../../packages/extension-core/src/tron/thinking/installAssistantThinkingStyle.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 

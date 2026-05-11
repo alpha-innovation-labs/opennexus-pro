@@ -1,4 +1,4 @@
-import { Loader } from "@mariozechner/pi-tui";
+import { Loader } from "@earendil-works/pi-tui";
 import { createWorkingElapsedMessage } from "./working-loader/createWorkingElapsedMessage.js";
 import { isWorkingLoaderMessage } from "./working-loader/isWorkingLoaderMessage.js";
 import type { PatchableLoader } from "./working-loader/types.js";

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { shouldOpenStartupLoginModal } from "../../../packages/extensions/src/slash-menu/shouldOpenStartupLoginModal.js";
+import { shouldOpenStartupLoginModal } from "../../../packages/extension-core/src/slash-menu/shouldOpenStartupLoginModal.js";
 
 /**
  * Creates a startup login predicate context.

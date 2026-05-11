@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { applyModelChangeDisplayPatch } from "../../packages/pi-platform/src/applyModelChangeDisplayPatch.js";
-import { FooterComponent } from "../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/footer.js";
+import { FooterComponent } from "../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/components/footer.js";
 import { initializePiThemes } from "../support/theme/initializePiThemes.js";
 
 /**

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { formatStartupHeroStatus } from "../../../packages/extensions/src/startup-hero/formatStartupHeroStatus.js";
+import { formatStartupHeroStatus } from "../../../packages/extension-core/src/startup-hero/formatStartupHeroStatus.js";
 
 test("startup hero status uses compact skills, AGENTS.md, and extension icons without MCPs", () => {
 	assert.equal(formatStartupHeroStatus({ activeSkillCount: 1, agentsMdLoaded: true, enabledExtensionCount: 10, enabledMiniAppCount: 5 }), "󰧑 Skills (1) ✓   AGENTS.md ✓   Extensions (10) ✓  󱂬 Mini-Apps (5) ✓");

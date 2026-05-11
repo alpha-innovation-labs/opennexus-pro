@@ -19,7 +19,7 @@ type PatchedInteractiveMode = LoginImportInteractiveMode & {
  */
 export async function applyLoginImportPatch(): Promise<void> {
 	if (loginImportPatchApplied) return;
-	const piCodingAgent = (await import("@mariozechner/pi-coding-agent")) as { InteractiveMode: InteractiveModeConstructor };
+	const piCodingAgent = (await import("@earendil-works/pi-coding-agent")) as { InteractiveMode: InteractiveModeConstructor };
 	const prototype = piCodingAgent.InteractiveMode.prototype as unknown as PatchedInteractiveMode;
 	prototype.showLoginAuthTypeSelector = function showLoginAuthTypeSelector(this: PatchedInteractiveMode): void {
 		this.showSelector((done: () => void) => {

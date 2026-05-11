@@ -3,6 +3,9 @@ import { handleAnnotationsRequest } from "./handleAnnotationsRequest.js";
 import { handleConversationRequest } from "./handleConversationRequest.js";
 import { handleHealthRequest } from "./handleHealthRequest.js";
 import { handleOptionsRequest } from "./handleOptionsRequest.js";
+import { handleSteerConversationRequest } from "./handleSteerConversationRequest.js";
+import { handleStopConversationRequest } from "./handleStopConversationRequest.js";
+import { routeConversationMutation } from "./routeConversationMutation.js";
 import { sendError } from "./sendError.js";
 
 /**
@@ -24,6 +27,15 @@ export async function handleRequest(request: IncomingMessage, response: ServerRe
     }
     if (pathname === "/annotation-conversation" && request.method === "GET") {
       await handleConversationRequest(request.url ?? "/annotation-conversation", response);
+      return;
+    }
+    const conversationMutation = routeConversationMutation(pathname);
+    if (conversationMutation && request.method === "POST") {
+      if (conversationMutation.action === "steer") {
+        await handleSteerConversationRequest(conversationMutation.conversationId, request, response);
+      } else {
+        await handleStopConversationRequest(conversationMutation.conversationId, response);
+      }
       return;
     }
     if (await handleAnnotationsRequest(request, response)) return;

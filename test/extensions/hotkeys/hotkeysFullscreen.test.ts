@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import stripAnsi from "strip-ansi";
 import test from "node:test";
-import { HotkeysModal } from "../../../packages/extensions/src/hotkeys/HotkeysModal.js";
+import { HotkeysModal } from "../../../packages/extension-core/src/hotkeys/HotkeysModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

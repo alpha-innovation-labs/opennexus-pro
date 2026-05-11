@@ -14,15 +14,6 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
-    "annotate": {
-      "enabled": true,
-      "features": [
-        "annotate command",
-        "annotate tool",
-        "chrome extension bridge"
-      ],
-      "category": "mini-app"
-    },
     "auto-update": {
       "enabled": true,
       "features": [
@@ -39,6 +30,14 @@ export const compiledFeatureFlags = {
         "notify cmux tab when pane is done",
         "/cmux workspace shell session view"
       ],
+      "category": "pro"
+    },
+    "context-usage": {
+      "enabled": true,
+      "features": [
+        "context_usage tool for current chat context window usage",
+        "/context command for current chat context window usage"
+      ],
       "category": "extension"
     },
     "exit-message": {
@@ -48,12 +47,12 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
-    "extension-manager": {
+    "pi-packages": {
       "enabled": true,
       "features": [
-        "/extensions command",
-        "installed extension list",
-        "core and user extension tabs",
+        "/pi-packages command",
+        "third-party extension list",
+        "npm package install/update/remove controls",
         "per-user extension enable and disable controls"
       ],
       "category": "extension"
@@ -61,9 +60,9 @@ export const compiledFeatureFlags = {
     "websearch": {
       "enabled": true,
       "features": [
-        "web_search tool backed by vendored pi-web-access",
-        "code_search tool",
-        "fetch_content tool",
+        "web_fetch tool backed by Nexus native web fetch",
+        "code_search tool backed by GitHub repository search",
+        "fetch_content tool backed by Nexus native fetch and GitHub API handling",
         "get_search_content tool"
       ],
       "category": "extension"
@@ -76,24 +75,6 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
-    "pi-lens": {
-      "enabled": false,
-      "features": [
-        "code feedback backed by vendored pi-lens",
-        "LSP and linter feedback",
-        "structural analysis"
-      ],
-      "category": "extension"
-    },
-    "oh-my-pi-lsp": {
-      "enabled": false,
-      "features": [
-        "in-house LSP tool ported from Oh My Pi",
-        "diagnostics, hover, definitions, references, symbols, rename previews, and code actions",
-        "40-language server config registry with project-local binary discovery"
-      ],
-      "category": "extension"
-    },
     "fff": {
       "enabled": true,
       "features": [
@@ -102,17 +83,6 @@ export const compiledFeatureFlags = {
         "FFF-powered @ file autocomplete"
       ],
       "category": "extension"
-    },
-    "md-editor": {
-      "enabled": true,
-      "features": [
-        "/editor command",
-        "demo.md Markdown line modal",
-        "hidden persistent per-line chats",
-        "live reload with diff acceptance",
-        "Tron-styled right-panel mini chat"
-      ],
-      "category": "mini-app"
     },
     "neo-editor": {
       "enabled": true,
@@ -152,18 +122,6 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
-    "memory": {
-      "enabled": false,
-      "features": [
-        "/memory two-pane browser",
-        "tweet capture through Jina Reader",
-        "memory project discovery before writes",
-        "git-backed operation commits",
-        "topic-first memory query tool",
-        "Projects-compatible markdown memory storage"
-      ],
-      "category": "mini-app"
-    },
     "notify": {
       "enabled": true,
       "features": [
@@ -177,12 +135,11 @@ export const compiledFeatureFlags = {
       "enabled": true,
       "features": [
         "observation tracking",
-        "status widget",
         "/observations command"
       ],
-      "category": "extension"
+      "category": "pro"
     },
-    "prompts": {
+    "system-prompt": {
       "enabled": true,
       "features": [
         "/SystemPrompt prompt viewer",
@@ -197,7 +154,7 @@ export const compiledFeatureFlags = {
         "rtk rewrite for bash",
         "rtk-native read/find/ls/grep tools"
       ],
-      "category": "extension"
+      "category": "pro"
     },
     "startup-hero": {
       "enabled": true,
@@ -206,14 +163,14 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
-    "todo": {
+    "tetris": {
       "enabled": true,
       "features": [
-        "todo tool",
-        "/todos command",
-        "live todo overlay"
+        "/tetris command",
+        "full-screen keyboard-controlled Tetris modal",
+        "Escape hide with paused shared session resume"
       ],
-      "category": "extension"
+      "category": "mini-app"
     },
     "tron": {
       "enabled": true,
@@ -236,15 +193,6 @@ export const compiledFeatureFlags = {
     }
   },
   "other": {
-    "telemetry": {
-      "enabled": false,
-      "features": [
-        "SigNoz OTLP telemetry",
-        "PostHog product analytics",
-        "anonymous event toggles"
-      ],
-      "category": "extension"
-    },
     "mini-app-manager": {
       "enabled": true,
       "features": [

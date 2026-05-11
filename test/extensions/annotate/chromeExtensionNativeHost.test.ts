@@ -58,12 +58,40 @@ test("native host captures completed annotations through the daemon", () => {
   assert.match(hostSource, /fetch\(ANNOTATIONS_DAEMON_URL/);
 });
 
+test("workspace folder picker returns a POSIX path through the native host", () => {
+  const backgroundSource = fs.readFileSync(path.join(extensionRoot, "background.js"), "utf8");
+  const contentSource = fs.readFileSync(path.join(extensionRoot, "content.js"), "utf8");
+  const hostSource = fs.readFileSync(path.join(extensionRoot, "native/host.cjs"), "utf8");
+
+  assert.match(contentSource, /chrome\.runtime\.sendMessage\(\{ type: "PICK_WORKSPACE_DIR" \}\)/);
+  assert.match(contentSource, /writeWorkspaceDirPreference\(response\.path\)/);
+  assert.doesNotMatch(contentSource, /showDirectoryPicker/);
+  assert.match(backgroundSource, /function pickWorkspaceDirectory\(sendResponse\)/);
+  assert.match(backgroundSource, /port\.postMessage\(\{ type: "PICK_WORKSPACE_DIR", requestId \}\)/);
+  assert.match(backgroundSource, /WORKSPACE_DIR_SELECTED/);
+  assert.match(hostSource, /function pickWorkspaceDirectory\(requestId\)/);
+  assert.match(hostSource, /POSIX path of \(choose folder/);
+  assert.match(hostSource, /type: "WORKSPACE_DIR_SELECTED"/);
+});
+
+test("annotation sidebar can steer and stop the real Nexus chat", () => {
+  const sidebarSource = fs.readFileSync(path.join(extensionRoot, "sidebar.js"), "utf8");
+
+  assert.match(sidebarSource, /class="nexus-agent-steer"/);
+  assert.match(sidebarSource, /placeholder="Steer the Nexus chat…"/);
+  assert.match(sidebarSource, /data-stop>Stop/);
+  assert.match(sidebarSource, /function sendSteeringMessage\(root\)/);
+  assert.match(sidebarSource, /\/steer`/);
+  assert.match(sidebarSource, /function stopConversation\(root\)/);
+  assert.match(sidebarSource, /\/stop`/);
+  assert.match(sidebarSource, /root\.dataset\.conversationId = conversation\.id/);
+});
+
 test("annotation hide control does not send cancellation", () => {
   const contentSource = fs.readFileSync(path.join(extensionRoot, "content.js"), "utf8");
 
-  assert.match(contentSource, /id=\"pi-cancel\">Hide/);
   assert.match(contentSource, /function hideActiveAnnotationPanel\(\)/);
-  assert.match(contentSource, /pi-cancel"\)\.addEventListener\("click", hideActiveAnnotationPanel\)/);
+  assert.match(contentSource, /hideToolbarOnly\(\)/);
   assert.match(contentSource, /pi-close"\)\.addEventListener\("click", hideActiveAnnotationPanel\)/);
 });
 
@@ -88,9 +116,9 @@ test("content script captures compact locations and uses compact toolbar chrome"
   assert.match(contentSource, /background: transparent/);
   assert.match(contentSource, /color: #ffffff/);
   assert.match(contentSource, /function handleLauncherShellClick\(event\)/);
-  assert.match(contentSource, /launcherEl\.addEventListener\("click", handleLauncherShellClick\)/);
+  assert.match(contentSource, /function handleLauncherShellClick\(event\)/);
   assert.match(contentSource, /setLauncherExpanded\(!launcherEl\.classList\.contains\("pi-launcher-expanded"\)\)/);
-  assert.match(contentSource, /pi-launcher-close"\)\?\.addEventListener\("click", \(\) => setLauncherExpanded\(false\)\)/);
+  assert.match(contentSource, /pi-launcher-toggle"\)\?\.addEventListener\("click", \(\) => \{/);
   assert.match(contentSource, /toggleLauncher\(\)/);
   assert.match(contentSource, /console\.log\("\[pi-annotate\] Content script ready/);
   assert.match(contentSource, /Start annotation/);

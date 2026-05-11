@@ -1,6 +1,6 @@
 import { computePaneWidths } from "./computePaneWidths.js";
 import { renderPaneRow } from "./renderPaneRow.js";
-import { renderSharedModalPaneLines } from "./renderSharedModalPaneLines.js";
+import { renderSharedModalPaneFillerLine, renderSharedModalPaneLines } from "./renderSharedModalPaneLines.js";
 import type { SharedModalPane, SharedModalTheme } from "./types.js";
 
 /**
@@ -18,8 +18,16 @@ export function renderModalPanes(theme: SharedModalTheme, panes: SharedModalPane
   const rows: string[] = [];
 
   for (let rowIndex = 0; rowIndex < rowCount; rowIndex += 1) {
-    rows.push(renderPaneRow(theme, paneLines.map((lines) => lines[rowIndex] ?? ""), widths));
+    rows.push(renderPaneRow(theme, paneLines.map((lines, index) => lines[rowIndex] ?? renderSharedModalPaneFillerLine(theme, panes[index]!, widths[index] ?? 1)), widths));
   }
 
   return rows;
+}
+
+/** Renders extra pane rows for fullscreen padding while preserving pane gutters. */
+export function renderModalPaneFillerRows(theme: SharedModalTheme, panes: SharedModalPane[], width: number, count: number): string[] {
+  if (count <= 0) return [];
+  const widths = computePaneWidths(panes, width);
+  const paneLines = panes.map((pane, index) => renderSharedModalPaneFillerLine(theme, pane, widths[index] ?? 1));
+  return Array.from({ length: count }, () => renderPaneRow(theme, paneLines, widths));
 }

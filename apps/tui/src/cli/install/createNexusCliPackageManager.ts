@@ -1,6 +1,6 @@
-import { getAgentDir } from "../../../../../node_modules/@mariozechner/pi-coding-agent/dist/config.js";
-import { DefaultPackageManager } from "../../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/package-manager.js";
-import { SettingsManager } from "../../../../../node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js";
+import { getAgentDir } from "../../../../../node_modules/@earendil-works/pi-coding-agent/dist/config.js";
+import { DefaultPackageManager } from "../../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/package-manager.js";
+import { SettingsManager } from "../../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
 
 export type NexusCliPackageManagerRuntime = {
   packageManager: DefaultPackageManager;

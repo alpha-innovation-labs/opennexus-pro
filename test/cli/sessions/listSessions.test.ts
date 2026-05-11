@@ -3,7 +3,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { SessionManager } from "@mariozechner/pi-coding-agent";
+import { SessionManager } from "@earendil-works/pi-coding-agent";
 import { listSessions } from "../../../apps/tui/src/cli/sessions/listSessions.js";
 
 test("listSessions returns oldest sessions first so the most recent session is at the bottom", async () => {

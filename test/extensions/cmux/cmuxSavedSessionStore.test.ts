@@ -3,11 +3,11 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { createCmuxSavedSession } from "../../../packages/extensions/src/cmux/snapshots/createCmuxSavedSession.js";
-import { createCmuxSavedSessionItems } from "../../../packages/extensions/src/cmux/snapshots/createCmuxSavedSessionItems.js";
-import { deleteCmuxSavedSession } from "../../../packages/extensions/src/cmux/snapshots/deleteCmuxSavedSession.js";
-import { writeCmuxSavedSessionStore } from "../../../packages/extensions/src/cmux/snapshots/writeCmuxSavedSessionStore.js";
-import { readCmuxSavedSessionStore } from "../../../packages/extensions/src/cmux/snapshots/readCmuxSavedSessionStore.js";
+import { createCmuxSavedSession } from "../../../packages/extensions-pro/src/cmux/snapshots/createCmuxSavedSession.js";
+import { createCmuxSavedSessionItems } from "../../../packages/extensions-pro/src/cmux/snapshots/createCmuxSavedSessionItems.js";
+import { deleteCmuxSavedSession } from "../../../packages/extensions-pro/src/cmux/snapshots/deleteCmuxSavedSession.js";
+import { writeCmuxSavedSessionStore } from "../../../packages/extensions-pro/src/cmux/snapshots/writeCmuxSavedSessionStore.js";
+import { readCmuxSavedSessionStore } from "../../../packages/extensions-pro/src/cmux/snapshots/readCmuxSavedSessionStore.js";
 
 test("cmux saved sessions persist named workspace pane snapshots", async () => {
 	const directory = await mkdtemp(join(tmpdir(), "nexus-cmux-saved-"));

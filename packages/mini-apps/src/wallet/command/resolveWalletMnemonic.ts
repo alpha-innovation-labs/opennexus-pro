@@ -1,4 +1,4 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { readMnemonicFromKeychain } from "../keychain/readMnemonicFromKeychain.js";
 import { saveMnemonicToKeychain } from "../keychain/saveMnemonicToKeychain.js";
 import { normalizeMnemonic } from "../solana/normalizeMnemonic.js";

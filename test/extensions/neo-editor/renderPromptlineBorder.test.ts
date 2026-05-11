@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { visibleWidth } from "@mariozechner/pi-tui";
-import { renderPromptlineBorder } from "../../../packages/extensions/src/neo-editor/shared/ui/renderPromptlineBorder.js";
+import { visibleWidth } from "@earendil-works/pi-tui";
+import { renderPromptlineBorder } from "../../../packages/extension-core/src/neo-editor/shared/ui/renderPromptlineBorder.js";
 
 test("neo promptline top border stays within narrow terminal width", () => {
 	const terminalWidth = 24;

@@ -7,12 +7,12 @@ import { isAnnotationsDaemonStartupFeatureEnabled } from "../../apps/tui/src/run
 import { shouldStartAnnotationsDaemon } from "../../apps/tui/src/runtime/annotations-daemon/shouldStartAnnotationsDaemon.js";
 
 
-test("annotations daemon startup feature is disabled by bundled feature flags", () => {
+test("annotations daemon startup feature is enabled by bundled feature flags", () => {
 	const previousConfigDir = process.env.NEXUS_CONFIG_DIR;
 	const configDir = mkdtempSync(join(tmpdir(), "nexus-annotations-daemon-test-"));
 	process.env.NEXUS_CONFIG_DIR = configDir;
 	try {
-		assert.equal(isAnnotationsDaemonStartupFeatureEnabled(), false);
+		assert.equal(isAnnotationsDaemonStartupFeatureEnabled(), true);
 	} finally {
 		if (previousConfigDir === undefined) delete process.env.NEXUS_CONFIG_DIR;
 		else process.env.NEXUS_CONFIG_DIR = previousConfigDir;

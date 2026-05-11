@@ -3,7 +3,7 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { fetchCodexUsage } from "../../../packages/extensions/src/slashusage/providers/codex/fetchCodexUsage.js";
+import { fetchCodexUsage } from "../../../packages/extension-core/src/slashusage/providers/codex/fetchCodexUsage.js";
 
 /**
  * Runs a test with isolated Codex auth storage and a mocked usage response.

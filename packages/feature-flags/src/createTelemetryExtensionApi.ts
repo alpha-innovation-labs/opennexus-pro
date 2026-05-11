@@ -1,5 +1,6 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { sendTelemetryEventSafely } from "@nexus/observability/telemetry/sendTelemetryEventSafely.js";
+import { recordRegisteredTool } from "./tool-registry/recordRegisteredTool.js";
 
 /**
  * Creates an extension API wrapper that records anonymous command and extension usage.
@@ -11,6 +12,12 @@ import { sendTelemetryEventSafely } from "@nexus/observability/telemetry/sendTel
 export function createTelemetryExtensionApi(pi: ExtensionAPI, extensionId: string): ExtensionAPI {
   return new Proxy(pi, {
     get(target, property, receiver) {
+      if (property === "registerTool") {
+        return (definition: Record<string, unknown>) => {
+          recordRegisteredTool(extensionId, definition);
+          return target.registerTool(definition as never);
+        };
+      }
       if (property !== "registerCommand") return Reflect.get(target, property, receiver);
       return (name: string, definition: Record<string, unknown>) => {
         const handler = typeof definition.handler === "function" ? definition.handler : undefined;

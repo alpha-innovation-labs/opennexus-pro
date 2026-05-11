@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { AuthStorage } from "@mariozechner/pi-coding-agent";
+import { AuthStorage } from "@earendil-works/pi-coding-agent";
 import { collectAuthImportCandidates } from "../../packages/pi-platform/src/login-import/collect/collectAuthImportCandidates.js";
 import type { LoginImportModelRegistry } from "../../packages/pi-platform/src/login-import/model/LoginImportRegistry.js";
 

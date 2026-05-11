@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { withSilencedCursorModelDiscoveryWarnings } from "../../packages/extensions/src/ai-providers/register/withSilencedCursorModelDiscoveryWarnings.js";
+import { withSilencedCursorModelDiscoveryWarnings } from "../../packages/extension-core/src/ai-providers/register/withSilencedCursorModelDiscoveryWarnings.js";
 
 /**
  * Captures console.warn output while running a callback.

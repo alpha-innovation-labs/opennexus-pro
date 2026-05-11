@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { updateFeatureFlagsConfig } from "../../../packages/extensions/src/feature-management/model/updateFeatureFlagsConfig.js";
+import { updateFeatureFlagsConfig } from "../../../packages/extensions-dev/src/feature-management/model/updateFeatureFlagsConfig.js";
 import type { FeatureFlagsConfig } from "../../../packages/feature-flags/src/types.js";
 
 test("feature flag config updates preserve feature lists while toggling status and channel", () => {

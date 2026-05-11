@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { setUserMessageMetadata } from "../../../packages/extensions/src/tron/user-message/metadata/userMessageMetadataStore.js";
-import { renderCachedUserMessage } from "../../../packages/extensions/src/tron/user-message/renderCachedUserMessage.js";
+import { setUserMessageMetadata } from "../../../packages/extension-core/src/tron/user-message/metadata/userMessageMetadataStore.js";
+import { renderCachedUserMessage } from "../../../packages/extension-core/src/tron/user-message/renderCachedUserMessage.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 
 /**

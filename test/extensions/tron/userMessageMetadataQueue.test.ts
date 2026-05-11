@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createUserMessageMetadataQueueFromSession } from "../../../packages/extensions/src/tron/user-message/metadata/createUserMessageMetadataQueueFromSession.js";
+import { createUserMessageMetadataQueueFromSession } from "../../../packages/extension-core/src/tron/user-message/metadata/createUserMessageMetadataQueueFromSession.js";
 
 const userMessage = {
   role: "user",

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getAgentConfig, getAvailableTypes, getConfig, getDefaultAgentNames, getToolsForType, isValidType, registerAgents } from "../../../packages/extensions/src/sub-agents/agent-types.js";
+import { getAgentConfig, getAvailableTypes, getConfig, getDefaultAgentNames, getToolsForType, isValidType, registerAgents } from "../../../packages/extension-core/src/sub-agents/agent-types.js";
 
 /**
  * Resets the bundled agent registry before each assertion group.

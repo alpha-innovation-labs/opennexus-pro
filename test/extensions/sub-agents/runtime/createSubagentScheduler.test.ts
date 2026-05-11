@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createSubagentScheduler } from "../../../../packages/extensions/src/sub-agents/runtime/createSubagentScheduler.js";
+import { createSubagentScheduler } from "../../../../packages/extension-core/src/sub-agents/runtime/createSubagentScheduler.js";
 
 /**
  * Waits for one microtask turn.

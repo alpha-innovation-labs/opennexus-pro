@@ -1,5 +1,5 @@
 import { platform, release } from "node:os";
-import type { ExtensionFactory } from "@mariozechner/pi-coding-agent";
+import type { ExtensionFactory } from "@earendil-works/pi-coding-agent";
 import { createAppArgs } from "../cli/createAppArgs.js";
 import { resolveBundledExtensionFactories } from "./extensions/resolveBundledExtensionFactories.js";
 import { clearStartupProfileLog } from "@nexus/observability/startup-profile/clearStartupProfileLog.js";
@@ -14,6 +14,7 @@ import { applyCompactModeImagePatch } from "@nexus/pi-platform/applyCompactModeI
 import { applyInlineImageOverlayPatch } from "@nexus/pi-platform/inline-image-overlays/applyInlineImageOverlayPatch.js";
 import { applyWorkingLoaderElapsedPatch } from "@nexus/pi-platform/applyWorkingLoaderElapsedPatch.js";
 import { applyHotkeysCommandPatch } from "@nexus/pi-platform/applyHotkeysCommandPatch.js";
+import { applyNexusSystemPromptPatch } from "@nexus/pi-platform/system-prompt/applyNexusSystemPromptPatch.js";
 import { applyLoginImportPatch } from "@nexus/pi-platform/login-import/patch/applyLoginImportPatch.js";
 import { applyModelKeybindingsPatch } from "@nexus/pi-platform/applyModelKeybindingsPatch.js";
 import { applyModelChangeDisplayPatch } from "@nexus/pi-platform/applyModelChangeDisplayPatch.js";
@@ -114,6 +115,10 @@ export async function runAppWithExtensionFactories(
   logRunAppPhase("applyHotkeysCommandPatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
+  await applyNexusSystemPromptPatch();
+  logRunAppPhase("applyNexusSystemPromptPatch:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
   await applyLoginImportPatch();
   logRunAppPhase("applyLoginImportPatch:done", phaseStartedAt);
 
@@ -160,7 +165,7 @@ export async function runAppWithExtensionFactories(
   }
 
   phaseStartedAt = performance.now();
-  const { main } = await import("@mariozechner/pi-coding-agent");
+  const { main } = await import("@earendil-works/pi-coding-agent");
   applyModelChangeDisplayPatch();
   logRunAppPhase("importPiMain:done", phaseStartedAt);
 

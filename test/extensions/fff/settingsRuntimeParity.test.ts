@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { SlashMenuModal } from "../../../packages/extensions/src/slash-menu/SlashMenuModal.js";
-import { getSettingsRootLeaf } from "../../../packages/extensions/src/slash-menu/getSettingsRootLeaf.js";
+import { SlashMenuModal } from "../../../packages/extension-core/src/slash-menu/SlashMenuModal.js";
+import { getSettingsRootLeaf } from "../../../packages/extension-core/src/slash-menu/getSettingsRootLeaf.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { findServerConfig } from "../../../packages/extensions/src/oh-my-pi-lsp/config/findServerConfig.js";
-import { languageServerConfigs } from "../../../packages/extensions/src/oh-my-pi-lsp/config/languageServerConfigs.js";
+import { findServerConfig } from "../../../packages/extensions-dev/src/oh-my-pi-lsp/config/findServerConfig.js";
+import { languageServerConfigs } from "../../../packages/extensions-dev/src/oh-my-pi-lsp/config/languageServerConfigs.js";
 
 /**
  * Regression coverage for the in-house Oh My Pi LSP server registry.

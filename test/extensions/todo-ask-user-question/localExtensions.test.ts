@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { createExtensionFeatureFlags } from "../../../packages/feature-flags/src/createExtensionFeatureFlags.js";
-import { getBundledFeatureFlagsConfig } from "../../../packages/feature-flags/src/getBundledFeatureFlagsConfig.js";
-import { compiledBundledExtensionIds } from "../../../packages/extensions/src/generated/registerCompiledEnabledExtensions.js";
-import { registerAskUserQuestionExtension } from "../../../packages/extensions/src/ask-user-question/registerAskUserQuestionExtension.js";
-import { registerTodoExtension } from "../../../packages/extensions/src/todo/registerTodoExtension.js";
+import { readFeatureFlagsConfig } from "../../../packages/feature-flags/src/readFeatureFlagsConfig.js";
+import { compiledBundledExtensionIds } from "../../../packages/extension-core/src/generated/registerCompiledEnabledExtensions.js";
+import { registerAskUserQuestionExtension } from "../../../packages/extension-core/src/ask-user-question/registerAskUserQuestionExtension.js";
+import { registerTodoExtension } from "../../../packages/extensions-dev/src/todo/registerTodoExtension.js";
 
 /**
  * Creates a minimal extension API test double that records registrations.
@@ -27,21 +27,21 @@ function createRecordingExtensionApi() {
   return { api, tools, commands, events };
 }
 
-test("todo and ask-user-question are native Nexus feature flags", () => {
+test("todo is a dev Nexus feature flag and ask-user-question remains core", () => {
   const flags = createExtensionFeatureFlags();
   const byId = new Map(flags.map((entry) => [entry.id, entry]));
-  const config = getBundledFeatureFlagsConfig();
+  const config = readFeatureFlagsConfig();
 
-  assert.equal(byId.get("todo")?.enabled, true);
-  assert.equal(config.extensions.todo?.category, "extension");
+  assert.equal(byId.get("todo")?.enabled, false);
+  assert.equal(config.extensions.todo?.category, "dev");
   assert.equal(byId.get("ask-user-question")?.enabled, true);
   assert.equal(config.extensions["ask-user-question"]?.category, "extension");
   assert.equal(byId.has("rpiv-todo"), false);
   assert.equal(byId.has("rpiv-ask-user-question"), false);
 });
 
-test("compiled bundle includes native todo ids instead of rpiv ids", () => {
-  assert.equal(compiledBundledExtensionIds.includes("todo"), true);
+test("compiled bundle excludes dev todo and includes native ask-user-question", () => {
+  assert.equal(compiledBundledExtensionIds.includes("todo" as never), false);
   assert.equal(compiledBundledExtensionIds.includes("ask-user-question"), true);
   assert.equal(compiledBundledExtensionIds.includes("rpiv-todo" as never), false);
   assert.equal(compiledBundledExtensionIds.includes("rpiv-ask-user-question" as never), false);

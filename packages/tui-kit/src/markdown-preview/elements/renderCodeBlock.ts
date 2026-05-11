@@ -1,4 +1,4 @@
-import { visibleWidth } from "@mariozechner/pi-tui";
+import { visibleWidth } from "@earendil-works/pi-tui";
 import { getLanguageIcon } from "../constants.js";
 import { padMarkdownPreviewLine } from "../padMarkdownPreviewLine.js";
 import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment.js";

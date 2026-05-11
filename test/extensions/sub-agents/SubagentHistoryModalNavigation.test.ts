@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { SubagentHistoryModal } from "../../../packages/extensions/src/sub-agents/ui/SubagentHistoryModal.js";
+import { SubagentHistoryModal } from "../../../packages/extension-core/src/sub-agents/ui/SubagentHistoryModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
@@ -27,7 +27,7 @@ function createRun(id: string, title: string) {
 }
 
 test("subagent history modal supports j/k navigation in the left pane", async () => {
-	process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@mariozechner/pi-coding-agent`;
+	process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@earendil-works/pi-coding-agent`;
 	await initializePiThemes();
 	const modal = new SubagentHistoryModal(
 		createTestTheme() as never,

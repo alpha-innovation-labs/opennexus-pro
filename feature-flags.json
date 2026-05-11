@@ -10,13 +10,14 @@
       "category": "extension"
     },
     "annotate": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "annotate command",
         "annotate tool",
         "chrome extension bridge"
       ],
-      "category": "mini-app"
+      "category": "mini-app",
+      "devOnly": true
     },
     "auto-update": {
       "enabled": true,
@@ -34,7 +35,7 @@
         "notify cmux tab when pane is done",
         "/cmux workspace shell session view"
       ],
-      "category": "extension"
+      "category": "pro"
     },
     "context-usage": {
       "enabled": true,
@@ -42,8 +43,7 @@
         "context_usage tool for current chat context window usage",
         "/context command for current chat context window usage"
       ],
-      "category": "extension",
-      "devOnly": true
+      "category": "extension"
     },
     "dev": {
       "devOnly": true,
@@ -55,7 +55,7 @@
         "tab and shift+tab modal variant cycling",
         "dev-only telemetry event toggles"
       ],
-      "category": "extension"
+      "category": "dev"
     },
     "exit-message": {
       "enabled": true,
@@ -64,12 +64,12 @@
       ],
       "category": "extension"
     },
-    "extension-manager": {
+    "pi-packages": {
       "enabled": true,
       "features": [
-        "/extensions command",
-        "installed extension list",
-        "core and user extension tabs",
+        "/pi-packages command",
+        "third-party extension list",
+        "npm package install/update/remove controls",
         "per-user extension enable and disable controls"
       ],
       "category": "extension"
@@ -77,37 +77,18 @@
     "websearch": {
       "enabled": true,
       "features": [
-        "web_search tool backed by vendored pi-web-access",
-        "code_search tool",
-        "fetch_content tool",
+        "web_fetch tool backed by Nexus native web fetch",
+        "code_search tool backed by GitHub repository search",
+        "fetch_content tool backed by Nexus native fetch and GitHub API handling",
         "get_search_content tool"
       ],
       "category": "extension"
-    },
-    "mcp-adapter": {
-      "enabled": false,
-      "features": [
-        "MCP server adapter backed by vendored pi-mcp-adapter",
-        "MCP slash commands",
-        "MCP tool proxying"
-      ],
-      "category": "extension",
-      "devOnly": true
     },
     "ask-user-question": {
       "enabled": true,
       "features": [
         "ask_user_question tool",
         "typed option prompts"
-      ],
-      "category": "extension"
-    },
-    "pi-lens": {
-      "enabled": false,
-      "features": [
-        "code feedback backed by vendored pi-lens",
-        "LSP and linter feedback",
-        "structural analysis"
       ],
       "category": "extension"
     },
@@ -118,7 +99,8 @@
         "diagnostics, hover, definitions, references, symbols, rename previews, and code actions",
         "40-language server config registry with project-local binary discovery"
       ],
-      "category": "extension"
+      "category": "dev",
+      "devOnly": true
     },
     "feature-management": {
       "enabled": true,
@@ -128,7 +110,7 @@
         "production and dev channel labels"
       ],
       "devOnly": true,
-      "category": "extension"
+      "category": "dev"
     },
     "fff": {
       "enabled": true,
@@ -139,18 +121,8 @@
       ],
       "category": "extension"
     },
-    "kanban": {
-      "enabled": false,
-      "features": [
-        "/kanban command",
-        "two-pane task board modal",
-        "temporary in-loop and completed task data"
-      ],
-      "category": "mini-app",
-      "devOnly": true
-    },
     "md-editor": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "/editor command",
         "demo.md Markdown line modal",
@@ -158,7 +130,8 @@
         "live reload with diff acceptance",
         "Tron-styled right-panel mini chat"
       ],
-      "category": "mini-app"
+      "category": "mini-app",
+      "devOnly": true
     },
     "neo-editor": {
       "enabled": true,
@@ -208,7 +181,8 @@
         "topic-first memory query tool",
         "Projects-compatible markdown memory storage"
       ],
-      "category": "mini-app"
+      "category": "mini-app",
+      "devOnly": true
     },
     "notify": {
       "enabled": true,
@@ -223,12 +197,11 @@
       "enabled": true,
       "features": [
         "observation tracking",
-        "status widget",
         "/observations command"
       ],
-      "category": "extension"
+      "category": "pro"
     },
-    "prompts": {
+    "system-prompt": {
       "enabled": true,
       "features": [
         "/SystemPrompt prompt viewer",
@@ -237,22 +210,13 @@
       ],
       "category": "extension"
     },
-    "playground": {
-      "devOnly": true,
-      "enabled": false,
-      "features": [
-        "playground modal",
-        "ctrl+i shortcut"
-      ],
-      "category": "mini-app"
-    },
     "rtk": {
       "enabled": true,
       "features": [
         "rtk rewrite for bash",
         "rtk-native read/find/ls/grep tools"
       ],
-      "category": "extension"
+      "category": "pro"
     },
     "startup-hero": {
       "enabled": true,
@@ -261,19 +225,8 @@
       ],
       "category": "extension"
     },
-    "smart-eval": {
-      "enabled": false,
-      "features": [
-        "historical assistant turn evaluation",
-        "compact footer score",
-        "/eval-toggle detailed question toggle",
-        "/eval-refresh background regeneration"
-      ],
-      "devOnly": true,
-      "category": "extension"
-    },
     "sub-agent-status-widget": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "custom subagent working widget",
         "live agent status lines",
@@ -283,7 +236,7 @@
       "category": "extension"
     },
     "sub-agents": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "rpc child-process subagent execution",
         "custom context providers",
@@ -292,24 +245,15 @@
       "devOnly": true,
       "category": "extension"
     },
-    "term-modal": {
-      "enabled": false,
-      "features": [
-        "persistent shell",
-        "/term commands",
-        "terminal shortcuts"
-      ],
-      "devOnly": true,
-      "category": "mini-app"
-    },
     "todo": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "todo tool",
         "/todos command",
         "live todo overlay"
       ],
-      "category": "extension"
+      "category": "dev",
+      "devOnly": true
     },
     "tetris": {
       "enabled": true,
@@ -318,8 +262,7 @@
         "full-screen keyboard-controlled Tetris modal",
         "Escape hide with paused shared session resume"
       ],
-      "category": "mini-app",
-      "devOnly": true
+      "category": "mini-app"
     },
     "tron": {
       "enabled": true,
@@ -341,32 +284,11 @@
       "category": "extension"
     },
     "wallet": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "/wallet Phantom balance lookup",
         "macOS Keychain recovery phrase storage",
         "public Solana RPC balance queries"
-      ],
-      "devOnly": true,
-      "category": "mini-app"
-    },
-    "workflows": {
-      "enabled": false,
-      "features": [
-        "/workflow command",
-        "workflow Librarian prompt",
-        "workflow Engineer prompt",
-        "continuous subagent steering instructions"
-      ],
-      "devOnly": true,
-      "category": "mini-app"
-    },
-    "workspace": {
-      "enabled": false,
-      "features": [
-        "session switcher",
-        "ctrl+; shortcut",
-        "workspace top bar"
       ],
       "devOnly": true,
       "category": "mini-app"
@@ -389,10 +311,11 @@
         "PostHog product analytics",
         "anonymous event toggles"
       ],
-      "category": "extension"
+      "category": "dev",
+      "devOnly": true
     },
     "social-chat": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "nexus social-chat CLI commands",
         "background social adapter daemon"

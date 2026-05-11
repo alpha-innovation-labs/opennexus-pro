@@ -11,6 +11,8 @@ export function getReleasePackageDependencies(dependencies) {
   const releaseDependencies = {
     "@ff-labs/fff-node": dependencies["@ff-labs/fff-node"],
     "@xterm/headless": dependencies["@xterm/headless"],
+    linkedom: dependencies.linkedom,
+    turndown: dependencies.turndown,
   };
   if (targetOptions.platform !== "linux") releaseDependencies["node-pty"] = dependencies["node-pty"];
   return releaseDependencies;

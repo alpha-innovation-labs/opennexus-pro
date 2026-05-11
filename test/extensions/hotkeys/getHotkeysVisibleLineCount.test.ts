@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getHotkeysVisibleLineCount } from "../../../packages/extensions/src/hotkeys/getHotkeysVisibleLineCount.js";
+import { getHotkeysVisibleLineCount } from "../../../packages/extension-core/src/hotkeys/getHotkeysVisibleLineCount.js";
 
 /**
  * Returns total modal rows for a visible content count.

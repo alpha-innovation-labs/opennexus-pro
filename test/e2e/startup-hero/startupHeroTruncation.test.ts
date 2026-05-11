@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { visibleWidth } from "@mariozechner/pi-tui";
-import { buildCenteredStartupHeroLines } from "../../../packages/extensions/src/startup-hero/buildCenteredStartupHeroLines.js";
-import { buildStartupHeroLogoLines } from "../../../packages/extensions/src/startup-hero/buildStartupHeroLogoLines.js";
+import { visibleWidth } from "@earendil-works/pi-tui";
+import { buildCenteredStartupHeroLines } from "../../../packages/extension-core/src/startup-hero/buildCenteredStartupHeroLines.js";
+import { buildStartupHeroLogoLines } from "../../../packages/extension-core/src/startup-hero/buildStartupHeroLogoLines.js";
 import { LinesComponent } from "../../support/component/LinesComponent.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";

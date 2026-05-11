@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { setRuntimeExtensionFeatureState } from "../../../packages/feature-flags/src/runtimeExtensionFeatureState.js";
 import { getHotkeysCommandHook } from "../../../packages/pi-platform/src/hotkeysCommandHook.js";
-import { clearHotkeysCommandHook } from "../../../packages/extensions/src/hotkeys/clearHotkeysCommandHook.js";
-import { registerHotkeysCommandHook } from "../../../packages/extensions/src/hotkeys/registerHotkeysCommandHook.js";
+import { clearHotkeysCommandHook } from "../../../packages/extension-core/src/hotkeys/clearHotkeysCommandHook.js";
+import { registerHotkeysCommandHook } from "../../../packages/extension-core/src/hotkeys/registerHotkeysCommandHook.js";
 
 test.afterEach(() => {
   setRuntimeExtensionFeatureState("hotkeys", true);

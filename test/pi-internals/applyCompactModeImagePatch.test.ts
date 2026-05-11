@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { ToolExecutionComponent } from "../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
-import { setToolGroupCollapseEnabled } from "../../packages/extensions/src/tron/collapse/state.js";
+import { ToolExecutionComponent } from "../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
+import { setToolGroupCollapseEnabled } from "../../packages/extension-core/src/tron/collapse/state.js";
 import { applyCompactModeImagePatch } from "../../packages/pi-platform/src/applyCompactModeImagePatch.js";
 import { initializePiThemes } from "../support/theme/initializePiThemes.js";
 
@@ -17,7 +17,7 @@ function createUiStub() {
 }
 
 test("compact mode image patch hides image placeholders from tool output", async () => {
-	process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@mariozechner/pi-coding-agent`;
+	process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@earendil-works/pi-coding-agent`;
 	await initializePiThemes();
 	applyCompactModeImagePatch();
 	setToolGroupCollapseEnabled(true);

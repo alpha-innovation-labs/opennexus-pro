@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { selectUsagePair } from "../../packages/extensions/src/slashusage/model/selectUsagePair.js";
-import type { UsageSnapshot } from "../../packages/extensions/src/slashusage/types.js";
+import { selectUsagePair } from "../../packages/extension-core/src/slashusage/model/selectUsagePair.js";
+import type { UsageSnapshot } from "../../packages/extension-core/src/slashusage/types.js";
 
 const codexSnapshot: UsageSnapshot = {
   provider: "codex",

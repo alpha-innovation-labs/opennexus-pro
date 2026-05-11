@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { resetCapabilitiesCache, setCapabilities } from "@mariozechner/pi-tui";
+import { resetCapabilitiesCache, setCapabilities } from "@earendil-works/pi-tui";
 import { WalletModal } from "../../packages/mini-apps/src/wallet/ui/WalletModal.js";
 import { createTestTheme } from "../support/theme/createTestTheme.js";
 

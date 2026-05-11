@@ -3,7 +3,7 @@ import { getGatewayStatus } from "../core/commands/getGatewayStatus.js";
 import { restartGateway } from "../core/commands/restartGateway.js";
 import { startGateway } from "../core/commands/startGateway.js";
 import { stopGateway } from "../core/commands/stopGateway.js";
-import { hasMiniAppHelpFlag } from "../../cli/hasMiniAppHelpFlag.js";
+import { hasMiniAppHelpFlag } from "../../shared/hasMiniAppHelpFlag.js";
 import { createGatewayUsageText } from "./createGatewayUsageText.js";
 import { formatGatewayRestartMessage } from "./formatGatewayRestartMessage.js";
 import { formatGatewayStartMessage } from "./formatGatewayStartMessage.js";

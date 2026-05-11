@@ -1,7 +1,8 @@
 declare module "@wterm/dom/css";
+declare module "turndown";
 
-declare module "../../../node_modules/@mariozechner/pi-coding-agent/dist/*";
-declare module "../../../node_modules/@mariozechner/pi-tui/dist/*";
+declare module "../../../node_modules/@earendil-works/pi-coding-agent/dist/*";
+declare module "../../../node_modules/@earendil-works/pi-tui/dist/*";
 
 declare module "ws" {
   export class WebSocketServer {

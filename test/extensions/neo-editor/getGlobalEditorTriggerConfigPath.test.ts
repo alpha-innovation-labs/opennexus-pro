@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { getGlobalEditorTriggerConfigPath } from "../../../packages/extensions/src/neo-editor/features/editor-triggers/getGlobalEditorTriggerConfigPath.js";
+import { getGlobalEditorTriggerConfigPath } from "../../../packages/extension-core/src/neo-editor/features/editor-triggers/getGlobalEditorTriggerConfigPath.js";
 
 /**
  * Restores the supported config-dir environment variable.

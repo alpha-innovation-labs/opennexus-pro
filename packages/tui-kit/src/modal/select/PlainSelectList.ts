@@ -1,5 +1,5 @@
-import type { AutocompleteItem } from "@mariozechner/pi-tui";
-import { Key, matchesKey } from "@mariozechner/pi-tui";
+import type { AutocompleteItem } from "@earendil-works/pi-tui";
+import { Key, matchesKey } from "@earendil-works/pi-tui";
 import { renderSelectListLines } from "./renderSelectListLines.js";
 import type { SelectPreviewItemStyleFns, SelectPreviewTheme } from "./types.js";
 

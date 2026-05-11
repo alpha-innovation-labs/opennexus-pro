@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { Container } from "@mariozechner/pi-tui";
-import { AssistantMessageComponent } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/assistant-message.js";
-import { ToolExecutionComponent } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
-import { installAssistantThinkingStyle } from "../../../packages/extensions/src/tron/thinking/installAssistantThinkingStyle.js";
-import { renderSummary } from "../../../packages/extensions/src/tron/compact-tool-lines/renderSummary.js";
-import { summarizeArgs } from "../../../packages/extensions/src/tron/compact-tool-lines/summarizeArgs.js";
+import { Container } from "@earendil-works/pi-tui";
+import { AssistantMessageComponent } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/components/assistant-message.js";
+import { ToolExecutionComponent } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
+import { installAssistantThinkingStyle } from "../../../packages/extension-core/src/tron/thinking/installAssistantThinkingStyle.js";
+import { renderSummary } from "../../../packages/extension-core/src/tron/compact-tool-lines/renderSummary.js";
+import { summarizeArgs } from "../../../packages/extension-core/src/tron/compact-tool-lines/summarizeArgs.js";
 import { applyToolExecutionSpacingPatch } from "../../../packages/pi-platform/src/applyToolExecutionSpacingPatch.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";

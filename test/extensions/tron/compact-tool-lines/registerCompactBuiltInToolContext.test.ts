@@ -3,9 +3,9 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { registerRtkExtension } from "../../../../packages/extensions/src/rtk/registerRtkExtension.js";
-import { clearRtkRuntimeForCwd, getRtkRuntimeForCwd } from "../../../../packages/extensions/src/rtk/runtime/runtimeStore.js";
-import { registerCompactBuiltInTool } from "../../../../packages/extensions/src/tron/compact-tool-lines/registerCompactBuiltInTool.js";
+import { registerRtkExtension } from "../../../../packages/extensions-pro/src/rtk/registerRtkExtension.js";
+import { clearRtkRuntimeForCwd, getRtkRuntimeForCwd } from "../../../../packages/extensions-pro/src/rtk/runtime/runtimeStore.js";
+import { registerCompactBuiltInTool } from "../../../../packages/extension-core/src/tron/compact-tool-lines/registerCompactBuiltInTool.js";
 
 /**
  * Creates a compact built-in tool registration harness.

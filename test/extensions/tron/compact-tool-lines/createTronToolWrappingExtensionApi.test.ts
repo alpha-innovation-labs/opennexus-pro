@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { Type } from "@sinclair/typebox";
-import { Container } from "@mariozechner/pi-tui";
-import type { ToolDefinition } from "@mariozechner/pi-coding-agent";
-import { createTronToolWrappingExtensionApi } from "../../../../packages/extensions/src/tron/compact-tool-lines/createTronToolWrappingExtensionApi.js";
-import { markCompactWrappedToolDefinition } from "../../../../packages/extensions/src/tron/compact-tool-lines/markCompactWrappedToolDefinition.js";
+import { Container } from "@earendil-works/pi-tui";
+import type { ToolDefinition } from "@earendil-works/pi-coding-agent";
+import { createTronToolWrappingExtensionApi } from "../../../../packages/extension-core/src/tron/compact-tool-lines/createTronToolWrappingExtensionApi.js";
+import { markCompactWrappedToolDefinition } from "../../../../packages/extension-core/src/tron/compact-tool-lines/markCompactWrappedToolDefinition.js";
 
 /**
  * Creates a minimal extension API that records registered tool definitions.

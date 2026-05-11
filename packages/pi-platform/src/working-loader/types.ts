@@ -1,4 +1,4 @@
-import type { Loader } from "@mariozechner/pi-tui";
+import type { Loader } from "@earendil-works/pi-tui";
 
 /**
  * Runtime shape used to patch pi-tui's loader internals.

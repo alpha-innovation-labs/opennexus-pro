@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { setTelemetryEventEnabled } from "../../../packages/observability/src/telemetry/setTelemetryEventEnabled.js";
-import { TelemetryModal } from "../../../packages/extensions/src/dev/telemetry/TelemetryModal.js";
+import { TelemetryModal } from "../../../packages/extensions-dev/src/dev/telemetry/TelemetryModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

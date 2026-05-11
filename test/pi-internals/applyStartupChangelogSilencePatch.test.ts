@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { InteractiveMode } from "../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/interactive-mode.js";
+import { InteractiveMode } from "../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/interactive-mode.js";
 import { applyStartupChangelogSilencePatch } from "../../packages/pi-platform/src/applyStartupChangelogSilencePatch.js";
 
 test("startup changelog silence patch disables startup changelog and install telemetry", () => {

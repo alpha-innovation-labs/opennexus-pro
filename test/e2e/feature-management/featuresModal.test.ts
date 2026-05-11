@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { FeatureManagementModal } from "../../../packages/extensions/src/feature-management/ui/FeatureManagementModal.js";
-import type { FeatureStatusRow } from "../../../packages/extensions/src/feature-management/model/types.js";
+import { FeatureManagementModal } from "../../../packages/extensions-dev/src/feature-management/ui/FeatureManagementModal.js";
+import type { FeatureStatusRow } from "../../../packages/extensions-dev/src/feature-management/model/types.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 const rows: FeatureStatusRow[] = [
 	{
-		category: "extensions",
+		category: "core",
 		sourceCategory: "extensions",
 		extensionId: "alpha",
 		feature: "alpha",
@@ -16,7 +16,7 @@ const rows: FeatureStatusRow[] = [
 		group: "Production",
 	},
 	{
-		category: "extensions",
+		category: "core",
 		sourceCategory: "extensions",
 		extensionId: "dev-tools",
 		feature: "dev-tools",
@@ -97,9 +97,27 @@ test("/features modal uses space to choose the status or channel toggle", () => 
 	]);
 });
 
-test("/features modal uses tab and shift+tab to switch Extensions and Mini-Apps", () => {
+test("/features modal uses tab and shift+tab to switch Core, Dev, Pro, and Mini-Apps", () => {
 	const modal = new FeatureManagementModal(createTestTheme(), [
 		...rows,
+		{
+			category: "dev",
+			sourceCategory: "extensions",
+			extensionId: "feature-management",
+			feature: "feature-management",
+			status: "enabled",
+			channel: "dev",
+			group: "Playground",
+		},
+		{
+			category: "pro",
+			sourceCategory: "extensions",
+			extensionId: "cmux",
+			feature: "cmux",
+			status: "enabled",
+			channel: "production",
+			group: "Production",
+		},
 		{
 			category: "mini-apps",
 			sourceCategory: "other",
@@ -111,7 +129,11 @@ test("/features modal uses tab and shift+tab to switch Extensions and Mini-Apps"
 		},
 	], () => {});
 
-	const extensionsOutput = modal.render(140).join("\n");
+	const coreOutput = modal.render(140).join("\n");
+	modal.handleInput("\t");
+	const devOutput = modal.render(140).join("\n");
+	modal.handleInput("\t");
+	const proOutput = modal.render(140).join("\n");
 	modal.handleInput("\t");
 	const miniAppsOutput = modal.render(140).join("\n");
 	modal.handleInput("\t");
@@ -119,13 +141,18 @@ test("/features modal uses tab and shift+tab to switch Extensions and Mini-Apps"
 	modal.handleInput("\x1b[Z");
 	const restoredOutput = modal.render(140).join("\n");
 
-	assert.match(extensionsOutput, /● Extensions \| ○ Mini-Apps/u);
-	assert.doesNotMatch(extensionsOutput, /All|Other/u);
-	assert.match(extensionsOutput, /alpha/u);
-	assert.doesNotMatch(extensionsOutput, /social-chat/u);
-	assert.match(miniAppsOutput, /○ Extensions \| ● Mini-Apps/u);
+	assert.match(coreOutput, /● Core \| ○ Dev \| ○ Pro \| ○ Mini-Apps/u);
+	assert.match(coreOutput, /alpha/u);
+	assert.doesNotMatch(coreOutput, /feature-management|cmux|social-chat/u);
+	assert.match(devOutput, /○ Core \| ● Dev \| ○ Pro \| ○ Mini-Apps/u);
+	assert.match(devOutput, /feature-management/u);
+	assert.doesNotMatch(devOutput, /alpha\s+› enabled|cmux|social-chat/u);
+	assert.match(proOutput, /○ Core \| ○ Dev \| ● Pro \| ○ Mini-Apps/u);
+	assert.match(proOutput, /cmux/u);
+	assert.doesNotMatch(proOutput, /alpha\s+› enabled|feature-management|social-chat/u);
+	assert.match(miniAppsOutput, /○ Core \| ○ Dev \| ○ Pro \| ● Mini-Apps/u);
 	assert.match(miniAppsOutput, /social-chat/u);
-	assert.doesNotMatch(miniAppsOutput, /alpha\s+› enabled/u);
-	assert.match(cycledOutput, /● Extensions \| ○ Mini-Apps/u);
-	assert.match(restoredOutput, /○ Extensions \| ● Mini-Apps/u);
+	assert.doesNotMatch(miniAppsOutput, /alpha\s+› enabled|feature-management|cmux/u);
+	assert.match(cycledOutput, /● Core \| ○ Dev \| ○ Pro \| ○ Mini-Apps/u);
+	assert.match(restoredOutput, /○ Core \| ○ Dev \| ○ Pro \| ● Mini-Apps/u);
 });

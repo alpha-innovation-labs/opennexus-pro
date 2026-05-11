@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { RtkSavingsModal } from "../../../packages/extensions/src/rtk/ui/RtkSavingsModal.js";
+import { RtkSavingsModal } from "../../../packages/extensions-pro/src/rtk/ui/RtkSavingsModal.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

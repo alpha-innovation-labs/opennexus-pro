@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type { Component } from "@mariozechner/pi-tui";
-import { ContextUsageModal } from "../../../packages/extensions/src/context-usage/ContextUsageModal.js";
-import type { ContextUsageReport } from "../../../packages/extensions/src/context-usage/types.js";
+import type { Component } from "@earendil-works/pi-tui";
+import { ContextUsageModal } from "../../../packages/extension-core/src/context-usage/ContextUsageModal.js";
+import type { ContextUsageReport } from "../../../packages/extension-core/src/context-usage/types.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

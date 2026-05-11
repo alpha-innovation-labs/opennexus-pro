@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createFffAutocompleteProvider } from "../../../packages/extensions/src/fff/editor/createFffAutocompleteProvider.js";
+import { createFffAutocompleteProvider } from "../../../packages/extension-core/src/fff/editor/createFffAutocompleteProvider.js";
 
 /**
  * Creates a minimal base autocomplete provider for tests.
@@ -26,11 +26,11 @@ test("createFffAutocompleteProvider surfaces folder suggestions for @ queries", 
     async searchFileCandidates() {
       return [
         {
-          item: { path: "", relativePath: "packages/extensions/src/fff/index.ts", fileName: "index.ts", totalFrecencyScore: 0, gitStatus: "clean" },
+          item: { path: "", relativePath: "packages/extension-core/src/fff/index.ts", fileName: "index.ts", totalFrecencyScore: 0, gitStatus: "clean" },
           score: { matchType: "prefix" },
         },
         {
-          item: { path: "", relativePath: "packages/extensions/src/tron/index.ts", fileName: "index.ts", totalFrecencyScore: 0, gitStatus: "clean" },
+          item: { path: "", relativePath: "packages/extension-core/src/tron/index.ts", fileName: "index.ts", totalFrecencyScore: 0, gitStatus: "clean" },
           score: { matchType: "prefix" },
         },
       ];
@@ -42,5 +42,5 @@ test("createFffAutocompleteProvider surfaces folder suggestions for @ queries", 
   const suggestions = await provider.getSuggestions(["open @exten"], 0, 11, { signal: new AbortController().signal, force: false });
 
   assert.equal(suggestions?.items[0]?.value, "@src/extensions");
-  assert.equal(suggestions?.items[0]?.description, "packages/extensions/src/ · folder");
+  assert.equal(suggestions?.items[0]?.description, "packages/extension-core/src/ · folder");
 });

@@ -1,4 +1,4 @@
-import type { SessionInfo } from "@mariozechner/pi-coding-agent";
+import type { SessionInfo } from "@earendil-works/pi-coding-agent";
 import type { SessionTableRow } from "./SessionTableRow.js";
 import { formatSessionDate } from "./formatSessionDate.js";
 import { formatSessionTitle } from "./formatSessionTitle.js";

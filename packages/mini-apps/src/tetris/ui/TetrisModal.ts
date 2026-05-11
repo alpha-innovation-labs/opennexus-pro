@@ -1,4 +1,4 @@
-import { type Focusable } from "@mariozechner/pi-tui";
+import { type Focusable } from "@earendil-works/pi-tui";
 import { SharedModal } from "@nexus/tui-kit/modal/index.js";
 import { hardDropTetrisPiece } from "../game/hardDropTetrisPiece.js";
 import { moveTetrisPiece } from "../game/moveTetrisPiece.js";
@@ -17,6 +17,7 @@ import type { TetrisModalHost } from "./TetrisModalHost.js";
 /** Full-screen Tetris overlay controlled by keyboard input. */
 export class TetrisModal extends SharedModal implements Focusable {
 	private focusedState = false;
+	private fullScreenEnabled: boolean;
 	private musicEnabled: boolean;
 	private timer: NodeJS.Timeout | undefined;
 
@@ -36,20 +37,23 @@ export class TetrisModal extends SharedModal implements Focusable {
 		private readonly closeModal: () => void,
 		private readonly options: TetrisModalOptions = {},
 	) {
+		const initialFullScreen = options.initialFullScreen ?? getTetrisSettingsPreference().fullscreen;
 		super({
-			fullScreen: options.initialFullScreen ?? getTetrisSettingsPreference().fullscreen,
+			fullScreen: initialFullScreen,
 			fullScreenRows: () => tui.terminal?.rows ?? 30,
 			headerLines: [theme.fg("accent", theme.bold("Tetris"))],
 			maxWidth: 116,
 			maxWidthRatio: 0.94,
 			minWidth: 40,
 			onFullScreenChange: (enabled) => {
+				this.fullScreenEnabled = enabled;
 				setTetrisSettingsPreference({ fullscreen: enabled });
 				tui.requestRender();
 			},
 			panes: [{ id: "tetris", size: 1, lines: [] }],
 			theme,
 		});
+		this.fullScreenEnabled = initialFullScreen;
 		this.musicEnabled = options.autoStartMusic === false ? false : getTetrisMusicPreference();
 		this.game.paused = false;
 		if (options.autoStart !== false) this.startTimer();
@@ -80,10 +84,9 @@ export class TetrisModal extends SharedModal implements Focusable {
 
 	/** Renders the full-screen shared modal with refreshed game lines. */
 	override render(width: number): string[] {
-		const fullScreenEnabled = this.isFullScreenEnabled();
-		const modalWidth = fullScreenEnabled ? width : Math.min(width, 116, Math.max(40, Math.floor(width * 0.94)));
+		const modalWidth = this.fullScreenEnabled ? width : Math.min(width, 116, Math.max(40, Math.floor(width * 0.94)));
 		const innerWidth = Math.max(1, modalWidth - 2);
-		const bodyHeight = fullScreenEnabled ? Math.max(12, (this.tui.terminal?.rows ?? 30) - 6) : Math.max(12, Math.min(28, (this.tui.terminal?.rows ?? 30) - 10));
+		const bodyHeight = this.fullScreenEnabled ? Math.max(12, (this.tui.terminal?.rows ?? 30) - 6) : Math.max(12, Math.min(28, (this.tui.terminal?.rows ?? 30) - 10));
 		this.panes = [{ id: "tetris", size: 1, lines: createTetrisModalLines(this.theme, this.game, innerWidth, bodyHeight, this.musicEnabled && isTetrisMusicRunning()) }];
 		return super.render(width);
 	}

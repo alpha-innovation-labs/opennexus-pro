@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { renderSubagentTranscriptLines } from "../../../packages/extensions/src/sub-agents/ui/renderSubagentTranscriptLines.js";
+import { renderSubagentTranscriptLines } from "../../../packages/extension-core/src/sub-agents/ui/renderSubagentTranscriptLines.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 import { initializePiThemes } from "../../support/theme/initializePiThemes.js";
 
 test("renderSubagentTranscriptLines uses real Tron theme chrome for tool entries", async () => {
-  process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@mariozechner/pi-coding-agent`;
+  process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@earendil-works/pi-coding-agent`;
   await initializePiThemes();
 
   const lines = renderSubagentTranscriptLines(createTestTheme() as never, 120, {

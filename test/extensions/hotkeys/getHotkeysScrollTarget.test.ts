@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getHotkeysScrollTarget } from "../../../packages/extensions/src/hotkeys/getHotkeysScrollTarget.js";
+import { getHotkeysScrollTarget } from "../../../packages/extension-core/src/hotkeys/getHotkeysScrollTarget.js";
 
 test("hotkeys scroll target resolves gg as top", () => {
   const first = getHotkeysScrollTarget("g", false);

@@ -1,4 +1,4 @@
-import { isCmuxCommandAvailable } from "@nexus/extensions/cmux/runtime/isCmuxCommandAvailable.js";
+import { isCmuxCommandAvailable } from "@nexus/extensions-pro/cmux/runtime/isCmuxCommandAvailable.js";
 import type { FeatureFlagsConfig } from "./types.js";
 
 /**

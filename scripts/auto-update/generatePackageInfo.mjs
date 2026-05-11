@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 
 const packageJsonPath = resolve("package.json");
-const outputPath = resolve("packages/extensions/src/auto-update/runtime/packageInfo.generated.ts");
+const outputPath = resolve("packages/extension-core/src/auto-update/runtime/packageInfo.generated.ts");
 
 /**
  * Generates hardcoded package metadata from the root package.json.

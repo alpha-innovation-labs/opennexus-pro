@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type { ExtensionAPI, ProviderConfig, ProviderModelConfig } from "@mariozechner/pi-coding-agent";
-import { createCursorProviderWithoutFallbackApi } from "../../packages/extensions/src/ai-providers/register/createCursorProviderWithoutFallbackApi.js";
-import { ensureStoredCursorModelsRegistered, resetStoredCursorModelLoaderForTests, setStoredCursorModelLoader } from "../../packages/extensions/src/ai-providers/register/cursorStoredModelLoader.js";
+import type { ExtensionAPI, ProviderConfig, ProviderModelConfig } from "@earendil-works/pi-coding-agent";
+import { createCursorProviderWithoutFallbackApi } from "../../packages/extension-core/src/ai-providers/register/createCursorProviderWithoutFallbackApi.js";
+import { ensureStoredCursorModelsRegistered, resetStoredCursorModelLoaderForTests, setStoredCursorModelLoader } from "../../packages/extension-core/src/ai-providers/register/cursorStoredModelLoader.js";
 
 interface ProviderRegistration {
 	name: string;

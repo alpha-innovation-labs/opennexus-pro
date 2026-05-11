@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createLspClient } from "../../../packages/extensions/src/oh-my-pi-lsp/client/createLspClient.js";
-import type { LanguageServerConfig } from "../../../packages/extensions/src/oh-my-pi-lsp/types.js";
+import { createLspClient } from "../../../packages/extensions-dev/src/oh-my-pi-lsp/client/createLspClient.js";
+import type { LanguageServerConfig } from "../../../packages/extensions-dev/src/oh-my-pi-lsp/types.js";
 
 const missingServerConfig: LanguageServerConfig = {
 	id: "missing-test-server",

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getHelpShortcutGroups } from "../../../packages/extensions/src/neo-editor/features/help-shortcuts/getHelpShortcutGroups.js";
+import { getHelpShortcutGroups } from "../../../packages/extension-core/src/neo-editor/features/help-shortcuts/getHelpShortcutGroups.js";
 import { clearRegisteredShortcuts, recordRegisteredShortcut } from "../../../packages/tui-kit/src/shortcuts/index.js";
 
 /**

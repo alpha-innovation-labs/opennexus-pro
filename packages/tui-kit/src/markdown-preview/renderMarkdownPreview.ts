@@ -1,4 +1,7 @@
+import stripAnsi from "strip-ansi";
+import { visibleWidth } from "@earendil-works/pi-tui";
 import { addMarkdownPreviewLineNumbers, getMarkdownPreviewNumberedContentWidth } from "./addMarkdownPreviewLineNumbers.js";
+import { BULLET_MARKERS, CHECKBOX_CHECKED, CHECKBOX_TODO, CHECKBOX_UNCHECKED } from "./constants.js";
 import { renderBlockquote } from "./elements/renderBlockquote.js";
 import { renderCodeBlock } from "./elements/renderCodeBlock.js";
 import { renderFrontmatter } from "./elements/renderFrontmatter.js";
@@ -8,7 +11,7 @@ import { renderListItem } from "./elements/renderListItem.js";
 import { renderParagraph } from "./elements/renderParagraph.js";
 import type { MarkdownCodeBlock, MarkdownPreviewOptions, MarkdownPreviewRow } from "./types.js";
 import { wrapMarkdownPreviewLines } from "./wrapMarkdownPreviewLines.js";
-import { visibleWidth } from "@mariozechner/pi-tui";
+import { styleMarkdownPreviewSegment } from "./styleMarkdownPreviewSegment.js";
 
 /** Renders markdown into Ratkit/lazy-skills inspired terminal preview lines. */
 export function renderMarkdownPreview(options: MarkdownPreviewOptions): string[] {
@@ -41,20 +44,36 @@ export function renderMarkdownPreview(options: MarkdownPreviewOptions): string[]
 /** Renders one source markdown line and keeps source-line numbering on wrapped continuations. */
 function renderMarkdownPreviewSourceLine(line: string, sourceLine: number, width: number, options: MarkdownPreviewOptions): MarkdownPreviewRow[] {
   if (line.trim() === "") return [{ sourceLine, line: "" }];
+  const listRows = renderMarkdownPreviewListSourceLine(line, sourceLine, width, options.theme);
+  if (listRows !== undefined) return listRows;
   const renderedLine = renderMarkdownPreviewLine(line, width, options.theme);
   if (renderedLine === undefined) return [{ sourceLine, line: "" }];
   const wrapped = wrapMarkdownPreviewLines(renderedLine, width);
-  const continuationIndent = getContinuationIndent(line, renderedLine);
-  return wrapped.map((part, index) => ({ sourceLine: index === 0 ? sourceLine : undefined, line: index === 0 ? part : `${continuationIndent}${part}` }));
+  return wrapped.map((part, index) => ({ sourceLine: index === 0 ? sourceLine : undefined, line: part }));
 }
 
-/** Returns hanging indent for wrapped list continuations. */
-function getContinuationIndent(sourceLine: string, renderedLine: string): string {
-  const list = /^(\s*)(?:(\d+)\.\s+|[-*+]\s+)(?:\[[ xX-]\]\s+)?/u.exec(sourceLine);
-  if (list === null) return "";
-  const markerEnd = renderedLine.search(/\S(?!.*[●○◆◇]|.*\d\.\s)/u);
-  const width = markerEnd > 0 ? markerEnd : Math.min(visibleWidth(renderedLine), (list[1]?.length ?? 0) + 3);
-  return " ".repeat(Math.max(0, width));
+/** Renders and wraps one list source line with a hanging indent. */
+function renderMarkdownPreviewListSourceLine(line: string, sourceLine: number, width: number, theme: MarkdownPreviewOptions["theme"]): MarkdownPreviewRow[] | undefined {
+  const list = /^(\s*)(?:(\d+)\.\s+|[-*+]\s+)(.*)$/u.exec(line);
+  if (list === null) return undefined;
+  const depth = Math.floor((list[1]?.length ?? 0) / 2);
+  const orderedNumber = list[2] === undefined ? undefined : Number(list[2]);
+  const task = /^(\[([ xX-])\]\s+)(.*)$/u.exec(list[3] ?? "");
+  const body = task === null ? list[3] ?? "" : task[3] ?? "";
+  const checkbox = task === null ? "" : renderCheckbox(task[2] ?? " ", theme);
+  const marker = orderedNumber === undefined ? BULLET_MARKERS[depth % BULLET_MARKERS.length] : `${orderedNumber}. `;
+  const prefix = ` ${"  ".repeat(depth)}${styleMarkdownPreviewSegment(theme, "list.marker", marker)}${checkbox}`;
+  const prefixWidth = visibleWidth(stripAnsi(prefix));
+  const bodyWidth = Math.max(1, width - prefixWidth);
+  const bodyRows = wrapMarkdownPreviewLines(renderParagraph(body, theme), bodyWidth);
+  return bodyRows.map((bodyRow, index) => ({ sourceLine: index === 0 ? sourceLine : undefined, line: `${index === 0 ? prefix : " ".repeat(prefixWidth)}${bodyRow}` }));
+}
+
+/** Renders a task-list checkbox marker. */
+function renderCheckbox(state: string, theme: MarkdownPreviewOptions["theme"]): string {
+  if (state === "x" || state === "X") return styleMarkdownPreviewSegment(theme, "checkbox.checked", CHECKBOX_CHECKED);
+  if (state === "-") return styleMarkdownPreviewSegment(theme, "checkbox.todo", CHECKBOX_TODO);
+  return styleMarkdownPreviewSegment(theme, "checkbox.unchecked", CHECKBOX_UNCHECKED);
 }
 
 /** Renders one non-fenced markdown line. */

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { visibleWidth } from "@mariozechner/pi-tui";
-import { createStartupHeroWidget } from "../../../packages/extensions/src/startup-hero/createStartupHeroWidget.js";
+import { visibleWidth } from "@earendil-works/pi-tui";
+import { createStartupHeroWidget } from "../../../packages/extension-core/src/startup-hero/createStartupHeroWidget.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 const startupStatus = {

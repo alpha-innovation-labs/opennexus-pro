@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { shouldQueuePromptOnEnter } from "../../../packages/extensions/src/prompt-queue/shouldQueuePromptOnEnter.js";
+import { shouldQueuePromptOnEnter } from "../../../packages/extension-core/src/prompt-queue/shouldQueuePromptOnEnter.js";
 
 test("enter sends immediately while the assistant is idle", () => {
   assert.equal(shouldQueuePromptOnEnter(true), false);

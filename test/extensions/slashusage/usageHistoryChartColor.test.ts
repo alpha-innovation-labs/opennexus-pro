@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createUsageHistoryLines } from "../../../packages/extensions/src/slashusage/history-modal/createUsageHistoryLines.js";
+import { createUsageHistoryLines } from "../../../packages/extension-core/src/slashusage/history-modal/createUsageHistoryLines.js";
 
 const TEAL = "\x1b[38;2;125;214;198m";
 const ORANGE = "\x1b[38;2;230;170;80m";

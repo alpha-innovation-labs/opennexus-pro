@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getHotkeysGroups } from "../../../packages/extensions/src/hotkeys/getHotkeysGroups.js";
+import { getHotkeysGroups } from "../../../packages/extension-core/src/hotkeys/getHotkeysGroups.js";
 import { clearRegisteredShortcuts, recordRegisteredShortcut } from "../../../packages/tui-kit/src/shortcuts/index.js";
 
 /**

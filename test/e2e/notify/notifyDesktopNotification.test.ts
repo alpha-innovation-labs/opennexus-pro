@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createExtensionRuntime, loadExtensionFromFactory } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/core/extensions/loader.js";
-import { ExtensionRunner } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/core/extensions/runner.js";
-import { createEventBus } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/core/event-bus.js";
-import { registerNotifyExtension } from "../../../packages/extensions/src/notify/registerNotifyExtension.js";
+import { createExtensionRuntime, loadExtensionFromFactory } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/extensions/loader.js";
+import { ExtensionRunner } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/extensions/runner.js";
+import { createEventBus } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/event-bus.js";
+import { registerNotifyExtension } from "../../../packages/extension-core/src/notify/registerNotifyExtension.js";
 import { withLockedNotifyEnv } from "../../support/notify/withLockedNotifyEnv.js";
 
 test("notify extension emits a terminal desktop notification through the Pi runner", async () => {

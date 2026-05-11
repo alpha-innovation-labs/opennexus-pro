@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { createExtensionRegistrationTask } from "./createExtensionRegistrationTask.js";
 import { getEnabledExtensionFeatureFlags } from "./getEnabledExtensionFeatureFlags.js";
 import { setRuntimeExtensionFeatureFlags } from "./runtimeExtensionFeatureState.js";

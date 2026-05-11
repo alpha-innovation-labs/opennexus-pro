@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { formatRtkSavings } from "../../../packages/extensions/src/rtk/savings/formatRtkSavings.js";
-import { parseRtkGainJson } from "../../../packages/extensions/src/rtk/savings/parseRtkGainJson.js";
+import { formatRtkSavings } from "../../../packages/extensions-pro/src/rtk/savings/formatRtkSavings.js";
+import { parseRtkGainJson } from "../../../packages/extensions-pro/src/rtk/savings/parseRtkGainJson.js";
 
 test("formatRtkSavings renders a compact Nexus savings summary from RTK gain JSON", () => {
   const report = parseRtkGainJson(JSON.stringify({

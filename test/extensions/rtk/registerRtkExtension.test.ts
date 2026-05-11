@@ -3,10 +3,10 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
-import { registerRtkExtension } from "../../../packages/extensions/src/rtk/registerRtkExtension.js";
-import { getRtkDefaultInstallPath } from "../../../packages/extensions/src/rtk/runtime/getRtkDefaultInstallPath.js";
-import { clearRtkRuntimeForCwd, getRtkRuntimeForCwd } from "../../../packages/extensions/src/rtk/runtime/runtimeStore.js";
-import { getBuiltInTools } from "../../../packages/extensions/src/tron/compact-tool-lines/getBuiltInTools.js";
+import { registerRtkExtension } from "../../../packages/extensions-pro/src/rtk/registerRtkExtension.js";
+import { getRtkDefaultInstallPath } from "../../../packages/extensions-pro/src/rtk/runtime/getRtkDefaultInstallPath.js";
+import { clearRtkRuntimeForCwd, getRtkRuntimeForCwd } from "../../../packages/extensions-pro/src/rtk/runtime/runtimeStore.js";
+import { getBuiltInTools } from "../../../packages/extension-core/src/tron/compact-tool-lines/getBuiltInTools.js";
 
 /**
  * Creates a minimal RTK extension harness for registration and runtime tests.

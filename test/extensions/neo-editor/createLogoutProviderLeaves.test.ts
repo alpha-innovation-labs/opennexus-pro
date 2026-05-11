@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type { ExtensionContext } from "@mariozechner/pi-coding-agent";
-import { createLogoutProviderLeaves } from "../../../packages/extensions/src/slash-menu/createLogoutProviderLeaves.js";
+import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
+import { createLogoutProviderLeaves } from "../../../packages/extension-core/src/slash-menu/createLogoutProviderLeaves.js";
 
 /**
  * Creates an extension context with stored auth credentials.

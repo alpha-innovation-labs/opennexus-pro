@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { AuthStorage } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/core/auth-storage.js";
-import { ModelRegistry } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/core/model-registry.js";
-import { createManualOAuthProvider } from "../../../packages/extensions/src/ai-providers/oauth/createManualOAuthProvider.js";
-import { getAdditionalOhMyPiProviderDefinitions } from "../../../packages/extensions/src/ai-providers/model/getAdditionalOhMyPiProviderDefinitions.js";
-import { getManualOhMyPiProviderDefinitions } from "../../../packages/extensions/src/ai-providers/model/manualOhMyPiProviderDefinitions.js";
-import { ohMyPiProviderDefinitions } from "../../../packages/extensions/src/ai-providers/model/ohMyPiProviderDefinitions.js";
-import { registerOhMyPiProvider } from "../../../packages/extensions/src/ai-providers/register/registerOhMyPiProvider.js";
+import { AuthStorage } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/auth-storage.js";
+import { ModelRegistry } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/model-registry.js";
+import { createManualOAuthProvider } from "../../../packages/extension-core/src/ai-providers/oauth/createManualOAuthProvider.js";
+import { getAdditionalOhMyPiProviderDefinitions } from "../../../packages/extension-core/src/ai-providers/model/getAdditionalOhMyPiProviderDefinitions.js";
+import { getManualOhMyPiProviderDefinitions } from "../../../packages/extension-core/src/ai-providers/model/manualOhMyPiProviderDefinitions.js";
+import { ohMyPiProviderDefinitions } from "../../../packages/extension-core/src/ai-providers/model/ohMyPiProviderDefinitions.js";
+import { registerOhMyPiProvider } from "../../../packages/extension-core/src/ai-providers/register/registerOhMyPiProvider.js";
 
 test("ai-providers includes Cursor from oh-my-pi but excludes it from manual placeholders", () => {
   const additionalProviderIds = getAdditionalOhMyPiProviderDefinitions().map((provider) => provider.id);

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { setExitMessage } from "../../../packages/extensions/src/exit-message/state/setExitMessage.js";
-import { getExitMessage } from "../../../packages/extensions/src/exit-message/state/getExitMessage.js";
+import { setExitMessage } from "../../../packages/extension-core/src/exit-message/state/setExitMessage.js";
+import { getExitMessage } from "../../../packages/extension-core/src/exit-message/state/getExitMessage.js";
 import { registerExitMessageProcessHandler } from "../../../apps/tui/src/runtime/exit-message/registerExitMessageProcessHandler.js";
 
 test("registerExitMessageProcessHandler prints the queued message on process exit", () => {

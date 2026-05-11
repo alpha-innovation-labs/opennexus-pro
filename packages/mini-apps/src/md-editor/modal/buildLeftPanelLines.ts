@@ -1,4 +1,4 @@
-import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
+import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { MarkdownFileSnapshot } from "../file/computeMarkdownFileSnapshot.js";
 import type { MarkdownDiffRow } from "../diff/MarkdownDiffRow.js";
 import { renderMarkdownDiffRows } from "../diff/renderMarkdownDiffRows.js";

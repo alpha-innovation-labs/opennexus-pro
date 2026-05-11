@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type { AutocompleteItem } from "@mariozechner/pi-tui";
+import type { AutocompleteItem } from "@earendil-works/pi-tui";
 import { renderSelectListLines } from "../../../packages/tui-kit/src/modal/select/renderSelectListLines.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { PromptQueueController } from "../../packages/extensions/src/prompt-queue/PromptQueueController.js";
-import { dispatchNextPromptQueueItem } from "../../packages/extensions/src/prompt-queue/dispatchNextPromptQueueItem.js";
+import { PromptQueueController } from "../../packages/extension-core/src/prompt-queue/PromptQueueController.js";
+import { dispatchNextPromptQueueItem } from "../../packages/extension-core/src/prompt-queue/dispatchNextPromptQueueItem.js";
 
 test("prompt queue dispatches and removes the next item after a turn", () => {
   const persistedLengths: number[] = [];

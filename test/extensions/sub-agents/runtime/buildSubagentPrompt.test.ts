@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildSubagentPrompt } from "../../../../packages/extensions/src/sub-agents/runtime/buildSubagentPrompt.js";
+import { buildSubagentPrompt } from "../../../../packages/extension-core/src/sub-agents/runtime/buildSubagentPrompt.js";
 
 /**
  * Verifies prompt composition with and without inherited context.

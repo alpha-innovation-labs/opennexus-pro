@@ -1,4 +1,4 @@
-import { TUI, isFocusable, type Component } from "@mariozechner/pi-tui";
+import { TUI, isFocusable, type Component } from "@earendil-works/pi-tui";
 import { VirtualTerminal } from "../terminal/VirtualTerminal.js";
 import { trimTrailingEmptyLines } from "../viewport/trimTrailingEmptyLines.js";
 

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { setThemeInstance } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/modes/interactive/theme/theme.js";
-import { renderSkillInvocationMessage } from "../../../packages/extensions/src/tron/skill-invocation/renderSkillInvocationMessage.js";
+import { setThemeInstance } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/theme/theme.js";
+import { renderSkillInvocationMessage } from "../../../packages/extension-core/src/tron/skill-invocation/renderSkillInvocationMessage.js";
 
 /**
  * Creates a minimal skill invocation component stub.

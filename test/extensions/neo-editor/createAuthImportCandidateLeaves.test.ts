@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { AuthImportCandidate } from "../../../packages/pi-platform/src/login-import/model/AuthImportCandidate.js";
-import { createAuthImportCandidateLeaves } from "../../../packages/extensions/src/slash-menu/createAuthImportCandidateLeaves.js";
-import { getSlashMenuItemIcon } from "../../../packages/extensions/src/slash-menu/getSlashMenuItemIcon.js";
+import { createAuthImportCandidateLeaves } from "../../../packages/extension-core/src/slash-menu/createAuthImportCandidateLeaves.js";
+import { getSlashMenuItemIcon } from "../../../packages/extension-core/src/slash-menu/getSlashMenuItemIcon.js";
 
 const candidates: AuthImportCandidate[] = [
 	{

@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { SettingsManager } from "../../../node_modules/@mariozechner/pi-coding-agent/dist/core/settings-manager.js";
-import { handleInternalModelCommand } from "../../../packages/extensions/src/slash-menu/internal-commands/handleInternalModelCommand.js";
-import { getPromptlineModelOverride, setPromptlineModelOverride, setPromptlineRenderRequest } from "../../../packages/extensions/src/neo-editor/features/promptline/state.js";
+import { SettingsManager } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
+import { handleInternalModelCommand } from "../../../packages/extension-core/src/slash-menu/internal-commands/handleInternalModelCommand.js";
+import { getPromptlineModelOverride, setPromptlineModelOverride, setPromptlineRenderRequest } from "../../../packages/extension-core/src/neo-editor/features/promptline/state.js";
 
 const originalCreate = SettingsManager.create;
 

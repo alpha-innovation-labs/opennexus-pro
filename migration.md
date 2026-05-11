@@ -69,23 +69,18 @@
 │  │     ├─ exit-message/
 │  │     ├─ feature-management/
 │  │     ├─ fff/
-│  │     ├─ kanban/
 │  │     ├─ md-editor/
 │  │     ├─ neo-editor/
 │  │     ├─ notify/
 │  │     ├─ observations/
-│  │     ├─ playground/
 │  │     ├─ primitives/
 │  │     ├─ rtk/
 │  │     ├─ startup-hero/
 │  │     ├─ sub-agent-status-widget/
 │  │     ├─ sub-agents/
-│  │     ├─ term-modal/
 │  │     ├─ todo/
 │  │     ├─ tron/
 │  │     ├─ slashusage/
-│  │     ├─ workflows/
-│  │     └─ workspace/
 │  │
 │  ├─ feature-flags/
 │  │  ├─ package.json

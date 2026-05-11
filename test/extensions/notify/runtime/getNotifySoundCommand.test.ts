@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getNotifySoundCommand } from "../../../../packages/extensions/src/notify/runtime/getNotifySoundCommand.js";
+import { getNotifySoundCommand } from "../../../../packages/extension-core/src/notify/runtime/getNotifySoundCommand.js";
 
 test("getNotifySoundCommand uses the default macOS sound when unset", () => {
 	assert.equal(getNotifySoundCommand({}, "darwin"), "afplay /System/Library/Sounds/Submarine.aiff");

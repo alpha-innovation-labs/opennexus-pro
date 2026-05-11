@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getStartupHeroStatus } from "../../../packages/extensions/src/startup-hero/getStartupHeroStatus.js";
+import { getStartupHeroStatus } from "../../../packages/extension-core/src/startup-hero/getStartupHeroStatus.js";
 
 test("startup hero status counts active skills, AGENTS.md, extensions, and mini-apps", () => {
 	const status = getStartupHeroStatus([

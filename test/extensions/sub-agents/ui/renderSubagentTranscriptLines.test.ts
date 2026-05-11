@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { renderSubagentTranscriptLines } from "../../../../packages/extensions/src/sub-agents/ui/renderSubagentTranscriptLines.js";
+import { renderSubagentTranscriptLines } from "../../../../packages/extension-core/src/sub-agents/ui/renderSubagentTranscriptLines.js";
 import { initializePiThemes } from "../../../support/theme/initializePiThemes.js";
 
 const theme = {
@@ -42,7 +42,7 @@ test("renderSubagentTranscriptLines reuses Tron compact tool renderers", () => {
 });
 
 test("renderSubagentTranscriptLines lets thinking absorb adjacent transcript spacing", async () => {
-  process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@mariozechner/pi-coding-agent`;
+  process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@earendil-works/pi-coding-agent`;
   await initializePiThemes();
   const lines = renderSubagentTranscriptLines(theme as any, 80, {
     transcript: [
@@ -64,7 +64,7 @@ test("renderSubagentTranscriptLines lets thinking absorb adjacent transcript spa
 });
 
 test("renderSubagentTranscriptLines lets thinking connect back to a previous tool row", async () => {
-  process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@mariozechner/pi-coding-agent`;
+  process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@earendil-works/pi-coding-agent`;
   await initializePiThemes();
   const lines = renderSubagentTranscriptLines(theme as any, 80, {
     transcript: [
@@ -89,7 +89,7 @@ test("renderSubagentTranscriptLines lets thinking connect back to a previous too
 });
 
 test("renderSubagentTranscriptLines does not insert blank rows between adjacent tool calls", async () => {
-  process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@mariozechner/pi-coding-agent`;
+  process.env.PI_PACKAGE_DIR = `${process.cwd()}/node_modules/@earendil-works/pi-coding-agent`;
   await initializePiThemes();
   const lines = renderSubagentTranscriptLines(theme as any, 80, {
     transcript: [

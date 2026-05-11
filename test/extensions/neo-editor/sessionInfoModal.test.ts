@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { visibleWidth } from "@mariozechner/pi-tui";
-import { createPanelOverlayOptions } from "../../../packages/extensions/src/overlay/createPanelOverlayOptions.js";
-import { createSessionInfoRows } from "../../../packages/extensions/src/slash-menu/session-info/createSessionInfoRows.js";
-import { SessionInfoModal } from "../../../packages/extensions/src/slash-menu/session-info/SessionInfoModal.js";
+import { visibleWidth } from "@earendil-works/pi-tui";
+import { createPanelOverlayOptions } from "../../../packages/tui-kit/src/modal/createPanelOverlayOptions.js";
+import { createSessionInfoRows } from "../../../packages/extension-core/src/slash-menu/session-info/createSessionInfoRows.js";
+import { SessionInfoModal } from "../../../packages/extension-core/src/slash-menu/session-info/SessionInfoModal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
 /**

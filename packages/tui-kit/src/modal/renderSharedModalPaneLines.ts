@@ -1,3 +1,4 @@
+import { renderMarkdownPreviewLineNumberFiller } from "../markdown-preview/addMarkdownPreviewLineNumbers.js";
 import { renderMarkdownPreview } from "../markdown-preview/renderMarkdownPreview.js";
 import type { MarkdownPreviewStyleToken } from "../markdown-preview/types.js";
 import type { SharedModalPane, SharedModalTheme } from "./types.js";
@@ -6,6 +7,12 @@ import type { SharedModalPane, SharedModalTheme } from "./types.js";
 export function renderSharedModalPaneLines(theme: SharedModalTheme, pane: SharedModalPane, width: number): string[] {
   if (pane.contentType !== "markdown") return pane.lines;
   return renderMarkdownPreview({ markdown: pane.lines.join("\n"), theme: { style: (token, value) => styleMarkdownPaneToken(theme, token, value) }, width });
+}
+
+/** Renders a filler row for a pane while preserving pane-specific chrome. */
+export function renderSharedModalPaneFillerLine(theme: SharedModalTheme, pane: SharedModalPane, width: number): string {
+  if (pane.contentType !== "markdown") return "";
+  return renderMarkdownPreviewLineNumberFiller(width, pane.lines.join("\n").split("\n").length, { style: (token, value) => styleMarkdownPaneToken(theme, token, value) });
 }
 
 /** Maps markdown preview style tokens onto the shared modal theme. */

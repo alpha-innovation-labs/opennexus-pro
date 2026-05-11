@@ -3,7 +3,7 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { SessionManager } from "@mariozechner/pi-coding-agent";
+import { SessionManager } from "@earendil-works/pi-coding-agent";
 import { getLineChatSessionPath } from "../../../packages/mini-apps/src/md-editor/line-chat/getLineChatSessionPath.js";
 
 test("editor_line_chat_persistence_hidden_resume", async () => {

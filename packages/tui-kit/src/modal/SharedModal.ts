@@ -1,12 +1,13 @@
-import { Key, matchesKey, type Component } from "@mariozechner/pi-tui";
+import { Key, matchesKey, type Component } from "@earendil-works/pi-tui";
 import { centerModalLine } from "./centerModalLine.js";
 import { computeModalWidth } from "./computeModalWidth.js";
-import { createEmptyModalRows } from "./createEmptyModalRows.js";
 import { renderFooterRows } from "./renderFooterRows.js";
 import { renderFullWidthRows } from "./renderFullWidthRows.js";
 import { renderModalBorder } from "./renderModalBorder.js";
 import { renderModalBorderWithPaneSeparators } from "./renderModalBorderWithPaneSeparators.js";
-import { renderModalPanes } from "./renderModalPanes.js";
+import { renderModalPaneBottomBorder } from "./renderModalPaneBottomBorder.js";
+import { renderModalPaneFillerRows, renderModalPanes } from "./renderModalPanes.js";
+import { renderModalPaneTopBorder } from "./renderModalPaneTopBorder.js";
 import { createModalHotkeyFooterSegments } from "./hotkeys/createModalHotkeyFooterSegments.js";
 import { wrapModalHotkeyFooterSegments } from "./hotkeys/wrapModalHotkeyFooterSegments.js";
 import { getModalWindowRows } from "./scroll/getModalWindowRows.js";
@@ -118,7 +119,7 @@ export class SharedModal implements Component {
 
     if (this.headerLines.length > 0) {
       topRows.push(...renderFullWidthRows(this.theme, this.headerLines, innerWidth));
-      topRows.push(renderModalBorderWithPaneSeparators(this.theme, "├", "─", "┼", "┤", innerWidth, this.panes));
+      topRows.push(renderModalPaneTopBorder(this.theme, innerWidth, this.panes));
     }
 
     const bodyRows = renderModalPanes(this.theme, this.panes, innerWidth);
@@ -128,12 +129,12 @@ export class SharedModal implements Component {
       ? renderModalBorder(this.theme, "└", "─", "┘", innerWidth)
       : renderModalBorderWithPaneSeparators(this.theme, "└", "─", "┴", "┘", innerWidth, this.panes);
     const bottomRows = footerLines.length > 0
-      ? [renderModalBorderWithPaneSeparators(this.theme, "├", "─", "┼", "┤", innerWidth, this.panes), ...renderFooterRows(this.theme, footerLines, innerWidth), bottomBorder]
+      ? [renderModalPaneBottomBorder(this.theme, innerWidth, this.panes), ...renderFooterRows(this.theme, footerLines, innerWidth), bottomBorder]
       : [bottomBorder];
 
     if (this.sharedFullScreen) {
       const targetRows = this.getFullScreenRows();
-      bodyRows.push(...createEmptyModalRows(Math.max(0, targetRows - topRows.length - bodyRows.length - bottomRows.length), innerWidth, (value) => this.theme.fg("borderMuted", value)));
+      bodyRows.push(...renderModalPaneFillerRows(this.theme, this.panes, innerWidth, Math.max(0, targetRows - topRows.length - bodyRows.length - bottomRows.length)));
     }
 
     const visibleRows = this.getVisibleRows(topRows.length + bodyRows.length + bottomRows.length);

@@ -1,4 +1,4 @@
-import { Loader } from "@mariozechner/pi-tui";
+import { Loader } from "@earendil-works/pi-tui";
 
 let workingLoaderSilencePatchApplied = false;
 

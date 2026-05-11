@@ -1,0 +1,1 @@
+export type SlashMenuLevel = "top" | "settings" | "setting-choice" | "name-input" | "theme" | "model" | "scoped-models" | "fork" | "resume" | "login" | "login-import" | "login-import-candidates" | "login-providers" | "logout" | "prompts" | "skills" | "tools";

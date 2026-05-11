@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { countChangedLines } from "../../../packages/extensions/src/tron/compact-tool-lines/countChangedLines.js";
+import { countChangedLines } from "../../../packages/extension-core/src/tron/compact-tool-lines/countChangedLines.js";
 
 test("countChangedLines totals added and removed lines across all edit blocks", () => {
   assert.deepEqual(

@@ -25,7 +25,7 @@ The marker is stored in `.codexbar-sync.json`.
 1. Run `just codexbar-sync`.
 2. Review commits and usage-relevant files reported since `.codexbar-sync.json:lastSyncedCommit`.
 3. Inspect changed CodexBar provider files under `Sources/CodexBarCore/Providers/` and relevant docs.
-4. Port only provider auth, fetch, parser, and mapping logic needed by `packages/extensions/src/slashusage/`.
+4. Port only provider auth, fetch, parser, and mapping logic needed by `packages/extension-core/src/slashusage/`.
 5. Add or update deterministic parser/detection tests under `test/slash-usage/`.
 6. Run targeted usage tests.
 7. Run `just codexbar-sync --mark` only after imported changes are validated.

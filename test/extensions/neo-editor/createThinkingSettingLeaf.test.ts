@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createThinkingSettingLeaf } from "../../../packages/extensions/src/slash-menu/createThinkingSettingLeaf.js";
-import type { Api, Model } from "@mariozechner/pi-ai";
+import { createThinkingSettingLeaf } from "../../../packages/extension-core/src/slash-menu/createThinkingSettingLeaf.js";
+import type { Api, Model } from "@earendil-works/pi-ai";
 
 const baseModel: Model<Api> = {
   id: "test-model",

@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createCompiledBundledExtensionFactories } from "../../packages/extensions/src/createCompiledBundledExtensionFactories.js";
-import { compiledBundledExtensionIds } from "../../packages/extensions/src/generated/registerCompiledEnabledExtensions.js";
-import registerCompiledBundledExtensions from "../../packages/extensions/src/registerCompiledBundledExtensions.js";
+import { createCompiledBundledExtensionFactories } from "../../packages/extension-core/src/runtime/createCompiledBundledExtensionFactories.js";
+import { compiledBundledExtensionIds } from "../../packages/extension-core/src/generated/registerCompiledEnabledExtensions.js";
+import registerCompiledBundledExtensions from "../../packages/extension-core/src/runtime/registerCompiledBundledExtensions.js";
 
 /**
  * Creates a fake Pi extension API for compiled extension registration tests.
@@ -50,12 +50,9 @@ test("compiled bundled extension ids are available to the release entrypoint", (
   const releaseIds = compiledBundledExtensionIds as readonly string[];
   assert.ok(!releaseIds.includes("dev"));
   assert.ok(!releaseIds.includes("feature-management"));
-  assert.ok(!releaseIds.includes("annotate"));
+  assert.ok(releaseIds.includes("annotate"));
   assert.ok(!releaseIds.includes("context-usage"));
-  assert.ok(!releaseIds.includes("workspace"));
-  assert.ok(!releaseIds.includes("workflows"));
-  assert.ok(!releaseIds.includes("playground"));
-  assert.ok(!releaseIds.includes("todo"));
+  assert.ok(releaseIds.includes("todo"));
 });
 
 test("createCompiledBundledExtensionFactories returns the release-bundled extension entrypoint", async () => {
@@ -72,12 +69,10 @@ test("the compiled bundled extension entrypoint follows the bundled feature flag
   const pi = createFakePi(commands, shortcuts, tools);
 
   await assert.doesNotReject(() => factories[0](pi as never));
-  assert.ok(!shortcuts.includes("ctrl+i"));
-  assert.ok(!shortcuts.includes("ctrl+;"));
-  assert.ok(!tools.includes("annotate"));
-  assert.ok(!tools.includes("read_pending_annotations"));
-  assert.ok(!tools.includes("claim_annotation"));
-  assert.ok(!tools.includes("resolve_annotation"));
+  assert.ok(tools.includes("annotate"));
+  assert.ok(tools.includes("read_pending_annotations"));
+  assert.ok(tools.includes("claim_annotation"));
+  assert.ok(tools.includes("resolve_annotation"));
   assert.ok(!commands.includes("dev-modal"));
   assert.ok(!commands.includes("features"));
 });
