@@ -1,6 +1,0 @@
-.site-footer { display: flex; justify-content: space-between; gap: 1rem; max-width: 1168px; margin: 0 auto 1.5rem; border-right: 1px solid var(--line); border-left: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1rem 1.25rem; color: var(--muted); background: var(--panel); }
-.site-footer p { margin: 0; }
-.site-footer a { color: var(--text); font-weight: 500; }
-@media (max-width: 560px) {
-  .site-footer { flex-direction: column; }
-}

@@ -1,5 +1,6 @@
-import type { ShowcaseGroup } from "../types/showcase-feature.js";
+import type { ShowcaseGroup } from "../types/showcase-feature";
 
+/** Feature showcase groups derived from bundled Nexus capabilities. */
 export const showcaseGroups: readonly ShowcaseGroup[] = [
   {
     id: "core-plugins",
@@ -13,23 +14,23 @@ export const showcaseGroups: readonly ShowcaseGroup[] = [
         eyebrow: "Oh My Pi LSP",
         title: "Symbol-aware code navigation",
         body: "The in-house LSP port exposes diagnostics, hover, definitions, references, symbols, rename previews, and code actions through the Nexus tool loop.",
-        bullets: ["40-language server registry", "Project-local binary discovery", "Rename and code-action workflows"]
+        bullets: ["40-language server registry", "Project-local binary discovery", "Rename and code-action workflows"],
       },
       {
         id: "code-fast-files",
         eyebrow: "FFF + RTK",
         title: "Fast file and shell primitives",
         body: "FFF powers read, grep, and @ file autocomplete overrides while RTK adds native read, find, ls, grep, bash, and bash rewrite support.",
-        bullets: ["Read and grep overrides", "Native project file tools", "Bash rewrite support"]
+        bullets: ["Read and grep overrides", "Native project file tools", "Bash rewrite support"],
       },
       {
         id: "code-web-mcp",
-        eyebrow: "Websearch + MCP",
+        eyebrow: "Web fetch + MCP",
         title: "Research and tool gateways",
-        body: "Vendored websearch, code search, fetch content, search cache lookup, MCP slash commands, and MCP proxy tools keep external context reachable from the TUI.",
-        bullets: ["web_search and code_search", "fetch_content and cache lookup", "MCP command and proxy support"]
-      }
-    ]
+        body: "Native web fetch, code search, fetch content, search cache lookup, MCP slash commands, and MCP proxy tools keep external context reachable from the TUI.",
+        bullets: ["web_fetch and code_search", "fetch_content and cache lookup", "MCP command and proxy support"],
+      },
+    ],
   },
   {
     id: "custom-plugins",
@@ -43,23 +44,23 @@ export const showcaseGroups: readonly ShowcaseGroup[] = [
         eyebrow: "Neo editor",
         title: "Promptline workflows stay visible",
         body: "The custom promptline handles slash usage, @ file autocomplete, editor-trigger submits, image paste fallback, and project-aware status details.",
-        bullets: ["Slash and @ workflows", "Project, branch, and context status", "Editor trigger submits"]
+        bullets: ["Slash and @ workflows", "Project, branch, and context status", "Editor trigger submits"],
       },
       {
         id: "custom-providers",
         eyebrow: "AI providers",
         title: "Provider access is bundled",
         body: "Provider login entries, manual credential prompts, and /login availability checks are bundled so users can reach supported models from Nexus.",
-        bullets: ["Provider login entries", "Manual credential prompts", "/login availability checks"]
+        bullets: ["Provider login entries", "Manual credential prompts", "/login availability checks"],
       },
       {
         id: "custom-operator",
         eyebrow: "Operator layer",
         title: "Sessions report useful state",
         body: "Observations, cmux title sync, desktop notifications, exit messages, startup status, and feature management make long-running terminal work easier to operate.",
-        bullets: ["Observation status widget", "cmux title and done sync", "Desktop completion notifications"]
-      }
-    ]
+        bullets: ["Observation status widget", "cmux title and done sync", "Desktop completion notifications"],
+      },
+    ],
   },
   {
     id: "mini-apps",
@@ -73,22 +74,22 @@ export const showcaseGroups: readonly ShowcaseGroup[] = [
         eyebrow: "Tetris",
         title: "A production mini-app proves modal depth",
         body: "The Tetris mini-app ships as a full-screen keyboard-controlled modal with Escape hide, pause behavior, and shared session resume.",
-        bullets: ["/tetris command", "Keyboard-controlled modal", "Paused shared session resume"]
+        bullets: ["/tetris command", "Keyboard-controlled modal", "Paused shared session resume"],
       },
       {
         id: "mini-editor",
         eyebrow: "Markdown editor",
         title: "Documents can host hidden chats",
         body: "The Markdown editor provides a line modal, hidden per-line chats, live reload, diff acceptance, and a Tron-styled mini chat panel.",
-        bullets: ["/editor command", "Per-line chats", "Live reload with diff acceptance"]
+        bullets: ["/editor command", "Per-line chats", "Live reload with diff acceptance"],
       },
       {
         id: "mini-manager",
         eyebrow: "Mini-app manager",
         title: "Mini-apps stay discoverable",
         body: "The mini-app manager lists installed mini-apps and exposes enable or disable controls, while bundled examples include Tetris and wallet flows.",
-        bullets: ["/mini-apps command", "Installed mini-app list", "Enable and disable controls"]
-      }
-    ]
-  }
+        bullets: ["/mini-apps command", "Installed mini-app list", "Enable and disable controls"],
+      },
+    ],
+  },
 ];

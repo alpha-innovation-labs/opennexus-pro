@@ -5,9 +5,9 @@ A workspace Remotion app for high-impact Nexus marketing videos. The first compo
 ## Source-backed design cues
 
 - `packages/assets/src/themes/nexus-black.json` provides the visual palette.
-- `packages/extensions/src/startup-logo/buildStartupLogoLines.ts` provides the Nexus wordmark direction.
-- `packages/extensions/src/neo-editor/features/promptline/` provides the promptline framing, usage labels, and input prefix behavior.
-- `packages/extensions/src/tron/thinking/` and `packages/extensions/src/tron/compact-tool-lines/` provide the thinking and tool-call box styling.
+- `packages/extension-core/src/startup-logo/buildStartupLogoLines.ts` provides the Nexus wordmark direction.
+- `packages/extension-core/src/neo-editor/features/promptline/` provides the promptline framing, usage labels, and input prefix behavior.
+- `packages/extension-core/src/tron/thinking/` and `packages/extension-core/src/tron/compact-tool-lines/` provide the thinking and tool-call box styling.
 - `packages/assets/src/prompts/base-system-prompt/baseSystemPrompt.ts` provides the compact-answer and multi-part prompt behavior shown in the demo.
 
 ## Commands
