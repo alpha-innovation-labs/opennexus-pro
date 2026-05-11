@@ -13,7 +13,7 @@ export type ShowcaseGroupProps = {
  */
 export function ShowcaseGroup(props: ShowcaseGroupProps) {
   return (
-    <section className="showcase-group scroll-mt-32 rounded-[2rem] border border-neutral-200/70 bg-white/70 p-[clamp(1rem,3vw,2rem)] shadow-[0_24px_80px_rgba(0,0,0,0.06)] dark:border-white/10 dark:bg-white/5" id={props.group.id} data-showcase-major={props.group.id}>
+    <section className="showcase-group scroll-mt-32 border border-neutral-200/70 bg-white/70 p-[clamp(1rem,3vw,2rem)] shadow-[0_24px_80px_rgba(0,0,0,0.06)] dark:border-white/10 dark:bg-white/5" id={props.group.id} data-showcase-major={props.group.id}>
       <div className="showcase-group-heading grid max-w-3xl gap-4 pb-8">
         <p className="eyebrow m-0 font-mono text-xs font-semibold uppercase leading-tight tracking-[0.12em] text-neutral-500 dark:text-neutral-400">{props.group.eyebrow}</p>
         <h2 className="m-0 max-w-2xl text-[clamp(2rem,3.3vw,3.25rem)] font-semibold leading-tight tracking-[-0.045em] text-neutral-950 text-balance dark:text-neutral-100">

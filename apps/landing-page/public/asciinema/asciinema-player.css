@@ -55,7 +55,6 @@ div.ap-wrapper div.ap-player {
   box-sizing: content-box;
   overflow: hidden;
   max-width: 100%;
-  border-radius: 4px;
   font-size: 15px;
   background-color: var(--term-color-background);
 }
@@ -83,7 +82,6 @@ div.ap-term {
   position: relative;
   font-family: var(--term-font-family);
   border-width: 0.75em;
-  border-radius: 0;
   border-style: solid;
   border-color: var(--term-color-background);
   box-sizing: content-box;
@@ -348,7 +346,6 @@ div.ap-term {
 .ap-term-text.ap-cursor-on .ap-line .ap-cursor {
   color: var(--bg);
   background-color: var(--fg);
-  border-radius: 0.05em;
 }
 .ap-term-text.ap-cursor-on .ap-line .ap-cursor.ap-inverse {
   color: var(--fg);
@@ -475,7 +472,6 @@ div.ap-control-bar .ap-progressbar .ap-bar .ap-gutter-full {
   width: 100%;
   transform-origin: left center;
   background-color: var(--term-color-foreground);
-  border-radius: 3px;
 }
 div.ap-control-bar.ap-seekable .ap-progressbar .ap-bar {
   cursor: pointer;
@@ -563,7 +559,6 @@ span.ap-marker-container span.ap-marker {
     left 0.1s,
     right 0.1s,
     background-color 0.1s;
-  border-radius: 50%;
 }
 span.ap-marker-container span.ap-marker.ap-marker-past {
   background-color: var(--term-color-foreground);
@@ -584,7 +579,6 @@ span.ap-marker-container:hover span.ap-marker {
   font-weight: bold;
   text-align: center;
   padding: 0 0.5em;
-  border-radius: 4px;
   position: absolute;
   z-index: 1;
   white-space: nowrap;
@@ -641,7 +635,6 @@ span.ap-marker-container:hover span.ap-marker {
 .ap-player .ap-overlay-loading .ap-loader {
   width: 48px;
   height: 48px;
-  border-radius: 50%;
   display: inline-block;
   position: relative;
   border: 10px solid;
@@ -680,7 +673,6 @@ span.ap-marker-container:hover span.ap-marker {
   background-color: var(--term-color-background);
   border: 1px solid
     color-mix(in oklab, var(--term-color-background) 90%, var(--term-color-foreground));
-  border-radius: 6px;
 }
 .ap-player .ap-overlay-help > div div p {
   font-weight: bold;
@@ -697,7 +689,6 @@ span.ap-marker-container:hover span.ap-marker {
   color: var(--term-color-background);
   background-color: var(--term-color-foreground);
   padding: 0.2em 0.5em;
-  border-radius: 0.2em;
   font-family: inherit;
   font-size: 0.85em;
   border: none;

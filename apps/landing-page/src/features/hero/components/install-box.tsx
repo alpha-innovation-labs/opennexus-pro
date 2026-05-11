@@ -57,7 +57,7 @@ export function InstallBox() {
           <code className="flex-1 overflow-x-auto font-mono text-sm leading-6 whitespace-pre">{activeInstall?.command}</code>
           <button
             className={cn(
-              "install-copy-button inline-flex h-8 w-8 cursor-pointer items-center justify-center whitespace-nowrap rounded-none border border-border/60 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
+              "install-copy-button inline-flex h-8 w-8 cursor-pointer items-center justify-center whitespace-nowrap border border-border/60 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
               copied && "bg-muted text-foreground",
             )}
             type="button"

@@ -9,7 +9,7 @@ import Link from "next/link";
 export function Logo() {
   return (
     <Link
-      className="brand-lockup inline-flex items-center gap-2 rounded-full px-3 py-2 hover:bg-neutral-100 dark:hover:bg-white/10"
+      className="brand-lockup inline-flex items-center gap-2 px-3 py-2 hover:bg-neutral-100 dark:hover:bg-white/10"
       href="#top"
       aria-label="Nexus home"
     >

@@ -47,7 +47,7 @@ export function ThemeToggle() {
 
   return (
     <button
-      className="theme-toggle flex min-h-10 cursor-pointer items-center rounded-full border-0 bg-transparent px-3 text-current hover:bg-neutral-100 dark:hover:bg-white/10"
+      className="theme-toggle flex min-h-10 cursor-pointer items-center border-0 bg-transparent px-3 text-current hover:bg-neutral-100 dark:hover:bg-white/10"
       type="button"
       data-theme-toggle
       aria-label="Toggle color theme"

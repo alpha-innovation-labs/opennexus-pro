@@ -13,7 +13,7 @@ export type ShowcaseExampleProps = {
  */
 export function ShowcaseExample(props: ShowcaseExampleProps) {
   return (
-    <article className="showcase-example grid scroll-mt-32 grid-cols-[minmax(0,0.88fr)_minmax(18rem,1.12fr)] overflow-hidden rounded-3xl border border-neutral-200/70 bg-neutral-50/80 dark:border-white/10 dark:bg-black/40 max-[860px]:grid-cols-1" id={props.example.id} data-showcase-child={props.example.id}>
+    <article className="showcase-example grid scroll-mt-32 grid-cols-[minmax(0,0.88fr)_minmax(18rem,1.12fr)] overflow-hidden border border-neutral-200/70 bg-neutral-50/80 dark:border-white/10 dark:bg-black/40 max-[860px]:grid-cols-1" id={props.example.id} data-showcase-child={props.example.id}>
       <div className="feature-copy-card grid content-start gap-4 p-[clamp(1.25rem,3vw,2.5rem)]">
         <p className="eyebrow m-0 font-mono text-xs font-semibold uppercase leading-tight tracking-[0.12em] text-neutral-500 dark:text-neutral-400">
           {props.example.eyebrow}
