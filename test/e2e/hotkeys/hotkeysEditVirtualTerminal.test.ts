@@ -19,15 +19,45 @@ function createKeybindings() {
   return {
     keybindings: {
       configPath,
-      getResolvedBindings: () => ({ "tui.input.submit": userBindings["tui.input.submit"] ?? "enter", "app.model.select": userBindings["app.model.select"] ?? "ctrl+l" }),
+      getResolvedBindings: () => ({
+        "tui.input.newline": userBindings["tui.input.newline"] ?? "shift+enter",
+        "tui.input.submit": userBindings["tui.input.submit"] ?? "enter",
+        "app.model.select": userBindings["app.model.select"] ?? "ctrl+l",
+      }),
       getUserBindings: () => userBindings,
       setUserBindings: (next: Record<string, string | string[] | undefined>) => {
         userBindings = next;
       },
-      getDefinition: (keybinding: string) => ({ description: keybinding === "app.model.select" ? "Open model selector" : "Submit input" }),
+      getDefinition: (keybinding: string) => {
+        if (keybinding === "app.model.select") return { description: "Open model selector" };
+        if (keybinding === "tui.input.newline") return { description: "Insert newline" };
+        return { description: "Submit input" };
+      },
     },
     configPath,
     cleanup: () => rmSync(dir, { recursive: true, force: true }),
+  };
+}
+
+/**
+ * Creates a styled theme that emits long ANSI color sequences for virtual-terminal rendering.
+ *
+ * @returns Theme-like formatting helpers with terminal escape sequences.
+ */
+function createAnsiTestTheme(): any {
+  return {
+    fg(_color: string, value: string): string {
+      return `\u001b[38;2;100;150;200m${value}\u001b[39m`;
+    },
+    bold(value: string): string {
+      return `\u001b[1m${value}\u001b[22m`;
+    },
+    italic(value: string): string {
+      return value;
+    },
+    strikethrough(value: string): string {
+      return value;
+    },
   };
 }
 
@@ -44,6 +74,23 @@ test("hotkeys edit flow renders saved status in a virtual terminal", async () =>
 
     assert.match(viewport.join("\n"), /Saved app\.model\.select = ctrl\+c/u);
     assert.deepEqual(JSON.parse(readFileSync(configPath, "utf-8")), { "app.model.select": "ctrl+c" });
+  } finally {
+    cleanup();
+  }
+});
+
+test("hotkeys highlighted row preserves the full label in a virtual terminal", async () => {
+  const { keybindings, cleanup } = createKeybindings();
+  try {
+    const viewport = await renderComponentInVirtualTerminal(() => {
+      const modal = new HotkeysModal(createAnsiTestTheme(), keybindings, [], () => undefined);
+      modal.setFilterQuery("newline");
+      return modal;
+    }, 72, 40);
+
+    const output = viewport.join("\n");
+    assert.match(output, /▶ Insert newline\s+Shift \+ Enter/u);
+    assert.doesNotMatch(output, /▶ I\s+Shift \+ Enter/u);
   } finally {
     cleanup();
   }

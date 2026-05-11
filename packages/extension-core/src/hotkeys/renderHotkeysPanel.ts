@@ -2,6 +2,7 @@ import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
 import { padVisible } from "./padVisible.js";
 import { renderHotkeysPanelTop } from "./renderHotkeysPanelTop.js";
 import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId.js";
+import { truncateVisible } from "./truncateVisible.js";
 import type { HotkeysGroup } from "./types.js";
 
 /**
@@ -22,9 +23,11 @@ export function renderHotkeysPanel(uiTheme: SelectPreviewTheme, group: HotkeysGr
     const isEditing = Boolean(shortcut.keybindingId) && shortcut.keybindingId === editingKeybindingId;
     const isFocused = getHotkeysEntryFocusId(shortcut) === focusedKeybindingId;
     const marker = isEditing ? uiTheme.fg("warning", "● ") : isFocused ? uiTheme.fg("accent", "▶ ") : "  ";
-    const labelText = isEditing ? uiTheme.bold(shortcut.label) : isFocused ? uiTheme.fg("accent", shortcut.label) : shortcut.label;
-    const label = padVisible(labelText.slice(0, labelWidth), labelWidth);
-    const keys = padVisible(uiTheme.fg(isEditing ? "warning" : "success", shortcut.keys.slice(0, keyWidth)), keyWidth);
+    const plainLabel = truncateVisible(shortcut.label, labelWidth);
+    const plainKeys = truncateVisible(shortcut.keys, keyWidth);
+    const labelText = isEditing ? uiTheme.bold(plainLabel) : isFocused ? uiTheme.fg("accent", plainLabel) : plainLabel;
+    const label = padVisible(labelText, labelWidth);
+    const keys = padVisible(uiTheme.fg(isEditing ? "warning" : "success", plainKeys), keyWidth);
     lines.push(uiTheme.fg("borderMuted", "│") + marker + label + keys + uiTheme.fg("borderMuted", "│"));
   }
   lines.push(uiTheme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
