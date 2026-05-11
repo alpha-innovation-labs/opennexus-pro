@@ -1,6 +1,7 @@
 import type { ExtensionCommandContext } from "@mariozechner/pi-coding-agent";
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
+import { removeUserExtensionConfig } from "@nexus/runtime/config/removeUserExtensionConfig.js";
 import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled.js";
 import { createPanelOverlayOptions } from "../../overlay/createPanelOverlayOptions.js";
 import { createManagedExtensionRows } from "../model/createManagedExtensionRows.js";
@@ -46,11 +47,12 @@ export async function showExtensionsModal(ctx: ExtensionCommandContext): Promise
 		return rows;
 	}
 
-	/** Removes a third-party package and refreshes rows. */
+	/** Removes a third-party package or stale extension preference and refreshes rows. */
 	async function removePackage(source: string) {
-		await packageRuntime.packageManager.removeAndPersist(source);
+		const removedPackage = await packageRuntime.packageManager.removeAndPersist(source);
+		const removedExtensionConfig = removedPackage ? false : removeUserExtensionConfig(source);
 		await packageRuntime.settingsManager.flush();
-		ctx.ui.notify(`Removed ${source}. Restart Nexus to unload it.`, "info");
+		ctx.ui.notify(removedPackage || removedExtensionConfig ? `Removed ${source}. Restart Nexus to unload it.` : `No configured package or extension matched ${source}.`, removedPackage || removedExtensionConfig ? "info" : "warning");
 		rows = readRows();
 		return rows;
 	}
