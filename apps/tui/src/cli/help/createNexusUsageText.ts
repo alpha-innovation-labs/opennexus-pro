@@ -48,7 +48,10 @@ export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): s
  * @returns Command-section lines, or no lines when no commands are visible.
  */
 function createCommandUsageLines(features: NexusUsageFeatureOptions): string[] {
-	const lines: string[] = [];
+	const lines: string[] = [
+		"  nexus install <source>             Install an extension package",
+		"  nexus uninstall <source>           Uninstall an extension package",
+	];
 	if (features.socialChat) {
 		lines.push(
 			"  nexus social-chat -h               Show social chat commands",

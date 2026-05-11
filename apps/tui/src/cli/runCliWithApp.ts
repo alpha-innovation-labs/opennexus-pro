@@ -7,6 +7,8 @@ import { printNexusUsage } from "./help/printNexusUsage.js";
 import { hasObservationsFlag } from "./observations/hasObservationsFlag.js";
 import { printObservationsList } from "./observations/printObservationsList.js";
 import { readObservationsSessionIdArg } from "./observations/readObservationsSessionIdArg.js";
+import { runInstallCommand } from "./install/runInstallCommand.js";
+import { runUninstallCommand } from "./uninstall/runUninstallCommand.js";
 import { hasSessionsFlag } from "./sessions/hasSessionsFlag.js";
 import { printSessionsTable } from "./sessions/printSessionsTable.js";
 import { readSessionDirArg } from "./sessions/readSessionDirArg.js";
@@ -49,6 +51,12 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
     }
     return commandMiniApp.runCommand(argv);
   }
+
+  const installExitCode = await runInstallCommand(argv);
+  if (installExitCode !== undefined) return installExitCode;
+
+  const uninstallExitCode = await runUninstallCommand(argv);
+  if (uninstallExitCode !== undefined) return uninstallExitCode;
 
   if (hasHelpFlag(argv)) {
     printNexusUsage();

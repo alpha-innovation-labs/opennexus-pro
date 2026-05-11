@@ -13,24 +13,16 @@ import { isExtensionManagerTextInput } from "./isExtensionManagerTextInput.js";
 
 export type ExtensionManagerUpdate = (extensionId: string, enabled: boolean) => ManagedExtensionRow[];
 
-/**
- * Modal that lists installed extensions and toggles user enablement.
- */
+/** Modal that lists installed extensions and toggles user enablement. */
 export class ExtensionManagerModal extends SelectPreviewModal {
 	private activeTab: ExtensionManagerTab = "all";
 	private filterQuery = "";
 	private rows: ManagedExtensionRow[];
+	private searchActive = false;
 	private searchRows: ManagedExtensionRow[] = [];
 	private pendingAction: string | null = null;
 
-	/**
-	 * Creates the extension manager modal.
-	 *
-	 * @param theme Active UI theme.
-	 * @param rows Installed extension rows.
-	 * @param done Completion callback.
-	 * @param onUpdate Optional persistence callback.
-	 */
+	/** Creates the extension manager modal. */
 	constructor(
 		private readonly rowTheme: ExtensionCommandContext["ui"]["theme"],
 		rows: ManagedExtensionRow[],
@@ -46,38 +38,26 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 		this.refreshItems();
 	}
 
-	/**
-	 * Handles tab, search, and toggle input.
-	 *
-	 * @param data Raw keyboard input.
-	 */
+	/** Handles tab, search-mode, update/remove, and selection input. */
 	override handleInput(data: string): void {
 		if (matchesKey(data, Key.shift("tab"))) return this.moveToNextTab(-1);
 		if (matchesKey(data, Key.tab)) return this.moveToNextTab(1);
+		if (this.searchActive && this.closeSearchOnEscape(data)) return;
+		if (this.searchActive && this.handleFilterInput(data)) return;
+		if (data === "/") return this.openSearch();
 		if (data === "d") return void this.removeSelectedPackage();
 		if (data === "u") return void this.updateSelectedPackage();
 		if (matchesKey(data, Key.enter) || data === " ") return void this.activateSelectedRow();
-		if (this.clearFilterOnEscape(data)) return;
-		if (this.handleFilterInput(data)) return;
 		super.handleInput(data);
 	}
 
-	/**
-	 * Renders the modal with top-right scope tabs.
-	 *
-	 * @param width Available terminal width.
-	 * @returns Rendered modal lines.
-	 */
+	/** Renders the modal with top-right scope tabs. */
 	override render(width: number): string[] {
 		this.setTitles(createExtensionManagerHeader(this.title, this.activeTab, getExtensionManagerHeaderWidth(width), this.rowTheme), "");
 		return super.render(width);
 	}
 
-	/**
-	 * Moves between All, Core, and User tabs.
-	 *
-	 * @param direction Tab traversal direction.
-	 */
+	/** Moves between All, Core, and Third-party tabs. */
 	private moveToNextTab(direction: 1 | -1): void {
 		this.activeTab = getNextExtensionManagerTab(this.activeTab, direction);
 		this.refreshBottom();
@@ -85,9 +65,15 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 		void this.refreshSearchRows();
 	}
 
-	/**
-	 * Toggles the selected extension enabled state.
-	 */
+	/** Starts explicit slash search mode. */
+	private openSearch(): void {
+		this.searchActive = true;
+		this.refreshBottom();
+		this.refreshItems();
+		void this.refreshSearchRows();
+	}
+
+	/** Toggles or installs the selected row. */
 	private async activateSelectedRow(): Promise<void> {
 		const row = this.getSelectedRow();
 		if (!row || this.pendingAction) return;
@@ -95,11 +81,7 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 		this.toggleSelectedExtension(row);
 	}
 
-	/**
-	 * Toggles one extension enabled state.
-	 *
-	 * @param row Selected extension row.
-	 */
+	/** Toggles one extension enabled state. */
 	private toggleSelectedExtension(row: ManagedExtensionRow): void {
 		const enabled = row.status !== "enabled";
 		const update = typeof this.callbacksOrUpdate === "function" ? this.callbacksOrUpdate : this.callbacksOrUpdate?.onUpdate;
@@ -107,27 +89,18 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 		this.refreshItems(row.id);
 	}
 
-	/**
-	 * Clears the search filter before escape closes the modal.
-	 *
-	 * @param data Raw keyboard input.
-	 * @returns True when the filter was cleared.
-	 */
-	private clearFilterOnEscape(data: string): boolean {
-		if (!matchesKey(data, Key.escape) || this.filterQuery.length === 0) return false;
+	/** Clears slash search mode when Escape is pressed. */
+	private closeSearchOnEscape(data: string): boolean {
+		if (!matchesKey(data, Key.escape)) return false;
+		this.searchActive = false;
 		this.filterQuery = "";
+		this.searchRows = [];
 		this.refreshBottom();
 		this.refreshItems();
-		void this.refreshSearchRows();
 		return true;
 	}
 
-	/**
-	 * Applies text search input.
-	 *
-	 * @param data Raw keyboard input.
-	 * @returns True when input changed the search query.
-	 */
+	/** Applies text input while slash search mode is active. */
 	private handleFilterInput(data: string): boolean {
 		if (data === "\u007f" || matchesKey(data, Key.backspace)) this.filterQuery = this.filterQuery.slice(0, -1);
 		else if (isExtensionManagerTextInput(data)) this.filterQuery = `${this.filterQuery}${data}`;
@@ -138,31 +111,26 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 		return true;
 	}
 
-	/**
-	 * Rebuilds visible items while preserving selection.
-	 *
-	 * @param selectedValue Selected extension id to restore.
-	 */
+	/** Rebuilds visible items while preserving selection when still visible. */
 	private refreshItems(selectedValue = this.getSelectedItem()?.value): void {
 		const rows = filterManagedExtensionRows([...this.rows, ...this.searchRows], this.activeTab, this.filterQuery);
 		this.setItems(createManagedExtensionItems(rows, this.rowTheme));
 		if (selectedValue) this.selectValue(selectedValue);
 	}
 
-	/**
-	 * Refreshes the search footer.
-	 */
+	/** Refreshes the search footer. */
 	private refreshBottom(): void {
-		const label = this.activeTab === "third-party" ? "Search/install" : "Search";
-		const hint = this.pendingAction ?? (this.activeTab === "third-party" ? "Enter install/toggle · u update · d remove · type to search npm" : "Enter/Space toggle · Tab switch tabs");
-		this.setFooterHintLines([this.rowTheme.fg("dim", hint)]);
-		this.setBottom(label, this.filterQuery, "> ");
+		const label = this.searchActive ? (this.activeTab === "third-party" ? "Search/install" : "Search") : "Search";
+		const inactiveHint = this.activeTab === "third-party" ? "Enter install/toggle · u update · d remove · / search npm" : "Enter/Space toggle · Tab switch tabs · / search";
+		const activeHint = this.activeTab === "third-party" ? "Type npm query · Enter install/toggle · Esc clear" : "Type to filter · Esc clear";
+		this.setFooterHintLines([this.rowTheme.fg("dim", this.pendingAction ?? (this.searchActive ? activeHint : inactiveHint))]);
+		this.setBottom(label, this.searchActive ? this.filterQuery : "", this.searchActive ? "> " : "/ ");
 	}
 
 	/** Refreshes async npm search rows for the third-party tab. */
 	private async refreshSearchRows(): Promise<void> {
 		const search = typeof this.callbacksOrUpdate === "function" ? undefined : this.callbacksOrUpdate?.onSearchPackages;
-		if (this.activeTab !== "third-party" || !search) { this.searchRows = []; this.refreshItems(); return; }
+		if (!this.searchActive || this.activeTab !== "third-party" || !search) { this.searchRows = []; this.refreshItems(); return; }
 		const query = this.filterQuery;
 		try { this.searchRows = await search(query, this.rows); if (query === this.filterQuery) this.refreshItems(); }
 		catch { this.searchRows = []; this.refreshItems(); }
@@ -178,15 +146,16 @@ export class ExtensionManagerModal extends SelectPreviewModal {
 	private async installPackage(row: ManagedExtensionRow): Promise<void> {
 		if (!row.source || typeof this.callbacksOrUpdate === "function" || !this.callbacksOrUpdate?.onInstallPackage) return;
 		this.pendingAction = `Installing ${row.source}…`; this.refreshBottom();
-		this.rows = await this.callbacksOrUpdate.onInstallPackage(row.source); this.searchRows = []; this.pendingAction = null; this.refreshBottom(); this.refreshItems(row.id);
+		this.rows = await this.callbacksOrUpdate.onInstallPackage(row.source); this.searchRows = []; this.searchActive = false; this.filterQuery = ""; this.pendingAction = null; this.refreshBottom(); this.refreshItems(row.id);
 	}
 
-	/** Removes one configured package row from Nexus settings. */
+	/** Removes one selected third-party extension or package from Nexus settings. */
 	private async removeSelectedPackage(): Promise<void> {
 		const row = this.getSelectedRow();
-		if (row?.rowType !== "package" || !row.source || typeof this.callbacksOrUpdate === "function" || !this.callbacksOrUpdate?.onRemovePackage) return;
-		this.pendingAction = `Removing ${row.source}…`; this.refreshBottom();
-		this.rows = await this.callbacksOrUpdate.onRemovePackage(row.source); this.pendingAction = null; this.refreshBottom(); this.refreshItems();
+		if (!row || row.kind !== "third-party" || row.rowType === "search" || typeof this.callbacksOrUpdate === "function" || !this.callbacksOrUpdate?.onRemovePackage) return;
+		const source = row.rowType === "package" && row.source ? row.source : row.id;
+		this.pendingAction = `Removing ${source}…`; this.refreshBottom();
+		this.rows = await this.callbacksOrUpdate.onRemovePackage(source); this.pendingAction = null; this.refreshBottom(); this.refreshItems();
 	}
 
 	/** Updates one configured package through Pi's package manager. */

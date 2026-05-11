@@ -90,6 +90,7 @@ test("/extensions third-party tab searches and installs npm package rows", async
 
 	modal.handleInput("\t");
 	modal.handleInput("\t");
+	modal.handleInput("/");
 	modal.handleInput("l");
 	await new Promise((resolve) => setTimeout(resolve, 0));
 	const searchOutput = modal.render(140).join("\n");
@@ -98,4 +99,44 @@ test("/extensions third-party tab searches and installs npm package rows", async
 	await new Promise((resolve) => setTimeout(resolve, 0));
 
 	assert.equal(installedSource, "npm:lazy-pi");
+});
+
+test("/extensions pressing d uninstalls selected third-party extension id", async () => {
+	const removedSources: string[] = [];
+	const modal = new ExtensionManagerModal(createTestTheme(), rows, () => {}, {
+		onRemovePackage: async (source) => {
+			removedSources.push(source);
+			return rows.filter((row) => row.id !== source);
+		},
+	});
+
+	modal.handleInput("\x1b[B");
+	modal.handleInput("d");
+	await new Promise((resolve) => setTimeout(resolve, 0));
+
+	assert.deepEqual(removedSources, ["third-party-beta"]);
+});
+
+test("/extensions third-party search only captures text after slash", async () => {
+	const queries: string[] = [];
+	const modal = new ExtensionManagerModal(createTestTheme(), rows, () => {}, {
+		onSearchPackages: async (query) => {
+			queries.push(query);
+			return [{ id: "pi-duck", kind: "third-party", status: "available", features: [query], rowType: "search", source: "npm:pi-duck" }];
+		},
+	});
+
+	modal.handleInput("\t");
+	modal.handleInput("\t");
+	modal.handleInput("d");
+	modal.handleInput("u");
+	await new Promise((resolve) => setTimeout(resolve, 0));
+	assert.deepEqual(queries, []);
+
+	modal.handleInput("/");
+	modal.handleInput("d");
+	modal.handleInput("u");
+	await new Promise((resolve) => setTimeout(resolve, 0));
+	assert.equal(queries.at(-1), "du");
+	assert.match(modal.render(140).join("\n"), /pi-duck\s+› available/u);
 });
