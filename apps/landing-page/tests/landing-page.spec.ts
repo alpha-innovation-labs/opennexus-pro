@@ -16,6 +16,9 @@ test.describe("Nexus landing page", () => {
     await page.goto("/");
 
     await expect(page.getByRole("heading", { name: "For the love of TUIs" })).toBeVisible();
+    await expect(page.getByRole("tab", { name: "npm", exact: true })).toBeVisible();
+    await expect(page.getByRole("tab", { name: "bun", exact: true })).toBeVisible();
+    await expect(page.getByRole("tab", { name: "pnpm", exact: true })).toBeVisible();
     await expect(page.getByText("npm install -g opennexus")).toBeVisible();
     await expect(page.getByRole("button", { name: "Copy install command" })).toBeVisible();
 
@@ -29,6 +32,16 @@ test.describe("Nexus landing page", () => {
     });
 
     expect(brokenTargets).toEqual([]);
+  });
+
+  test("switches between package manager install commands", async ({ page }) => {
+    await page.goto("/");
+
+    await page.getByRole("tab", { name: "bun", exact: true }).click();
+    await expect(page.getByText("bun add -g opennexus")).toBeVisible();
+
+    await page.getByRole("tab", { name: "pnpm", exact: true }).click();
+    await expect(page.getByText("pnpm add -g opennexus")).toBeVisible();
   });
 
   test("mounts one cast player without duplicate ids", async ({ page }) => {

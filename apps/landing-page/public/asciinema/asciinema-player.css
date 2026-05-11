@@ -1176,11 +1176,11 @@ span.ap-marker-container:hover span.ap-marker {
   --term-color-15: #fbf1c7;
 }
 
-/* Ayu Mirage theme for the Nexus landing page cast player. */
+/* Ayu-based black theme for the Nexus landing page cast player. */
 .asciinema-player-theme-ayu {
-  --term-color-foreground: #cccac2;
-  --term-color-background: #1f2430;
-  --term-color-0: #191e2a;
+  --term-color-foreground: #f8fafc;
+  --term-color-background: #000000;
+  --term-color-0: #0f172a;
   --term-color-1: #ff3333;
   --term-color-2: #bae67e;
   --term-color-3: #ffa759;
@@ -1188,7 +1188,7 @@ span.ap-marker-container:hover span.ap-marker {
   --term-color-5: #d4bfff;
   --term-color-6: #95e6cb;
   --term-color-7: #c7c7c7;
-  --term-color-8: #686868;
+  --term-color-8: #64748b;
   --term-color-9: #f27983;
   --term-color-10: #a6cc70;
   --term-color-11: #ffcc66;

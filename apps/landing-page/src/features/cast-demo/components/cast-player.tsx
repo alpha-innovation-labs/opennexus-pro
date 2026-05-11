@@ -28,7 +28,7 @@ export function CastPlayer() {
   return (
     <>
       <Script src="/asciinema/asciinema-player.min.js" strategy="afterInteractive" onReady={handleScriptReady} />
-      <div ref={targetRef} className="nexus-cast-player overflow-hidden bg-[#1f2430]" data-cast-src="/recordings/demo.cast" aria-label="Nexus terminal recording" />
+      <div ref={targetRef} className="nexus-cast-player overflow-hidden bg-black" data-cast-src="/recordings/demo.cast" aria-label="Nexus terminal recording" />
     </>
   );
 }

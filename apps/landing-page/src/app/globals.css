@@ -6,4 +6,60 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-background: lab(100 0 0);
+  --color-card: lab(100 0 0);
+  --color-border: oklab(0.921998 -0.00000908971 0.0000215769);
+  --color-foreground: lab(2.75381 0 0);
+  --color-muted: oklab(0.969998 -0.00000959635 0.0000227094);
+  --color-muted-foreground: lab(48.496 0 0);
+  --color-emerald-500: lab(66.9756 -58.27 19.5419);
+  --color-ring: lab(2.75381 0 0);
+}
+
+[data-theme="dark"] {
+  --color-background: lab(2.75381 0 0);
+  --color-card: lab(7.78201 -0.0000149012 0);
+  --color-border: oklab(0.999998 -0.00000980496 0.0000234246 / 0.1);
+  --color-foreground: lab(98.26 0 0);
+  --color-muted: oklab(0.268999 -0.00000260025 0.00000627339);
+  --color-muted-foreground: lab(66.128 -0.0000298023 0.0000119209);
+  --color-ring: lab(98.26 0 0);
+}
+
+[data-theme="dark"] .install-box {
+  background-color: lab(7.78201 -0.0000149012 0);
+  border-color: oklab(0.999998 -0.00000980496 0.0000234246 / 0.06);
+  color: lab(98.26 0 0);
+}
+
+[data-theme="dark"] .install-tabs {
+  background-color: oklab(0.268999 -0.00000260025 0.00000627339 / 0.4);
+  border-color: oklab(0.999998 -0.00000980496 0.0000234246 / 0.06);
+  color: lab(98.26 0 0);
+}
+
+[data-theme="dark"] .install-tab {
+  background-color: transparent;
+  border-color: oklab(0.999998 -0.00000980496 0.0000234246 / 0.05);
+  color: lab(66.128 -0.0000298023 0.0000119209);
+}
+
+[data-theme="dark"] .install-tab[aria-selected="true"] {
+  background-color: lab(2.75381 0 0);
+  color: lab(98.26 0 0);
+}
+
+[data-theme="dark"] .install-command-row {
+  background-color: lab(2.75381 0 0);
+  color: lab(98.26 0 0);
+}
+
+[data-theme="dark"] .install-command-row code {
+  color: lab(98.26 0 0);
+}
+
+[data-theme="dark"] .install-copy-button {
+  background-color: transparent;
+  border-color: oklab(0.999998 -0.00000980496 0.0000234246 / 0.06);
+  color: lab(66.128 -0.0000298023 0.0000119209);
 }
