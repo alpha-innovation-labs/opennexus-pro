@@ -1,17 +1,5 @@
-import { join } from "node:path";
-import { pathToFileURL } from "node:url";
-import { getPiCodingAgentDistRoot } from "../context-usage/pi/getPiCodingAgentDistRoot.js";
+import { createPiToolDefinitions } from "@nexus/pi-platform/tools/createPiToolDefinitions.js";
 import type { SlashMenuLeaf } from "./types.js";
-
-interface PiToolDefinition {
-  name: string;
-  description: string;
-  promptSnippet?: string;
-}
-
-interface PiToolsModule {
-  createAllToolDefinitions(cwd: string): Record<string, PiToolDefinition>;
-}
 
 /**
  * Builds slash-menu leaves for Pi built-in tool definitions.
@@ -20,9 +8,7 @@ interface PiToolsModule {
  * @returns Built-in tool leaves sorted by tool name.
  */
 export async function createBuiltinToolLeaves(cwd: string): Promise<SlashMenuLeaf[]> {
-  const modulePath = join(getPiCodingAgentDistRoot(), "core", "tools", "index.js");
-  const module = await import(pathToFileURL(modulePath).href) as PiToolsModule;
-  return Object.values(module.createAllToolDefinitions(cwd))
+  return Object.values(createPiToolDefinitions(cwd))
     .map((tool) => ({
       kind: "entry" as const,
       label: tool.name,
