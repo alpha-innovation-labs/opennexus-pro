@@ -1,0 +1,77 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Highlight & Tooltip
+   ═══════════════════════════════════════════════════════════════════ */
+#pi-highlight {
+  position: fixed;
+  pointer-events: none;
+  z-index: 2147483644;
+  background: var(--pi-accent-muted);
+  border: 2px solid var(--pi-accent);
+  border-radius: var(--pi-radius);
+  transition: all 0.05s ease-out;
+}
+
+#pi-tooltip {
+  position: fixed;
+  pointer-events: none;
+  z-index: 2147483647;
+  background: var(--pi-bg-card);
+  color: var(--pi-fg);
+  padding: 6px 10px;
+  border-radius: var(--pi-radius);
+  border: 1px solid var(--pi-border-muted);
+  font: 12px/1.4 var(--pi-font-mono);
+  box-shadow: 0 2px 8px var(--pi-shadow);
+  max-width: 400px;
+}
+
+#pi-tooltip .tag { color: var(--pi-error); }
+#pi-tooltip .id { color: var(--pi-warning); }
+#pi-tooltip .class { color: var(--pi-border); }
+#pi-tooltip .size { color: var(--pi-fg-dim); margin-left: 8px; }
+#pi-tooltip .hint { color: var(--pi-accent); font-size: 11px; margin-top: 4px; display: block; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Markers & Selection
+   ═══════════════════════════════════════════════════════════════════ */
+#pi-markers {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 2147483646;
+}
+
+.pi-marker-outline {
+  position: fixed;
+  pointer-events: none;
+  border: 2px solid var(--pi-accent);
+  border-radius: var(--pi-radius);
+  background: var(--pi-accent-muted);
+}
+
+.pi-marker-badge {
+  position: fixed;
+  pointer-events: auto;
+  background: var(--pi-accent);
+  color: var(--pi-bg-body);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: bold 13px var(--pi-font-ui);
+  cursor: pointer;
+  box-shadow: 0 2px 8px var(--pi-shadow);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.pi-marker-badge:hover {
+  transform: scale(1.1);
+  background: var(--pi-accent-hover);
+}
+
+.pi-marker-badge.open {
+  background: var(--pi-success);
+}
