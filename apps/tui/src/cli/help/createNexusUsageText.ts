@@ -26,7 +26,6 @@ export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): s
 		"  --resume [session-id]              Resume from picker, or open a specific session",
 		"  -r [session-id]                    Alias for --resume",
 		"  --resume=<session-id>              Open a specific session directly",
-		"  --session <session-id>             Open a specific session directly",
 		"  --startup-profile                  Write startup timings to /tmp/nexus-startup-profile.log",
 		"  --no-extensions, -ne               Disable extension registration",
 		"",

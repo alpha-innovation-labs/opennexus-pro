@@ -47,7 +47,7 @@ test("runCliWithApp prints Nexus-owned top-level help for -h and skips Pi startu
 	assert.match(text, /--resume \[session-id\]/u);
 	assert.match(text, /-r \[session-id\]/u);
 	assert.match(text, /--resume=<session-id>/u);
-	assert.match(text, /--session <session-id>/u);
+	assert.doesNotMatch(text, /--session <session-id>/u);
 	assert.match(text, /--startup-profile/u);
 	assert.match(text, /--no-extensions/u);
 	assert.match(text, /-ne/u);

@@ -27,7 +27,7 @@ test("nexus -h prints Nexus-owned help without starting Pi", async () => {
 		assert.match(result.output, /--resume \[session-id\]/u);
 		assert.match(result.output, /-r \[session-id\]/u);
 		assert.match(result.output, /--resume=<session-id>/u);
-		assert.match(result.output, /--session <session-id>/u);
+		assert.doesNotMatch(result.output, /--session <session-id>/u);
 		assert.match(result.output, /--startup-profile/u);
 		assert.match(result.output, /--no-extensions/u);
 		assert.match(result.output, /-ne/u);
