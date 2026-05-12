@@ -1,4 +1,4 @@
-import { DOMParser } from "linkedom";
+import { getLinkedomDOMParser } from "../xml/getLinkedomDOMParser.js";
 import { classifyTwitterItem } from "./classifyTwitterItem.js";
 import { extractStatusId } from "./extractStatusId.js";
 import { normalizeTwitterContent } from "./normalizeTwitterContent.js";
@@ -14,6 +14,7 @@ import type { TwitterPostRecord } from "./TwitterPostRecord.js";
  * @returns Parsed post records.
  */
 export function parseNitterRssItems(xml: string, account: string, source: string, fetchedAt: string): TwitterPostRecord[] {
+	const DOMParser = getLinkedomDOMParser();
 	const document = new DOMParser().parseFromString(xml, "text/xml");
 	if (!document) throw new Error("Nitter RSS XML could not be parsed");
 	return Array.from(document.querySelectorAll("item") as unknown as Element[]).flatMap((item) => {

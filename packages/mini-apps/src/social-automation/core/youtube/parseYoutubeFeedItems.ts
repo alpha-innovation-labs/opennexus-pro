@@ -1,4 +1,4 @@
-import { DOMParser } from "linkedom";
+import { getLinkedomDOMParser } from "../xml/getLinkedomDOMParser.js";
 import type { YoutubeChannelFeed } from "./YoutubeChannelFeed.js";
 import type { YoutubeUploadRecord } from "./YoutubeUploadRecord.js";
 
@@ -11,6 +11,7 @@ import type { YoutubeUploadRecord } from "./YoutubeUploadRecord.js";
  * @returns Parsed upload records.
  */
 export function parseYoutubeFeedItems(xml: string, feed: YoutubeChannelFeed, fetchedAt: string): YoutubeUploadRecord[] {
+	const DOMParser = getLinkedomDOMParser();
 	const document = new DOMParser().parseFromString(xml, "text/xml");
 	if (!document) throw new Error("YouTube feed XML could not be parsed");
 	return Array.from(document.querySelectorAll("entry") as unknown as Element[]).flatMap((entry) => {
