@@ -19,6 +19,8 @@ import { printSessionsTable } from "./sessions/printSessionsTable.js";
 import { readSessionDirArg } from "./sessions/readSessionDirArg.js";
 import { hasVersionFlag } from "./version/hasVersionFlag.js";
 import { printAppVersion } from "./version/printAppVersion.js";
+import { hasDeleteSessionFlag } from "./delete-session/hasDeleteSessionFlag.js";
+import { runDeleteSessionCommand } from "./delete-session/runDeleteSessionCommand.js";
 
 export interface RunCliWithAppOptions {
   runApp: (argv: string[]) => Promise<void>;
@@ -86,6 +88,11 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
       await printSessionsTable(process.cwd(), readSessionDirArg(argv));
     }
     return 0;
+  }
+
+  if (hasDeleteSessionFlag(argv)) {
+    ensureAgentDirEnv();
+    return runDeleteSessionCommand(argv, process.cwd(), readSessionDirArg(argv));
   }
 
   if (hasObservationsFlag(argv)) {

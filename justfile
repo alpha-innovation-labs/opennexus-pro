@@ -16,6 +16,7 @@ help:
     @echo "  just \033[0;33mdev\033[0m                     \033[0;32mRun the bundled Pi TUI with Tron\033[0m"
     @echo "  just \033[0;33mweb\033[0m                     \033[0;32mStart and open the landing page web app\033[0m"
     @echo "  just \033[0;33mdev --sessions\033[0m          \033[0;32mList resumable sessions table\033[0m"
+    @echo "  just \033[0;33mdev --delete-session <session-id>\033[0m \033[0;32mDelete a persisted session\033[0m"
     @echo "  just \033[0;33mdev --observations <session-id>\033[0m \033[0;32mPrint observations for a session\033[0m"
     @echo "  just \033[0;33mdev --resume <session-id>\033[0m \033[0;32mOpen a persisted session directly\033[0m"
     @echo "  just \033[0;33mdev-profile\033[0m             \033[0;32mCompare startup profiling with and without --no-extensions\033[0m"
