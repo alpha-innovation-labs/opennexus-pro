@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { FeatureManagementModal } from "../../../packages/extensions-dev/src/feature-management/ui/FeatureManagementModal.js";
+import { createFeatureStatusRows } from "../../../packages/extensions-dev/src/feature-management/model/createFeatureStatusRows.js";
 import type { FeatureStatusRow } from "../../../packages/extensions-dev/src/feature-management/model/types.js";
+import { readFeatureFlagsConfig } from "../../../packages/feature-flags/src/readFeatureFlagsConfig.js";
 import { renderComponentInVirtualTerminal } from "../../support/render/renderComponentInVirtualTerminal.js";
 import { createTestTheme } from "../../support/theme/createTestTheme.js";
 
@@ -155,4 +157,17 @@ test("/features modal uses tab and shift+tab to switch Core, Dev, Pro, and Mini-
 	assert.doesNotMatch(miniAppsOutput, /alpha\s+› enabled|feature-management|cmux/u);
 	assert.match(cycledOutput, /● Core \| ○ Dev \| ○ Pro \| ○ Mini-Apps/u);
 	assert.match(restoredOutput, /○ Core \| ○ Dev \| ○ Pro \| ● Mini-Apps/u);
+});
+
+test("/features mini-apps tab lists automations once from the source registry", () => {
+	const config = readFeatureFlagsConfig();
+	const modal = new FeatureManagementModal(createTestTheme(), createFeatureStatusRows(config, config), () => {});
+
+	modal.handleInput("\t");
+	modal.handleInput("\t");
+	modal.handleInput("\t");
+	for (const character of "automations") modal.handleInput(character);
+	const output = modal.render(160).join("\n");
+
+	assert.equal([...output.matchAll(/automations\s+› disabled\s+production/gu)].length, 1);
 });

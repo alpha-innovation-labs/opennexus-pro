@@ -5,7 +5,6 @@ import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFea
 import { createTelemetryExtensionApi } from "@nexus/feature-flags/createTelemetryExtensionApi.js";
 import { setRuntimeExtensionFeatureFlags } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
 import { registerAiProvidersExtension } from "../ai-providers/registerAiProvidersExtension.js";
-import { registerAutomationsExtension } from "@nexus/mini-apps/automations/registerAutomationsExtension.js";
 import { registerAutoUpdateExtension } from "../auto-update/registerAutoUpdateExtension.js";
 import { registerCmuxExtension } from "@nexus/extensions-pro/cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "../context-usage/registerContextUsageExtension.js";
@@ -33,7 +32,6 @@ import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manag
  */
 export const compiledBundledExtensionIds = [
   "ai-providers",
-  "automations",
   "auto-update",
   "cmux",
   "context-usage",
@@ -59,7 +57,6 @@ export const compiledBundledExtensionIds = [
 
 const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => void | Promise<void>> = {
   "ai-providers": registerAiProvidersExtension,
-  "automations": registerAutomationsExtension,
   "auto-update": registerAutoUpdateExtension,
   "cmux": registerCmuxExtension,
   "context-usage": registerContextUsageExtension,
