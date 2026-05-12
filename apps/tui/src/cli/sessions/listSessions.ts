@@ -1,4 +1,5 @@
 import { SessionManager, type SessionInfo } from "@earendil-works/pi-coding-agent";
+import { sortSessionsByModifiedTime } from "./sortSessionsByModifiedTime.js";
 
 /**
  * Lists resumable sessions for one working directory.
@@ -9,5 +10,5 @@ import { SessionManager, type SessionInfo } from "@earendil-works/pi-coding-agen
  */
 export async function listSessions(cwd: string, sessionDir?: string): Promise<SessionInfo[]> {
   const sessions = await SessionManager.list(cwd, sessionDir);
-  return sessions.sort((first, second) => first.modified.getTime() - second.modified.getTime());
+  return sortSessionsByModifiedTime(sessions);
 }

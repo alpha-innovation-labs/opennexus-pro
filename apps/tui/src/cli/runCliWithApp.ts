@@ -9,7 +9,12 @@ import { printObservationsList } from "./observations/printObservationsList.js";
 import { readObservationsSessionIdArg } from "./observations/readObservationsSessionIdArg.js";
 import { runInstallCommand } from "./install/runInstallCommand.js";
 import { runUninstallCommand } from "./uninstall/runUninstallCommand.js";
+import { hasJsonFlag } from "./sessions/hasJsonFlag.js";
+import { hasSessionsAllFlag } from "./sessions/hasSessionsAllFlag.js";
 import { hasSessionsFlag } from "./sessions/hasSessionsFlag.js";
+import { printAllSessionsJson } from "./sessions/printAllSessionsJson.js";
+import { printAllSessionsTable } from "./sessions/printAllSessionsTable.js";
+import { printSessionsJson } from "./sessions/printSessionsJson.js";
 import { printSessionsTable } from "./sessions/printSessionsTable.js";
 import { readSessionDirArg } from "./sessions/readSessionDirArg.js";
 import { hasVersionFlag } from "./version/hasVersionFlag.js";
@@ -63,9 +68,23 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
     return 0;
   }
 
+  if (hasSessionsAllFlag(argv)) {
+    ensureAgentDirEnv();
+    if (hasJsonFlag(argv)) {
+      await printAllSessionsJson();
+    } else {
+      await printAllSessionsTable();
+    }
+    return 0;
+  }
+
   if (hasSessionsFlag(argv)) {
     ensureAgentDirEnv();
-    await printSessionsTable(process.cwd(), readSessionDirArg(argv));
+    if (hasJsonFlag(argv)) {
+      await printSessionsJson(process.cwd(), readSessionDirArg(argv));
+    } else {
+      await printSessionsTable(process.cwd(), readSessionDirArg(argv));
+    }
     return 0;
   }
 
