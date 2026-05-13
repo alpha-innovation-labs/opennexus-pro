@@ -67,6 +67,7 @@ test("/model switches between Models and All models tabs with provider-grouped p
   await modal.refresh();
   const filteredOutput = await renderModalOutput(modal);
   assert.match(filteredOutput, /Context\s+In \/M\s+Out \/M\s+Ca in \/M\s+Ca out \/M/u);
+  assert.equal((filteredOutput.match(/Context\s+In \/M\s+Out \/M\s+Ca in \/M\s+Ca out \/M/gu) ?? []).length, 1);
   assert.match(filteredOutput, /openrouter\s+.*DeepSeek: DeepSeek V4 Pro/us);
   assert.doesNotMatch(filteredOutput, /• openrouter\/deepseek\/deepseek-v4-pro/u);
   assert.match(filteredOutput, /1,048,576\s+\$0\.435\s+\$0\.87\s+\$0\.0036\s+\$0/u);

@@ -46,10 +46,14 @@ export function renderSelectListLines(options: RenderSelectListLinesOptions): st
 function createSelectListRenderRows(options: RenderSelectListLinesOptions): SelectListRenderRow[] {
   const rows: SelectListRenderRow[] = [];
   let previousGroupLabel: string | undefined;
+  let renderedGroupHeaderDescription = false;
   for (let index = 0; index < options.items.length; index += 1) {
     const item = options.items[index]!;
     const groupLabel = getGroupLabel(item);
-    if (groupLabel && groupLabel !== previousGroupLabel) rows.push({ text: renderGroupHeader(options, item, groupLabel) });
+    if (groupLabel && groupLabel !== previousGroupLabel) {
+      rows.push({ text: renderGroupHeader(options, item, groupLabel, !renderedGroupHeaderDescription) });
+      if (getGroupHeaderDescription(item)) renderedGroupHeaderDescription = true;
+    }
     previousGroupLabel = groupLabel;
     rows.push(...renderSelectListItem(options, item, index === options.selectedIndex).map((text) => ({ itemIndex: index, text })));
   }
@@ -200,10 +204,11 @@ function renderFixedLabelDescribedItem(options: RenderSelectListLinesOptions, it
  * @param options Render options.
  * @param item First item in the group.
  * @param groupLabel Group heading text.
+ * @param showDescription Whether to render the optional header description.
  * @returns Rendered group heading.
  */
-function renderGroupHeader(options: RenderSelectListLinesOptions, item: AutocompleteItem, groupLabel: string): string {
-  const description = getGroupHeaderDescription(item);
+function renderGroupHeader(options: RenderSelectListLinesOptions, item: AutocompleteItem, groupLabel: string, showDescription: boolean): string {
+  const description = showDescription ? getGroupHeaderDescription(item) : undefined;
   if (!description) return ` ${options.theme.fg("accent", options.theme.bold(truncateToWidth(groupLabel, Math.max(1, options.width - 2), "")))}`;
   const fixedLabelWidth = (item as { fixedLabelWidth?: number }).fixedLabelWidth;
   const indentWidth = visibleWidth(getItemIndent(item));

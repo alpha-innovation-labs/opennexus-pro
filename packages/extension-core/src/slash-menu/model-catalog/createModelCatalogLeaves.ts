@@ -9,6 +9,6 @@ import { createModelCatalogLeaf } from "./createModelCatalogLeaf.js";
  */
 export function createModelCatalogLeaves(): SlashMenuLeaf[] {
   return getProviders()
-    .flatMap((provider) => getModels(provider).map(createModelCatalogLeaf))
+    .flatMap((provider) => getModels(provider).map((model) => createModelCatalogLeaf(model)))
     .sort((left, right) => (left.groupLabel?.localeCompare(right.groupLabel ?? "") || left.label.localeCompare(right.label)));
 }
