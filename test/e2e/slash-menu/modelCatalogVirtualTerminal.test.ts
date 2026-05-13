@@ -32,24 +32,36 @@ function createContext() {
   };
 }
 
-test("/model shows available models before the full catalog with price columns", async () => {
+/** Renders the modal into plain terminal text. */
+async function renderModalOutput(modal: SlashMenuModal): Promise<string> {
+  return stripAnsi((await renderComponentInVirtualTerminal(() => modal, 140, 36)).join("\n"));
+}
+
+test("/model switches between Models and All models tabs with provider-grouped prices", async () => {
   const picked: string[] = [];
   const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, (command) => { picked.push(command); });
 
   await modal.openLevel("model");
-  const output = stripAnsi((await renderComponentInVirtualTerminal(() => modal, 140, 36)).join("\n"));
-  const availableIndex = output.indexOf("Available Models");
-  const catalogIndex = output.indexOf("Full Model Catalog");
+  const modelsOutput = await renderModalOutput(modal);
+  assert.match(modelsOutput, /● Models\s+\|\s+○ All models/u);
+  assert.match(modelsOutput, /anthropic\s+.*anthropic\/claude-test/us);
+  assert.doesNotMatch(modelsOutput, /openrouter\/deepseek\/deepseek-v4-pro/u);
 
-  assert.ok(availableIndex >= 0, "available section is rendered");
-  assert.ok(catalogIndex > availableIndex, "catalog section renders below available models");
-  assert.match(output, /anthropic\/claude-test/u);
+  modal.handleInput("\t");
+  await modal.refresh();
+  const allModelsOutput = await renderModalOutput(modal);
+  assert.match(allModelsOutput, /○ Models\s+\|\s+● All models/u);
 
+  modal.handleInput("\x1b[Z");
+  await modal.refresh();
+  const shiftedOutput = await renderModalOutput(modal);
+  assert.match(shiftedOutput, /● Models\s+\|\s+○ All models/u);
+
+  modal.handleInput("\t");
   modal.setQuery("openrouter/deepseek/deepseek-v4-pro");
   await modal.refresh();
-  const filteredOutput = stripAnsi((await renderComponentInVirtualTerminal(() => modal, 140, 36)).join("\n"));
-
-  assert.match(filteredOutput, /openrouter\/deepseek\/deepseek-v4-pro/u);
+  const filteredOutput = await renderModalOutput(modal);
+  assert.match(filteredOutput, /openrouter\s+.*openrouter\/deepseek\/deepseek-v4-pro/us);
   assert.match(filteredOutput, /in \$0\.435\/M\s+out \$0\.87\/M/u);
 
   modal.handleInput("\r");

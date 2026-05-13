@@ -19,7 +19,7 @@ export function createAvailableModelLeaf(model: Model<Api>, ctx: ExtensionContex
     kind: "model",
     label: `${reference}${isCurrentModel ? " ✓" : ""}`,
     description: model.name,
-    groupLabel: "Available Models",
+    groupLabel: model.provider,
     value: reference,
     fixedLabelWidth: AVAILABLE_MODEL_LABEL_WIDTH,
   };

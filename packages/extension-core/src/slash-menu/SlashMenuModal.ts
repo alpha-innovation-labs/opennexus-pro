@@ -19,6 +19,7 @@ import { createActiveLeaves } from "./createActiveLeaves.js";
 import { createAuthImportCandidateLeaves } from "./createAuthImportCandidateLeaves.js";
 import { createLoadingLeaf } from "./createLoadingLeaf.js";
 import { createNameInputLeaf } from "./createNameInputLeaf.js";
+import { createModelLeaves } from "./createModelLeaves.js";
 import { createScopedModelLeaves } from "./createScopedModelLeaves.js";
 import { getDynamicSlashCommands } from "./getDynamicSlashCommands.js";
 import { createSettingChoiceLeaves } from "./createSettingChoiceLeaves.js";
@@ -49,6 +50,9 @@ import { isSlashTextInput } from "./isSlashTextInput.js";
 import { sanitizeSessionNameInput } from "./sanitizeSessionNameInput.js";
 import { shouldShowSlashMenuPreview } from "./shouldShowSlashMenuPreview.js";
 import { logoutProvider } from "./model/logoutProvider.js";
+import { getNextModelMenuTab } from "./model-catalog/getNextModelMenuTab.js";
+import type { ModelMenuTab } from "./model-catalog/ModelMenuTab.js";
+import { renderModelMenuTabs } from "./model-catalog/renderModelMenuTabs.js";
 import { resolveModelCatalogCommandValue } from "./model-catalog/resolveModelCatalogCommandValue.js";
 import { resolveRequestedSlashMenuLevel } from "./resolveRequestedSlashMenuLevel.js";
 import type { SlashMenuLevel } from "./SlashMenuLevel.js";
@@ -78,6 +82,7 @@ export class SlashMenuModal extends SelectPreviewModal {
   private readonly resumeLeavesCache = new Map<ResumeScope, SlashMenuLeaf[]>();
   private resumeScope: ResumeScope = "current";
   private resourceScope: ResourceCommandScope = "all";
+  private modelMenuTab: ModelMenuTab = "models";
   private pendingImportSource?: AuthImportSource;
   private pendingImportCandidates: AuthImportCandidate[] = [];
   private readonly importSelection = new Set<string>();
@@ -149,6 +154,7 @@ export class SlashMenuModal extends SelectPreviewModal {
       return;
     }
     if (this.handleAuthImportCandidateInput(data)) return;
+    if (this.handleModelMenuTabInput(data)) return;
     if (this.handleResourceScopeInput(data)) return;
     if (this.handleResourcePreviewFocusInput(data)) return;
     if (this.handleResourcePreviewInput(data)) return;
@@ -179,6 +185,21 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (!item) return true;
     toggleAuthImportCandidateSelection(this.importSelection, item.value);
     void this.refresh(item.value);
+    return true;
+  }
+
+  /**
+   * Switches model-menu tabs with Tab and Shift-Tab.
+   *
+   * @param data Raw keyboard input.
+   * @returns True when handled.
+   */
+  private handleModelMenuTabInput(data: string): boolean {
+    if (this.level !== "model") return false;
+    if (matchesKey(data, Key.tab)) this.modelMenuTab = getNextModelMenuTab(this.modelMenuTab, 1);
+    else if (matchesKey(data, Key.shift("tab"))) this.modelMenuTab = getNextModelMenuTab(this.modelMenuTab, -1);
+    else return false;
+    void this.refresh();
     return true;
   }
 
@@ -235,6 +256,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "login-import-candidates") return createAuthImportCandidateLeaves(this.pendingImportCandidates, this.importSelection);
     if (this.level === "name-input") return [createNameInputLeaf(this.nameInput)];
     if (this.level === "resume") return getCachedResumeLeaves(this.resumeLeavesCache, this.ctx, this.resumeScope);
+    if (this.level === "model") return createModelLeaves(this.ctx, this.modelMenuTab);
     return createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.resumeScope, this.getDynamicCommands(), this.resourceScope, this.getAvailableTools());
   }
 
@@ -258,6 +280,7 @@ export class SlashMenuModal extends SelectPreviewModal {
 
   private renderItems(items: Array<SlashMenuLeaf | SlashMenuSection>, leftTitle: string): void {
     if (this.level === "resume") this.setTitles(createResumeScopeHeaderTitle(this.resumeScope), "");
+    else if (this.level === "model") this.setTitles(renderModelMenuTabs(this.modelMenuTab, this.ctx.ui.theme), "");
     else this.setTitles(leftTitle, this.level === "prompts" || this.level === "skills" ? renderResourceCommandScopeTabs(this.resourceScope, this.ctx.ui.theme) : "Preview");
     this.setHeaderFocusMarkers(this.level !== "prompts" && this.level !== "skills");
     this.setItems(toAutocompleteItems(items.map((item) => this.formatVisibleItem(item))));
@@ -337,6 +360,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     this.previousLevels.push(this.level);
     if (level === "model") {
       this.level = "model";
+      this.modelMenuTab = "models";
       this.query = "";
       this.searchActive = false;
       this.setBottom("Search", "", "> /");

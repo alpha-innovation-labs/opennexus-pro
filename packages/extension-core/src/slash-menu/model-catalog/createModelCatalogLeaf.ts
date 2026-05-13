@@ -17,7 +17,7 @@ export function createModelCatalogLeaf(model: Model<Api>): SlashMenuLeaf {
     kind: "model",
     label: reference,
     description: formatModelCatalogCostColumns(model.cost.input, model.cost.output),
-    groupLabel: "──────── Full Model Catalog · input/output $/M ────────",
+    groupLabel: model.provider,
     value: `catalog:${reference}`,
     fixedLabelWidth: MODEL_CATALOG_LABEL_WIDTH,
   };
