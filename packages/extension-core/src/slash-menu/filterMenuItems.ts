@@ -1,3 +1,6 @@
+import { createSearchTokens } from "./search/createSearchTokens.js";
+import { doesSearchQueryMatch } from "./search/doesSearchQueryMatch.js";
+import { normalizeSearchText } from "./search/normalizeSearchText.js";
 import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
 
 /**
@@ -11,12 +14,12 @@ export function filterMenuItems(
   items: Array<SlashMenuLeaf | SlashMenuSection>,
   query: string,
 ): Array<SlashMenuLeaf | SlashMenuSection> {
-  const normalizedQuery = query.trim().toLowerCase();
-  if (!normalizedQuery) return items;
+  const tokens = createSearchTokens(query);
+  if (tokens.length === 0) return items;
 
   const groupOrder = createGroupOrder(items);
   return items
-    .map((item, index) => ({ item, index, score: scoreItem(item, normalizedQuery), groupIndex: getGroupIndex(item, groupOrder) }))
+    .map((item, index) => ({ item, index, score: scoreItem(item, tokens), groupIndex: getGroupIndex(item, groupOrder) }))
     .filter((entry) => entry.score < Number.POSITIVE_INFINITY)
     .sort((left, right) => left.groupIndex - right.groupIndex || left.score - right.score || left.index - right.index)
     .map((entry) => entry.item);
@@ -53,15 +56,16 @@ function getGroupIndex(item: SlashMenuLeaf | SlashMenuSection, groupOrder: Map<s
  * Scores one slash menu item for query ordering.
  *
  * @param item Candidate item.
- * @param query Normalized query.
+ * @param tokens Normalized query tokens.
  * @returns Lower is better. Infinity means no match.
  */
-function scoreItem(item: SlashMenuLeaf | SlashMenuSection, query: string): number {
-  const label = item.label.toLowerCase();
-  const value = item.value.toLowerCase();
-  if (!label.includes(query) && !value.includes(query)) return Number.POSITIVE_INFINITY;
-  if (label === `/${query}` || label === query || value === query) return 0;
-  if (label.startsWith(`/${query}`) || label.startsWith(query) || value.startsWith(query)) return 1;
+function scoreItem(item: SlashMenuLeaf | SlashMenuSection, tokens: string[]): number {
+  const label = normalizeSearchText(item.label);
+  const value = normalizeSearchText(item.value);
+  const query = tokens.join(" ");
+  if (!doesSearchQueryMatch(item.label, item.value, tokens)) return Number.POSITIVE_INFINITY;
+  if (label === query || value === query) return 0;
+  if (label.startsWith(query) || value.startsWith(query)) return 1;
   if (label.includes(query) || value.includes(query)) return 2;
   return 3;
 }
