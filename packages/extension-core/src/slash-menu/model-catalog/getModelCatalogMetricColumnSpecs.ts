@@ -11,9 +11,9 @@ export type ModelCatalogMetricColumnSpec = {
 export function getModelCatalogMetricColumnSpecs(): ModelCatalogMetricColumnSpec[] {
   return [
     { label: "Context", width: 11 },
-    { label: "In $/M", width: 10 },
-    { label: "Out $/M", width: 11 },
-    { label: "Cache in $/M", width: 15 },
-    { label: "Cache out $/M", width: 16 },
+    { label: "In /M", width: 10 },
+    { label: "Out /M", width: 11 },
+    { label: "Ca in /M", width: 15 },
+    { label: "Ca out /M", width: 16 },
   ];
 }
