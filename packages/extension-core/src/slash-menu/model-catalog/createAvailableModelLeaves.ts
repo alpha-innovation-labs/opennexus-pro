@@ -11,5 +11,5 @@ import { createAvailableModelLeaf } from "./createAvailableModelLeaf.js";
 export function createAvailableModelLeaves(ctx: ExtensionContext): SlashMenuLeaf[] {
   return ctx.modelRegistry.getAvailable()
     .map((model) => createAvailableModelLeaf(model as never, ctx))
-    .sort((left, right) => left.label.localeCompare(right.label));
+    .sort((left, right) => (left.groupLabel?.localeCompare(right.groupLabel ?? "") || left.label.localeCompare(right.label)));
 }

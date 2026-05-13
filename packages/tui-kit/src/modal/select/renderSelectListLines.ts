@@ -205,10 +205,16 @@ function renderFixedLabelDescribedItem(options: RenderSelectListLinesOptions, it
 function renderGroupHeader(options: RenderSelectListLinesOptions, item: AutocompleteItem, groupLabel: string): string {
   const description = getGroupHeaderDescription(item);
   if (!description) return ` ${options.theme.fg("accent", options.theme.bold(truncateToWidth(groupLabel, Math.max(1, options.width - 2), "")))}`;
-  const labelWidth = Math.max(1, options.width - 3 - visibleWidth(description));
-  const label = truncateToWidth(groupLabel, labelWidth, "");
-  const spacing = " ".repeat(Math.max(1, options.width - 1 - visibleWidth(label) - visibleWidth(description)));
-  return ` ${options.theme.fg("accent", options.theme.bold(label))}${spacing}${options.theme.fg("muted", description)}`;
+  const fixedLabelWidth = (item as { fixedLabelWidth?: number }).fixedLabelWidth;
+  const indentWidth = visibleWidth(getItemIndent(item));
+  const labelColumnWidth = fixedLabelWidth !== undefined
+    ? Math.max(1, Math.min(indentWidth + fixedLabelWidth, options.width - 4))
+    : Math.max(1, options.width - 3 - visibleWidth(description));
+  const label = truncateToWidth(groupLabel, labelColumnWidth, "");
+  const spacing = " ".repeat(Math.max(1, labelColumnWidth - visibleWidth(label) + 1));
+  const descriptionWidth = Math.max(1, options.width - 2 - labelColumnWidth - 1);
+  const descText = truncateToWidth(description, descriptionWidth, "");
+  return ` ${options.theme.fg("accent", options.theme.bold(label))}${spacing}${options.theme.fg("muted", descText)}`;
 }
 
 /**
