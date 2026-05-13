@@ -49,6 +49,7 @@ import { isSlashTextInput } from "./isSlashTextInput.js";
 import { sanitizeSessionNameInput } from "./sanitizeSessionNameInput.js";
 import { shouldShowSlashMenuPreview } from "./shouldShowSlashMenuPreview.js";
 import { logoutProvider } from "./model/logoutProvider.js";
+import { resolveModelCatalogCommandValue } from "./model-catalog/resolveModelCatalogCommandValue.js";
 import { resolveRequestedSlashMenuLevel } from "./resolveRequestedSlashMenuLevel.js";
 import type { SlashMenuLevel } from "./SlashMenuLevel.js";
 import { toAutocompleteItems } from "./toAutocompleteItems.js";
@@ -304,7 +305,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "theme") return this.applyLeafByValue(item.value);
     if (this.level === "model") {
       if (item.value === "__loading__") return;
-      this.onCommandPicked(`/nexus-model-select ${item.value}`);
+      this.onCommandPicked(`/nexus-model-select ${resolveModelCatalogCommandValue(item.value)}`);
       return;
     }
     if (this.level === "scoped-models") {
@@ -587,7 +588,8 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "setting-choice") return { ...item, description: "" };
     if (this.level === "resume") return { ...item, label: `${item.label}\n${item.description}`, description: "", preserveLabelWhitespace: true, resumeRow: true, wrapPreservedLabel: true };
     if ((this.level === "login" || this.level === "login-providers") && !item.value.startsWith("import:")) return { ...item, label: formatLoginProviderLabel(item as SlashMenuLeaf, icon, this.ctx.ui.theme), description: "" };
-    if (this.level === "model" || this.level === "login" || this.level === "login-import" || this.level === "login-import-candidates" || this.level === "login-providers" || this.level === "logout" || this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return { ...item, label: `${icon} ${item.label}`, description: "" };
+    if (this.level === "model") return { ...item, label: `${icon} ${item.label}` };
+    if (this.level === "login" || this.level === "login-import" || this.level === "login-import-candidates" || this.level === "login-providers" || this.level === "logout" || this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return { ...item, label: `${icon} ${item.label}`, description: "" };
     if (this.level === "prompts" || this.level === "skills") return { ...item, label: formatResourceCommandLabel(icon, item as SlashMenuLeaf), description: "", wrapToFit: this.level === "skills" };
     if (this.level === "tools") return { ...item, label: `${icon} ${item.label}`, fixedLabelWidth: 24 };
     return { ...item, label: `${icon} ${item.label}` };
