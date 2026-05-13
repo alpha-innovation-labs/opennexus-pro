@@ -77,15 +77,22 @@ test("/model switches between Models and All models tabs with provider-grouped p
   assert.deepEqual(picked, ["/nexus-model-select openrouter/deepseek/deepseek-v4-pro"]);
 });
 
-test("/model All models search matches split fuzzy tokens", async () => {
+test("/model All models search matches split and compact fuzzy tokens", async () => {
   const modal = new SlashMenuModal(createContext() as never, () => "medium", () => undefined, () => undefined, () => undefined, () => undefined);
 
   await modal.openLevel("model");
   modal.handleInput("\t");
   modal.setQuery("minimax 2");
   await modal.refresh();
-  const output = await renderModalOutput(modal);
+  const splitOutput = await renderModalOutput(modal);
 
-  assert.match(output, /MiniMax M2/u);
-  assert.doesNotMatch(output, /No matching items/u);
+  assert.match(splitOutput, /MiniMax M2/u);
+  assert.doesNotMatch(splitOutput, /No matching items/u);
+
+  modal.setQuery("minim2");
+  await modal.refresh();
+  const compactOutput = await renderModalOutput(modal);
+
+  assert.match(compactOutput, /MiniMax M2/u);
+  assert.doesNotMatch(compactOutput, /No matching items/u);
 });
