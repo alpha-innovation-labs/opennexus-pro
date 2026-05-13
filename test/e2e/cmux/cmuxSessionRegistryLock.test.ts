@@ -19,7 +19,7 @@ test("cmux session registration recovers from a stale registry lock directory", 
 
 		try {
 			await mkdir(lockPath, { recursive: true });
-			const staleTime = new Date(Date.now() - 120_000);
+			const staleTime = new Date(Date.now() - 6_000);
 			await utimes(lockPath, staleTime, staleTime);
 			process.env.CMUX_SURFACE_ID = "surface-stale-lock";
 			process.env.CMUX_WORKSPACE_ID = "workspace-stale-lock";
