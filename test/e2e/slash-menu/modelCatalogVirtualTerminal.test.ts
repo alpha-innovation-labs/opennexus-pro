@@ -95,4 +95,19 @@ test("/model All models search matches split and compact fuzzy tokens", async ()
 
   assert.match(compactOutput, /MiniMax M2/u);
   assert.doesNotMatch(compactOutput, /No matching items/u);
+
+  modal.setQuery("mi2.5");
+  await modal.refresh();
+  const abbreviatedOutput = await renderModalOutput(modal);
+
+  assert.match(abbreviatedOutput, /MiniMax M2\.5/u);
+  assert.doesNotMatch(abbreviatedOutput, /Kimi K2\.5/u);
+  assert.doesNotMatch(abbreviatedOutput, /Claude Opus 4\.5/u);
+
+  modal.setQuery("mini2.5");
+  await modal.refresh();
+  const compactVersionOutput = await renderModalOutput(modal);
+
+  assert.match(compactVersionOutput, /MiniMax M2\.5/u);
+  assert.doesNotMatch(compactVersionOutput, /Kimi K2\.5/u);
 });

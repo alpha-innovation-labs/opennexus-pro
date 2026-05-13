@@ -1,3 +1,5 @@
+import { compactSearchText } from "./compactSearchText.js";
+import { doesCompactSearchTokenMatch } from "./doesCompactSearchTokenMatch.js";
 import { doesSearchTokenMatch } from "./doesSearchTokenMatch.js";
 import { normalizeSearchText } from "./normalizeSearchText.js";
 
@@ -11,5 +13,6 @@ import { normalizeSearchText } from "./normalizeSearchText.js";
  */
 export function doesSearchQueryMatch(label: string, value: string, tokens: string[]): boolean {
   const text = normalizeSearchText(`${label} ${value}`);
-  return tokens.every((token) => doesSearchTokenMatch(text, token));
+  const compactValue = compactSearchText(value);
+  return tokens.every((token) => doesSearchTokenMatch(text, token) || compactValue.includes(compactSearchText(token)) || doesCompactSearchTokenMatch(label, token));
 }
