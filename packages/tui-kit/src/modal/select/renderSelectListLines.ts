@@ -49,7 +49,7 @@ function createSelectListRenderRows(options: RenderSelectListLinesOptions): Sele
   for (let index = 0; index < options.items.length; index += 1) {
     const item = options.items[index]!;
     const groupLabel = getGroupLabel(item);
-    if (groupLabel && groupLabel !== previousGroupLabel) rows.push({ text: renderGroupHeader(options, groupLabel) });
+    if (groupLabel && groupLabel !== previousGroupLabel) rows.push({ text: renderGroupHeader(options, item, groupLabel) });
     previousGroupLabel = groupLabel;
     rows.push(...renderSelectListItem(options, item, index === options.selectedIndex).map((text) => ({ itemIndex: index, text })));
   }
@@ -198,11 +198,17 @@ function renderFixedLabelDescribedItem(options: RenderSelectListLinesOptions, it
  * Renders a non-selectable group heading for grouped list items.
  *
  * @param options Render options.
+ * @param item First item in the group.
  * @param groupLabel Group heading text.
  * @returns Rendered group heading.
  */
-function renderGroupHeader(options: RenderSelectListLinesOptions, groupLabel: string): string {
-  return ` ${options.theme.fg("accent", options.theme.bold(truncateToWidth(groupLabel, Math.max(1, options.width - 2), "")))}`;
+function renderGroupHeader(options: RenderSelectListLinesOptions, item: AutocompleteItem, groupLabel: string): string {
+  const description = getGroupHeaderDescription(item);
+  if (!description) return ` ${options.theme.fg("accent", options.theme.bold(truncateToWidth(groupLabel, Math.max(1, options.width - 2), "")))}`;
+  const labelWidth = Math.max(1, options.width - 3 - visibleWidth(description));
+  const label = truncateToWidth(groupLabel, labelWidth, "");
+  const spacing = " ".repeat(Math.max(1, options.width - 1 - visibleWidth(label) - visibleWidth(description)));
+  return ` ${options.theme.fg("accent", options.theme.bold(label))}${spacing}${options.theme.fg("muted", description)}`;
 }
 
 /**
@@ -214,6 +220,17 @@ function renderGroupHeader(options: RenderSelectListLinesOptions, groupLabel: st
 function getGroupLabel(item: AutocompleteItem): string | undefined {
   const groupLabel = (item as { groupLabel?: string }).groupLabel?.trim();
   return groupLabel || undefined;
+}
+
+/**
+ * Reads an optional right-aligned group header description.
+ *
+ * @param item Item to inspect.
+ * @returns Group header description when present.
+ */
+function getGroupHeaderDescription(item: AutocompleteItem): string | undefined {
+  const description = (item as { groupHeaderDescription?: string }).groupHeaderDescription?.trim();
+  return description || undefined;
 }
 
 /**

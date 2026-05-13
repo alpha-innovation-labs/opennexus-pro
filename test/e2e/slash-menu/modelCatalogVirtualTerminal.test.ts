@@ -45,6 +45,7 @@ test("/model switches between Models and All models tabs with provider-grouped p
   const modelsOutput = await renderModalOutput(modal);
   assert.match(modelsOutput, /● Models\s+\|\s+○ All models/u);
   assert.match(modelsOutput, /anthropic\s+.*anthropic\/claude-test/us);
+  assert.doesNotMatch(modelsOutput, /Claude Test/u);
   assert.doesNotMatch(modelsOutput, /openrouter\/deepseek\/deepseek-v4-pro/u);
 
   modal.handleInput("\t");
@@ -61,8 +62,10 @@ test("/model switches between Models and All models tabs with provider-grouped p
   modal.setQuery("openrouter/deepseek/deepseek-v4-pro");
   await modal.refresh();
   const filteredOutput = await renderModalOutput(modal);
-  assert.match(filteredOutput, /openrouter\s+.*openrouter\/deepseek\/deepseek-v4-pro/us);
-  assert.match(filteredOutput, /in \$0\.435\/M\s+out \$0\.87\/M/u);
+  assert.match(filteredOutput, /Context\s+Input \$\/M\s+Output \$\/M\s+Cache read \$\/M\s+Cache write \$\/M/u);
+  assert.match(filteredOutput, /openrouter\s+.*DeepSeek: DeepSeek V4 Pro/us);
+  assert.doesNotMatch(filteredOutput, /• openrouter\/deepseek\/deepseek-v4-pro/u);
+  assert.match(filteredOutput, /1,048,576\s+\$0\.435\s+\$0\.87\s+\$0\.0036\s+\$0/u);
 
   modal.handleInput("\r");
   await Promise.resolve();

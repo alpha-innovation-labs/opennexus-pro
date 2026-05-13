@@ -17,6 +17,7 @@ export type SlashMenuLeaf = {
   value: string;
   currentValue?: string;
   groupLabel?: string;
+  groupHeaderDescription?: string;
   options?: string[];
   sourcePath?: string;
   sourceScope?: "project" | "user" | "temporary";
@@ -33,6 +34,7 @@ export type SlashMenuSection = {
   description: string;
   value: string;
   groupLabel?: string;
+  groupHeaderDescription?: string;
   preserveLabelWhitespace?: boolean;
   resumeAge?: string;
   resumeRow?: boolean;

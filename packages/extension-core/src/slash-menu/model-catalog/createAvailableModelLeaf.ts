@@ -3,8 +3,6 @@ import type { Api, Model } from "@earendil-works/pi-ai";
 import type { SlashMenuLeaf } from "../types.js";
 import { createProviderQualifiedModelLabel } from "./createProviderQualifiedModelLabel.js";
 
-const AVAILABLE_MODEL_LABEL_WIDTH = 52;
-
 /**
  * Creates one available-model slash-menu row.
  *
@@ -18,9 +16,8 @@ export function createAvailableModelLeaf(model: Model<Api>, ctx: ExtensionContex
   return {
     kind: "model",
     label: `${reference}${isCurrentModel ? " ✓" : ""}`,
-    description: model.name,
+    description: "",
     groupLabel: model.provider,
     value: reference,
-    fixedLabelWidth: AVAILABLE_MODEL_LABEL_WIDTH,
   };
 }

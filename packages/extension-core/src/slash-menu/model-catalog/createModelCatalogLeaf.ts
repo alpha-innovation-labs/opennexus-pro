@@ -1,12 +1,13 @@
 import type { Api, Model } from "@earendil-works/pi-ai";
 import type { SlashMenuLeaf } from "../types.js";
 import { createProviderQualifiedModelLabel } from "./createProviderQualifiedModelLabel.js";
-import { formatModelCatalogCostColumns } from "./formatModelCatalogCostColumns.js";
+import { formatModelCatalogMetricsColumns } from "./formatModelCatalogMetricsColumns.js";
+import { getModelCatalogColumnHeaderText } from "./getModelCatalogColumnHeaderText.js";
 
-const MODEL_CATALOG_LABEL_WIDTH = 52;
+const MODEL_CATALOG_LABEL_WIDTH = 34;
 
 /**
- * Creates one full-catalog slash-menu row with input/output pricing columns.
+ * Creates one full-catalog slash-menu row with metric columns.
  *
  * @param model Model metadata from Pi's generated registry.
  * @returns Slash-menu leaf for the catalog section.
@@ -15,9 +16,10 @@ export function createModelCatalogLeaf(model: Model<Api>): SlashMenuLeaf {
   const reference = createProviderQualifiedModelLabel(model);
   return {
     kind: "model",
-    label: reference,
-    description: formatModelCatalogCostColumns(model.cost.input, model.cost.output),
+    label: model.name,
+    description: formatModelCatalogMetricsColumns(model),
     groupLabel: model.provider,
+    groupHeaderDescription: getModelCatalogColumnHeaderText(),
     value: `catalog:${reference}`,
     fixedLabelWidth: MODEL_CATALOG_LABEL_WIDTH,
   };

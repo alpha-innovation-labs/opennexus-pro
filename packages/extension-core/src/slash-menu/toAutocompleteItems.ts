@@ -13,6 +13,7 @@ export function toAutocompleteItems(records: Array<SlashMenuLeaf | SlashMenuSect
     label: record.label,
     description: record.description,
     groupLabel: record.groupLabel,
+    groupHeaderDescription: (record as { groupHeaderDescription?: string }).groupHeaderDescription,
     preserveLabelWhitespace: (record as { preserveLabelWhitespace?: boolean }).preserveLabelWhitespace,
     resumeAge: (record as { resumeAge?: string }).resumeAge,
     resumeRow: (record as { resumeRow?: boolean }).resumeRow,
