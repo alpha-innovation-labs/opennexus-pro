@@ -43,20 +43,24 @@ test("/model switches between Models and All models tabs with provider-grouped p
 
   await modal.openLevel("model");
   const modelsOutput = await renderModalOutput(modal);
-  assert.match(modelsOutput, /● Models\s+\|\s+○ All models/u);
-  assert.match(modelsOutput, /anthropic\s+.*anthropic\/claude-test/us);
+  assert.match(modelsOutput, /│● Models\s+\|\s+○ All models/u);
+  assert.doesNotMatch(modelsOutput, /● ● Models/u);
+  assert.match(modelsOutput, /claude-test ✓/u);
+  assert.doesNotMatch(modelsOutput, /anthropic/u);
   assert.doesNotMatch(modelsOutput, /Claude Test/u);
   assert.doesNotMatch(modelsOutput, /openrouter\/deepseek\/deepseek-v4-pro/u);
 
   modal.handleInput("\t");
   await modal.refresh();
   const allModelsOutput = await renderModalOutput(modal);
-  assert.match(allModelsOutput, /○ Models\s+\|\s+● All models/u);
+  assert.match(allModelsOutput, /│○ Models\s+\|\s+● All models/u);
+  assert.doesNotMatch(allModelsOutput, /● ○ Models/u);
 
   modal.handleInput("\x1b[Z");
   await modal.refresh();
   const shiftedOutput = await renderModalOutput(modal);
-  assert.match(shiftedOutput, /● Models\s+\|\s+○ All models/u);
+  assert.match(shiftedOutput, /│● Models\s+\|\s+○ All models/u);
+  assert.doesNotMatch(shiftedOutput, /● ● Models/u);
 
   modal.handleInput("\t");
   modal.setQuery("openrouter/deepseek/deepseek-v4-pro");

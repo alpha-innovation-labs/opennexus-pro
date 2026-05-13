@@ -282,7 +282,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "resume") this.setTitles(createResumeScopeHeaderTitle(this.resumeScope), "");
     else if (this.level === "model") this.setTitles(renderModelMenuTabs(this.modelMenuTab, this.ctx.ui.theme), "");
     else this.setTitles(leftTitle, this.level === "prompts" || this.level === "skills" ? renderResourceCommandScopeTabs(this.resourceScope, this.ctx.ui.theme) : "Preview");
-    this.setHeaderFocusMarkers(this.level !== "prompts" && this.level !== "skills");
+    this.setHeaderFocusMarkers(this.level !== "prompts" && this.level !== "skills" && this.level !== "model");
     this.setItems(toAutocompleteItems(items.map((item) => this.formatVisibleItem(item))));
     this.selectedPreviewItem = items[0];
     this.resumePreviewState.renderedPreviewKey = undefined;

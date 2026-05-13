@@ -15,9 +15,8 @@ export function createAvailableModelLeaf(model: Model<Api>, ctx: ExtensionContex
   const isCurrentModel = ctx.model?.provider === model.provider && ctx.model?.id === model.id;
   return {
     kind: "model",
-    label: `${reference}${isCurrentModel ? " ✓" : ""}`,
+    label: `${model.id}${isCurrentModel ? " ✓" : ""}`,
     description: "",
-    groupLabel: model.provider,
     value: reference,
   };
 }
