@@ -51,12 +51,13 @@ test("nexus observations recreates, lists, locates, and deletes observation arti
     });
     assert.equal(recreateResult.code, 0);
     assert.match(recreateResult.output, /Recreated 1 observation group/);
-    assert.equal(await pathExists(messagesPath), true);
+    assert.equal(await pathExists(messagesPath), false);
     assert.equal(await pathExists(statePath), true);
-    assert.equal(await pathExists(markdownPath), true);
+    assert.equal(await pathExists(markdownPath), false);
 
-    const messages = JSON.parse(await readFile(messagesPath, "utf8")) as { messages: Array<{ entryId?: string }> };
-    assert.equal(messages.messages[0]?.entryId, await readFirstUserEntryId(sessionPath));
+    const state = JSON.parse(await readFile(statePath, "utf8")) as { messageCount?: number };
+    assert.equal(state.messageCount, 2);
+    assert.match(await readFile(sessionPath, "utf8"), new RegExp(await readFirstUserEntryId(sessionPath)));
 
     const jsonListResult = await runCommand(buildSourceCliCommand(["observations", "list", "all", "--json"]), {
       cwd: process.cwd(),
@@ -93,7 +94,7 @@ test("nexus observations recreates, lists, locates, and deletes observation arti
     });
     assert.equal(deleteResult.code, 0);
     assert.match(deleteResult.output, /Deleted 1 observation group/);
-    assert.equal(await pathExists(messagesPath), false);
+    assert.equal(await pathExists(statePath), false);
   } finally {
     await rm(sessionDir, { recursive: true, force: true });
     await removeReleaseTestHome(homeDir);
@@ -107,6 +108,7 @@ test("nexus --delete-session removes matching observation artifacts", async () =
   const observationsDir = join(homeDir, ".local", "share", "nexus", "agent", "observations");
   const conversationId = sessionPath.split("/").at(-1)!.replace(/\.jsonl$/, "");
   const messagesPath = join(observationsDir, `${conversationId}.messages.json`);
+  const statePath = join(observationsDir, `${conversationId}.state.json`);
 
   try {
     const recreateResult = await runCommand(buildSourceCliCommand(["observations", "recreate", sessionId, "--session-dir", sessionDir]), {
@@ -115,7 +117,8 @@ test("nexus --delete-session removes matching observation artifacts", async () =
       timeoutMs: 25_000,
     });
     assert.equal(recreateResult.code, 0);
-    assert.equal(await pathExists(messagesPath), true);
+    assert.equal(await pathExists(messagesPath), false);
+    assert.equal(await pathExists(statePath), true);
 
     const deleteSessionResult = await runCommand(buildSourceCliCommand(["--session-dir", sessionDir, "--delete-session", sessionId]), {
       cwd: process.cwd(),
@@ -124,7 +127,7 @@ test("nexus --delete-session removes matching observation artifacts", async () =
     });
     assert.equal(deleteSessionResult.code, 0);
     assert.match(deleteSessionResult.output, /Deleted 1 observation group/);
-    assert.equal(await pathExists(messagesPath), false);
+    assert.equal(await pathExists(statePath), false);
   } finally {
     await rm(sessionDir, { recursive: true, force: true });
     await removeReleaseTestHome(homeDir);

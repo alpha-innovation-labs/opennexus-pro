@@ -18,7 +18,7 @@ export async function createObservationStateFromMessages(
   sessionFile: string,
   messages: readonly StoredObservationMessage[],
 ): Promise<ObservationState> {
-  const state: ObservationState = { conversationId, cwd, sessionFile, updatedAt: Date.now(), summary: "", topics: [] };
+  const state: ObservationState = { conversationId, cwd, sessionFile, updatedAt: Date.now(), messageCount: messages.length, summary: "", topics: [] };
   const recreatedTopics = await recreateObservationTopics(cwd, messages);
   appendRecreatedTopics(state, messages, recreatedTopics);
   return state;

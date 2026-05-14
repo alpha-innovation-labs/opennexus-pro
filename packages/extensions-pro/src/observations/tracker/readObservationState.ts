@@ -27,6 +27,7 @@ export async function readObservationState(
 			cwd,
 			sessionFile,
 			updatedAt: parsed.updatedAt ?? Date.now(),
+			messageCount: typeof parsed.messageCount === "number" ? parsed.messageCount : undefined,
 			summary: typeof parsed.summary === "string" ? parsed.summary : "",
 			topics: Array.isArray(parsed.topics)
 				? parsed.topics.map((topic, index) => ({

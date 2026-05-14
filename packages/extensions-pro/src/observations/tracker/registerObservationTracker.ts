@@ -1,11 +1,11 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { createChatStatusEntryId } from "@nexus/extensions/chat-status/createChatStatusEntryId.js";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { appendObservationMessage } from "./appendObservationMessage.js";
 import { applyAssistantObservation } from "./applyAssistantObservation.js";
 import { applyUserObservation } from "./applyUserObservation.js";
 import { createEphemeralConversationId } from "./createEphemeralConversationId.js";
 import { createObservationContextSnapshot } from "./createObservationContextSnapshot.js";
+import { createStoredObservationMessage } from "./createStoredObservationMessage.js";
 import { enqueueObservationTask } from "./enqueueObservationTask.js";
 import { ensureObservationsDir } from "./ensureObservationsDir.js";
 import { extractAssistantSummaryInput } from "./extractAssistantSummaryInput.js";
@@ -13,7 +13,6 @@ import { extractUserText } from "./extractUserText.js";
 import { getObservationPaths } from "./getObservationPaths.js";
 import { getStoredObservationState } from "./getStoredObservationState.js";
 import { updateSessionTitleFromObservationState } from "./updateSessionTitleFromObservationState.js";
-import { writeObservationsMarkdown } from "./writeObservationsMarkdown.js";
 import { writeObservationState } from "./writeObservationState.js";
 
 /**
@@ -32,11 +31,11 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 			sessionFile: ctx.sessionManager.getSessionFile() ?? null,
 		});
 		if (!ctx.sessionManager.getSessionFile()) ephemeralConversationId = createEphemeralConversationId();
-		const { conversationId, statePath, markdownPath, dir, sessionFile } = getObservationPaths(ctx, ephemeralConversationId);
+		const { conversationId, statePath, dir, sessionFile } = getObservationPaths(ctx, ephemeralConversationId);
 		const chatStatusEntryId = createChatStatusEntryId(ctx);
 		await ensureObservationsDir(dir);
 		const state = await getStoredObservationState(statePath, conversationId, ctx.cwd, sessionFile);
-		await writeObservationsMarkdown(markdownPath, state);
+		await writeObservationState(statePath, state);
 		await updateSessionTitleFromObservationState(pi, state, chatStatusEntryId);
 	});
 	pi.on("message_end", async (event, ctx) => {
@@ -48,16 +47,15 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 		if (event.message.role === "user") {
 			const text = extractUserText(event.message);
 			if (!text) return;
-			const stored = await appendObservationMessage(paths.messagesPath, paths.conversationId, contextSnapshot.cwd, paths.sessionFile, {
-				timestamp: event.message.timestamp ?? Date.now(),
-				role: "user",
-				text,
-			});
 			enqueueObservationTask(queues, paths.conversationId, async () => {
 				const state = await getStoredObservationState(paths.statePath, paths.conversationId, contextSnapshot.cwd, paths.sessionFile);
+				const stored = createStoredObservationMessage(state, {
+					timestamp: event.message.timestamp ?? Date.now(),
+					role: "user",
+					text,
+				});
 				await applyUserObservation(pi, contextSnapshot, state, stored);
 				await writeObservationState(paths.statePath, state);
-				await writeObservationsMarkdown(paths.markdownPath, state);
 				await updateSessionTitleFromObservationState(pi, state, chatStatusEntryId);
 			});
 			return;
@@ -65,17 +63,16 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 		if (event.message.role !== "assistant") return;
 		const summaryInput = extractAssistantSummaryInput(event.message);
 		if (!summaryInput.text && !summaryInput.thinking) return;
-		const stored = await appendObservationMessage(paths.messagesPath, paths.conversationId, contextSnapshot.cwd, paths.sessionFile, {
-			timestamp: event.message.timestamp ?? Date.now(),
-			role: "assistant",
-			text: summaryInput.text,
-			thinking: summaryInput.thinking,
-		});
 		enqueueObservationTask(queues, paths.conversationId, async () => {
 			const state = await getStoredObservationState(paths.statePath, paths.conversationId, contextSnapshot.cwd, paths.sessionFile);
+			const stored = createStoredObservationMessage(state, {
+				timestamp: event.message.timestamp ?? Date.now(),
+				role: "assistant",
+				text: summaryInput.text,
+				thinking: summaryInput.thinking,
+			});
 			await applyAssistantObservation(pi, contextSnapshot, state, stored);
 			await writeObservationState(paths.statePath, state);
-			await writeObservationsMarkdown(paths.markdownPath, state);
 			await updateSessionTitleFromObservationState(pi, state, chatStatusEntryId);
 		});
 	});

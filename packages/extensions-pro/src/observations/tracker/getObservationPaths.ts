@@ -1,8 +1,6 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { getObservationMessagesPath } from "../shared/getObservationMessagesPath.js";
 import { getObservationStatePath } from "../shared/getObservationStatePath.js";
 import { getObservationsDir } from "../shared/getObservationsDir.js";
-import { getObservationsMarkdownPath } from "../shared/getObservationsMarkdownPath.js";
 import { getTrackedConversationId } from "./getTrackedConversationId.js";
 
 /**
@@ -19,9 +17,7 @@ export function getObservationPaths(
 	conversationId: string;
 	sessionFile: string | null;
 	dir: string;
-	messagesPath: string;
 	statePath: string;
-	markdownPath: string;
 } {
 	const sessionFile = ctx.sessionManager.getSessionFile();
 	const conversationId = getTrackedConversationId(sessionFile ?? null, ephemeralConversationId);
@@ -29,8 +25,6 @@ export function getObservationPaths(
 		conversationId,
 		sessionFile: sessionFile ?? null,
 		dir: getObservationsDir(),
-		messagesPath: getObservationMessagesPath(conversationId),
 		statePath: getObservationStatePath(conversationId),
-		markdownPath: getObservationsMarkdownPath(conversationId),
 	};
 }
