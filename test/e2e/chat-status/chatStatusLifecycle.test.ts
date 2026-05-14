@@ -6,7 +6,9 @@ import test from "node:test";
 import { createExtensionRuntime, loadExtensionFromFactory } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/extensions/loader.js";
 import { ExtensionRunner } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/extensions/runner.js";
 import { createEventBus } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/event-bus.js";
+import { createChatStatusEntryId } from "../../../packages/extension-core/src/chat-status/createChatStatusEntryId.js";
 import { registerChatStatusExtension } from "../../../packages/extension-core/src/chat-status/registerChatStatusExtension.js";
+import { updateSessionTitleFromObservationState } from "../../../packages/extensions-pro/src/observations/tracker/updateSessionTitleFromObservationState.js";
 
 /**
  * Creates a runner with the chat-status extension registered through Pi's extension runtime.
@@ -47,6 +49,23 @@ async function readChatStatus(filePath: string): Promise<{ entries: Array<{ sess
   return JSON.parse(await readFile(filePath, "utf8"));
 }
 
+/**
+ * Creates an observation state with one active topic title.
+ *
+ * @param title Active topic title.
+ * @returns Observation state fixture.
+ */
+function createObservationState(title: string): never {
+  return {
+    conversationId: "conversation-test",
+    cwd: process.cwd(),
+    sessionFile: null,
+    updatedAt: 1,
+    summary: "",
+    topics: [{ index: 1, title, startedAt: 1, sourceMessageIndex: 1, userMessages: [], assistantBullets: [] }],
+  } as never;
+}
+
 test("chat-status records running chats and removes them after inference ends", async () => {
   const tempDir = await mkdtemp(join(tmpdir(), "nexus-chat-status-"));
   const previousPath = process.env.NEXUS_CHAT_STATUS_PATH;
@@ -64,6 +83,13 @@ test("chat-status records running chats and removes them after inference ends", 
     assert.equal(running.entries[0]?.sessionTitle, "Live coding chat");
     assert.equal(running.entries[0]?.cwd, process.cwd());
     assert.equal(running.entries[0]?.pid, process.pid);
+
+    const context = runner.createContext();
+    let updatedSessionName = "";
+    await updateSessionTitleFromObservationState({ setSessionName: (title: string) => { updatedSessionName = title; } } as never, createObservationState("Fix stale chat title"), createChatStatusEntryId(context));
+    const renamed = await readChatStatus(statusPath);
+    assert.equal(updatedSessionName, "Fix stale chat title");
+    assert.equal(renamed.entries[0]?.sessionTitle, "Fix stale chat title");
 
     await runner.emit({
       type: "agent_end",
