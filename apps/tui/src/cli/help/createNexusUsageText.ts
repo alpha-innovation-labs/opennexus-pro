@@ -23,10 +23,6 @@ export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): s
 		"  --delete-session <session-id>       Delete a persisted session",
 		"  --json                             Print session listings as JSON",
 		"  --observations <session-id>         Print observations for a session",
-		"  nexus observations list all|<id>     List observation artifacts",
-		"  nexus observations delete all|<id>   Delete observation artifacts",
-		"  nexus observations recreate all|<id> Recreate observations from session JSONL",
-		"  nexus observations get-location      Print the observations storage path",
 		"  --chat-status-file-location         Print the chat-status file path",
 		"  --usage                            Open the usage history modal on startup",
 		"  --session-dir <path>               Read sessions from a custom directory",
@@ -36,6 +32,7 @@ export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): s
 		"  --resume=<session-id>              Open a specific session directly",
 		"  --startup-profile                  Write startup timings to /tmp/nexus-startup-profile.log",
 		"  --no-extensions, -ne               Disable extension registration",
+		...createCommandUsageLines(features),
 		"",
 		"Passthrough options:",
 		"  -p <prompt>                        Submit a prompt and exit",
@@ -43,7 +40,6 @@ export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): s
 		"  --mode <mode>                      Select run mode",
 		"  --theme <path>                     Load an extra theme",
 		"  --prompt-template <path>           Load extra prompt templates",
-		...createCommandUsageLines(features),
 		"",
 		"Notes:",
 		"  Unknown prompts and other interactive flags are passed to the Nexus TUI.",
@@ -60,6 +56,10 @@ function createCommandUsageLines(features: NexusUsageFeatureOptions): string[] {
 	const lines: string[] = [
 		"  nexus install <source>             Install an extension package",
 		"  nexus uninstall <source>           Uninstall an extension package",
+		"  nexus observations list all|<id>   List observation artifacts",
+		"  nexus observations delete all|<id> Delete observation artifacts",
+		"  nexus observations recreate all|<id> Recreate observations from session JSONL",
+		"  nexus observations get-location    Print the observations storage path",
 	];
 	if (features.automations) {
 		lines.push(

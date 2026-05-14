@@ -26,7 +26,7 @@ test("nexus -h prints Nexus-owned help without starting Pi", async () => {
 		assert.match(result.output, /--sessions/u);
 		assert.match(result.output, /--sessions-all/u);
 		assert.match(result.output, /--json/u);
-		assert.match(result.output, /--observations-location/u);
+		assert.doesNotMatch(result.output, /--observations-location/u);
 		assert.match(result.output, /--chat-status-file-location/u);
 		assert.match(result.output, /--session-dir=<path>/u);
 		assert.match(result.output, /--resume \[session-id\]/u);
@@ -41,6 +41,9 @@ test("nexus -h prints Nexus-owned help without starting Pi", async () => {
 		assert.match(result.output, /--mode <mode>/u);
 		assert.match(result.output, /--theme <path>/u);
 		assert.match(result.output, /--prompt-template <path>/u);
+		assert.match(result.output, /nexus observations list all\|<id>/u);
+		assert.match(result.output, /nexus observations get-location/u);
+		assertObservationsHelpIsInCommandsSection(result.output);
 		assert.match(result.output, /nexus automations start/u);
 		assert.match(result.output, /nexus automations status/u);
 		assert.match(result.output, /nexus social-automation -h/u);
@@ -52,6 +55,24 @@ test("nexus -h prints Nexus-owned help without starting Pi", async () => {
 		await removeReleaseTestHome(homeDir);
 	}
 });
+
+/**
+ * Verifies observations subcommands are displayed in Commands, not Options.
+ *
+ * @param output Help output.
+ */
+function assertObservationsHelpIsInCommandsSection(output: string): void {
+	const optionsStart = output.indexOf("Options:");
+	const commandsStart = output.indexOf("Commands:");
+	const passthroughStart = output.indexOf("Passthrough options:");
+	assert.notEqual(optionsStart, -1);
+	assert.notEqual(commandsStart, -1);
+	assert.notEqual(passthroughStart, -1);
+	const optionsSection = output.slice(optionsStart, commandsStart);
+	const commandsSection = output.slice(commandsStart, passthroughStart);
+	assert.doesNotMatch(optionsSection, /nexus observations/u);
+	assert.match(commandsSection, /nexus observations list all\|<id>/u);
+}
 
 test("source nexus automations -h prints scoped automations help when enabled", async () => {
 	const homeDir = await createReleaseTestHome();
