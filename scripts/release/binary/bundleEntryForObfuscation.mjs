@@ -6,14 +6,15 @@ import { runBunBuild } from "./runBunBuild.mjs";
  * Bundles the app entry into one JavaScript file before obfuscation.
  *
  * @param {string} buildWorkDir Release workspace directory.
+ * @param {string} entryPath Entrypoint to compile.
  * @returns {Promise<string>} Bundled entry path.
  */
-export async function bundleEntryForObfuscation(buildWorkDir) {
+export async function bundleEntryForObfuscation(buildWorkDir, entryPath) {
   const bundledEntryPath = getBundledEntryPath(buildWorkDir);
 
   await runBunBuild([
     "build",
-    "./apps/tui/src/index.release.ts",
+    entryPath,
     "--outdir",
     buildWorkDir,
     "--entry-naming",

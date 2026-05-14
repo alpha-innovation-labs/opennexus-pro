@@ -1,4 +1,4 @@
-import { embeddedPackageAssetVersion } from "./generated/embeddedPackageAssets.js";
+import { getEmbeddedPackageAssets } from "./getEmbeddedPackageAssets.js";
 import { getEmbeddedPackageDirPath } from "./getEmbeddedPackageDirPath.js";
 import { readEmbeddedPackageVersion } from "./readEmbeddedPackageVersion.js";
 import { writeEmbeddedPackageAssets } from "./writeEmbeddedPackageAssets.js";
@@ -10,6 +10,7 @@ import { writeEmbeddedPackageAssets } from "./writeEmbeddedPackageAssets.js";
  */
 export async function ensureEmbeddedPackageDir(): Promise<string> {
   const packageDir = getEmbeddedPackageDirPath();
+  const { embeddedPackageAssetVersion } = getEmbeddedPackageAssets();
   const currentVersion = await readEmbeddedPackageVersion(packageDir);
 
   if (currentVersion !== embeddedPackageAssetVersion) {

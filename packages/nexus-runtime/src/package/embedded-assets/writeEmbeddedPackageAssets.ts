@@ -1,8 +1,8 @@
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { embeddedPackageAssetVersion, embeddedPackageAssets } from "./generated/embeddedPackageAssets.js";
 import { resetEmbeddedPackageDir } from "./fs/resetEmbeddedPackageDir.js";
 import { writeEmbeddedAssetFile } from "./fs/writeEmbeddedAssetFile.js";
+import { getEmbeddedPackageAssets } from "./getEmbeddedPackageAssets.js";
 
 /**
  * Writes the full embedded package asset set to disk.
@@ -13,6 +13,7 @@ import { writeEmbeddedAssetFile } from "./fs/writeEmbeddedAssetFile.js";
 export async function writeEmbeddedPackageAssets(rootDir: string): Promise<void> {
   await resetEmbeddedPackageDir(rootDir);
 
+  const { embeddedPackageAssetVersion, embeddedPackageAssets } = getEmbeddedPackageAssets();
   for (const asset of embeddedPackageAssets) {
     await writeEmbeddedAssetFile(rootDir, asset);
   }

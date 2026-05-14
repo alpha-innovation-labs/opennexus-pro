@@ -3,3 +3,8 @@ export interface EmbeddedPackageAsset {
   mode?: number;
   path: string;
 }
+
+export interface EmbeddedPackageAssetsModule {
+  embeddedPackageAssetVersion: string;
+  embeddedPackageAssets: EmbeddedPackageAsset[];
+}

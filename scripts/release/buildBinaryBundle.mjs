@@ -4,14 +4,16 @@ import { ensureCleanDir } from "./binary/ensureCleanDir.mjs";
 import { copyExternalReleasePackages } from "./binary/copyExternalReleasePackages.mjs";
 import { getBuildWorkDir } from "./binary/getBuildWorkDir.mjs";
 import { getBundleDir } from "./binary/getBundleDir.mjs";
+import { getEmbeddedPackageAssetsModulePath } from "./binary/getEmbeddedPackageAssetsModulePath.mjs";
 import { getExternalReleasePackages } from "./binary/getExternalReleasePackages.mjs";
+import { getReleaseTargetOptions } from "./binary/getReleaseTargetOptions.mjs";
 import { obfuscateEntryPoint } from "./binary/obfuscateEntryPoint.mjs";
 import { patchBundledPiConfig } from "./binary/patchBundledPiConfig.mjs";
 import { runBunBuild } from "./binary/runBunBuild.mjs";
 import { stageBinaryAssets } from "./binary/stageBinaryAssets.mjs";
 import { transpileBundleForObfuscation } from "./binary/transpileBundleForObfuscation.mjs";
 import { writeEmbeddedPackageAssetsModule } from "./binary/writeEmbeddedPackageAssetsModule.mjs";
-import { getReleaseTargetOptions } from "./binary/getReleaseTargetOptions.mjs";
+import { writeReleaseEntrypoint } from "./binary/writeReleaseEntrypoint.mjs";
 
 const bundleDir = getBundleDir();
 const buildWorkDir = getBuildWorkDir();
@@ -24,9 +26,10 @@ const buildWorkDir = getBuildWorkDir();
 export async function buildBinaryBundle() {
   await ensureCleanDir(bundleDir);
   await ensureCleanDir(buildWorkDir);
-  await writeEmbeddedPackageAssetsModule();
+  await writeEmbeddedPackageAssetsModule(getEmbeddedPackageAssetsModulePath(buildWorkDir));
+  const releaseEntrypointPath = await writeReleaseEntrypoint(buildWorkDir);
 
-  const bundledEntryPath = await bundleEntryForObfuscation(buildWorkDir);
+  const bundledEntryPath = await bundleEntryForObfuscation(buildWorkDir, releaseEntrypointPath);
   await transpileBundleForObfuscation(bundledEntryPath);
   await patchBundledPiConfig(bundledEntryPath);
   const obfuscatedEntryPath = await obfuscateEntryPoint(bundledEntryPath, buildWorkDir);
