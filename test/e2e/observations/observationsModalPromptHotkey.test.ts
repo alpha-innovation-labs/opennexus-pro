@@ -8,9 +8,9 @@ import { createTestTheme } from "../../support/theme/createTestTheme.js";
 const items: AutocompleteItem[] = [{ value: "topic-1", label: "Topic one" }];
 const details = new Map([["topic-1", ["Observation detail"]]]);
 
-test("/observations modal shows edit prompt hotkey", async () => {
+test("/observations modal shows edit prompt hotkey in dev", async () => {
 	const viewport = await renderComponentInVirtualTerminal(
-		() => new ObservationsModal(createTestTheme(), items, details, () => {}, () => {}),
+		() => new ObservationsModal(createTestTheme(), items, details, () => {}, () => {}, true),
 		120,
 		30,
 	);
@@ -22,9 +22,28 @@ test("/observations modal runs edit prompt hotkey", () => {
 	let editCount = 0;
 	const modal = new ObservationsModal(createTestTheme(), items, details, () => {}, () => {
 		editCount += 1;
-	});
+	}, true);
 
 	modal.handleInput("e");
 
 	assert.equal(editCount, 1);
+});
+
+test("/observations modal hides edit prompt hotkey in release", async () => {
+	let editCount = 0;
+	const viewport = await renderComponentInVirtualTerminal(
+		() => new ObservationsModal(createTestTheme(), items, details, () => {}, () => {
+			editCount += 1;
+		}, false),
+		120,
+		30,
+	);
+	const modal = new ObservationsModal(createTestTheme(), items, details, () => {}, () => {
+		editCount += 1;
+	}, false);
+
+	modal.handleInput("e");
+
+	assert.doesNotMatch(viewport.join("\n"), /e edit prompt/u);
+	assert.equal(editCount, 0);
 });

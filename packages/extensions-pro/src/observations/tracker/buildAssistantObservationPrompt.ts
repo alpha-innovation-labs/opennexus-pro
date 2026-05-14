@@ -22,11 +22,11 @@ export function buildAssistantObservationPrompt(
 		`Existing observations:\n${existing}`,
 		thinking ? `Assistant thinking:\n${thinking}` : "Assistant thinking:\n(none)",
 		text ? `Assistant visible answer:\n${text}` : "Assistant visible answer:\n(none)",
-		"Output ONLY new markdown bullet points worth adding to the observation log.",
+		"Output ONLY valid JSON, with no markdown fences and no commentary.",
+		"Return a JSON array of new observation strings worth adding to the current topic.",
 		"Summaries must be very high level, short, and non-duplicative.",
-		"Capture decisions, findings, directions, or reframes.",
-		"Use at most 3 bullets, each under 10 words.",
-		"Output NOTHING if there is nothing materially new.",
-		"No numbering or commentary.",
+		"Capture decisions, findings, implementation direction, or outcomes.",
+		"Use at most 3 strings, each under 10 words.",
+		"Return [] if there is nothing materially new.",
 	].join("\n\n");
 }

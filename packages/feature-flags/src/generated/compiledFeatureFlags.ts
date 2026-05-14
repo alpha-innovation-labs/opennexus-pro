@@ -156,6 +156,7 @@ export const compiledFeatureFlags = {
       "enabled": true,
       "features": [
         "observation tracking",
+        "status widget",
         "/observations command"
       ],
       "category": "pro"

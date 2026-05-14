@@ -20,17 +20,19 @@ export async function applyUserObservation(
 	userMessage: StoredObservationMessage,
 ): Promise<ObservationState> {
 	const messageExcerpt = buildObservationMessageExcerpt(userMessage.text);
-	const existingTitles = state.topics.map((topic) => topic.title);
-	const decidedTitle = await decideTopicTitle(pi, ctx, existingTitles, userMessage.text);
+	const currentTopic = state.topics.at(-1);
+	const decidedTitle = await decideTopicTitle(pi, ctx, currentTopic, userMessage.text);
 	const nextTitle = decidedTitle ?? (state.topics.length === 0 ? buildFallbackTopicTitle(userMessage.text) : undefined);
 	if (!nextTitle) {
-		const currentTopic = state.topics.at(-1);
-		if (currentTopic) currentTopic.userMessages.push(messageExcerpt);
+		if (currentTopic) {
+			currentTopic.userMessages.push(messageExcerpt);
+			currentTopic.userMessageIndexes = [...(currentTopic.userMessageIndexes ?? []), userMessage.index];
+		}
 		return state;
 	}
-	if (state.topics.at(-1)?.title === nextTitle) {
-		const currentTopic = state.topics.at(-1);
-		if (currentTopic) currentTopic.userMessages.push(messageExcerpt);
+	if (currentTopic?.title === nextTitle) {
+		currentTopic.userMessages.push(messageExcerpt);
+		currentTopic.userMessageIndexes = [...(currentTopic.userMessageIndexes ?? []), userMessage.index];
 		return state;
 	}
 	state.topics.push({
@@ -38,6 +40,7 @@ export async function applyUserObservation(
 		title: nextTitle,
 		startedAt: userMessage.timestamp,
 		sourceMessageIndex: userMessage.index,
+		userMessageIndexes: [userMessage.index],
 		userMessages: [messageExcerpt],
 		assistantBullets: [],
 	});

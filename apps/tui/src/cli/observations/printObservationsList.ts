@@ -1,7 +1,9 @@
 import { readObservationState } from "@nexus/extensions-pro/observations/tracker/readObservationState.js";
-import { getObservationStatePath } from "@nexus/extensions-pro/observations/shared/getObservationStatePath.js";
+import { getObservationsDir } from "@nexus/extensions-pro/observations/shared/getObservationsDir.js";
 import { formatObservationTopicList } from "./formatObservationTopicList.js";
+import { listObservationArtifactGroups } from "./listObservationArtifactGroups.js";
 import { resolveObservationConversationId } from "./resolveObservationConversationId.js";
+import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups.js";
 
 /**
  * Prints persisted observations for a session id to stdout.
@@ -11,7 +13,8 @@ import { resolveObservationConversationId } from "./resolveObservationConversati
  */
 export async function printObservationsList(sessionId: string, cwd: string): Promise<void> {
 	const conversationId = await resolveObservationConversationId(sessionId);
-	const statePath = getObservationStatePath(conversationId);
-	const state = await readObservationState(statePath, conversationId, cwd, null);
+	const groups = selectObservationArtifactGroups(await listObservationArtifactGroups(getObservationsDir()), conversationId);
+	const statePath = groups[0]?.statePath ?? groups[0]?.legacyStatePath;
+	const state = await readObservationState(statePath ?? "", conversationId, cwd, null);
 	console.log(formatObservationTopicList(state));
 }

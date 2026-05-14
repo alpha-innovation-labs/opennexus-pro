@@ -13,14 +13,15 @@ export class ObservationsModal extends SelectPreviewModal {
 		items: AutocompleteItem[],
 		detailsByValue: Map<string, string[]>,
 		done: (result: undefined) => void,
-		private readonly onEditPrompt: () => void,
+		private readonly onEditPrompt: () => void = () => undefined,
+		private readonly promptEditingEnabled = true,
 	) {
 		super(theme, () => done(undefined), () => done(undefined), undefined, {
 			leftTitle: "Topics",
 			rightTitle: "Observations",
 			leftPaneRatio: 0.4,
 		});
-		this.footerHotkeys = [{ key: "e", label: "edit prompt" }];
+		this.footerHotkeys = promptEditingEnabled ? [{ key: "e", label: "edit prompt" }] : [];
 		this.detailsByValue = detailsByValue;
 		this.setOnSelectionChange((item) => {
 			if (!item) {
@@ -35,7 +36,7 @@ export class ObservationsModal extends SelectPreviewModal {
 
 	/** Routes observation modal hotkeys before the base selector handles input. */
 	override handleInput(data: string): void {
-		if (data === "e") {
+		if (this.promptEditingEnabled && data === "e") {
 			this.onEditPrompt();
 			return;
 		}

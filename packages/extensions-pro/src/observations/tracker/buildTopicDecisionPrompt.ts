@@ -1,25 +1,31 @@
+import type { ObservationTopic } from "./types.js";
+
 /**
  * Builds the prompt that decides whether a user message starts a new topic.
  *
- * @param existingTitles Existing topic titles.
+ * @param currentTopic Current intent topic receiving live observations.
  * @param latestUserText Latest user message.
  * @returns Topic decision prompt.
  */
-export function buildTopicDecisionPrompt(existingTitles: string[], latestUserText: string): string {
+export function buildTopicDecisionPrompt(currentTopic: ObservationTopic | undefined, latestUserText: string): string {
+	const currentBatch = currentTopic
+		? [
+			`Current topic: ${currentTopic.title}`,
+			"Current intent batch:",
+			...currentTopic.userMessages.map((message) => `User: ${message}`),
+			...currentTopic.assistantBullets.map((bullet) => `Assistant observation: ${bullet}`),
+		].join("\n")
+		: "There is no current topic yet.";
 	return [
-		"You maintain a chronological list of high-level conversation topics.",
-		existingTitles.length > 0
-			? `Existing topics:\n${existingTitles.map((title) => `- ${title}`).join("\n")}`
-			: "There are no existing topics yet.",
+		"You decide whether the latest user message still fits the current user intent.",
+		currentBatch,
 		`Latest user message:\n${latestUserText}`,
-		existingTitles.length > 0
-			? "Output ONLY one markdown bullet if this starts a NEW high-level topic. Output NOTHING if it stays on the current topic."
-			: "Output ONLY one markdown bullet for the first high-level topic.",
-		"Keep the topic title under 8 words.",
+		currentTopic
+			? "If the latest message fits the current intent, output exactly {\"action\":\"keep\"}."
+			: "For the first user message, classify the initial intent as a new topic.",
+		"If user intent shifted, output exactly {\"action\":\"new_topic\",\"title\":\"verb-led topic under 8 words\"}.",
+		"Topic titles must clearly name the user intent.",
 		"Start every topic title with a verb in imperative form.",
-		"Examples: 'Fix terminal overlay sizing', 'Review tool call thinking'.",
-		"Do not start with bare nouns like 'Terminal overlay sizing'.",
-		"Be business-level and human-readable.",
-		"No numbering, no commentary, no explanation.",
+		"Output ONLY valid JSON, with no markdown fences and no commentary.",
 	].join("\n\n");
 }

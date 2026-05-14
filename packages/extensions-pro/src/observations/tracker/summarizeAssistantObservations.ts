@@ -1,8 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { buildAssistantObservationPrompt } from "./buildAssistantObservationPrompt.js";
-import { normalizeBullets } from "./normalizeBullets.js";
+import { parseAssistantObservationOutput } from "./parseAssistantObservationOutput.js";
 import { runObservationSummarizer } from "./runObservationSummarizer.js";
-import { stripMarkdownBullet } from "./stripMarkdownBullet.js";
 
 /**
  * Summarizes one assistant message into high-level observation bullets.
@@ -28,5 +27,5 @@ export async function summarizeAssistantObservations(
 		ctx,
 		buildAssistantObservationPrompt(topicTitle, existingBullets, thinking, text),
 	);
-	return normalizeBullets(output).map(stripMarkdownBullet);
+	return parseAssistantObservationOutput(output);
 }

@@ -3,6 +3,7 @@ import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverl
 import { getCurrentConversationId } from "../shared/getCurrentConversationId.js";
 import { getObservationStatePath } from "../shared/getObservationStatePath.js";
 import { editObservationPrompt } from "./editObservationPrompt.js";
+import { isObservationPromptEditingEnabled } from "./isObservationPromptEditingEnabled.js";
 import { ObservationsModal } from "./ObservationsModal.js";
 import { readObservationSections } from "./readObservationSections.js";
 
@@ -20,10 +21,11 @@ export async function showObservationsModal(ctx: ExtensionContext | ExtensionCom
 	}
 	const statePath = getObservationStatePath(conversationId);
 	const { items, detailsByValue } = await readObservationSections(statePath, conversationId, ctx.cwd, ctx.sessionManager.getSessionFile() ?? null);
+	const promptEditingEnabled = isObservationPromptEditingEnabled();
 	await ctx.ui.custom<undefined>(
 		(tui, theme, _keybindings, done) => new ObservationsModal(theme, items, detailsByValue, done, () => {
-			void editObservationPrompt(ctx, tui);
-		}),
+			if (promptEditingEnabled) void editObservationPrompt(ctx, tui);
+		}, promptEditingEnabled),
 		{
 			overlay: true,
 			overlayOptions: createPanelOverlayOptions(80, "85%"),
