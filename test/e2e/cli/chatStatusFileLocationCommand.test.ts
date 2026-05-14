@@ -14,7 +14,7 @@ import { buildSourceCliCommand } from "./buildSourceCliCommand.js";
  * @returns Expected chat-status file path.
  */
 function getExpectedChatStatusPath(env: NodeJS.ProcessEnv): string {
-  return join(env.NEXUS_CODING_AGENT_DIR ?? "", "chat-status");
+  return join(env.NEXUS_CODING_AGENT_DIR ?? "", "chat-status.json");
 }
 
 test("nexus --chat-status-file-location prints the chat-status file path without starting the TUI", async () => {

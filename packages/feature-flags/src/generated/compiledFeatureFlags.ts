@@ -56,7 +56,7 @@ export const compiledFeatureFlags = {
     "chat-status": {
       "enabled": true,
       "features": [
-        "write active chats to ~/.local/share/nexus/agent/chat-status",
+        "write active chats to ~/.local/share/nexus/agent/chat-status.json",
         "remove chats when inference stops"
       ],
       "category": "extension"

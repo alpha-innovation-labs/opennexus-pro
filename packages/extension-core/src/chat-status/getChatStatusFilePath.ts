@@ -9,5 +9,5 @@ const CHAT_STATUS_PATH_ENV = "NEXUS_CHAT_STATUS_PATH";
  * @returns Absolute chat-status file path.
  */
 export function getChatStatusFilePath(): string {
-  return process.env[CHAT_STATUS_PATH_ENV]?.trim() || join(getAgentDirPath(), "chat-status");
+  return process.env[CHAT_STATUS_PATH_ENV]?.trim() || join(getAgentDirPath(), "chat-status.json");
 }
