@@ -19,6 +19,6 @@ export async function recreateObservationTopics(
   messages: readonly StoredObservationMessage[],
 ): Promise<RecreatedObservationTopic[]> {
   if (messages.length === 0) return [];
-  const output = await runObservationSummarizer(RECREATE_EXTENSION_API, { cwd }, buildObservationRecreationPrompt(messages));
+  const output = await runObservationSummarizer(RECREATE_EXTENSION_API, { cwd }, await buildObservationRecreationPrompt(messages));
   return parseRecreatedObservationTopics(output);
 }
