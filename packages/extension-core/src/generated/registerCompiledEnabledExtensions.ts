@@ -8,6 +8,7 @@ import { registerAiProvidersExtension } from "../ai-providers/registerAiProvider
 import { registerAutoUpdateExtension } from "../auto-update/registerAutoUpdateExtension.js";
 import { registerCmuxExtension } from "@nexus/extensions-pro/cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "../context-usage/registerContextUsageExtension.js";
+import { registerChatStatusExtension } from "../chat-status/registerChatStatusExtension.js";
 import { registerExitMessageExtension } from "../exit-message/registerExitMessageExtension.js";
 import { registerPiPackagesExtension } from "../pi-packages/registerPiPackagesExtension.js";
 import { registerWebSearchExtension } from "../web-search/registerWebSearchExtension.js";
@@ -35,6 +36,7 @@ export const compiledBundledExtensionIds = [
   "auto-update",
   "cmux",
   "context-usage",
+  "chat-status",
   "exit-message",
   "pi-packages",
   "websearch",
@@ -60,6 +62,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "auto-update": registerAutoUpdateExtension,
   "cmux": registerCmuxExtension,
   "context-usage": registerContextUsageExtension,
+  "chat-status": registerChatStatusExtension,
   "exit-message": registerExitMessageExtension,
   "pi-packages": registerPiPackagesExtension,
   "websearch": registerWebSearchExtension,

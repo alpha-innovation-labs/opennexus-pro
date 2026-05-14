@@ -5,6 +5,7 @@ import { registerAutomationsExtension } from "@nexus/mini-apps/automations/regis
 import { registerAutoUpdateExtension } from "@nexus/extensions/auto-update/registerAutoUpdateExtension.js";
 import { registerCmuxExtension } from "@nexus/extensions-pro/cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "@nexus/extensions/context-usage/registerContextUsageExtension.js";
+import { registerChatStatusExtension } from "@nexus/extensions/chat-status/registerChatStatusExtension.js";
 import { registerDevExtension } from "@nexus/extensions-dev/dev/registerDevExtension.js";
 import { registerExitMessageExtension } from "@nexus/extensions/exit-message/registerExitMessageExtension.js";
 import { registerPiPackagesExtension } from "@nexus/extensions/pi-packages/registerPiPackagesExtension.js";
@@ -49,6 +50,7 @@ export function createExtensionRegisterMap(): Record<
 		"auto-update": registerAutoUpdateExtension,
 		cmux: registerCmuxExtension,
 		"context-usage": registerContextUsageExtension,
+		"chat-status": registerChatStatusExtension,
 		dev: registerDevExtension,
 		"pi-packages": registerPiPackagesExtension,
 		"feature-management": registerFeatureManagementExtension,
