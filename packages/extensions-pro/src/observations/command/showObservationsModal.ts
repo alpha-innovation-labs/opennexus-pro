@@ -21,9 +21,8 @@ export async function showObservationsModal(ctx: ExtensionContext | ExtensionCom
 	const statePath = getObservationStatePath(conversationId);
 	const { items, detailsByValue } = await readObservationSections(statePath, conversationId, ctx.cwd, ctx.sessionManager.getSessionFile() ?? null);
 	await ctx.ui.custom<undefined>(
-		(_tui, theme, _keybindings, done) => new ObservationsModal(theme, items, detailsByValue, done, () => {
-			done(undefined);
-			void editObservationPrompt(ctx);
+		(tui, theme, _keybindings, done) => new ObservationsModal(theme, items, detailsByValue, done, () => {
+			void editObservationPrompt(ctx, tui);
 		}),
 		{
 			overlay: true,
