@@ -21,7 +21,6 @@ export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): s
 		"  --sessions                         List resumable sessions for the current folder",
 		"  --sessions-all                     List resumable sessions across all folders",
 		"  --delete-session <session-id>       Delete a persisted session",
-		"  --delete-session=<session-id>       Delete a persisted session",
 		"  --json                             Print session listings as JSON",
 		"  --observations <session-id>         Print observations for a session",
 		"  --observations-location             Print the observations storage path",
