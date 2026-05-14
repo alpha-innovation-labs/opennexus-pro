@@ -25,7 +25,7 @@ export async function recreateObservationArtifactsForSession(session: SessionInf
   const messages = createObservationMessagesFromSessionEntries(entries);
   const paths = createObservationArtifactPaths(conversationId);
   const store = createObservationMessageStore(conversationId, session.cwd, session.path, messages);
-  const state = createObservationStateFromMessages(conversationId, session.cwd, session.path, messages);
+  const state = await createObservationStateFromMessages(conversationId, session.cwd, session.path, messages);
   await writeObservationMessageStore(paths.messagesPath, store);
   await writeObservationState(paths.statePath, state);
   await writeObservationsMarkdown(paths.markdownPath, state);

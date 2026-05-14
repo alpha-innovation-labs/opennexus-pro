@@ -27,7 +27,7 @@ async function readFirstUserEntryId(sessionPath: string): Promise<string> {
 
 test("nexus observations recreates, lists, locates, and deletes observation artifacts", async () => {
   const homeDir = await createReleaseTestHome();
-  const env = createReleaseTestEnv(homeDir);
+  const env = { ...createReleaseTestEnv(homeDir), PI_OFFLINE: "1" };
   const { sessionDir, sessionId, sessionPath } = await createCliSessionFixture();
   const observationsDir = join(homeDir, ".local", "share", "nexus", "agent", "observations");
   const conversationId = sessionPath.split("/").at(-1)!.replace(/\.jsonl$/, "");
@@ -68,7 +68,7 @@ test("nexus observations recreates, lists, locates, and deletes observation arti
     assert.equal(rows.length, 1);
     assert.equal(rows[0]?.sessionId, sessionId);
     assert.equal(rows[0]?.messageCount, 2);
-    assert.equal(rows[0]?.topicCount, 1);
+    assert.equal(rows[0]?.topicCount, 0);
 
     const tableListResult = await runCommand(buildSourceCliCommand(["observations", "list", sessionId]), {
       cwd: process.cwd(),
@@ -94,7 +94,7 @@ test("nexus observations recreates, lists, locates, and deletes observation arti
 
 test("nexus --delete-session removes matching observation artifacts", async () => {
   const homeDir = await createReleaseTestHome();
-  const env = createReleaseTestEnv(homeDir);
+  const env = { ...createReleaseTestEnv(homeDir), PI_OFFLINE: "1" };
   const { sessionDir, sessionId, sessionPath } = await createCliSessionFixture();
   const observationsDir = join(homeDir, ".local", "share", "nexus", "agent", "observations");
   const conversationId = sessionPath.split("/").at(-1)!.replace(/\.jsonl$/, "");

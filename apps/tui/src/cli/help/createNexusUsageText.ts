@@ -23,7 +23,6 @@ export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): s
 		"  --delete-session <session-id>       Delete a persisted session",
 		"  --json                             Print session listings as JSON",
 		"  --observations <session-id>         Print observations for a session",
-		"  --observations-location             Print the observations storage path",
 		"  nexus observations list all|<id>     List observation artifacts",
 		"  nexus observations delete all|<id>   Delete observation artifacts",
 		"  nexus observations recreate all|<id> Recreate observations from session JSONL",
