@@ -8,17 +8,17 @@ import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopi
 const RECREATE_EXTENSION_API = {} as ExtensionAPI;
 
 /**
- * Uses an LLM to recreate high-level topics from user messages.
+ * Uses one LLM call to recreate final observations from complete message history.
  *
  * @param cwd Session working directory.
- * @param userMessages Stored user messages.
+ * @param messages Stored messages.
  * @returns LLM-derived topic observations.
  */
 export async function recreateObservationTopics(
   cwd: string,
-  userMessages: readonly StoredObservationMessage[],
+  messages: readonly StoredObservationMessage[],
 ): Promise<RecreatedObservationTopic[]> {
-  if (userMessages.length === 0) return [];
-  const output = await runObservationSummarizer(RECREATE_EXTENSION_API, { cwd }, buildObservationRecreationPrompt(userMessages));
+  if (messages.length === 0) return [];
+  const output = await runObservationSummarizer(RECREATE_EXTENSION_API, { cwd }, buildObservationRecreationPrompt(messages));
   return parseRecreatedObservationTopics(output);
 }

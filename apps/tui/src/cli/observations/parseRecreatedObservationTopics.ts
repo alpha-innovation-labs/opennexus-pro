@@ -2,7 +2,7 @@ import { extractJsonArrayText } from "./extractJsonArrayText.js";
 import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopic.js";
 
 /**
- * Parses LLM topic-recreation output into validated topics.
+ * Parses LLM observation-recreation output into validated topics.
  *
  * @param output Raw model output.
  * @returns Valid recreated topics.
@@ -27,9 +27,22 @@ export function parseRecreatedObservationTopics(output: string): RecreatedObserv
  */
 function parseTopic(item: unknown): RecreatedObservationTopic[] {
   if (!item || typeof item !== "object") return [];
-  const candidate = item as { title?: unknown; sourceMessageIndexes?: unknown };
+  const candidate = item as { title?: unknown; sourceMessageIndexes?: unknown; userMessages?: unknown; assistantBullets?: unknown };
   if (typeof candidate.title !== "string" || !Array.isArray(candidate.sourceMessageIndexes)) return [];
   const sourceMessageIndexes = candidate.sourceMessageIndexes.filter((index): index is number => Number.isInteger(index) && index > 0);
+  const userMessages = parseStringArray(candidate.userMessages);
+  const assistantBullets = parseStringArray(candidate.assistantBullets);
   if (candidate.title.trim().length === 0 || sourceMessageIndexes.length === 0) return [];
-  return [{ title: candidate.title.trim(), sourceMessageIndexes }];
+  return [{ title: candidate.title.trim(), sourceMessageIndexes, userMessages, assistantBullets }];
+}
+
+/**
+ * Parses a candidate string array.
+ *
+ * @param value Candidate value.
+ * @returns String items.
+ */
+function parseStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((item): item is string => typeof item === "string").map((item) => item.trim()).filter(Boolean);
 }
