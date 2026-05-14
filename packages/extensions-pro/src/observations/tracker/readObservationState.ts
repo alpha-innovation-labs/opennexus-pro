@@ -34,6 +34,7 @@ export async function readObservationState(
 					title: typeof topic?.title === "string" ? topic.title : "Untitled topic",
 					startedAt: typeof topic?.startedAt === "number" ? topic.startedAt : Date.now(),
 					sourceMessageIndex: typeof topic?.sourceMessageIndex === "number" ? topic.sourceMessageIndex : 0,
+					userMessageIndexes: Array.isArray(topic?.userMessageIndexes) ? topic.userMessageIndexes.filter((item) => typeof item === "number") : undefined,
 					userMessages: Array.isArray(topic?.userMessages) ? topic.userMessages.filter((item) => typeof item === "string") : [],
 					assistantBullets: Array.isArray(topic?.assistantBullets) ? topic.assistantBullets.filter((item) => typeof item === "string") : [],
 				}))

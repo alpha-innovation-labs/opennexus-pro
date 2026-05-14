@@ -29,6 +29,7 @@ export type ObservationTopic = {
 	title: string;
 	startedAt: number;
 	sourceMessageIndex: number;
+	userMessageIndexes?: number[];
 	userMessages: string[];
 	assistantBullets: string[];
 };
