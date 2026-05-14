@@ -33,7 +33,7 @@ export type ObservationListJsonRow = {
  * Parsed observation-management command request.
  */
 export type ObservationCliRequest = {
-  action: "list" | "delete" | "recreate" | "get-location";
+  action: "list" | "delete" | "recreate" | "view" | "get-location";
   target?: string;
   json: boolean;
 };

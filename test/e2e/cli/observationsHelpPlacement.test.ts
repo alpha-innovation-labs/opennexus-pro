@@ -45,5 +45,6 @@ function assertObservationsCommandsSection(output: string): void {
 	assert.match(commandsSection, /nexus observations list all\|<id>/u);
 	assert.match(commandsSection, /nexus observations delete all\|<id>/u);
 	assert.match(commandsSection, /nexus observations recreate all\|<id>/u);
+	assert.match(commandsSection, /nexus observations view <id>/u);
 	assert.match(commandsSection, /nexus observations get-location/u);
 }

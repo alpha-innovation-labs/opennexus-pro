@@ -59,6 +59,7 @@ function createCommandUsageLines(features: NexusUsageFeatureOptions): string[] {
 		"  nexus observations list all|<id>   List observation artifacts",
 		"  nexus observations delete all|<id> Delete observation artifacts",
 		"  nexus observations recreate all|<id> Recreate observations from session JSONL",
+		"  nexus observations view <id>       Print rendered observations",
 		"  nexus observations get-location    Print the observations storage path",
 	];
 	if (features.automations) {

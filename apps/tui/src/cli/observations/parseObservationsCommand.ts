@@ -11,7 +11,7 @@ export function parseObservationsCommand(argv: readonly string[]): { request: Ob
   const action = argv[1];
   const json = argv.includes("--json");
   if (action === "get-location") return { request: { action, json } };
-  if (action !== "list" && action !== "delete" && action !== "recreate") return { error: "Missing or invalid observations action." };
+  if (action !== "list" && action !== "delete" && action !== "recreate" && action !== "view") return { error: "Missing or invalid observations action." };
 
   const target = readObservationsCommandTarget(argv);
   if (!target) return { error: `Missing target for observations ${action}.` };

@@ -78,6 +78,14 @@ test("nexus observations recreates, lists, locates, and deletes observation arti
     assert.equal(tableListResult.code, 0);
     assert.match(tableListResult.output, new RegExp(sessionId));
 
+    const viewResult = await runCommand(buildSourceCliCommand(["observations", "view", sessionId]), {
+      cwd: process.cwd(),
+      env,
+      timeoutMs: 25_000,
+    });
+    assert.equal(viewResult.code, 0);
+    assert.match(viewResult.output, new RegExp(`# Observations for ${conversationId}`));
+
     const deleteResult = await runCommand(buildSourceCliCommand(["observations", "delete", sessionId]), {
       cwd: process.cwd(),
       env,

@@ -7,6 +7,7 @@ import { formatObservationListTable } from "./formatObservationListTable.js";
 import { listObservationArtifactGroups } from "./listObservationArtifactGroups.js";
 import { listObservationRecreateSessions } from "./listObservationRecreateSessions.js";
 import { parseObservationsCommand } from "./parseObservationsCommand.js";
+import { readObservationViewContent } from "./readObservationViewContent.js";
 import { recreateObservationArtifactsForSession } from "./recreateObservationArtifactsForSession.js";
 import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups.js";
 import { selectObservationRecreateSessions } from "./selectObservationRecreateSessions.js";
@@ -33,6 +34,7 @@ export async function runObservationsCommand(argv: readonly string[], cwd: strin
   }
   if (request.action === "list") return runList(request.target!, request.json);
   if (request.action === "delete") return runDelete(request.target!);
+  if (request.action === "view") return runView(request.target!);
   return runRecreate(request.target!, cwd, sessionDir);
 }
 
@@ -63,6 +65,22 @@ async function runDelete(target: string): Promise<number> {
     return 1;
   }
   console.log(`Deleted ${deletedCount} observation group${deletedCount === 1 ? "" : "s"}`);
+  return 0;
+}
+
+/**
+ * Runs the observations view action.
+ *
+ * @param target View target.
+ * @returns Process exit code.
+ */
+async function runView(target: string): Promise<number> {
+  const result = await readObservationViewContent(target);
+  if ("error" in result) {
+    console.error(result.error);
+    return 1;
+  }
+  process.stdout.write(result.content);
   return 0;
 }
 
