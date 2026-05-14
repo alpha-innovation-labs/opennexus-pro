@@ -6,9 +6,11 @@ import { hasHelpFlag } from "./help/hasHelpFlag.js";
 import { printNexusUsage } from "./help/printNexusUsage.js";
 import { hasObservationsFlag } from "./observations/hasObservationsFlag.js";
 import { hasObservationsLocationFlag } from "./observations/hasObservationsLocationFlag.js";
+import { isObservationsCommand } from "./observations/isObservationsCommand.js";
 import { printObservationsList } from "./observations/printObservationsList.js";
 import { printObservationsLocation } from "./observations/printObservationsLocation.js";
 import { readObservationsSessionIdArg } from "./observations/readObservationsSessionIdArg.js";
+import { runObservationsCommand } from "./observations/runObservationsCommand.js";
 import { runInstallCommand } from "./install/runInstallCommand.js";
 import { runUninstallCommand } from "./uninstall/runUninstallCommand.js";
 import { hasJsonFlag } from "./sessions/hasJsonFlag.js";
@@ -51,6 +53,11 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   if (hasObservationsLocationFlag(argv)) {
     printObservationsLocation();
     return 0;
+  }
+
+  if (isObservationsCommand(argv)) {
+    ensureAgentDirEnv();
+    return runObservationsCommand(argv, process.cwd(), readSessionDirArg(argv));
   }
 
   const miniAppManifests = getMiniAppManifests();

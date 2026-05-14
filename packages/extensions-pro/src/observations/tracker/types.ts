@@ -3,6 +3,7 @@
  */
 export type StoredObservationMessage = {
 	index: number;
+	entryId?: string;
 	timestamp: number;
 	role: "user" | "assistant";
 	text: string;

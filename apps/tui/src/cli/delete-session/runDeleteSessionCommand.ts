@@ -1,3 +1,4 @@
+import { deleteObservationArtifactsForSessionPath } from "../observations/deleteObservationArtifactsForSessionPath.js";
 import { deleteSessionFile } from "./deleteSessionFile.js";
 import { formatAmbiguousDeleteSessionMessage } from "./formatAmbiguousDeleteSessionMessage.js";
 import { readDeleteSessionArg } from "./readDeleteSessionArg.js";
@@ -28,7 +29,9 @@ export async function runDeleteSessionCommand(argv: readonly string[], cwd: stri
     return 1;
   }
 
+  const deletedObservationCount = await deleteObservationArtifactsForSessionPath(result.session.path);
   await deleteSessionFile(result.session.path);
   console.log(`Deleted session ${result.session.id}`);
+  if (deletedObservationCount > 0) console.log(`Deleted ${deletedObservationCount} observation group${deletedObservationCount === 1 ? "" : "s"}`);
   return 0;
 }
