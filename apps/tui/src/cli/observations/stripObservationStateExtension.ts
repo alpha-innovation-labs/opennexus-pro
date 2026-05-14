@@ -5,5 +5,5 @@
  * @returns Conversation id encoded by the state file name.
  */
 export function stripObservationStateExtension(fileName: string): string {
-	return fileName.replace(/\.state\.json$/u, "");
+	return fileName.replace(/\.state\.json$|\.json$/u, "");
 }

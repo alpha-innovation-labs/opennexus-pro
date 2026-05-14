@@ -7,6 +7,6 @@ import type { ObservationArtifactGroup } from "./types.js";
  * @param group Observation artifact group.
  */
 export async function deleteObservationArtifactGroup(group: ObservationArtifactGroup): Promise<void> {
-  const paths = [group.messagesPath, group.statePath, group.markdownPath].filter((filePath): filePath is string => Boolean(filePath));
+  const paths = [group.messagesPath, group.statePath, group.legacyStatePath, group.markdownPath].filter((filePath): filePath is string => Boolean(filePath));
   await Promise.all(paths.map((filePath) => rm(filePath, { force: true })));
 }

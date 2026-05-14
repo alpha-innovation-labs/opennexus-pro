@@ -32,7 +32,8 @@ test("nexus observations recreates, lists, locates, and deletes observation arti
   const observationsDir = join(homeDir, ".local", "share", "nexus", "agent", "observations");
   const conversationId = sessionPath.split("/").at(-1)!.replace(/\.jsonl$/, "");
   const messagesPath = join(observationsDir, `${conversationId}.messages.json`);
-  const statePath = join(observationsDir, `${conversationId}.state.json`);
+  const statePath = join(observationsDir, `${conversationId}.json`);
+  const legacyStatePath = join(observationsDir, `${conversationId}.state.json`);
   const markdownPath = join(observationsDir, `${conversationId}.observations.md`);
 
   try {
@@ -54,6 +55,7 @@ test("nexus observations recreates, lists, locates, and deletes observation arti
     assert.equal(await pathExists(messagesPath), false);
     assert.equal(await pathExists(statePath), true);
     assert.equal(await pathExists(markdownPath), false);
+    assert.equal(await pathExists(legacyStatePath), false);
 
     const state = JSON.parse(await readFile(statePath, "utf8")) as { messageCount?: number };
     assert.equal(state.messageCount, 2);
@@ -108,7 +110,8 @@ test("nexus --delete-session removes matching observation artifacts", async () =
   const observationsDir = join(homeDir, ".local", "share", "nexus", "agent", "observations");
   const conversationId = sessionPath.split("/").at(-1)!.replace(/\.jsonl$/, "");
   const messagesPath = join(observationsDir, `${conversationId}.messages.json`);
-  const statePath = join(observationsDir, `${conversationId}.state.json`);
+  const statePath = join(observationsDir, `${conversationId}.json`);
+  const legacyStatePath = join(observationsDir, `${conversationId}.state.json`);
 
   try {
     const recreateResult = await runCommand(buildSourceCliCommand(["observations", "recreate", sessionId, "--session-dir", sessionDir]), {
@@ -119,6 +122,7 @@ test("nexus --delete-session removes matching observation artifacts", async () =
     assert.equal(recreateResult.code, 0);
     assert.equal(await pathExists(messagesPath), false);
     assert.equal(await pathExists(statePath), true);
+    assert.equal(await pathExists(legacyStatePath), false);
 
     const deleteSessionResult = await runCommand(buildSourceCliCommand(["--session-dir", sessionDir, "--delete-session", sessionId]), {
       cwd: process.cwd(),

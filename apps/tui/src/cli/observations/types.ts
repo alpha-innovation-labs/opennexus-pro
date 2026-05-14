@@ -8,6 +8,7 @@ export type ObservationArtifactGroup = {
   sessionId: string;
   messagesPath?: string;
   statePath?: string;
+  legacyStatePath?: string;
   markdownPath?: string;
 };
 
@@ -26,6 +27,7 @@ export type ObservationListJsonRow = {
   sessionFile: string | null;
   messagesPath?: string;
   statePath?: string;
+  legacyStatePath?: string;
   markdownPath?: string;
 };
 

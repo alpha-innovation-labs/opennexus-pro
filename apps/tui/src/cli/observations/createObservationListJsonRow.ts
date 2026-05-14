@@ -10,7 +10,8 @@ type ObservationStateLike = { topics?: unknown[]; updatedAt?: number; messageCou
  * @returns JSON-safe observation row.
  */
 export async function createObservationListJsonRow(group: ObservationArtifactGroup): Promise<ObservationListJsonRow> {
-  const state = await readJsonFile(group.statePath) as ObservationStateLike | undefined;
+  const statePath = group.statePath ?? group.legacyStatePath;
+  const state = await readJsonFile(statePath) as ObservationStateLike | undefined;
   const updatedAt = typeof state?.updatedAt === "number" ? state.updatedAt : undefined;
   const sessionFile = typeof state?.sessionFile === "string" || state?.sessionFile === null ? state.sessionFile : null;
 
@@ -18,7 +19,7 @@ export async function createObservationListJsonRow(group: ObservationArtifactGro
     conversationId: group.conversationId,
     sessionId: group.sessionId,
     hasMessages: Boolean(group.messagesPath),
-    hasState: Boolean(group.statePath),
+    hasState: Boolean(group.statePath ?? group.legacyStatePath),
     hasMarkdown: Boolean(group.markdownPath),
     messageCount: typeof state?.messageCount === "number" ? state.messageCount : 0,
     topicCount: Array.isArray(state?.topics) ? state.topics.length : 0,
@@ -26,6 +27,7 @@ export async function createObservationListJsonRow(group: ObservationArtifactGro
     sessionFile,
     messagesPath: group.messagesPath,
     statePath: group.statePath,
+    legacyStatePath: group.legacyStatePath,
     markdownPath: group.markdownPath,
   };
 }
