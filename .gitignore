@@ -3,13 +3,10 @@
 dist/
 node_modules/
 
-# Beads / Dolt files (added by bd init)
-.dolt/
-*.db
-.beads-credential-key
 apps/marketing-videos/out
 apps/marketing-videos/out
 logs
 demo.md
 jobs
 apps/landing-page/.next
+auth.json

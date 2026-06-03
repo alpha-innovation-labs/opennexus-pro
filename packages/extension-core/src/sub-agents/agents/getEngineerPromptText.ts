@@ -30,7 +30,6 @@ Return:
 - Work completed.
 - Files changed.
 - Commands run and results.
-- Beads issues read or updated.
 - Assumptions made.
 - Remaining blockers.
 - Suggested steering message if another Engineer run is needed.

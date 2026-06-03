@@ -1,11 +1,6 @@
 {
   "version": 1,
   "skills": {
-    "beads": {
-      "source": "steveyegge/beads",
-      "sourceType": "github",
-      "computedHash": "4e77fdd7d126f7f419344dcf9626dcb8452ee41da6a18f951b4e5e45b795f4c3"
-    },
     "impeccable": {
       "source": "pbakaus/impeccable",
       "sourceType": "github",
