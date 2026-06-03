@@ -1,6 +1,7 @@
 import { join, resolve } from "node:path";
 import { copyExportHtmlAssets } from "./copyExportHtmlAssets.mjs";
 import { copyJsonFilesFromDir } from "./copyJsonFilesFromDir.mjs";
+import { copyMarkdownFilesFromDir } from "./copyMarkdownFilesFromDir.mjs";
 import { copyPath } from "./copyPath.mjs";
 import { copyPiThemeAssets } from "./copyPiThemeAssets.mjs";
 import { copyTetrisMusicAsset } from "./copyTetrisMusicAsset.mjs";
@@ -22,7 +23,7 @@ export async function stageBinaryAssets(bundleDir) {
 
   await copyPiThemeAssets(packageDir);
   await copyJsonFilesFromDir(resolve("packages", "assets", "src", "themes"), join(packageDir, "theme"));
-  await copyPath(resolve("packages", "assets", "src", "commands", "git-commit.md"), join(packageDir, "commands", "git-commit.md"));
+  await copyMarkdownFilesFromDir(resolve("packages", "assets", "src", "commands"), join(packageDir, "commands"));
   await copyPath(
     resolve("packages", "assets", "src", "default-settings", "settings.json"),
     join(packageDir, "runtime", "config", "default-settings", "settings.json"),

@@ -1,10 +1,12 @@
 import { readdir, readFile, stat } from "node:fs/promises";
-import { join, relative, resolve } from "node:path";
+import { basename, join, relative, resolve } from "node:path";
+import { listMarkdownFilesFromDir } from "./listMarkdownFilesFromDir.mjs";
+
+const COMMANDS_SOURCE_DIR = resolve("packages", "assets", "src", "commands");
 
 const EMBEDDED_ASSET_ROOTS = [
   [resolve("package.json"), "package.json"],
   [resolve("packages", "assets", "src", "themes"), "theme"],
-  [resolve("packages", "assets", "src", "commands", "git-commit.md"), "commands/git-commit.md"],
   [resolve("packages", "assets", "src", "default-settings", "settings.json"), "runtime/config/default-settings/settings.json"],
   [resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "core", "export-html"), "export-html"],
   [resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "modes", "interactive", "assets"), "assets"],
@@ -59,6 +61,15 @@ export async function listEmbeddedPackageAssetEntries() {
         mode: assetStat.mode & 0o777,
       });
     }
+  }
+
+  for (const sourcePath of await listMarkdownFilesFromDir(COMMANDS_SOURCE_DIR)) {
+    const assetStat = await stat(sourcePath);
+    assets.push({
+      path: join("commands", basename(sourcePath)),
+      contentBase64: (await readFile(sourcePath)).toString("base64"),
+      mode: assetStat.mode & 0o777,
+    });
   }
 
   return assets.sort((left, right) => left.path.localeCompare(right.path));

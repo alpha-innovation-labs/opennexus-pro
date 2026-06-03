@@ -1,5 +1,6 @@
 import { join, resolve } from "node:path";
 import { copyJsonFilesFromDir } from "../binary/copyJsonFilesFromDir.mjs";
+import { copyMarkdownFilesFromDir } from "../binary/copyMarkdownFilesFromDir.mjs";
 import { copyPath } from "../binary/copyPath.mjs";
 import { copyPiThemeAssets } from "../binary/copyPiThemeAssets.mjs";
 
@@ -14,7 +15,7 @@ export async function stageReleasePackageAssets(packageDir) {
 
   await copyPiThemeAssets(join(distDir, "modes", "interactive"));
   await copyJsonFilesFromDir(resolve("src", "themes"), join(distDir, "themes"));
-  await copyPath(resolve("src", "commands", "git-commit.md"), join(distDir, "commands", "git-commit.md"));
+  await copyMarkdownFilesFromDir(resolve("src", "commands"), join(distDir, "commands"));
   await copyPath(
     resolve("src", "runtime", "config", "default-settings", "settings.json"),
     join(distDir, "runtime", "config", "default-settings", "settings.json"),
