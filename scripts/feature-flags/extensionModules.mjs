@@ -140,4 +140,8 @@ export const extensionModules = {
 		importPath: "../prompt-queue/registerPromptQueueExtension.js",
 		exportName: "registerPromptQueueExtension",
 	},
+	"steer-queue": {
+		importPath: "../steer-queue/registerSteerQueueExtension.js",
+		exportName: "registerSteerQueueExtension",
+	},
 };

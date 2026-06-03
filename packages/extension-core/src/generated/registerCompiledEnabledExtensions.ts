@@ -16,6 +16,7 @@ import { registerAskUserQuestionExtension } from "../ask-user-question/registerA
 import registerFffExtension from "../fff/index.js";
 import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension.js";
 import { registerPromptQueueExtension } from "../prompt-queue/registerPromptQueueExtension.js";
+import { registerSteerQueueExtension } from "../steer-queue/registerSteerQueueExtension.js";
 import { registerHotkeysExtension } from "../hotkeys/registerHotkeysExtension.js";
 import { registerSlashMenuExtension } from "../slash-menu/registerSlashMenuExtension.js";
 import { registerNotifyExtension } from "../notify/registerNotifyExtension.js";
@@ -44,6 +45,7 @@ export const compiledBundledExtensionIds = [
   "fff",
   "neo-editor",
   "prompt-queue",
+  "steer-queue",
   "hotkeys",
   "slash-menu",
   "notify",
@@ -70,6 +72,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "fff": registerFffExtension,
   "neo-editor": registerNeoEditorExtension,
   "prompt-queue": registerPromptQueueExtension,
+  "steer-queue": registerSteerQueueExtension,
   "hotkeys": registerHotkeysExtension,
   "slash-menu": registerSlashMenuExtension,
   "notify": registerNotifyExtension,

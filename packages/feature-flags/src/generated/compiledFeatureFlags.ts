@@ -125,6 +125,15 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
+    "steer-queue": {
+      "enabled": true,
+      "features": [
+        "nexus steer CLI command",
+        "agent-dir per-session steering queue",
+        "poll and deliver top-level session steering messages"
+      ],
+      "category": "extension"
+    },
     "hotkeys": {
       "enabled": true,
       "features": [

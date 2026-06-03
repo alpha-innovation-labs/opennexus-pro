@@ -1,14 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createReleaseTestEnv } from "../release-executable/createReleaseTestEnv.js";
 import { createReleaseTestHome } from "../release-executable/createReleaseTestHome.js";
 import { removeReleaseTestHome } from "../release-executable/removeReleaseTestHome.js";
 import { runCommand } from "../release-executable/runCommand.js";
 import { buildSourceCliCommand } from "./buildSourceCliCommand.js";
+import { createHelpCommandEnv } from "./createHelpCommandEnv.js";
 
 test("nexus -h prints Nexus-owned help without starting Pi", async () => {
 	const homeDir = await createReleaseTestHome();
-	const env = createReleaseTestEnv(homeDir);
+	const env = await createHelpCommandEnv(homeDir);
 
 	try {
 		const result = await runCommand(buildSourceCliCommand(["-h"]), {
@@ -28,7 +28,10 @@ test("nexus -h prints Nexus-owned help without starting Pi", async () => {
 		assert.match(result.output, /--json/u);
 		assert.doesNotMatch(result.output, /--observations-location/u);
 		assert.match(result.output, /--chat-status-file-location/u);
-		assert.match(result.output, /--session-dir=<path>/u);
+		assert.match(result.output, /steer <session-id> <message>/u);
+		assertSteerHelpIsInCommandsSection(result.output);
+		assert.match(result.output, /--session-dir <path>/u);
+		assert.doesNotMatch(result.output, /--session-dir=<path>/u);
 		assert.match(result.output, /--resume \[session-id\]/u);
 		assert.match(result.output, /-r \[session-id\]/u);
 		assert.match(result.output, /--resume=<session-id>/u);
@@ -62,21 +65,44 @@ test("nexus -h prints Nexus-owned help without starting Pi", async () => {
  * @param output Help output.
  */
 function assertObservationsHelpIsInCommandsSection(output: string): void {
+	const { optionsSection, commandsSection } = readTopLevelHelpSections(output);
+	assert.doesNotMatch(optionsSection, /nexus observations/u);
+	assert.match(commandsSection, /nexus observations list all\|<id>/u);
+}
+
+/**
+ * Verifies steer subcommand help is displayed in Commands, not Options.
+ *
+ * @param output Help output.
+ */
+function assertSteerHelpIsInCommandsSection(output: string): void {
+	const { optionsSection, commandsSection } = readTopLevelHelpSections(output);
+	assert.doesNotMatch(optionsSection, /steer <session-id> <message>/u);
+	assert.match(commandsSection, /steer <session-id> <message>/u);
+}
+
+/**
+ * Reads the top-level help sections needed by section placement assertions.
+ *
+ * @param output Help output.
+ * @returns Options and commands section text.
+ */
+function readTopLevelHelpSections(output: string): { optionsSection: string; commandsSection: string } {
 	const optionsStart = output.indexOf("Options:");
 	const commandsStart = output.indexOf("Commands:");
 	const passthroughStart = output.indexOf("Passthrough options:");
 	assert.notEqual(optionsStart, -1);
 	assert.notEqual(commandsStart, -1);
 	assert.notEqual(passthroughStart, -1);
-	const optionsSection = output.slice(optionsStart, commandsStart);
-	const commandsSection = output.slice(commandsStart, passthroughStart);
-	assert.doesNotMatch(optionsSection, /nexus observations/u);
-	assert.match(commandsSection, /nexus observations list all\|<id>/u);
+	return {
+		optionsSection: output.slice(optionsStart, commandsStart),
+		commandsSection: output.slice(commandsStart, passthroughStart),
+	};
 }
 
 test("source nexus automations -h prints scoped automations help when enabled", async () => {
 	const homeDir = await createReleaseTestHome();
-	const env = createReleaseTestEnv(homeDir);
+	const env = await createHelpCommandEnv(homeDir);
 
 	try {
 		const result = await runCommand(buildSourceCliCommand(["automations", "-h"]), {
@@ -96,7 +122,7 @@ test("source nexus automations -h prints scoped automations help when enabled", 
 
 test("source nexus social-chat -h reports disabled command when unavailable", async () => {
 	const homeDir = await createReleaseTestHome();
-	const env = createReleaseTestEnv(homeDir);
+	const env = await createHelpCommandEnv(homeDir);
 
 	try {
 		const result = await runCommand(buildSourceCliCommand(["social-chat", "-h"]), {
@@ -115,7 +141,7 @@ test("source nexus social-chat -h reports disabled command when unavailable", as
 
 test("source nexus annotation -h reports disabled command when unavailable", async () => {
 	const homeDir = await createReleaseTestHome();
-	const env = createReleaseTestEnv(homeDir);
+	const env = await createHelpCommandEnv(homeDir);
 
 	try {
 		const result = await runCommand(buildSourceCliCommand(["annotation", "-h"]), {

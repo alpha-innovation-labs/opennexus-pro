@@ -25,6 +25,8 @@ import { hasDeleteSessionFlag } from "./delete-session/hasDeleteSessionFlag.js";
 import { runDeleteSessionCommand } from "./delete-session/runDeleteSessionCommand.js";
 import { hasChatStatusFileLocationFlag } from "./chat-status/hasChatStatusFileLocationFlag.js";
 import { printChatStatusFileLocation } from "./chat-status/printChatStatusFileLocation.js";
+import { isSteerCommand } from "./steer/isSteerCommand.js";
+import { runSteerCommand } from "./steer/runSteerCommand.js";
 
 export interface RunCliWithAppOptions {
   runApp: (argv: string[]) => Promise<void>;
@@ -51,6 +53,11 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   if (isObservationsCommand(argv)) {
     ensureAgentDirEnv();
     return runObservationsCommand(argv, process.cwd(), readSessionDirArg(argv));
+  }
+
+  if (isSteerCommand(argv)) {
+    ensureAgentDirEnv();
+    return runSteerCommand(argv);
   }
 
   const miniAppManifests = getMiniAppManifests();

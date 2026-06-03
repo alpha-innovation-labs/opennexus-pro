@@ -26,7 +26,6 @@ export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): s
 		"  --chat-status-file-location         Print the chat-status file path",
 		"  --usage                            Open the usage history modal on startup",
 		"  --session-dir <path>               Read sessions from a custom directory",
-		"  --session-dir=<path>               Read sessions from a custom directory",
 		"  --resume [session-id]              Resume from picker, or open a specific session",
 		"  -r [session-id]                    Alias for --resume",
 		"  --resume=<session-id>              Open a specific session directly",
@@ -56,6 +55,7 @@ function createCommandUsageLines(features: NexusUsageFeatureOptions): string[] {
 	const lines: string[] = [
 		"  nexus install <source>             Install an extension package",
 		"  nexus uninstall <source>           Uninstall an extension package",
+		"  nexus steer <session-id> <message> Queue a steering message for a running session",
 		"  nexus observations list all|<id>   List observation artifacts",
 		"  nexus observations delete all|<id> Delete observation artifacts",
 		"  nexus observations recreate all|<id> Recreate observations from session JSONL",

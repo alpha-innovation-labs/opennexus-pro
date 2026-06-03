@@ -22,6 +22,7 @@ import { registerObservationsExtension } from "@nexus/extensions-pro/observation
 import { registerOhMyPiLspExtension } from "@nexus/extensions-dev/oh-my-pi-lsp/registerOhMyPiLspExtension.js";
 import { registerSystemPromptExtension } from "@nexus/extensions/system-prompt/registerSystemPromptExtension.js";
 import { registerPromptQueueExtension } from "@nexus/extensions/prompt-queue/registerPromptQueueExtension.js";
+import { registerSteerQueueExtension } from "@nexus/extensions/steer-queue/registerSteerQueueExtension.js";
 import { registerRtkExtension } from "@nexus/extensions-pro/rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "@nexus/extensions/startup-hero/registerStartupHeroExtension.js";
 import registerSubAgentsExtension from "@nexus/extensions/sub-agents/index.js";
@@ -67,6 +68,7 @@ export function createExtensionRegisterMap(): Record<
 		"oh-my-pi-lsp": registerOhMyPiLspExtension,
 		"system-prompt": registerSystemPromptExtension,
 		"prompt-queue": registerPromptQueueExtension,
+		"steer-queue": registerSteerQueueExtension,
 		"exit-message": registerExitMessageExtension,
 		"startup-hero": registerStartupHeroExtension,
 		"sub-agents": registerSubAgentsExtension,

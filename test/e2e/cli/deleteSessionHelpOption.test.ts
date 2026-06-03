@@ -6,7 +6,7 @@ import { removeReleaseTestHome } from "../release-executable/removeReleaseTestHo
 import { runCommand } from "../release-executable/runCommand.js";
 import { buildSourceCliCommand } from "./buildSourceCliCommand.js";
 
-test("nexus help shows one delete-session option spelling", async () => {
+test("nexus help shows one spelling for consolidated options", async () => {
 	const homeDir = await createReleaseTestHome();
 	const env = createReleaseTestEnv(homeDir);
 
@@ -21,6 +21,8 @@ test("nexus help shows one delete-session option spelling", async () => {
 		assert.equal(result.code, 0);
 		assert.match(result.output, /--delete-session <session-id>/u);
 		assert.doesNotMatch(result.output, /--delete-session=<session-id>/u);
+		assert.match(result.output, /--session-dir <path>/u);
+		assert.doesNotMatch(result.output, /--session-dir=<path>/u);
 	} finally {
 		await removeReleaseTestHome(homeDir);
 	}
