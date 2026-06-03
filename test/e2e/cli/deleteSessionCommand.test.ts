@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import { rm } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
+import { basename, join } from "node:path";
 import test from "node:test";
 import { createReleaseTestEnv } from "../release-executable/createReleaseTestEnv.js";
 import { createReleaseTestHome } from "../release-executable/createReleaseTestHome.js";
@@ -33,6 +34,37 @@ test("nexus --delete-session <session-id> removes the persisted session", async 
     });
     assert.equal(listResult.code, 0);
     assert.deepEqual(JSON.parse(listResult.output), []);
+  } finally {
+    await rm(sessionDir, { recursive: true, force: true });
+    await removeReleaseTestHome(homeDir);
+  }
+});
+
+test("nexus --delete-session resolves the session path from the filename without parsing JSONL", async () => {
+  const homeDir = await createReleaseTestHome();
+  const env = createReleaseTestEnv(homeDir);
+  const { sessionDir, sessionId, sessionPath } = await createCliSessionFixture();
+  const observationsDir = join(homeDir, ".local", "share", "nexus", "agent", "observations");
+  const conversationId = basename(sessionPath).replace(/\.jsonl$/, "");
+  const statePath = join(observationsDir, `${conversationId}.json`);
+
+  try {
+    await writeFile(sessionPath, "{not valid jsonl}\n");
+    await mkdir(observationsDir, { recursive: true });
+    await writeFile(statePath, "{}\n");
+
+    const result = await runCommand(buildSourceCliCommand(["--session-dir", sessionDir, "--delete-session", sessionId]), {
+      cwd: process.cwd(),
+      env,
+      timeoutMs: 25_000,
+    });
+
+    assert.equal(result.timedOut, false);
+    assert.equal(result.code, 0);
+    assert.match(result.output, new RegExp(`Deleted session ${sessionId}`));
+    assert.match(result.output, /Deleted 1 observation group/);
+    assert.equal(await pathExists(sessionPath), false);
+    assert.equal(await pathExists(statePath), false);
   } finally {
     await rm(sessionDir, { recursive: true, force: true });
     await removeReleaseTestHome(homeDir);

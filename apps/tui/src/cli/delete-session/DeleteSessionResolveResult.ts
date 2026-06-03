@@ -1,6 +1,6 @@
-import type { SessionInfo } from "@earendil-works/pi-coding-agent";
+import type { DeleteSessionMatch } from "./DeleteSessionMatch.js";
 
 export type DeleteSessionResolveResult =
-  | { type: "found"; session: SessionInfo }
+  | { type: "found"; session: DeleteSessionMatch }
   | { type: "not_found"; sessionReference: string }
-  | { type: "ambiguous"; sessionReference: string; matches: SessionInfo[] };
+  | { type: "ambiguous"; sessionReference: string; matches: DeleteSessionMatch[] };

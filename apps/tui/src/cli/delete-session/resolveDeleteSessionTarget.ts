@@ -1,9 +1,10 @@
-import { SessionManager } from "@earendil-works/pi-coding-agent";
 import type { DeleteSessionResolveResult } from "./DeleteSessionResolveResult.js";
-import { getUniqueSessionsByPath } from "./getUniqueSessionsByPath.js";
+import { getUniqueDeleteSessionMatchesByPath } from "./getUniqueDeleteSessionMatchesByPath.js";
+import { listDeleteSessionSearchDirs } from "./listDeleteSessionSearchDirs.js";
+import { listSessionFileMatchesInDir } from "./listSessionFileMatchesInDir.js";
 
 /**
- * Resolves a session ID or unique ID prefix to one persisted session file.
+ * Resolves a session ID or unique ID prefix to one persisted session file by filename.
  *
  * @param sessionReference Session ID or unique ID prefix to delete.
  * @param cwd Current working directory for local session lookup.
@@ -15,9 +16,9 @@ export async function resolveDeleteSessionTarget(
   cwd: string,
   sessionDir?: string,
 ): Promise<DeleteSessionResolveResult> {
-  const localSessions = await SessionManager.list(cwd, sessionDir);
-  const allSessions = await SessionManager.listAll();
-  const sessions = getUniqueSessionsByPath([...localSessions, ...allSessions]);
+  const dirs = await listDeleteSessionSearchDirs(cwd, sessionDir);
+  const matchesByDir = await Promise.all(dirs.map((dir) => listSessionFileMatchesInDir(dir)));
+  const sessions = getUniqueDeleteSessionMatchesByPath(matchesByDir.flat());
   const exactMatches = sessions.filter((session) => session.id === sessionReference);
   const matches = exactMatches.length > 0 ? exactMatches : sessions.filter((session) => session.id.startsWith(sessionReference));
 
