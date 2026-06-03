@@ -19,6 +19,8 @@ export function createStartupHeroWidget(
 	status: StartupHeroStatus,
 	startupDurationBadge?: string,
 ): Component {
+	let cachedKey: string | undefined;
+	let cachedLines: string[] = [];
 	return {
 		/**
 		 * Renders the startup hero for the current terminal dimensions.
@@ -27,9 +29,25 @@ export function createStartupHeroWidget(
 		 * @returns Startup hero lines.
 		 */
 		render(width: number): string[] {
-			return buildCenteredStartupHeroLines(theme, tui.terminal.rows, width, version, status, startupDurationBadge);
+			const key = [
+				tui.terminal.rows,
+				width,
+				version,
+				status.activeSkillCount,
+				status.agentsMdLoaded,
+				status.enabledExtensionCount,
+				status.enabledMiniAppCount,
+				startupDurationBadge ?? "",
+			].join("\u001f");
+			if (cachedKey === key) return cachedLines;
+			cachedKey = key;
+			cachedLines = buildCenteredStartupHeroLines(theme, tui.terminal.rows, width, version, status, startupDurationBadge);
+			return cachedLines;
 		},
 		/** Invalidates cached rendering state. */
-		invalidate(): void {},
+		invalidate(): void {
+			cachedKey = undefined;
+			cachedLines = [];
+		},
 	};
 }

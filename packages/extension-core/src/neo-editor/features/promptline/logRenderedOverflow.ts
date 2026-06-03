@@ -1,4 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
+import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled.js";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
 
 /**
@@ -8,6 +9,7 @@ import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
  * @param width Target width.
  */
 export function logRenderedOverflow(lines: string[], width: number): void {
+  if (!isStartupProfileEnabled()) return;
   for (const [index, renderedLine] of lines.entries()) {
     const renderedWidth = visibleWidth(renderedLine);
     if (renderedWidth > width) {

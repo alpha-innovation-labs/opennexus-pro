@@ -1,5 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { visibleWidth } from "@earendil-works/pi-tui";
+import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled.js";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
 import { getPromptlineModel } from "../getPromptlineModel.js";
 import { getPromptlineFrameWidth } from "../layout/getPromptlineFrameWidth.js";
@@ -26,26 +27,37 @@ export function createPromptlineStatusWidget(
 	getThinkingLevel: ExtensionAPI["getThinkingLevel"],
 	getSessionName: ExtensionAPI["getSessionName"],
 ): { invalidate(): void; render(width: number): string[] } {
+	let cachedKey: string | undefined;
+	let cachedLines: string[] = [];
 	return {
-		invalidate(): void {},
+		invalidate(): void {
+			cachedKey = undefined;
+			cachedLines = [];
+		},
 		render(width: number): string[] {
 			const modelId = (getPromptlineModel(ctx)?.id ?? "no-model").replace(/^[^/]+\//, "");
 			const thinking = getThinkingLevel();
-			const badges = `${createPromptlineBadge(modelId, MODEL_BADGE_BG)}${createPromptlineBadge(thinking, THINKING_BADGE_BG)}`;
 			const hasMessages = hasConversationMessages(ctx);
 			const frameWidth = getPromptlineFrameWidth(width, hasMessages);
 			const title = getPromptlineStatusTitle(getSessionName, ctx);
 			const runTime = hasMessages && title ? ctx.ui.theme.fg("muted", getPromptlineSessionRunTimeLabel()) : undefined;
+			const key = [width, frameWidth, modelId, thinking, title ?? "", runTime ?? ""].join("\u001f");
+			if (cachedKey === key) return cachedLines;
+			const badges = `${createPromptlineBadge(modelId, MODEL_BADGE_BG)}${createPromptlineBadge(thinking, THINKING_BADGE_BG)}`;
 			const line = buildPromptlineStatusLine(badges, runTime, title, frameWidth, ctx.ui.theme);
-			const renderedWidth = visibleWidth(line);
-			if (renderedWidth > frameWidth) {
-				logExtensionEvent("promptline-status-widget", "overflow", {
-					width: frameWidth,
-					renderedWidth,
-					sessionName: title ?? null,
-				});
+			if (isStartupProfileEnabled()) {
+				const renderedWidth = visibleWidth(line);
+				if (renderedWidth > frameWidth) {
+					logExtensionEvent("promptline-status-widget", "overflow", {
+						width: frameWidth,
+						renderedWidth,
+						sessionName: title ?? null,
+					});
+				}
 			}
-			return padPromptlineFrameToWidth([line], width, frameWidth);
+			cachedKey = key;
+			cachedLines = padPromptlineFrameToWidth([line], width, frameWidth);
+			return cachedLines;
 		},
 	};
 }

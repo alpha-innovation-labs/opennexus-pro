@@ -4,6 +4,7 @@ import type { AutocompleteItem, AutocompleteProvider } from "@earendil-works/pi-
 import { matchesKey } from "@earendil-works/pi-tui";
 import { readClipboardImageViaMacOsJxa } from "@nexus/runtime/clipboard-image/readClipboardImageViaMacOsJxa.js";
 import { writeClipboardImageTempFile } from "@nexus/runtime/clipboard-image/writeClipboardImageTempFile.js";
+import { clearStartupHero } from "../../../startup-hero/clearStartupHero.js";
 import { handleClipboardImagePaste } from "./clipboard/handleClipboardImagePaste.js";
 import { extractCompleteBracketedPaste } from "./paste/extractCompleteBracketedPaste.js";
 import { normalizeBracketedPasteText } from "./paste/normalizeBracketedPasteText.js";
@@ -34,6 +35,7 @@ export class PromptlineEditor extends CustomEditor {
   private hotkeysModal?: { handleInput(data: string): void; getEditorMirrorText(): string };
   private promptAutocompletePrefix = "";
   private triggerSubmitInFlight = false;
+  private startupHeroCleared = false;
 
   constructor(tui: any, theme: any, private readonly editorKeybindings: any, private readonly ctx: ExtensionContext, private readonly uiTheme: ExtensionContext["ui"]["theme"], private readonly getThinkingLevel: ExtensionAPI["getThinkingLevel"], private readonly setThinkingLevel: ExtensionAPI["setThinkingLevel"], private readonly getSessionName: ExtensionAPI["getSessionName"], private readonly getPromptlineConfig: () => PromptlineConfig, private readonly refreshPromptlineConfig: (cwd: string) => Promise<PromptlineConfig>, private readonly getCommands: ExtensionAPI["getCommands"] = () => [], private readonly getAllTools: ExtensionAPI["getAllTools"] = () => []) {
     super(tui, theme, editorKeybindings);
@@ -41,6 +43,12 @@ export class PromptlineEditor extends CustomEditor {
   /** Cancels Pi's stock autocomplete when the custom slash modal is active. */
   private suppressBaseAutocomplete(): void {
     (this as unknown as { cancelAutocomplete?: () => void }).cancelAutocomplete?.();
+  }
+  /** Clears the startup hero before the first typed prompt render. */
+  private clearStartupHeroOnTyping(): void {
+    if (this.startupHeroCleared) return;
+    this.startupHeroCleared = true;
+    clearStartupHero(this.ctx);
   }
   /** Reloads cached promptline config after an explicit reload command completes. */
   private refreshConfigAfterReload(commandText: string, submission: Promise<unknown>): void {
@@ -66,6 +74,12 @@ export class PromptlineEditor extends CustomEditor {
     void submission.finally(() => {
       this.triggerSubmitInFlight = false;
     });
+  }
+  /** Returns whether current typing can match a configured submit trigger. */
+  private shouldCheckConfiguredTriggers(): boolean {
+    const { triggerConfig } = this.getPromptlineConfig();
+    if (triggerConfig.rules.length === 0) return false;
+    return (this.getLines()[0] ?? "").startsWith("/");
   }
   /** Returns whether current typing state requires modal refresh work. */
   private shouldRefreshTriggerModal(): boolean {
@@ -149,6 +163,7 @@ export class PromptlineEditor extends CustomEditor {
     });
   }
   override handleInput(data: string): void {
+    this.clearStartupHeroOnTyping();
     if (this.hotkeysModal) {
       this.hotkeysModal.handleInput(data);
       super.setText(this.hotkeysModal.getEditorMirrorText());
@@ -180,7 +195,7 @@ export class PromptlineEditor extends CustomEditor {
       : null;
     if (triggerSessionStart?.kind === "slash" && !isRuntimeExtensionFeatureEnabled("slash-menu")) {
       super.handleInput(data);
-      this.handleConfiguredTriggers(this.getText());
+      if (this.shouldCheckConfiguredTriggers()) this.handleConfiguredTriggers(this.getText());
       return;
     }
     if (triggerSessionStart) {
@@ -199,7 +214,7 @@ export class PromptlineEditor extends CustomEditor {
     }
     super.handleInput(data);
     if (this.shouldRefreshTriggerModal()) void this.refreshTriggerModal();
-    this.handleConfiguredTriggers(this.getText());
+    if (this.shouldCheckConfiguredTriggers()) this.handleConfiguredTriggers(this.getText());
   }
   override render(width: number): string[] {
     const cursor = this.getCursor();

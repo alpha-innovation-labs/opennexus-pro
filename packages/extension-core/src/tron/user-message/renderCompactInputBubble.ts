@@ -1,4 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
+import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled.js";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
 import { colorBorder } from "./colorBorder.ts";
 import { colorContent } from "./colorContent.ts";
@@ -42,10 +43,12 @@ export function renderCompactInputBubble(text: string, width: number, metadata?:
 	});
 	const bottom = renderBottomBorder(innerWidth, metadata);
 	const lines = [top, ...middle, bottom];
-	for (const [index, line] of lines.entries()) {
-		const renderedWidth = visibleWidth(line);
-		if (renderedWidth > width) {
-			logExtensionEvent("user-message-input-style", "overflow", { width, lineIndex: index, renderedWidth });
+	if (isStartupProfileEnabled()) {
+		for (const [index, line] of lines.entries()) {
+			const renderedWidth = visibleWidth(line);
+			if (renderedWidth > width) {
+				logExtensionEvent("user-message-input-style", "overflow", { width, lineIndex: index, renderedWidth });
+			}
 		}
 	}
 	return lines;

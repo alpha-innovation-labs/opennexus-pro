@@ -4,6 +4,7 @@ import { PromptlineEditor } from "./PromptlineEditor.js";
 import { refreshGitState } from "../../shared/git/refreshGitState.js";
 import { refreshTransportPreference } from "../../shared/transport/refreshTransportPreference.js";
 import { installPromptlineFooter } from "./installPromptlineFooter.js";
+import { installPromptlineRenderScheduler } from "./installPromptlineRenderScheduler.js";
 import { getUsageRenderUnsubscribe, setPromptlineRenderRequest, setUsageRenderUnsubscribe } from "./state.js";
 
 /**
@@ -16,6 +17,7 @@ export function installPromptline(ctx: PromptlineContext, deps: PromptlineDeps):
   installPromptlineFooter(ctx);
 
   ctx.ui.setEditorComponent((tui, theme, keybindings) => {
+    installPromptlineRenderScheduler(tui);
     setPromptlineRenderRequest((force = false) => tui.requestRender(force));
     getUsageRenderUnsubscribe()?.();
     setUsageRenderUnsubscribe(subscribeUsageSnapshots(() => tui.requestRender()));
