@@ -61,6 +61,14 @@ test("nexus observations recreates, lists, locates, and deletes observation arti
     assert.equal(state.messageCount, 2);
     assert.match(await readFile(sessionPath, "utf8"), new RegExp(await readFirstUserEntryId(sessionPath)));
 
+    const recreateByConversationIdResult = await runCommand(buildSourceCliCommand(["observations", "recreate", conversationId, "--session-dir", sessionDir]), {
+      cwd: process.cwd(),
+      env,
+      timeoutMs: 25_000,
+    });
+    assert.equal(recreateByConversationIdResult.code, 0);
+    assert.match(recreateByConversationIdResult.output, /Recreated 1 observation group/);
+
     const jsonListResult = await runCommand(buildSourceCliCommand(["observations", "list", "all", "--json"]), {
       cwd: process.cwd(),
       env,

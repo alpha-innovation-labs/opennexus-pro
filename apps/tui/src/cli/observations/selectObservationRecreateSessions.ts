@@ -1,4 +1,5 @@
 import type { SessionInfo } from "@earendil-works/pi-coding-agent";
+import { matchesObservationRecreateSessionTarget } from "./matchesObservationRecreateSessionTarget.js";
 
 /**
  * Selects sessions to recreate observations for.
@@ -12,8 +13,8 @@ export function selectObservationRecreateSessions(
   target: string,
 ): { sessions: SessionInfo[] } | { error: string } {
   if (target === "all") return { sessions: [...sessions] };
-  const exactMatches = sessions.filter((session) => session.id === target);
-  const matches = exactMatches.length > 0 ? exactMatches : sessions.filter((session) => session.id.startsWith(target));
+  const exactMatches = sessions.filter((session) => matchesObservationRecreateSessionTarget(session, target, true));
+  const matches = exactMatches.length > 0 ? exactMatches : sessions.filter((session) => matchesObservationRecreateSessionTarget(session, target, false));
   if (matches.length === 0) return { error: `No session found matching '${target}'` };
   if (matches.length > 1) return { error: `Multiple sessions match '${target}'. Use a longer session id.` };
   return { sessions: [matches[0]!] };

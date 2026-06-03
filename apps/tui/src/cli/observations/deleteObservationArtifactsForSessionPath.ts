@@ -1,4 +1,4 @@
-import { deleteObservationArtifacts } from "./deleteObservationArtifacts.js";
+import { deleteKnownObservationArtifactsForConversationId } from "./deleteKnownObservationArtifactsForConversationId.js";
 import { getConversationIdFromSessionPath } from "./getConversationIdFromSessionPath.js";
 
 /**
@@ -8,5 +8,5 @@ import { getConversationIdFromSessionPath } from "./getConversationIdFromSession
  * @returns Number of deleted groups.
  */
 export async function deleteObservationArtifactsForSessionPath(sessionPath: string): Promise<number> {
-  return deleteObservationArtifacts(getConversationIdFromSessionPath(sessionPath));
+  return deleteKnownObservationArtifactsForConversationId(getConversationIdFromSessionPath(sessionPath));
 }

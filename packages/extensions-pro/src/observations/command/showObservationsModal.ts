@@ -6,6 +6,7 @@ import { editObservationPrompt } from "./editObservationPrompt.js";
 import { isObservationPromptEditingEnabled } from "./isObservationPromptEditingEnabled.js";
 import { ObservationsModal } from "./ObservationsModal.js";
 import { readObservationSections } from "./readObservationSections.js";
+import { recreateAndRefreshObservationsModal } from "./recreateAndRefreshObservationsModal.js";
 
 /**
  * Opens the observations browser modal for the current conversation.
@@ -23,9 +24,15 @@ export async function showObservationsModal(ctx: ExtensionContext | ExtensionCom
 	const { items, detailsByValue } = await readObservationSections(statePath, conversationId, ctx.cwd, ctx.sessionManager.getSessionFile() ?? null);
 	const promptEditingEnabled = isObservationPromptEditingEnabled();
 	await ctx.ui.custom<undefined>(
-		(tui, theme, _keybindings, done) => new ObservationsModal(theme, items, detailsByValue, done, () => {
-			if (promptEditingEnabled) void editObservationPrompt(ctx, tui);
-		}, promptEditingEnabled),
+		(tui, theme, _keybindings, done) => {
+			let modal: ObservationsModal | undefined;
+			modal = new ObservationsModal(theme, items, detailsByValue, done, () => {
+				if (promptEditingEnabled) void editObservationPrompt(ctx, tui);
+			}, promptEditingEnabled, () => {
+				if (modal) void recreateAndRefreshObservationsModal(ctx, modal);
+			});
+			return modal;
+		},
 		{
 			overlay: true,
 			overlayOptions: createPanelOverlayOptions(80, "85%"),
