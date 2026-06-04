@@ -3,14 +3,9 @@ import { Container } from "@earendil-works/pi-tui";
 import { allToolDefinitions } from "@nexus/pi-platform/tools.js";
 import { getRtkExecutionCwd } from "@nexus/extensions-pro/rtk/runtime/getRtkExecutionCwd.js";
 import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator.ts";
-import { BorderedToolResult } from "./BorderedToolResult.ts";
-import { FailedToolCallResult } from "./FailedToolCallResult.ts";
+import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry.js";
 import { getBuiltInTools } from "./getBuiltInTools.ts";
-import { getToolErrorText } from "./getToolErrorText.ts";
 import { markCompactWrappedToolDefinition } from "./markCompactWrappedToolDefinition.ts";
-import { renderCompactResult } from "./renderCompactResult.ts";
-import { renderSummary } from "./renderSummary.ts";
-import { summarizeArgs } from "./summarizeArgs.ts";
 import type { BuiltInTools } from "./types.ts";
 
 /**
@@ -36,21 +31,29 @@ export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof Bui
 		renderCall(args: unknown, theme: any, context: any) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
 			if (context.isError) return new Container();
-			return renderSummary(context.toolCallId, toolName, summarizeArgs(toolName, args), theme, Boolean((context.state as any).hasVisibleResult));
+			const { renderer } = renderTranscriptEntry(
+				{ role: "tool", toolCallId: context.toolCallId, toolName, args: args as Record<string, unknown> },
+				{ theme, expanded: context.expanded },
+			);
+			return renderer;
 		},
 		renderResult(result: any, state: any, theme: any, context: any) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
-			if (context.isError) {
-				(context.state as any).hasVisibleResult = false;
-				return new FailedToolCallResult(context.toolCallId, toolName, getToolErrorText(result), theme);
-			}
-			(context.state as any).hasVisibleResult = Boolean(state.expanded && Array.isArray(result?.content) && result.content.length > 0);
-			if (!state.expanded) return new Container();
 			const builtIn = (allToolDefinitions as any)[toolName]?.renderResult;
-			if (builtIn) {
-				return new BorderedToolResult(context.toolCallId, builtIn(result, state, theme, context as any), theme);
-			}
-			return renderCompactResult(context.toolCallId, result, true, theme);
+			const { renderer } = renderTranscriptEntry(
+				{ role: "toolResult", toolCallId: context.toolCallId, toolName, result },
+				{
+					theme,
+					expanded: state.expanded,
+					resultChildRenderer: builtIn
+						? {
+							render: (innerWidth: number) => builtIn(result, state, theme, context as any).render(innerWidth),
+							invalidate: () => builtIn(result, state, theme, context as any).invalidate?.(),
+						}
+						: undefined,
+				},
+			);
+			return renderer;
 		},
 	}));
 }

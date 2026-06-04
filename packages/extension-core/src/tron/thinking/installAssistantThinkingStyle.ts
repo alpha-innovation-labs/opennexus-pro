@@ -1,5 +1,5 @@
 import { getMarkdownTheme } from "@earendil-works/pi-coding-agent";
-import { Markdown, Spacer, Text } from "@earendil-works/pi-tui";
+import { Spacer, Text } from "@earendil-works/pi-tui";
 import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook.js";
 import { theme } from "@nexus/pi-platform/theme.js";
 import { recordTronRenderTiming } from "../profiling/recordTronRenderTiming.js";
@@ -9,11 +9,10 @@ import { syncToolCallFrameState } from "../activity/syncToolCallFrameState.ts";
 import { setCompactModeThinkingExpanded } from "../collapse/thinkingVisibility.ts";
 import { getAssistantMessageTiming } from "./assistantMessageTimingState.ts";
 import { createAssistantMetaText } from "./createAssistantMetaText.ts";
-import { getThinkingPreview } from "./getThinkingPreview.ts";
 import { isThinkingOnlyVisibleMessage } from "./isThinkingOnlyVisibleMessage.ts";
 import { BorderedAssistantErrorRow } from "./BorderedAssistantErrorRow.js";
 import { formatAssistantErrorText } from "./formatAssistantErrorText.js";
-import { ThinkingLabelBlock } from "./ThinkingLabelBlock.ts";
+import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry.js";
 
 /**
  * Returns whether a tool call should remain visible in Tron assistant layout.
@@ -45,7 +44,11 @@ export function installAssistantThinkingStyle(): void {
     for (let index = 0; index < message.content.length; index++) {
       const content = message.content[index];
       if (content.type === "text" && content.text.trim()) {
-        component.contentContainer.addChild(new Markdown(content.text.trim(), 1, 0, markdownTheme));
+        const { component: child } = renderTranscriptEntry(
+          { role: "assistant", text: content.text.trim() },
+          { theme, markdownTheme, xOffset: 1 },
+        );
+        if (child) component.contentContainer.addChild(child);
         continue;
       }
       if (content.type === "thinking" && content.thinking.trim()) {
@@ -56,12 +59,17 @@ export function installAssistantThinkingStyle(): void {
         const connectFromTool = isVisibleToolCall(previousVisibleContent);
         if (connectToTools) bridgeThinkingToToolCalls(toolGroup.toolCallIds, !toolGroup.followedByThinking);
         if (component.hideThinkingBlock) {
-          component.contentContainer.addChild(new ThinkingLabelBlock(getThinkingPreview(content.thinking.trim()), connectToTools, connectFromTool));
+          const { component: child } = renderTranscriptEntry(
+            { role: "thinking", text: content.thinking.trim() },
+            { theme, markdownTheme, connectThinkingToTools: connectToTools, connectThinkingFromTool: connectFromTool },
+          );
+          if (child) component.contentContainer.addChild(child);
         } else {
-          component.contentContainer.addChild(new Markdown(content.thinking.trim(), 1, 0, markdownTheme, {
-            color: (value) => theme.fg("toolOutput", value),
-            italic: true,
-          }));
+          const { component: child } = renderTranscriptEntry(
+            { role: "thinking", text: content.thinking.trim() },
+            { theme, markdownTheme, expanded: true, connectThinkingToTools: connectToTools, connectThinkingFromTool: connectFromTool, xOffset: 1 },
+          );
+          if (child) component.contentContainer.addChild(child);
         }
         if (hasVisibleContentAfter) component.contentContainer.addChild(new Spacer(1));
       }
