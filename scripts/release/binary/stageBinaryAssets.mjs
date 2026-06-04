@@ -32,5 +32,5 @@ export async function stageBinaryAssets(bundleDir) {
   await copyTetrisMusicAsset(packageDir);
   await copyExportHtmlAssets(packageDir);
   await copyPath(resolve("node_modules", "pi-cursor-provider", "h2-bridge.mjs"), join(packageDir, "runtime", "cursor", "h2-bridge.mjs"));
-  await copyPath(resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "modes", "interactive", "assets"), join(packageDir, "assets"));
+  await copyPath(resolve("node_modules", "@earendil-works", "pi-coding-agent", "dist", "modes", "interactive", "assets"), join(packageDir, "assets"));
 }

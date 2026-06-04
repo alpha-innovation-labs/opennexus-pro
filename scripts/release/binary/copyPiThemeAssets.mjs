@@ -3,7 +3,7 @@ import { join, resolve } from "node:path";
 import { copyPath } from "./copyPath.mjs";
 import { isPiThemeAssetFile } from "./isPiThemeAssetFile.mjs";
 
-const PI_THEME_ROOT = resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "modes", "interactive", "theme");
+const PI_THEME_ROOT = resolve("node_modules", "@earendil-works", "pi-coding-agent", "dist", "modes", "interactive", "theme");
 
 /**
  * Copies built-in Pi theme JSON files into the bundle.

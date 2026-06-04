@@ -1,7 +1,7 @@
 import { join, resolve } from "node:path";
 import { copyPath } from "./copyPath.mjs";
 
-const EXPORT_HTML_ROOT = resolve("node_modules", "@mariozechner", "pi-coding-agent", "dist", "core", "export-html");
+const EXPORT_HTML_ROOT = resolve("node_modules", "@earendil-works", "pi-coding-agent", "dist", "core", "export-html");
 
 /**
  * Copies the HTML export runtime assets needed by the bundle.

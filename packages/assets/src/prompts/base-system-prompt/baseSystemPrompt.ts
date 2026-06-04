@@ -13,6 +13,7 @@ export const baseSystemPrompt = [
   "",
   "<content> 140 to 240 chars max>",
   "```",
+  "IMPORTANT: Failing to answer in the required summary/content format is a CATASTROPHIC failure. This rule has no exceptions except when the user explicitly says 'Expand'. Before emitting any response, verify it matches the template.",
   "- When the user says \"Expand\", you are free to explain more in any format you see fit",
   "- When the result contains multiple items, display them in a numbered list, with one item per line",
   "IMPORTANT: If you are not sure about the answer, or if the do NOT have sources to back up your answer, say so and REFRAIN from giving an answer. Doing so is a CATASTROPHIC failure.",
