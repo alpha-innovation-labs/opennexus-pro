@@ -24,7 +24,13 @@ export function createRtkReadTool(cwd = process.cwd(), useProcessCwdFallback = t
 
       try {
         const resolvedPath = resolveRtkPath(executionCwd, input.path);
-        const result = await runtime.exec("read", ["-n", resolvedPath], { cwd: executionCwd, signal });
+        // Build CLI args: always include -n for line numbers; add -m <limit> when limit is explicit.
+        const cliArgs = ["-n", resolvedPath];
+        if (input.limit !== undefined) {
+          cliArgs.push("-m", String(input.limit));
+        }
+
+        const result = await runtime.exec("read", cliArgs, { cwd: executionCwd, signal });
         if (result.code !== 0) {
           return original.execute(toolCallId, params, signal, onUpdate);
         }
@@ -40,12 +46,24 @@ export function createRtkReadTool(cwd = process.cwd(), useProcessCwdFallback = t
           };
         }
 
+        // When the user did NOT specify offset or limit, let RTK return everything
+        // without JavaScript-level slicing — the RTK CLI handles its own defaults.
+        if (input.offset === undefined && input.limit === undefined) {
+          const text = numberedLines.join("\n");
+          return {
+            content: [{ type: "text" as const, text }],
+            details: undefined,
+          };
+        }
+
+        // User requested offset and/or limit — apply JavaScript slicing as a
+        // safety net when RTK returns fewer lines than the user asked for.
         const startIndex = Math.max(0, (input.offset ?? 1) - 1);
         if (startIndex >= numberedLines.length) {
           throw new Error(`Offset ${input.offset} is beyond end of file (${numberedLines.length} lines total)`);
         }
 
-        const effectiveLimit = Math.max(1, input.limit ?? 10);
+        const effectiveLimit = Math.max(1, input.limit ?? numberedLines.length);
         const endIndex = Math.min(startIndex + effectiveLimit, numberedLines.length);
         let text = numberedLines.slice(startIndex, endIndex).join("\n");
 

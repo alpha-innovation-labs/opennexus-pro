@@ -182,7 +182,7 @@ test("RTK-backed built-ins use the RTK runtime while it is active", async () => 
     assert.match(readResult.content[0]?.text ?? "", /2 │ beta/);
     assert.match(readResult.content[0]?.text ?? "", /3 │ gamma/);
     assert.match(readResult.content[0]?.text ?? "", /Use offset=4 to continue/);
-    assert.deepEqual(calls[0], { command: "rtk", args: ["read", "-n", filePath], cwd });
+    assert.deepEqual(calls[0], { command: "rtk", args: ["read", "-n", filePath, "-m", "2"], cwd });
 
     const findResult = (await tools.find.execute(
       "find-call",
