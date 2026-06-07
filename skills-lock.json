@@ -1,20 +1,20 @@
 {
-  "version": 1,
   "skills": {
     "impeccable": {
+      "computedHash": "8cdf2e788eaca3af7d02026ef9cec55b506100a00d130f938e3fb1ad669c0ad0",
       "source": "pbakaus/impeccable",
-      "sourceType": "github",
-      "computedHash": "8cdf2e788eaca3af7d02026ef9cec55b506100a00d130f938e3fb1ad669c0ad0"
+      "sourceType": "github"
     },
     "linear-cli": {
+      "computedHash": "5f8516b9aa8157e7710ec5d029e1c44a0e55be1c3f834f844d0c7f27dae62580",
       "source": "schpet/linear-cli",
-      "sourceType": "github",
-      "computedHash": "5f8516b9aa8157e7710ec5d029e1c44a0e55be1c3f834f844d0c7f27dae62580"
+      "sourceType": "github"
     },
     "remotion-best-practices": {
+      "computedHash": "006f8413941b59eff54a7ce64851b8a2fb79e7a3a5f1a895e97a48f01482553d",
       "source": "remotion-dev/skills",
-      "sourceType": "github",
-      "computedHash": "006f8413941b59eff54a7ce64851b8a2fb79e7a3a5f1a895e97a48f01482553d"
+      "sourceType": "github"
     }
-  }
+  },
+  "version": 1
 }

@@ -11,7 +11,6 @@ import { registerContextUsageExtension } from "../context-usage/registerContextU
 import { registerChatStatusExtension } from "../chat-status/registerChatStatusExtension.js";
 import { registerExitMessageExtension } from "../exit-message/registerExitMessageExtension.js";
 import { registerPiPackagesExtension } from "../pi-packages/registerPiPackagesExtension.js";
-import { registerWebSearchExtension } from "../web-search/registerWebSearchExtension.js";
 import { registerAskUserQuestionExtension } from "../ask-user-question/registerAskUserQuestionExtension.js";
 import registerFffExtension from "../fff/index.js";
 import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension.js";
@@ -40,7 +39,6 @@ export const compiledBundledExtensionIds = [
   "chat-status",
   "exit-message",
   "pi-packages",
-  "websearch",
   "ask-user-question",
   "fff",
   "neo-editor",
@@ -67,7 +65,6 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "chat-status": registerChatStatusExtension,
   "exit-message": registerExitMessageExtension,
   "pi-packages": registerPiPackagesExtension,
-  "websearch": registerWebSearchExtension,
   "ask-user-question": registerAskUserQuestionExtension,
   "fff": registerFffExtension,
   "neo-editor": registerNeoEditorExtension,

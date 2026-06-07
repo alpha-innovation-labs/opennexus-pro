@@ -79,7 +79,7 @@ export const compiledFeatureFlags = {
       "category": "extension"
     },
     "websearch": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "web_fetch tool backed by Nexus native web fetch",
         "code_search tool backed by GitHub repository search",
