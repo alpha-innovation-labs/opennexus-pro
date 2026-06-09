@@ -128,7 +128,7 @@ export const extensionModules = {
 		importPath: "@nexus/mini-apps/wallet/registerWalletExtension.js",
 		exportName: "registerWalletExtension",
 	},
-	websearch: {
+	webtools: {
 		importPath: "../web-search/registerWebSearchExtension.js",
 		exportName: "registerWebSearchExtension",
 	},

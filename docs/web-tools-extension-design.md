@@ -38,7 +38,7 @@ This design gives the LLM full web discovery and full-page extraction — includ
 │         │                  │                   │        │
 │    ┌────▼────┐        ┌────▼────┐         ┌────▼─────┐  │
 │    │ SearXNG │        │Crawl4AI │         │Crawl4AI  │  │
-│    │ :8888   │        │ :11235  │         │ /search  │  │
+│    │ :8090   │        │ :11235  │         │ /search  │  │
 │    └────┬────┘        └────┬────┘         └────┬─────┘  │
 │         │                  │                    │        │
 │         │              ┌───▼────┐           ┌───▼────┐   │
@@ -65,24 +65,31 @@ This design gives the LLM full web discovery and full-page extraction — includ
 
 ### 4.1 Config File
 
-Location: `~/.nexus/web-tools.json` (Nexus-branded, not `~/.pi/`)
+Location: `~/.config/nexus/config.json` (Nexus-branded, not `~/.pi/`)
+
+> **[NOTE]** Both SearXNG (`:8090`) and Crawl4AI (`:11235`) default to `http://100.106.251.92` — this is the **Tailscale IP** of the server, not the public server IP (`178.104.151.23`). Access requires being on the same Tailscale network.
 
 ```json
 {
   "searxng": {
     "enabled": true,
-    "url": "http://localhost:8888",
+    "url": "http://100.106.251.92:8090",
     "apiKey": ""
   },
   "crawl4ai": {
     "enabled": true,
-    "url": "http://localhost:11235",
+    "url": "http://100.106.251.92:11235",
     "token": ""
   },
   "jina": {
     "enabled": true,
     "apiKey": ""
   }
+```
+
+> **[NOTE]** The `jina` section is **optional**. Jina Reader works without an API key (free tier). The section only needs to exist if you want to set a paid API key for higher rate limits.
+
+```json
 }
 ```
 
@@ -90,11 +97,11 @@ Location: `~/.nexus/web-tools.json` (Nexus-branded, not `~/.pi/`)
 
 | Variable | Purpose | Default |
 |---|---|---|
-| `SEARXNG_URL` | SearXNG base URL | `http://localhost:8888` |
+| `SEARXNG_URL` | SearXNG base URL | `http://100.106.251.92:8090` |
 | `SEARXNG_API_KEY` | SearXNG Bearer token | _(none)_ |
-| `CRAWL4AI_URL` | Crawl4AI server URL | `http://localhost:11235` |
+| `CRAWL4AI_URL` | Crawl4AI server URL | `http://100.106.251.92:11235` |
 | `CRAWL4AI_TOKEN` | Crawl4AI JWT auth | _(none)_ |
-| `JINA_API_KEY` | Jina Reader API key | _(free tier)_ |
+| `JINA_API_KEY` | Jina Reader API key (optional — free tier works without it) | _(none)_ |
 
 **Precedence:** env var > config file > default URL.
 
@@ -179,7 +186,7 @@ The `/web-tools-setup` command opens a modal that:
 1. Shows the current status of each backend (reachable / unreachable)
 2. Provides the Docker commands to start missing instances
 3. Allows the user to change URLs inline
-4. Persists changes to `~/.nexus/web-tools.json`
+4. Persists changes to `~/.config/nexus/config.json`
 
 **Docker commands shown (verified working):**
 
@@ -194,7 +201,7 @@ docker run -d -p 8090:8080 --name searxng \
 docker run -d -p 11235:11235 --name crawl4ai --shm-size=1g \
   unclecode/crawl4ai:latest
 
-# Jina — no setup needed (cloud API)
+# Jina — no setup needed (cloud API, works without API key)
 ```
 
 ---
@@ -207,7 +214,7 @@ docker run -d -p 11235:11235 --name crawl4ai --shm-size=1g \
 
 > **[UPDATE 2026-06-08]** SearXNG must have `json` in `formats` list (see §4.3). Without it, `/search` returns 403. Strip control characters from response before JSON parsing.
 
-**Runtime note:** The shell scripts (`search.sh`, `crawl.sh`) use the user's Tailscale IP (`100.106.251.92`) as the runtime URL. The design doc defaults to `localhost:8090` / `localhost:11235` — users override via env vars or config file.
+**Runtime note:** The shell scripts (`search.sh`, `crawl.sh`) use the user's Tailscale IP (`100.106.251.92`) as the runtime URL. The design doc defaults to `http://100.106.251.92:8090` / `http://100.106.251.92:11235` — users override via env vars or config file.
 
 **Parameters:**
 ```typescript
@@ -255,16 +262,11 @@ Type.Object({
 
 > **[RESOLVED]** `web_fetch` timeout is managed internally with a fixed timeout — no LLM-controllable `timeout` parameter.
 
-**Description:** Fetch a URL and extract clean markdown content. Uses a headless browser (Crawl4AI) for JS-heavy sites, with Jina Reader as fallback. The old Nexus web extension at `./packages/extension-core/web-search` (using Node.js `fetch` + `linkedom` + `turndown`) is the backup layer.
+**Description:** Fetch a URL and extract clean markdown content. Uses a headless browser (Crawl4AI) as primary backend, with Jina Reader as fallback, and direct HTTP fetch (`linkedom` + `turndown`) as last resort.
+
+> **[IMPLEMENTED]** The `web_fetch` pipeline is: **Crawl4AI → Jina Reader → direct HTTP fetch**. All three layers live in `packages/extension-core/src/web-search/web-fetch/`. The old direct-fetch code (`executeWebFetch.ts`) was refactored into `executeDirectFetch` and is only reached when both Crawl4AI and Jina fail.
 
 > **[NEW]** Crawl4AI supports **batch URL crawling** — multiple URLs can be passed in a single POST request. The extension may batch URLs when the LLM requests multiple fetches in one turn.
-
-> **[NEEDS INVESTIGATION]** How should the new `webtools` extension integrate with the old `./packages/extension-core/web-search` extension as a fallback? Options:
-> 1. **Programmatic IPC call** — `webtools` invokes the old extension as a last-resort fallback after Crawl4AI + Jina fail.
-> 2. **Disable old extension** — old extension is disabled via feature flag; its code is kept as reference only.
-> 3. **Merge into webtools** — old extension's code is folded into `webtools` and becomes the Jina-based fallback path directly.
-> 
-> The old extension's current pipeline (Node.js `fetch` + `linkedom` + `turndown`) also needs to be confirmed.
 
 **Parameters:**
 ```typescript
@@ -296,43 +298,45 @@ Type.Object({
 ```
 
 **Implementation:**
-1. If `Crawl4AI_URL` is reachable → POST to `/crawl` with `{"urls": [url], "word_count_threshold": 20, "only_text: true, "cache_mode": "bypass"}`. **`urls` must be a list** (not a string).
-2. Extract `results[0].markdown.raw_markdown`, `results[0].title`, `results[0].success`.
-3. If Crawl4AI is unreachable or returns `success: false` → fallback to Jina Reader.
-4. Jina fallback → `GET https://r.jina.ai/{url}` with `X-Api-Key` header.
-5. If `raw: true`, return the raw HTML/JSON from the backend.
-6. **No auth** is used by default (no SearXNG API key, no Crawl4AI JWT token).
-7. **Note:** SSRF guard is not required — `web_fetch` is a proxy to configured backends.
-8. **Known limitation:** Crawl4AI's markdown extraction strips 97%+ of content from JS-heavy sites (MSN, SPAs). DataDome-protected sites (Reuters) return a captcha challenge page — no bypass possible without a paid anti-bot service. Server-rendered sites (BBC, arXiv, Hacker News) work fine.
+1. Load config via `loadWebToolsConfig()` → reads `~/.config/nexus/config.json` + env vars.
+2. If `crawl4ai.url` is configured and reachable → POST to `/crawl` with `{"urls": [url], "word_count_threshold": 20, "only_text": true, "cache_mode": "bypass"}`. **`urls` must be a list** (not a string).
+3. Extract `results[0].markdown.raw_markdown`, `results[0].title`, `results[0].success`.
+4. **Strip control characters** from Crawl4AI response before JSON parsing (same fix as SearXNG).
+5. If Crawl4AI is unreachable or returns `success: false` → fallback to Jina Reader.
+6. Jina fallback → `GET https://r.jina.ai/{url}` with optional `X-Api-Key` header.
+7. If Jina also fails → last-resort direct HTTP fetch with `linkedom` + `turndown`.
+8. **No auth** is used by default (no SearXNG API key, no Crawl4AI JWT token).
+9. **Note:** SSRF guard is not required — `web_fetch` is a proxy to configured backends.
+10. **Known limitation:** Crawl4AI's markdown extraction strips 97%+ of content from JS-heavy sites (MSN, SPAs). DataDome-protected sites (Reuters) return a captcha challenge page — no bypass possible without a paid anti-bot service. Server-rendered sites (BBC, arXiv, Hacker News) work fine.
 
 ---
 
 ## 6. File Structure
 
+> **[NOTE]** The implementation lives in `packages/extension-core/src/web-search/` (the existing extension directory) rather than a new `web-tools/` directory. The `websearch` feature flag was renamed to `webtools` in `feature-flags.json`, but the source directory was kept as `web-search/` to preserve Git history and avoid a large refactor.
+
 ```
-packages/extension-core/src/web-tools/
-├── registerWebToolsExtension.ts      # Package entrypoint — registers all tools + setup command
+packages/extension-core/src/web-search/
+├── registerWebSearchExtension.ts     # Extension entrypoint — loads config, registers all tools
 ├── config/
-│   ├── loadWebToolsConfig.ts         # Reads ~/.nexus/web-tools.json + env vars
-│   ├── WebToolsConfig.ts             # TypeScript types
-│   └── healthCheck.ts                # SearXNG: GET / (no /health), Crawl4AI: GET /health
-├── tools/
-│   ├── web_search/
-│   │   ├── registerWebSearchTool.ts  # Tool registration
-│   │   ├── executeWebSearch.ts       # SearXNG API call
-│   │   └── formatWebSearchResult.ts  # Result formatting
-│   ├── web_fetch/
-│   │   ├── registerWebFetchTool.ts   # Tool registration
-│   │   ├── executeWebFetch.ts        # Crawl4AI → Jina fallback pipeline
-│   │   ├── executeCrawl4AIFetch.ts   # POST /crawl
-│   │   ├── executeJinaFetch.ts       # GET r.jina.ai/{url}
-│   │   └── formatWebFetchResult.ts   # Result formatting
-├── command/
-│   └── registerWebToolsSetupCommand.ts  # /web-tools-setup modal command
-├── shared/
+│   ├── loadWebToolsConfig.ts         # Reads ~/.config/nexus/config.json + env vars + defaults
+│   └── WebToolsConfig.ts             # TypeScript types + DEFAULT_WEB_TOOLS_CONFIG
+├── web_search/
+│   ├── registerWebSearchTool.ts      # Tool registration — requires searxngUrl, throws if missing
+│   ├── executeWebSearch.ts           # SearXNG API call — requires URL, strips control chars
+│   ├── formatWebSearchResult.ts      # Result formatting
+│   └── webSearchTypes.ts             # WebSearchParams, WebSearchResult, WebSearchResponse
+├── web-fetch/
+│   ├── registerWebFetchTool.ts       # Tool registration — accepts crawl4aiUrl + jinaApiKey
+│   ├── executeWebFetch.ts            # Pipeline: Crawl4AI → Jina → direct HTTP fetch
+│   ├── executeCrawl4AIFetch.ts       # POST /crawl to Crawl4AI, extract raw_markdown
+│   ├── executeJinaFetch.ts           # GET r.jina.ai/{url} fallback
 │   ├── fetchWithTimeout.ts           # Reusable fetch wrapper
-│   ├── createResponseId.ts           # (deprecated — content store dropped)
-│   └── constants.ts                  # Default URLs, timeouts, etc.
+│   └── (other existing files: isHttpUrl, isImageMime, renderBody, etc.)
+├── code-search/                      # Unchanged — GitHub repository search
+├── fetch-content/                    # To be removed — merged into web_fetch
+├── get-search-content/               # To be removed — obsolete
+└── storage/                          # Content store — deprecated
 ```
 
 ---
@@ -359,18 +363,19 @@ packages/extension-core/src/web-tools/
 | SearXNG unreachable | `web_search` returns error: `"SearXNG instance is not reachable at <url>. Start it with: docker run ..."` |
 | SearXNG returns 403 (JSON format not enabled) | `web_search` returns error: `"SearXNG requires 'json' in formats list. Fix: sed -i '/formats:$/a\\    - json' settings.yml && docker restart searxng"` |
 | SearXNG response contains control chars | Strip control chars (0x00-0x08, 0x0B, 0x0C, 0x0E-0x1F) before JSON parsing |
-| Crawl4AI unreachable | `web_fetch` silently falls back to Jina Reader |
+| Crawl4AI unreachable | `web_fetch` falls back to Jina Reader |
 | Crawl4AI returns `success: false` | `web_fetch` falls back to Jina Reader |
 | Crawl4AI blocked by DataDome (captcha challenge) | `web_fetch` falls back to Jina Reader; note: DataDome blocks all headless browsers, may need paid anti-bot service |
 | Crawl4AI strips JS-heavy site content (97%+ loss) | `web_fetch` falls back to Jina Reader; note: Crawl4AI markdown extraction cannot reach JS-rendered DOM |
-| Jina returns empty/429 | Tool returns error: `"Content extraction failed from all backends"` |
-| All backends down | Tool returns error with setup instructions |
+| Jina returns empty/429 | `web_fetch` falls back to direct HTTP fetch (`linkedom` + `turndown`) |
+| All backends down (Crawl4AI + Jina + direct fetch fail) | Tool returns error with setup instructions |
 | User explicitly disables a backend | Tool skips that backend and moves to next |
-| Old Nexus web extension fallback | **NEEDS INVESTIGATION** — integration with `./packages/extension-core/web-search` unresolved |
+| SearXNG URL not configured | `web_search` throws at registration time with config instructions |
+| Crawl4AI URL not configured | `web_fetch` skips Crawl4AI, tries Jina then direct fetch |
 
 ## 8.1 Open Research Items
 
-1. **Old `web-search` extension integration**: How should the new `webtools` extension integrate with `./packages/extension-core/web-search` as a fallback? Confirm its current pipeline and decide on IPC call vs. disable vs. merge.
+1. **[RESOLVED]** Old `web-search` extension integration: The existing direct HTTP fetch code (`fetchWithTimeout` + `linkedom` + `turndown`) was kept as the **last-resort fallback** in the Crawl4AI → Jina → direct fetch pipeline. No IPC call or separate extension needed.
 2. **DataDome-protected sites (Reuters, etc.)**: No known free bypass. Consider integrating a paid anti-bot service (ScrapingBee, ScraperAPI, Bright Data) for `web_fetch` fallback.
 3. **JS-heavy site content loss (MSN, SPAs)**: Crawl4AI's markdown extraction strips 97%+ of content. Real Chrome with user cookies can bypass, but headless browsers cannot. Consider Chrome extension integration for `web_fetch`.
 
@@ -379,7 +384,7 @@ packages/extension-core/src/web-tools/
 ## 9. Security Considerations
 
 - **SSRF guard:** Not required — `web_fetch` is a proxy to configured backends.
-- **Jina API key:** Stored in `~/.nexus/web-tools.json` with `chmod 0600` when written via `/web-tools-setup`.
+- **Jina API key:** Stored in `~/.config/nexus/config.json` with `chmod 0600` when written via `/web-tools-setup`.
 - **Default config:** No SearXNG API key or Crawl4AI JWT token is used in the default shell scripts. Auth fields exist in the config schema for environments that require it.
 - **Crawl4AI bypass:** `cache_mode: "bypass"` prevents serving stale cached content.
 
@@ -436,18 +441,15 @@ Each tool gets `promptSnippet` and `promptGuidelines` to steer the LLM:
 
 ## 12. Deployment Checklist
 
-- [ ] Create `packages/extension-core/src/web-tools/` directory structure
-- [ ] Implement `config/loadWebToolsConfig.ts` + `WebToolsConfig.ts`
-- [ ] Implement `config/healthCheck.ts` — SearXNG: `GET /` (not `/health`), Crawl4AI: `GET /health`
-- [ ] Implement `tools/web_search/` — SearXNG API wrapper (port 8090, no auth, User-Agent: Nexus-WebTools/1.0, strip control chars from response)
-- [ ] Implement `tools/web_fetch/` — Crawl4AI (sync, batch URL support, no jobId polling) + Jina pipeline
-- [ ] Implement `command/registerWebToolsSetupCommand.ts` — modal setup
-- [ ] Implement `registerWebToolsExtension.ts` — registration shell
-- [ ] Rename `websearch` → `webtools` in `feature-flags.json`
-- [ ] Remove `fetch_content` and `get_search_content` registrations
-- [ ] Keep `code_search` registration as-is
+- [x] Config loader: `config/loadWebToolsConfig.ts` + `config/WebToolsConfig.ts` — reads `~/.config/nexus/config.json`, respects `NEXUS_CONFIG_DIR`, merges with env vars, falls back to Tailscale IPs
+- [x] `web_search` tool: `web_search/registerWebSearchTool.ts` + `executeWebSearch.ts` — **requires SearXNG URL**, strips control chars, returns error if URL missing
+- [x] `web_fetch` tool: `web-fetch/registerWebFetchTool.ts` + `executeWebFetch.ts` + `executeCrawl4AIFetch.ts` + `executeJinaFetch.ts` — **Crawl4AI → Jina → direct HTTP** pipeline
+- [ ] `config/healthCheck.ts` — SearXNG: `GET /` (not `/health`), Crawl4AI: `GET /health`
+- [ ] `command/registerWebToolsSetupCommand.ts` — `/web-tools-setup` modal
+- [ ] Remove `fetch_content` and `get_search_content` registrations (currently still registered)
 - [ ] Remove `web_search_and_fetch` if previously implemented
 - [x] Crawl4AI `/crawl` execution model: **Confirmed synchronous** (see §5.2)
 - [x] `web_fetch` timeout strategy: **Confirmed extension-managed, fixed timeout** (see §5.2)
-- [ ] Write e2e tests in `test/` using virtual-terminal harness (see §10)
-- [ ] Update AGENTS.md if new patterns are needed
+- [x] Regression test: `test/e2e/web-search/loadWebToolsConfigRegression.test.ts`
+- [ ] Full e2e tests using virtual-terminal harness (see §10)
+- [ ] Update AGENTS.md with config patterns

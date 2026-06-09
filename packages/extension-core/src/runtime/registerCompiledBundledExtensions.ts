@@ -14,8 +14,12 @@ import { recordRegisteredShortcut } from "@nexus/tui-kit/shortcuts/recordRegiste
  * Registers the release-bundled extension set compiled from feature-flags.json.
  *
  * @param pi Pi extension API.
+ * @param skipExtensions Optional list of extension IDs to skip registration.
  */
-export default async function registerCompiledBundledExtensions(pi: ExtensionAPI): Promise<void> {
+export default async function registerCompiledBundledExtensions(
+  pi: ExtensionAPI,
+  skipExtensions?: string[],
+): Promise<void> {
   clearRegisteredToolRecords();
   const config = applySystemExtensionAvailability(applyUserExtensionConfig(getBundledFeatureFlagsConfig()));
   const isSlashMenuEnabled = config.extensions["slash-menu"]?.enabled === true;
@@ -47,5 +51,5 @@ export default async function registerCompiledBundledExtensions(pi: ExtensionAPI
   });
 
   registerTelemetryRuntimeExtension(pi);
-  await registerCompiledEnabledExtensions(slashAwarePi);
+  await registerCompiledEnabledExtensions(slashAwarePi, skipExtensions);
 }

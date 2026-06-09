@@ -9,8 +9,17 @@ import type { ExtensionFeatureFlag } from "./types.js";
  *
  * @param pi Pi extension API.
  * @param flags Full extension registry.
+ * @param skipExtensions Optional list of extension IDs to skip registration.
  */
-export async function registerEnabledExtensions(pi: ExtensionAPI, flags: ExtensionFeatureFlag[]): Promise<void> {
+export async function registerEnabledExtensions(
+	pi: ExtensionAPI,
+	flags: ExtensionFeatureFlag[],
+	skipExtensions?: string[],
+): Promise<void> {
 	setRuntimeExtensionFeatureFlags(flags);
-	await Promise.all(getEnabledExtensionFeatureFlags(flags).map((flag) => createExtensionRegistrationTask(pi, flag)));
+	const enabledFlags = getEnabledExtensionFeatureFlags(flags);
+	const filteredFlags = skipExtensions
+		? enabledFlags.filter((flag) => !skipExtensions.includes(flag.id))
+		: enabledFlags;
+	await Promise.all(filteredFlags.map((flag) => createExtensionRegistrationTask(pi, flag)));
 }

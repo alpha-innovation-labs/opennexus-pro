@@ -78,7 +78,7 @@ export function createExtensionRegisterMap(): Record<
 		tron: registerTronExtension,
 		wallet: registerWalletExtension,
 		slashusage: registerSlashusageExtension,
-		websearch: registerWebSearchExtension,
+		webtools: registerWebSearchExtension,
 		"ask-user-question": registerAskUserQuestionExtension,
 	};
 }

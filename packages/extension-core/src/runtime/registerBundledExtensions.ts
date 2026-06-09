@@ -12,8 +12,12 @@ export { createExtensionFeatureFlags, createExtensionFeatureFlagReport, getEnabl
  * Central extension entrypoint.
  *
  * @param pi Pi extension API.
+ * @param skipExtensions Optional list of extension IDs to skip registration.
  */
-export default async function registerBundledExtensions(pi: ExtensionAPI): Promise<void> {
+export default async function registerBundledExtensions(
+	pi: ExtensionAPI,
+	skipExtensions?: string[],
+): Promise<void> {
 	clearRegisteredToolRecords();
 	const flags = createExtensionFeatureFlags();
 	const isTronEnabled = flags.some((flag) => flag.id === "tron" && flag.enabled);
@@ -45,5 +49,5 @@ export default async function registerBundledExtensions(pi: ExtensionAPI): Promi
 		},
 	});
 	registerTelemetryRuntimeExtension(pi);
-	await registerEnabledExtensions(slashAwarePi, flags);
+	await registerEnabledExtensions(slashAwarePi, flags, skipExtensions);
 }

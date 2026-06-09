@@ -78,13 +78,12 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
-    "websearch": {
-      "enabled": false,
+    "webtools": {
+      "enabled": true,
       "features": [
+        "web_search tool backed by SearXNG",
         "web_fetch tool backed by Nexus native web fetch",
-        "code_search tool backed by GitHub repository search",
-        "fetch_content tool backed by Nexus native fetch and GitHub API handling",
-        "get_search_content tool"
+        "code_search tool backed by GitHub repository search"
       ],
       "category": "extension"
     },

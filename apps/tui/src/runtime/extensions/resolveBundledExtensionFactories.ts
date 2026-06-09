@@ -1,4 +1,4 @@
-import type { ExtensionFactory } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionFactory } from "@earendil-works/pi-coding-agent";
 import { hasNoExtensionsFlag } from "../../cli/extensions/hasNoExtensionsFlag.js";
 import { hasPrintModeFlag } from "../../cli/print/hasPrintModeFlag.js";
 
@@ -6,6 +6,9 @@ export type CreateExtensionFactories = () => Promise<ExtensionFactory[]>;
 
 /**
  * Resolves bundled extension factories for the current argv.
+ *
+ * In print mode (-p), skips the ai-providers extension to avoid blocking
+ * network requests during cursor model discovery.
  *
  * @param argv Raw command-line arguments.
  * @param createExtensionFactories Factory provider for bundled extensions.
@@ -15,9 +18,29 @@ export async function resolveBundledExtensionFactories(
   argv: string[],
   createExtensionFactories: CreateExtensionFactories,
 ): Promise<ExtensionFactory[]> {
-  if (hasNoExtensionsFlag(argv) || hasPrintModeFlag(argv)) {
+  if (hasNoExtensionsFlag(argv)) {
     return [];
   }
 
-  return createExtensionFactories();
+  const factories = await createExtensionFactories();
+  const isPrintMode = hasPrintModeFlag(argv);
+
+  // In print mode, skip ai-providers to avoid blocking network requests
+  // during cursor model discovery. All other extensions (including webtools)
+  // remain available.
+  if (isPrintMode) {
+    const skipExtensions = ["ai-providers"];
+    console.error(`[resolveBundledExtensionFactories] Print mode detected, skipping: ${skipExtensions.join(", ")}`);
+    return factories.map((factory) => {
+      const originalFactory = factory as (pi: ExtensionAPI, skipExtensions?: string[]) => Promise<void>;
+      return async (pi: ExtensionAPI) => {
+        // Pass skipExtensions to factory if it supports the signature
+        console.error(`[resolveBundledExtensionFactories] Calling factory with skipExtensions: ${skipExtensions.join(", ")}`);
+        await originalFactory(pi, skipExtensions);
+        console.error(`[resolveBundledExtensionFactories] Factory completed`);
+      };
+    });
+  }
+
+  return factories;
 }
