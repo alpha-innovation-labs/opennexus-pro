@@ -1,7 +1,6 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { syncToolCallFrameState } from "../../tron/activity/syncToolCallFrameState.js";
 import { renderTranscriptEntry } from "../../tron/transcript/renderTranscriptEntry.js";
-import { shouldInsertTranscriptSpacer } from "../../tron/transcript/shouldInsertTranscriptSpacer.js";
 import { trimTrailingTranscriptBorder } from "../../tron/transcript/trimTrailingTranscriptBorder.js";
 import type { SubagentRun } from "../types.js";
 
@@ -40,8 +39,6 @@ export function renderSubagentTranscriptLines(
     const lines = nextEntry?.role === "thinking"
       ? trimTrailingTranscriptBorder(renderer.render(width))
       : renderer.render(width);
-    if (index === run.transcript.length - 1) return lines;
-    if (!shouldInsertTranscriptSpacer(entry, nextEntry)) return lines;
-    return [...lines, ""];
+    return lines;
   });
 }

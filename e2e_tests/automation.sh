@@ -14,7 +14,7 @@ SESSION_NAME="nexus-test"
 RESUME_ID="${1:-019eb8e5-3fc3-7105-858a-199c6dff3e8a}"
 OUTPUT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SNAPSHOT_FILE="${OUTPUT_DIR}/snapshot.txt"
-NEXUS_CMD="nexus --resume ${RESUME_ID}"
+NEXUS_CMD="/opt/homebrew/lib/node_modules/opennexus/nexus --resume ${RESUME_ID}"
 WAIT_SECONDS=3
 
 # ── Step 1: Kill existing session (if any) ───────────────────────────

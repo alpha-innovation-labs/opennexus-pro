@@ -25,7 +25,6 @@ function wrapPlainText(text: string, width: number): string[] {
 	for (const rawLine of normalized) {
 		const words = rawLine.trim().split(/\s+/).filter(Boolean);
 		if (words.length === 0) {
-			lines.push("");
 			continue;
 		}
 

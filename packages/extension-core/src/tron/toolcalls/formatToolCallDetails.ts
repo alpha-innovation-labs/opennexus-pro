@@ -16,24 +16,19 @@ export function formatToolCallDetails(toolCall: ToolCallInfo): string[] {
 	lines.push(`assistant message: #${toolCall.assistantIndex}`);
 	if (toolCall.assistantPreview) lines.push(`context: ${toolCall.assistantPreview}`);
 	if (toolCall.assistantThinking) {
-		lines.push("");
 		lines.push("Thinking");
 		lines.push(...toPlainTextLines(toolCall.assistantThinking));
 	}
-	lines.push("");
 	lines.push("Arguments");
 	lines.push(...toJsonLines(toolCall.arguments));
 	if (!toolCall.result) {
-		lines.push("");
 		lines.push("Result");
 		lines.push("No tool result found on the current branch.");
 		return lines;
 	}
-	lines.push("");
 	lines.push(`Result${toolCall.result.isError ? " (error)" : ""}`);
 	lines.push(previewContent(toolCall.result.content));
 	if (toolCall.result.details !== undefined) {
-		lines.push("");
 		lines.push("Details");
 		lines.push(...toJsonLines(toolCall.result.details));
 	}
