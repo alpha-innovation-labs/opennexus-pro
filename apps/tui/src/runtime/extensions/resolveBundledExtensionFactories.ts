@@ -30,14 +30,11 @@ export async function resolveBundledExtensionFactories(
   // remain available.
   if (isPrintMode) {
     const skipExtensions = ["ai-providers"];
-    console.error(`[resolveBundledExtensionFactories] Print mode detected, skipping: ${skipExtensions.join(", ")}`);
     return factories.map((factory) => {
       const originalFactory = factory as (pi: ExtensionAPI, skipExtensions?: string[]) => Promise<void>;
       return async (pi: ExtensionAPI) => {
         // Pass skipExtensions to factory if it supports the signature
-        console.error(`[resolveBundledExtensionFactories] Calling factory with skipExtensions: ${skipExtensions.join(", ")}`);
         await originalFactory(pi, skipExtensions);
-        console.error(`[resolveBundledExtensionFactories] Factory completed`);
       };
     });
   }

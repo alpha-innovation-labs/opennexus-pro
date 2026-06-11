@@ -14,8 +14,8 @@ dev *APP_ARGS:
         set +a
     fi
 
-    if [ "{{APP_ARGS}}" != "" ]; then
-        npm run dev -- {{APP_ARGS}}
+    if [ -n "{{APP_ARGS}}" ]; then
+        eval npm run dev -- {{APP_ARGS}}
     else
         npm run dev
     fi
