@@ -1,0 +1,5 @@
+dev:
+	ZELLIJ_SESSION="nexus-dev" \
+	ZELLIJ_OUTPUT="./zellij-authenticated.png" \
+	ZELLIJ_COMMANDS="./scripts/dev_commands.sh" \
+	bash zellij-automation.sh
