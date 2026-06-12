@@ -1,0 +1,25 @@
+# sample_session.yaml — Example YAML configuration for tmux session automation.
+#
+# Usage:
+#   tsx scripts/testing/yaml_session_runner.ts e2e_tests/sample_session.yaml
+#
+# Fields:
+#   sessionName  — Name of the tmux session (default: "nexus-test").
+#   cwd          — Working directory for the session (optional).
+#   command      — Command to run inside the session (required).
+#   waitSeconds  — Seconds to wait after session creation before capturing (default: 3).
+#   interactions — List of interactions to replay before snapshot:
+#                    • { type: key, value: "...", delay: N }  — Send keys + Enter
+#                    • { type: mouse, value: "...", delay: N }  — Send mouse event
+#                    • { type: wait, value: N }                 — Wait N milliseconds
+
+sessionName: my-nexus-session
+cwd: /Users/alpha/workspace/alpha-innovation-labs/nexus-tui-awesome
+command: /opt/homebrew/lib/node_modules/opennexus/nexus --resume 019eb8e5-3fc3-7105-858a-199c6dff3e8a
+waitSeconds: 3
+
+interactions:
+  - { type: key, value: "hello world", delay: 500 }
+  - { type: wait, value: 2000 }
+  - { type: key, value: "ls -la", delay: 300 }
+  - { type: wait, value: 1000 }

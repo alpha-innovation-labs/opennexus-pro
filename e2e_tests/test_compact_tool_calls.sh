@@ -6,6 +6,9 @@
 #   1. No adjacent empty lines appear in the snapshot (compact mode).
 #   2. No blank line separates a tool-call box bottom border (┘) from the
 #      next box top border (┌) or content (│).
+#   3. A failed tool call (ls with "Path not found") is rendered with its
+#      error text — confirming toolResult entries with isError=True are not
+#      silently dropped during session resume.
 #
 # Usage:  bash e2e_tests/test_compact_tool_calls.sh
 # Exit code: 0 = pass, 1 = failure
@@ -48,7 +51,18 @@ if [ "${BORDER_GAP}" -gt 0 ]; then
 fi
 echo "  ✓ No blank lines between tool-call box borders."
 
-# ── Step 4: Verify total blank line count is minimal ─────────────────
+# ── Step 4: Verify failed tool call is rendered with error text ───────
+#    The session contains a failed `ls` call (path not found) that must
+#    render as an error entry in the transcript. If it's missing, the
+#    resume path silently drops toolResult entries with isError=True.
+if ! grep -q 'Path not found' "${SNAPSHOT_FILE}"; then
+    echo "✗ FAIL: Failed tool call ('Path not found') is missing from snapshot."
+    echo "   The resume path silently drops toolResult entries with isError=True."
+    exit 1
+fi
+echo "  ✓ Failed tool call rendered with error text."
+
+# ── Step 5: Verify total blank line count is minimal ─────────────────
 #    A few trailing blank lines at the very end of the snapshot are
 #    expected (footer, prompt area). We allow up to 3 trailing blanks
 #    but reject any blanks in the tool-call rendering region.

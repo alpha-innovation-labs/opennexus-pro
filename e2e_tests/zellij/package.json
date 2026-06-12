@@ -1,8 +1,0 @@
-{
-  "name": "zellij-manager",
-  "version": "0.1.0",
-  "description": "Always-on zellij session and browser manager",
-  "bin": {
-    "zellij-manager": "zellij-manager-wrapper.sh"
-  }
-}
