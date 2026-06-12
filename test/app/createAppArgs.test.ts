@@ -98,3 +98,105 @@ test("getBundledThemesPath resolves the themes directory in source mode", () => 
 test("getBundledCommandsPath resolves the commands directory in source mode", () => {
   assert.match(getBundledCommandsPath(), /\/src\/commands\/?$/);
 });
+
+/* ── user commands tests ───────────────────────────────────────────── */
+
+test("createAppArgs injects user commands path before bundled when directory exists", async () => {
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const { writeFileSync, mkdirSync } = await import("node:fs");
+  const { createAppArgs } = await import("../../apps/tui/src/cli/createAppArgs.js");
+  const { getUserCommandsPath } = await import("../../packages/nexus-runtime/src/config/getUserCommandsPath.js");
+
+  const configDir = join(tmpdir(), `nexus-test-${Date.now()}`);
+  const commandsDir = join(configDir, "commands");
+  mkdirSync(commandsDir, { recursive: true });
+  writeFileSync(join(commandsDir, "_placeholder.md"), "---\ndescription: placeholder\n---\n");
+
+  const originalEnv = process.env.NEXUS_CONFIG_DIR;
+  try {
+    process.env.NEXUS_CONFIG_DIR = configDir;
+    const args = createAppArgs([]);
+    const userCommandsPath = getUserCommandsPath();
+
+    const promptTemplateFlags: { index: number; path: string }[] = [];
+    for (let i = 0; i < args.length; i += 1) {
+      if (args[i] === "--prompt-template") {
+        promptTemplateFlags.push({ index: i, path: args[i + 1] });
+      }
+    }
+
+    assert.equal(promptTemplateFlags.length, 2, "should have exactly two --prompt-template flags");
+
+    const userEntry = promptTemplateFlags.find((e) => e.path === userCommandsPath);
+    const bundledEntry = promptTemplateFlags.find((e) => e.path !== userCommandsPath);
+
+    assert.ok(userEntry, "user --prompt-template should be present");
+    assert.ok(bundledEntry, "bundled --prompt-template should be present");
+    assert.ok(
+      userEntry.index < bundledEntry.index,
+      "user commands path should appear before bundled path",
+    );
+  } finally {
+    process.env.NEXUS_CONFIG_DIR = originalEnv;
+  }
+});
+
+test("createAppArgs does not inject user commands when directory is missing", async () => {
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const { createAppArgs } = await import("../../apps/tui/src/cli/createAppArgs.js");
+  const { getUserCommandsPath } = await import("../../packages/nexus-runtime/src/config/getUserCommandsPath.js");
+
+  const configDir = join(tmpdir(), `nexus-test-no-cmd-${Date.now()}`);
+  const originalEnv = process.env.NEXUS_CONFIG_DIR;
+  try {
+    process.env.NEXUS_CONFIG_DIR = configDir;
+    const args = createAppArgs([]);
+    const userCommandsPath = getUserCommandsPath();
+
+    const promptTemplateFlags = [];
+    for (let i = 0; i < args.length; i += 1) {
+      if (args[i] === "--prompt-template") {
+        promptTemplateFlags.push(args[i + 1]);
+      }
+    }
+
+    assert.equal(promptTemplateFlags.length, 1, "should have exactly one --prompt-template");
+    assert.notEqual(promptTemplateFlags[0], userCommandsPath);
+  } finally {
+    process.env.NEXUS_CONFIG_DIR = originalEnv;
+  }
+});
+
+test("createAppArgs skips user commands when --no-prompt-templates is passed", async () => {
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const { writeFileSync, mkdirSync } = await import("node:fs");
+  const { createAppArgs } = await import("../../apps/tui/src/cli/createAppArgs.js");
+  const { getUserCommandsPath } = await import("../../packages/nexus-runtime/src/config/getUserCommandsPath.js");
+
+  const configDir = join(tmpdir(), `nexus-test-np-${Date.now()}`);
+  const commandsDir = join(configDir, "commands");
+  mkdirSync(commandsDir, { recursive: true });
+  writeFileSync(join(commandsDir, "_placeholder.md"), "---\ndescription: placeholder\n---\n");
+
+  const originalEnv = process.env.NEXUS_CONFIG_DIR;
+  try {
+    process.env.NEXUS_CONFIG_DIR = configDir;
+    const args = createAppArgs(["--no-prompt-templates"]);
+    const userCommandsPath = getUserCommandsPath();
+
+    const promptTemplateFlags = [];
+    for (let i = 0; i < args.length; i += 1) {
+      if (args[i] === "--prompt-template") {
+        promptTemplateFlags.push(args[i + 1]);
+      }
+    }
+
+    assert.equal(promptTemplateFlags.length, 1, "should have exactly one --prompt-template (bundled only)");
+    assert.notEqual(promptTemplateFlags[0], userCommandsPath);
+  } finally {
+    process.env.NEXUS_CONFIG_DIR = originalEnv;
+  }
+});

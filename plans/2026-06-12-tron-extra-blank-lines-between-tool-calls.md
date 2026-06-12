@@ -1,6 +1,6 @@
 # TRON: Extra blank lines inserted between consecutive tool calls
 
-**Status:** Partially fixed (source code); global binary not yet rebuilt
+**Status:** Root cause fixed (source code); global binary not yet rebuilt
 **Component:** `packages/extension-core/src/tron/`
 **Priority:** High (visible UX regression, breaks compact tool-call flow)
 **Reported:** 2026-06-12
@@ -221,6 +221,9 @@ Add a deterministic e2e test that:
 - **`formatToolCallDetails.ts`**: Removed all `lines.push("")` calls — eliminates blank lines in detail view.
 - **`CollapsedToolGroupCall.ts`**: Removed `lines.push("")` for empty input lines.
 
+### Fixed (root cause — session resume silently drops failed tool calls):
+- **`toSessionTranscriptEntries.ts`** (line 28): The resume path completely ignored `toolResult` messages, returning an empty array. When a tool call fails during session resume, its result was never added to the transcript, so the error was invisible. Fixed by converting `toolResult` messages to `error` transcript entries (matching the streaming path in `applySubagentEvent.ts` line 101).
+
 ### Not fixable (external dependency):
 - **`ToolExecutionComponent`** from `@earendil-works/pi-coding-agent` produces blank lines between individual tool commands inside the expanded group. This is a dependency issue — the local package is missing its `dist/` directory, and the global binary doesn't include our source changes.
 
@@ -249,6 +252,7 @@ Add a deterministic e2e test that:
 ----- 
 
 # Summary of the solution:
+Fix in commit: a10600e
 
 
  Summary of work done:
