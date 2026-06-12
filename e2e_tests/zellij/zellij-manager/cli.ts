@@ -3,12 +3,13 @@
  *
  * Parses CLI arguments and routes to the appropriate subcommand handler.
  * Supports all subcommands defined in the plan:
- *   port start/stop/status, session create/delete/list,
+ *   zellij-web start/stop/status, zellij-web token create/show,
+ *   session create/delete/list,
  *   exec/exec-script, browser open/snapshot/fill/click/wait/screenshot/close,
  *   auth, dev
  */
 
-import { portStart, portStop, portStatus, createToken } from "./port";
+import { portStart, portStop, portStatus, createToken, showToken } from "./zellij-web";
 import { sessionCreate, sessionDelete, sessionList } from "./session";
 import { execCommand, execScript } from "./exec";
 import {
@@ -33,10 +34,13 @@ zellij-manager — Always-on zellij session and browser manager
 USAGE:
   zellij-manager <subcommand> [args]
 
-PORT COMMANDS:
-  port start [port]          Start zellij web server (once). Refuse if already running.
-  port stop                  Kill the web server process.
-  port status                Show current port and PID.
+ZELLIJ-WEB COMMANDS:
+  zellij-web start [port]      Start zellij web server (once). Refuse if already running.
+  zellij-web stop              Kill the web server process.
+  zellij-web status            Show current port and PID.
+
+  zellij-web token create      Create a new auth token.
+  zellij-web token show        Show the stored token.
 
 SESSION COMMANDS:
   session create <name>      Create a zellij background session.
@@ -60,7 +64,7 @@ AUTH COMMAND:
   auth <session> [port] [screenshot]  Full auth flow: token → open → snapshot → fill → click → wait → screenshot → close.
 
 DEVELOPMENT COMMAND:
-  dev                        One-shot: run the full "just dev" flow (backwards compat).
+  dev                        One-shot: run the full "just dev" flow (migrates existing workflow).
 `);
 }
 
@@ -79,18 +83,18 @@ export function dispatch(args: string[]): void {
   const subargs = args.slice(1);
 
   switch (subcommand) {
-    // ── Port commands ──────────────────────────────────────────────
-    case "port": {
+    // ── Zellij-web commands ────────────────────────────────────────
+    case "zellij-web": {
       if (subargs.length === 0) {
-        console.error("ERROR: 'port' requires a subcommand (start/stop/status).");
+        console.error("ERROR: 'zellij-web' requires a subcommand (start/stop/status/token).");
         printHelp();
         process.exit(1);
       }
-      const portSub = subargs[0];
-      const portArgs = subargs.slice(1);
-      switch (portSub) {
+      const sub = subargs[0];
+      const subArgs = subargs.slice(1);
+      switch (sub) {
         case "start":
-          portStart(portArgs[0] ? parseInt(portArgs[0], 10) : undefined);
+          portStart(subArgs[0] ? parseInt(subArgs[0], 10) : undefined);
           break;
         case "stop":
           portStop();
@@ -100,8 +104,28 @@ export function dispatch(args: string[]): void {
           console.log(status.output);
           console.log(`Online: ${status.online}, Port: ${status.port}`);
           break;
+        case "token": {
+          if (subArgs.length === 0) {
+            console.error("ERROR: 'zellij-web token' requires a subcommand (create/show).");
+            process.exit(1);
+          }
+          const tokenSub = subArgs[0];
+          const tokenArgs = subArgs.slice(1);
+          switch (tokenSub) {
+            case "create":
+              createToken();
+              break;
+            case "show":
+              showToken();
+              break;
+            default:
+              console.error(`ERROR: Unknown token subcommand: ${tokenSub}`);
+              process.exit(1);
+          }
+          break;
+        }
         default:
-          console.error(`ERROR: Unknown port subcommand: ${portSub}`);
+          console.error(`ERROR: Unknown zellij-web subcommand: ${sub}`);
           process.exit(1);
       }
       break;
@@ -235,15 +259,34 @@ export function dispatch(args: string[]): void {
       break;
     }
 
-    // ── Dev command (backwards compat) ─────────────────────────────
+    // ── Dev command (migrates existing workflow) ───────────────────
     case "dev": {
       const state = readState();
-      const session = process.env.ZELLIJ_SESSION || "nexus-dev";
-      const output = process.env.ZELLIJ_OUTPUT || "./zellij-authenticated.png";
-      const workspace = process.env.ZELLIJ_WORKSPACE || process.cwd();
-      const commandsScript = process.env.ZELLIJ_COMMANDS;
 
-      console.log("=== Dev flow (backwards compat) ===");
+      // Parse optional flags: --session <name> --output <path> --workspace <dir> --commands <path>
+      let session = "nexus-dev";
+      let output = "./zellij-authenticated.png";
+      let workspace = process.cwd();
+      let commandsScript: string | undefined;
+
+      for (let i = 0; i < subargs.length; i++) {
+        switch (subargs[i]) {
+          case "--session":
+            session = subargs[++i] ?? (() => { console.error("ERROR: --session requires a value."); process.exit(1); })();
+            break;
+          case "--output":
+            output = subargs[++i] ?? (() => { console.error("ERROR: --output requires a value."); process.exit(1); })();
+            break;
+          case "--workspace":
+            workspace = subargs[++i] ?? (() => { console.error("ERROR: --workspace requires a value."); process.exit(1); })();
+            break;
+          case "--commands":
+            commandsScript = subargs[++i];
+            break;
+        }
+      }
+
+      console.log("=== Dev flow (migration) ===");
       console.log(`  Session: ${session}`);
       console.log(`  Output: ${output}`);
       console.log(`  Workspace: ${workspace}`);
@@ -258,7 +301,7 @@ export function dispatch(args: string[]): void {
       // Build a temporary config that disables startup noise.
       const fs = require("node:fs");
       const os = require("node:os");
-      const tmpConfig = fs.mkdtempSync(`${os.tmpdir()}/zellij-automation-`);
+      const tmpConfig = fs.mkdtempSync(`${os.tmpdir()}/zellij-manager-`);
       const configPath = `${tmpConfig}/config.kdl`;
       fs.writeFileSync(configPath, `web_sharing "on"\nshow_startup_tips false\nshow_release_notes false\n`);
 

@@ -5,7 +5,7 @@
  * Reads/writes state.json to track port and PID.
  */
 
-import { execSync } from "node:child_process";
+import { execSync, spawn } from "node:child_process";
 import { readState, writeState, State } from "./state";
 
 /**
@@ -23,11 +23,12 @@ export interface PortStatus {
 /**
  * Start the zellij web server on the configured port.
  * Refuses to start if the server is already running.
+ * Daemonizes the server process so the CLI returns immediately.
  *
  * @param port — Optional port override (defaults to state.port).
- * @returns The stdout from `zellij web` (start).
+ * @returns The PID of the daemonized server process.
  */
-export function portStart(port?: number): string {
+export function portStart(port?: number): number {
   const state = readState();
   const targetPort = port ?? state.port;
 
@@ -41,17 +42,30 @@ export function portStart(port?: number): string {
   }
 
   console.log(`Starting zellij web server on port ${targetPort}...`);
-  const output = execSync(
-    `zellij web --port ${targetPort}`,
-    { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] },
-  );
 
-  // Update state with the new port.
-  const updated: State = { ...state, port: targetPort, updatedAt: new Date().toISOString() };
+  // Daemonize: spawn detached, ignore stdio, unref so the CLI can exit.
+  const child = spawn("zellij", ["web", "--port", String(targetPort)], {
+    detached: true,
+    stdio: "ignore",
+    env: { ...process.env, NODE_NO_WARNINGS: "1" },
+  });
+
+  const pid = child.pid;
+  console.log(`  Server daemonized with PID ${pid}`);
+
+  // Update state with the new port and PID.
+  const updated: State = {
+    ...state,
+    port: targetPort,
+    webServerPid: pid,
+    updatedAt: new Date().toISOString(),
+  };
   writeState(updated);
 
-  console.log(output.trim());
-  return output;
+  // Release the reference so the parent can exit.
+  child.unref();
+
+  return pid;
 }
 
 /**
@@ -136,5 +150,21 @@ export function createToken(): string {
   };
   writeState(updated);
 
+  return token;
+}
+
+/**
+ * Show the currently stored token from state (if any).
+ *
+ * @returns The lastToken from state, or empty string if none.
+ */
+export function showToken(): string {
+  const state = readState();
+  const token = state.lastToken;
+  if (token) {
+    console.log(`  Token: ${token}`);
+  } else {
+    console.log("  No token stored.");
+  }
   return token;
 }

@@ -1,5 +1,5 @@
 dev:
-	ZELLIJ_SESSION="nexus-dev" \
-	ZELLIJ_OUTPUT="./zellij-authenticated.png" \
-	ZELLIJ_COMMANDS="./scripts/dev_commands.sh" \
-	bash zellij-automation.sh
+	tsx zellij-manager.ts dev --session nexus-dev --output ./zellij-authenticated.png --commands ./scripts/dev_commands.sh
+
+release:
+	bun install && ln -sf $(realpath zellij-manager.ts) /opt/homebrew/bin/zellij-manager

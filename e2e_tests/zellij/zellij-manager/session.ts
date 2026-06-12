@@ -51,10 +51,18 @@ export function sessionCreate(
   const cmd = `zellij ${configFlag} ${layoutFlag} attach --create-background "${name}"`.trim();
 
   console.log(`Creating session "${name}"...`);
-  const output = execSync(cmd, {
-    encoding: "utf-8",
-    stdio: ["pipe", "pipe", "pipe"],
-  });
+  let output: string;
+  try {
+    output = execSync(cmd, {
+      encoding: "utf-8",
+      stdio: ["pipe", "pipe", "pipe"],
+    });
+  } catch (err: unknown) {
+    const stderr = (err as { stderr?: string }).stderr || (err as { message?: string }).message || String(err);
+    console.error(`ERROR: Failed to create session "${name}":`);
+    console.error(stderr);
+    process.exit(1);
+  }
 
   // Update state with the new session.
   const updated: State = {

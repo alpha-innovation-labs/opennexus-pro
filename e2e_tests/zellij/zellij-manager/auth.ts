@@ -15,7 +15,7 @@
  * bash automation script.
  */
 
-import { createToken } from "./port";
+import { createToken } from "./zellij-web";
 import { browserOpen, browserScreenshot, browserSnapshot, browserFill, browserClick, browserWait, browserClose, SnapshotResult } from "./browser";
 
 /**

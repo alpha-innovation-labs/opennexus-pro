@@ -1,4 +1,3 @@
-#!/usr/bin/env tsx
 /**
  * zellij-manager.ts — Main CLI entry point.
  *
