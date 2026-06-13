@@ -62,8 +62,3 @@ import 'justfiles/utilities/codexbar-sync.just'
 import 'justfiles/utilities/uninstall.just'
 import 'justfiles/utilities/update.just'
 import 'justfiles/utilities/upgrade.just'
-
-# ============================================================================
-# E2E Session Testing Commands
-# ============================================================================
-import 'justfiles/testing/e2e-sessions.just'
