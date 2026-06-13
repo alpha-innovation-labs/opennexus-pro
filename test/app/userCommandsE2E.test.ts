@@ -5,6 +5,9 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createAppArgs } from "../../apps/tui/src/cli/createAppArgs.js";
 import { getUserCommandsPath } from "../../packages/nexus-runtime/src/config/getUserCommandsPath.js";
+import { getAgentCommandsPath } from "../../packages/nexus-runtime/src/config/getAgentCommandsPath.js";
+import { getBundledCommandsPath } from "../../packages/assets/src/commands/getBundledCommandsPath.js";
+import { getAgentDirPath } from "../../packages/nexus-runtime/src/config/getAgentDirPath.js";
 
 /**
  * E2E test: user commands directory is registered and injected into CLI args.
@@ -46,18 +49,28 @@ test("user commands directory is registered and user commands shadow bundled", a
     process.env.NEXUS_CONFIG_DIR = configDir;
     const args = createAppArgs([]);
 
-    const promptTemplateFlags = [];
+    const promptTemplateFlags: { index: number; path: string }[] = [];
     for (let i = 0; i < args.length; i += 1) {
       if (args[i] === "--prompt-template") {
-        promptTemplateFlags.push(args[i + 1]);
+        promptTemplateFlags.push({ index: i, path: args[i + 1] });
       }
     }
 
     const userCommandsPath = getUserCommandsPath();
+    const agentCommandsPath = getAgentCommandsPath();
+    const bundledCommandsPath = getBundledCommandsPath();
 
-    assert.equal(promptTemplateFlags.length, 2, "should have exactly two --prompt-template flags");
-    assert.equal(promptTemplateFlags[0], userCommandsPath, "first --prompt-template should be user commands");
-    assert.notEqual(promptTemplateFlags[1], userCommandsPath, "second --prompt-template should be bundled");
+    const userEntry = promptTemplateFlags.find((e) => e.path === userCommandsPath);
+    const bundledEntry = promptTemplateFlags.find((e) => e.path === bundledCommandsPath);
+    const agentEntry = promptTemplateFlags.find((e) => e.path === agentCommandsPath);
+
+    assert.ok(userEntry, "user --prompt-template should be present");
+    assert.ok(bundledEntry, "bundled --prompt-template should be present");
+    assert.ok(userEntry.index < bundledEntry.index, "user commands should appear before bundled");
+    if (agentEntry) {
+      assert.ok(userEntry.index < agentEntry.index, "user commands should appear before agent");
+      assert.ok(agentEntry.index < bundledEntry.index, "agent commands should appear before bundled");
+    }
   } finally {
     process.env.NEXUS_CONFIG_DIR = originalEnv;
     rmSync(configDir, { recursive: true, force: true });
@@ -70,6 +83,7 @@ test("user commands directory is registered and user commands shadow bundled", a
 test("createAppArgs works without a user commands directory", async () => {
   const configDir = join(tmpdir(), `nexus-e2e-no-cmd-${Date.now()}`);
   const originalEnv = process.env.NEXUS_CONFIG_DIR;
+  const bundledCommandsPath = getBundledCommandsPath();
 
   try {
     process.env.NEXUS_CONFIG_DIR = configDir;
@@ -82,7 +96,14 @@ test("createAppArgs works without a user commands directory", async () => {
       }
     }
 
-    assert.equal(promptTemplateFlags.length, 1, "should have exactly one --prompt-template (bundled only)");
+    assert.ok(
+      promptTemplateFlags.length >= 1,
+      "should have at least one --prompt-template (bundled)",
+    );
+    assert.ok(
+      promptTemplateFlags.includes(bundledCommandsPath),
+      "bundled --prompt-template should be present",
+    );
   } finally {
     process.env.NEXUS_CONFIG_DIR = originalEnv;
   }

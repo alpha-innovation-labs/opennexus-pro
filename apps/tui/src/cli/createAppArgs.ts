@@ -1,5 +1,6 @@
 import { getBundledCommandsPath } from "@nexus/assets/commands/getBundledCommandsPath.js";
 import { getBundledThemesPath } from "@nexus/assets/themes/getBundledThemesPath.js";
+import { getAgentCommandsPath, agentCommandsExists } from "@nexus/runtime/config/getAgentCommandsPath.js";
 import { getUserCommandsPath, userCommandsExists } from "@nexus/runtime/config/getUserCommandsPath.js";
 import { filterVerboseStartupArg } from "./filterVerboseStartupArg.js";
 import { addBaseSystemPromptArg } from "./system-prompt/addBaseSystemPromptArg.js";
@@ -14,6 +15,7 @@ export function createAppArgs(inputArgs: string[]): string[] {
   const args = filterVerboseStartupArg(addBaseSystemPromptArg([...inputArgs]));
   const bundledThemesPath = getBundledThemesPath();
   const bundledCommandsPath = getBundledCommandsPath();
+  const agentCommandsPath = getAgentCommandsPath();
   const userCommandsPath = getUserCommandsPath();
 
   let hasBundledThemePath = false;
@@ -34,10 +36,13 @@ export function createAppArgs(inputArgs: string[]): string[] {
 
   const prependedArgs: string[] = [];
   if (!hasBundledThemePath) prependedArgs.push("--theme", bundledThemesPath);
-  // User commands are injected before bundled commands so they shadow
-  // bundled commands by name (Pi's expandPromptTemplate uses .find()).
+  // Commands are injected in priority order (first match wins).
+  // User commands shadow agent commands shadow bundled commands.
   if (userCommandsExists(userCommandsPath) && !hasNoPromptTemplates) {
     prependedArgs.push("--prompt-template", userCommandsPath);
+  }
+  if (agentCommandsExists(agentCommandsPath) && !hasNoPromptTemplates) {
+    prependedArgs.push("--prompt-template", agentCommandsPath);
   }
   if (!hasBundledCommandsPath) prependedArgs.push("--prompt-template", bundledCommandsPath);
 
