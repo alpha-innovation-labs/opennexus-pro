@@ -17,6 +17,7 @@ import { applyHotkeysCommandPatch } from "@nexus/pi-platform/applyHotkeysCommand
 import { applyNexusSystemPromptPatch } from "@nexus/pi-platform/system-prompt/applyNexusSystemPromptPatch.js";
 import { applyLoginImportPatch } from "@nexus/pi-platform/login-import/patch/applyLoginImportPatch.js";
 import { applyModelKeybindingsPatch } from "@nexus/pi-platform/applyModelKeybindingsPatch.js";
+import { applyPromptTemplateArgAppendPatch } from "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch.js";
 import { applyModelChangeDisplayPatch } from "@nexus/pi-platform/applyModelChangeDisplayPatch.js";
 import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch.js";
 import { ensureEmbeddedPackageDirEnv } from "@nexus/runtime/package/embedded-assets/ensureEmbeddedPackageDirEnv.js";
@@ -105,6 +106,10 @@ export async function runAppWithExtensionFactories(
   phaseStartedAt = performance.now();
   applyModelKeybindingsPatch();
   logRunAppPhase("applyModelKeybindingsPatch:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
+  await applyPromptTemplateArgAppendPatch();
+  logRunAppPhase("applyPromptTemplateArgAppendPatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   applyModelChangeDisplayPatch();
