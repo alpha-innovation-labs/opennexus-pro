@@ -1,4 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import { parseCommandArgs } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/prompt-templates.js";
+import { SENTINEL } from "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch.js";
 import type { AuthImportSource } from "@nexus/pi-platform/login-import/model/AuthImportSource.js";
 import type { AuthImportCandidate } from "@nexus/pi-platform/login-import/model/AuthImportCandidate.js";
 import { loadAuthImportCandidates } from "@nexus/pi-platform/login-import/collect/loadAuthImportCandidates.js";
@@ -298,6 +300,25 @@ export class SlashMenuModal extends SelectPreviewModal {
     });
   }
 
+  /**
+   * Extracts trailing arguments from the current query after the matched command name.
+   *
+   * For `/deep-research hello world` with command `deep-research`, returns `hello world`.
+   * Uses `parseCommandArgs` for consistent quote handling (quotes are stripped, matching CLI path).
+   *
+   * @param commandName The selected command name (item.value).
+   * @returns Remaining argument text, or empty string when none.
+   */
+  private extractSlashArgs(commandName: string): string {
+    const prefix = `/${commandName}`;
+    if (!this.query.startsWith(prefix)) return "";
+    const afterCommand = this.query.slice(prefix.length);
+    if (!afterCommand.startsWith(" ")) return "";
+    const argsString = afterCommand.slice(1);
+    const args = parseCommandArgs(argsString);
+    return args.join(" ");
+  }
+
   private async handleEnter(): Promise<void> {
     const item = this.getSelectedItem();
     if (!item) return;
@@ -338,8 +359,18 @@ export class SlashMenuModal extends SelectPreviewModal {
     }
     if (this.level === "fork") return void this.onCommandPicked(`/nexus-fork-select ${item.value}`);
     if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select ${encodeSlashMenuValue(item.value)}`);
-    if (this.level === "prompts") return void this.onCommandPrefill(`/${item.value} `);
-    if (this.level === "skills") return void this.onCommandPicked(`/${item.value}`);
+    if (this.level === "prompts") {
+      const args = this.extractSlashArgs(item.value);
+      return void this.onCommandPrefill(
+        args ? `/${item.value} ${args.trim()}${SENTINEL}` : `${item.value}`,
+      );
+    }
+    if (this.level === "skills") {
+      const args = this.extractSlashArgs(item.value);
+      return void this.onCommandPicked(
+        args ? `/${item.value} ${args.trim()}${SENTINEL}` : `${item.value}`,
+      );
+    }
     if (this.level === "tools") return;
     if ((this.level === "login" || this.level === "login-import") && item.value.startsWith("import:")) {
       return void this.openAuthImportCandidates(item.value.slice("import:".length) as AuthImportSource);
