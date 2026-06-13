@@ -8,6 +8,9 @@ dev *APP_ARGS:
 
     export NEXUS_AGENT_LABEL="Nexus dev"
 
+    # Unset PI_PACKAGE_DIR so theme resolution uses local node_modules, not the global install
+    unset PI_PACKAGE_DIR
+
     if [ -f .env ]; then
         set -a
         source .env
