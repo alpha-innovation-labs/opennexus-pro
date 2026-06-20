@@ -37,7 +37,7 @@ export async function createReleaseNpmPackage(packageDir = getReleaseNpmPackageD
       version,
       piConfig: {
         name: "nexus",
-        configDir: ".local/share/nexus",
+        configDir: ".local/share/nexus/agent",
       },
       publishConfig: {
         registry: "https://registry.npmjs.org/",
