@@ -2,7 +2,13 @@ import { getFffPlatformPackageName } from "./getFffPlatformPackageName.mjs";
 import { getFfiRsPlatformPackageName } from "./getFfiRsPlatformPackageName.mjs";
 import { getReleaseTargetOptions } from "./getReleaseTargetOptions.mjs";
 
-const BASE_EXTERNAL_RELEASE_PACKAGES = ["@ff-labs/fff-node", "ffi-rs", "linkedom", "turndown"];
+const BASE_EXTERNAL_RELEASE_PACKAGES = [
+  "@ff-labs/fff-node",
+  "ffi-rs",
+  "linkedom",
+  "turndown",
+  "@marcfargas/pi-test-harness",
+];
 
 /**
  * Returns package names that must stay external in the native release build.
