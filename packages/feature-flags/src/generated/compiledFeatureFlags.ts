@@ -5,28 +5,6 @@ import type { FeatureFlagsConfig } from "../types.js";
  */
 export const compiledFeatureFlags = {
   "extensions": {
-    "ai-providers": {
-      "enabled": true,
-      "features": [
-        "oh-my-pi provider login entries",
-        "manual credential prompts for additional providers",
-        "/login provider availability"
-      ],
-      "category": "extension"
-    },
-    "automations": {
-      "enabled": false,
-      "features": [
-        "/automations full-screen automation picker",
-        "two-pane automation detail and agent chat editor",
-        "live prompt and schedule update flow",
-        "nexus automations CLI commands",
-        "scheduled prompt automation daemon",
-        "SQLite automation and run history storage",
-        "bundled automation templates"
-      ],
-      "category": "mini-app"
-    },
     "auto-update": {
       "enabled": true,
       "features": [
@@ -53,14 +31,6 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
-    "chat-status": {
-      "enabled": true,
-      "features": [
-        "write active chats to ~/.local/share/nexus/agent/chat-status.json",
-        "remove chats when inference stops"
-      ],
-      "category": "extension"
-    },
     "exit-message": {
       "enabled": true,
       "features": [
@@ -75,24 +45,6 @@ export const compiledFeatureFlags = {
         "third-party extension list",
         "npm package install/update/remove controls",
         "per-user extension enable and disable controls"
-      ],
-      "category": "extension"
-    },
-    "webtools": {
-      "enabled": true,
-      "features": [
-        "web_fetch tool backed by Nexus native web fetch",
-        "code_search tool backed by GitHub repository search",
-        "fetch_content tool backed by Nexus native fetch and GitHub API handling",
-        "get_search_content tool"
-      ],
-      "category": "extension"
-    },
-    "ask-user-question": {
-      "enabled": true,
-      "features": [
-        "ask_user_question tool",
-        "typed option prompts"
       ],
       "category": "extension"
     },
@@ -224,16 +176,6 @@ export const compiledFeatureFlags = {
     }
   },
   "other": {
-    "social-automation": {
-      "enabled": true,
-      "features": [
-        "nexus social-automation CLI commands",
-        "Nitter RSS ingestion",
-        "YouTube RSS ingestion",
-        "yt-dlp audio preparation"
-      ],
-      "category": "mini-app"
-    },
     "mini-app-manager": {
       "enabled": true,
       "features": [

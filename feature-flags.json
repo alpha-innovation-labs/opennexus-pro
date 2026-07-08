@@ -1,13 +1,14 @@
 {
   "extensions": {
     "ai-providers": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "oh-my-pi provider login entries",
         "manual credential prompts for additional providers",
         "/login provider availability"
       ],
-      "category": "extension"
+      "category": "extension",
+      "devOnly": true
     },
     "annotate": {
       "enabled": false,
@@ -30,7 +31,8 @@
         "SQLite automation and run history storage",
         "bundled automation templates"
       ],
-      "category": "mini-app"
+      "category": "mini-app",
+      "devOnly": true
     },
     "auto-update": {
       "enabled": true,
@@ -59,12 +61,13 @@
       "category": "extension"
     },
     "chat-status": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "write active chats to ~/.local/share/nexus/agent/chat-status.json",
         "remove chats when inference stops"
       ],
-      "category": "extension"
+      "category": "extension",
+      "devOnly": true
     },
     "dev": {
       "devOnly": true,
@@ -96,22 +99,24 @@
       "category": "extension"
     },
     "webtools": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "web_fetch tool backed by Nexus native web fetch",
         "code_search tool backed by GitHub repository search",
         "fetch_content tool backed by Nexus native fetch and GitHub API handling",
         "get_search_content tool"
       ],
-      "category": "extension"
+      "category": "extension",
+      "devOnly": true
     },
     "ask-user-question": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "ask_user_question tool",
         "typed option prompts"
       ],
-      "category": "extension"
+      "category": "extension",
+      "devOnly": true
     },
     "oh-my-pi-lsp": {
       "enabled": false,
@@ -346,17 +351,18 @@
       "devOnly": true
     },
     "social-automation": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "nexus social-automation CLI commands",
         "Nitter RSS ingestion",
         "YouTube RSS ingestion",
         "yt-dlp audio preparation"
       ],
-      "category": "mini-app"
+      "category": "mini-app",
+      "devOnly": true
     },
     "social-chat": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "nexus social-chat CLI commands",
         "background social adapter daemon"

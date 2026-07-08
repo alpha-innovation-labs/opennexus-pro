@@ -4,15 +4,11 @@ import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensio
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
 import { createTelemetryExtensionApi } from "@nexus/feature-flags/createTelemetryExtensionApi.js";
 import { setRuntimeExtensionFeatureFlags } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
-import { registerAiProvidersExtension } from "../ai-providers/registerAiProvidersExtension.js";
 import { registerAutoUpdateExtension } from "../auto-update/registerAutoUpdateExtension.js";
 import { registerCmuxExtension } from "@nexus/extensions-pro/cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "../context-usage/registerContextUsageExtension.js";
-import { registerChatStatusExtension } from "../chat-status/registerChatStatusExtension.js";
 import { registerExitMessageExtension } from "../exit-message/registerExitMessageExtension.js";
 import { registerPiPackagesExtension } from "../pi-packages/registerPiPackagesExtension.js";
-import { registerWebSearchExtension } from "../web-search/registerWebSearchExtension.js";
-import { registerAskUserQuestionExtension } from "../ask-user-question/registerAskUserQuestionExtension.js";
 import registerFffExtension from "../fff/index.js";
 import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension.js";
 import { registerPromptQueueExtension } from "../prompt-queue/registerPromptQueueExtension.js";
@@ -33,15 +29,11 @@ import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manag
  * Extension ids compiled into the release bundle.
  */
 export const compiledBundledExtensionIds = [
-  "ai-providers",
   "auto-update",
   "cmux",
   "context-usage",
-  "chat-status",
   "exit-message",
   "pi-packages",
-  "webtools",
-  "ask-user-question",
   "fff",
   "neo-editor",
   "prompt-queue",
@@ -60,15 +52,11 @@ export const compiledBundledExtensionIds = [
 ] as const;
 
 const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => void | Promise<void>> = {
-  "ai-providers": registerAiProvidersExtension,
   "auto-update": registerAutoUpdateExtension,
   "cmux": registerCmuxExtension,
   "context-usage": registerContextUsageExtension,
-  "chat-status": registerChatStatusExtension,
   "exit-message": registerExitMessageExtension,
   "pi-packages": registerPiPackagesExtension,
-  "webtools": registerWebSearchExtension,
-  "ask-user-question": registerAskUserQuestionExtension,
   "fff": registerFffExtension,
   "neo-editor": registerNeoEditorExtension,
   "prompt-queue": registerPromptQueueExtension,
