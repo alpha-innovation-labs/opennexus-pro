@@ -23,3 +23,18 @@ This project uses Turbo repo.
 Any piece of code is either part of an app in ./apps
 or part of a package in ./packages
 
+## CRITICAL — Pi tool-execution monkey-patching
+
+Pi's `ToolExecutionComponent` (in `@earendil-works/pi-coding-agent`) injects blank lines between consecutive tool calls via **two upstream injection points**:
+
+1. **Constructor** — `this.addChild(new Spacer(1))` on every tool execution (line 42 of `tool-execution.js`).
+2. **render()** — `lines.push("")` before content lines when `getRenderShell() === "self"` (lines 187-189 of `tool-execution.js`).
+
+Nexus patches both on `ToolExecutionComponent.prototype` in `packages/pi-platform/src/applyToolExecutionSpacingPatch.ts`:
+- The `addChild` patch drops the first `Spacer`.
+- The `render` patch strips the leading `""` from the returned array.
+
+**Pi frequently changes how it renders tool calls.** Every time the upstream `ToolExecutionComponent` changes its `render()` output, the compact Tron view breaks silently — extra blank lines reappear, or the patch strips the wrong content. **Every change to Pi's tool rendering must be verified with the `consecutiveToolCallsNoExtraSpacing` e2e test.** When a new Pi release ships, diff `node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/components/tool-execution.js` against the previous version, specifically lines 42 and 187-189. If either injection point changed, update `applyToolExecutionSpacingPatch` accordingly. Do not assume the existing patch covers a new release.
+
+See `docs/tron-tool-execution-spacing.md` for the full technical breakdown.
+

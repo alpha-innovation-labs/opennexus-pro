@@ -1,4 +1,4 @@
-import { getModels, getProviders } from "@earendil-works/pi-ai";
+import { getBuiltinModels, getBuiltinProviders } from "@earendil-works/pi-ai/providers/all";
 import type { SlashMenuLeaf } from "../types.js";
 import { createModelCatalogLeaf } from "./createModelCatalogLeaf.js";
 
@@ -8,7 +8,7 @@ import { createModelCatalogLeaf } from "./createModelCatalogLeaf.js";
  * @returns Sorted full-catalog slash-menu leaves.
  */
 export function createModelCatalogLeaves(): SlashMenuLeaf[] {
-  return getProviders()
-    .flatMap((provider) => getModels(provider).map((model) => createModelCatalogLeaf(model)))
+  return getBuiltinProviders()
+    .flatMap((provider) => getBuiltinModels(provider).map((model) => createModelCatalogLeaf(model)))
     .sort((left, right) => (left.groupLabel?.localeCompare(right.groupLabel ?? "") || left.label.localeCompare(right.label)));
 }

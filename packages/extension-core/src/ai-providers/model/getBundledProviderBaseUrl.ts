@@ -1,4 +1,4 @@
-import { getModels } from "@earendil-works/pi-ai";
+import { getBuiltinModels } from "@earendil-works/pi-ai/providers/all";
 
 /**
  * Reads the base URL from the first model of a bundled Pi provider.
@@ -7,5 +7,5 @@ import { getModels } from "@earendil-works/pi-ai";
  * @returns Provider base URL, when bundled models exist.
  */
 export function getBundledProviderBaseUrl(providerId: string): string | undefined {
-  return getModels(providerId as never)[0]?.baseUrl;
+  return getBuiltinModels(providerId as never)[0]?.baseUrl;
 }
