@@ -53,12 +53,13 @@
       "category": "pro"
     },
     "context-usage": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "context_usage tool for current chat context window usage",
         "/context command for current chat context window usage"
       ],
-      "category": "extension"
+      "category": "extension",
+      "devOnly": true
     },
     "chat-status": {
       "enabled": false,
@@ -171,22 +172,24 @@
       "category": "extension"
     },
     "prompt-queue": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "persisted Neo editor prompt queue",
         "queue box above promptline",
         "queue navigation, edit, send, and delete hotkeys"
       ],
-      "category": "extension"
+      "category": "extension",
+      "devOnly": true
     },
     "steer-queue": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "nexus steer CLI command",
         "agent-dir per-session steering queue",
         "poll and deliver top-level session steering messages"
       ],
-      "category": "extension"
+      "category": "extension",
+      "devOnly": true
     },
     "hotkeys": {
       "enabled": true,
@@ -262,7 +265,7 @@
       "category": "extension"
     },
     "sub-agent-status-widget": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "custom subagent working widget",
         "live agent status lines",
@@ -272,7 +275,7 @@
       "category": "extension"
     },
     "sub-agents": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "rpc child-process subagent execution",
         "custom context providers",

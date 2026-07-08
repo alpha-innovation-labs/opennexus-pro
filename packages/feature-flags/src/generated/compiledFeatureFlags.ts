@@ -23,14 +23,6 @@ export const compiledFeatureFlags = {
       ],
       "category": "pro"
     },
-    "context-usage": {
-      "enabled": true,
-      "features": [
-        "context_usage tool for current chat context window usage",
-        "/context command for current chat context window usage"
-      ],
-      "category": "extension"
-    },
     "exit-message": {
       "enabled": true,
       "features": [
@@ -65,24 +57,6 @@ export const compiledFeatureFlags = {
         "@ file autocomplete",
         "editor trigger submit",
         "macOS ctrl+v image paste fallback"
-      ],
-      "category": "extension"
-    },
-    "prompt-queue": {
-      "enabled": true,
-      "features": [
-        "persisted Neo editor prompt queue",
-        "queue box above promptline",
-        "queue navigation, edit, send, and delete hotkeys"
-      ],
-      "category": "extension"
-    },
-    "steer-queue": {
-      "enabled": true,
-      "features": [
-        "nexus steer CLI command",
-        "agent-dir per-session steering queue",
-        "poll and deliver top-level session steering messages"
       ],
       "category": "extension"
     },
