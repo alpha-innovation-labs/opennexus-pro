@@ -6,7 +6,7 @@ import { join } from "node:path";
 import test from "node:test";
 
 const AGENT_TUI = "agent-tui";
-const SESSION_NAME = "chrome-command-disabled-check";
+const SESSION_NAME = "chrome-disabled-check";
 const DUMP_DIR = join(tmpdir(), "nexus-chrome-disabled-dump");
 
 /**
@@ -58,32 +58,32 @@ test("agent-tui: /chrome command NOT present when pi-chrome is disabled", async 
 
   // Navigate to pi-chrome row (down arrow), toggle it off (space)
   console.log("[8/20] NAVIGATING to pi-chrome row (down arrow)");
-  agentTui("send-keys", SESSION_NAME, "\x1b[B"); // down
+  agentTui("send-keys", SESSION_NAME, "Down");
   await new Promise((resolve) => setTimeout(resolve, 500));
   console.log("[9/20] TOGGLING pi-chrome off (space)");
-  agentTui("send-keys", SESSION_NAME, " "); // toggle disable
+  agentTui("send-keys", SESSION_NAME, "Space"); // toggle disable
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   // Re-position: Home + down to ensure pi-chrome is selected
   console.log("[10/20] RE-POSITIONING (Home + down to ensure pi-chrome selected)");
-  agentTui("send-keys", SESSION_NAME, "\x1b[1~"); // Home
+  agentTui("send-keys", SESSION_NAME, "Home");
   await new Promise((resolve) => setTimeout(resolve, 500));
-  agentTui("send-keys", SESSION_NAME, "\x1b[B"); // down to pi-chrome
+  agentTui("send-keys", SESSION_NAME, "Down"); // down to pi-chrome
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   // Toggle pi-chrome off again
   console.log("[11/20] TOGGLING pi-chrome off again (space)");
-  agentTui("send-keys", SESSION_NAME, " "); // toggle
+  agentTui("send-keys", SESSION_NAME, "Space"); // toggle
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   // Close the modal
   console.log("[12/20] CLOSING modal (End/Escape)");
-  agentTui("send-keys", SESSION_NAME, "\x1b[F"); // End (save/close)
+  agentTui("send-keys", SESSION_NAME, "End"); // End (save/close)
   await new Promise((resolve) => setTimeout(resolve, 2_000));
 
   // Escape to close any open modal
   console.log("[13/20] ESCAPE to close any open modal");
-  agentTui("send-keys", SESSION_NAME, "Escape");
+  agentTui("send-keys", SESSION_NAME, "Esc");
   await new Promise((resolve) => setTimeout(resolve, 1_000));
 
   // Restart Nexus via /restart
@@ -103,12 +103,14 @@ test("agent-tui: /chrome command NOT present when pi-chrome is disabled", async 
   await new Promise((resolve) => setTimeout(resolve, 5_000));
   console.log("[16/20] /chrome RESPONSE RECEIVED — dumping session panes");
 
-  // Dump the session panes to ANSI files
-  const dumpResult = agentTui("session", "dump", DUMP_DIR, SESSION_NAME);
+  // Dump the session panes to ANSI files.
+  // The dump command expects an output FILE path (directory is derived from it),
+  // not a bare directory — so we pass the full expected file path.
+  const paneFile = join(DUMP_DIR, `${SESSION_NAME}-pane-0.ans`);
+  const dumpResult = agentTui("session", "dump", paneFile, SESSION_NAME);
   console.log("[17/20] DUMP DONE — reading pane file");
 
   // Read and strip ANSI from the dump file
-  const paneFile = join(DUMP_DIR, `${SESSION_NAME}-pane-0.ans`);
   const rawText = await readFile(paneFile, "utf8");
   const plainText = stripAnsi(rawText);
   console.log("[18/20] ANSI STRIPPED — evaluating output");

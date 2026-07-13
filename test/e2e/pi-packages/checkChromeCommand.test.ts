@@ -56,12 +56,14 @@ test("agent-tui: /chrome command presence check (pi-chrome enabled)", async () =
   await new Promise((resolve) => setTimeout(resolve, 5_000));
   console.log("[7/8] MODAL RENDERED — dumping session panes");
 
-  // Dump the session panes to ANSI files
-  const dumpResult = agentTui("session", "dump", DUMP_DIR, SESSION_NAME);
+  // Dump the session panes to ANSI files.
+  // The dump command expects an output FILE path (directory is derived from it),
+  // not a bare directory — so we pass the full expected file path.
+  const paneFile = join(DUMP_DIR, `${SESSION_NAME}-pane-0.ans`);
+  const dumpResult = agentTui("session", "dump", paneFile, SESSION_NAME);
   console.log("[8/8] DUMP DONE — reading and evaluating pane file");
 
   // Read and strip ANSI from the dump file
-  const paneFile = join(DUMP_DIR, `${SESSION_NAME}-pane-0.ans`);
   const rawText = await readFile(paneFile, "utf8");
   const plainText = stripAnsi(rawText);
 
