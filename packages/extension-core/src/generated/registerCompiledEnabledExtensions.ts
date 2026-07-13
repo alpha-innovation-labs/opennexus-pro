@@ -6,6 +6,7 @@ import { createTelemetryExtensionApi } from "@nexus/feature-flags/createTelemetr
 import { setRuntimeExtensionFeatureFlags } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
 import { registerAutoUpdateExtension } from "../auto-update/registerAutoUpdateExtension.js";
 import { registerCmuxExtension } from "@nexus/extensions-pro/cmux/registerCmuxExtension.js";
+import { registerContextUsageExtension } from "../context-usage/registerContextUsageExtension.js";
 import { registerExitMessageExtension } from "../exit-message/registerExitMessageExtension.js";
 import { registerPiPackagesExtension } from "../pi-packages/registerPiPackagesExtension.js";
 import registerFffExtension from "../fff/index.js";
@@ -28,6 +29,7 @@ import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manag
 export const compiledBundledExtensionIds = [
   "auto-update",
   "cmux",
+  "context-usage",
   "exit-message",
   "pi-packages",
   "fff",
@@ -48,6 +50,7 @@ export const compiledBundledExtensionIds = [
 const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => void | Promise<void>> = {
   "auto-update": registerAutoUpdateExtension,
   "cmux": registerCmuxExtension,
+  "context-usage": registerContextUsageExtension,
   "exit-message": registerExitMessageExtension,
   "pi-packages": registerPiPackagesExtension,
   "fff": registerFffExtension,

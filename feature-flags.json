@@ -1,7 +1,7 @@
 {
   "extensions": {
     "ai-providers": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "oh-my-pi provider login entries",
         "manual credential prompts for additional providers",
@@ -53,13 +53,12 @@
       "category": "pro"
     },
     "context-usage": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "context_usage tool for current chat context window usage",
         "/context command for current chat context window usage"
       ],
-      "category": "extension",
-      "devOnly": true
+      "category": "extension"
     },
     "chat-status": {
       "enabled": false,

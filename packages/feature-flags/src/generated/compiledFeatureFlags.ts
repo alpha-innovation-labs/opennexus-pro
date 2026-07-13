@@ -23,6 +23,14 @@ export const compiledFeatureFlags = {
       ],
       "category": "pro"
     },
+    "context-usage": {
+      "enabled": true,
+      "features": [
+        "context_usage tool for current chat context window usage",
+        "/context command for current chat context window usage"
+      ],
+      "category": "extension"
+    },
     "exit-message": {
       "enabled": true,
       "features": [
