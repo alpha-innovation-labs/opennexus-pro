@@ -37,6 +37,12 @@ test("agent-tui: /chrome command presence check (pi-chrome enabled)", async () =
   agentTui("session", "create", SESSION_NAME);
   console.log("[4/8] SESSION CREATED — launching local 'just dev' (not release 'nexus')");
 
+  await new Promise((resolve) => setTimeout(resolve, 1_000));
+
+  // Press Enter to start Nexus
+  agentTui("send-keys", SESSION_NAME, "Enter");
+
+
   // Launch local dev Nexus via 'just dev' (not the installed release 'nexus')
   agentTui("exec", SESSION_NAME, "just dev");
   console.log("[5/8] 'just dev' LAUNCHED — pressing Enter to start");
@@ -45,7 +51,7 @@ test("agent-tui: /chrome command presence check (pi-chrome enabled)", async () =
   agentTui("send-keys", SESSION_NAME, "Enter");
 
   // Wait for Nexus to boot (5s is enough)
-  await new Promise((resolve) => setTimeout(resolve, 5_000));
+  await new Promise((resolve) => setTimeout(resolve, 4_000));
   console.log("[6/8] NEXUS BOOTED — typing /chrome and pressing Enter");
 
   // Type /chrome and press Enter to trigger the command
