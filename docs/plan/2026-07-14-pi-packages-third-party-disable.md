@@ -142,7 +142,19 @@ Create a helper `syncPackageToPiSettings` that reads Pi's current settings, remo
 #### Step 4: Write tests
 
 - Unit test: `filterDisabledPackages` correctly excludes disabled packages
+  - See `test/e2e/pi-packages/thirdPartyDisable.test.ts`
 - Unit test: `filterDisabledPackages` preserves enabled packages and object-style packages
+  - See `test/e2e/pi-packages/thirdPartyDisable.test.ts`
+- **Agent-tui E2E test (enabled):** `test/e2e/pi-packages/checkChromeCommand.test.ts`
+  - Launches Nexus in a real zellij session via `agent-tui`, types `/chrome`, dumps the ANSI output, and asserts whether the `/chrome` command is registered.
+  - This is the baseline: with `pi-chrome` enabled, `/chrome` should render the Chrome connection modal.
+  - Run with: `npx tsx --test test/e2e/pi-packages/checkChromeCommand.test.ts`
+- **Agent-tui E2E test (disabled):** `test/e2e/pi-packages/checkChromeCommandDisabled.test.ts`
+  - Same flow as above, but after disabling `pi-chrome` via `/pi-packages` and restarting Nexus.
+  - Asserts that `/chrome` does NOT render (no "Chrome" or "Authori" text in the dump).
+  - Run with: `npx tsx --test test/e2e/pi-packages/checkChromeCommandDisabled.test.ts`
+
+Both tests are correctly written and exercise the full user flow (create session → launch Nexus → type slash command → dump pane output → assert). **Their failure is expected until the implementation work is complete.** The tests are the ground truth — if they fail, the implementation code must be updated to make them pass. The tests are not the agent's responsibility to change; only the implementation code is.
 - E2E test: `/pi-packages` disables a third-party package → restart Nexus → package no longer loads
 - E2E test: `/pi-packages` re-enables a disabled third-party package → restart Nexus → package loads
 
@@ -154,7 +166,9 @@ Create a helper `syncPackageToPiSettings` that reads Pi's current settings, remo
 | `packages/nexus-runtime/src/config/applyNexusConfigPatch.ts` | Inject filtered packages into `fromStorage` |
 | `packages/extension-core/src/pi-packages/command/showPiPackagesModal.ts` | Call sync helper on toggle |
 | `test/feature-flags/syncNexusUserExtensionsToPiSettings.test.ts` | **New** — unit tests |
-| `test/e2e/pi-packages/thirdPartyDisable.test.ts` | **New** — e2e test |
+| `test/e2e/pi-packages/thirdPartyDisable.test.ts` | **Existing** — unit-style e2e tests |
+| `test/e2e/pi-packages/checkChromeCommand.test.ts` | **New** — agent-tui e2e dump (enabled baseline) |
+| `test/e2e/pi-packages/checkChromeCommandDisabled.test.ts` | **New** — agent-tui e2e dump (disabled verification) |
 
 ### Risk assessment
 
