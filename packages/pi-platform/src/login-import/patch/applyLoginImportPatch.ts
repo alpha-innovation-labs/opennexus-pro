@@ -1,7 +1,4 @@
-import { createLoginActionGroups } from "../ui/createLoginActionGroups.js";
-import { createLoginImportActionGroups } from "../ui/createLoginImportActionGroups.js";
-import { GroupedLoginActionSelector } from "../ui/GroupedLoginActionSelector.js";
-import { runAuthImportFlow } from "../flow/runAuthImportFlow.js";
+import { Container, Spacer, Text } from "@earendil-works/pi-tui";
 import type { LoginImportInteractiveMode } from "../model/LoginImportInteractiveMode.js";
 
 let loginImportPatchApplied = false;
@@ -15,61 +12,42 @@ type PatchedInteractiveMode = LoginImportInteractiveMode & {
 };
 
 /**
- * Replaces Pi's top-level /login choice with Nexus import and provider groups.
+ * Replaces Pi's /login with a simple "Hello World" modal.
+ *
+ * Both `showLoginAuthTypeSelector` and `showLoginProviderSelector` are
+ * overwritten so that any path into /login — whether the user typed
+ * `/login` and hit Enter, or navigated through the slash menu —
+ * lands on this single static screen.
  */
 export async function applyLoginImportPatch(): Promise<void> {
 	if (loginImportPatchApplied) return;
 	const piCodingAgent = (await import("@earendil-works/pi-coding-agent")) as { InteractiveMode: InteractiveModeConstructor };
 	const prototype = piCodingAgent.InteractiveMode.prototype as unknown as PatchedInteractiveMode;
+
+	const helloWorldComponent = createHelloWorldComponent();
+
 	prototype.showLoginAuthTypeSelector = function showLoginAuthTypeSelector(this: PatchedInteractiveMode): void {
 		this.showSelector((done: () => void) => {
-			const selector = new GroupedLoginActionSelector(
-				"Select authentication action:",
-				createLoginActionGroups(),
-				(action) => {
-					done();
-					if (action.kind === "import-menu") {
-						showLoginImportSourceSelector(this);
-						return;
-					}
-					if (action.kind === "provider") {
-						this.showLoginProviderSelector(action.authType);
-						return;
-					}
-					void runAuthImportFlow(this, action.source);
-				},
-				() => {
-					done();
-					this.ui.requestRender();
-				},
-			);
-			return { component: selector, focus: selector };
+			return { component: helloWorldComponent, focus: helloWorldComponent };
 		});
 	};
+
+	prototype.showLoginProviderSelector = function showLoginProviderSelector(this: PatchedInteractiveMode, _authType: "oauth" | "api_key"): void {
+		this.showSelector((done: () => void) => {
+			return { component: helloWorldComponent, focus: helloWorldComponent };
+		});
+	};
+
 	loginImportPatchApplied = true;
 }
 
 /**
- * Opens the import-source submenu for the patched /login selector.
+ * Creates a static "Hello World" modal component.
  *
- * @param mode Active interactive mode instance.
+ * @returns A container displaying "Hello World".
  */
-function showLoginImportSourceSelector(mode: PatchedInteractiveMode): void {
-	mode.showSelector((done: () => void) => {
-		const selector = new GroupedLoginActionSelector(
-			"Select import source:",
-			createLoginImportActionGroups(),
-			(action) => {
-				done();
-				if (action.kind === "import") {
-					void runAuthImportFlow(mode, action.source);
-				}
-			},
-			() => {
-				done();
-				mode.ui.requestRender();
-			},
-		);
-		return { component: selector, focus: selector };
-	});
+function createHelloWorldComponent(): Container {
+	const container = new Container();
+	container.addChild(new Text("Hello World", 1, 0));
+	return container;
 }
