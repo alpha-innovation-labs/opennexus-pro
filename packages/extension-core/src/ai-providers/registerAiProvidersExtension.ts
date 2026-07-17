@@ -1,6 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { getManualOhMyPiProviderDefinitions } from "./model/manualOhMyPiProviderDefinitions.js";
-import { registerCursorProvider } from "./register/registerCursorProvider.js";
 import { registerOhMyPiProvider } from "./register/registerOhMyPiProvider.js";
 
 /**
@@ -13,8 +12,6 @@ export async function registerAiProvidersExtension(pi: ExtensionAPI): Promise<vo
   if (typeof pi.registerProvider !== "function") {
     return;
   }
-
-  await registerCursorProvider(pi);
 
   for (const definition of getManualOhMyPiProviderDefinitions()) {
     registerOhMyPiProvider(pi, definition);

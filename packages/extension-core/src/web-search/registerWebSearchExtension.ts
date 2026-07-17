@@ -1,9 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerCodeSearchTool } from "./code-search/registerCodeSearchTool.js";
-import { registerFetchContentTool } from "./fetch-content/registerFetchContentTool.js";
-import { registerGetSearchContentTool } from "./get-search-content/registerGetSearchContentTool.js";
 import { registerWebFetchTool } from "./web-fetch/registerWebFetchTool.js";
-import { registerWebSearchTool } from "./web_search/registerWebSearchTool.js";
+import { registerWebSearchTool } from "./searxng/registerWebSearchTool.js";
 import { loadWebToolsConfig } from "./config/loadWebToolsConfig.js";
 
 /**
@@ -18,7 +15,4 @@ export function registerWebSearchExtension(pi: ExtensionAPI): void {
   const config = loadWebToolsConfig();
   registerWebSearchTool(pi, config.searxng.url);
   registerWebFetchTool(pi, config.crawl4ai.url, config.jina.apiKey);
-  registerCodeSearchTool(pi);
-  registerFetchContentTool(pi);
-  registerGetSearchContentTool(pi);
 }

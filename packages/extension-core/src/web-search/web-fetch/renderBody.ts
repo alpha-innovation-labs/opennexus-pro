@@ -1,5 +1,3 @@
-import { convertHtmlToMarkdown } from "./convertHtmlToMarkdown.js";
-import { extractTextFromHtml } from "./extractTextFromHtml.js";
 import type { WebFetchFormat } from "./webFetchTypes.js";
 
 /**
@@ -13,6 +11,6 @@ import type { WebFetchFormat } from "./webFetchTypes.js";
 export function renderBody(content: string, contentType: string, format: WebFetchFormat): string {
   if (format === "html") return content;
   if (!contentType.includes("text/html")) return content;
-  if (format === "text") return extractTextFromHtml(content);
-  return convertHtmlToMarkdown(content);
+  if (format === "text") return content;
+  return content;
 }
