@@ -18,7 +18,7 @@ import { truncateFromStart } from "./truncateFromStart.js";
  * @param width Available width.
  * @returns Promptline segments.
  */
-export function buildPromptline(
+export async function buildPromptline(
   ctx: ExtensionContext,
   uiTheme: ExtensionContext["ui"]["theme"],
   getThinkingLevel: ExtensionAPI["getThinkingLevel"],
@@ -53,11 +53,11 @@ export function buildPromptline(
   }
 
   const contextWindow = usage?.contextWindow ?? currentModel?.contextWindow ?? 0;
-  const currentContextTokens = typeof usage?.tokens === "number"
-    ? usage.tokens
-    : typeof usage?.percent === "number" && contextWindow > 0
-      ? Math.round((usage.percent / 100) * contextWindow)
-      : 0;
+  const rawTokens = typeof usage?.tokens === "number" ? usage.tokens : typeof usage?.percent === "number" && contextWindow > 0 ? Math.round((usage.percent / 100) * contextWindow) : 0;
+  const fallbackReport = await createContextUsageReport(createRuntimeSnapshot(ctx));
+  const currentContextTokens = rawTokens === 0 && fallbackReport.usedTokens !== null
+    ? fallbackReport.usedTokens
+    : rawTokens;
   const tokenUsage = formatContextTokenUsage(currentContextTokens, contextWindow);
   const contextBar = buildContextBar(usage?.percent);
   const contextColor = getContextColor(usage?.percent);

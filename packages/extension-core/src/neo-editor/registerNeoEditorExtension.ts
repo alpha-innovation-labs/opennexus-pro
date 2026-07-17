@@ -1,5 +1,7 @@
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
+import { createContextUsageReport } from "../context-usage/createContextUsageReport.js";
+import { createRuntimeSnapshot } from "../context-usage/createRuntimeSnapshot.js";
 import { readProjectSettings } from "../slash-menu/readProjectSettings.js";
 import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
 import { ensurePromptlineInstalled } from "./features/promptline/ensurePromptlineInstalled.js";
@@ -31,6 +33,7 @@ export default function(pi: ExtensionAPI) {
       reason: event.reason,
       sessionFile: ctx.sessionManager.getSessionFile() ?? null,
     });
+    await logContextUsageOnStartup(ctx);
     await refreshPromptlineConfig(ctx.cwd);
     ensurePromptlineInstalled(ctx, deps);
     logExtensionEvent("neo-editor", "session_start:afterEnsure", {
@@ -67,4 +70,18 @@ export default function(pi: ExtensionAPI) {
   pi.on("session_shutdown", async () => {
     resetPromptlineState();
   });
+}
+
+/**
+ * Calls `createContextUsageReport` once on session start and logs the result.
+ *
+ * @param ctx Extension context.
+ */
+async function logContextUsageOnStartup(ctx: ExtensionContext): Promise<void> {
+  try {
+    const report = await createContextUsageReport(createRuntimeSnapshot(ctx));
+    console.log(JSON.stringify(report, null, 2));
+  } catch (error: unknown) {
+    console.error("[neo-editor] createContextUsageReport failed:", error instanceof Error ? error.message : String(error));
+  }
 }

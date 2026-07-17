@@ -1,7 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { getRegisteredToolRecords } from "@nexus/feature-flags/index.js";
 import { createForkLeaves } from "./createForkLeaves.js";
-import { createLoginImportLeaves } from "./createLoginImportLeaves.js";
 import { createLoginLeaves } from "./createLoginLeaves.js";
 import { createLoginProviderLeaves } from "./createLoginProviderLeaves.js";
 import { createLogoutProviderLeaves } from "./createLogoutProviderLeaves.js";
@@ -52,7 +51,6 @@ export async function createActiveLeaves(
   if (level === "fork") return createForkLeaves(ctx.sessionManager.getEntries() as never);
   if (level === "resume") return createResumeLeaves(await listResumeSessions(ctx, resumeScope));
   if (level === "login") return createLoginLeaves(ctx);
-  if (level === "login-import") return createLoginImportLeaves();
   if (level === "login-providers") return createLoginProviderLeaves(ctx);
   if (level === "logout") return createLogoutProviderLeaves(ctx);
   if (level === "prompts") return createSourceCommandLeaves(filterResourceCommandsByScope(dynamicCommands, resourceScope), "prompt");

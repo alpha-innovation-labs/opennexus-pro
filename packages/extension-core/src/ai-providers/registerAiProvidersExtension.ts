@@ -1,4 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { unregisterOAuthProvider } from "@earendil-works/pi-ai/oauth";
 
 const builtInPiOAuthProviderIds = new Set([
   "anthropic",
@@ -17,10 +18,18 @@ const builtInPiOAuthProviderIds = new Set([
  * @returns A promise that resolves when providers are unregistered.
  */
 export async function registerAiProvidersExtension(pi: ExtensionAPI): Promise<void> {
-  if (typeof pi.unregisterProvider !== "function") {
-    return;
+  // Remove from the model registry (used by the slash menu for configured providers)
+  if (typeof pi.unregisterProvider === "function") {
+    for (const id of builtInPiOAuthProviderIds) {
+      pi.unregisterProvider(id);
+    }
   }
+  // Remove from the OAuth registry (used by createOAuthProviderLeaves)
   for (const id of builtInPiOAuthProviderIds) {
-    pi.unregisterProvider(id);
+    try {
+      unregisterOAuthProvider(id);
+    } catch {
+      // ignore providers that were already removed
+    }
   }
 }

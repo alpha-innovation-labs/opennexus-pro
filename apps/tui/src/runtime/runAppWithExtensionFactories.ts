@@ -15,7 +15,6 @@ import { applyInlineImageOverlayPatch } from "@nexus/pi-platform/inline-image-ov
 import { applyWorkingLoaderElapsedPatch } from "@nexus/pi-platform/applyWorkingLoaderElapsedPatch.js";
 import { applyHotkeysCommandPatch } from "@nexus/pi-platform/applyHotkeysCommandPatch.js";
 import { applyNexusSystemPromptPatch } from "@nexus/pi-platform/system-prompt/applyNexusSystemPromptPatch.js";
-import { applyLoginImportPatch } from "@nexus/pi-platform/login-import/patch/applyLoginImportPatch.js";
 import { applyModelKeybindingsPatch } from "@nexus/pi-platform/applyModelKeybindingsPatch.js";
 import { applyPromptTemplateArgAppendPatch } from "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch.js";
 import { applyModelChangeDisplayPatch } from "@nexus/pi-platform/applyModelChangeDisplayPatch.js";
@@ -122,10 +121,6 @@ export async function runAppWithExtensionFactories(
   phaseStartedAt = performance.now();
   await applyNexusSystemPromptPatch();
   logRunAppPhase("applyNexusSystemPromptPatch:done", phaseStartedAt);
-
-  phaseStartedAt = performance.now();
-  await applyLoginImportPatch();
-  logRunAppPhase("applyLoginImportPatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   applyToolExecutionSpacingPatch();

@@ -10,7 +10,8 @@ import type { SlashMenuLeaf } from "./types.js";
  * @returns Provider leaves.
  */
 export function createOAuthProviderLeaves(ctx: ExtensionContext, mode: "login" | "logout"): SlashMenuLeaf[] {
-  return getOAuthProviders()
+  const providers = getOAuthProviders() ?? [];
+  return providers
     .filter((provider) => mode === "login" || ctx.modelRegistry.authStorage.get(provider.id)?.type === "oauth")
     .map((provider) => ({
       kind: "provider",

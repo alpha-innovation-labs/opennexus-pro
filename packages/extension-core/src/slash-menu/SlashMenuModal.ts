@@ -1,11 +1,8 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { parseCommandArgs } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/prompt-templates.js";
-import { SENTINEL } from "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch.js";
-import type { AuthImportSource } from "@nexus/pi-platform/login-import/model/AuthImportSource.js";
-import type { AuthImportCandidate } from "@nexus/pi-platform/login-import/model/AuthImportCandidate.js";
-import { loadAuthImportCandidates } from "@nexus/pi-platform/login-import/collect/loadAuthImportCandidates.js";
-import { importAuthCandidates } from "@nexus/pi-platform/login-import/import/importAuthCandidates.js";
-import { getAuthImportSourceLabel } from "@nexus/pi-platform/login-import/model/getAuthImportSourceLabel.js";
+import { parseCommandArgs } from
+  "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/prompt-templates.js";
+import { SENTINEL } from
+  "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch.js";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
 import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
 import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
@@ -18,7 +15,6 @@ import { calculateSettingsMenuWidth } from "./calculateSettingsMenuWidth.js";
 import { calculateSinglePaneMenuWidth } from "./calculateSinglePaneMenuWidth.js";
 import { calculateTopLevelMenuWidth } from "./calculateTopLevelMenuWidth.js";
 import { createActiveLeaves } from "./createActiveLeaves.js";
-import { createAuthImportCandidateLeaves } from "./createAuthImportCandidateLeaves.js";
 import { createLoadingLeaf } from "./createLoadingLeaf.js";
 import { createNameInputLeaf } from "./createNameInputLeaf.js";
 import { createModelLeaves } from "./createModelLeaves.js";
@@ -55,11 +51,11 @@ import { logoutProvider } from "./model/logoutProvider.js";
 import { getNextModelMenuTab } from "./model-catalog/getNextModelMenuTab.js";
 import type { ModelMenuTab } from "./model-catalog/ModelMenuTab.js";
 import { renderModelMenuTabs } from "./model-catalog/renderModelMenuTabs.js";
-import { resolveModelCatalogCommandValue } from "./model-catalog/resolveModelCatalogCommandValue.js";
+import { resolveModelCatalogCommandValue } from
+  "./model-catalog/resolveModelCatalogCommandValue.js";
 import { resolveRequestedSlashMenuLevel } from "./resolveRequestedSlashMenuLevel.js";
 import type { SlashMenuLevel } from "./SlashMenuLevel.js";
 import { toAutocompleteItems } from "./toAutocompleteItems.js";
-import { toggleAuthImportCandidateSelection } from "./toggleAuthImportCandidateSelection.js";
 import type { RegisteredSlashCommand, SlashMenuLeaf, SlashMenuSection } from "./types.js";
 import { updateResumePreview, type ResumePreviewState } from "./updateResumePreview.js";
 
@@ -85,9 +81,6 @@ export class SlashMenuModal extends SelectPreviewModal {
   private resumeScope: ResumeScope = "current";
   private resourceScope: ResourceCommandScope = "all";
   private modelMenuTab: ModelMenuTab = "models";
-  private pendingImportSource?: AuthImportSource;
-  private pendingImportCandidates: AuthImportCandidate[] = [];
-  private readonly importSelection = new Set<string>();
 
   constructor(
     private readonly ctx: ExtensionContext,
@@ -101,7 +94,12 @@ export class SlashMenuModal extends SelectPreviewModal {
     private readonly onCommandPrefill: (commandText: string) => void = onCommandPicked,
     private readonly getAllTools: ExtensionAPI["getAllTools"] = () => [],
   ) {
-    super(ctx.ui.theme, () => undefined, requestClose, undefined, { leftTitle: "Menu", rightTitle: "Preview", bottomTitle: "Search", bottomPrefix: "> /", leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO, itemMaxLines: (item) => (item as { resumeRow?: boolean }).resumeRow ? 2 : 1 });
+    super(ctx.ui.theme, () => undefined, requestClose, undefined, {
+      leftTitle: "Menu",
+      rightTitle: "Preview", bottomTitle: "Search", bottomPrefix: "> /", leftPaneRatio:
+        SLASH_MENU_LEFT_PANE_RATIO, itemMaxLines: (item) => (item as { resumeRow?: boolean }).resumeRow ?
+          2 : 1
+    });
     this.setOnPick(() => void this.handleEnter());
   }
 
@@ -141,11 +139,14 @@ export class SlashMenuModal extends SelectPreviewModal {
       const modelWidth = calculateModelMenuWidth(this.activeLeaves);
       this.setModalWidthPolicy(modelWidth, modelWidth, 0.9);
     }
-    if (!shouldShowSlashMenuPreview(this.level) && this.level !== "settings" && this.level !== "model" && this.level !== "tools") {
+    if (!shouldShowSlashMenuPreview(this.level) && this.level !== "settings" && this.level !==
+      "model" && this.level !== "tools") {
       const menuWidth = calculateSinglePaneMenuWidth(this.activeLeaves, this.level);
       this.setModalWidthPolicy(menuWidth, menuWidth, 0.9);
     }
-    this.renderItems(filterMenuItems(this.activeLeaves, this.query), this.level === "setting-choice" ? getSettingChoiceTitle(this.pendingSettingLeaf) : getSlashMenuLevelTitle(this.level));
+    this.renderItems(filterMenuItems(this.activeLeaves, this.query), this.level ===
+      "setting-choice" ? getSettingChoiceTitle(this.pendingSettingLeaf) :
+      getSlashMenuLevelTitle(this.level));
     if (selectedValue) this.selectValue(selectedValue);
     this.requestRender();
   }
@@ -155,7 +156,6 @@ export class SlashMenuModal extends SelectPreviewModal {
       this.handleNameInput(data);
       return;
     }
-    if (this.handleAuthImportCandidateInput(data)) return;
     if (this.handleModelMenuTabInput(data)) return;
     if (this.handleResourceScopeInput(data)) return;
     if (this.handleResourcePreviewFocusInput(data)) return;
@@ -176,21 +176,6 @@ export class SlashMenuModal extends SelectPreviewModal {
   }
 
   /**
-   * Handles provider toggles in the auth import candidate level.
-   *
-   * @param data Raw keyboard input.
-   * @returns True when handled.
-   */
-  private handleAuthImportCandidateInput(data: string): boolean {
-    if (this.level !== "login-import-candidates" || data !== " ") return false;
-    const item = this.getSelectedItem();
-    if (!item) return true;
-    toggleAuthImportCandidateSelection(this.importSelection, item.value);
-    void this.refresh(item.value);
-    return true;
-  }
-
-  /**
    * Switches model-menu tabs with Tab and Shift-Tab.
    *
    * @param data Raw keyboard input.
@@ -198,8 +183,10 @@ export class SlashMenuModal extends SelectPreviewModal {
    */
   private handleModelMenuTabInput(data: string): boolean {
     if (this.level !== "model") return false;
-    if (matchesKey(data, Key.tab)) this.modelMenuTab = getNextModelMenuTab(this.modelMenuTab, 1);
-    else if (matchesKey(data, Key.shift("tab"))) this.modelMenuTab = getNextModelMenuTab(this.modelMenuTab, -1);
+    if (matchesKey(data, Key.tab)) this.modelMenuTab = getNextModelMenuTab(this.modelMenuTab,
+      1);
+    else if (matchesKey(data, Key.shift("tab"))) this.modelMenuTab =
+      getNextModelMenuTab(this.modelMenuTab, -1);
     else return false;
     void this.refresh();
     return true;
@@ -212,7 +199,8 @@ export class SlashMenuModal extends SelectPreviewModal {
    * @returns True when handled.
    */
   private handleResourcePreviewFocusInput(data: string): boolean {
-    if ((this.level !== "prompts" && this.level !== "skills") || !matchesKey(data, Key.tab) || this.isRightPaneFocused()) return false;
+    if ((this.level !== "prompts" && this.level !== "skills") || !matchesKey(data, Key.tab) ||
+      this.isRightPaneFocused()) return false;
     this.focusRightPane();
     this.requestRender();
     return true;
@@ -242,7 +230,8 @@ export class SlashMenuModal extends SelectPreviewModal {
    * @returns True when handled.
    */
   private handleResourcePreviewInput(data: string): boolean {
-    if ((this.level !== "prompts" && this.level !== "skills") || !this.isRightPaneFocused()) return false;
+    if ((this.level !== "prompts" && this.level !== "skills") || !this.isRightPaneFocused())
+      return false;
     super.handleInput(data);
     this.requestRender();
     return true;
@@ -254,12 +243,14 @@ export class SlashMenuModal extends SelectPreviewModal {
    * @returns Current level leaves.
    */
   private async createVisibleLeaves(): Promise<SlashMenuLeaf[]> {
-    if (this.level === "setting-choice" && this.pendingSettingLeaf) return createSettingChoiceLeaves(this.pendingSettingLeaf);
-    if (this.level === "login-import-candidates") return createAuthImportCandidateLeaves(this.pendingImportCandidates, this.importSelection);
+    if (this.level === "setting-choice" && this.pendingSettingLeaf) return
+    createSettingChoiceLeaves(this.pendingSettingLeaf);
     if (this.level === "name-input") return [createNameInputLeaf(this.nameInput)];
-    if (this.level === "resume") return getCachedResumeLeaves(this.resumeLeavesCache, this.ctx, this.resumeScope);
+    if (this.level === "resume") return getCachedResumeLeaves(this.resumeLeavesCache, this.ctx,
+      this.resumeScope);
     if (this.level === "model") return createModelLeaves(this.ctx, this.modelMenuTab);
-    return createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.resumeScope, this.getDynamicCommands(), this.resourceScope, this.getAvailableTools());
+    return createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.resumeScope,
+      this.getDynamicCommands(), this.resourceScope, this.getAvailableTools());
   }
 
   /**
@@ -281,15 +272,20 @@ export class SlashMenuModal extends SelectPreviewModal {
   }
 
   private renderItems(items: Array<SlashMenuLeaf | SlashMenuSection>, leftTitle: string): void {
-    if (this.level === "resume") this.setTitles(createResumeScopeHeaderTitle(this.resumeScope), "");
-    else if (this.level === "model") this.setTitles(renderModelMenuTabs(this.modelMenuTab, this.ctx.ui.theme), "");
-    else this.setTitles(leftTitle, this.level === "prompts" || this.level === "skills" ? renderResourceCommandScopeTabs(this.resourceScope, this.ctx.ui.theme) : "Preview");
-    this.setHeaderFocusMarkers(this.level !== "prompts" && this.level !== "skills" && this.level !== "model");
+    if (this.level === "resume") this.setTitles(createResumeScopeHeaderTitle(this.resumeScope),
+      "");
+    else if (this.level === "model") this.setTitles(renderModelMenuTabs(this.modelMenuTab,
+      this.ctx.ui.theme), "");
+    else this.setTitles(leftTitle, this.level === "prompts" || this.level === "skills" ?
+      renderResourceCommandScopeTabs(this.resourceScope, this.ctx.ui.theme) : "Preview");
+    this.setHeaderFocusMarkers(this.level !== "prompts" && this.level !== "skills" && this.level
+      !== "model");
     this.setItems(toAutocompleteItems(items.map((item) => this.formatVisibleItem(item))));
     this.selectedPreviewItem = items[0];
     this.resumePreviewState.renderedPreviewKey = undefined;
     this.resumePreviewState.renderedPreviewWidth = undefined;
-    this.setRightLines(this.selectedPreviewItem ? this.previewForItem(this.selectedPreviewItem) : ["No matching items."]);
+    this.setRightLines(this.selectedPreviewItem ? this.previewForItem(this.selectedPreviewItem)
+      : ["No matching items."]);
     this.setOnSelectionChange((item) => {
       const selected = items.find((entry) => entry.value === item?.value);
       this.selectedPreviewItem = selected;
@@ -304,7 +300,8 @@ export class SlashMenuModal extends SelectPreviewModal {
    * Extracts trailing arguments from the current query after the matched command name.
    *
    * For `/deep-research hello world` with command `deep-research`, returns `hello world`.
-   * Uses `parseCommandArgs` for consistent quote handling (quotes are stripped, matching CLI path).
+   * Uses `parseCommandArgs` for consistent quote handling (quotes are stripped, matching CLI
+path).
    *
    * @param commandName The selected command name (item.value).
    * @returns Remaining argument text, or empty string when none.
@@ -326,13 +323,15 @@ export class SlashMenuModal extends SelectPreviewModal {
       if (item.value === "hotkeys") return this.openHotkeysPanel();
       if (item.value === "name") return this.openSessionNameInput();
       if (item.value === "session") return this.openSessionInfoPanel();
-      if (item.value === "thinking") return this.openSettingChoice(createThinkingSettingLeaf(this.getThinkingLevel(), this.ctx.model));
+      if (item.value === "thinking") return
+      this.openSettingChoice(createThinkingSettingLeaf(this.getThinkingLevel(), this.ctx.model));
       const selectedTopItem = this.topItems.find((entry) => entry.value === item.value);
       if (selectedTopItem?.groupLabel === "Custom Commands") {
         this.onCommandPrefill(`/${item.value} `);
         return;
       }
-      await handleTopLevelMenuEnter(this.ctx, item.value, (level) => this.openLevel(level), this.onCommandPicked);
+      await handleTopLevelMenuEnter(this.ctx, item.value, (level) => this.openLevel(level),
+        this.onCommandPicked);
       return;
     }
     if (this.level === "settings") {
@@ -349,16 +348,20 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.level === "theme") return this.applyLeafByValue(item.value);
     if (this.level === "model") {
       if (item.value === "__loading__") return;
-      this.onCommandPicked(`/nexus-model-select ${resolveModelCatalogCommandValue(item.value)}`);
+      this.onCommandPicked(`/nexus-model-select
+ ${resolveModelCatalogCommandValue(item.value)}`);
       return;
     }
     if (this.level === "scoped-models") {
-      if (this.scopedSelection.has(item.value)) this.scopedSelection.delete(item.value); else this.scopedSelection.add(item.value);
+      if (this.scopedSelection.has(item.value)) this.scopedSelection.delete(item.value); else
+        this.scopedSelection.add(item.value);
       await this.refresh(item.value);
       return;
     }
-    if (this.level === "fork") return void this.onCommandPicked(`/nexus-fork-select ${item.value}`);
-    if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select ${encodeSlashMenuValue(item.value)}`);
+    if (this.level === "fork") return void this.onCommandPicked(`/nexus-fork-select
+ ${item.value}`);
+    if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select
+ ${encodeSlashMenuValue(item.value)}`);
     if (this.level === "prompts") {
       const args = this.extractSlashArgs(item.value);
       return void this.onCommandPrefill(
@@ -372,12 +375,10 @@ export class SlashMenuModal extends SelectPreviewModal {
       );
     }
     if (this.level === "tools") return;
-    if ((this.level === "login" || this.level === "login-import") && item.value.startsWith("import:")) {
-      return void this.openAuthImportCandidates(item.value.slice("import:".length) as AuthImportSource);
-    }
-    if (this.level === "login-import-candidates") return void this.importSelectedAuthCandidates();
-    if (this.level === "login") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
-    if (this.level === "login-providers") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
+    if (this.level === "login") return void this.onCommandPicked(`/nexus-login-select
+ ${item.value}`);
+    if (this.level === "login-providers") return void this.onCommandPicked(`/nexus-login-select
+ ${item.value}`);
     if (this.level === "logout") return void this.logoutSelectedProvider(item.value);
   }
 
@@ -408,7 +409,8 @@ export class SlashMenuModal extends SelectPreviewModal {
     this.searchActive = false;
     if (this.level === "scoped-models") {
       const leaves = createScopedModelLeaves(this.ctx);
-      this.scopedSelection = new Set(leaves.filter((leaf) => leaf.label.startsWith("✓")).map((leaf) => leaf.value));
+      this.scopedSelection = new Set(leaves.filter((leaf) =>
+        leaf.label.startsWith("✓")).map((leaf) => leaf.value));
     }
     if (this.level === "resume") {
       this.resumeScope = "current";
@@ -416,56 +418,6 @@ export class SlashMenuModal extends SelectPreviewModal {
     }
     if (this.level === "prompts" || this.level === "skills") this.resourceScope = "all";
     this.setBottom("Search", "", "> /");
-    await this.refresh();
-  }
-
-  /**
-   * Opens the provider-candidate selection level for an auth import source.
-   *
-   * @param source Import source identifier.
-   */
-  private async openAuthImportCandidates(source: AuthImportSource): Promise<void> {
-    const sourceLabel = getAuthImportSourceLabel(source);
-    try {
-      const { authPath, candidates } = await loadAuthImportCandidates(source, this.ctx.modelRegistry);
-      if (candidates.length === 0) {
-        this.ctx.ui.notify(`No importable ${sourceLabel} providers found at ${authPath}.`, "info");
-        return;
-      }
-      this.previousLevels.push(this.level);
-      this.level = "login-import-candidates";
-      this.pendingImportSource = source;
-      this.pendingImportCandidates = candidates;
-      this.importSelection.clear();
-      this.query = "";
-      this.searchActive = false;
-      this.setBottom("Search", "", "> /");
-      await this.refresh();
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      this.ctx.ui.notify(`Import from ${sourceLabel} failed: ${message}`, "error");
-    }
-  }
-
-  /**
-   * Imports the selected auth candidates without leaving the slash modal design.
-   */
-  private async importSelectedAuthCandidates(): Promise<void> {
-    if (!this.pendingImportSource) return;
-    const selectedCandidates = this.pendingImportCandidates.filter((candidate) => this.importSelection.has(candidate.providerId));
-    if (selectedCandidates.length === 0) {
-      this.ctx.ui.notify("No providers selected for import", "info");
-      return;
-    }
-    const sourceLabel = getAuthImportSourceLabel(this.pendingImportSource);
-    const importedProviderIds = importAuthCandidates(this.ctx.modelRegistry.authStorage, selectedCandidates);
-    this.ctx.modelRegistry.refresh();
-    this.ctx.ui.notify(`Imported ${importedProviderIds.join(", ")} from ${sourceLabel}`, "info");
-    this.pendingImportSource = undefined;
-    this.pendingImportCandidates = [];
-    this.importSelection.clear();
-    this.previousLevels.splice(0, this.previousLevels.length, "top");
-    this.level = "login";
     await this.refresh();
   }
 
@@ -490,7 +442,8 @@ export class SlashMenuModal extends SelectPreviewModal {
 
   private async openHotkeysPanel(): Promise<void> {
     this.requestClose();
-    await this.ctx.ui.custom<void>((_tui, theme, keybindings, done) => new HotkeysModal(theme, keybindings as never, getRegisteredHotkeysShortcuts(), done), {
+    await this.ctx.ui.custom<void>((_tui, theme, keybindings, done) => new HotkeysModal(theme,
+      keybindings as never, getRegisteredHotkeysShortcuts(), done), {
       overlay: true,
       overlayOptions: createPanelOverlayOptions(92, "100%") as never,
     });
@@ -501,7 +454,9 @@ export class SlashMenuModal extends SelectPreviewModal {
     this.level = "name-input";
     this.query = "";
     this.searchActive = false;
-    this.nameInput = (this.ctx.sessionManager as { getSessionName?: () => string | undefined }).getSessionName?.() ?? "";
+    this.nameInput = (this.ctx.sessionManager as {
+      getSessionName?: () => string | undefined
+    }).getSessionName?.() ?? "";
     this.setBottom("Name", this.nameInput, "> ");
     await this.refresh();
   }
@@ -581,7 +536,8 @@ export class SlashMenuModal extends SelectPreviewModal {
   private async applySettingChoice(value: string): Promise<void> {
     if (!this.pendingSettingLeaf) return;
     const settingValue = this.pendingSettingLeaf.value;
-    const status = applySlashMenuSettingValue(this.ctx, this.pendingSettingLeaf, value, this.setThinkingLevel);
+    const status = applySlashMenuSettingValue(this.ctx, this.pendingSettingLeaf, value,
+      this.setThinkingLevel);
     if (status) this.ctx.ui.notify(status, "info");
     this.level = this.previousLevels.pop() ?? "settings";
     this.query = "";
@@ -628,7 +584,8 @@ export class SlashMenuModal extends SelectPreviewModal {
    * @returns Helper footer lines.
    */
   private createFooterHintLines(): string[] {
-    if (this.level === "prompts" || this.level === "skills") return [createResourceCommandFooterHint(this.ctx.ui.theme, this.isRightPaneFocused())];
+    if (this.level === "prompts" || this.level === "skills") return
+    [createResourceCommandFooterHint(this.ctx.ui.theme, this.isRightPaneFocused())];
     return [];
   }
 
@@ -636,17 +593,42 @@ export class SlashMenuModal extends SelectPreviewModal {
     return createSlashMenuPreviewLines(this.level, item, this.ctx.ui.theme);
   }
 
-  private formatVisibleItem(item: SlashMenuLeaf | SlashMenuSection): SlashMenuLeaf | SlashMenuSection {
+  private formatVisibleItem(item: SlashMenuLeaf | SlashMenuSection): SlashMenuLeaf |
+    SlashMenuSection {
     const icon = getSlashMenuItemIcon(item, this.level);
-    if (this.level === "top") return { ...item, label: formatTopLevelMenuLabel(item.label, item.description, this.ctx.ui.theme, icon), description: "", preserveLabelWhitespace: true };
-    if (this.level === "settings") return { ...item, label: formatSettingsMenuLabel(item.label, (item as SlashMenuLeaf).currentValue, this.ctx.ui.theme, icon), description: "", preserveLabelWhitespace: true };
+    if (this.level === "top") return {
+      ...item, label: formatTopLevelMenuLabel(item.label,
+        item.description, this.ctx.ui.theme, icon), description: "", preserveLabelWhitespace: true
+    };
+    if (this.level === "settings") return {
+      ...item, label: formatSettingsMenuLabel(item.label,
+        (item as SlashMenuLeaf).currentValue, this.ctx.ui.theme, icon), description: "",
+      preserveLabelWhitespace: true
+    };
     if (this.level === "setting-choice") return { ...item, description: "" };
-    if (this.level === "resume") return { ...item, label: `${item.label}\n${item.description}`, description: "", preserveLabelWhitespace: true, resumeRow: true, wrapPreservedLabel: true };
-    if ((this.level === "login" || this.level === "login-providers") && !item.value.startsWith("import:")) return { ...item, label: formatLoginProviderLabel(item as SlashMenuLeaf, icon, this.ctx.ui.theme), description: "" };
+    if (this.level === "resume") return {
+      ...item, label: `${item.label}\n${item.description}`,
+      description: "", preserveLabelWhitespace: true, resumeRow: true, wrapPreservedLabel: true
+    };
+    if ((this.level === "login" || this.level === "login-providers") &&
+      !item.value.startsWith("import:")) return {
+        ...item, label: formatLoginProviderLabel(item as
+          SlashMenuLeaf, icon, this.ctx.ui.theme), description: ""
+      };
     if (this.level === "model") return { ...item, label: `${icon} ${item.label}` };
-    if (this.level === "login" || this.level === "login-import" || this.level === "login-import-candidates" || this.level === "login-providers" || this.level === "logout" || this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return { ...item, label: `${icon} ${item.label}`, description: "" };
-    if (this.level === "prompts" || this.level === "skills") return { ...item, label: formatResourceCommandLabel(icon, item as SlashMenuLeaf), description: "", wrapToFit: this.level === "skills" };
-    if (this.level === "tools") return { ...item, label: `${icon} ${item.label}`, fixedLabelWidth: 24 };
+    if (this.level === "login" || this.level === "login-providers" || this.level === "logout" ||
+      this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return {
+        ...item, label: `${icon} ${item.label}`, description: ""
+      };
+    if (this.level === "prompts" || this.level === "skills") return {
+      ...item, label:
+        formatResourceCommandLabel(icon, item as SlashMenuLeaf), description: "", wrapToFit: this.level
+          === "skills"
+    };
+    if (this.level === "tools") return {
+      ...item, label: `${icon} ${item.label}`,
+      fixedLabelWidth: 24
+    };
     return { ...item, label: `${icon} ${item.label}` };
   }
 

@@ -2,7 +2,6 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { registerSlashCommand } from "../registerSlashCommand.js";
 import { handleInternalForkCommand } from "./handleInternalForkCommand.js";
 import { handleInternalLoginCommand } from "./handleInternalLoginCommand.js";
-import { handleInternalLoginImportCommand } from "./handleInternalLoginImportCommand.js";
 import { handleInternalLogoutCommand } from "./handleInternalLogoutCommand.js";
 import { handleInternalModelCommand } from "./handleInternalModelCommand.js";
 import { handleInternalResumeCommand } from "./handleInternalResumeCommand.js";
@@ -14,7 +13,6 @@ const commands = {
   "nexus-fork-select": handleInternalForkCommand,
   "nexus-scoped-models-save": handleInternalScopedModelsCommand,
   "nexus-login-select": handleInternalLoginCommand,
-  "nexus-login-import": handleInternalLoginImportCommand,
   "nexus-logout-select": handleInternalLogoutCommand,
 } as const;
 

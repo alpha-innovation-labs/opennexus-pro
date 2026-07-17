@@ -47,10 +47,7 @@ export function getSlashMenuItemIcon(item: SlashMenuLeaf | SlashMenuSection, lev
   if (level === "setting-choice") return "";
   if (level === "name-input") return "✎";
   if (level === "model" || level === "scoped-models") return "•";
-  if (level === "login" && item.value.startsWith("import:")) return "↥";
   if (level === "login") return (item as SlashMenuLeaf).currentValue === "configured" ? "◆" : "◇";
-  if (level === "login-import") return "↥";
-  if (level === "login-import-candidates") return (item as SlashMenuLeaf).currentValue === "selected" ? "●" : "○";
   if (level === "login-providers") return (item as SlashMenuLeaf).currentValue === "configured" ? "◆" : "◇";
   if (level === "logout") return "◆";
   if (level === "theme") return "◐";
