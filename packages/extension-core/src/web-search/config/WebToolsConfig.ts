@@ -1,7 +1,7 @@
 /**
  * Configuration shape for the web-tools extension.
  *
- * Mirrors the JSON structure stored in `~/.config/nexus/config.json`.
+ * Mirrors the JSON structure of Nexus's shared config file.
  */
 
 /**
@@ -47,24 +47,4 @@ export type WebToolsConfig = {
   jina: JinaConfig;
 };
 
-/**
- * Default configuration values used when no config file exists.
- */
-export const DEFAULT_WEB_TOOLS_CONFIG: WebToolsConfig = {
-  searxng: {
-    enabled: true,
-    /** Tailscale IP of the SearXNG server (not the public server IP). */
-    url: "http://100.106.251.92:8090",
-    apiKey: "",
-  },
-  crawl4ai: {
-    enabled: true,
-    /** Tailscale IP of the Crawl4AI server (same host as SearXNG). */
-    url: "http://100.106.251.92:11235",
-    token: "",
-  },
-  jina: {
-    enabled: true,
-    apiKey: "",
-  },
-};
+

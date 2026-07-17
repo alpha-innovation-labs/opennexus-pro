@@ -5,7 +5,7 @@ import { executeWebFetch } from "./executeWebFetch.js";
 import type { WebFetchFormat } from "./webFetchTypes.js";
 
 /**
- * Registers the native Nexus web_fetch tool with Crawl4AI + Jina fallback.
+ * Registers the native Pi web_fetch tool with Crawl4AI + Jina fallback.
  *
  * @param pi Pi extension API.
  * @param crawl4aiUrl Optional Crawl4AI server URL from config.

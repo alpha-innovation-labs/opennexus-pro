@@ -1,4 +1,4 @@
-import { requireWebFetchPackage } from "./requireWebFetchPackage.js";
+import { requirePackage } from "./requirePackage.js";
 
 type LinkedomModule = {
 	parseHTML(html: string): { document: Document };
@@ -11,7 +11,7 @@ type LinkedomModule = {
  * @returns Plain text content.
  */
 export function extractTextFromHtml(html: string): string {
-	const { parseHTML } = requireWebFetchPackage<LinkedomModule>("linkedom");
+	const { parseHTML } = requirePackage<LinkedomModule>("linkedom");
 	const { document } = parseHTML(html);
 	for (const element of document.querySelectorAll("script,style,noscript,iframe,object,embed")) {
 		element.remove();

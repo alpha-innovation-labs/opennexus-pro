@@ -1,4 +1,4 @@
-import { requireWebFetchPackage } from "./requireWebFetchPackage.js";
+import { requirePackage } from "./requirePackage.js";
 
 type TurndownServiceConstructor = new (options: {
 	headingStyle: "atx";
@@ -18,7 +18,7 @@ type TurndownServiceConstructor = new (options: {
  * @returns Markdown representation of the document.
  */
 export function convertHtmlToMarkdown(html: string): string {
-	const TurndownService = requireWebFetchPackage<TurndownServiceConstructor>("turndown");
+	const TurndownService = requirePackage<TurndownServiceConstructor>("turndown");
 	const turndownService = new TurndownService({
 		headingStyle: "atx",
 		hr: "---",

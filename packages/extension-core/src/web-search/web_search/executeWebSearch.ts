@@ -69,8 +69,7 @@ function parseSearXNGResults(data: unknown): WebSearchResult[] {
  * Executes a web search against a SearXNG instance.
  *
  * @param params Search parameters.
- * @param searxngUrl SearXNG base URL (required — must come from config). The
- *   default in config.json is the Tailscale IP `100.106.251.92:8090`.
+ * @param searxngUrl SearXNG base URL (required — must come from config).
  * @param signal Optional AbortSignal.
  * @returns Search response with results or error.
  */
@@ -84,7 +83,7 @@ export async function executeWebSearch(
       results: [],
       query: params.query,
       error:
-        "SearXNG URL not configured. Set it in ~/.config/nexus/config.json under `searxng.url`, " +
+        "SearXNG URL not configured. Configure it in your Nexus user config file under `searxng.url`, " +
         "or set the SEARXNG_URL environment variable.",
     };
   }
@@ -127,7 +126,37 @@ export async function executeWebSearch(
       };
     }
 
+    // Detect SearXNG error responses like {"detail":"Not Found"}
+    // which indicate the instance is down or misconfigured.
+    if (data && typeof data === "object" && "detail" in data) {
+      return {
+        results: [],
+        query: params.query,
+        error: `SearXNG instance error: ${String((data as Record<string, unknown>).detail ?? "Unknown")}`,
+      };
+    }
+
     const results = parseSearXNGResults(data);
+
+    // Warn about unresponsive engines but still return valid results.
+    if (data && typeof data === "object" && results.length > 0) {
+      const obj = data as Record<string, unknown>;
+      const unresponsive = obj.unresponsive_engines;
+      if (Array.isArray(unresponsive) && unresponsive.length > 0) {
+        const engineErrors = unresponsive
+          .map((e: unknown) => {
+            if (Array.isArray(e) && e.length >= 2) {
+              return `${String(e[0])}: ${String(e[1])}`;
+            }
+            return String(e);
+          })
+          .join(", ");
+        console.warn(
+          `[web_search] Some engines unresponsive: ${engineErrors}. Returning ${results.length} results from healthy engines.`,
+        );
+      }
+    }
+
     return { results, query: params.query };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

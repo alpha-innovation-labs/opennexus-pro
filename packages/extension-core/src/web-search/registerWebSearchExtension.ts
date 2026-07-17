@@ -7,10 +7,9 @@ import { registerWebSearchTool } from "./web_search/registerWebSearchTool.js";
 import { loadWebToolsConfig } from "./config/loadWebToolsConfig.js";
 
 /**
- * Registers Nexus-native web access tools without the pi-web-access vendor package.
+ * Registers Pi-native web access tools.
  *
- * Loads web-tools configuration from `~/.config/nexus/config.json` (or
- * `$NEXUS_CONFIG_DIR/config.json`) and passes backend URLs to the tool
+ * Loads web-tools configuration from Nexus's shared config file and passes backend URLs to the tool
  * registrations so they target the configured instances.
  *
  * @param pi Pi extension API.

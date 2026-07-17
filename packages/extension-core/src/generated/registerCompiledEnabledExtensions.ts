@@ -9,6 +9,7 @@ import { registerCmuxExtension } from "@nexus/extensions-pro/cmux/registerCmuxEx
 import { registerContextUsageExtension } from "../context-usage/registerContextUsageExtension.js";
 import { registerExitMessageExtension } from "../exit-message/registerExitMessageExtension.js";
 import { registerPiPackagesExtension } from "../pi-packages/registerPiPackagesExtension.js";
+import { registerWebSearchExtension } from "../web-search/registerWebSearchExtension.js";
 import registerFffExtension from "../fff/index.js";
 import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension.js";
 import { registerHotkeysExtension } from "../hotkeys/registerHotkeysExtension.js";
@@ -32,6 +33,7 @@ export const compiledBundledExtensionIds = [
   "context-usage",
   "exit-message",
   "pi-packages",
+  "webtools",
   "fff",
   "neo-editor",
   "hotkeys",
@@ -53,6 +55,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "context-usage": registerContextUsageExtension,
   "exit-message": registerExitMessageExtension,
   "pi-packages": registerPiPackagesExtension,
+  "webtools": registerWebSearchExtension,
   "fff": registerFffExtension,
   "neo-editor": registerNeoEditorExtension,
   "hotkeys": registerHotkeysExtension,

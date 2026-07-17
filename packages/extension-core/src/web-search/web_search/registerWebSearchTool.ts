@@ -14,8 +14,7 @@ const VALID_TIME_RANGES: WebSearchTimeRange[] = ["day", "week", "month", "year"]
  * Registers the web_search tool backed by SearXNG.
  *
  * @param pi Pi extension API.
- * @param searxngUrl SearXNG base URL from config. **Required** — the tool
- *   throws if no URL is provided.
+ * @param searxngUrl SearXNG base URL from config. Must be non-empty.
  */
 export function registerWebSearchTool(
   pi: ExtensionAPI,
@@ -23,13 +22,6 @@ export function registerWebSearchTool(
 ): void {
   // Capture the URL at registration time so the closure always has it.
   const resolvedUrl = searxngUrl;
-  if (!resolvedUrl) {
-    throw new Error(
-      "web_search tool requires a SearXNG URL. " +
-        "Configure it in ~/.config/nexus/config.json under `searxng.url`, " +
-        "or set the SEARXNG_URL environment variable.",
-    );
-  }
 
   pi.registerTool(defineTool({
     name: "web_search",

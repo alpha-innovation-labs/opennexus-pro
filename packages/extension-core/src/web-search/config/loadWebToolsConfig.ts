@@ -2,10 +2,27 @@ import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import type { WebToolsConfig } from "./WebToolsConfig.js";
-import { DEFAULT_WEB_TOOLS_CONFIG } from "./WebToolsConfig.js";
 
 const USER_CONFIG_DIR_ENV_NAME = "NEXUS_CONFIG_DIR";
 const CONFIG_FILE_NAME = "config.json";
+
+/**
+ * Expands a leading tilde in one path.
+ *
+ * @param value Path that may begin with `~`.
+ * @returns Expanded absolute-like path.
+ */
+function expandHomePath(value: string): string {
+  if (value === "~") {
+    return homedir();
+  }
+
+  if (value.startsWith("~/")) {
+    return `${homedir()}${value.slice(1)}`;
+  }
+
+  return value;
+}
 
 /**
  * Resolves the Nexus user config directory.
@@ -16,13 +33,7 @@ const CONFIG_FILE_NAME = "config.json";
 function getUserConfigDirPath(): string {
   const configuredPath = process.env[USER_CONFIG_DIR_ENV_NAME];
   if (configuredPath) {
-    if (configuredPath === "~") {
-      return homedir();
-    }
-    if (configuredPath.startsWith("~/")) {
-      return `${homedir()}${configuredPath.slice(1)}`;
-    }
-    return configuredPath;
+    return expandHomePath(configuredPath);
   }
 
   return join(homedir(), ".config", "nexus");
@@ -81,8 +92,8 @@ function getBoolean(raw: Record<string, unknown>, key: string): boolean | undefi
  */
 function warnMissingSection(section: string): void {
   console.warn(
-    `[webtools] Config file is missing the "${section}" section. ` +
-      `Add it to ~/.config/nexus/config.json or set the relevant environment variable. ` +
+    `[pi-web-search] Config file is missing the "${section}" section. ` +
+      `Add it to your Nexus config file or set the relevant environment variable. ` +
       `Falling back to defaults for this section.`,
   );
 }
@@ -91,7 +102,7 @@ function warnMissingSection(section: string): void {
  * Builds a complete SearXNG config from raw file data plus defaults.
  */
 function buildSearxngConfig(raw: unknown): WebToolsConfig["searxng"] {
-  const defaults = DEFAULT_WEB_TOOLS_CONFIG.searxng;
+  const defaults = { enabled: true, url: "", apiKey: "" };
 
   if (!isConfigSection(raw)) {
     warnMissingSection("searxng");
@@ -109,7 +120,7 @@ function buildSearxngConfig(raw: unknown): WebToolsConfig["searxng"] {
  * Builds a complete Crawl4AI config from raw file data plus defaults.
  */
 function buildCrawl4aiConfig(raw: unknown): WebToolsConfig["crawl4ai"] {
-  const defaults = DEFAULT_WEB_TOOLS_CONFIG.crawl4ai;
+  const defaults = { enabled: true, url: "", token: "" };
 
   if (!isConfigSection(raw)) {
     warnMissingSection("crawl4ai");
@@ -130,7 +141,7 @@ function buildCrawl4aiConfig(raw: unknown): WebToolsConfig["crawl4ai"] {
  * is silently ignored rather than warned about.
  */
 function buildJinaConfig(raw: unknown): WebToolsConfig["jina"] {
-  const defaults = DEFAULT_WEB_TOOLS_CONFIG.jina;
+  const defaults = { enabled: true, apiKey: "" };
 
   if (!isConfigSection(raw)) {
     return { ...defaults };
@@ -182,12 +193,13 @@ function mergeWithEnvVars(fileConfig: WebToolsConfig): WebToolsConfig {
 }
 
 /**
- * Loads the web-tools configuration from file and environment variables.
+ * Loads the web-tools configuration from Nexus's shared config file
+ * and environment variables.
  *
  * Resolution order (highest to lowest precedence):
  * 1. Environment variables (`SEARXNG_URL`, `SEARXNG_API_KEY`, etc.)
- * 2. Config file at `~/.config/nexus/config.json` (or `$NEXUS_CONFIG_DIR/config.json`)
- * 3. Hardcoded defaults (see WebToolsConfig.ts — SearXNG defaults to the Tailscale IP `100.106.251.92:8090`)
+ * 2. Config file (location resolved via `NEXUS_CONFIG_DIR` env or default)
+ * 3. Hardcoded defaults (backend URLs default to empty — user must configure)
  *
  * @returns Merged web-tools configuration.
  */
@@ -199,7 +211,7 @@ export function loadWebToolsConfig(): WebToolsConfig {
     rawSections = raw;
   } else if (raw !== null) {
     console.warn(
-      "[webtools] Config file exists but is not a JSON object. " +
+      "[pi-web-search] Config file exists but is not a JSON object. " +
         "Falling back to defaults for all sections.",
     );
   }

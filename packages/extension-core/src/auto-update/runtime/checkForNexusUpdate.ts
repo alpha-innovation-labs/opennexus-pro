@@ -43,9 +43,7 @@ export async function checkForNexusUpdate(pi: ExtensionAPI, ctx: ExtensionContex
 			packageName: current.name,
 		});
 		if (approved) await installNexusUpdate(pi, ctx, current.name);
-	} catch (error) {
-		if (isNetworkError(error)) return; // silently skip when offline
-		const message = error instanceof Error ? error.message : String(error);
-		ctx.ui.notify(`Nexus update check failed: ${message}`, "warning");
+	} catch {
+		// silently skip all failures (network, registry, parsing, etc.)
 	}
 }
