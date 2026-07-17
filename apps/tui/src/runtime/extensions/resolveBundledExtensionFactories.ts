@@ -8,7 +8,7 @@ export type CreateExtensionFactories = () => Promise<ExtensionFactory[]>;
  * Resolves bundled extension factories for the current argv.
  *
  * In print mode (-p), skips the ai-providers extension to avoid blocking
- * network requests during cursor model discovery.
+ * network requests during provider credential prompts.
  *
  * @param argv Raw command-line arguments.
  * @param createExtensionFactories Factory provider for bundled extensions.

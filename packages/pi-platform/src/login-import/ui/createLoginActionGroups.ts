@@ -9,10 +9,7 @@ export function createLoginActionGroups(): LoginActionGroup[] {
 	return [
 		{
 			title: "Import",
-			actions: [
-				{ kind: "import", source: "pi", label: "Import from Pi" },
-				{ kind: "import", source: "opencode", label: "Import from OpenCode" },
-			],
+			actions: [],
 		},
 		{
 			title: "Providers",
