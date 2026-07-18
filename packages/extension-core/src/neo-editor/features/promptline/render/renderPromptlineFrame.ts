@@ -62,12 +62,13 @@ export function renderPromptlineFrame(
     usage?.contextWindow ?? "",
     usageText,
   ].join("\u001f");
+  const promptline = buildPromptline(ctx, uiTheme, () => thinking, innerWidth);
   let chrome = promptlineFrameChromeCache;
   if (chrome?.key !== chromeKey) {
     chrome = {
       key: chromeKey,
       top: borderColor("╭")
-        + renderPromptlineBorder(borderColor, uiTheme, innerWidth, buildPromptline(ctx, uiTheme, () => thinking, innerWidth))
+        + renderPromptlineBorder(borderColor, uiTheme, innerWidth, promptline)
         + borderColor("╮"),
       bottom: borderColor("╰")
         + renderBottomBorderLabel(borderColor, uiTheme, innerWidth, usageText)

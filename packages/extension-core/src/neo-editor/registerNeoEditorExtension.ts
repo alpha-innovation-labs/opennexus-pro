@@ -1,6 +1,7 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
 import { createContextUsageReport } from "../context-usage/createContextUsageReport.js";
+import type { ContextUsageReport } from "../context-usage/types.js";
 import { createRuntimeSnapshot } from "../context-usage/createRuntimeSnapshot.js";
 import { readProjectSettings } from "../slash-menu/readProjectSettings.js";
 import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
@@ -13,6 +14,8 @@ import { getPromptlineRenderRequest, setPromptlineModelOverride } from "./featur
 import { registerPromptlineStatusWidget } from "./features/promptline/status-widget/registerPromptlineStatusWidget.js";
 import { primeStartupLoginModal } from "./primeStartupLoginModal.js";
 import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
+
+let startupContextReport: ContextUsageReport | undefined;
 
 export default function(pi: ExtensionAPI) {
   logExtensionEvent("neo-editor", "init");
@@ -80,8 +83,17 @@ export default function(pi: ExtensionAPI) {
 async function logContextUsageOnStartup(ctx: ExtensionContext): Promise<void> {
   try {
     const report = await createContextUsageReport(createRuntimeSnapshot(ctx));
-    console.log(JSON.stringify(report, null, 2));
+    startupContextReport = report;
   } catch (error: unknown) {
     console.error("[neo-editor] createContextUsageReport failed:", error instanceof Error ? error.message : String(error));
   }
+}
+
+/**
+ * Returns the startup context usage report, if available.
+ *
+ * @returns Startup report or undefined.
+ */
+export function getStartupContextReport(): ContextUsageReport | undefined {
+  return startupContextReport;
 }

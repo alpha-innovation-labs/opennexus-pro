@@ -1,12 +1,16 @@
 import { homedir } from "node:os";
+import type { AssistantMessage, UserMessage } from "@earendil-works/pi-ai";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import { estimateTokensFromText } from "../../../../context-usage/estimateTokensFromText.js";
 import { getGitState } from "../../../shared/git/state.js";
 import { getPromptlineModel } from "../getPromptlineModel.js";
 import { buildContextBar } from "./buildContextBar.js";
+import { collectUsage } from "./collectUsage.js";
 import { PRIMARY_COLOR, RESET } from "./constants.js";
 import { formatContextTokenUsage } from "./formatContextTokenUsage.js";
 import { getCachedContextUsage } from "./getCachedContextUsage.js";
 import { getContextColor } from "./getContextColor.js";
+import { getStartupContextReport } from "../../../registerNeoEditorExtension.js";
 import { truncateFromStart } from "./truncateFromStart.js";
 
 /**
@@ -18,7 +22,7 @@ import { truncateFromStart } from "./truncateFromStart.js";
  * @param width Available width.
  * @returns Promptline segments.
  */
-export async function buildPromptline(
+export function buildPromptline(
   ctx: ExtensionContext,
   uiTheme: ExtensionContext["ui"]["theme"],
   getThinkingLevel: ExtensionAPI["getThinkingLevel"],
@@ -54,15 +58,47 @@ export async function buildPromptline(
 
   const contextWindow = usage?.contextWindow ?? currentModel?.contextWindow ?? 0;
   const rawTokens = typeof usage?.tokens === "number" ? usage.tokens : typeof usage?.percent === "number" && contextWindow > 0 ? Math.round((usage.percent / 100) * contextWindow) : 0;
-  const fallbackReport = await createContextUsageReport(createRuntimeSnapshot(ctx));
-  const currentContextTokens = rawTokens === 0 && fallbackReport.usedTokens !== null
-    ? fallbackReport.usedTokens
+  // When pi reports 0 tokens (before it computes usage for a new message),
+  // bridge the gap: startup usedTokens + delta from new user/assistant messages.
+  const startupReport = getStartupContextReport();
+  const displayTokens = rawTokens === 0 && startupReport?.usedTokens != null
+    ? computeBridgeTokens(ctx, startupReport.usedTokens)
     : rawTokens;
-  const tokenUsage = formatContextTokenUsage(currentContextTokens, contextWindow);
+  const tokenUsage = formatContextTokenUsage(displayTokens, contextWindow);
   const contextBar = buildContextBar(usage?.percent);
   const contextColor = getContextColor(usage?.percent);
   return {
     left: segments.flatMap((segment, index) => (index === 0 ? [segment] : [separator, segment])).join(""),
     right: ` ${contextColor} ${contextBar} ${tokenUsage}${RESET}`,
   };
+}
+
+/**
+ * Bridges the gap when pi reports 0 tokens by adding new message tokens
+ * to the startup baseline.
+ *
+ * @param ctx Extension context.
+ * @param startupUsedTokens Token count at session start.
+ * @returns Bridged token count.
+ */
+function computeBridgeTokens(ctx: ExtensionContext, startupUsedTokens: number): number {
+  const branch = ctx.sessionManager.getBranch();
+  let newMessageTokens = 0;
+  for (const entry of branch) {
+    if (entry.type !== "message") continue;
+    const msg = entry.message as UserMessage | AssistantMessage;
+    if (msg.role === "user") {
+      // Estimate user message tokens from text content.
+      const text = typeof msg.content === "string"
+        ? msg.content
+        : (msg.content as { text?: string } | { text?: string[] }).text;
+      const textStr = typeof text === "string" ? text : Array.isArray(text) ? text.join("\n") : "";
+      newMessageTokens += estimateTokensFromText(textStr);
+    } else if (msg.role === "assistant") {
+      // Add assistant message usage from pi's internal tracking.
+      const am = msg as AssistantMessage;
+      newMessageTokens += (am.usage?.input ?? 0) + (am.usage?.output ?? 0);
+    }
+  }
+  return startupUsedTokens + newMessageTokens;
 }

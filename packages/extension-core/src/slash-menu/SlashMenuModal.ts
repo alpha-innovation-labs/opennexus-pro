@@ -130,7 +130,7 @@ export class SlashMenuModal extends SelectPreviewModal {
       this.requestRender();
       return;
     }
-    this.activeLeaves = await this.createVisibleLeaves();
+    this.activeLeaves = (await this.createVisibleLeaves()) ?? [];
     if (this.level === "settings") {
       const settingsWidth = calculateSettingsMenuWidth(this.activeLeaves);
       this.setModalWidthPolicy(settingsWidth, settingsWidth, 0.9);
