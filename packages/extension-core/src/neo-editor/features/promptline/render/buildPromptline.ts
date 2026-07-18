@@ -10,7 +10,7 @@ import { PRIMARY_COLOR, RESET } from "./constants.js";
 import { formatContextTokenUsage } from "./formatContextTokenUsage.js";
 import { getCachedContextUsage } from "./getCachedContextUsage.js";
 import { getContextColor } from "./getContextColor.js";
-import { getStartupContextReport } from "../../../registerNeoEditorExtension.js";
+import { getStartupContextReport, getStartupMessageCount } from "../../../registerNeoEditorExtension.js";
 import { truncateFromStart } from "./truncateFromStart.js";
 
 /**
@@ -62,7 +62,7 @@ export function buildPromptline(
   // bridge the gap: startup usedTokens + delta from new user/assistant messages.
   const startupReport = getStartupContextReport();
   const displayTokens = rawTokens === 0 && startupReport?.usedTokens != null
-    ? computeBridgeTokens(ctx, startupReport.usedTokens)
+    ? computeBridgeTokens(ctx, startupReport.usedTokens, startupReport.usedTokens - startupReport.categories.find((c) => c.label === "Messages")?.tokens ?? 0)
     : rawTokens;
   const tokenUsage = formatContextTokenUsage(displayTokens, contextWindow);
   const contextBar = buildContextBar(usage?.percent);
@@ -74,18 +74,26 @@ export function buildPromptline(
 }
 
 /**
- * Bridges the gap when pi reports 0 tokens by adding new message tokens
- * to the startup baseline.
+ * Bridges the gap when pi reports 0 tokens by adding only new message tokens
+ * (those appearing after the startup snapshot) to the startup baseline.
  *
  * @param ctx Extension context.
- * @param startupUsedTokens Token count at session start.
+ * @param startupUsedTokens Token count at session start (includes startup messages).
+ * @param startupMessagesTokens Estimated token count of messages present at startup.
  * @returns Bridged token count.
  */
-function computeBridgeTokens(ctx: ExtensionContext, startupUsedTokens: number): number {
+function computeBridgeTokens(ctx: ExtensionContext, startupUsedTokens: number, startupMessagesTokens: number): number {
   const branch = ctx.sessionManager.getBranch();
+  const startupMsgCount = getStartupMessageCount();
   let newMessageTokens = 0;
+  let messageIndex = 0;
   for (const entry of branch) {
     if (entry.type !== "message") continue;
+    // Skip messages that existed at startup.
+    if (messageIndex < startupMsgCount) {
+      messageIndex++;
+      continue;
+    }
     const msg = entry.message as UserMessage | AssistantMessage;
     if (msg.role === "user") {
       // Estimate user message tokens from text content.
@@ -100,5 +108,6 @@ function computeBridgeTokens(ctx: ExtensionContext, startupUsedTokens: number): 
       newMessageTokens += (am.usage?.input ?? 0) + (am.usage?.output ?? 0);
     }
   }
-  return startupUsedTokens + newMessageTokens;
+  // Return startup baseline minus startup messages estimate + actual new message tokens.
+  return startupUsedTokens - startupMessagesTokens + newMessageTokens;
 }
