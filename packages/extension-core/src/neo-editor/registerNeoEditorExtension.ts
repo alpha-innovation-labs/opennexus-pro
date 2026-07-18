@@ -16,7 +16,6 @@ import { primeStartupLoginModal } from "./primeStartupLoginModal.js";
 import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
 
 let startupContextReport: ContextUsageReport | undefined;
-let startupMessageCount: number = 0;
 
 export default function(pi: ExtensionAPI) {
   logExtensionEvent("neo-editor", "init");
@@ -85,7 +84,6 @@ async function logContextUsageOnStartup(ctx: ExtensionContext): Promise<void> {
   try {
     const report = await createContextUsageReport(createRuntimeSnapshot(ctx));
     startupContextReport = report;
-    startupMessageCount = ctx.sessionManager.getBranch().filter((e) => e.type === "message").length;
   } catch (error: unknown) {
     console.error("[neo-editor] createContextUsageReport failed:", error instanceof Error ? error.message : String(error));
   }
@@ -98,13 +96,4 @@ async function logContextUsageOnStartup(ctx: ExtensionContext): Promise<void> {
  */
 export function getStartupContextReport(): ContextUsageReport | undefined {
   return startupContextReport;
-}
-
-/**
- * Returns the number of messages in the branch at session start.
- *
- * @returns Message count at session start.
- */
-export function getStartupMessageCount(): number {
-  return startupMessageCount;
 }
