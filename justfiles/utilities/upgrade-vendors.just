@@ -6,4 +6,4 @@ upgrade-vendors:
     node scripts/vendor/updateVendorExtensions.mjs
     npm run generate:feature-flags
     npx npm-check-updates -u
-    npm install
+    pnpm install
