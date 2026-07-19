@@ -40,6 +40,12 @@ export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof Bui
 		renderResult(result: any, state: any, theme: any, context: any) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
 			const builtIn = (allToolDefinitions as any)[toolName]?.renderResult;
+			// Strip lastComponent so the built-in renderResult doesn't see the Container
+			// from compact renderCall, which lacks setText and triggers a crash.
+			const cleanContext = {
+				...context,
+				lastComponent: undefined,
+			};
 			const { renderer } = renderTranscriptEntry(
 				{ role: "toolResult", toolCallId: context.toolCallId, toolName, result },
 				{
@@ -47,8 +53,10 @@ export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof Bui
 					expanded: state.expanded,
 					resultChildRenderer: builtIn
 						? {
-							render: (innerWidth: number) => builtIn(result, state, theme, context as any).render(innerWidth),
-							invalidate: () => builtIn(result, state, theme, context as any).invalidate?.(),
+							render: (innerWidth: number) =>
+								builtIn(result, state, theme, cleanContext).render(innerWidth),
+							invalidate: () =>
+								builtIn(result, state, theme, cleanContext).invalidate?.(),
 						}
 						: undefined,
 				},

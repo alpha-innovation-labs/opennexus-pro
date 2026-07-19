@@ -11,3 +11,5 @@ jobs
 apps/landing-page/.next
 auth.json
 .pi/chrome-screenshots
+
+graphify-out/
