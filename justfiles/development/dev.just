@@ -18,7 +18,7 @@ dev *APP_ARGS:
     fi
 
     if [ -n "{{APP_ARGS}}" ]; then
-        eval turbo run dev --filter=@nexus/app-tui -- {{APP_ARGS}}
+        eval npx --prefix apps/tui tsx -- apps/tui/src/index.ts -- {{APP_ARGS}}
     else
-        turbo run dev --filter=@nexus/app-tui
+        npx --prefix apps/tui tsx -- apps/tui/src/index.ts
     fi

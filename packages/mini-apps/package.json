@@ -1,6 +1,6 @@
 {
   "name": "@nexus/mini-apps",
-  "version": "0.0.0",
+  "version": "0.2.24",
   "private": true,
   "type": "module",
   "dependencies": {

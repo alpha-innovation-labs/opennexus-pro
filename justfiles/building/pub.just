@@ -10,6 +10,7 @@ pub:
 
     echo "🔢 Bumping patch version..."
     npm version patch --no-git-tag-version
+    npm --prefix apps/tui version patch --no-git-tag-version
 
     echo "🏗️ Building native release bundle..."
     npm run build:release
