@@ -404,10 +404,8 @@ path).
       await this.refresh(item.value);
       return;
     }
-    if (this.level === "fork") return void this.onCommandPicked(`/nexus-fork-select
- ${item.value}`);
-    if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select
- ${encodeSlashMenuValue(item.value)}`);
+    if (this.level === "fork") return void this.onCommandPicked(`/nexus-fork-select ${item.value}`);
+    if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select ${encodeSlashMenuValue(item.value)}`);
     if (this.level === "prompts") {
       const args = this.extractSlashArgs(item.value);
       return void this.onCommandPrefill(
