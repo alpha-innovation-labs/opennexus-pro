@@ -1,7 +1,7 @@
 {
   "extensions": {
     "ai-providers": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "oh-my-pi provider login entries",
         "manual credential prompts for additional providers",

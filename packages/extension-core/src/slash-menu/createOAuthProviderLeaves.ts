@@ -1,4 +1,3 @@
-import { getOAuthProviders } from "@earendil-works/pi-ai/oauth";
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import type { SlashMenuLeaf } from "./types.js";
 
@@ -10,9 +9,11 @@ import type { SlashMenuLeaf } from "./types.js";
  * @returns Provider leaves.
  */
 export function createOAuthProviderLeaves(ctx: ExtensionContext, mode: "login" | "logout"): SlashMenuLeaf[] {
-  const providers = getOAuthProviders() ?? [];
+  const registry = ctx.modelRegistry;
+  if (!registry || !registry.authStorage) return [];
+  const providers = registry.authStorage.getOAuthProviders();
   return providers
-    .filter((provider) => mode === "login" || ctx.modelRegistry.authStorage.get(provider.id)?.type === "oauth")
+    .filter((provider) => mode === "login" || registry.authStorage.get(provider.id)?.type === "oauth")
     .map((provider) => ({
       kind: "provider",
       label: provider.name,

@@ -10,5 +10,6 @@ import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 export function shouldOpenStartupLoginModal(reason: string, ctx: ExtensionContext): boolean {
   if (reason !== "startup") return false;
   if (!ctx.hasUI) return false;
+  if (!ctx.modelRegistry) return false;
   return ctx.modelRegistry.getAvailable().length === 0;
 }

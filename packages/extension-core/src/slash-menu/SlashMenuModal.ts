@@ -243,8 +243,7 @@ export class SlashMenuModal extends SelectPreviewModal {
    * @returns Current level leaves.
    */
   private async createVisibleLeaves(): Promise<SlashMenuLeaf[]> {
-    if (this.level === "setting-choice" && this.pendingSettingLeaf) return
-    createSettingChoiceLeaves(this.pendingSettingLeaf);
+    if (this.level === "setting-choice" && this.pendingSettingLeaf) return createSettingChoiceLeaves(this.pendingSettingLeaf);
     if (this.level === "name-input") return [createNameInputLeaf(this.nameInput)];
     if (this.level === "resume") return getCachedResumeLeaves(this.resumeLeavesCache, this.ctx,
       this.resumeScope);

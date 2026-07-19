@@ -9,10 +9,13 @@ import type { SlashMenuLeaf } from "./types.js";
  * @returns Provider login leaves with configured providers marked.
  */
 export function createLoginProviderLeaves(ctx: ExtensionContext): SlashMenuLeaf[] {
-	return createOAuthProviderLeaves(ctx, "login")
+	const base = createOAuthProviderLeaves(ctx, "login");
+	const registry = ctx.modelRegistry;
+	if (!registry || !registry.authStorage) return base;
+	return base
 		.map((leaf) => ({
 			...leaf,
-			currentValue: ctx.modelRegistry.authStorage.hasAuth(leaf.value) ? "configured" : undefined,
+			currentValue: registry.authStorage.hasAuth(leaf.value) ? "configured" : undefined,
 		}))
 		.sort((left, right) => {
 			const configuredRank = Number(right.currentValue === "configured") - Number(left.currentValue === "configured");

@@ -10,5 +10,6 @@ import type { SlashMenuLevel } from "./SlashMenuLevel.js";
  */
 export function resolveRequestedSlashMenuLevel(ctx: ExtensionContext, requestedLevel: SlashMenuLevel): SlashMenuLevel {
   if (requestedLevel !== "model") return requestedLevel;
+  if (!ctx.modelRegistry) return requestedLevel;
   return ctx.modelRegistry.getAvailable().length === 0 ? "login" : "model";
 }

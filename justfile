@@ -4,7 +4,6 @@
 import 'justfiles/development/dev.just'
 import 'justfiles/development/web.just'
 import 'justfiles/development/dev-profile.just'
-import 'justfiles/development/wterm.just'
 
 # ============================================================================
 # Building Commands

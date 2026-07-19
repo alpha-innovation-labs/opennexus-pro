@@ -1,5 +1,4 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { unregisterOAuthProvider } from "@earendil-works/pi-ai/oauth";
 
 const builtInPiOAuthProviderIds = new Set([
   "anthropic",
@@ -24,12 +23,6 @@ export async function registerAiProvidersExtension(pi: ExtensionAPI): Promise<vo
       pi.unregisterProvider(id);
     }
   }
-  // Remove from the OAuth registry (used by createOAuthProviderLeaves)
-  for (const id of builtInPiOAuthProviderIds) {
-    try {
-      unregisterOAuthProvider(id);
-    } catch {
-      // ignore providers that were already removed
-    }
-  }
+  // Note: unregisterOAuthProvider no longer exists in @earendil-works/pi-ai/oauth
+  // (the module only re-exports types).  The OAuth registry is handled upstream.
 }
