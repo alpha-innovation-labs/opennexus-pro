@@ -394,8 +394,7 @@ path).
     if (this.level === "theme") return this.applyLeafByValue(item.value);
     if (this.level === "model") {
       if (item.value === "__loading__") return;
-      this.onCommandPicked(`/nexus-model-select
- ${resolveModelCatalogCommandValue(item.value)}`);
+      this.onCommandPicked(`/nexus-model-select ${resolveModelCatalogCommandValue(item.value)}`);
       return;
     }
     if (this.level === "scoped-models") {
