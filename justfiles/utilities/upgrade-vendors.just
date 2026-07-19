@@ -1,8 +1,8 @@
 # Update mirrored third-party Nexus vendor extensions and package dependencies.
-# Usage: just update-vendor
-# Example: just update-vendor
+# Usage: just upgrade-vendors
+# Example: just upgrade-vendors
 
-update-vendor:
+upgrade-vendors:
     node scripts/vendor/updateVendorExtensions.mjs
     npm run generate:feature-flags
     npx npm-check-updates -u

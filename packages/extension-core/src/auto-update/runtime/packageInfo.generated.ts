@@ -3,5 +3,5 @@
  */
 export const generatedPackageInfo = {
   "name": "opennexus",
-  "version": "0.2.26"
+  "version": "0.2.29"
 } as const;

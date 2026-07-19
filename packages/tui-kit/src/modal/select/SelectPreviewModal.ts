@@ -158,7 +158,7 @@ export class SelectPreviewModal extends SharedModal {
     const computedWidth = this.fullScreen ? width : computeModalWidth(width, this.modalMinWidth, this.modalMaxWidthRatio);
     const modalWidth = this.fullScreen ? width : this.modalMaxWidth === undefined ? computedWidth : Math.min(computedWidth, this.modalMaxWidth, width);
     const innerWidth = Math.max(1, modalWidth - 2);
-    const footerHintRowCount = this.footerHintLines.length > 0 ? this.footerHintLines.length + 1 : 0;
+    const footerHintRowCount = (this.footerHintLines?.length ?? 0) > 0 ? (this.footerHintLines?.length ?? 0) + 1 : 0;
     const bodyHeight = Math.max(1, getTwoPaneBodyHeight(this.fullScreen) - footerHintRowCount);
     const listHeight = this.bottomTitle ? bodyHeight - 2 : bodyHeight;
     this.resizeList(listHeight);
@@ -169,8 +169,8 @@ export class SelectPreviewModal extends SharedModal {
     const leftLines = this.selectList.render(widths[0] ?? innerWidth).slice(0, listHeight);
     while (leftLines.length < listHeight) leftLines.push("");
     this.headerLines = [createTwoPaneHeaderLine({ activePane: this.activePane, leftTitle: this.leftTitle, rightTitle: this.rightTitle, showFocusMarkers: this.showHeaderFocusMarkers, leftWidth: widths[0], rightWidth: widths.at(-1), showLeftPane: this.showLeftPane, showRightPane: this.showRightPane, uiTheme: this.uiTheme })];
-    const footerSeparator = this.footerHintLines.length > 0 ? [SHARED_MODAL_FOOTER_BORDER] : [];
-    this.footerLines = [...this.footerHintLines, ...footerSeparator, ...createTwoPaneFooterLine({ bottomPrefix: this.bottomPrefix, bottomTitle: this.bottomTitle, bottomValue: this.bottomValue })];
+    const footerSeparator = (this.footerHintLines?.length ?? 0) > 0 ? [SHARED_MODAL_FOOTER_BORDER] : [];
+    this.footerLines = [...(this.footerHintLines ?? []), ...footerSeparator, ...createTwoPaneFooterLine({ bottomPrefix: this.bottomPrefix, bottomTitle: this.bottomTitle, bottomValue: this.bottomValue })];
     this.panes = [...(this.showLeftPane ? [{ ...shells[0]!, lines: leftLines }] : []), ...(this.showRightPane ? [{ ...shells[shells.length - 1]!, lines: right.lines }] : [])];
   }
 

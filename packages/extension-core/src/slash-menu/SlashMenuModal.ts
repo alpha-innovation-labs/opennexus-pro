@@ -584,7 +584,7 @@ path).
    */
   private createFooterHintLines(): string[] {
     if (this.level === "prompts" || this.level === "skills") return
-    [createResourceCommandFooterHint(this.ctx.ui.theme, this.isRightPaneFocused())];
+      [createResourceCommandFooterHint(this.ctx.ui.theme, this.isRightPaneFocused())];
     return [];
   }
 

@@ -28,8 +28,7 @@ import 'justfiles/testing/test-release-list.just'
 import 'justfiles/utilities/help.just'
 import 'justfiles/utilities/import-auth.just'
 import 'justfiles/utilities/uninstall.just'
-import 'justfiles/utilities/update.just'
-
+import 'justfiles/utilities/upgrade-vendors.just'
 
 # ============================================================================
 # Default: Show help menu
