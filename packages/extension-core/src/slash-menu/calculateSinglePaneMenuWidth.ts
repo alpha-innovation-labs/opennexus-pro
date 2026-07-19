@@ -15,6 +15,7 @@ const SINGLE_PANE_MAX_WIDTH = 96;
  * @returns Outer modal width that fits menu text and borders.
  */
 export function calculateSinglePaneMenuWidth(items: Array<SlashMenuLeaf | SlashMenuSection>, level: SlashMenuLevel): number {
+  if (items.length === 0) return SINGLE_PANE_MIN_WIDTH;
   const widestRow = items.reduce((widest, item) => {
     const iconWidth = visibleWidth(getSlashMenuItemIcon(item, level)) + 1;
     const labelWidth = iconWidth + visibleWidth(item.label);

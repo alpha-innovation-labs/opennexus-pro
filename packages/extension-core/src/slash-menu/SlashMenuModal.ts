@@ -24,6 +24,12 @@ import { createSettingChoiceLeaves } from "./createSettingChoiceLeaves.js";
 import { createSlashMenuPreviewLines } from "./createSlashMenuPreviewLines.js";
 import { createThinkingSettingLeaf } from "./createThinkingSettingLeaf.js";
 import { createTopLevelItems } from "./createTopLevelItems.js";
+import { createCommandLeaves } from "./createCommandLeaves.js";
+import { createToolsTopLevelItem } from "./createToolsTopLevelItem.js";
+import { createThinkingTopLevelItem } from "./createThinkingTopLevelItem.js";
+import { createTopLevelPromptCommandLeaves } from "./createTopLevelPromptCommandLeaves.js";
+import { groupAndSortTopLevelItems } from "./groupAndSortTopLevelItems.js";
+import { createDynamicCommandItems, extractSkillName, isFusedSkillValue } from "./createDynamicCommandItems.js";
 import { encodeSlashMenuValue } from "./encodeSlashMenuValue.js";
 import { createResumeScopeHeaderTitle } from "./resume-scope/createResumeScopeHeaderTitle.js";
 import { getCachedResumeLeaves } from "./resume-scope/getCachedResumeLeaves.js";
@@ -122,7 +128,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     this.setPaneVisibility(true, shouldShowSlashMenuPreview(this.level));
     this.setModalWidthPolicy(80, undefined, 0.9);
     if (this.level === "top") {
-      this.topItems = createTopLevelItems(this.getDynamicCommands());
+      this.topItems = this.getTopLevelItemsWithFusedSkills();
       const menuWidth = calculateTopLevelMenuWidth(this.topItems);
       this.setModalWidthPolicy(menuWidth, menuWidth, 0.9);
       this.renderItems(filterMenuItems(this.topItems, this.query), "Menu");
@@ -243,7 +249,9 @@ export class SlashMenuModal extends SelectPreviewModal {
    * @returns Current level leaves.
    */
   private async createVisibleLeaves(): Promise<SlashMenuLeaf[]> {
-    if (this.level === "setting-choice" && this.pendingSettingLeaf) return createSettingChoiceLeaves(this.pendingSettingLeaf);
+    if (this.level === "setting-choice" && this.pendingSettingLeaf) {
+      return createSettingChoiceLeaves(this.pendingSettingLeaf);
+    }
     if (this.level === "name-input") return [createNameInputLeaf(this.nameInput)];
     if (this.level === "resume") return getCachedResumeLeaves(this.resumeLeavesCache, this.ctx,
       this.resumeScope);
@@ -259,6 +267,45 @@ export class SlashMenuModal extends SelectPreviewModal {
    */
   private getDynamicCommands(): RegisteredSlashCommand[] {
     return getDynamicSlashCommands(this.getCommands);
+  }
+
+  /**
+   * Builds top-level items with fused skill leaves.
+   *
+   * When the query matches or prefixes "skills", skill leaves are injected
+   * at the top level with `skill:<name>` values, replacing the "skills" section
+   * in the filtered results.
+   *
+   * @returns Top-level items with fused skill leaves.
+   */
+  private getTopLevelItemsWithFusedSkills(): Array<SlashMenuLeaf | SlashMenuSection> {
+    const dynamicCommands = this.getDynamicCommands();
+    const commandLeaves = createCommandLeaves(dynamicCommands);
+    const toolsSection = createToolsTopLevelItem();
+    const settingsSection: SlashMenuSection = {
+      label: "settings",
+      description: "Toggle settings and open nested configuration.",
+      groupLabel: "Configuration",
+      value: "settings",
+    };
+    return groupAndSortTopLevelItems([
+      ...commandLeaves,
+      createThinkingTopLevelItem(),
+      ...createDynamicCommandItems(dynamicCommands),
+      toolsSection,
+      ...createTopLevelPromptCommandLeaves(dynamicCommands),
+      settingsSection,
+    ]);
+  }
+
+  /**
+   * Checks whether the current query targets fused skill items.
+   *
+   * @returns True when the query matches "skills" or a skill name prefix.
+   */
+  private isQueryTargetingSkills(): boolean {
+    const q = this.query.toLowerCase().trim();
+    return q === "skills" || q.startsWith("skill") || q.startsWith("ski") || q.startsWith("sk");
   }
 
   /**
@@ -347,7 +394,8 @@ path).
     if (this.level === "theme") return this.applyLeafByValue(item.value);
     if (this.level === "model") {
       if (item.value === "__loading__") return;
-      this.onCommandPicked(`/nexus-model-select ${resolveModelCatalogCommandValue(item.value)}`);
+      this.onCommandPicked(`/nexus-model-select
+ ${resolveModelCatalogCommandValue(item.value)}`);
       return;
     }
     if (this.level === "scoped-models") {
@@ -356,23 +404,31 @@ path).
       await this.refresh(item.value);
       return;
     }
-    if (this.level === "fork") return void this.onCommandPicked(`/nexus-fork-select ${item.value}`);
-    if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select ${encodeSlashMenuValue(item.value)}`);
+    if (this.level === "fork") return void this.onCommandPicked(`/nexus-fork-select
+ ${item.value}`);
+    if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select
+ ${encodeSlashMenuValue(item.value)}`);
     if (this.level === "prompts") {
       const args = this.extractSlashArgs(item.value);
       return void this.onCommandPrefill(
-        args ? `/${item.value} ${args.trim()}${SENTINEL}` : `${item.value}`,
+        args ? `/${item.value} ${args.trim()}${SENTINEL}` : `/${item.value}`,
       );
     }
     if (this.level === "skills") {
       const args = this.extractSlashArgs(item.value);
       return void this.onCommandPicked(
-        args ? `/${item.value} ${args.trim()}${SENTINEL}` : `${item.value}`,
+        args ? `/${item.value} ${args.trim()}${SENTINEL}` : `/${item.value}`,
       );
     }
+    if (isFusedSkillValue(item.value)) {
+      const skillName = extractSkillName(item.value);
+      return void this.onCommandPicked(`/${skillName}`);
+    }
     if (this.level === "tools") return;
-    if (this.level === "login") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
-    if (this.level === "login-providers") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
+    if (this.level === "login") return void this.onCommandPicked(`/nexus-login-select
+ ${item.value}`);
+    if (this.level === "login-providers") return void this.onCommandPicked(`/nexus-login-select
+ ${item.value}`);
     if (this.level === "logout") return void this.logoutSelectedProvider(item.value);
   }
 
@@ -579,7 +635,7 @@ path).
    */
   private createFooterHintLines(): string[] {
     if (this.level === "prompts" || this.level === "skills") return
-      [createResourceCommandFooterHint(this.ctx.ui.theme, this.isRightPaneFocused())];
+    [createResourceCommandFooterHint(this.ctx.ui.theme, this.isRightPaneFocused())];
     return [];
   }
 
@@ -590,10 +646,21 @@ path).
   private formatVisibleItem(item: SlashMenuLeaf | SlashMenuSection): SlashMenuLeaf |
     SlashMenuSection {
     const icon = getSlashMenuItemIcon(item, this.level);
-    if (this.level === "top") return {
-      ...item, label: formatTopLevelMenuLabel(item.label,
-        item.description, this.ctx.ui.theme, icon), description: "", preserveLabelWhitespace: true
-    };
+    if (this.level === "top") {
+      // Format fused skill leaves with the same icon format as the skills submenu.
+      if (isFusedSkillValue(item.value)) {
+        return {
+          ...item,
+          label: formatResourceCommandLabel(icon, item as SlashMenuLeaf),
+          description: "",
+          wrapToFit: true,
+        };
+      }
+      return {
+        ...item, label: formatTopLevelMenuLabel(item.label,
+          item.description, this.ctx.ui.theme, icon), description: "", preserveLabelWhitespace: true
+      };
+    }
     if (this.level === "settings") return {
       ...item, label: formatSettingsMenuLabel(item.label,
         (item as SlashMenuLeaf).currentValue, this.ctx.ui.theme, icon), description: "",

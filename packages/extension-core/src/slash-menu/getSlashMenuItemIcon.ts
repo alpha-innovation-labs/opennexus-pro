@@ -54,6 +54,8 @@ export function getSlashMenuItemIcon(item: SlashMenuLeaf | SlashMenuSection, lev
   if (level === "fork") return "⑂";
   if (level === "resume") return "↩";
   if (level === "prompts" || level === "skills") return getResourceMenuIcon();
+  // Handle fused skill leaves at the top level.
+  if (level === "top" && item.value.startsWith("skill:")) return getResourceMenuIcon();
   if (level === "tools") return "⚒";
   if (level === "settings") {
     if ((item as SlashMenuLeaf).kind === "theme") return "◐";
