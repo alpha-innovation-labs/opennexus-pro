@@ -347,8 +347,7 @@ path).
     if (this.level === "theme") return this.applyLeafByValue(item.value);
     if (this.level === "model") {
       if (item.value === "__loading__") return;
-      this.onCommandPicked(`/nexus-model-select
- ${resolveModelCatalogCommandValue(item.value)}`);
+      this.onCommandPicked(`/nexus-model-select ${resolveModelCatalogCommandValue(item.value)}`);
       return;
     }
     if (this.level === "scoped-models") {
@@ -357,10 +356,8 @@ path).
       await this.refresh(item.value);
       return;
     }
-    if (this.level === "fork") return void this.onCommandPicked(`/nexus-fork-select
- ${item.value}`);
-    if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select
- ${encodeSlashMenuValue(item.value)}`);
+    if (this.level === "fork") return void this.onCommandPicked(`/nexus-fork-select ${item.value}`);
+    if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select ${encodeSlashMenuValue(item.value)}`);
     if (this.level === "prompts") {
       const args = this.extractSlashArgs(item.value);
       return void this.onCommandPrefill(
@@ -374,10 +371,8 @@ path).
       );
     }
     if (this.level === "tools") return;
-    if (this.level === "login") return void this.onCommandPicked(`/nexus-login-select
- ${item.value}`);
-    if (this.level === "login-providers") return void this.onCommandPicked(`/nexus-login-select
- ${item.value}`);
+    if (this.level === "login") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
+    if (this.level === "login-providers") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
     if (this.level === "logout") return void this.logoutSelectedProvider(item.value);
   }
 
