@@ -1,5 +1,4 @@
 import { applySystemExtensionAvailability } from "./applySystemExtensionAvailability.js";
-import { applyUserExtensionConfig } from "./applyUserExtensionConfig.js";
 import { createExtensionRegisterMap } from "./createExtensionRegisterMap.js";
 import { getBundledFeatureFlagsConfig } from "./getBundledFeatureFlagsConfig.js";
 import { readFeatureFlagsConfig } from "./readFeatureFlagsConfig.js";
@@ -11,7 +10,7 @@ import type { ExtensionFeatureFlag, FeatureFlagsConfig } from "./types.js";
  * @returns Extension flags with metadata and register handlers.
  */
 export function createExtensionFeatureFlags(): ExtensionFeatureFlag[] {
-	const config = applySystemExtensionAvailability(applyUserExtensionConfig(readAvailableFeatureFlagsConfig()));
+	const config = applySystemExtensionAvailability(readAvailableFeatureFlagsConfig());
 	const registerMap = createExtensionRegisterMap();
 
 	return [
@@ -32,7 +31,7 @@ export function createExtensionFeatureFlags(): ExtensionFeatureFlag[] {
 }
 
 /**
- * Reads source feature flags and falls back to compiled bundled flags in installed runtimes.
+ * Reads source feature flags and falls back to bundled release flags in installed runtimes.
  *
  * @returns Active feature flag config.
  */

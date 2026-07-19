@@ -1,6 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";
-import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensionConfig.js";
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
 import { createTelemetryExtensionApi } from "@nexus/feature-flags/createTelemetryExtensionApi.js";
 import { setRuntimeExtensionFeatureFlags } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
@@ -77,7 +76,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
  * @param pi Pi extension API.
  */
 export default async function registerCompiledEnabledExtensions(pi: ExtensionAPI): Promise<void> {
-  const config = applySystemExtensionAvailability(applyUserExtensionConfig(getBundledFeatureFlagsConfig()));
+  const config = applySystemExtensionAvailability(getBundledFeatureFlagsConfig());
   setRuntimeExtensionFeatureFlags(compiledBundledExtensionIds.map((id) => ({ id, enabled: Boolean(config.extensions[id]?.enabled ?? config.other?.[id]?.enabled) })));
 
   for (const id of compiledBundledExtensionIds) {

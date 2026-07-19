@@ -4,7 +4,6 @@ import { clearHotkeysCommandHook } from "../hotkeys/clearHotkeysCommandHook.js";
 import { clearRegisteredSlashCommands, registerSlashCommand } from "../slash-menu/registerSlashCommand.js";
 import { registerTelemetryRuntimeExtension } from "@nexus/extensions-dev/telemetry-runtime/registerTelemetryRuntimeExtension.js";
 import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";
-import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensionConfig.js";
 import { clearRegisteredToolRecords } from "@nexus/feature-flags/index.js";
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
 import { createTronToolWrappingExtensionApi } from "../tron/compact-tool-lines/createTronToolWrappingExtensionApi.js";
@@ -21,7 +20,7 @@ export default async function registerCompiledBundledExtensions(
   skipExtensions?: string[],
 ): Promise<void> {
   clearRegisteredToolRecords();
-  const config = applySystemExtensionAvailability(applyUserExtensionConfig(getBundledFeatureFlagsConfig()));
+  const config = applySystemExtensionAvailability(getBundledFeatureFlagsConfig());
   const isSlashMenuEnabled = config.extensions["slash-menu"]?.enabled === true;
   if (config.extensions["hotkeys"]?.enabled !== true) clearHotkeysCommandHook();
   if (!isSlashMenuEnabled) clearRegisteredSlashCommands();

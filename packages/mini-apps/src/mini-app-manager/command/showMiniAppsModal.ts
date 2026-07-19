@@ -1,12 +1,10 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { applyUserExtensionConfig } from "@nexus/feature-flags/applyUserExtensionConfig.js";
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
 import { readFeatureFlagsConfig } from "@nexus/feature-flags/readFeatureFlagsConfig.js";
 import type { FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
 import { PiPackagesModal } from "@nexus/extensions/pi-packages/ui/PiPackagesModal.js";
 import { updateManagedExtensionRows } from "@nexus/extensions/pi-packages/model/updateManagedExtensionRows.js";
 import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled.js";
 import { createManagedMiniAppRows } from "../model/createManagedMiniAppRows.js";
 
 /**
@@ -30,7 +28,6 @@ export async function showMiniAppsModal(ctx: ExtensionCommandContext): Promise<v
 	 * @returns Updated rows.
 	 */
 	function updateMiniApp(miniAppId: string, enabled: boolean) {
-		setUserExtensionEnabled(miniAppId, enabled);
 		rows = updateManagedExtensionRows(rows, miniAppId, enabled ? "enabled" : "disabled");
 		return rows;
 	}
@@ -47,12 +44,12 @@ export async function showMiniAppsModal(ctx: ExtensionCommandContext): Promise<v
 /**
  * Reads source feature flags when available and falls back to compiled release flags.
  *
- * @returns User-preference-adjusted feature flag config.
+ * @returns Feature flag config.
  */
 function readMiniAppFeatureFlagsConfig(): FeatureFlagsConfig {
 	try {
-		return applyUserExtensionConfig(readFeatureFlagsConfig());
+		return readFeatureFlagsConfig();
 	} catch {
-		return applyUserExtensionConfig(getBundledFeatureFlagsConfig());
+		return getBundledFeatureFlagsConfig();
 	}
 }
