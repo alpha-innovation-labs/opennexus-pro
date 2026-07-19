@@ -29,8 +29,7 @@ import 'justfiles/utilities/help.just'
 import 'justfiles/utilities/import-auth.just'
 import 'justfiles/utilities/uninstall.just'
 import 'justfiles/utilities/update.just'
-import 'justfiles/utilities/update-vendor.just'
-import 'justfiles/utilities/upgrade.just'
+
 
 # ============================================================================
 # Default: Show help menu
