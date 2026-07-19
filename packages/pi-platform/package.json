@@ -3,9 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "@nexus/extensions": "workspace:*",
+    "strip-ansi": "^6.0.1"
+  },
   "exports": {
     "./*.js": "./src/*.ts",
     "./*": "./src/*"
-  },
-  "scripts": {}
+  }
 }

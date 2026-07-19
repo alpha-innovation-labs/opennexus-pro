@@ -3,9 +3,21 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "@nexus/assets": "workspace:*",
+    "@nexus/extensions-dev": "workspace:*",
+    "@nexus/extensions-pro": "workspace:*",
+    "@nexus/feature-flags": "workspace:*",
+    "@nexus/mini-apps": "workspace:*",
+    "@nexus/observability": "workspace:*",
+    "@nexus/pi-platform": "workspace:*",
+    "@nexus/runtime": "workspace:*",
+    "@nexus/tui-kit": "workspace:*",
+    "strip-ansi": "^6.0.1"
+  },
   "exports": {
     "./*.js": "./src/*.ts",
     "./*": "./src/*"
-  },
-  "scripts": {}
+  }
 }

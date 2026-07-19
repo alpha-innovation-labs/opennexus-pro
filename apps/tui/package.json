@@ -8,6 +8,16 @@
     "build": "npm --prefix ../.. run build:release",
     "test": "npm --prefix ../.. test"
   },
+  "dependencies": {
+    "@nexus/assets": "workspace:*",
+    "@nexus/extensions": "workspace:*",
+    "@nexus/extensions-pro": "workspace:*",
+    "@nexus/feature-flags": "workspace:*",
+    "@nexus/mini-apps": "workspace:*",
+    "@nexus/observability": "workspace:*",
+    "@nexus/pi-platform": "workspace:*",
+    "@nexus/runtime": "workspace:*"
+  },
   "exports": {
     "./*.js": "./src/*.ts",
     "./*": "./src/*"

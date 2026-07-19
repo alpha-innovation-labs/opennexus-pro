@@ -18,7 +18,7 @@ dev *APP_ARGS:
     fi
 
     if [ -n "{{APP_ARGS}}" ]; then
-        eval npm run dev -- {{APP_ARGS}}
+        eval turbo run dev --filter=@nexus/app-tui -- {{APP_ARGS}}
     else
-        npm run dev
+        turbo run dev --filter=@nexus/app-tui
     fi
