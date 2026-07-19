@@ -422,10 +422,8 @@ path).
       return void this.onCommandPicked(`/${skillName}`);
     }
     if (this.level === "tools") return;
-    if (this.level === "login") return void this.onCommandPicked(`/nexus-login-select
- ${item.value}`);
-    if (this.level === "login-providers") return void this.onCommandPicked(`/nexus-login-select
- ${item.value}`);
+    if (this.level === "login") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
+    if (this.level === "login-providers") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
     if (this.level === "logout") return void this.logoutSelectedProvider(item.value);
   }
 
