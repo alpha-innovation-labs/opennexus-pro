@@ -2,6 +2,7 @@
 # Usage: just dev [APP_ARGS...]
 # Example: just dev adapter status
 
+[positional-arguments]
 dev *APP_ARGS:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -17,8 +18,4 @@ dev *APP_ARGS:
         set +a
     fi
 
-    if [ -n "{{APP_ARGS}}" ]; then
-        eval npx --prefix apps/tui tsx -- apps/tui/src/index.ts -- {{APP_ARGS}}
-    else
-        npx --prefix apps/tui tsx -- apps/tui/src/index.ts
-    fi
+    npx --prefix apps/tui tsx -- apps/tui/src/index.ts "$@"

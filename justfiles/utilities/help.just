@@ -12,7 +12,6 @@ help:
     @echo "  just \033[0;33mdev\033[0m                     \033[0;32mRun the bundled Pi TUI with Tron\033[0m"
     @echo "  just \033[0;33mweb\033[0m                     \033[0;32mStart and open the landing page web app\033[0m"
     @echo "  just \033[0;33mdev-profile\033[0m             \033[0;32mCompare startup profiling with and without --no-extensions\033[0m"
-    @echo "  just \033[0;33mwterm\033[0m                  \033[0;32mRun just dev inside a browser terminal\033[0m"
     @echo "  just \033[0;33mtest\033[0m                    \033[0;32mRun the test suite (no release e2e)\033[0m"
     @echo "  just \033[0;33mtest-release\033[0m            \033[0;32mRun tests including release e2e\033[0m"
     @echo "  just \033[0;33mtest-list\033[0m               \033[0;32mList all tests (no release e2e)\033[0m"

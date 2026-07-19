@@ -3,6 +3,7 @@
 # Usage: just dev-profile [APP_ARGS...]
 # Example: just dev-profile --help
 
+[positional-arguments]
 dev-profile *APP_ARGS:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -14,8 +15,8 @@ dev-profile *APP_ARGS:
 
     mkdir -p "${RUN_DIR}"
 
-    if [ "{{APP_ARGS}}" != "" ]; then
-        ARGS=( {{APP_ARGS}} )
+    if [ "$#" -gt 0 ]; then
+        ARGS=( "$@" )
     else
         ARGS=( --help )
     fi

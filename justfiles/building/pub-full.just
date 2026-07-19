@@ -10,4 +10,4 @@ pub-full:
     just pub
     npm cache clean --force
     npm install -g opennexus
-    nexus
+    @just dev
