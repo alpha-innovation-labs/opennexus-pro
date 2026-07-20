@@ -7,8 +7,7 @@
         "manual credential prompts for additional providers",
         "/login provider availability"
       ],
-      "category": "extension",
-      "devOnly": true
+      "category": "extension"
     },
     "annotate": {
       "enabled": false,
@@ -310,13 +309,14 @@
       "category": "extension"
     },
     "slashusage": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "inline slashusage",
         "5-minute historical usage snapshots",
         "/usage history graph modal"
       ],
-      "category": "extension"
+      "category": "extension",
+      "devOnly": true
     },
     "wallet": {
       "enabled": false,
