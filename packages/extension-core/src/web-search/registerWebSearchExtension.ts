@@ -13,6 +13,6 @@ import { loadWebToolsConfig } from "./config/loadWebToolsConfig.js";
  */
 export function registerWebSearchExtension(pi: ExtensionAPI): void {
   const config = loadWebToolsConfig();
-  registerWebSearchTool(pi, config.searxng.url);
-  registerWebFetchTool(pi, config.crawl4ai.url, config.jina.apiKey);
+  registerWebSearchTool(pi, config.websearch.searxng.url);
+  registerWebFetchTool(pi, config.websearch.crawl4ai.url, config.websearch.jina.apiKey);
 }

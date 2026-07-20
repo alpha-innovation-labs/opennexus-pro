@@ -21,6 +21,7 @@ import { registerRtkExtension } from "@nexus/extensions-pro/rtk/registerRtkExten
 import { registerStartupHeroExtension } from "../startup-hero/registerStartupHeroExtension.js";
 import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension.js";
 import registerTronExtension from "../tron/index.js";
+import registerLocalImageReaderExtension from "../local-image-reader/registerLocalImageReaderExtension.js";
 import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension.js";
 
 /**
@@ -45,6 +46,7 @@ export const compiledBundledExtensionIds = [
   "startup-hero",
   "tetris",
   "tron",
+  "local-image-reader",
   "mini-app-manager"
 ] as const;
 
@@ -67,6 +69,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "startup-hero": registerStartupHeroExtension,
   "tetris": registerTetrisExtension,
   "tron": registerTronExtension,
+  "local-image-reader": registerLocalImageReaderExtension,
   "mini-app-manager": registerMiniAppManagerExtension,
 };
 

@@ -42,9 +42,11 @@ export type JinaConfig = {
  * Merged web-tools configuration loaded from file + env vars.
  */
 export type WebToolsConfig = {
-  searxng: SearXNGConfig;
-  crawl4ai: Crawl4AIConfig;
-  jina: JinaConfig;
+  websearch: {
+    searxng: SearXNGConfig;
+    crawl4ai: Crawl4AIConfig;
+    jina: JinaConfig;
+  };
 };
 
 

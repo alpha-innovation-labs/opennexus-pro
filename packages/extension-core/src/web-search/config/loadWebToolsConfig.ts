@@ -92,7 +92,7 @@ function getBoolean(raw: Record<string, unknown>, key: string): boolean | undefi
  */
 function warnMissingSection(section: string): void {
   console.warn(
-    `[pi-web-search] Config file is missing the "${section}" section. ` +
+    `[pi-web-search] Config file is missing the "websearch" section. ` +
       `Add it to your Nexus config file or set the relevant environment variable. ` +
       `Falling back to defaults for this section.`,
   );
@@ -101,7 +101,7 @@ function warnMissingSection(section: string): void {
 /**
  * Builds a complete SearXNG config from raw file data plus defaults.
  */
-function buildSearxngConfig(raw: unknown): WebToolsConfig["searxng"] {
+function buildSearxngConfig(raw: unknown): WebToolsConfig["websearch"]["searxng"] {
   const defaults = { enabled: true, url: "", apiKey: "" };
 
   if (!isConfigSection(raw)) {
@@ -119,7 +119,7 @@ function buildSearxngConfig(raw: unknown): WebToolsConfig["searxng"] {
 /**
  * Builds a complete Crawl4AI config from raw file data plus defaults.
  */
-function buildCrawl4aiConfig(raw: unknown): WebToolsConfig["crawl4ai"] {
+function buildCrawl4aiConfig(raw: unknown): WebToolsConfig["websearch"]["crawl4ai"] {
   const defaults = { enabled: true, url: "", token: "" };
 
   if (!isConfigSection(raw)) {
@@ -140,7 +140,7 @@ function buildCrawl4aiConfig(raw: unknown): WebToolsConfig["crawl4ai"] {
  * Jina Reader works without an API key (free tier), so a missing section
  * is silently ignored rather than warned about.
  */
-function buildJinaConfig(raw: unknown): WebToolsConfig["jina"] {
+function buildJinaConfig(raw: unknown): WebToolsConfig["websearch"]["jina"] {
   const defaults = { enabled: true, apiKey: "" };
 
   if (!isConfigSection(raw)) {
@@ -166,27 +166,27 @@ function mergeWithEnvVars(fileConfig: WebToolsConfig): WebToolsConfig {
   // SearXNG env overrides (highest precedence)
   const searxngUrl = process.env.SEARXNG_URL;
   if (searxngUrl) {
-    merged.searxng.url = searxngUrl;
+    merged.websearch.searxng.url = searxngUrl;
   }
   const searxngKey = process.env.SEARXNG_API_KEY;
   if (searxngKey) {
-    merged.searxng.apiKey = searxngKey;
+    merged.websearch.searxng.apiKey = searxngKey;
   }
 
   // Crawl4AI env overrides
   const crawl4aiUrl = process.env.CRAWL4AI_URL;
   if (crawl4aiUrl) {
-    merged.crawl4ai.url = crawl4aiUrl;
+    merged.websearch.crawl4ai.url = crawl4aiUrl;
   }
   const crawl4aiToken = process.env.CRAWL4AI_TOKEN;
   if (crawl4aiToken) {
-    merged.crawl4ai.token = crawl4aiToken;
+    merged.websearch.crawl4ai.token = crawl4aiToken;
   }
 
   // Jina env override
   const jinaKey = process.env.JINA_API_KEY;
   if (jinaKey) {
-    merged.jina.apiKey = jinaKey;
+    merged.websearch.jina.apiKey = jinaKey;
   }
 
   return merged;
@@ -216,10 +216,16 @@ export function loadWebToolsConfig(): WebToolsConfig {
     );
   }
 
+  const websearchRaw = isConfigSection(rawSections.websearch)
+    ? rawSections.websearch
+    : undefined;
+
   const config: WebToolsConfig = {
-    searxng: buildSearxngConfig(rawSections.searxng),
-    crawl4ai: buildCrawl4aiConfig(rawSections.crawl4ai),
-    jina: buildJinaConfig(rawSections.jina),
+    websearch: {
+      searxng: buildSearxngConfig(websearchRaw?.searxng),
+      crawl4ai: buildCrawl4aiConfig(websearchRaw?.crawl4ai),
+      jina: buildJinaConfig(websearchRaw?.jina),
+    },
   };
 
   return mergeWithEnvVars(config);
