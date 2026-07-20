@@ -38,8 +38,9 @@ release:
     fi
 
     # Ensure editor-triggers.json exists (separate from unified config.json)
-    if [ -f .nexus/extensions/neo-editor/editor-triggers.json ] && [ ! -f "${CONFIG_DIR}/editor-triggers.json" ]; then
-        cp .nexus/extensions/neo-editor/editor-triggers.json "${CONFIG_DIR}/editor-triggers.json"
+    BUNDLED_TRIGERS="packages/extension-core/src/neo-editor/editor-triggers.json"
+    if [ -f "${BUNDLED_TRIGERS}" ] && [ ! -f "${CONFIG_DIR}/editor-triggers.json" ]; then
+        cp "${BUNDLED_TRIGERS}" "${CONFIG_DIR}/editor-triggers.json"
     elif [ ! -f "${CONFIG_DIR}/editor-triggers.json" ]; then
         printf '{}\n' > "${CONFIG_DIR}/editor-triggers.json"
     fi
