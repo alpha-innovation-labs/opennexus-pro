@@ -79,19 +79,19 @@ packages/extension-core/src/local-image-reader/
 ## Recent updates (post-original build)
 
 - **Fixed import paths in `registerTool.ts`**: `./builder.js` and `./executor.js` were incorrectly referencing the `tool/` directory; corrected to `../request/builder.js` and `../request/executor.js`.
-- **Migrated config storage from agent-dir `settings.json` to Nexus user config**: The extension no longer reads from `~/.local/share/nexus/agent/settings.json`. Instead, it uses `getUserConfigPath()` which resolves to `~/.config/nexus/config.json`. The config is now stored under the `localImageReader` key (camelCase) on the `NexusUserConfig` type.
+- **Migrated config storage from agent-dir `settings.json` to Nexus user config**: The extension no longer reads from `~/.local/share/nexus/agent/settings.json`. Instead, it uses `getUserSettingsPath()` which resolves to `~/.config/nexus/settings.json`. The config is now stored under the `localImageReader` key (camelCase) on the `NexusUserConfig` type.
 - **Updated all config layer files**:
   - `loader.ts` — Replaced `getAgentDirPath()` + `settings.json` helpers with `readNexusUserConfig()` / `writeNexusUserConfig()`. Added `loadFromUserConfig()` and `persistUserConfig()` exports.
   - `registerCommands.ts` — Now accepts a `persistConfig` callback parameter; uses `readNexusUserConfig`/`writeNexusUserConfig` directly in the command handler.
   - `registerLocalImageReaderExtension.ts` — Passes `persistUserConfig` to `registerCommands`; simplified `session_start` handler.
   - `index.ts` (barrel) — Updated exports to reflect new loader API.
   - `types.ts` (nexus-runtime) — Added `LocalImageReaderConfig` type and `localImageReader?: LocalImageReaderConfig` to `NexusUserConfig`.
-- The comment noting "reads from the global `settings.json` only" is now outdated — the extension reads from the **Nexus user config file** (`~/.config/nexus/config.json`).
+- The comment noting "reads from the global `settings.json` only" is now outdated — the extension reads from the **Nexus user config file** (`~/.config/nexus/settings.json`).
 
 ## Comments
 
 - The `callMultimodalEndpoint` stub from the initial (minimal) version was replaced with the full `makeApiRequest` implementation that performs an actual HTTP POST to `/v1/chat/completions`.
 - The hardcoded system prompt ("You are a helpful assistant that analyzes images...") is the same as the original. It can be made configurable if needed.
 - The `/local-image` command's model-fetching logic tries `GET /v1/models` first, then falls back to `POST` with an empty messages array — matching the original's two-strategy approach for providers that don't expose the `/v1/models` endpoint.
-- The extension reads from the **Nexus user config file** (`~/.config/nexus/config.json`, resolved via `getUserConfigPath()`). The config is stored under the `localImageReader` key. No project-local fallback.
+- The extension reads from the **Nexus user config file** (`~/.config/nexus/settings.json`, resolved via `getUserSettingsPath()`). The config is stored under the `localImageReader` key. No project-local fallback.
 - No tests were ported (the original had none). The feature-flags entry lists `"local_image_reader tool"` and `"/local-image interactive settings menu"` as features for regression coverage.

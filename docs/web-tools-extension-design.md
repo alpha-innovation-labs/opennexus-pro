@@ -65,7 +65,7 @@ This design gives the LLM full web discovery and full-page extraction — includ
 
 ### 4.1 Config File
 
-Location: `~/.config/nexus/config.json` (Nexus-branded, not `~/.pi/`)
+Location: `~/.config/nexus/settings.json` (Nexus-branded, not `~/.pi/`)
 
 > **[NOTE]** Both SearXNG (`:8090`) and Crawl4AI (`:11235`) default to `http://100.106.251.92` — this is the **Tailscale IP** of the server, not the public server IP (`178.104.151.23`). Access requires being on the same Tailscale network.
 
@@ -186,7 +186,7 @@ The `/web-tools-setup` command opens a modal that:
 1. Shows the current status of each backend (reachable / unreachable)
 2. Provides the Docker commands to start missing instances
 3. Allows the user to change URLs inline
-4. Persists changes to `~/.config/nexus/config.json`
+4. Persists changes to `~/.config/nexus/settings.json`
 
 **Docker commands shown (verified working):**
 
@@ -298,7 +298,7 @@ Type.Object({
 ```
 
 **Implementation:**
-1. Load config via `loadWebToolsConfig()` → reads `~/.config/nexus/config.json` + env vars.
+1. Load config via `loadWebToolsConfig()` → reads `~/.config/nexus/settings.json` + env vars.
 2. If `crawl4ai.url` is configured and reachable → POST to `/crawl` with `{"urls": [url], "word_count_threshold": 20, "only_text": true, "cache_mode": "bypass"}`. **`urls` must be a list** (not a string).
 3. Extract `results[0].markdown.raw_markdown`, `results[0].title`, `results[0].success`.
 4. **Strip control characters** from Crawl4AI response before JSON parsing (same fix as SearXNG).
@@ -319,7 +319,7 @@ Type.Object({
 packages/extension-core/src/web-search/
 ├── registerWebSearchExtension.ts     # Extension entrypoint — loads config, registers all tools
 ├── config/
-│   ├── loadWebToolsConfig.ts         # Reads ~/.config/nexus/config.json + env vars + defaults
+│   ├── loadWebToolsConfig.ts         # Reads ~/.config/nexus/settings.json + env vars + defaults
 │   └── WebToolsConfig.ts             # TypeScript types + DEFAULT_WEB_TOOLS_CONFIG
 ├── web_search/
 │   ├── registerWebSearchTool.ts      # Tool registration — requires searxngUrl, throws if missing
@@ -384,7 +384,7 @@ packages/extension-core/src/web-search/
 ## 9. Security Considerations
 
 - **SSRF guard:** Not required — `web_fetch` is a proxy to configured backends.
-- **Jina API key:** Stored in `~/.config/nexus/config.json` with `chmod 0600` when written via `/web-tools-setup`.
+- **Jina API key:** Stored in `~/.config/nexus/settings.json` with `chmod 0600` when written via `/web-tools-setup`.
 - **Default config:** No SearXNG API key or Crawl4AI JWT token is used in the default shell scripts. Auth fields exist in the config schema for environments that require it.
 - **Crawl4AI bypass:** `cache_mode: "bypass"` prevents serving stale cached content.
 
@@ -441,7 +441,7 @@ Each tool gets `promptSnippet` and `promptGuidelines` to steer the LLM:
 
 ## 12. Deployment Checklist
 
-- [x] Config loader: `config/loadWebToolsConfig.ts` + `config/WebToolsConfig.ts` — reads `~/.config/nexus/config.json`, respects `NEXUS_CONFIG_DIR`, merges with env vars, falls back to Tailscale IPs
+- [x] Config loader: `config/loadWebToolsConfig.ts` + `config/WebToolsConfig.ts` — reads `~/.config/nexus/settings.json`, respects `NEXUS_CONFIG_DIR`, merges with env vars, falls back to Tailscale IPs
 - [x] `web_search` tool: `web_search/registerWebSearchTool.ts` + `executeWebSearch.ts` — **requires SearXNG URL**, strips control chars, returns error if URL missing
 - [x] `web_fetch` tool: `web-fetch/registerWebFetchTool.ts` + `executeWebFetch.ts` + `executeCrawl4AIFetch.ts` + `executeJinaFetch.ts` — **Crawl4AI → Jina → direct HTTP** pipeline
 - [ ] `config/healthCheck.ts` — SearXNG: `GET /` (not `/health`), Crawl4AI: `GET /health`

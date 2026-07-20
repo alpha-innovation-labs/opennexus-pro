@@ -8,7 +8,7 @@ Disabling a third-party package via `/pi-packages` has no effect at runtime.
 
 | System | Location | Managed by |
 |---|---|---|
-| Nexus user config | `~/.config/nexus/config.json` | Nexus CLI, `/pi-packages` toggle |
+| Nexus user config | `~/.config/nexus/settings.json` | Nexus CLI, `/pi-packages` toggle |
 | Pi settings | `~/.pi/agent/settings.json` | Pi's `PackageManager`, `SettingsManager` |
 
 When you toggle a third-party package as "disabled" in `/pi-packages`:
@@ -20,7 +20,7 @@ When you toggle a third-party package as "disabled" in `/pi-packages`:
 
 2. On Nexus boot, `applyUserExtensionConfig()` reads this config and **only** overrides the bundled feature-flags config for extensions that exist in `compiledFeatureFlags.ts`. Third-party package names never appear in that file.
 
-3. Pi's `PackageManager.resolve()` reads packages from **Pi's settings** (`~/.pi/agent/settings.json` → `globalSettings.packages` / `projectSettings.packages`) and resolves all of them. Pi never reads `~/.config/nexus/config.json`.
+3. Pi's `PackageManager.resolve()` reads packages from **Pi's settings** (`~/.pi/agent/settings.json` → `globalSettings.packages` / `projectSettings.packages`) and resolves all of them. Pi never reads `~/.config/nexus/settings.json`.
 
 **Result:** The disable toggle is written to Nexus config but never communicated to Pi. All third-party packages always load.
 

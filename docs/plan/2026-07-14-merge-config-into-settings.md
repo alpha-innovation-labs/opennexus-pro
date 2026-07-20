@@ -1,4 +1,4 @@
-# Plan: Merge `config.json` into `settings.json` and deprecate `config.json`
+# Plan: Merge `settings.json` into `config.json` and deprecate `settings.json`
 
 ## Problem
 
@@ -16,11 +16,11 @@ This creates:
 
 ## Goal
 
-Consolidate all Nexus user preferences into **`~/.config/nexus/settings.json`** (Pi's settings file, redirected by Nexus). Remove `~/.config/nexus/config.json` entirely. Every reader of `readNexusUserConfig()` will instead read from `settings.json`.
+Consolidate all Nexus user preferences into **`~/.config/nexus/config.json`** (Nexus's own config file). Remove `~/.config/nexus/settings.json` entirely. Every reader of `readNexusUserConfig()` will read and write `config.json`. Pi's `SettingsManager` will be redirected to read from `config.json` instead of `settings.json`.
 
 ## Design
 
-### `settings.json` final shape
+### `config.json` final shape
 
 ```json
 {
@@ -40,20 +40,20 @@ Consolidate all Nexus user preferences into **`~/.config/nexus/settings.json`** 
 }
 ```
 
-The file keeps Pi's existing keys (`theme`, `packages`) and adds Nexus user preference keys (`extensions`, `miniApps`).
+The file keeps Nexus's existing keys (`extensions`, `miniApps`, `packages`, `localImageReader`) and adds Pi's keys (`theme`, Pi packages).
 
 ### What changes
 
-1. **`readNexusUserConfig()`** — redirect from `config.json` to `settings.json`.
-2. **`writeNexusUserConfig()`** — redirect from `config.json` to `settings.json`.
+1. **`readNexusUserConfig()`** — redirect from `settings.json` to `config.json`.
+2. **`writeNexusUserConfig()`** — redirect from `settings.json` to `config.json`.
 3. **`setUserExtensionEnabled()`** — no change (reads/writes via the above).
 4. **`removeUserExtensionConfig()`** — no change (reads/writes via the above).
 5. **`applyUserExtensionConfig()`** — no change (reads via the above).
 6. **Mini-app readers** (`readTetrisSettings`, `readNexusMemorySettings`, `getAutomationDbPath`) — redirect `readNexusUserConfig` callers to the new unified path.
-7. **`readNexusMemorySettings()`** — this is a special case. It reads `settings.json` directly (not via `readNexusUserConfig`). It needs to be removed or merged into the unified reader.
-8. **`applyNexusConfigPatch()`** — already redirects Pi's `FileSettingsStorage` to `settings.json`. No change needed; the sync workaround from the third-party-disable plan continues to work because both files are now the same file.
-9. **`neo-editor refreshTransportPreference`** — reads `settings.json` directly (not via `readNexusUserConfig`). No change needed; it already reads the right file.
-10. **`slash-menu readGlobalSettings`** — reads `settings.json` directly. No change needed.
+7. **`readNexusMemorySettings()`** — this function reads `settings.json` directly. It needs to be updated to read `config.json` instead, or merged into the unified reader.
+8. **`applyNexusConfigPatch()`** — redirect Pi's `FileSettingsStorage` from `settings.json` to `config.json`. The sync workaround from the third-party-disable plan continues to work because both files are now the same file.
+9. **`neo-editor refreshTransportPreference`** — reads `settings.json` directly. Needs to be updated to read `config.json`.
+10. **`slash-menu readGlobalSettings`** — reads `settings.json` directly. Needs to be updated to read `config.json`.
 
 ### What stays the same (no file changes needed)
 
