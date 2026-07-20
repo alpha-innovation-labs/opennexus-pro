@@ -11,6 +11,7 @@ import { createBadge } from "./createBadge.js";
 import { getSessionRunTimeLabel } from "./getSessionRunTimeLabel.js";
 import { getVisibleSessionName } from "./getVisibleSessionName.js";
 
+const PROVIDER_BADGE_BG = "\x1b[48;2;120;30;30m";
 const MODEL_BADGE_BG = "\x1b[48;2;180;45;45m";
 const THINKING_BADGE_BG = "\x1b[48;2;214;86;86m";
 
@@ -35,7 +36,9 @@ export function createObservationsStatusWidget(
 			cachedLines = [];
 		},
 		render(width: number): string[] {
-			const modelId = (getPromptlineModel(ctx)?.id ?? "no-model").replace(/^[^/]+\//, "");
+			const modelInfo = getPromptlineModel(ctx);
+			const modelId = (modelInfo?.id ?? "no-model").replace(/^[^/]+\//, "");
+			const provider = modelInfo?.provider ?? "unknown";
 			const thinking = getThinkingLevel();
 			const hasMessages = hasConversationMessages(ctx);
 			const frameWidth = getPromptlineFrameWidth(width, hasMessages);
@@ -43,7 +46,7 @@ export function createObservationsStatusWidget(
 			const runTime = hasMessages && sessionName ? ctx.ui.theme.fg("muted", getSessionRunTimeLabel()) : undefined;
 			const key = [width, frameWidth, modelId, thinking, sessionName ?? "", runTime ?? ""].join("\u001f");
 			if (cachedKey === key) return cachedLines;
-			const badges = `${createBadge(modelId, MODEL_BADGE_BG)}${createBadge(thinking, THINKING_BADGE_BG)}`;
+			const badges = `${createBadge(provider, PROVIDER_BADGE_BG)}${createBadge(modelId, MODEL_BADGE_BG)}${createBadge(thinking, THINKING_BADGE_BG)}`;
 			const line = buildObservationsStatusLine(badges, runTime, sessionName, frameWidth, ctx.ui.theme);
 			if (isStartupProfileEnabled()) {
 				const renderedWidth = visibleWidth(line);

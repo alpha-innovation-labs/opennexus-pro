@@ -11,6 +11,7 @@ import { createPromptlineBadge } from "./createPromptlineBadge.js";
 import { getPromptlineSessionRunTimeLabel } from "./getPromptlineSessionRunTimeLabel.js";
 import { getPromptlineStatusTitle } from "./getPromptlineStatusTitle.js";
 
+const PROVIDER_BADGE_BG = "\x1b[48;2;120;30;30m";
 const MODEL_BADGE_BG = "\x1b[48;2;180;45;45m";
 const THINKING_BADGE_BG = "\x1b[48;2;214;86;86m";
 
@@ -35,7 +36,9 @@ export function createPromptlineStatusWidget(
 			cachedLines = [];
 		},
 		render(width: number): string[] {
-			const modelId = (getPromptlineModel(ctx)?.id ?? "no-model").replace(/^[^/]+\//, "");
+			const modelInfo = getPromptlineModel(ctx);
+			const modelId = (modelInfo?.id ?? "no-model").replace(/^[^/]+\//, "");
+			const provider = modelInfo?.provider ?? "unknown";
 			const thinking = getThinkingLevel();
 			const hasMessages = hasConversationMessages(ctx);
 			const frameWidth = getPromptlineFrameWidth(width, hasMessages);
@@ -43,7 +46,7 @@ export function createPromptlineStatusWidget(
 			const runTime = hasMessages && title ? ctx.ui.theme.fg("muted", getPromptlineSessionRunTimeLabel()) : undefined;
 			const key = [width, frameWidth, modelId, thinking, title ?? "", runTime ?? ""].join("\u001f");
 			if (cachedKey === key) return cachedLines;
-			const badges = `${createPromptlineBadge(modelId, MODEL_BADGE_BG)}${createPromptlineBadge(thinking, THINKING_BADGE_BG)}`;
+			const badges = `${createPromptlineBadge(provider, PROVIDER_BADGE_BG)}${createPromptlineBadge(modelId, MODEL_BADGE_BG)}${createPromptlineBadge(thinking, THINKING_BADGE_BG)}`;
 			const line = buildPromptlineStatusLine(badges, runTime, title, frameWidth, ctx.ui.theme);
 			if (isStartupProfileEnabled()) {
 				const renderedWidth = visibleWidth(line);
