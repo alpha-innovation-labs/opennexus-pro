@@ -1,6 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import type { LocalImageReaderConfig } from "../config/types.js";
-import { getGlobalSettingsPath, readJsonFile, writeJsonFile } from "../config/loader.js";
+import { readNexusUserConfig, writeNexusUserConfig } from "@nexus/runtime/config/index.js";
 import { fetchModels } from "../request/executor.js";
 
 /**
@@ -10,29 +10,29 @@ import { fetchModels } from "../request/executor.js";
  *
  * @param pi - The Pi extension API.
  * @param getConfig - A function that resolves and caches configuration.
+ * @param persistConfig - A function that persists config to the Nexus user config file.
  */
 export function registerCommands(
   pi: ExtensionAPI,
   getConfig: (ctx: ExtensionContext) => LocalImageReaderConfig,
+  persistConfig: (config: LocalImageReaderConfig) => void,
 ): void {
   // Register /local-image command: interactive settings menu
   pi.registerCommand("local-image", {
     description:
       "Open an interactive settings menu to view and update the local-image-reader configuration.",
     handler: async (_args, ctx) => {
-      const globalSettingsPath = getGlobalSettingsPath();
-
-      // Always save to global settings.json.
-      const fileData = readJsonFile(globalSettingsPath);
-      const settings: Record<string, unknown> = fileData || {};
-
-      // Load existing config or create fresh.
-      const existing = (settings["local-image-reader"] as Record<string, unknown>) ?? {};
+      // Read the current user config.
+      const userConfig = readNexusUserConfig();
+      const existing: LocalImageReaderConfig = userConfig.localImageReader ?? {
+        url: "",
+        apiKey: "",
+      };
       const config: LocalImageReaderConfig = {
-        url: (existing.url as string) ?? "",
-        apiKey: (existing.apiKey as string) ?? "",
-        model: (existing.model as string) ?? undefined,
-        maxTokens: (existing.maxTokens as number) ?? undefined,
+        url: existing.url ?? "",
+        apiKey: existing.apiKey ?? "",
+        model: existing.model,
+        maxTokens: existing.maxTokens,
       };
 
       // Build options array for the TUI select menu.
@@ -51,22 +51,16 @@ export function registerCommands(
         return options;
       };
 
-      // Helper to persist the current config to global settings.json.
+      // Helper to persist the current config to the Nexus user config file.
       const persist = (): void => {
-        settings["local-image-reader"] = {
-          url: config!.url,
-          apiKey: config!.apiKey,
-          ...(config!.model ? { model: config!.model } : {}),
-          ...(config!.maxTokens ? { maxTokens: config!.maxTokens } : {}),
-        };
-        writeJsonFile(globalSettingsPath, settings);
-        ctx.ui.notify(`Saved local-image-reader settings to ${globalSettingsPath}`, "info");
+        persistConfig(config);
+        ctx.ui.notify("Saved local-image-reader settings.", "info");
       };
 
       // Show the menu and loop until Cancel.
       let choice: string | undefined;
       do {
-        choice = await ctx.ui.select("local-image-reader Settings (global)", buildOptions());
+        choice = await ctx.ui.select("local-image-reader Settings", buildOptions());
 
         if (!choice || choice === "Cancel") {
           return;

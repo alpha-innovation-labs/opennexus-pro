@@ -5,6 +5,15 @@ import type { FeatureFlagsConfig } from "../types.js";
  */
 export const compiledFeatureFlags = {
   "extensions": {
+    "ai-providers": {
+      "enabled": true,
+      "features": [
+        "oh-my-pi provider login entries",
+        "manual credential prompts for additional providers",
+        "/login provider availability"
+      ],
+      "category": "extension"
+    },
     "auto-update": {
       "enabled": true,
       "features": [
@@ -155,12 +164,12 @@ export const compiledFeatureFlags = {
       ],
       "category": "extension"
     },
-    "slashusage": {
+    "local-image-reader": {
       "enabled": true,
       "features": [
-        "inline slashusage",
-        "5-minute historical usage snapshots",
-        "/usage history graph modal"
+        "local_image_reader tool",
+        "multimodal endpoint integration for local image analysis",
+        "supported formats: png, jpeg, webp, gif, bmp"
       ],
       "category": "extension"
     }

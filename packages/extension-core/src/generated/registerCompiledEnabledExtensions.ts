@@ -3,6 +3,7 @@ import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySyst
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
 import { createTelemetryExtensionApi } from "@nexus/feature-flags/createTelemetryExtensionApi.js";
 import { setRuntimeExtensionFeatureFlags } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
+import { registerAiProvidersExtension } from "../ai-providers/registerAiProvidersExtension.js";
 import { registerAutoUpdateExtension } from "../auto-update/registerAutoUpdateExtension.js";
 import { registerCmuxExtension } from "@nexus/extensions-pro/cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "../context-usage/registerContextUsageExtension.js";
@@ -20,13 +21,13 @@ import { registerRtkExtension } from "@nexus/extensions-pro/rtk/registerRtkExten
 import { registerStartupHeroExtension } from "../startup-hero/registerStartupHeroExtension.js";
 import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension.js";
 import registerTronExtension from "../tron/index.js";
-import registerSlashusageExtension from "../slashusage/index.js";
 import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension.js";
 
 /**
  * Extension ids compiled into the release bundle.
  */
 export const compiledBundledExtensionIds = [
+  "ai-providers",
   "auto-update",
   "cmux",
   "context-usage",
@@ -44,11 +45,11 @@ export const compiledBundledExtensionIds = [
   "startup-hero",
   "tetris",
   "tron",
-  "slashusage",
   "mini-app-manager"
 ] as const;
 
 const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => void | Promise<void>> = {
+  "ai-providers": registerAiProvidersExtension,
   "auto-update": registerAutoUpdateExtension,
   "cmux": registerCmuxExtension,
   "context-usage": registerContextUsageExtension,
@@ -66,7 +67,6 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "startup-hero": registerStartupHeroExtension,
   "tetris": registerTetrisExtension,
   "tron": registerTronExtension,
-  "slashusage": registerSlashusageExtension,
   "mini-app-manager": registerMiniAppManagerExtension,
 };
 

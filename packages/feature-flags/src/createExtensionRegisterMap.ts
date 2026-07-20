@@ -34,6 +34,7 @@ import { registerWalletExtension } from "@nexus/mini-apps/wallet/registerWalletE
 import registerSlashusageExtension from "@nexus/extensions/slashusage/index.js";
 import { registerAskUserQuestionExtension } from "@nexus/extensions/ask-user-question/registerAskUserQuestionExtension.js";
 import { registerWebSearchExtension } from "@nexus/extensions/web-search/registerWebSearchExtension.js";
+import registerLocalImageReaderExtension from "@nexus/extensions/local-image-reader/registerLocalImageReaderExtension.js";
 
 /**
  * Creates the code-backed extension registration map.
@@ -80,5 +81,6 @@ export function createExtensionRegisterMap(): Record<
 		slashusage: registerSlashusageExtension,
 		webtools: registerWebSearchExtension,
 		"ask-user-question": registerAskUserQuestionExtension,
+		"local-image-reader": registerLocalImageReaderExtension,
 	};
 }
