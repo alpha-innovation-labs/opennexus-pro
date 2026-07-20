@@ -30,7 +30,7 @@ export function registerLocalImageTool(
     parameters: LOCAL_IMAGE_READER_PARAMS,
     async execute(_toolCallId, params, signal, _onUpdate, ctx) {
       try {
-        // Load configuration from settings.json.
+        // Load configuration from user config.
         const config = getConfig(ctx);
 
         // Encode the image to base64.

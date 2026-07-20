@@ -1,7 +1,7 @@
 import type { LocalImageReaderConfig } from "./types.js";
 
 /**
- * Validate a settings.json sub-entry (from the local-image-reader key).
+ * Validate a config.json sub-entry (from the local-image-reader key).
  * Returns null when required keys are missing or invalid, instead of throwing.
  *
  * @param entry - Raw settings entry.

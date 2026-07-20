@@ -58,10 +58,6 @@ export const extensionModules = {
 		importPath: "../slash-menu/registerSlashMenuExtension.js",
 		exportName: "registerSlashMenuExtension",
 	},
-	memory: {
-		importPath: "@nexus/mini-apps/memory/registerMemoryExtension.js",
-		exportName: "registerMemoryExtension",
-	},
 	"mini-app-manager": {
 		importPath:
 			"@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension.js",

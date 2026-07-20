@@ -39,7 +39,6 @@ A daemon is not the deciding boundary. Product isolation and standalone workflow
 | `social-chat` | Own CLI lifecycle, detached daemon, and bundled social adapters. |
 | `annotation` | Own CLI lifecycle, daemon API, and storage. |
 | `annotate` | Own browser annotation capture workflow. |
-| `memory` | Own browser, capture, project/topic model, git-backed storage. |
 | `md-editor` | Own editing workflow, modal UI, chats, diff acceptance. |
 | `todo` | Own todo workflow. |
 

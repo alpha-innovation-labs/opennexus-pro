@@ -3,7 +3,7 @@ import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
 import { createContextUsageReport } from "../context-usage/createContextUsageReport.js";
 import type { ContextUsageReport } from "../context-usage/types.js";
 import { createRuntimeSnapshot } from "../context-usage/createRuntimeSnapshot.js";
-import { readProjectSettings } from "../slash-menu/readProjectSettings.js";
+import { readProjectConfig } from "../slash-menu/readProjectConfig.js";
 import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
 import { ensurePromptlineInstalled } from "./features/promptline/ensurePromptlineInstalled.js";
 import { getPromptlineConfig } from "./features/promptline/config/getPromptlineConfig.js";
@@ -42,8 +42,8 @@ export default function(pi: ExtensionAPI) {
     logExtensionEvent("neo-editor", "session_start:afterEnsure", {
       sessionFile: ctx.sessionManager.getSessionFile() ?? null,
     });
-    const projectSettings = await readProjectSettings(ctx.cwd);
-    setToolGroupCollapseEnabled(projectSettings.autoCompact === true);
+    const projectConfig = await readProjectConfig(ctx.cwd);
+    setToolGroupCollapseEnabled(projectConfig.autoCompact === true);
     await refreshAndRender(ctx, deps);
     await primeStartupResumeModal(event.reason, ctx);
     await primeStartupLoginModal(event.reason, ctx);

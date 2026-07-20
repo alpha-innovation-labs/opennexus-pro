@@ -1,5 +1,5 @@
-import { getProjectSettingsPath } from "@nexus/runtime/config/getProjectSettingsPath.js";
-import { getUserSettingsPath } from "@nexus/runtime/config/getUserSettingsPath.js";
+import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath.js";
+import { getUserConfigPath } from "@nexus/runtime/config/getUserConfigPath.js";
 import { readJson } from "./readJson.js";
 import { setTransportPreference } from "./state.js";
 
@@ -9,7 +9,7 @@ import { setTransportPreference } from "./state.js";
  * @param cwd Project cwd.
  */
 export async function refreshTransportPreference(cwd: string): Promise<void> {
-  const globalSettings = await readJson(getUserSettingsPath());
-  const projectSettings = await readJson(getProjectSettingsPath(cwd));
-  setTransportPreference(projectSettings?.transport ?? globalSettings?.transport ?? "sse");
+  const globalSettings = await readJson(getUserConfigPath());
+  const projectConfig = await readJson(getProjectConfigPath(cwd));
+  setTransportPreference(projectConfig?.transport ?? globalSettings?.transport ?? "sse");
 }

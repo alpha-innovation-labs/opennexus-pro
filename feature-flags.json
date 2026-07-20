@@ -204,19 +204,6 @@
       ],
       "category": "extension"
     },
-    "memory": {
-      "enabled": false,
-      "features": [
-        "/memory two-pane browser",
-        "tweet capture through Jina Reader",
-        "memory project discovery before writes",
-        "git-backed operation commits",
-        "topic-first memory query tool",
-        "Projects-compatible markdown memory storage"
-      ],
-      "category": "mini-app",
-      "devOnly": true
-    },
     "notify": {
       "enabled": true,
       "features": [

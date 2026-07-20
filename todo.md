@@ -10,3 +10,6 @@
 ## Observational memory
 - Is it possible to rewrite the context?
 - What if we updated the tool calls so that they don't store the entire context when requested by the llm? So for exampe, running a certain command would get washed out of context after it was read for example
+
+
+- Use this link as sample of HUGE web_fetch result. we should truncate it https://registry.npmjs.org/react

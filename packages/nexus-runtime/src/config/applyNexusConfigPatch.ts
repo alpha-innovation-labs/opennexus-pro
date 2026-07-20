@@ -1,9 +1,9 @@
 import { getAgentDir } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/config.js";
 import { readBundledDefaultSettings } from "@nexus/assets/default-settings/readBundledDefaultSettings.js";
 import { getDefaultThemeName } from "./getDefaultThemeName.js";
-import { getProjectSettingsPath } from "./getProjectSettingsPath.js";
+import { getProjectConfigPath } from "./getProjectConfigPath.js";
 import { getProjectThemesPath } from "./getProjectThemesPath.js";
-import { getUserSettingsPath } from "./getUserSettingsPath.js";
+import { getUserConfigPath } from "./getUserConfigPath.js";
 import { getUserThemesPath } from "./getUserThemesPath.js";
 import { mergeSettings, type SettingsRecord } from "./mergeSettings.js";
 
@@ -72,8 +72,8 @@ export async function applyNexusConfigPatch(): Promise<void> {
 
   patchedSettingsManager.create = function createNexusSettingsManager(cwd = process.cwd(), agentDir = getAgentDir()) {
     const storage = new FileSettingsStorage(cwd, agentDir) as unknown as { globalSettingsPath: string; projectSettingsPath: string };
-    storage.globalSettingsPath = getUserSettingsPath();
-    storage.projectSettingsPath = getProjectSettingsPath(cwd);
+    storage.globalSettingsPath = getUserConfigPath();
+    storage.projectSettingsPath = getProjectConfigPath(cwd);
     return patchedSettingsManager.fromStorage(storage);
   };
 

@@ -15,7 +15,6 @@ import { registerMdEditorExtension } from "@nexus/mini-apps/md-editor/registerMd
 import registerNeoEditorExtension from "@nexus/extensions/neo-editor/registerNeoEditorExtension.js";
 import { registerHotkeysExtension } from "@nexus/extensions/hotkeys/registerHotkeysExtension.js";
 import { registerSlashMenuExtension } from "@nexus/extensions/slash-menu/registerSlashMenuExtension.js";
-import { registerMemoryExtension } from "@nexus/mini-apps/memory/registerMemoryExtension.js";
 import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension.js";
 import { registerNotifyExtension } from "@nexus/extensions/notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "@nexus/extensions-pro/observations/registerObservationsExtension.js";
@@ -62,7 +61,6 @@ export function createExtensionRegisterMap(): Record<
 		"neo-editor": registerNeoEditorExtension,
 		"hotkeys": registerHotkeysExtension,
 		"slash-menu": registerSlashMenuExtension,
-		memory: registerMemoryExtension,
 		"mini-app-manager": registerMiniAppManagerExtension,
 		notify: registerNotifyExtension,
 		observations: registerObservationsExtension,

@@ -14,6 +14,7 @@
 - Temporary release workaround: macOS image paste in the Bun-compiled Nexus binary is currently handled from `neo-editor` using the shared JXA/`osascript` clipboard-image runtime helper. Treat that as a stopgap; do not remove or refactor it away unless the native Pi/Bun release path is proven to work again in the installed binary.
 - Future cleanup note: `pi-slash-usage` is still consumed as an external package dependency. Plan to bring that functionality into the app repo/bundle later so Nexus is less dependent on that separate package at runtime.
 - Reusable UI building blocks live under `src/extensions/shared/`. Before creating new overlay or picker UI, check that folder first — especially `src/extensions/shared/two-pane-select-modal/` for modal reuse.
+- All user-facing config (global and project-level) lives in `config.json`. Global config is at `~/.config/nexus/config.json`, resolved by `readNexusUserConfig()` / `writeNexusUserConfig()` / `getUserConfigPath()`. Project config is at `.nexus/config.json`, resolved by `readProjectConfig()` / `writeProjectConfig()` / `getProjectConfigPath()`. Extensions that need custom configuration must use these runtime functions — never write to `settings.json` or create ad-hoc config files.
 
 It is a CATASTROPHIC FAILURE to have a release of this app, expose source code. I repeat: CATASTROPHIC
 

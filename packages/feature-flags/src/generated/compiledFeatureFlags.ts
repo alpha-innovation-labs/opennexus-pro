@@ -168,7 +168,9 @@ export const compiledFeatureFlags = {
       "enabled": true,
       "features": [
         "local_image_reader tool",
+        "/local-image interactive settings menu",
         "multimodal endpoint integration for local image analysis",
+        "settings persistence in global settings.json",
         "supported formats: png, jpeg, webp, gif, bmp"
       ],
       "category": "extension"

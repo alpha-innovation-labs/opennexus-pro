@@ -29,6 +29,15 @@ release:
     npm install -g --force "${PACK_DIR}/${PACKAGE_TGZ}"
 
     mkdir -p "${AGENT_DIR}" "${CONFIG_DIR}"
+
+    # Migrate legacy ~/.config/nexus/settings.json → ~/.config/nexus/config.json
+    if [ -f "${CONFIG_DIR}/settings.json" ] && [ ! -f "${CONFIG_DIR}/config.json" ]; then
+        echo "  ⏳ Migrating legacy settings.json → config.json"
+        cp "${CONFIG_DIR}/settings.json" "${CONFIG_DIR}/config.json"
+        rm -f "${CONFIG_DIR}/settings.json"
+    fi
+
+    # Ensure editor-triggers.json exists (separate from unified config.json)
     if [ -f .nexus/extensions/neo-editor/editor-triggers.json ] && [ ! -f "${CONFIG_DIR}/editor-triggers.json" ]; then
         cp .nexus/extensions/neo-editor/editor-triggers.json "${CONFIG_DIR}/editor-triggers.json"
     elif [ ! -f "${CONFIG_DIR}/editor-triggers.json" ]; then
