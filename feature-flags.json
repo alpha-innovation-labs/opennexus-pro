@@ -166,26 +166,6 @@
       ],
       "category": "extension"
     },
-    "prompt-queue": {
-      "enabled": false,
-      "features": [
-        "persisted Neo editor prompt queue",
-        "queue box above promptline",
-        "queue navigation, edit, send, and delete hotkeys"
-      ],
-      "category": "extension",
-      "devOnly": true
-    },
-    "steer-queue": {
-      "enabled": false,
-      "features": [
-        "nexus steer CLI command",
-        "agent-dir per-session steering queue",
-        "poll and deliver top-level session steering messages"
-      ],
-      "category": "extension",
-      "devOnly": true
-    },
     "hotkeys": {
       "enabled": true,
       "features": [

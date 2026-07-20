@@ -15,6 +15,11 @@ export const extensionModules = {
 		importPath: "../auto-update/registerAutoUpdateExtension.js",
 		exportName: "registerAutoUpdateExtension",
 	},
+	"local-image-reader": {
+		importPath: "../local-image-reader/registerLocalImageReaderExtension.js",
+		exportName: "default",
+		localName: "registerLocalImageReaderExtension",
+	},
 	cmux: {
 		importPath: "@nexus/extensions-pro/cmux/registerCmuxExtension.js",
 		exportName: "registerCmuxExtension",
@@ -131,13 +136,5 @@ export const extensionModules = {
 	"ask-user-question": {
 		importPath: "../ask-user-question/registerAskUserQuestionExtension.js",
 		exportName: "registerAskUserQuestionExtension",
-	},
-	"prompt-queue": {
-		importPath: "../prompt-queue/registerPromptQueueExtension.js",
-		exportName: "registerPromptQueueExtension",
-	},
-	"steer-queue": {
-		importPath: "../steer-queue/registerSteerQueueExtension.js",
-		exportName: "registerSteerQueueExtension",
 	},
 };
