@@ -1,6 +1,7 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import type { LocalImageReaderConfig } from "../config/types.js";
-import { readNexusUserConfig, writeNexusUserConfig } from "@nexus/runtime/config/index.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
+import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
 import { fetchModels } from "../request/executor.js";
 
 /**
