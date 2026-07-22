@@ -9,6 +9,7 @@ import { registerContextUsageExtension } from "@nexus/extensions/context-usage/r
 import { registerChatStatusExtension } from "@nexus/extensions/chat-status/registerChatStatusExtension.js";
 import { registerDevExtension } from "@nexus/extensions-dev/dev/registerDevExtension.js";
 import { registerExitMessageExtension } from "@nexus/extensions/exit-message/registerExitMessageExtension.js";
+import { registerHerdrAgentEndLogExtension } from "@nexus/extensions/herdr-agent-end-log/registerHerdrAgentEndLogExtension.js";
 import { registerPiPackagesExtension } from "@nexus/extensions/pi-packages/registerPiPackagesExtension.js";
 import { registerFeatureManagementExtension } from "@nexus/extensions-dev/feature-management/registerFeatureManagementExtension.js";
 import registerFffExtension from "@nexus/extensions/fff/index.js";
@@ -70,6 +71,7 @@ export function createExtensionRegisterMap(): Record<
 		"oh-my-pi-lsp": registerOhMyPiLspExtension,
 		"system-prompt": registerSystemPromptExtension,
 		"exit-message": registerExitMessageExtension,
+		"herdr-agent-end-log": registerHerdrAgentEndLogExtension,
 		"startup-hero": registerStartupHeroExtension,
 		"sub-agents": registerSubAgentsExtension,
 		"sub-agent-status-widget": registerSubagentStatusWidgetExtension,

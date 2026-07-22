@@ -21,6 +21,7 @@ import { registerStartupHeroExtension } from "../startup-hero/registerStartupHer
 import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension.js";
 import registerTronExtension from "../tron/index.js";
 import registerLocalImageReaderExtension from "../local-image-reader/registerLocalImageReaderExtension.js";
+import { registerHerdrAgentEndLogExtension } from "../herdr-agent-end-log/registerHerdrAgentEndLogExtension.js";
 import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension.js";
 
 /**
@@ -45,6 +46,7 @@ export const compiledBundledExtensionIds = [
   "tetris",
   "tron",
   "local-image-reader",
+  "herdr-agent-end-log",
   "mini-app-manager"
 ] as const;
 
@@ -67,6 +69,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "tetris": registerTetrisExtension,
   "tron": registerTronExtension,
   "local-image-reader": registerLocalImageReaderExtension,
+  "herdr-agent-end-log": registerHerdrAgentEndLogExtension,
   "mini-app-manager": registerMiniAppManagerExtension,
 };
 

@@ -174,6 +174,13 @@ export const compiledFeatureFlags = {
         "supported formats: png, jpeg, webp, gif, bmp"
       ],
       "category": "extension"
+    },
+    "herdr-agent-end-log": {
+      "enabled": true,
+      "features": [
+        "writes last assistant message content to ~/.local/share/nexus/agent/state.json per Herdr pane on agent_end"
+      ],
+      "category": "extension"
     }
   },
   "other": {

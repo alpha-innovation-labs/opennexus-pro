@@ -88,6 +88,10 @@ export const extensionModules = {
 		importPath: "../exit-message/registerExitMessageExtension.js",
 		exportName: "registerExitMessageExtension",
 	},
+	"herdr-agent-end-log": {
+		importPath: "../herdr-agent-end-log/registerHerdrAgentEndLogExtension.js",
+		exportName: "registerHerdrAgentEndLogExtension",
+	},
 	"startup-hero": {
 		importPath: "../startup-hero/registerStartupHeroExtension.js",
 		exportName: "registerStartupHeroExtension",
