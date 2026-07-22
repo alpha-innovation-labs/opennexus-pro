@@ -1,6 +1,6 @@
 import type { Api, Model } from "@earendil-works/pi-ai";
 import { SettingsManager } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
 import { getAvailableThemes } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/theme/theme.js";
 import { createThinkingSettingLeaf } from "./createThinkingSettingLeaf.js";
 import { sortSlashMenuItemsByLabel } from "./sortSlashMenuItemsByLabel.js";

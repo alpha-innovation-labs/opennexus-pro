@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
 import { registerAiProvidersExtension } from "@nexus/extensions/ai-providers/registerAiProvidersExtension.js";
 import { registerAnnotateExtension } from "@nexus/mini-apps/annotate/registerAnnotateExtension.js";
 import { registerAutomationsExtension } from "@nexus/mini-apps/automations/registerAutomationsExtension.js";
