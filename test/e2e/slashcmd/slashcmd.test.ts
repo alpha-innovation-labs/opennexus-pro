@@ -32,10 +32,10 @@ describe("slashcmd", () => {
     const dumpDir = join(tmpdir(), `nexus-${SESSION_NAME}-dump`);
     try { rm.sync(dumpDir, { recursive: true, force: true }); } catch { /* ignore */ }
 
-    // Create a fresh zellij session and launch Nexus (without /pi-packages modal)
+    // Create a fresh agent-tui session and launch Nexus (without /pi-packages modal)
     agentTui("session", "create", SESSION_NAME);
     await new Promise((resolve) => setTimeout(resolve, 2_000));
-    // Retry exec until the session is ready (zellij session creation is async)
+    // Retry exec until the session is ready (agent-tui session creation is async)
     let execRetries = 0;
     let execOk = false;
     while (execRetries < 5 && !execOk) {

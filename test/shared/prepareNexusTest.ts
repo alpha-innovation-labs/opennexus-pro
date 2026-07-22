@@ -33,7 +33,7 @@ export interface PreparedNexusTest {
 }
 
 /**
- * Prepares Nexus for e2e testing by creating a zellij session, launching
+ * Prepares Nexus for e2e testing by creating an agent-tui session, launching
  * Nexus (dev or prod), and opening the /pi-packages modal.
  *
  * Reads `process.env.NEXUS_TEST_ENV`:
@@ -52,7 +52,7 @@ export function prepareNexusTest(options: PrepareNexusTestOptions): PreparedNexu
   try { agentTui("session", "delete", sessionName); } catch { /* ignore */ }
   try { rm.sync(dumpDir, { recursive: true, force: true }); } catch { /* ignore */ }
 
-  // Step 2: Create a fresh zellij session
+  // Step 2: Create a fresh agent-tui session
   agentTui("session", "create", sessionName);
 
   // Step 3: Launch Nexus — dev uses `just dev`, prod uses `nexus`
