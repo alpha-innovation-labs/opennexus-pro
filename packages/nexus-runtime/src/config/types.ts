@@ -33,4 +33,6 @@ export type NexusUserConfig = {
 	packages?: NexusPackageSource[];
 	/** Per-extension settings persisted in the user config file. */
 	localImageReader?: LocalImageReaderConfig;
+	/** Whether desktop notifications are enabled. */
+	notifyEnabled?: boolean;
 };

@@ -13,3 +13,5 @@ auth.json
 .pi/chrome-screenshots
 
 graphify-out/
+
+.nexus/stratup-profiles/*

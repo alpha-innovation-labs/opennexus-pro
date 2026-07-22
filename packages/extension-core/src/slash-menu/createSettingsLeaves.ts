@@ -1,5 +1,6 @@
 import type { Api, Model } from "@earendil-works/pi-ai";
 import { SettingsManager } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import { getAvailableThemes } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/theme/theme.js";
 import { createThinkingSettingLeaf } from "./createThinkingSettingLeaf.js";
 import { sortSlashMenuItemsByLabel } from "./sortSlashMenuItemsByLabel.js";
@@ -40,5 +41,13 @@ export async function createSettingsLeaves(
     { kind: "setting", label: "Double-escape action", description: "Action when pressing Escape twice with empty editor", value: "doubleEscapeAction", currentValue: settings.getDoubleEscapeAction(), options: ["tree", "fork", "none"] },
     { kind: "setting", label: "Tree filter mode", description: "Default filter when opening /tree", value: "treeFilterMode", currentValue: settings.getTreeFilterMode(), options: ["default", "no-tools", "user-only", "labeled-only", "all"] },
     { kind: "toggle", label: "Quiet startup", description: "Disable verbose printing at startup", value: "quietStartup", currentValue: String(settings.getQuietStartup()), options: ["true", "false"] },
+    {
+      kind: "toggle",
+      label: "Desktop notifications",
+      description: "Show desktop notifications when agent completes",
+      value: "notifyEnabled",
+      currentValue: String(readNexusUserConfig().notifyEnabled ?? true),
+      options: ["true", "false"],
+    },
   ]);
 }

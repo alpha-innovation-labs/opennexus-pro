@@ -131,7 +131,7 @@ export const compiledFeatureFlags = {
       "category": "extension"
     },
     "rtk": {
-      "enabled": true,
+      "enabled": false,
       "features": [
         "rtk rewrite for bash",
         "rtk-native read/find/ls/grep tools"

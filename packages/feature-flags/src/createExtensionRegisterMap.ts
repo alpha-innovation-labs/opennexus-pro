@@ -1,4 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import { registerAiProvidersExtension } from "@nexus/extensions/ai-providers/registerAiProvidersExtension.js";
 import { registerAnnotateExtension } from "@nexus/mini-apps/annotate/registerAnnotateExtension.js";
 import { registerAutomationsExtension } from "@nexus/mini-apps/automations/registerAutomationsExtension.js";
@@ -60,7 +61,11 @@ export function createExtensionRegisterMap(): Record<
 		"hotkeys": registerHotkeysExtension,
 		"slash-menu": registerSlashMenuExtension,
 		"mini-app-manager": registerMiniAppManagerExtension,
-		notify: registerNotifyExtension,
+		notify: (pi: ExtensionAPI) => {
+			const userConfig = readNexusUserConfig();
+			if (userConfig.notifyEnabled === false) return;
+			registerNotifyExtension(pi);
+		},
 		observations: registerObservationsExtension,
 		"oh-my-pi-lsp": registerOhMyPiLspExtension,
 		"system-prompt": registerSystemPromptExtension,

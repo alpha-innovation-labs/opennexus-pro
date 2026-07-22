@@ -146,7 +146,7 @@ Create a helper `syncPackageToPiSettings` that reads Pi's current settings, remo
 - Unit test: `filterDisabledPackages` preserves enabled packages and object-style packages
   - See `test/e2e/pi-packages/thirdPartyDisable.test.ts`
 - **Agent-tui E2E test (enabled):** `test/e2e/pi-packages/checkChromeCommand.test.ts`
-  - Launches Nexus in a real zellij session via `agent-tui`, types `/chrome`, dumps the ANSI output, and asserts whether the `/chrome` command is registered.
+  - Launches Nexus in a real agent-tui session, types `/chrome`, dumps the ANSI output, and asserts whether the `/chrome` command is registered.
   - This is the baseline: with `pi-chrome` enabled, `/chrome` should render the Chrome connection modal.
   - Run with: `npx tsx --test test/e2e/pi-packages/checkChromeCommand.test.ts`
 - **Agent-tui E2E test (disabled):** `test/e2e/pi-packages/checkChromeCommandDisabled.test.ts`

@@ -13,13 +13,17 @@ export function applySystemExtensionAvailability(config: FeatureFlagsConfig): Fe
   return {
     ...config,
     extensions: Object.fromEntries(
-      Object.entries(config.extensions).map(([id, value]) => [
-        id,
-        {
-          ...value,
-          enabled: id === "cmux" ? value.enabled && cmuxAvailable : value.enabled,
-        },
-      ]),
+      Object.entries(config.extensions).map(([id, value]) => {
+        const isCmux = id === "cmux";
+        const available = isCmux ? cmuxAvailable : true;
+        return [
+          id,
+          {
+            ...value,
+            enabled: value.enabled && available,
+          },
+        ];
+      }),
     ),
   };
 }

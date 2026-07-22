@@ -17,7 +17,6 @@ import { registerSlashMenuExtension } from "../slash-menu/registerSlashMenuExten
 import { registerNotifyExtension } from "../notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "@nexus/extensions-pro/observations/registerObservationsExtension.js";
 import { registerSystemPromptExtension } from "../system-prompt/registerSystemPromptExtension.js";
-import { registerRtkExtension } from "@nexus/extensions-pro/rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "../startup-hero/registerStartupHeroExtension.js";
 import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension.js";
 import registerTronExtension from "../tron/index.js";
@@ -42,7 +41,6 @@ export const compiledBundledExtensionIds = [
   "notify",
   "observations",
   "system-prompt",
-  "rtk",
   "startup-hero",
   "tetris",
   "tron",
@@ -65,7 +63,6 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "notify": registerNotifyExtension,
   "observations": registerObservationsExtension,
   "system-prompt": registerSystemPromptExtension,
-  "rtk": registerRtkExtension,
   "startup-hero": registerStartupHeroExtension,
   "tetris": registerTetrisExtension,
   "tron": registerTronExtension,

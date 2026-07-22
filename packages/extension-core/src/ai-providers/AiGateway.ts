@@ -1,5 +1,11 @@
 import type { ExtensionAPI, ProviderConfigInput } from "@earendil-works/pi-coding-agent";
 import { DEFAULT_PORTS } from "./constants/default-ports.js";
+import {
+  getModelCachePath,
+  readModelCache,
+  writeModelCache,
+  type ModelCache,
+} from "./cache/index.js";
 
 const UNKNOWN_PROVIDER = "unknown";
 
@@ -10,8 +16,9 @@ const UNKNOWN_PROVIDER = "unknown";
  * LM Studio, etc.).  The class encapsulates:
  *
  * - **exists()**  — probes `/v1/models` to confirm the gateway is alive
- * - **getModels()**  — fetches and maps the model list from `/v1/models`
- * - **registerProvider()**  — registers the gateway with Pi via `pi.registerProvider`
+ * - **getModels()**  — returns cached models synchronously (never blocks)
+ * - **refreshModels()**  — fetches fresh models, writes cache, returns them
+ * - **registerProvider()**  — registers with Pi (sync, fire-and-forget warm)
  */
 export class AiGateway {
   /** Unique provider identifier used by Pi (e.g. "ollama", "vllm"). */
@@ -31,6 +38,14 @@ export class AiGateway {
 
   /** Whether this gateway has been registered with Pi. */
   private _registered = false;
+
+  /** Cache of models returned by the last successful warm (may be null). */
+  private _cachedModels: NonNullable<ProviderConfigInput["models"]> | null =
+    null;
+
+  /** Deduplicates concurrent `_warmCache()` calls so only one write
+   *  is in flight at a time. */
+  private _cacheWritePromise: Promise<void> | null = null;
 
   constructor(options: {
     providerId: string;
@@ -92,13 +107,22 @@ export class AiGateway {
   }
 
   /**
+   * Returns cached models (sync).  Returns an empty array on cache miss.
+   *
+   * This is the fast path used at startup — it never blocks.
+   */
+  getModels(): NonNullable<ProviderConfigInput["models"]> {
+    return this._cachedModels ?? [];
+  }
+
+  /**
    * Fetches models from the gateway and maps them to Pi's model format.
    *
    * Embedding models are filtered out — only LLMs are returned.
    *
    * Returns an empty array if the gateway is unreachable.
    */
-  async getModels(): Promise<
+  async fetchModels(): Promise<
     NonNullable<ProviderConfigInput["models"]>
   > {
     try {
@@ -128,8 +152,8 @@ export class AiGateway {
   /**
    * Registers this gateway with Pi so it appears in the model picker.
    *
-   * Fetches models at registration time so Pi does not fall back to its
-   * built-in catalog.
+   * Registers with an empty model list and starts a fire-and-forget
+   * background warm so the first real models arrive asynchronously.
    */
   async registerProvider(pi: ExtensionAPI): Promise<void> {
     if (this._registered) {
@@ -139,17 +163,84 @@ export class AiGateway {
       return;
     }
 
-    const models = await this.getModels();
-
     pi.registerProvider(this.providerId, {
       name: this.name,
       baseUrl: this.baseUrl,
       apiKey: this.apiKey,
       api: this.api,
-      models,
-      refreshModels: async (context) => this.getModels(),
+      models: [],
+      refreshModels: async (context) => this.refreshModels(context),
     });
     this._registered = true;
+
+    // Fire-and-forget warm — errors are silently swallowed.
+    this._warmCache();
+  }
+
+  /**
+   * On-demand refresh: fetches fresh models, updates cache, and returns
+   * the new model list.  Called by the `refreshModels` callback that Pi
+   * invokes when the user explicitly requests a refresh.
+   */
+  async refreshModels(_context: unknown): Promise<
+    NonNullable<ProviderConfigInput["models"]>
+  > {
+    const models = await this.fetchModels();
+    await this._writeCache(models);
+    this._cachedModels = models;
+    return models;
+  }
+
+  /**
+   * Background warm: reads the existing cache, fetches fresh models,
+   * merges them into the cache file, and sets `_cachedModels` so the
+   * next `getModels()` call returns the new data.
+   *
+   * Errors are silently swallowed — a failed warm is no worse than the
+   * existing behaviour where the gateway registers with empty models.
+   */
+  private async _warmCache(): Promise<void> {
+    try {
+      const cachePath = getModelCachePath();
+      const cache = await readModelCache(cachePath);
+
+      const freshModels = await this.fetchModels();
+
+      // Merge: this gateway's models replace any previous entry.
+      cache[this.providerId] = freshModels;
+      await writeModelCache(cachePath, cache);
+
+      this._cachedModels = freshModels;
+    } catch {
+      // Silently ignore — first-run failure is harmless.
+    }
+  }
+
+  /**
+   * Writes a single gateway's model list into the cache file.
+   *
+   * Deduplicates concurrent writes via `_cacheWritePromise` so that
+   * only one write is in flight at a time.  This is used by
+   * `_warmCache()` and `refreshModels()`.
+   */
+  private async _writeCache(models: NonNullable<ProviderConfigInput["models"]>): Promise<void> {
+    if (this._cacheWritePromise) {
+      // Another write is already in flight — wait for it, then re-queue.
+      await this._cacheWritePromise;
+    }
+
+    this._cacheWritePromise = (async () => {
+      try {
+        const cachePath = getModelCachePath();
+        const cache = await readModelCache(cachePath);
+        cache[this.providerId] = models;
+        await writeModelCache(cachePath, cache);
+      } finally {
+        this._cacheWritePromise = null;
+      }
+    })();
+
+    return this._cacheWritePromise;
   }
 
   private _authHeaders(): Record<string, string> {

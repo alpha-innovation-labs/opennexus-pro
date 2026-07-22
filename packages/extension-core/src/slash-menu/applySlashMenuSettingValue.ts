@@ -1,5 +1,7 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { SettingsManager } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
+import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
 import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
 import type { SlashMenuLeaf } from "./types.js";
 
@@ -40,6 +42,12 @@ export function applySlashMenuSettingValue(
     case "doubleEscapeAction": settings.setDoubleEscapeAction(nextValue as "tree" | "fork" | "none"); break;
     case "treeFilterMode": settings.setTreeFilterMode(nextValue as "default" | "no-tools" | "user-only" | "labeled-only" | "all"); break;
     case "quietStartup": settings.setQuietStartup(nextValue === "true"); break;
+    case "notifyEnabled": {
+      const userConfig = readNexusUserConfig();
+      const next = nextValue === "true";
+      writeNexusUserConfig({ ...userConfig, notifyEnabled: next });
+      break;
+    }
     default: return "";
   }
 
