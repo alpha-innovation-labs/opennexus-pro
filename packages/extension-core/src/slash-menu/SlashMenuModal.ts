@@ -302,20 +302,20 @@ export class SlashMenuModal extends SelectPreviewModal {
   /**
    * Returns dynamic command items, optionally including fused skill leaves.
    *
-   * When the query targets skills (matches "skills" or a skill name prefix),
-   * fused skill leaves are included so the user can pick a skill directly
-   * from the top-level menu. When the query is empty or does not target
-   * skills, only the "skills" navigation section is included so the
-   * individual skill leaves stay hidden until the user searches.
+   * When the query is empty, only the "skills" navigation section is included
+   * so individual skill leaves stay hidden until the user searches. When the
+   * query is non-empty, all fused skill leaves are included so
+   * `filterMenuItems()` can match them by name.
    *
    * @param commands Live slash commands.
    * @returns Dynamic command items.
    */
   private getDynamicCommandItems(commands: RegisteredSlashCommand[]): Array<SlashMenuSection | SlashMenuLeaf> {
     const dynamicItems = createDynamicCommandItems(commands);
-    // When the query does not target skills, strip fused skill leaves
-    // so only the "skills" navigation section is visible.
-    if (!this.isQueryTargetingSkills()) {
+    const query = this.query.toLowerCase().trim();
+    // When the query is empty, strip fused skill leaves so only the
+    // "skills" navigation section is visible.
+    if (query.length === 0) {
       return dynamicItems.filter(
         (item) => !isFusedSkillValue((item as SlashMenuLeaf).value),
       );
