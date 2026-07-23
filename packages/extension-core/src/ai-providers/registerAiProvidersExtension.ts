@@ -1,7 +1,9 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { LiteLLmGateway } from "./gateways/litellm.js";
 import { LmStudioGateway } from "./gateways/lm-studio.js";
+import { LlamaCppGateway } from "./gateways/llama-cpp.js";
 import { OllamaGateway } from "./gateways/ollama.js";
+import { VllmGateway } from "./gateways/vllm.js";
 
 const builtInPiOAuthProviderIds = new Set([
   "anthropic",
@@ -32,13 +34,15 @@ export async function registerAiProvidersExtension(pi: ExtensionAPI): Promise<vo
   // Note: unregisterOAuthProvider no longer exists in @earendil-works/pi-ai/oauth
   // (the module only re-exports types).  The OAuth registry is handled upstream.
 
-  // Register all gateways.
+  // Register all gateways (fire-and-forget, never awaited).
   if (typeof pi.registerProvider === "function") {
     const gateways = [
       new LiteLLmGateway(),
       new LmStudioGateway(),
+      new LlamaCppGateway(),
       new OllamaGateway(),
+      new VllmGateway(),
     ];
-    await Promise.all(gateways.map((gw) => gw.registerProvider(pi)));
+    gateways.forEach((gw) => gw.registerProvider(pi));
   }
 }

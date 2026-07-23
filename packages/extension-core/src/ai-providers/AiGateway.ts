@@ -169,10 +169,12 @@ export class AiGateway {
   /**
    * Registers this gateway with Pi so it appears in the model picker.
    *
-   * Registers with an empty model list and starts a fire-and-forget
-   * background warm so the first real models arrive asynchronously.
+   * Registers with an empty model list.  The background warm is
+   * fire-and-forget and never awaited — a failed warm is no worse
+   * than the existing behaviour where the gateway registers with
+   * empty models.
    */
-  async registerProvider(pi: ExtensionAPI): Promise<void> {
+  registerProvider(pi: ExtensionAPI): void {
     if (this._registered) {
       return;
     }
@@ -191,7 +193,7 @@ export class AiGateway {
     });
     this._registered = true;
 
-    // Fire-and-forget warm — errors are silently swallowed.
+    // Fire-and-forget warm — never awaited, errors silently swallowed.
     this._warmCache();
   }
 
