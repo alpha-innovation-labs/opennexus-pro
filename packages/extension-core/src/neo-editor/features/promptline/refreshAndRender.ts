@@ -1,4 +1,3 @@
-import { refreshUsageForContext } from "@nexus/extensions/slashusage/index.js";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
 import { refreshGitState } from "../../shared/git/refreshGitState.js";
 import { refreshTransportPreference } from "../../shared/transport/refreshTransportPreference.js";
@@ -19,7 +18,7 @@ export async function refreshAndRender(ctx: PromptlineContext, deps: PromptlineR
   void Promise.all([
     refreshGitState(deps.exec),
     refreshTransportPreference(ctx.cwd),
-    refreshUsageForContext(ctx, true),
+    Promise.resolve(), // slashusage archived
   ]).then(() => {
     getPromptlineRenderRequest()?.();
     logExtensionEvent("neo-editor", "refreshAndRender:done", {

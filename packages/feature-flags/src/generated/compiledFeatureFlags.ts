@@ -78,7 +78,6 @@ export const compiledFeatureFlags = {
       "enabled": true,
       "features": [
         "custom promptline",
-        "slashusage",
         "@ file autocomplete",
         "editor trigger submit",
         "macOS ctrl+v image paste fallback"
@@ -131,7 +130,7 @@ export const compiledFeatureFlags = {
       "category": "extension"
     },
     "rtk": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "rtk rewrite for bash",
         "rtk-native read/find/ls/grep tools"

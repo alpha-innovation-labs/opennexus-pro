@@ -1,4 +1,3 @@
-import { subscribeUsageSnapshots } from "@nexus/extensions/slashusage/index.js";
 import type { PromptlineContext, PromptlineDeps } from "./types.js";
 import { PromptlineEditor } from "./PromptlineEditor.js";
 import { refreshGitState } from "../../shared/git/refreshGitState.js";
@@ -20,7 +19,6 @@ export function installPromptline(ctx: PromptlineContext, deps: PromptlineDeps):
     installPromptlineRenderScheduler(tui);
     setPromptlineRenderRequest((force = false) => tui.requestRender(force));
     getUsageRenderUnsubscribe()?.();
-    setUsageRenderUnsubscribe(subscribeUsageSnapshots(() => tui.requestRender()));
     void refreshGitState(deps.exec).then(() => tui.requestRender());
     void refreshTransportPreference(ctx.cwd).then(() => tui.requestRender());
     return new PromptlineEditor(

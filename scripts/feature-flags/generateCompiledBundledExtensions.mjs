@@ -25,7 +25,7 @@ function createModuleSource(enabledIds) {
 		'import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";',
 		'import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";',
 		'import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";',
-		'import { createTelemetryExtensionApi } from "@nexus/feature-flags/createTelemetryExtensionApi.js";',
+
 		'import { setRuntimeExtensionFeatureFlags } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";',
 	];
 
@@ -75,7 +75,7 @@ function createModuleSource(enabledIds) {
 		"",
 		"  for (const id of compiledBundledExtensionIds) {",
 		"    if (!(config.extensions[id]?.enabled ?? config.other?.[id]?.enabled)) continue;",
-		"    await compiledBundledExtensionRegisterMap[id]?.(createTelemetryExtensionApi(pi, id));",
+		"    await compiledBundledExtensionRegisterMap[id]?.(pi);",
 		"  }",
 		"}",
 		"",

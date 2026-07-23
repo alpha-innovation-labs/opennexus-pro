@@ -1,5 +1,5 @@
 import { buildSessionContext, loadEntriesFromFile } from "../../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/session-manager.js";
-import type { SubagentTranscriptEntry } from "../../sub-agents/types.js";
+import type { TranscriptEntry } from "../../tron/transcript/types.js";
 import { extractMessageText } from "./extractMessageText.js";
 import { getMessageCreatedAt } from "./getMessageCreatedAt.js";
 import { toAssistantTranscriptEntries } from "./toAssistantTranscriptEntries.js";
@@ -10,7 +10,7 @@ import { toAssistantTranscriptEntries } from "./toAssistantTranscriptEntries.js"
  * @param sessionPath Absolute persisted session path.
  * @returns Transcript entries for the active session branch.
  */
-export function toSessionTranscriptEntries(sessionPath: string): SubagentTranscriptEntry[] {
+export function toSessionTranscriptEntries(sessionPath: string): TranscriptEntry[] {
   const entries = loadEntriesFromFile(sessionPath);
   const sessionContext = buildSessionContext(entries as never);
 

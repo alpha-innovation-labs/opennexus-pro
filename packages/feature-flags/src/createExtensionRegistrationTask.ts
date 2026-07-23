@@ -1,7 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { createProfiledExtensionApi } from "@nexus/observability/startup-profile/createProfiledExtensionApi.js";
 import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent.js";
-import { createTelemetryExtensionApi } from "./createTelemetryExtensionApi.js";
 import { isPromiseLike } from "./isPromiseLike.js";
 import type { ExtensionFeatureFlag } from "./types.js";
 
@@ -15,7 +14,7 @@ import type { ExtensionFeatureFlag } from "./types.js";
 export async function createExtensionRegistrationTask(pi: ExtensionAPI, flag: ExtensionFeatureFlag): Promise<void> {
 	const startedAt = performance.now();
 	logStartupProfileEvent(flag.id, "register:start");
-	const extensionApi = createTelemetryExtensionApi(createProfiledExtensionApi(pi, flag.id), flag.id);
+	const extensionApi = createProfiledExtensionApi(pi, flag.id);
 	const result = flag.register(extensionApi);
 	if (isPromiseLike(result)) await result;
 	logStartupProfileEvent(flag.id, "register:done", {

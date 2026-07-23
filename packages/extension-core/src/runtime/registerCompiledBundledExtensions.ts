@@ -2,7 +2,6 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import registerCompiledEnabledExtensions from "../generated/registerCompiledEnabledExtensions.js";
 import { clearHotkeysCommandHook } from "../hotkeys/clearHotkeysCommandHook.js";
 import { clearRegisteredSlashCommands, registerSlashCommand } from "../slash-menu/registerSlashCommand.js";
-import { registerTelemetryRuntimeExtension } from "@nexus/extensions-dev/telemetry-runtime/registerTelemetryRuntimeExtension.js";
 import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";
 import { clearRegisteredToolRecords } from "@nexus/feature-flags/index.js";
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
@@ -49,6 +48,5 @@ export default async function registerCompiledBundledExtensions(
     },
   });
 
-  registerTelemetryRuntimeExtension(pi);
   await registerCompiledEnabledExtensions(slashAwarePi, skipExtensions);
 }

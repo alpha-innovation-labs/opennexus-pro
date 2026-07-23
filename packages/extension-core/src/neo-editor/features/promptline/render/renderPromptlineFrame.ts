@@ -1,7 +1,5 @@
-import { getUsageTextForModel } from "@nexus/extensions/slashusage/index.js";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { renderBottomBorderLabel } from "../../../shared/ui/renderBottomBorderLabel.js";
-import { renderUsageText } from "../../../shared/ui/renderUsageText.js";
 import { getGitState } from "../../../shared/git/state.js";
 import { extractEditorContentLines } from "../extractEditorContentLines.js";
 import { getPromptlineModel } from "../getPromptlineModel.js";
@@ -46,7 +44,7 @@ export function renderPromptlineFrame(
   const usage = getCachedContextUsage(ctx);
   const gitState = getGitState();
   const thinking = getThinkingLevel();
-  const usageText = renderUsageText(uiTheme, getUsageTextForModel(model));
+  const usageText = "";
   const chromeKey = [
     innerWidth,
     ctx.cwd,

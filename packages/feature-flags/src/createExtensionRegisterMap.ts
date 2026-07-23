@@ -20,18 +20,13 @@ import { registerSlashMenuExtension } from "@nexus/extensions/slash-menu/registe
 import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension.js";
 import { registerNotifyExtension } from "@nexus/extensions/notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "@nexus/extensions-pro/observations/registerObservationsExtension.js";
-import { registerOhMyPiLspExtension } from "@nexus/extensions-dev/oh-my-pi-lsp/registerOhMyPiLspExtension.js";
 import { registerSystemPromptExtension } from "@nexus/extensions/system-prompt/registerSystemPromptExtension.js";
 import { registerRtkExtension } from "@nexus/extensions-pro/rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "@nexus/extensions/startup-hero/registerStartupHeroExtension.js";
-import registerSubAgentsExtension from "@nexus/extensions/sub-agents/index.js";
-import registerSubagentStatusWidgetExtension from "@nexus/extensions/sub-agent-status-widget/registerSubagentStatusWidgetExtension.js";
 import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension.js";
 import { registerTodoExtension } from "@nexus/extensions-dev/todo/registerTodoExtension.js";
 import registerTronExtension from "@nexus/extensions/tron/index.js";
 import { registerWalletExtension } from "@nexus/mini-apps/wallet/registerWalletExtension.js";
-import registerSlashusageExtension from "@nexus/extensions/slashusage/index.js";
-import { registerAskUserQuestionExtension } from "@nexus/extensions/ask-user-question/registerAskUserQuestionExtension.js";
 import { registerWebSearchExtension } from "@nexus/extensions/web-search/registerWebSearchExtension.js";
 import registerLocalImageReaderExtension from "@nexus/extensions/local-image-reader/registerLocalImageReaderExtension.js";
 
@@ -68,20 +63,15 @@ export function createExtensionRegisterMap(): Record<
 			registerNotifyExtension(pi);
 		},
 		observations: registerObservationsExtension,
-		"oh-my-pi-lsp": registerOhMyPiLspExtension,
 		"system-prompt": registerSystemPromptExtension,
 		"exit-message": registerExitMessageExtension,
 		"herdr-agent-end-log": registerHerdrAgentEndLogExtension,
 		"startup-hero": registerStartupHeroExtension,
-		"sub-agents": registerSubAgentsExtension,
-		"sub-agent-status-widget": registerSubagentStatusWidgetExtension,
 		tetris: registerTetrisExtension,
 		todo: registerTodoExtension,
 		tron: registerTronExtension,
 		wallet: registerWalletExtension,
-		slashusage: registerSlashusageExtension,
 		webtools: registerWebSearchExtension,
-		"ask-user-question": registerAskUserQuestionExtension,
 		"local-image-reader": registerLocalImageReaderExtension,
 	};
 }

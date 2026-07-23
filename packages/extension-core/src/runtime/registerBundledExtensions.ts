@@ -3,7 +3,6 @@ import { clearRegisteredToolRecords, createExtensionFeatureFlags, registerEnable
 import { clearHotkeysCommandHook } from "../hotkeys/clearHotkeysCommandHook.js";
 import { clearRegisteredSlashCommands, registerSlashCommand } from "../slash-menu/registerSlashCommand.js";
 import { recordRegisteredShortcut } from "@nexus/tui-kit/shortcuts/recordRegisteredShortcut.js";
-import { registerTelemetryRuntimeExtension } from "@nexus/extensions-dev/telemetry-runtime/registerTelemetryRuntimeExtension.js";
 import { createTronToolWrappingExtensionApi } from "../tron/compact-tool-lines/createTronToolWrappingExtensionApi.js";
 
 export { createExtensionFeatureFlags, createExtensionFeatureFlagReport, getEnabledExtensionFeatureFlags, readFeatureFlagsConfig } from "@nexus/feature-flags/index.js";
@@ -48,6 +47,5 @@ export default async function registerBundledExtensions(
 			return Reflect.get(target, property, receiver);
 		},
 	});
-	registerTelemetryRuntimeExtension(pi);
 	await registerEnabledExtensions(slashAwarePi, flags, skipExtensions);
 }

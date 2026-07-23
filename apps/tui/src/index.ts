@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-import { sendTelemetryEventSafely } from "@nexus/observability/telemetry/sendTelemetryEventSafely.js";
-import { getErrorCategory } from "@nexus/observability/telemetry/getErrorCategory.js";
 import { runCliWithApp } from "./cli/runCliWithApp.js";
 import { runApp } from "./runtime/runApp.js";
 
@@ -14,9 +12,7 @@ async function main() {
 }
 
 main().catch(async (error) => {
-  await sendTelemetryEventSafely("app.crash", {
-    "error.category": getErrorCategory(error),
-  });
+  // Telemetry archived — log crash without sending.
   console.error(error);
   process.exit(1);
 });

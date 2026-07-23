@@ -73,10 +73,8 @@
       "enabled": true,
       "features": [
         "/dev-modal command",
-        "/telemetry command",
         "dev-only modal variation playground",
-        "tab and shift+tab modal variant cycling",
-        "dev-only telemetry event toggles"
+        "tab and shift+tab modal variant cycling"
       ],
       "category": "dev"
     },
@@ -104,25 +102,6 @@
         "web_search tool backed by SearXNG"
       ],
       "category": "extension"
-    },
-    "ask-user-question": {
-      "enabled": false,
-      "features": [
-        "ask_user_question tool",
-        "typed option prompts"
-      ],
-      "category": "extension",
-      "devOnly": true
-    },
-    "oh-my-pi-lsp": {
-      "enabled": false,
-      "features": [
-        "in-house LSP tool ported from Oh My Pi",
-        "diagnostics, hover, definitions, references, symbols, rename previews, and code actions",
-        "40-language server config registry with project-local binary discovery"
-      ],
-      "category": "dev",
-      "devOnly": true
     },
     "feature-management": {
       "enabled": true,
@@ -159,7 +138,6 @@
       "enabled": true,
       "features": [
         "custom promptline",
-        "slashusage",
         "@ file autocomplete",
         "editor trigger submit",
         "macOS ctrl+v image paste fallback"
@@ -212,7 +190,7 @@
       "category": "extension"
     },
     "rtk": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "rtk rewrite for bash",
         "rtk-native read/find/ls/grep tools"
@@ -224,26 +202,6 @@
       "features": [
         "show N logo, version, tips, and startup status"
       ],
-      "category": "extension"
-    },
-    "sub-agent-status-widget": {
-      "enabled": false,
-      "features": [
-        "custom subagent working widget",
-        "live agent status lines",
-        "replaces Pi default working loader"
-      ],
-      "devOnly": true,
-      "category": "extension"
-    },
-    "sub-agents": {
-      "enabled": false,
-      "features": [
-        "rpc child-process subagent execution",
-        "custom context providers",
-        "background result lookup and steering"
-      ],
-      "devOnly": true,
       "category": "extension"
     },
     "todo": {
@@ -274,16 +232,6 @@
         "user message bubble"
       ],
       "category": "extension"
-    },
-    "slashusage": {
-      "enabled": false,
-      "features": [
-        "inline slashusage",
-        "5-minute historical usage snapshots",
-        "/usage history graph modal"
-      ],
-      "category": "extension",
-      "devOnly": true
     },
     "wallet": {
       "enabled": false,
@@ -322,16 +270,6 @@
         "annotation daemon lifecycle commands"
       ],
       "category": "mini-app",
-      "devOnly": true
-    },
-    "telemetry": {
-      "enabled": false,
-      "features": [
-        "SigNoz OTLP telemetry",
-        "PostHog product analytics",
-        "anonymous event toggles"
-      ],
-      "category": "dev",
       "devOnly": true
     },
     "social-automation": {

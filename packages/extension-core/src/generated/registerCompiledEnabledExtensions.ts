@@ -1,7 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";
 import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
-import { createTelemetryExtensionApi } from "@nexus/feature-flags/createTelemetryExtensionApi.js";
 import { setRuntimeExtensionFeatureFlags } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
 import { registerAiProvidersExtension } from "../ai-providers/registerAiProvidersExtension.js";
 import { registerAutoUpdateExtension } from "../auto-update/registerAutoUpdateExtension.js";
@@ -17,6 +16,7 @@ import { registerSlashMenuExtension } from "../slash-menu/registerSlashMenuExten
 import { registerNotifyExtension } from "../notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "@nexus/extensions-pro/observations/registerObservationsExtension.js";
 import { registerSystemPromptExtension } from "../system-prompt/registerSystemPromptExtension.js";
+import { registerRtkExtension } from "@nexus/extensions-pro/rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "../startup-hero/registerStartupHeroExtension.js";
 import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension.js";
 import registerTronExtension from "../tron/index.js";
@@ -42,6 +42,7 @@ export const compiledBundledExtensionIds = [
   "notify",
   "observations",
   "system-prompt",
+  "rtk",
   "startup-hero",
   "tetris",
   "tron",
@@ -65,6 +66,7 @@ const compiledBundledExtensionRegisterMap: Record<string, (pi: ExtensionAPI) => 
   "notify": registerNotifyExtension,
   "observations": registerObservationsExtension,
   "system-prompt": registerSystemPromptExtension,
+  "rtk": registerRtkExtension,
   "startup-hero": registerStartupHeroExtension,
   "tetris": registerTetrisExtension,
   "tron": registerTronExtension,
@@ -84,6 +86,6 @@ export default async function registerCompiledEnabledExtensions(pi: ExtensionAPI
 
   for (const id of compiledBundledExtensionIds) {
     if (!(config.extensions[id]?.enabled ?? config.other?.[id]?.enabled)) continue;
-    await compiledBundledExtensionRegisterMap[id]?.(createTelemetryExtensionApi(pi, id));
+    await compiledBundledExtensionRegisterMap[id]?.(pi);
   }
 }

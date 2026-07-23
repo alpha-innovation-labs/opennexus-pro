@@ -35,7 +35,6 @@ import { shouldClearStartupScreen } from "./startup-screen/shouldClearStartupScr
 import { ensureAnnotationsDaemonStarted } from "./annotations-daemon/ensureAnnotationsDaemonStarted.js";
 import { isAnnotationsDaemonStartupFeatureEnabled } from "./annotations-daemon/isAnnotationsDaemonStartupFeatureEnabled.js";
 import { shouldStartAnnotationsDaemon } from "./annotations-daemon/shouldStartAnnotationsDaemon.js";
-import { sendTelemetryEventSafely } from "@nexus/observability/telemetry/sendTelemetryEventSafely.js";
 import { isHarnessModeEnabled } from "./harness/isHarnessModeEnabled.js";
 import { runHarnessMode } from "./harness/runHarnessMode.js";
 
@@ -64,15 +63,6 @@ export async function runAppWithExtensionFactories(
   const appStartedAt = performance.now();
   process.env[startupStartedAtEnvVar] = String(appStartedAt);
   logStartupProfileEvent("runApp", "start", { argv: rawArgs });
-  void sendTelemetryEventSafely("app.start", {
-    "os.platform": platform(),
-    "os.release": release(),
-    "node.version": process.versions.node,
-    "terminal.term": process.env.TERM,
-    "terminal.program": process.env.TERM_PROGRAM,
-    "terminal.color": process.env.COLORTERM,
-    "terminal.wt_session": process.env.WT_SESSION ? true : undefined,
-  });
 
   let phaseStartedAt = performance.now();
   ensureAgentDirEnv();
@@ -154,9 +144,6 @@ export async function runAppWithExtensionFactories(
   const extensionFactories = await resolveBundledExtensionFactories(rawArgs, createExtensionFactories);
   logRunAppPhase("resolveBundledExtensionFactories:done", phaseStartedAt);
   logStartupProfileEvent("runApp", "prepareArgsAndExtensions:done");
-  void sendTelemetryEventSafely("startup.duration", {
-    "startup.duration_ms": Number((performance.now() - appStartedAt).toFixed(3)),
-  });
 
   if (isHarnessModeEnabled()) {
     await runHarnessMode({ argv: args, extensionFactories });
@@ -172,9 +159,6 @@ export async function runAppWithExtensionFactories(
   phaseStartedAt = performance.now();
   await main(args, { extensionFactories });
   logRunAppPhase("piMain:done", phaseStartedAt);
-  void sendTelemetryEventSafely("app.exit", {
-    "process.exit_code": process.exitCode ?? 0,
-  });
 
   printExitMessage();
 }

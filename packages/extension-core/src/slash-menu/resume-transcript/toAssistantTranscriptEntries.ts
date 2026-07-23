@@ -1,4 +1,4 @@
-import type { SubagentTranscriptEntry } from "../../sub-agents/types.js";
+import type { TranscriptEntry } from "../../tron/transcript/types.js";
 import { getMessageCreatedAt } from "./getMessageCreatedAt.js";
 
 /**
@@ -12,7 +12,7 @@ export function toAssistantTranscriptEntries(message: {
   errorMessage?: string;
   stopReason?: string;
   timestamp?: unknown;
-}): SubagentTranscriptEntry[] {
+}): TranscriptEntry[] {
   const createdAt = getMessageCreatedAt(message);
   if (!Array.isArray(message.content)) {
     return message.errorMessage
@@ -20,7 +20,7 @@ export function toAssistantTranscriptEntries(message: {
       : [];
   }
 
-  const entries: SubagentTranscriptEntry[] = [];
+  const entries: TranscriptEntry[] = [];
   for (const block of message.content) {
     if (!block || typeof block !== "object" || !("type" in block)) continue;
     if (block.type === "thinking" && typeof block.thinking === "string" && block.thinking.trim()) {

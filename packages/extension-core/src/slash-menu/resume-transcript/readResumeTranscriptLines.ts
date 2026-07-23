@@ -1,5 +1,5 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { renderSubagentTranscriptLines } from "../../sub-agents/ui/renderSubagentTranscriptLines.js";
+import { renderTranscriptLines } from "../../tron/transcript/renderTranscriptLines.js";
 import { toSessionTranscriptEntries } from "./toSessionTranscriptEntries.js";
 
 /**
@@ -16,5 +16,5 @@ export function readResumeTranscriptLines(
   sessionPath: string,
 ): string[] {
   const transcript = toSessionTranscriptEntries(sessionPath);
-  return renderSubagentTranscriptLines(theme, width, { transcript } as never);
+  return renderTranscriptLines(theme, width, { transcript });
 }

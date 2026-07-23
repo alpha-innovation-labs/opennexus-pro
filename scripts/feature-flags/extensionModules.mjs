@@ -76,10 +76,7 @@ export const extensionModules = {
 		importPath: "@nexus/extensions-pro/observations/registerObservationsExtension.js",
 		exportName: "registerObservationsExtension",
 	},
-	"oh-my-pi-lsp": {
-		importPath: "@nexus/extensions-dev/oh-my-pi-lsp/registerOhMyPiLspExtension.js",
-		exportName: "registerOhMyPiLspExtension",
-	},
+	// oh-my-pi-lsp: DISABLED — moved to __archives
 	"system-prompt": {
 		importPath: "../system-prompt/registerSystemPromptExtension.js",
 		exportName: "registerSystemPromptExtension",
@@ -96,16 +93,13 @@ export const extensionModules = {
 		importPath: "../startup-hero/registerStartupHeroExtension.js",
 		exportName: "registerStartupHeroExtension",
 	},
+	// sub-agents: DISABLED — moved to __archives, transcript rendering now via extension-core/src/tron/transcript/renderTranscriptLines.ts
+	// sub-agent-status-widget: DISABLED — moved to __archives
 	"sub-agents": {
-		importPath: "../sub-agents/index.js",
-		exportName: "default",
-		localName: "registerSubAgentsExtension",
+		enabled: false,
 	},
 	"sub-agent-status-widget": {
-		importPath:
-			"../sub-agent-status-widget/registerSubagentStatusWidgetExtension.js",
-		exportName: "default",
-		localName: "registerSubagentStatusWidgetExtension",
+		enabled: false,
 	},
 	rtk: {
 		importPath: "@nexus/extensions-pro/rtk/registerRtkExtension.js",
@@ -124,11 +118,6 @@ export const extensionModules = {
 		exportName: "default",
 		localName: "registerTronExtension",
 	},
-	slashusage: {
-		importPath: "../slashusage/index.js",
-		exportName: "default",
-		localName: "registerSlashusageExtension",
-	},
 	wallet: {
 		importPath: "@nexus/mini-apps/wallet/registerWalletExtension.js",
 		exportName: "registerWalletExtension",
@@ -136,9 +125,5 @@ export const extensionModules = {
 	webtools: {
 		importPath: "../web-search/registerWebSearchExtension.js",
 		exportName: "registerWebSearchExtension",
-	},
-	"ask-user-question": {
-		importPath: "../ask-user-question/registerAskUserQuestionExtension.js",
-		exportName: "registerAskUserQuestionExtension",
 	},
 };
