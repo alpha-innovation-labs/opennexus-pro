@@ -3,23 +3,24 @@ import type { NexusUserConfig } from "./types.js";
 import { writeNexusUserConfig } from "./writeNexusUserConfig.js";
 
 /**
- * Persists one extension enabled preference in the Nexus user config.
+ * Persists one package enabled preference in the Nexus user config.
  *
- * @param extensionId Built-in extension id.
- * @param enabled Whether the extension should be enabled for this user.
+ * Writes to `pi_packages.<source>` as a flat boolean.
+ *
+ * @param packageSource Package source string (e.g. "npm:pi-chrome").
+ * @param enabled Whether the package should be enabled for this user.
  * @returns The updated user config.
  */
-export function setUserExtensionEnabled(extensionId: string, enabled: boolean): NexusUserConfig {
+export function setUserExtensionEnabled(packageSource: string, enabled: boolean): NexusUserConfig {
 	const config = readNexusUserConfig();
+	const current = (config.extensions?.pi_packages) ?? {};
+	const next = { ...current, [packageSource]: enabled };
+	const nextExtensions = Object.keys(next).length > 0 ? { pi_packages: next } : {};
 	const nextConfig: NexusUserConfig = {
 		...config,
-		extensions: {
-			...(config.extensions ?? {}),
-			[extensionId]: {
-				...(config.extensions?.[extensionId] ?? {}),
-				enabled,
-			},
-		},
+		extensions: { ...config.extensions, ...nextExtensions },
+		// Remove extensions key entirely when it has no pi_packages
+		...(Object.keys(next).length === 0 ? { extensions: undefined } : {}),
 	};
 	writeNexusUserConfig(nextConfig);
 	return nextConfig;

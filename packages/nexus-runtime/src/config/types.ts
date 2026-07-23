@@ -1,9 +1,4 @@
-/**
- * Per-extension user preference persisted in the Nexus user config.
- */
-export type NexusUserExtensionConfig = {
-	enabled?: boolean;
-};
+
 
 /**
  * Nexus/Pi package source persisted in settings.
@@ -26,19 +21,25 @@ export type LocalImageReaderConfig = {
 
 /**
  * Per-feature-flag user override persisted in the Nexus user config.
+ * Users write a plain boolean: `false` to disable, omit or `true` to enable.
  */
-export type UserFeatureFlagOverride = {
-	/** Override whether this feature flag is enabled. */
-	enabled?: boolean;
-	/** Override whether this feature flag is development-only. */
-	devOnly?: boolean;
-};
+export type UserFeatureFlagOverride = boolean;
+
+/**
+ * Per-package enable/disable overlay persisted in config.json.
+ * Key is the package source string (e.g. "npm:pi-chrome"), value is the enabled state.
+ */
+export type PiPackagesMap = Record<string, boolean>;
 
 /**
  * User-editable Nexus configuration stored outside the app bundle.
  */
 export type NexusUserConfig = {
-	extensions?: Record<string, NexusUserExtensionConfig>;
+	/** Per-package enable/disable overlay, nested under extensions. */
+	extensions?: {
+		/** Key is the package source string (e.g. "npm:pi-chrome"), value is the enabled state. */
+		pi_packages?: PiPackagesMap;
+	};
 	miniApps?: Record<string, Record<string, unknown>>;
 	packages?: NexusPackageSource[];
 	/** Per-extension settings persisted in the user config file. */
