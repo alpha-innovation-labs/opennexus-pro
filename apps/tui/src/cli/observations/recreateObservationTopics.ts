@@ -20,5 +20,10 @@ export async function recreateObservationTopics(
 ): Promise<RecreatedObservationTopic[]> {
   if (messages.length === 0) return [];
   const output = await runObservationSummarizer(RECREATE_EXTENSION_API, { cwd }, await buildObservationRecreationPrompt(messages));
-  return parseRecreatedObservationTopics(output);
+  const topics = parseRecreatedObservationTopics(output);
+  if (topics.length === 0) {
+    console.error(`[observations recreate] LLM returned 0 topics for ${messages.length} messages.`);
+    console.error(`[observations recreate] Raw LLM output: ${JSON.stringify(output)}`);
+  }
+  return topics;
 }

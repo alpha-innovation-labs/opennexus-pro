@@ -10,7 +10,6 @@ export function createSummarizerArgs(
   model?: { provider?: string; id?: string },
 ): string[] {
   const args = [
-    "--no-extensions",
     "--no-session",
     "--no-context-files",
     "--no-tools",

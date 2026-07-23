@@ -49,6 +49,11 @@ export class FeatureManagementModal extends SelectPreviewModal {
 	}
 
 	/**
+	 * Vim-style navigation keys consumed by PlainSelectList.
+	 */
+	private static readonly VIM_NAV_KEYS = new Set(["j", "k", "g", "G"]);
+
+	/**
 	 * Routes keyboard input for filter and toggles.
 	 *
 	 * @param data Raw keyboard input.
@@ -58,26 +63,24 @@ export class FeatureManagementModal extends SelectPreviewModal {
 			this.toggleSelected();
 			return;
 		}
-		if (this.clearFilterOnEscape(data)) return;
+		// Always let Escape / Ctrl+C bypass the filter and reach the
+		// parent close handler — no double-press needed.
+		if (matchesKey(data, Key.escape) || matchesKey(data, Key.ctrl("c"))) {
+			if (this.filterQuery.length > 0) {
+				this.filterQuery = "";
+				this.refreshItems();
+			}
+			super.handleInput(data);
+			return;
+		}
 		if (this.handleFilterInput(data)) return;
 		super.handleInput(data);
 	}
 
 	/**
-	 * Clears the active filter when escape is pressed.
-	 *
-	 * @param data Raw keyboard input.
-	 * @returns True when escape cleared a filter instead of closing.
-	 */
-	private clearFilterOnEscape(data: string): boolean {
-		if (!matchesKey(data, Key.escape) || this.filterQuery.length === 0) return false;
-		this.filterQuery = "";
-		this.refreshItems();
-		return true;
-	}
-
-	/**
 	 * Updates the filter query for printable text and backspace input.
+	 * Vim navigation keys (j, k, g, G) and arrow keys are excluded so
+	 * they reach PlainSelectList for list scrolling.
 	 *
 	 * @param data Raw keyboard input.
 	 * @returns True when filter input was handled.
@@ -88,6 +91,9 @@ export class FeatureManagementModal extends SelectPreviewModal {
 			this.refreshItems();
 			return true;
 		}
+		// Exclude vim / arrow / navigation keys so PlainSelectList handles them.
+		if (FeatureManagementModal.VIM_NAV_KEYS.has(data)) return false;
+		if (matchesKey(data, Key.up) || matchesKey(data, Key.down) || matchesKey(data, Key.left) || matchesKey(data, Key.right)) return false;
 		if (!data.match(/[a-z0-9_-]/i)) return false;
 		this.filterQuery = `${this.filterQuery}${data}`;
 		this.refreshItems();

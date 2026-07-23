@@ -21,6 +21,9 @@ export async function createObservationStateFromMessages(
   const state: ObservationState = { conversationId, cwd, sessionFile, updatedAt: Date.now(), messageCount: messages.length, summary: "", topics: [] };
   const recreatedTopics = await recreateObservationTopics(cwd, messages);
   appendRecreatedTopics(state, messages, recreatedTopics);
+  if (state.topics.length === 0) {
+    throw new Error(`Observation recreation produced 0 topics for ${messages.length} messages — LLM call failed`);
+  }
   return state;
 }
 
