@@ -7,7 +7,7 @@ import { sortFeatureStatusRows } from "./sortFeatureStatusRows.js";
 /**
  * Converts feature status rows into selectable modal items.
  * Uses the original design: same row format (name + status),
- * grouped by section (Playground/Production), sorted alphabetically within.
+ * grouped by section (Mini apps/Extensions), sorted alphabetically within.
  *
  * @param rows Feature status rows.
  * @param theme Theme color formatter.
@@ -21,7 +21,7 @@ export function createFeatureAutocompleteItems(
 	const featureColumnWidth = getFeatureColumnWidth(sortedRows);
 	return sortedRows.map((row) => ({
 		groupLabel: row.group,
-		label: formatFeatureManagementRow(row, theme).trimEnd(),
+		label: formatFeatureManagementRow(row, theme, featureColumnWidth).trimEnd(),
 		value: row.extensionId,
 		preserveLabelWhitespace: true,
 	}));

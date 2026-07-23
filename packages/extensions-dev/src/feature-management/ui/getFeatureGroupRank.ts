@@ -7,5 +7,5 @@ import type { FeatureManagementGroup } from "../model/types.js";
  * @returns Numeric sort rank.
  */
 export function getFeatureGroupRank(group: FeatureManagementGroup): number {
-	return group === "Playground" ? 0 : 1;
+	return group === "Mini apps" ? 0 : 1;
 }

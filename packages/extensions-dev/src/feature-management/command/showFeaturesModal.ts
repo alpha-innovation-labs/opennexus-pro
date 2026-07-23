@@ -16,8 +16,17 @@ export async function showFeaturesModal(ctx: ExtensionCommandContext): Promise<v
 		return;
 	}
 
-	const config = createFeatureFlagsConfig();
-	let rows = createFeatureStatusRows(config, config);
+	// Initial load: all extensions from the registry, enabled by default.
+	const allIds = getAllBundledExtensionIds();
+	const staticConfig: Record<string, { enabled: boolean; features: string[] }> = {};
+	for (const id of allIds) {
+		staticConfig[id] = { enabled: true, features: [] };
+	}
+
+	let rows = createFeatureStatusRows(
+		{ extensions: staticConfig },
+		{ extensions: staticConfig },
+	);
 
 	await ctx.ui.custom<undefined>(
 		(_tui, theme, _keybindings, done) =>
@@ -26,8 +35,7 @@ export async function showFeaturesModal(ctx: ExtensionCommandContext): Promise<v
 				rows,
 				done,
 				(extensionId, patch, row) => {
-					rows = updateFeatureStatusRow(extensionId, patch, row);
-					return rows;
+					return updateFeatureStatusRow(extensionId, patch, row);
 				},
 			),
 		{
@@ -35,18 +43,4 @@ export async function showFeaturesModal(ctx: ExtensionCommandContext): Promise<v
 			overlayOptions: createPanelOverlayOptions(80, "85%"),
 		},
 	);
-}
-
-/**
- * Builds a minimal FeatureFlagsConfig from the hardcoded registry.
- *
- * @returns Feature flag config for the features modal.
- */
-function createFeatureFlagsConfig(): { extensions: Record<string, { enabled: boolean; features: string[] }> } {
-	const allIds = getAllBundledExtensionIds();
-	const extensions: Record<string, { enabled: boolean; features: string[] }> = {};
-	for (const id of allIds) {
-		extensions[id] = { enabled: true, features: [] };
-	}
-	return { extensions };
 }

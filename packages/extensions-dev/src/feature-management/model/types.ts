@@ -16,7 +16,7 @@ export type FeatureStatusCategory = "core" | "dev" | "pro" | "mini-apps";
 /**
  * Feature-management group displayed as a section header.
  */
-export type FeatureManagementGroup = "Playground" | "Production";
+export type FeatureManagementGroup = "Mini apps" | "Extensions";
 
 /**
  * Source config bucket that owns a feature flag entry.
