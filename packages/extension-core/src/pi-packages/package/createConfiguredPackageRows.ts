@@ -1,4 +1,4 @@
-import type { ConfiguredPackage } from "../../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/package-manager.js";
+import type { ConfiguredPackage } from "@earendil-works/pi-coding-agent/dist/core/package-manager.js";
 import type { NexusUserConfig } from "@nexus/runtime/config/types.js";
 import type { ManagedExtensionRow } from "../model/types.js";
 import { normalizeNpmPackageName } from "./normalizeNpmPackageName.js";
@@ -7,13 +7,16 @@ import { normalizeNpmPackageName } from "./normalizeNpmPackageName.js";
  * Creates third-party package rows from Nexus settings package sources.
  *
  * @param packages Configured package manager entries.
- * @param userConfig User config with per-extension enablement overrides.
+ * @param userConfig User config with per-package enablement overrides.
  * @returns Extension-manager rows for configured third-party packages.
  */
 export function createConfiguredPackageRows(packages: ConfiguredPackage[], userConfig: NexusUserConfig): ManagedExtensionRow[] {
 	return packages.map((entry) => {
 		const name = normalizeNpmPackageName(entry.source);
-		const enabled = userConfig.extensions?.[name]?.enabled !== false;
+		// Read from `extensions.pi_packages` — supports both full source (npm:pi-chrome)
+		// and normalized name (pi-chrome) for backwards compatibility.
+		const piPackages = userConfig.extensions?.pi_packages ?? {};
+		const enabled = piPackages[entry.source] !== false && piPackages[name] !== false;
 		return {
 			id: name,
 			kind: "third-party" as const,

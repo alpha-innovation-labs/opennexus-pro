@@ -1,5 +1,6 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
+import { normalizeNpmPackageName } from "../package/normalizeNpmPackageName.js";
 import { removeUserExtensionConfig } from "@nexus/runtime/config/removeUserExtensionConfig.js";
 import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled.js";
 import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
@@ -32,15 +33,23 @@ export async function showPiPackagesModal(ctx: ExtensionCommandContext): Promise
 	 * @returns Updated rows.
 	 */
 	function updateExtension(extensionId: string, enabled: boolean) {
-		setUserExtensionEnabled(extensionId, enabled);
+		// Resolve the original source (e.g. "npm:pi-chrome") from the normalized ID.
+		const packages = packageRuntime.packageManager.listConfiguredPackages();
+		const matchingPackage = packages.find(
+			(p) => normalizeNpmPackageName(p.source) === extensionId,
+		);
+		const sourceToWrite = matchingPackage ? matchingPackage.source : extensionId;
+		setUserExtensionEnabled(sourceToWrite, enabled);
 		rows = updateManagedExtensionRows(rows, extensionId, enabled ? "enabled" : "disabled");
 		return rows;
 	}
 
 	/** Installs a third-party package and refreshes rows. */
 	async function installPackage(source: string) {
-		await packageRuntime.packageManager.installAndPersist(source);
-		await packageRuntime.settingsManager.flush();
+		// Use packageManager.install() (disk-only) instead of installAndPersist()
+		// because Nexus manages config via extensions.pi_packages, not packages array.
+		await packageRuntime.packageManager.install(source);
+		setUserExtensionEnabled(source, true);
 		ctx.ui.notify(`Installed ${source}. Restart Nexus to load it.`, "info");
 		rows = readRows();
 		return rows;
@@ -48,10 +57,11 @@ export async function showPiPackagesModal(ctx: ExtensionCommandContext): Promise
 
 	/** Removes a third-party package or stale extension preference and refreshes rows. */
 	async function removePackage(source: string) {
-		const removedPackage = await packageRuntime.packageManager.removeAndPersist(source);
-		const removedExtensionConfig = removedPackage ? false : removeUserExtensionConfig(source);
-		await packageRuntime.settingsManager.flush();
-		ctx.ui.notify(removedPackage || removedExtensionConfig ? `Removed ${source}. Restart Nexus to unload it.` : `No configured package or extension matched ${source}.`, removedPackage || removedExtensionConfig ? "info" : "warning");
+		// Use packageManager.remove() (disk-only) instead of removeAndPersist()
+		// because Nexus manages config via extensions.pi_packages, not packages array.
+		await packageRuntime.packageManager.remove(source);
+		const removedExtensionConfig = removeUserExtensionConfig(source);
+		ctx.ui.notify(removedExtensionConfig ? `Removed ${source}. Restart Nexus to unload it.` : `No configured package or extension matched ${source}.`, removedExtensionConfig ? "info" : "warning");
 		rows = readRows();
 		return rows;
 	}

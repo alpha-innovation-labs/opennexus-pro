@@ -1,6 +1,8 @@
 import { ensureAgentDirEnv } from "@nexus/runtime/config/ensureAgentDirEnv.js";
 import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch.js";
 import { removeUserExtensionConfig } from "@nexus/runtime/config/removeUserExtensionConfig.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
+import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
 import { createNexusCliPackageManager } from "../install/createNexusCliPackageManager.js";
 import { normalizeUninstallSource } from "./normalizeUninstallSource.js";
 import { parseUninstallCommand } from "./parseUninstallCommand.js";
@@ -44,10 +46,16 @@ export async function runUninstallCommand(argv: readonly string[]): Promise<numb
   });
 
   try {
-    const removedPackage = await runtime.packageManager.removeAndPersist(source, { local: options.local });
-    const removedExtensionConfig = removedPackage ? false : removeUserExtensionConfig(options.source);
-    await runtime.settingsManager.flush();
-    if (!removedPackage && !removedExtensionConfig) {
+    // Uninstall the npm package from disk without touching settings
+    await runtime.packageManager.remove(source, { local: options.local });
+    // Remove the Nexus extension config entry
+    const removedExtensionConfig = removeUserExtensionConfig(source);
+    // Clean up empty `packages` array if Pi's uninstall left one behind
+    const config = readNexusUserConfig();
+    if (Array.isArray(config.packages) && config.packages.length === 0) {
+      writeNexusUserConfig({ ...config, packages: undefined });
+    }
+    if (!removedExtensionConfig) {
       console.error(`No configured package or extension matched ${options.source}.`);
       return 1;
     }

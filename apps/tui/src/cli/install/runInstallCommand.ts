@@ -1,5 +1,6 @@
 import { ensureAgentDirEnv } from "@nexus/runtime/config/ensureAgentDirEnv.js";
 import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch.js";
+import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled.js";
 import { createNexusCliPackageManager } from "./createNexusCliPackageManager.js";
 import { normalizeInstallSource } from "./normalizeInstallSource.js";
 import { parseInstallCommand } from "./parseInstallCommand.js";
@@ -37,14 +38,18 @@ export async function runInstallCommand(argv: readonly string[]): Promise<number
   ensureAgentDirEnv();
   await applyNexusConfigPatch();
   const source = normalizeInstallSource(options.source);
+  // Keep a package manager only for the npm install step (downloading the package),
+  // but do NOT call installAndPersist — that writes to the legacy `packages` array.
   const runtime = createNexusCliPackageManager(process.cwd());
   runtime.packageManager.setProgressCallback((event) => {
     if (event.type === "start") process.stdout.write(`${event.message}\n`);
   });
 
   try {
-    await runtime.packageManager.installAndPersist(source, { local: options.local });
-    await runtime.settingsManager.flush();
+    // Install the npm package to disk without persisting to settings
+    await runtime.packageManager.install(source, { local: options.local });
+    // Persist only via Nexus's own config: extensions.pi_packages
+    setUserExtensionEnabled(source, true);
     console.log(`Installed ${source}`);
     console.log("Restart Nexus to load it.");
     return 0;
