@@ -7,8 +7,8 @@ import {
 	createReadTool,
 	createWriteTool,
 } from "@earendil-works/pi-coding-agent";
-import { getRtkRuntimeForCwd } from "@nexus/extensions-pro/rtk/runtime/runtimeStore.js";
-import { createRtkBuiltInTools } from "@nexus/extensions-pro/rtk/tooling/createRtkBuiltInTools.js";
+import { getRtkRuntimeForCwd } from "../../rtk/runtime/runtimeStore.ts";
+import { createRtkBuiltInTools } from "../../rtk/tooling/createRtkBuiltInTools.ts";
 import type { BuiltInTools } from "./types.ts";
 
 /**

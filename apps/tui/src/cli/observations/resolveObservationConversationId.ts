@@ -1,5 +1,5 @@
-import { getObservationsDir } from "@nexus/extensions-pro/observations/shared/getObservationsDir.js";
-import { sanitizeConversationId } from "@nexus/extensions-pro/observations/shared/sanitizeConversationId.js";
+import { getObservationsDir } from "@nexus/extensions/observations/shared/getObservationsDir.js";
+import { sanitizeConversationId } from "@nexus/extensions/observations/shared/sanitizeConversationId.js";
 import { findObservationStateConversationId } from "./findObservationStateConversationId.js";
 
 /**

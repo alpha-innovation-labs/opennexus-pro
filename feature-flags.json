@@ -1,56 +1,19 @@
 {
   "extensions": {
     "ai-providers": {
-      "enabled": true,
-      "features": [
-        "oh-my-pi provider login entries",
-        "manual credential prompts for additional providers",
-        "/login provider availability"
-      ],
-      "category": "extension"
+      "enabled": true
     },
     "auto-update": {
-      "enabled": true,
-      "features": [
-        "async startup npm version check",
-        "Nexus update confirmation modal",
-        "prompted npm install for approved updates"
-      ],
-      "category": "extension"
+      "enabled": true
     },
     "cmux": {
-      "enabled": true,
-      "features": [
-        "sync session title to cmux pane title",
-        "notify cmux tab when pane is done",
-        "/cmux workspace shell session view"
-      ],
-      "category": "pro"
+      "enabled": true
     },
     "context-usage": {
-      "enabled": true,
-      "features": [
-        "context_usage tool for current chat context window usage",
-        "/context command for current chat context window usage"
-      ],
-      "category": "extension"
-    },
-    "dev": {
-      "devOnly": true,
-      "enabled": true,
-      "features": [
-        "/dev-modal command",
-        "dev-only modal variation playground",
-        "tab and shift+tab modal variant cycling"
-      ],
-      "category": "dev"
+      "enabled": true
     },
     "exit-message": {
-      "enabled": true,
-      "features": [
-        "print session title on app exit"
-      ],
-      "category": "extension"
+      "enabled": true
     },
     "pi-packages": {
       "enabled": true,
@@ -158,16 +121,6 @@
         "show N logo, version, tips, and startup status"
       ],
       "category": "extension"
-    },
-    "todo": {
-      "enabled": true,
-      "features": [
-        "todo tool",
-        "/todos command",
-        "live todo overlay"
-      ],
-      "category": "dev",
-      "devOnly": true
     },
     "tetris": {
       "enabled": true,

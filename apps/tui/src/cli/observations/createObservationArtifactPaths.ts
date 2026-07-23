@@ -1,4 +1,4 @@
-import { getObservationStatePath } from "@nexus/extensions-pro/observations/shared/getObservationStatePath.js";
+import { getObservationStatePath } from "@nexus/extensions/observations/shared/getObservationStatePath.js";
 
 /**
  * Resolves the single observation state path for one conversation id.

@@ -1,5 +1,5 @@
-import { buildObservationMessageExcerpt } from "@nexus/extensions-pro/observations/tracker/buildObservationMessageExcerpt.js";
-import type { ObservationState, StoredObservationMessage } from "@nexus/extensions-pro/observations/tracker/types.js";
+import { buildObservationMessageExcerpt } from "@nexus/extensions/observations/tracker/buildObservationMessageExcerpt.js";
+import type { ObservationState, StoredObservationMessage } from "@nexus/extensions/observations/tracker/types.js";
 import { recreateObservationTopics } from "./recreateObservationTopics.js";
 import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopic.js";
 

@@ -25,6 +25,16 @@ export type LocalImageReaderConfig = {
 };
 
 /**
+ * Per-feature-flag user override persisted in the Nexus user config.
+ */
+export type UserFeatureFlagOverride = {
+	/** Override whether this feature flag is enabled. */
+	enabled?: boolean;
+	/** Override whether this feature flag is development-only. */
+	devOnly?: boolean;
+};
+
+/**
  * User-editable Nexus configuration stored outside the app bundle.
  */
 export type NexusUserConfig = {
@@ -35,4 +45,6 @@ export type NexusUserConfig = {
 	localImageReader?: LocalImageReaderConfig;
 	/** Whether desktop notifications are enabled. */
 	notifyEnabled?: boolean;
+	/** Per-feature-flag overrides from the user config file. */
+	featureFlags?: Record<string, UserFeatureFlagOverride>;
 };

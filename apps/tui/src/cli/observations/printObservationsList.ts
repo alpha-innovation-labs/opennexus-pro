@@ -1,5 +1,5 @@
-import { readObservationState } from "@nexus/extensions-pro/observations/tracker/readObservationState.js";
-import { getObservationsDir } from "@nexus/extensions-pro/observations/shared/getObservationsDir.js";
+import { readObservationState } from "@nexus/extensions/observations/tracker/readObservationState.js";
+import { getObservationsDir } from "@nexus/extensions/observations/shared/getObservationsDir.js";
 import { formatObservationTopicList } from "./formatObservationTopicList.js";
 import { listObservationArtifactGroups } from "./listObservationArtifactGroups.js";
 import { resolveObservationConversationId } from "./resolveObservationConversationId.js";

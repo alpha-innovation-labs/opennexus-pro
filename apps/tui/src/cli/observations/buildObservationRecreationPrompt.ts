@@ -1,5 +1,5 @@
-import { readObservationPromptOverride } from "@nexus/extensions-pro/observations/shared/readObservationPromptOverride.js";
-import type { StoredObservationMessage } from "@nexus/extensions-pro/observations/tracker/types.js";
+import { readObservationPromptOverride } from "@nexus/extensions/observations/shared/readObservationPromptOverride.js";
+import type { StoredObservationMessage } from "@nexus/extensions/observations/tracker/types.js";
 import { formatObservationRecreationMessages } from "./formatObservationRecreationMessages.js";
 import { renderObservationRecreationPrompt } from "./renderObservationRecreationPrompt.js";
 

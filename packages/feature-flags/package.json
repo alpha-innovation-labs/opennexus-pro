@@ -7,7 +7,7 @@
   "dependencies": {
     "@nexus/extensions": "workspace:*",
     "@nexus/extensions-dev": "workspace:*",
-    "@nexus/extensions-pro": "workspace:*",
+    
     "@nexus/mini-apps": "workspace:*",
     "@nexus/observability": "workspace:*",
     "@nexus/runtime": "workspace:*"

@@ -1,4 +1,4 @@
-import { getRtkRuntimeForCwd } from "@nexus/extensions-pro/rtk/runtime/runtimeStore.js";
+import { getRtkRuntimeForCwd } from "../../rtk/runtime/runtimeStore.ts";
 import { createBuiltInTools } from "./createBuiltInTools.ts";
 import { toolCache } from "./toolCache.ts";
 import type { BuiltInTools } from "./types.ts";

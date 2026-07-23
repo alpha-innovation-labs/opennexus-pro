@@ -1,4 +1,4 @@
-import type { StoredObservationMessage } from "@nexus/extensions-pro/observations/tracker/types.js";
+import type { StoredObservationMessage } from "@nexus/extensions/observations/tracker/types.js";
 
 /**
  * Formats stored messages as XML-like blocks for the observation recreation prompt.

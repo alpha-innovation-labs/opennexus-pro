@@ -1,6 +1,6 @@
 import { mkdir } from "node:fs/promises";
-import { getObservationsDir } from "@nexus/extensions-pro/observations/shared/getObservationsDir.js";
-import { writeObservationState } from "@nexus/extensions-pro/observations/tracker/writeObservationState.js";
+import { getObservationsDir } from "@nexus/extensions/observations/shared/getObservationsDir.js";
+import { writeObservationState } from "@nexus/extensions/observations/tracker/writeObservationState.js";
 import type { SessionInfo } from "@earendil-works/pi-coding-agent";
 import { createObservationArtifactPaths } from "./createObservationArtifactPaths.js";
 import { createObservationMessagesFromSessionEntries } from "./createObservationMessagesFromSessionEntries.js";

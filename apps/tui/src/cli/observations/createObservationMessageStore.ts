@@ -1,4 +1,4 @@
-import type { ObservationMessageStore, StoredObservationMessage } from "@nexus/extensions-pro/observations/tracker/types.js";
+import type { ObservationMessageStore, StoredObservationMessage } from "@nexus/extensions/observations/tracker/types.js";
 
 /**
  * Creates a persisted observation message store payload.

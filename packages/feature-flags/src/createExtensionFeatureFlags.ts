@@ -2,6 +2,8 @@ import { applySystemExtensionAvailability } from "./applySystemExtensionAvailabi
 import { createExtensionRegisterMap } from "./createExtensionRegisterMap.js";
 import { getBundledFeatureFlagsConfig } from "./getBundledFeatureFlagsConfig.js";
 import { readFeatureFlagsConfig } from "./readFeatureFlagsConfig.js";
+import { mergeUserFeatureFlagOverrides } from "./mergeUserFeatureFlagOverrides.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
 import type { ExtensionFeatureFlag, FeatureFlagsConfig } from "./types.js";
 
 /**
@@ -31,13 +33,16 @@ export function createExtensionFeatureFlags(): ExtensionFeatureFlag[] {
 }
 
 /**
- * Reads source feature flags and falls back to bundled release flags in installed runtimes.
+ * Reads source feature flags, applies user overrides from config.json,
+ * and falls back to bundled release flags in installed runtimes.
  *
  * @returns Active feature flag config.
  */
 function readAvailableFeatureFlagsConfig(): FeatureFlagsConfig {
 	try {
-		return readFeatureFlagsConfig();
+		const base = readFeatureFlagsConfig();
+		const userConfig = readNexusUserConfig();
+		return mergeUserFeatureFlagOverrides(base, userConfig);
 	} catch {
 		return getBundledFeatureFlagsConfig();
 	}

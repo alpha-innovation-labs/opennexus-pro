@@ -1,4 +1,4 @@
-import { getObservationsDir } from "@nexus/extensions-pro/observations/shared/getObservationsDir.js";
+import { getObservationsDir } from "@nexus/extensions/observations/shared/getObservationsDir.js";
 import { deleteObservationArtifactGroup } from "./deleteObservationArtifactGroup.js";
 import { listObservationArtifactGroups } from "./listObservationArtifactGroups.js";
 import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups.js";

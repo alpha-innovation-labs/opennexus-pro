@@ -1,6 +1,6 @@
-import { extractAssistantSummaryInput } from "@nexus/extensions-pro/observations/tracker/extractAssistantSummaryInput.js";
-import { extractUserText } from "@nexus/extensions-pro/observations/tracker/extractUserText.js";
-import type { StoredObservationMessage } from "@nexus/extensions-pro/observations/tracker/types.js";
+import { extractAssistantSummaryInput } from "@nexus/extensions/observations/tracker/extractAssistantSummaryInput.js";
+import { extractUserText } from "@nexus/extensions/observations/tracker/extractUserText.js";
+import type { StoredObservationMessage } from "@nexus/extensions/observations/tracker/types.js";
 import { getSessionEntryTimestamp } from "./getSessionEntryTimestamp.js";
 import { isSessionMessageEntry } from "./isSessionMessageEntry.js";
 

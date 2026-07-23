@@ -16,7 +16,6 @@ export function createNexusUsageText(_features: {} = {}): string {
 		"  --delete-session <session-id>       Delete a persisted session",
 		"  --json                             Print session listings as JSON",
 		"  --observations <session-id>         Print observations for a session",
-		"  --chat-status-file-location         Print the chat-status file path",
 		"  --usage                            Open the usage history modal on startup",
 		"  --session-dir <path>               Read sessions from a custom directory",
 		"  --resume [session-id]              Resume from picker, or open a specific session",

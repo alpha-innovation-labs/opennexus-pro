@@ -23,8 +23,6 @@ import { hasVersionFlag } from "./version/hasVersionFlag.js";
 import { printAppVersion } from "./version/printAppVersion.js";
 import { hasDeleteSessionFlag } from "./delete-session/hasDeleteSessionFlag.js";
 import { runDeleteSessionCommand } from "./delete-session/runDeleteSessionCommand.js";
-import { hasChatStatusFileLocationFlag } from "./chat-status/hasChatStatusFileLocationFlag.js";
-import { printChatStatusFileLocation } from "./chat-status/printChatStatusFileLocation.js";
 
 export interface RunCliWithAppOptions {
   runApp: (argv: string[]) => Promise<void>;
@@ -40,11 +38,6 @@ export interface RunCliWithAppOptions {
 export async function runCliWithApp(argv: string[], options: RunCliWithAppOptions): Promise<number> {
   if (hasVersionFlag(argv)) {
     await printAppVersion();
-    return 0;
-  }
-
-  if (hasChatStatusFileLocationFlag(argv)) {
-    printChatStatusFileLocation();
     return 0;
   }
 

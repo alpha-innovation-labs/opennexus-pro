@@ -4,7 +4,7 @@ import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFea
 import { setRuntimeExtensionFeatureFlags } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
 import { registerAiProvidersExtension } from "../ai-providers/registerAiProvidersExtension.js";
 import { registerAutoUpdateExtension } from "../auto-update/registerAutoUpdateExtension.js";
-import { registerCmuxExtension } from "@nexus/extensions-pro/cmux/registerCmuxExtension.js";
+import { registerCmuxExtension } from "../cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "../context-usage/registerContextUsageExtension.js";
 import { registerExitMessageExtension } from "../exit-message/registerExitMessageExtension.js";
 import { registerPiPackagesExtension } from "../pi-packages/registerPiPackagesExtension.js";
@@ -14,9 +14,9 @@ import registerNeoEditorExtension from "../neo-editor/registerNeoEditorExtension
 import { registerHotkeysExtension } from "../hotkeys/registerHotkeysExtension.js";
 import { registerSlashMenuExtension } from "../slash-menu/registerSlashMenuExtension.js";
 import { registerNotifyExtension } from "../notify/registerNotifyExtension.js";
-import { registerObservationsExtension } from "@nexus/extensions-pro/observations/registerObservationsExtension.js";
+import { registerObservationsExtension } from "../observations/registerObservationsExtension.js";
 import { registerSystemPromptExtension } from "../system-prompt/registerSystemPromptExtension.js";
-import { registerRtkExtension } from "@nexus/extensions-pro/rtk/registerRtkExtension.js";
+import { registerRtkExtension } from "../rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "../startup-hero/registerStartupHeroExtension.js";
 import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension.js";
 import registerTronExtension from "../tron/index.js";

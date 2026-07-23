@@ -3,6 +3,7 @@ export { createExtensionFeatureFlagReport } from "./createExtensionFeatureFlagRe
 export { createExtensionFeatureFlags } from "./createExtensionFeatureFlags.js";
 export { getBundledFeatureFlagsConfig } from "./getBundledFeatureFlagsConfig.js";
 export { getEnabledExtensionFeatureFlags } from "./getEnabledExtensionFeatureFlags.js";
+export { mergeUserFeatureFlagOverrides } from "./mergeUserFeatureFlagOverrides.js";
 export { readFeatureFlagsConfig } from "./readFeatureFlagsConfig.js";
 export { readJsonFeatureFlagsConfig } from "./readJsonFeatureFlagsConfig.js";
 export { registerEnabledExtensions } from "./registerEnabledExtensions.js";
@@ -14,3 +15,4 @@ export { getRegisteredToolRecords } from "./tool-registry/getRegisteredToolRecor
 export { recordRegisteredTool } from "./tool-registry/recordRegisteredTool.js";
 export type { ToolRegistrationRecord } from "./tool-registry/ToolRegistrationRecord.js";
 export type { ExtensionFeatureFlag, ExtensionFeatureFlagConfig, FeatureFlagConfig, FeatureFlagsConfig } from "./types.js";
+export type { UserFeatureFlagOverride } from "./mergeUserFeatureFlagOverrides.js";

@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { appendNoExtensionsArg } from "@nexus/app-tui/cli/extensions/appendNoExtensionsArg.js";
+import { appendNoExtensionsArg } from "./appendNoExtensionsArg.js";
 import { getCurrentNexusLaunchSpec } from "@nexus/runtime/cli/getCurrentNexusLaunchSpec.js";
 
 export interface BundledSummarizerResult {
