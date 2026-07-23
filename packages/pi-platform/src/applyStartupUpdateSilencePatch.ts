@@ -1,4 +1,4 @@
-import { InteractiveMode } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/interactive-mode.js";
+import { InteractiveMode } from "@earendil-works/pi-coding-agent/dist/modes/interactive/interactive-mode.js";
 
 let startupUpdateSilencePatchApplied = false;
 

@@ -1,8 +1,8 @@
 import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { defaultModelPerProvider } from "../../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/model-resolver.js";
-import { getAuthPath } from "../../../../../node_modules/@earendil-works/pi-coding-agent/dist/config.js";
-import { LoginDialogComponent } from "../../../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/components/login-dialog.js";
+import { defaultModelPerProvider } from "@earendil-works/pi-coding-agent/dist/core/model-resolver.js";
+import { getAuthPath } from "@earendil-works/pi-coding-agent/dist/config.js";
+import { LoginDialogComponent } from "@earendil-works/pi-coding-agent/dist/modes/interactive/components/login-dialog.js";
 
 /**
  * Runs one OAuth login flow inside a custom extension dialog.

@@ -1,4 +1,5 @@
-import { getAgentDir } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/config.js";
+import { getAgentDir, CONFIG_DIR_NAME } from "@earendil-works/pi-coding-agent/dist/config.js";
+import { join } from "node:path";
 import { readBundledDefaultSettings } from "@nexus/assets/default-settings/readBundledDefaultSettings.js";
 import { getDefaultThemeName } from "./getDefaultThemeName.js";
 import { getProjectConfigPath } from "./getProjectConfigPath.js";
@@ -7,9 +8,8 @@ import { getUserConfigPath } from "./getUserConfigPath.js";
 import { getUserThemesPath } from "./getUserThemesPath.js";
 import { mergeSettings, type SettingsRecord } from "./mergeSettings.js";
 
-type SettingsManagerModule = typeof import("../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js");
-type ResourceLoaderModule = typeof import("../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/resource-loader.js");
-
+type SettingsManagerModule = typeof import("@earendil-works/pi-coding-agent/dist/core/settings-manager.js");
+type ResourceLoaderModule = typeof import("@earendil-works/pi-coding-agent/dist/core/resource-loader.js");
 type LoadThemesResult = {
   themes: unknown[];
   diagnostics: unknown[];
@@ -46,8 +46,8 @@ type NexusResourceLoaderPrototype = {
  */
 export async function applyNexusConfigPatch(): Promise<void> {
   const [{ FileSettingsStorage, SettingsManager }, { DefaultResourceLoader }] = await Promise.all([
-    import("../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js"),
-    import("../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/resource-loader.js"),
+    import("@earendil-works/pi-coding-agent/dist/core/settings-manager.js"),
+    import("@earendil-works/pi-coding-agent/dist/core/resource-loader.js"),
   ]);
 
   const patchedSettingsManager = SettingsManager as unknown as NexusSettingsManagerClass;
@@ -63,6 +63,48 @@ export async function applyNexusConfigPatch(): Promise<void> {
     const manager = originalFromStorage.call(this, storage) as unknown as NexusSettingsManagerInstance;
     manager.globalSettings = mergeSettings(appDefaults, manager.globalSettings);
     manager.settings = mergeSettings(manager.globalSettings, manager.projectSettings);
+    // Convert Nexus-style extensions.pi_packages to Pi-expected packages array format.
+    // Pi's resolver reads `globalSettings.packages` as an array of package source strings.
+    // Nexus stores it as { pi_packages: { name: bool } }. Convert on-the-fly.
+    // Also clear `globalSettings.extensions` when it's in Nexus object format,
+    // because Pi's resolver expects `extensions` to be an array of file paths.
+    const nexusExt = (manager.globalSettings as Record<string, unknown>).extensions;
+    let convertedPackages: string[] | undefined;
+    let clearedExtensions: unknown;
+    if (nexusExt && typeof nexusExt === "object" && !Array.isArray(nexusExt)) {
+      const piPackages = (nexusExt as Record<string, unknown>).pi_packages;
+      if (piPackages && typeof piPackages === "object") {
+        // Convert { "npm:pi-chrome": true } to ["npm:pi-chrome"],
+        // but EXCLUDE packages explicitly set to false so they never
+        // reach Pi's resolver and are never loaded.
+        const existingPackages = (manager.globalSettings as Record<string, unknown>).packages ?? [];
+        const merged = [...existingPackages];
+        for (const [src, enabled] of Object.entries(piPackages)) {
+          // Only inject source strings whose value is truthy (true or omitted).
+          // When the user sets a source to false, skip it entirely so Pi
+          // never sees it and never loads it.
+          if (enabled) {
+            if (!merged.includes(src)) {
+              merged.push(src);
+            }
+          }
+        }
+        convertedPackages = merged;
+        clearedExtensions = undefined;
+      }
+    }
+    // Patch getGlobalSettings to return the converted version.
+    // We can't modify globalSettings in place because getGlobalSettings() returns
+    // structuredClone(this.globalSettings), so modifications are lost.
+    const originalGetGlobalSettings = manager.getGlobalSettings.bind(manager);
+    manager.getGlobalSettings = function getGlobalSettingsWithNexusConversion() {
+      const gs = originalGetGlobalSettings();
+      if (convertedPackages !== undefined) {
+        (gs as Record<string, unknown>).packages = convertedPackages;
+        (gs as Record<string, unknown>).extensions = clearedExtensions;
+      }
+      return gs;
+    };
     return manager;
   };
 

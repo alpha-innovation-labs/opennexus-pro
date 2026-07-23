@@ -1,6 +1,6 @@
 import stripAnsi from "strip-ansi";
-import { sanitizeBinaryOutput } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/utils/shell.js";
-import { ToolExecutionComponent } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
+import { sanitizeBinaryOutput } from "@earendil-works/pi-coding-agent/dist/utils/shell.js";
+import { ToolExecutionComponent } from "@earendil-works/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
 import { isToolGroupCollapseEnabled } from "@nexus/extensions/tron/collapse/state.ts";
 
 let compactModeImagePatchApplied = false;

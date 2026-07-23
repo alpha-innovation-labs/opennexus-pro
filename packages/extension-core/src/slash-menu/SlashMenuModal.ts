@@ -1,6 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { parseCommandArgs } from
-  "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/prompt-templates.js";
+  "@earendil-works/pi-coding-agent/dist/core/prompt-templates.js";
 import { SENTINEL } from
   "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch.js";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
@@ -369,7 +369,7 @@ path).
       if (item.value === "hotkeys") return this.openHotkeysPanel();
       if (item.value === "name") return this.openSessionNameInput();
       if (item.value === "session") return this.openSessionInfoPanel();
-      if (item.value === "thinking") return
+      if (item.value === "thinking") return;
       this.openSettingChoice(createThinkingSettingLeaf(this.getThinkingLevel(), this.ctx.model));
       const selectedTopItem = this.topItems.find((entry) => entry.value === item.value);
       if (selectedTopItem?.groupLabel === "Custom Commands") {

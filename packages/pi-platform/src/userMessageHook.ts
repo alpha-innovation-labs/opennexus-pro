@@ -1,4 +1,4 @@
-import { UserMessageComponent } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/components/user-message.js";
+import { UserMessageComponent } from "@earendil-works/pi-coding-agent/dist/modes/interactive/components/user-message.js";
 
 type UserMessageRenderHook = (component: UserMessageComponent, width: number) => string[];
 

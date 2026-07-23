@@ -1,4 +1,4 @@
-import { SettingsManager } from "../../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
+import { SettingsManager } from "@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
 import { decodeBase64Arg } from "./decodeBase64Arg.js";
 import type { InternalSlashHandler } from "./types.js";
 

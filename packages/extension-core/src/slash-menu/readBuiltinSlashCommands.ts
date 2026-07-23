@@ -1,4 +1,4 @@
-import { BUILTIN_SLASH_COMMANDS } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/slash-commands.js";
+import { BUILTIN_SLASH_COMMANDS } from "@earendil-works/pi-coding-agent/dist/core/slash-commands.js";
 import type { RegisteredSlashCommand } from "./types.js";
 
 /**

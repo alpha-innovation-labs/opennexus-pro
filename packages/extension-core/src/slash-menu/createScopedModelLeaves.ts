@@ -1,4 +1,4 @@
-import { SettingsManager } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
+import { SettingsManager } from "@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import type { SlashMenuLeaf } from "./types.js";
 

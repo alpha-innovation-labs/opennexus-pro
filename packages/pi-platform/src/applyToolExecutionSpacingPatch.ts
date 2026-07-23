@@ -1,5 +1,5 @@
 import { Spacer } from "@earendil-works/pi-tui";
-import { ToolExecutionComponent } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
+import { ToolExecutionComponent } from "@earendil-works/pi-coding-agent/dist/modes/interactive/components/tool-execution.js";
 
 const LEADING_SPACER_SKIPPED = Symbol("toolExecutionLeadingSpacerSkipped");
 let toolExecutionSpacingPatchApplied = false;

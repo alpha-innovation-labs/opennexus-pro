@@ -1,5 +1,5 @@
-import { SettingsManager } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
-import { getAvailableThemes } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/theme/theme.js";
+import { SettingsManager } from "@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
+import { getAvailableThemes } from "@earendil-works/pi-coding-agent/dist/modes/interactive/theme/theme.js";
 import type { SlashMenuLeaf } from "./types.js";
 
 /**

@@ -1,4 +1,4 @@
-import type { SkillInvocationMessageComponent } from "../../../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/components/skill-invocation-message.js";
+import type { SkillInvocationMessageComponent } from "@earendil-works/pi-coding-agent/dist/modes/interactive/components/skill-invocation-message.js";
 import { theme } from "@nexus/pi-platform/theme.js";
 import { CompactToolRow } from "../shared/compact-row/CompactToolRow.ts";
 

@@ -1,4 +1,4 @@
-import { createAllToolDefinitions } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/tools/index.js";
+import { createAllToolDefinitions } from "@earendil-works/pi-coding-agent/dist/core/tools/index.js";
 
 export interface PiToolDefinition {
   name: string;

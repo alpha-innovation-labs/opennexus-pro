@@ -1,5 +1,5 @@
-import { KEYBINDINGS } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/core/keybindings.js";
-import { InteractiveMode } from "../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/interactive-mode.js";
+import { KEYBINDINGS } from "@earendil-works/pi-coding-agent/dist/core/keybindings.js";
+import { InteractiveMode } from "@earendil-works/pi-coding-agent/dist/modes/interactive/interactive-mode.js";
 import { invalidateActivityKeys } from "@nexus/extensions/tron/activity/invalidateActivityKeys.ts";
 import { activityInvalidators } from "@nexus/extensions/tron/activity/state.ts";
 import { toggleToolGroupCollapse } from "@nexus/extensions/tron/collapse/state.ts";

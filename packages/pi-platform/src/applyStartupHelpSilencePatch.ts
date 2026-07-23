@@ -30,8 +30,8 @@ type InteractiveModeClass = {
  */
 export async function applyStartupHelpSilencePatch(): Promise<void> {
 	const [interactiveModule, settingsModule] = await Promise.all([
-		import("../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/interactive-mode.js"),
-		import("../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js"),
+		import("@earendil-works/pi-coding-agent/dist/modes/interactive/interactive-mode.js"),
+		import("@earendil-works/pi-coding-agent/dist/core/settings-manager.js"),
 	]);
 	const InteractiveMode = interactiveModule.InteractiveMode as InteractiveModeClass;
 	const SettingsManager = settingsModule.SettingsManager as SettingsManagerClass;

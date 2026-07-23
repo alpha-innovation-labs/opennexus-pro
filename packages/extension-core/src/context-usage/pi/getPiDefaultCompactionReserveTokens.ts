@@ -1,4 +1,4 @@
-import { DEFAULT_COMPACTION_SETTINGS } from "../../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/compaction/compaction.js";
+import { DEFAULT_COMPACTION_SETTINGS } from "@earendil-works/pi-coding-agent/dist/core/compaction/compaction.js";
 
 /**
  * Reads Pi's default compaction reserve from Pi's own compaction module.

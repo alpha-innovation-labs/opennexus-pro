@@ -7,7 +7,7 @@
  * `AgentSession.prompt("/...")` routing) and includes a double-append guard
  * to skip re-appending when the modal path already appended args.
  */
-import { parseCommandArgs, substituteArgs } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/prompt-templates.js";
+import { parseCommandArgs, substituteArgs } from "@earendil-works/pi-coding-agent/dist/core/prompt-templates.js";
 
 let __nexusPromptTemplatePatched__ = false;
 
@@ -86,7 +86,7 @@ export async function applyPromptTemplateArgAppendPatch(): Promise<void> {
 	if (__nexusPromptTemplatePatched__) return;
 
 	const agentSessionModule = await import(
-		"../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/agent-session.js"
+		"@earendil-works/pi-coding-agent/dist/core/agent-session.js"
 	);
 	const AgentSession = agentSessionModule.AgentSession as {
 		prototype: { prompt: (...args: unknown[]) => unknown };

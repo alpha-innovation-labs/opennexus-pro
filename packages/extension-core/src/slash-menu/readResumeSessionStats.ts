@@ -1,4 +1,4 @@
-import { buildSessionContext, loadEntriesFromFile } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/session-manager.js";
+import { buildSessionContext, loadEntriesFromFile } from "@earendil-works/pi-coding-agent/dist/core/session-manager.js";
 
 export interface ResumeSessionStats {
   humanMessages: number;

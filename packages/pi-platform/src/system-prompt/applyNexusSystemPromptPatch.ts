@@ -16,7 +16,7 @@ type AgentSessionInstance = {
  * Patches Pi's AgentSession to use Nexus' Pi-compatible prompt without Pi docs.
  */
 export async function applyNexusSystemPromptPatch(): Promise<void> {
-	const agentSessionModule = await import("../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/agent-session.js");
+	const agentSessionModule = await import("@earendil-works/pi-coding-agent/dist/core/agent-session.js");
 	const AgentSession = agentSessionModule.AgentSession as unknown as AgentSessionClass;
 	if (AgentSession.__nexusSystemPromptPatched__) return;
 	const originalRebuild = AgentSession.prototype._rebuildSystemPrompt;

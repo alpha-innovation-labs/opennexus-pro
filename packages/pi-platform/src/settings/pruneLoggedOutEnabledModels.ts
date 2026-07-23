@@ -1,5 +1,5 @@
-import { AuthStorage } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/auth-storage.js";
-import { SettingsManager } from "../../../../node_modules/@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
+import { AuthStorage } from "@earendil-works/pi-coding-agent/dist/core/auth-storage.js";
+import { SettingsManager } from "@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
 import { filterLoggedInEnabledModelPatterns } from "./filterLoggedInEnabledModelPatterns.js";
 
 type WritableSettingsManager = {
