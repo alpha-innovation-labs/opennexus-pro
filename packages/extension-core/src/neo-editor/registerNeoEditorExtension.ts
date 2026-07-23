@@ -11,6 +11,7 @@ import { refreshPromptlineConfig } from "./features/promptline/config/refreshPro
 import { refreshAndRender } from "./features/promptline/refreshAndRender.js";
 import { resetPromptlineState } from "./features/promptline/resetPromptlineState.js";
 import { getPromptlineRenderRequest, setPromptlineModelOverride } from "./features/promptline/state.js";
+import { setRefreshRequestCallback } from "./features/promptline/state.js";
 import { registerPromptlineStatusWidget } from "./features/promptline/status-widget/registerPromptlineStatusWidget.js";
 import { primeStartupLoginModal } from "./primeStartupLoginModal.js";
 import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
@@ -61,6 +62,12 @@ export default function(pi: ExtensionAPI) {
     getPromptlineRenderRequest()?.(true);
     await refreshAndRender(ctx, deps);
   });
+
+  // Wire promptline refresh callback to real-time TPS badge updates.
+  // The TPS interval fires every 500ms during streaming and calls the
+  // promptline render request, which updates the entire promptline including
+  // the TPS badge shown alongside the thinking badge in the footer.
+  setRefreshRequestCallback(() => getPromptlineRenderRequest()?.());
 
   pi.on("session_tree", async (_event, ctx) => {
     await refreshAndRender(ctx, deps);

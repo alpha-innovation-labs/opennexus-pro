@@ -2,6 +2,7 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
 import { renderPromptlineStatusWidget } from "./renderPromptlineStatusWidget.js";
 import { setPromptlineSessionStartedAt } from "./setPromptlineSessionStartedAt.js";
+import { resetTpsTracker, resetTurnPauseAccumulator } from "./promptlineTpsTracker.js";
 
 /**
  * Registers the promptline metadata widget for source and release runtimes.
@@ -13,23 +14,35 @@ export function registerPromptlineStatusWidget(pi: ExtensionAPI): void {
 	const render = renderPromptlineStatusWidget;
 	pi.on("session_start", async (_event, ctx) => {
 		setPromptlineSessionStartedAt(Date.now());
+		resetTpsTracker();
 		if (!ctx.hasUI) return;
 		render(ctx, pi.getThinkingLevel.bind(pi), pi.getSessionName.bind(pi));
 	});
-	pi.on("message_start", async (_event, ctx) => {
+	pi.on("message_start", async (event, ctx) => {
 		if (!ctx.hasUI) return;
+		const msg = (event as { message?: { role?: string } }).message;
+		if (msg?.role !== "assistant") {
+			resetTurnPauseAccumulator();
+		}
 		render(ctx, pi.getThinkingLevel.bind(pi), pi.getSessionName.bind(pi));
 	});
-	pi.on("message_end", async (_event, ctx) => {
+	pi.on("message_end", async (event, ctx) => {
 		if (!ctx.hasUI) return;
 		render(ctx, pi.getThinkingLevel.bind(pi), pi.getSessionName.bind(pi));
 	});
 	pi.on("turn_end", async (_event, ctx) => {
 		if (!ctx.hasUI) return;
+		resetTurnPauseAccumulator();
 		render(ctx, pi.getThinkingLevel.bind(pi), pi.getSessionName.bind(pi));
 	});
 	pi.on("model_select", async (_event, ctx) => {
 		if (!ctx.hasUI) return;
 		render(ctx, pi.getThinkingLevel.bind(pi), pi.getSessionName.bind(pi));
+	});
+	pi.on("tool_call", async (event, ctx) => {
+		if (!ctx.hasUI) return;
+	});
+	pi.on("tool_end", async (event, ctx) => {
+		if (!ctx.hasUI) return;
 	});
 }

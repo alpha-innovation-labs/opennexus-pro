@@ -7,9 +7,9 @@ import { getPromptlineFrameWidth } from "../layout/getPromptlineFrameWidth.js";
 import { hasConversationMessages } from "../layout/hasConversationMessages.js";
 import { padPromptlineFrameToWidth } from "../layout/padPromptlineFrameToWidth.js";
 import { buildPromptlineStatusLine } from "./buildPromptlineStatusLine.js";
-import { createPromptlineBadge } from "./createPromptlineBadge.js";
 import { getPromptlineSessionRunTimeLabel } from "./getPromptlineSessionRunTimeLabel.js";
 import { getPromptlineStatusTitle } from "./getPromptlineStatusTitle.js";
+import { createPromptlineBadge } from "./createPromptlineBadge.js";
 
 const PROVIDER_BADGE_BG = "\x1b[48;2;120;30;30m";
 const MODEL_BADGE_BG = "\x1b[48;2;180;45;45m";
@@ -43,7 +43,8 @@ export function createPromptlineStatusWidget(
 			const hasMessages = hasConversationMessages(ctx);
 			const frameWidth = getPromptlineFrameWidth(width, hasMessages);
 			const title = getPromptlineStatusTitle(getSessionName, ctx);
-			const runTime = hasMessages && title ? ctx.ui.theme.fg("muted", getPromptlineSessionRunTimeLabel()) : undefined;
+			const runTime = hasMessages && title ? ctx.ui.theme.fg("muted" as never, getPromptlineSessionRunTimeLabel()) : undefined;
+
 			const key = [width, frameWidth, modelId, thinking, title ?? "", runTime ?? ""].join("\u001f");
 			if (cachedKey === key) return cachedLines;
 			const badges = `${createPromptlineBadge(provider, PROVIDER_BADGE_BG)}${createPromptlineBadge(modelId, MODEL_BADGE_BG)}${createPromptlineBadge(thinking, THINKING_BADGE_BG)}`;

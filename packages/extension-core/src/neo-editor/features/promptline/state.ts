@@ -3,6 +3,7 @@ import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 let promptlineModelOverride: ExtensionContext["model"] | undefined;
 let requestPromptlineRender: ((force?: boolean) => void) | undefined;
 let promptlineInstalledForSession: string | null = null;
+let refreshRequestCallback: (() => void) | undefined;
 let usageRenderUnsubscribe: (() => void) | undefined;
 
 /**
@@ -57,6 +58,24 @@ export function setPromptlineInstalledForSession(sessionFile: string | null): vo
  */
 export function getPromptlineInstalledForSession(): string | null {
   return promptlineInstalledForSession;
+}
+
+/**
+ * Stores the promptline refresh request callback.
+ *
+ * @param callback Refresh callback.
+ */
+export function setRefreshRequestCallback(callback: (() => void) | undefined): void {
+  refreshRequestCallback = callback;
+}
+
+/**
+ * Returns the promptline refresh request callback.
+ *
+ * @returns Refresh callback.
+ */
+export function getRefreshRequestCallback(): (() => void) | undefined {
+  return refreshRequestCallback;
 }
 
 /**
