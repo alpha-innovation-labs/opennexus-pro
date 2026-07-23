@@ -1,6 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { LiteLLmGateway } from "./gateways/litellm.js";
 import { LmStudioGateway } from "./gateways/lm-studio.js";
+import { OllamaGateway } from "./gateways/ollama.js";
 
 const builtInPiOAuthProviderIds = new Set([
   "anthropic",
@@ -36,6 +37,7 @@ export async function registerAiProvidersExtension(pi: ExtensionAPI): Promise<vo
     const gateways = [
       new LiteLLmGateway(),
       new LmStudioGateway(),
+      new OllamaGateway(),
     ];
     await Promise.all(gateways.map((gw) => gw.registerProvider(pi)));
   }

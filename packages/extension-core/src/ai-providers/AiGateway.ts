@@ -15,7 +15,7 @@ const UNKNOWN_PROVIDER = "unknown";
  * Each gateway represents a single running inference server (Ollama, vLLM,
  * LM Studio, etc.).  The class encapsulates:
  *
- * - **exists()**  — probes `/v1/models` to confirm the gateway is alive
+ * - **exists()**  — probes `/v1/models` (or `/models` if baseUrl already ends with `/v1`) to confirm the gateway is alive
  * - **getModels()**  — returns cached models synchronously (never blocks)
  * - **refreshModels()**  — fetches fresh models, writes cache, returns them
  * - **registerProvider()**  — registers with Pi (sync, fire-and-forget warm)
@@ -27,7 +27,8 @@ export class AiGateway {
   /** Display name shown in the UI. */
   readonly name: string;
 
-  /** Base URL of the inference server (e.g. `http://localhost:11434`). */
+  /** Base URL of the inference server (e.g. `http://localhost:11434`).
+   *  Some back-ends (Ollama) embed the path in baseUrl (`…/v1`). */
   readonly baseUrl: string;
 
   /** API key sent with every request. */
@@ -35,6 +36,12 @@ export class AiGateway {
 
   /** API compat type passed to Pi (defaults to "openai-completions"). */
   readonly api: string;
+
+  /** Optional path prefix for API endpoints (e.g. "/v1" for Ollama). *
+   *  NOTE: Not all back-ends honor this field. When unsure, embed the path
+   *  directly in `baseUrl` (e.g. `http://localhost:11434/v1`).
+   *  Defaults to "" for backward compatibility. */
+  readonly apiPath: string;
 
   /** Whether this gateway has been registered with Pi. */
   private _registered = false;
@@ -53,12 +60,14 @@ export class AiGateway {
     baseUrl: string;
     apiKey?: string;
     api?: string;
+    apiPath?: string;
   }) {
     this.providerId = options.providerId;
     this.name = options.name;
     this.baseUrl = options.baseUrl;
     this.apiKey = options.apiKey ?? "";
     this.api = options.api ?? "openai-completions";
+    this.apiPath = options.apiPath ?? "";
   }
 
   /** Returns the default port for this provider, or undefined. */
@@ -79,10 +88,14 @@ export class AiGateway {
    * Probes the gateway to confirm it is alive and serving `/v1/models`.
    *
    * Returns `true` if the endpoint responds with HTTP 200, `false` otherwise.
+   * The `/v1/models` suffix is appended unless `baseUrl` already ends with `/v1`.
    */
   async exists(): Promise<boolean> {
     try {
-      const res = await fetch(`${this.baseUrl}/v1/models`, {
+      const url = this.baseUrl.endsWith('/v1')
+        ? `${this.baseUrl}/models`
+        : `${this.baseUrl}/v1/models`;
+      const res = await fetch(url, {
         headers: this._authHeaders(),
       });
       return res.ok;
@@ -121,12 +134,16 @@ export class AiGateway {
    * Embedding models are filtered out — only LLMs are returned.
    *
    * Returns an empty array if the gateway is unreachable.
+   * The `/v1/models` suffix is appended unless `baseUrl` already ends with `/v1`.
    */
   async fetchModels(): Promise<
     NonNullable<ProviderConfigInput["models"]>
   > {
     try {
-      const res = await fetch(`${this.baseUrl}/v1/models`, {
+      const url = this.baseUrl.endsWith('/v1')
+        ? `${this.baseUrl}/models`
+        : `${this.baseUrl}/v1/models`;
+      const res = await fetch(url, {
         headers: this._authHeaders(),
       });
       if (!res.ok) {
@@ -168,6 +185,7 @@ export class AiGateway {
       baseUrl: this.baseUrl,
       apiKey: this.apiKey,
       api: this.api,
+      apiPath: this.apiPath,
       models: [],
       refreshModels: async (context) => this.refreshModels(context),
     });
