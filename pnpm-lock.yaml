@@ -217,9 +217,9 @@ importers:
       '@nexus/assets':
         specifier: workspace:*
         version: link:../assets
-      '@nexus/extensions-dev':
+      '@nexus/extensions-core':
         specifier: workspace:*
-        version: link:../extensions-dev
+        version: link:../extensions-core
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../feature-flags
@@ -242,7 +242,7 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
 
-  packages/extensions-dev:
+  packages/extensions-core:
     dependencies:
       '@nexus/extensions':
         specifier: workspace:*
@@ -265,9 +265,9 @@ importers:
       '@nexus/extensions':
         specifier: workspace:*
         version: link:../extension-core
-      '@nexus/extensions-dev':
+      '@nexus/extensions-core':
         specifier: workspace:*
-        version: link:../extensions-dev
+        version: link:../extensions-core
       '@nexus/mini-apps':
         specifier: workspace:*
         version: link:../mini-apps

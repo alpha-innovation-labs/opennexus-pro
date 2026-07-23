@@ -6,7 +6,7 @@ import { registerContextUsageExtension } from "@nexus/extensions/context-usage/r
 import { registerExitMessageExtension } from "@nexus/extensions/exit-message/registerExitMessageExtension.js";
 import { registerHerdrAgentEndLogExtension } from "@nexus/extensions/herdr-agent-end-log/registerHerdrAgentEndLogExtension.js";
 import { registerPiPackagesExtension } from "@nexus/extensions/pi-packages/registerPiPackagesExtension.js";
-import { registerFeatureManagementExtension } from "@nexus/extensions-dev/feature-management/registerFeatureManagementExtension.js";
+import { registerFeatureManagementExtension } from "@nexus/extensions-core/feature-management/registerFeatureManagementExtension.js";
 import registerFffExtension from "@nexus/extensions/fff/index.js";
 import registerNeoEditorExtension from "@nexus/extensions/neo-editor/registerNeoEditorExtension.js";
 import { registerHotkeysExtension } from "@nexus/extensions/hotkeys/registerHotkeysExtension.js";

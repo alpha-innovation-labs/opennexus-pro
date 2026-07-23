@@ -1,5 +1,5 @@
 {
-  "name": "@nexus/extensions-dev",
+  "name": "@nexus/extensions-core",
   "version": "0.2.24",
   "private": true,
   "type": "module",
