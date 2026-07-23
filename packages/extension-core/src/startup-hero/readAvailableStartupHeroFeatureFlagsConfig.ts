@@ -1,16 +1,4 @@
-import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
-import { readFeatureFlagsConfig } from "@nexus/feature-flags/readFeatureFlagsConfig.js";
-import type { FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
-
-/**
- * Reads source feature flags, falling back to bundled release flags.
- *
- * @returns Feature flag config available to this runtime.
- */
-export function readAvailableStartupHeroFeatureFlagsConfig(): FeatureFlagsConfig {
-	try {
-		return readFeatureFlagsConfig();
-	} catch {
-		return getBundledFeatureFlagsConfig();
-	}
-}
+// This file is intentionally left as a no-op placeholder.
+// The hardcoded registry in @nexus/feature-flags/registry.ts
+// is now the single source of truth. Startup hero counts use
+// isRuntimeExtensionFeatureEnabled() directly.

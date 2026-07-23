@@ -3,7 +3,7 @@
 ## Project summary
 
 - This project is a custom TUI app built on top of Pi, with local extensions bundled into the app so users do not need to install them separately.
-- Extension availability is controlled through the root `feature-flags.json` file and loaded by `src/feature-flags/`, including per-extension feature lists and enabled/disabled state.
+- Extension availability is controlled through a hardcoded TypeScript registry in `packages/feature-flags/src/registry.ts` — all extensions are enabled by default. Users disable extensions via `~/.config/nexus/config.json` under `featureFlags.<extensionId>.enabled = false`. System checks (e.g., cmux availability) are applied at startup.
 - Because this app builds on top of Pi, use Pi docs and Pi source as the primary reference whenever behavior, APIs, or extension hooks are unclear.
 - Extensions are loaded through the bundled `src/extensions/index.ts` entrypoint, and only enabled extensions from the feature-flag registry are registered at runtime.
 - Nexus-branded UX must never surface Pi branding in the shipped app. UI labels, startup text, version/help output, and self-relaunch flows must use the current Nexus CLI/package, not `pi`.

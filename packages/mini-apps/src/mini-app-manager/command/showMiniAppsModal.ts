@@ -1,7 +1,6 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
-import { readFeatureFlagsConfig } from "@nexus/feature-flags/readFeatureFlagsConfig.js";
-import type { FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
+import { getAllBundledExtensionIds } from "@nexus/feature-flags/registry.js";
+import type { FeatureFlagConfig, FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
 import { PiPackagesModal } from "@nexus/extensions/pi-packages/ui/PiPackagesModal.js";
 import { updateManagedExtensionRows } from "@nexus/extensions/pi-packages/model/updateManagedExtensionRows.js";
 import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
@@ -9,6 +8,9 @@ import { createManagedMiniAppRows } from "../model/createManagedMiniAppRows.js";
 
 /**
  * Opens the mini-app manager modal.
+ *
+ * In the new system, mini-apps are listed from the hardcoded registry.
+ * Users can enable/disable them via config.json.
  *
  * @param ctx Extension command context.
  */
@@ -42,14 +44,17 @@ export async function showMiniAppsModal(ctx: ExtensionCommandContext): Promise<v
 }
 
 /**
- * Reads source feature flags when available and falls back to compiled release flags.
+ * Reads the hardcoded registry for mini-app entries.
  *
- * @returns Feature flag config.
+ * @returns Feature flag config containing mini-app entries from the registry.
  */
 function readMiniAppFeatureFlagsConfig(): FeatureFlagsConfig {
-	try {
-		return readFeatureFlagsConfig();
-	} catch {
-		return getBundledFeatureFlagsConfig();
+	const allIds = getAllBundledExtensionIds();
+	const knownMiniApps = new Set(["tetris"]);
+	const miniAppEntries: Record<string, FeatureFlagConfig> = {};
+	for (const id of allIds) {
+		if (!knownMiniApps.has(id)) continue;
+		miniAppEntries[id] = { enabled: true, features: [], category: "mini-app" };
 	}
+	return { extensions: miniAppEntries };
 }

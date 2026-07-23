@@ -12,7 +12,6 @@
 - Enabled in `feature-flags.json`: `true`
 - Declared features:
   - observation tracking
-  - status widget
   - /observations command
 
 ## Key files
@@ -23,7 +22,6 @@
 
 - `src/extensions/observations/command/`
 - `src/extensions/observations/shared/`
-- `src/extensions/observations/status-widget/`
 - `src/extensions/observations/summarizer/`
 - `src/extensions/observations/tracker/`
 

@@ -1,7 +1,5 @@
 import { ensureAgentDirEnv } from "@nexus/runtime/config/ensureAgentDirEnv.js";
 import { findMiniAppCommand, findMiniAppRunnerCommand, getMiniAppManifests } from "@nexus/mini-apps/index.js";
-import { isCliFeatureAvailable } from "./features/isCliFeatureAvailable.js";
-import { printUnavailableCliFeature } from "./features/printUnavailableCliFeature.js";
 import { hasHelpFlag } from "./help/hasHelpFlag.js";
 import { printNexusUsage } from "./help/printNexusUsage.js";
 import { hasObservationsFlag } from "./observations/hasObservationsFlag.js";
@@ -31,6 +29,10 @@ export interface RunCliWithAppOptions {
 /**
  * Runs the Nexus CLI entrypoint with an injected app runner.
  *
+ * CLI feature gating has been removed — all mini-app commands are
+ * available. Mini-apps are controlled by the feature-flag registry
+ * and user config.json overrides.
+ *
  * @param argv Raw process arguments.
  * @param options Runtime behavior for the current launch mode.
  * @returns Process exit code.
@@ -49,20 +51,12 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   const miniAppManifests = getMiniAppManifests();
   const runnerMiniApp = findMiniAppRunnerCommand(miniAppManifests, argv);
   if (runnerMiniApp) {
-    if (!isCliFeatureAvailable(runnerMiniApp.id)) {
-      printUnavailableCliFeature(runnerMiniApp.id);
-      return 1;
-    }
     await runnerMiniApp.runRunner();
     return 0;
   }
 
   const commandMiniApp = findMiniAppCommand(miniAppManifests, argv);
   if (commandMiniApp) {
-    if (!isCliFeatureAvailable(commandMiniApp.id)) {
-      printUnavailableCliFeature(commandMiniApp.id);
-      return 1;
-    }
     return commandMiniApp.runCommand(argv);
   }
 

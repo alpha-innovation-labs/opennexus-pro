@@ -10,8 +10,8 @@
   },
   "scripts": {
     "generate:package-info": "node scripts/auto-update/generatePackageInfo.mjs",
-    "generate:feature-flags": "npm run generate:package-info && node scripts/feature-flags/generateCompiledFeatureFlags.mjs && node scripts/feature-flags/generateCompiledBundledExtensions.mjs",
-    "build:binary": "npm run generate:feature-flags && node scripts/release/buildBinaryBundle.mjs",
+
+    "build:binary": "node scripts/release/buildBinaryBundle.mjs",
     "build:release": "npm run build:binary",
     "dev": "npm run generate:package-info && tsx -- apps/tui/src/index.ts",
     "dev-test": "npm run generate:package-info && NEXUS_DEV_TEST_MODE=1 tsx -- apps/tui/src/index.ts",

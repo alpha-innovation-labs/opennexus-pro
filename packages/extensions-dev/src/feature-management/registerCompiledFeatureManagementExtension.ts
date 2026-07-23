@@ -1,12 +1,12 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { getBundledFeatureFlagsConfig } from "@nexus/feature-flags/getBundledFeatureFlagsConfig.js";
 import { registerFeatureManagementExtensionWithConfig } from "./registerFeatureManagementExtensionWithConfig.js";
 
 /**
- * Registers the compiled-runtime feature management extension.
+ * Registers the feature management extension using the hardcoded registry.
+ * This is the unified path — source and compiled modes are the same now.
  *
  * @param pi Extension API.
  */
 export function registerCompiledFeatureManagementExtension(pi: ExtensionAPI): void {
-	registerFeatureManagementExtensionWithConfig(pi, getBundledFeatureFlagsConfig);
+	registerFeatureManagementExtensionWithConfig(pi);
 }

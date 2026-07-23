@@ -1,29 +1,24 @@
 import { isCmuxCommandAvailable } from "@nexus/extensions/cmux/runtime/isCmuxCommandAvailable.js";
-import type { FeatureFlagsConfig } from "./types.js";
+import type { ExtensionFeatureFlag } from "./types.js";
 
 /**
  * Applies runtime extension availability overrides for the current system.
  *
- * @param config Static feature-flag config.
- * @returns Feature-flag config with runtime availability applied.
+ * Currently only checks whether the `cmux` command is available on the host.
+ * If cmux is unavailable, the cmux extension is disabled.
+ *
+ * @param flags Extension feature flags to apply system checks to.
+ * @returns Flags with system-level availability applied.
  */
-export function applySystemExtensionAvailability(config: FeatureFlagsConfig): FeatureFlagsConfig {
+export function applySystemExtensionAvailability(flags: ExtensionFeatureFlag[]): ExtensionFeatureFlag[] {
   const cmuxAvailable = isCmuxCommandAvailable();
 
-  return {
-    ...config,
-    extensions: Object.fromEntries(
-      Object.entries(config.extensions).map(([id, value]) => {
-        const isCmux = id === "cmux";
-        const available = isCmux ? cmuxAvailable : true;
-        return [
-          id,
-          {
-            ...value,
-            enabled: value.enabled && available,
-          },
-        ];
-      }),
-    ),
-  };
+  return flags.map((flag) => {
+    const isCmux = flag.id === "cmux";
+    const available = isCmux ? cmuxAvailable : true;
+    return {
+      ...flag,
+      enabled: flag.enabled && available,
+    };
+  });
 }

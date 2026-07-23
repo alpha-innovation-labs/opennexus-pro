@@ -5,7 +5,9 @@ import { clearRegisteredSlashCommands, registerSlashCommand } from "../slash-men
 import { recordRegisteredShortcut } from "@nexus/tui-kit/shortcuts/recordRegisteredShortcut.js";
 import { createTronToolWrappingExtensionApi } from "../tron/compact-tool-lines/createTronToolWrappingExtensionApi.js";
 
-export { createExtensionFeatureFlags, createExtensionFeatureFlagReport, getEnabledExtensionFeatureFlags, readFeatureFlagsConfig } from "@nexus/feature-flags/index.js";
+// Re-export for backwards compatibility — consumers that reference
+// these from @nexus/extensions still work.
+export { createExtensionFeatureFlags, createExtensionFeatureFlagReport, getEnabledExtensionFeatureFlags } from "@nexus/feature-flags/index.js";
 
 /**
  * Central extension entrypoint.

@@ -15,3 +15,13 @@ export function getFeatureStatusRowForItem(
 	if (!item) return null;
 	return rows.find((row) => row.extensionId === item.value) ?? null;
 }
+
+/**
+ * Returns whether a feature id belongs to a mini-app.
+ *
+ * @param extensionId Extension/feature id.
+ * @returns True when the feature is a mini-app.
+ */
+export function isMiniApp(extensionId: string): boolean {
+	return extensionId === "tetris";
+}

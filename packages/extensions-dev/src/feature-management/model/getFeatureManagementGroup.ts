@@ -1,11 +1,13 @@
-import type { FeatureManagementGroup, FeatureReleaseChannel } from "./types.js";
+import type { FeatureManagementGroup, FeatureStatusCategory } from "./types.js";
 
 /**
- * Maps a release channel to its feature-management group label.
+ * Maps a feature status category to its group label.
+ * Mini-apps go to Playground, everything else to Production.
  *
- * @param channel Release channel to classify.
+ * @param featureId Extension/feature id.
  * @returns Group label for the feature row.
  */
-export function getFeatureManagementGroup(channel: FeatureReleaseChannel): FeatureManagementGroup {
-	return channel === "dev" ? "Playground" : "Production";
+export function getFeatureManagementGroup(featureId: string): FeatureManagementGroup {
+	const knownMiniApps = new Set(["tetris"]);
+	return knownMiniApps.has(featureId) ? "Playground" : "Production";
 }

@@ -22,3 +22,13 @@ export type ExtensionFeatureFlag = {
   features: string[];
   register: (pi: ExtensionAPI) => void | Promise<void>;
 };
+
+/**
+ * User-supplied feature-flag overrides from config.json.
+ * Only `enabled` and `devOnly` fields are user-overridable;
+ * `features` and `category` remain read from the hardcoded registry.
+ */
+export type UserFeatureFlagOverride = {
+  enabled?: boolean;
+  devOnly?: boolean;
+};

@@ -1,27 +1,19 @@
-import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";
-import type { FeatureFlagConfig } from "@nexus/feature-flags/types.js";
-import { readAvailableStartupHeroFeatureFlagsConfig } from "./readAvailableStartupHeroFeatureFlagsConfig.js";
+import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
 
 /**
- * Counts enabled mini-app-category features from extension and non-extension feature buckets.
+ * Counts enabled mini-app-category features from the hardcoded registry.
+ *
+ * Currently only "tetris" is a known mini-app.
  *
  * @returns Number of currently enabled mini-apps.
  */
 export function countEnabledStartupHeroMiniApps(): number {
-	const config = readAvailableStartupHeroFeatureFlagsConfig();
-	const availableConfig = applySystemExtensionAvailability(config);
-	return [
-		...Object.values(availableConfig.extensions),
-		...Object.values(availableConfig.other ?? {}),
-	].filter(isEnabledMiniApp).length;
-}
-
-/**
- * Reports whether a feature flag is an enabled mini-app.
- *
- * @param feature Feature flag to inspect.
- * @returns True when the feature is enabled and categorized as a mini-app.
- */
-function isEnabledMiniApp(feature: FeatureFlagConfig): boolean {
-	return feature.category === "mini-app" && feature.enabled;
+	const knownMiniApps = ["tetris"];
+	let count = 0;
+	for (const id of knownMiniApps) {
+		if (isRuntimeExtensionFeatureEnabled(id)) {
+			count++;
+		}
+	}
+	return count;
 }

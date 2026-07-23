@@ -1,5 +1,4 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
 import { registerAiProvidersExtension } from "@nexus/extensions/ai-providers/registerAiProvidersExtension.js";
 import { registerAutoUpdateExtension } from "@nexus/extensions/auto-update/registerAutoUpdateExtension.js";
 import { registerCmuxExtension } from "@nexus/extensions/cmux/registerCmuxExtension.js";
@@ -27,6 +26,10 @@ import registerLocalImageReaderExtension from "@nexus/extensions/local-image-rea
 /**
  * Creates the code-backed extension registration map.
  *
+ * Maps each extension ID to its registration function.
+ * The notify extension no longer has a special case — it's handled
+ * by the standard feature-flag system (users disable via config.json).
+ *
  * @returns Extension registration map by id.
  */
 export function createExtensionRegisterMap(): Record<
@@ -42,16 +45,12 @@ export function createExtensionRegisterMap(): Record<
 		"feature-management": registerFeatureManagementExtension,
 		fff: registerFffExtension,
 		rtk: registerRtkExtension,
+		observations: registerObservationsExtension,
 		"neo-editor": registerNeoEditorExtension,
 		"hotkeys": registerHotkeysExtension,
 		"slash-menu": registerSlashMenuExtension,
 		"mini-app-manager": registerMiniAppManagerExtension,
-		notify: (pi: ExtensionAPI) => {
-			const userConfig = readNexusUserConfig();
-			if (userConfig.notifyEnabled === false) return;
-			registerNotifyExtension(pi);
-		},
-		observations: registerObservationsExtension,
+		notify: registerNotifyExtension,
 		"system-prompt": registerSystemPromptExtension,
 		"exit-message": registerExitMessageExtension,
 		"herdr-agent-end-log": registerHerdrAgentEndLogExtension,

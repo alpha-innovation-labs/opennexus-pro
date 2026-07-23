@@ -1,58 +1,52 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { applySystemExtensionAvailability } from "@nexus/feature-flags/applySystemExtensionAvailability.js";
-import type { FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
-import { writeFeatureFlagsConfig } from "@nexus/feature-flags/writeFeatureFlagsConfig.js";
+import { getAllBundledExtensionIds } from "@nexus/feature-flags/registry.js";
 import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
 import { createFeatureStatusRows } from "../model/createFeatureStatusRows.js";
-import { updateFeatureFlagsConfig, type FeatureFlagConfigPatch } from "../model/updateFeatureFlagsConfig.js";
 import { FeatureManagementModal } from "../ui/FeatureManagementModal.js";
+import { updateFeatureStatusRow } from "../model/persistFeatureFlagOverride.js";
 
 /**
- * Opens the feature management modal for the current feature-flag config.
+ * Opens the feature management modal.
  *
  * @param ctx Extension command context.
- * @param readConfig Config provider for source or compiled runtimes.
- * @param writeConfig Config persistence hook.
  */
-export async function showFeaturesModal(
-	ctx: ExtensionCommandContext,
-	readConfig: () => FeatureFlagsConfig,
-	writeConfig: (config: FeatureFlagsConfig) => void = writeFeatureFlagsConfig,
-): Promise<void> {
+export async function showFeaturesModal(ctx: ExtensionCommandContext): Promise<void> {
 	if (!ctx.hasUI) {
 		ctx.ui.notify("/features requires an interactive UI session.", "warning");
 		return;
 	}
 
-	let config = readConfig();
-
-	/**
-	 * Creates rows from the latest in-memory config.
-	 *
-	 * @returns Current feature-management rows.
-	 */
-	function createRows() {
-		return createFeatureStatusRows(config, applySystemExtensionAvailability(config));
-	}
-
-	/**
-	 * Persists a modal edit and returns refreshed rows.
-	 *
-	 * @param extensionId Extension id to update.
-	 * @param patch Feature flag patch to apply.
-	 * @returns Refreshed feature-management rows.
-	 */
-	function updateConfig(extensionId: string, patch: FeatureFlagConfigPatch, row: { sourceCategory: "extensions" | "other" }) {
-		config = updateFeatureFlagsConfig(config, extensionId, patch, row.sourceCategory);
-		writeConfig(config);
-		return createRows();
-	}
+	const config = createFeatureFlagsConfig();
+	let rows = createFeatureStatusRows(config, config);
 
 	await ctx.ui.custom<undefined>(
-		(_tui, theme, _keybindings, done) => new FeatureManagementModal(theme, createRows(), done, updateConfig),
+		(_tui, theme, _keybindings, done) =>
+			new FeatureManagementModal(
+				theme,
+				rows,
+				done,
+				(extensionId, patch, row) => {
+					rows = updateFeatureStatusRow(extensionId, patch, row);
+					return rows;
+				},
+			),
 		{
 			overlay: true,
 			overlayOptions: createPanelOverlayOptions(80, "85%"),
 		},
 	);
+}
+
+/**
+ * Builds a minimal FeatureFlagsConfig from the hardcoded registry.
+ *
+ * @returns Feature flag config for the features modal.
+ */
+function createFeatureFlagsConfig(): { extensions: Record<string, { enabled: boolean; features: string[] }> } {
+	const allIds = getAllBundledExtensionIds();
+	const extensions: Record<string, { enabled: boolean; features: string[] }> = {};
+	for (const id of allIds) {
+		extensions[id] = { enabled: true, features: [] };
+	}
+	return { extensions };
 }

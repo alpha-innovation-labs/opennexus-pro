@@ -25,7 +25,7 @@
 - [`rtk`](./extensions/rtk.md) — files: `registerRtkExtension.ts`; subfolders: `runtime/`, `tooling/`
 - [`neo-editor`](./extensions/neo-editor.md) — files: `config.json`, `editor-triggers.json`, `getNeoConfigPath.ts`, `primeStartupResumeModal.ts`, `readNeoConfig.ts`, `registerNeoEditorExtension.ts`, `types.ts`; subfolders: `features/`, `shared/`
 - [`notify`](./extensions/notify.md) — files: `registerNotifyExtension.ts`; subfolders: `runtime/`
-- [`observations`](./extensions/observations.md) — files: `registerObservationsExtension.ts`; subfolders: `command/`, `shared/`, `status-widget/`, `summarizer/`, `tracker/`
+- [`observations`](./extensions/observations.md) — files: `registerObservationsExtension.ts`; subfolders: `command/`, `shared/`, `summarizer/`, `tracker/`
 - [`shared`](./extensions/shared.md) — subfolders: `observability/`, `two-pane-select-modal/`
 - [`startup-hero`](./extensions/startup-hero.md) — files: `buildStartupHeroLines.ts`, `clearStartupHero.ts`, `getStartupHeroStatus.ts`, `getStartupHeroVersion.ts`, `hasResumeCliFlag.ts`, `registerStartupHeroExtension.ts`, `showStartupHero.ts`, `startupHeroWidgetKey.ts`
 - [`sub-agent-status-widget`](./extensions/sub-agent-status-widget.md) — files: `registerSubagentStatusWidgetExtension.ts`; subfolders: `runtime/`, `ui/`

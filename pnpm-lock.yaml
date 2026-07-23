@@ -253,6 +253,9 @@ importers:
       '@nexus/observability':
         specifier: workspace:*
         version: link:../observability
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../nexus-runtime
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../tui-kit

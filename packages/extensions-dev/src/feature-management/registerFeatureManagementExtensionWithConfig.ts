@@ -1,22 +1,17 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import type { FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
 import { withSlashMenuGroup } from "@nexus/extensions/slash-menu/withSlashMenuGroup.js";
 import { showFeaturesModal } from "./command/showFeaturesModal.js";
 
 /**
- * Registers the feature management command with an injected config provider.
+ * Registers the feature management command.
  *
  * @param pi Extension API.
- * @param readConfig Config provider for the active runtime.
  */
-export function registerFeatureManagementExtensionWithConfig(
-	pi: ExtensionAPI,
-	readConfig: () => FeatureFlagsConfig,
-): void {
+export function registerFeatureManagementExtensionWithConfig(pi: ExtensionAPI): void {
 	pi.registerCommand("features", withSlashMenuGroup({
 		description: "Show feature flags and release channels",
 		handler: async (_args, ctx) => {
-			await showFeaturesModal(ctx, readConfig);
+			await showFeaturesModal(ctx);
 		},
 	}, "Extensions"));
 }

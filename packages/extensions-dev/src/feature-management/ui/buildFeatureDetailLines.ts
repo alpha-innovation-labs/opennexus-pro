@@ -16,10 +16,7 @@ export function buildFeatureDetailLines(row: FeatureStatusRow | null): string[] 
 		"Extension",
 		row.extensionId,
 		"",
-		"Runtime status",
+		"Status",
 		row.status,
-		"",
-		"Release channel",
-		row.channel,
 	];
 }

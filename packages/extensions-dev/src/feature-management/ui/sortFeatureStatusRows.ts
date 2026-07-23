@@ -1,8 +1,9 @@
-import type { FeatureStatusRow } from "../model/types.js";
+import type { FeatureManagementGroup, FeatureStatusRow } from "../model/types.js";
 import { getFeatureGroupRank } from "./getFeatureGroupRank.js";
 
 /**
- * Sorts feature rows into stable Playground and Production sections.
+ * Sorts feature rows into stable sections (Playground, Production),
+ * then alphabetically within each section.
  *
  * @param rows Feature rows to sort.
  * @returns New array sorted by group and feature name.

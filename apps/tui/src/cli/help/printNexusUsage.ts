@@ -1,4 +1,3 @@
-import { isCliFeatureAvailable } from "../features/isCliFeatureAvailable.js";
 import { createNexusUsageText } from "./createNexusUsageText.js";
 
 /**
