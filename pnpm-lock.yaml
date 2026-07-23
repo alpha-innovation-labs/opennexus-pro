@@ -190,9 +190,6 @@ importers:
       '@nexus/extensions':
         specifier: workspace:*
         version: link:../../packages/extension-core
-      '@nexus/extensions-pro':
-        specifier: workspace:*
-        version: link:../../packages/extensions-pro
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../../packages/feature-flags
@@ -223,9 +220,6 @@ importers:
       '@nexus/extensions-dev':
         specifier: workspace:*
         version: link:../extensions-dev
-      '@nexus/extensions-pro':
-        specifier: workspace:*
-        version: link:../extensions-pro
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../feature-flags
@@ -263,24 +257,6 @@ importers:
         specifier: workspace:*
         version: link:../tui-kit
 
-  packages/extensions-pro:
-    dependencies:
-      '@nexus/app-tui':
-        specifier: workspace:*
-        version: link:../../apps/tui
-      '@nexus/extensions':
-        specifier: workspace:*
-        version: link:../extension-core
-      '@nexus/observability':
-        specifier: workspace:*
-        version: link:../observability
-      '@nexus/runtime':
-        specifier: workspace:*
-        version: link:../nexus-runtime
-      '@nexus/tui-kit':
-        specifier: workspace:*
-        version: link:../tui-kit
-
   packages/feature-flags:
     dependencies:
       '@nexus/extensions':
@@ -289,9 +265,6 @@ importers:
       '@nexus/extensions-dev':
         specifier: workspace:*
         version: link:../extensions-dev
-      '@nexus/extensions-pro':
-        specifier: workspace:*
-        version: link:../extensions-pro
       '@nexus/mini-apps':
         specifier: workspace:*
         version: link:../mini-apps
