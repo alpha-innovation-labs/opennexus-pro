@@ -21,7 +21,7 @@ test("/pi-packages registers the Pi packages slash command only", () => {
 
 test("/pi-packages rows only include configured third-party packages", () => {
 	const managedRows = createThirdPartyManagedExtensionRows(
-		{ extensions: { annotate: { enabled: true }, workspace: { enabled: false }, "lazy-pi": { enabled: false } } },
+		{ extensions: { "chat-status": { enabled: true }, workspace: { enabled: false }, "lazy-pi": { enabled: false } } },
 		[{ source: "npm:lazy-pi", scope: "user", filtered: false }],
 	);
 

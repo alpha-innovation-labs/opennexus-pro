@@ -1,19 +1,14 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
 import { registerAiProvidersExtension } from "@nexus/extensions/ai-providers/registerAiProvidersExtension.js";
-import { registerAnnotateExtension } from "@nexus/mini-apps/annotate/registerAnnotateExtension.js";
-import { registerAutomationsExtension } from "@nexus/mini-apps/automations/registerAutomationsExtension.js";
 import { registerAutoUpdateExtension } from "@nexus/extensions/auto-update/registerAutoUpdateExtension.js";
 import { registerCmuxExtension } from "@nexus/extensions-pro/cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "@nexus/extensions/context-usage/registerContextUsageExtension.js";
-import { registerChatStatusExtension } from "@nexus/extensions/chat-status/registerChatStatusExtension.js";
-import { registerDevExtension } from "@nexus/extensions-dev/dev/registerDevExtension.js";
 import { registerExitMessageExtension } from "@nexus/extensions/exit-message/registerExitMessageExtension.js";
 import { registerHerdrAgentEndLogExtension } from "@nexus/extensions/herdr-agent-end-log/registerHerdrAgentEndLogExtension.js";
 import { registerPiPackagesExtension } from "@nexus/extensions/pi-packages/registerPiPackagesExtension.js";
 import { registerFeatureManagementExtension } from "@nexus/extensions-dev/feature-management/registerFeatureManagementExtension.js";
 import registerFffExtension from "@nexus/extensions/fff/index.js";
-import { registerMdEditorExtension } from "@nexus/mini-apps/md-editor/registerMdEditorExtension.js";
 import registerNeoEditorExtension from "@nexus/extensions/neo-editor/registerNeoEditorExtension.js";
 import { registerHotkeysExtension } from "@nexus/extensions/hotkeys/registerHotkeysExtension.js";
 import { registerSlashMenuExtension } from "@nexus/extensions/slash-menu/registerSlashMenuExtension.js";
@@ -26,7 +21,6 @@ import { registerStartupHeroExtension } from "@nexus/extensions/startup-hero/reg
 import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension.js";
 import { registerTodoExtension } from "@nexus/extensions-dev/todo/registerTodoExtension.js";
 import registerTronExtension from "@nexus/extensions/tron/index.js";
-import { registerWalletExtension } from "@nexus/mini-apps/wallet/registerWalletExtension.js";
 import { registerWebSearchExtension } from "@nexus/extensions/web-search/registerWebSearchExtension.js";
 import registerLocalImageReaderExtension from "@nexus/extensions/local-image-reader/registerLocalImageReaderExtension.js";
 
@@ -41,18 +35,13 @@ export function createExtensionRegisterMap(): Record<
 > {
 	return {
 		"ai-providers": registerAiProvidersExtension,
-		annotate: registerAnnotateExtension,
-		automations: registerAutomationsExtension,
 		"auto-update": registerAutoUpdateExtension,
 		cmux: registerCmuxExtension,
 		"context-usage": registerContextUsageExtension,
-		"chat-status": registerChatStatusExtension,
-		dev: registerDevExtension,
 		"pi-packages": registerPiPackagesExtension,
 		"feature-management": registerFeatureManagementExtension,
 		fff: registerFffExtension,
 		rtk: registerRtkExtension,
-		"md-editor": registerMdEditorExtension,
 		"neo-editor": registerNeoEditorExtension,
 		"hotkeys": registerHotkeysExtension,
 		"slash-menu": registerSlashMenuExtension,
@@ -70,7 +59,6 @@ export function createExtensionRegisterMap(): Record<
 		tetris: registerTetrisExtension,
 		todo: registerTodoExtension,
 		tron: registerTronExtension,
-		wallet: registerWalletExtension,
 		webtools: registerWebSearchExtension,
 		"local-image-reader": registerLocalImageReaderExtension,
 	};

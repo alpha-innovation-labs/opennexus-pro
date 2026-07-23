@@ -1,5 +1,4 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { createChatStatusEntryId } from "@nexus/extensions/chat-status/createChatStatusEntryId.js";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
 import { applyAssistantObservation } from "./applyAssistantObservation.js";
 import { applyUserObservation } from "./applyUserObservation.js";
@@ -32,17 +31,15 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 		});
 		if (!ctx.sessionManager.getSessionFile()) ephemeralConversationId = createEphemeralConversationId();
 		const { conversationId, statePath, dir, sessionFile } = getObservationPaths(ctx, ephemeralConversationId);
-		const chatStatusEntryId = createChatStatusEntryId(ctx);
 		await ensureObservationsDir(dir);
 		const state = await getStoredObservationState(statePath, conversationId, ctx.cwd, sessionFile);
 		await writeObservationState(statePath, state);
-		await updateSessionTitleFromObservationState(pi, state, chatStatusEntryId);
+		await updateSessionTitleFromObservationState(pi, state);
 	});
 	pi.on("message_end", async (event, ctx) => {
 		if (!ctx.hasUI) return;
 		const paths = getObservationPaths(ctx, ephemeralConversationId);
 		const contextSnapshot = createObservationContextSnapshot(ctx);
-		const chatStatusEntryId = createChatStatusEntryId(ctx);
 		await ensureObservationsDir(paths.dir);
 		if (event.message.role === "user") {
 			const text = extractUserText(event.message);
@@ -56,7 +53,7 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 				});
 				await applyUserObservation(pi, contextSnapshot, state, stored);
 				await writeObservationState(paths.statePath, state);
-				await updateSessionTitleFromObservationState(pi, state, chatStatusEntryId);
+				await updateSessionTitleFromObservationState(pi, state);
 			});
 			return;
 		}
@@ -73,15 +70,14 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 			});
 			await applyAssistantObservation(pi, contextSnapshot, state, stored);
 			await writeObservationState(paths.statePath, state);
-			await updateSessionTitleFromObservationState(pi, state, chatStatusEntryId);
+			await updateSessionTitleFromObservationState(pi, state);
 		});
 	});
 	pi.on("turn_end", async (_event, ctx) => {
 		if (!ctx.hasUI) return;
 		const { conversationId, statePath, sessionFile } = getObservationPaths(ctx, ephemeralConversationId);
-		const chatStatusEntryId = createChatStatusEntryId(ctx);
 		const state = await getStoredObservationState(statePath, conversationId, ctx.cwd, sessionFile);
-		await updateSessionTitleFromObservationState(pi, state, chatStatusEntryId);
+		await updateSessionTitleFromObservationState(pi, state);
 	});
 	pi.on("session_shutdown", async (_event, ctx) => {
 		logExtensionEvent("observations", "session_shutdown", {

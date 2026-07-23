@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { basename, resolve } from "node:path";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { getAgentDir } from "@earendil-works/pi-coding-agent";
@@ -21,7 +21,8 @@ export function getPromptlineStatusTitle(
 	if (observationsTitle) return observationsTitle;
 
 	// 2. Fall back to session name (set by the observations tracker)
-	const sessionName = getSessionName()?.trim();
+	const sessionNameRaw = getSessionName();
+	const sessionName = typeof sessionNameRaw === "string" ? sessionNameRaw.trim() : undefined;
 	if (sessionName) return sessionName;
 
 	// 3. Fall back to latest user prompt in the branch
@@ -45,6 +46,7 @@ function readLatestObservationTitle(ctx: Pick<ExtensionContext, "sessionManager"
 		if (!sessionFile) return undefined;
 		const baseName = basename(sessionFile).replace(/\.jsonl$/, "");
 		const statePath = resolve(getAgentDir(), "observations", `${baseName}.json`);
+		if (!existsSync(statePath)) return undefined;
 		const content = readFileSync(statePath, "utf8");
 		const parsed = JSON.parse(content) as { topics?: Array<{ title?: string }> };
 		const topics = Array.isArray(parsed.topics) ? parsed.topics : [];

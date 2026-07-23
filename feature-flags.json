@@ -9,30 +9,6 @@
       ],
       "category": "extension"
     },
-    "annotate": {
-      "enabled": false,
-      "features": [
-        "annotate command",
-        "annotate tool",
-        "chrome extension bridge"
-      ],
-      "category": "mini-app",
-      "devOnly": true
-    },
-    "automations": {
-      "enabled": false,
-      "features": [
-        "/automations full-screen automation picker",
-        "two-pane automation detail and agent chat editor",
-        "live prompt and schedule update flow",
-        "nexus automations CLI commands",
-        "scheduled prompt automation daemon",
-        "SQLite automation and run history storage",
-        "bundled automation templates"
-      ],
-      "category": "mini-app",
-      "devOnly": true
-    },
     "auto-update": {
       "enabled": true,
       "features": [
@@ -58,15 +34,6 @@
         "/context command for current chat context window usage"
       ],
       "category": "extension"
-    },
-    "chat-status": {
-      "enabled": false,
-      "features": [
-        "write active chats to ~/.local/share/nexus/agent/chat-status.json",
-        "remove chats when inference stops"
-      ],
-      "category": "extension",
-      "devOnly": true
     },
     "dev": {
       "devOnly": true,
@@ -121,18 +88,6 @@
         "FFF-powered @ file autocomplete"
       ],
       "category": "extension"
-    },
-    "md-editor": {
-      "enabled": false,
-      "features": [
-        "/editor command",
-        "demo.md Markdown line modal",
-        "hidden persistent per-line chats",
-        "live reload with diff acceptance",
-        "Tron-styled right-panel mini chat"
-      ],
-      "category": "mini-app",
-      "devOnly": true
     },
     "neo-editor": {
       "enabled": true,
@@ -205,7 +160,7 @@
       "category": "extension"
     },
     "todo": {
-      "enabled": false,
+      "enabled": true,
       "features": [
         "todo tool",
         "/todos command",
@@ -233,16 +188,6 @@
       ],
       "category": "extension"
     },
-    "wallet": {
-      "enabled": false,
-      "features": [
-        "/wallet Phantom balance lookup",
-        "macOS Keychain recovery phrase storage",
-        "public Solana RPC balance queries"
-      ],
-      "devOnly": true,
-      "category": "mini-app"
-    },
     "local-image-reader": {
       "enabled": true,
       "features": [
@@ -263,35 +208,6 @@
     }
   },
   "other": {
-    "annotation": {
-      "enabled": false,
-      "features": [
-        "nexus annotation CLI commands",
-        "annotation daemon lifecycle commands"
-      ],
-      "category": "mini-app",
-      "devOnly": true
-    },
-    "social-automation": {
-      "enabled": false,
-      "features": [
-        "nexus social-automation CLI commands",
-        "Nitter RSS ingestion",
-        "YouTube RSS ingestion",
-        "yt-dlp audio preparation"
-      ],
-      "category": "mini-app",
-      "devOnly": true
-    },
-    "social-chat": {
-      "enabled": false,
-      "features": [
-        "nexus social-chat CLI commands",
-        "background social adapter daemon"
-      ],
-      "devOnly": true,
-      "category": "mini-app"
-    },
     "mini-app-manager": {
       "enabled": true,
       "features": [

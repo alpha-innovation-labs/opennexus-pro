@@ -1,17 +1,10 @@
-export type NexusUsageFeatureOptions = {
-	annotation?: boolean;
-	automations?: boolean;
-	socialAutomation?: boolean;
-	socialChat?: boolean;
-};
-
 /**
  * Creates the Nexus-owned top-level CLI help text.
  *
  * @param features CLI feature visibility options.
  * @returns Help text for supported Nexus CLI surfaces.
  */
-export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): string {
+export function createNexusUsageText(_features: {} = {}): string {
 	return [
 		"Usage: nexus [options] [prompt]",
 		"",
@@ -31,7 +24,7 @@ export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): s
 		"  --resume=<session-id>              Open a specific session directly",
 		"  --startup-profile                  Write startup timings to /tmp/nexus-startup-profile.log",
 		"  --no-extensions, -ne               Disable extension registration",
-		...createCommandUsageLines(features),
+		...createCommandUsageLines(),
 		"",
 		"Passthrough options:",
 		"  -p <prompt>                        Submit a prompt and exit",
@@ -48,11 +41,10 @@ export function createNexusUsageText(features: NexusUsageFeatureOptions = {}): s
 /**
  * Creates the visible top-level command help lines.
  *
- * @param features CLI feature visibility options.
  * @returns Command-section lines, or no lines when no commands are visible.
  */
-function createCommandUsageLines(features: NexusUsageFeatureOptions): string[] {
-	const lines: string[] = [
+function createCommandUsageLines(): string[] {
+	return [
 		"  nexus install <source>             Install an extension package",
 		"  nexus uninstall <source>           Uninstall an extension package",
 		"  nexus steer <session-id> <message> Queue a steering message for a running session",
@@ -62,39 +54,4 @@ function createCommandUsageLines(features: NexusUsageFeatureOptions): string[] {
 		"  nexus observations view <id>       Print rendered observations",
 		"  nexus observations get-location    Print the observations storage path",
 	];
-	if (features.automations) {
-		lines.push(
-			"  nexus automations -h              Show automation commands",
-			"  nexus automations start           Start the automation daemon",
-			"  nexus automations stop            Stop the automation daemon",
-			"  nexus automations status          Show automation daemon and run summary",
-			"  nexus automations list            List scheduled prompt automations",
-		);
-	}
-	if (features.socialAutomation) {
-		lines.push(
-			"  nexus social-automation -h         Show social automation commands",
-			"  nexus social-automation status     Show social automation storage status",
-		);
-	}
-	if (features.socialChat) {
-		lines.push(
-			"  nexus social-chat -h               Show social chat commands",
-			"  nexus social-chat start            Start the background social chat daemon",
-			"  nexus social-chat stop             Stop the background social chat daemon",
-			"  nexus social-chat restart          Restart the background social chat daemon",
-			"  nexus social-chat status           Show social chat daemon status",
-		);
-	}
-	if (features.annotation) {
-		lines.push(
-			"  nexus annotation -h                Show annotation daemon commands",
-			"  nexus annotation start             Start the annotation daemon",
-			"  nexus annotation stop              Stop the annotation daemon",
-			"  nexus annotation restart           Restart the annotation daemon",
-			"  nexus annotation status            Show annotation daemon status",
-			"  nexus annotation logs              Show annotation daemon logs",
-		);
-	}
-	return lines.length > 0 ? ["", "Commands:", ...lines] : [];
 }

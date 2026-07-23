@@ -28,10 +28,6 @@ export const extensionModules = {
 		importPath: "../context-usage/registerContextUsageExtension.js",
 		exportName: "registerContextUsageExtension",
 	},
-	"chat-status": {
-		importPath: "../chat-status/registerChatStatusExtension.js",
-		exportName: "registerChatStatusExtension",
-	},
 	"pi-packages": {
 		importPath: "../pi-packages/registerPiPackagesExtension.js",
 		exportName: "registerPiPackagesExtension",

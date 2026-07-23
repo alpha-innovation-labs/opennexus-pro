@@ -87,7 +87,7 @@ export const showcaseGroups: readonly ShowcaseGroup[] = [
         id: "mini-manager",
         eyebrow: "Mini-app manager",
         title: "Mini-apps stay discoverable",
-        body: "The mini-app manager lists installed mini-apps and exposes enable or disable controls, while bundled examples include Tetris and wallet flows.",
+        body: "The mini-app manager lists installed mini-apps and exposes enable or disable controls, while bundled examples include Tetris.",
         bullets: ["/mini-apps command", "Installed mini-app list", "Enable and disable controls"],
       },
     ],
