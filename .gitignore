@@ -15,3 +15,4 @@ auth.json
 graphify-out/
 
 .nexus/startup-profiles/*
+test.fish
