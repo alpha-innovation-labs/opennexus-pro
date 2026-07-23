@@ -104,8 +104,6 @@ export interface PreparedHerdr {
   workspaceId: string;
   /** The root pane ID (e.g. "w42:p1"). */
   rootPaneId: string;
-  /** The split pane ID where the agent runs (e.g. "w42:p2"). */
-  agentPaneId: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -113,15 +111,14 @@ export interface PreparedHerdr {
 // ---------------------------------------------------------------------------
 
 /**
- * Creates a new Herdr workspace, splits a new pane, polls until that pane
- * is available, and returns the workspace + pane identifiers.
+ * Creates a new Herdr workspace, polls until the root pane is available,
+ * and returns the workspace + pane identifiers.
  *
- * The root pane of a freshly created workspace is initially occupied by the
- * workspace init process. This function splits a new pane from it and polls
- * `herdr pane get` every 0.1s until `agent_status` is `"unknown"` or `"idle"`.
+ * Polls `herdr pane get` every 0.1s until `agent_status` is `"unknown"`
+ * or `"idle"` (meaning the pane is at an interactive shell prompt).
  *
  * @param options Workspace label and optional max wait time.
- * @returns Handle containing workspaceId, rootPaneId, and agentPaneId.
+ * @returns Handle containing workspaceId and rootPaneId.
  */
 export function prepareHerdr(options: PrepareHerdrOptions = {}): PreparedHerdr {
   const { workspaceLabel = "nexus-e2e", maxWaitSeconds = 30 } = options;
@@ -138,29 +135,19 @@ export function prepareHerdr(options: PrepareHerdrOptions = {}): PreparedHerdr {
   console.error(`  Workspace created: ${workspaceId} (label: ${workspaceLabel})`);
   console.error(`  Root pane: ${rootPaneId}`);
 
-  // Step 2: Split a new pane (root pane is occupied by init process).
-  const splitData = runHerdr(["pane", "split", "--pane", rootPaneId, "--direction", "right", "--no-focus"]);
-  const agentPaneId = drill(splitData, "result", "pane", "pane_id");
-
-  if (!agentPaneId) {
-    throw new Error(`Failed to split pane: ${JSON.stringify(splitData)}`);
-  }
-
-  console.error(`  New pane: ${agentPaneId}`);
-
-  // Step 3: Poll until the new pane is available (agent_status === "unknown" | "idle").
+  // Step 2: Poll until the root pane is available.
   const maxWait = maxWaitSeconds * 10; // count in 10ths of a second
   let elapsed = 0;
 
-  console.error(`  → Waiting for pane ${agentPaneId} to become available ...`);
+  console.error(`  → Waiting for pane ${rootPaneId} to become available ...`);
 
   while (elapsed < maxWait) {
-    const statusData = runHerdr(["pane", "get", agentPaneId], { timeoutMs: 5_000 });
+    const statusData = runHerdr(["pane", "get", rootPaneId], { timeoutMs: 5_000 });
     const agentStatus = drill(statusData, "result", "pane", "agent_status");
 
     if (agentStatus === "unknown" || agentStatus === "idle") {
       const realSeconds = (elapsed / 10).toFixed(1);
-      console.error(`  ✓ Pane ${agentPaneId} is available after ${realSeconds}s`);
+      console.error(`  ✓ Pane ${rootPaneId} is available after ${realSeconds}s`);
       break;
     }
 
@@ -169,10 +156,10 @@ export function prepareHerdr(options: PrepareHerdrOptions = {}): PreparedHerdr {
   }
 
   if (elapsed >= maxWait) {
-    throw new Error(`Pane ${agentPaneId} did not become available within ${maxWaitSeconds}s`);
+    throw new Error(`Pane ${rootPaneId} did not become available within ${maxWaitSeconds}s`);
   }
 
-  return { workspaceId, rootPaneId, agentPaneId };
+  return { workspaceId, rootPaneId };
 }
 
 /**
