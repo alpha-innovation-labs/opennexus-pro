@@ -9,8 +9,8 @@ import { getFeatureManagementGroup } from "./getFeatureManagementGroup.js";
  * Persists a feature flag disable/enable override to config.json.
  *
  * In the new system, the registry is hardcoded and enabled by default.
- * Users disable extensions by writing a `featureFlags.<id>.enabled: false`
- * entry to their `~/.config/nexus/config.json`.
+ * Users disable extensions by writing `featureFlags.<id>: false`
+ * to their `~/.config/nexus/config.json`.
  *
  * @param extensionId Extension/feature id to update.
  * @param enabled Whether the feature should be enabled (true = re-enable, false = disable).
@@ -26,8 +26,8 @@ export function persistFeatureFlagOverride(extensionId: string, enabled: boolean
 		// Remove the override — re-enable by returning to default (enabled).
 		delete config.featureFlags[extensionId];
 	} else {
-		// Write disable override.
-		config.featureFlags[extensionId] = { enabled: false };
+		// Write disable override as a plain boolean.
+		config.featureFlags[extensionId] = false;
 	}
 
 	writeNexusUserConfig(config);
@@ -53,7 +53,7 @@ export function updateFeatureStatusRow(
 
 	// Re-read config.json and rebuild ALL rows from scratch.
 	const freshConfig = readNexusUserConfig();
-	const freshOverrides: Record<string, { enabled?: boolean }> = freshConfig.featureFlags ?? {};
+	const freshOverrides: Record<string, boolean> = freshConfig.featureFlags ?? {};
 	const allIds = getAllBundledExtensionIds();
 
 	return allIds.map((id) => {
@@ -63,7 +63,7 @@ export function updateFeatureStatusRow(
 			return row.extensionId === id ? { ...row, status: (patch.status ?? row.status) as FeatureRuntimeStatus } : row;
 		}
 		const userOverride = freshOverrides[id];
-		const enabled = userOverride?.enabled === false ? false : true;
+		const enabled = userOverride === false ? false : true;
 		return {
 			category: getFeatureStatusCategory(entry.category),
 			sourceCategory: row.sourceCategory,

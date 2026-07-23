@@ -25,10 +25,6 @@ export type ExtensionFeatureFlag = {
 
 /**
  * User-supplied feature-flag overrides from config.json.
- * Only `enabled` and `devOnly` fields are user-overridable;
- * `features` and `category` remain read from the hardcoded registry.
+ * Users write a plain boolean: `false` to disable, omit or `true` to enable.
  */
-export type UserFeatureFlagOverride = {
-  enabled?: boolean;
-  devOnly?: boolean;
-};
+export type UserFeatureFlagOverride = boolean;

@@ -6,7 +6,7 @@ import type { FeatureProductCategory } from "./types.js";
  * This is the single source of truth for extension inventory. Every extension
  * and mini-app that ships with Nexus must have an entry here. All entries
  * default to `enabled: true`. Users can disable extensions via their
- * `~/.config/nexus/config.json` under `featureFlags.<extensionId>.enabled = false`.
+ * `~/.config/nexus/config.json` under `featureFlags.<extensionId> = false`.
  *
  * The `features` and `category` fields are read-only — users cannot add or
  * modify them through config.

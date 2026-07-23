@@ -2,7 +2,7 @@ import { applySystemExtensionAvailability } from "./applySystemExtensionAvailabi
 import { createExtensionRegisterMap } from "./createExtensionRegisterMap.js";
 import { bundledFeatureFlags, getAllBundledExtensionIds } from "./registry.js";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import type { ExtensionFeatureFlag, UserFeatureFlagOverride } from "./types.js";
+import type { ExtensionFeatureFlag } from "./types.js";
 
 /**
  * Creates runtime extension flags from the hardcoded registry,
@@ -13,7 +13,7 @@ import type { ExtensionFeatureFlag, UserFeatureFlagOverride } from "./types.js";
 export function createExtensionFeatureFlags(): ExtensionFeatureFlag[] {
 	const registerMap = createExtensionRegisterMap();
 	const userConfig = readNexusUserConfig();
-	const userOverrides: Record<string, UserFeatureFlagOverride> = userConfig.featureFlags ?? {};
+	const userOverrides: Record<string, boolean> = userConfig.featureFlags ?? {};
 
 	// Build flags from the hardcoded registry, applying user overrides and system checks.
 	const flags = getAllBundledExtensionIds().map((id) => {
@@ -28,7 +28,7 @@ export function createExtensionFeatureFlags(): ExtensionFeatureFlag[] {
 
 		// Apply user override (disable-only).
 		const userOverride = userOverrides[id];
-		const enabled = userOverride?.enabled === false ? false : true;
+		const enabled = userOverride === false ? false : true;
 
 		return {
 			id,
