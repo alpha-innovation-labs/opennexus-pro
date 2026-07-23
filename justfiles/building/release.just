@@ -48,6 +48,4 @@ release:
     echo "🔎 Verifying launcher..."
     "${BIN_PATH}" --help >/dev/null
 
-    node scripts/telemetry/sendUpdateInstallResult.mjs success
-
     echo "✅ Installed ${APP_NAME} to ${BIN_PATH}"
