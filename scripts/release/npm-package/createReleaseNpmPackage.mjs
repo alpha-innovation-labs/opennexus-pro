@@ -69,7 +69,8 @@ export async function createReleaseNpmPackage(packageDir = getReleaseNpmPackageD
       'BIN_DIR="$(cd "$(dirname "${SCRIPT_PATH}")" && pwd)"',
       'PACKAGE_DIR="$(cd "${BIN_DIR}/.." && pwd)"',
       'export PI_PACKAGE_DIR="${PACKAGE_DIR}"',
-      'exec "${PACKAGE_DIR}/nexus" "$@"',
+      // TODO: REMOVE THIS HACK — replace with `exec "${PACKAGE_DIR}/nexus" "$@"` once Herdr supports "nexus" as an agent type
+      'exec -a omp "${PACKAGE_DIR}/nexus" "$@"',
       "",
     ].join("\n"),
     "utf8",

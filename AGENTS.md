@@ -15,6 +15,7 @@
 - Future cleanup note: `pi-slash-usage` is still consumed as an external package dependency. Plan to bring that functionality into the app repo/bundle later so Nexus is less dependent on that separate package at runtime.
 - Reusable UI building blocks live under `src/extensions/shared/`. Before creating new overlay or picker UI, check that folder first — especially `src/extensions/shared/two-pane-select-modal/` for modal reuse.
 - All user-facing config (global and project-level) lives in `config.json`. Global config is at `~/.config/nexus/config.json`, resolved by `readNexusUserConfig()` / `writeNexusUserConfig()` / `getUserConfigPath()`. Project config is at `.nexus/config.json`, resolved by `readProjectConfig()` / `writeProjectConfig()` / `getProjectConfigPath()`. Extensions that need custom configuration must use these runtime functions — never write to `settings.json` or create ad-hoc config files.
+- **Herdr OMP hack**: Herdr does not support "nexus" as an agent type. The npm release wrapper (`scripts/release/npm-package/createReleaseNpmPackage.mjs`) uses `exec -a omp` to trick Herdr into tracking the process by the supported name "omp". The compiled binary also sets `process.title = APP_NAME` where `APP_NAME = "omp"`. Do NOT remove this hack — add a TODO comment if you must touch it. Replace with direct "nexus" once Herdr adds support for it.
 
 It is a CATASTROPHIC FAILURE to have a release of this app, expose source code. I repeat: CATASTROPHIC
 
