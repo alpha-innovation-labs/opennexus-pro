@@ -288,14 +288,39 @@ export class SlashMenuModal extends SelectPreviewModal {
       groupLabel: "Configuration",
       value: "settings",
     };
-    return groupAndSortTopLevelItems([
+    const items = [
       ...commandLeaves,
       createThinkingTopLevelItem(),
-      ...createDynamicCommandItems(dynamicCommands),
+      ...this.getDynamicCommandItems(dynamicCommands),
       toolsSection,
       ...createTopLevelPromptCommandLeaves(dynamicCommands),
       settingsSection,
-    ]);
+    ];
+    return groupAndSortTopLevelItems(items);
+  }
+
+  /**
+   * Returns dynamic command items, optionally including fused skill leaves.
+   *
+   * When the query targets skills (matches "skills" or a skill name prefix),
+   * fused skill leaves are included so the user can pick a skill directly
+   * from the top-level menu. When the query is empty or does not target
+   * skills, only the "skills" navigation section is included so the
+   * individual skill leaves stay hidden until the user searches.
+   *
+   * @param commands Live slash commands.
+   * @returns Dynamic command items.
+   */
+  private getDynamicCommandItems(commands: RegisteredSlashCommand[]): Array<SlashMenuSection | SlashMenuLeaf> {
+    const dynamicItems = createDynamicCommandItems(commands);
+    // When the query does not target skills, strip fused skill leaves
+    // so only the "skills" navigation section is visible.
+    if (!this.isQueryTargetingSkills()) {
+      return dynamicItems.filter(
+        (item) => !isFusedSkillValue((item as SlashMenuLeaf).value),
+      );
+    }
+    return dynamicItems;
   }
 
   /**
@@ -369,8 +394,10 @@ path).
       if (item.value === "hotkeys") return this.openHotkeysPanel();
       if (item.value === "name") return this.openSessionNameInput();
       if (item.value === "session") return this.openSessionInfoPanel();
-      if (item.value === "thinking") return;
-      this.openSettingChoice(createThinkingSettingLeaf(this.getThinkingLevel(), this.ctx.model));
+      if (item.value === "thinking") {
+        this.openSettingChoice(createThinkingSettingLeaf(this.getThinkingLevel(), this.ctx.model));
+        return;
+      }
       const selectedTopItem = this.topItems.find((entry) => entry.value === item.value);
       if (selectedTopItem?.groupLabel === "Custom Commands") {
         this.onCommandPrefill(`/${item.value} `);
