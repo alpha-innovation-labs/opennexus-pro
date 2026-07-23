@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 import { runCliWithApp } from "./cli/runCliWithApp.js";
 import { runBundledApp } from "./runtime/runBundledApp.js";
+import { APP_NAME } from "@nexus/pi-platform/config.js";
+
+process.title = APP_NAME;
 
 /**
  * Boots the compiled Nexus executable.
