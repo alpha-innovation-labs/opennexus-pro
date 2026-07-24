@@ -204,7 +204,8 @@ export function registerHerdrAgentEndLogExtension(pi: ExtensionAPI): void {
     if (tabId && sessionTitle) {
       const currentLabel = getCurrentTabLabel(tabId);
       if (currentLabel !== sessionTitle) {
-        renameTab(tabId, sessionTitle);
+        const displayTitle = sessionTitle.length > 15 ? sessionTitle.slice(0, 12) + '...' : sessionTitle;
+        renameTab(tabId, displayTitle);
       }
     }
   });
