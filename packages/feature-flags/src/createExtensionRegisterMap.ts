@@ -6,7 +6,7 @@ import { registerContextUsageExtension } from "@nexus/extensions/context-usage/r
 import { registerExitMessageExtension } from "@nexus/extensions/exit-message/registerExitMessageExtension.js";
 import { registerHerdrAgentEndLogExtension } from "@nexus/extensions/herdr-agent-end-log/registerHerdrAgentEndLogExtension.js";
 import { registerPiPackagesExtension } from "@nexus/extensions/pi-packages/registerPiPackagesExtension.js";
-import { registerFeatureManagementExtension } from "@nexus/extensions-core/feature-management/registerFeatureManagementExtension.js";
+import { registerFeatureManagementExtension } from "@nexus/extensions/feature-management/registerFeatureManagementExtension.js";
 import registerFffExtension from "@nexus/extensions/fff/index.js";
 import registerNeoEditorExtension from "@nexus/extensions/neo-editor/registerNeoEditorExtension.js";
 import { registerHotkeysExtension } from "@nexus/extensions/hotkeys/registerHotkeysExtension.js";
@@ -17,11 +17,13 @@ import { registerObservationsExtension } from "@nexus/extensions/observations/re
 import { registerSystemPromptExtension } from "@nexus/extensions/system-prompt/registerSystemPromptExtension.js";
 import { registerRtkExtension } from "@nexus/extensions/rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "@nexus/extensions/startup-hero/registerStartupHeroExtension.js";
+import { registerCouncilExtension } from "@nexus/extensions/council/registerCouncilExtension.js";
 import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension.js";
 
 import registerTronExtension from "@nexus/extensions/tron/index.js";
 import { registerWebSearchExtension } from "@nexus/extensions/web-search/registerWebSearchExtension.js";
 import registerLocalImageReaderExtension from "@nexus/extensions/local-image-reader/registerLocalImageReaderExtension.js";
+import { registerHandoffExtension } from "@nexus/extensions/handoff/registerHandoffExtension.js";
 
 /**
  * Creates the code-backed extension registration map.
@@ -55,9 +57,11 @@ export function createExtensionRegisterMap(): Record<
 		"exit-message": registerExitMessageExtension,
 		"herdr-agent-end-log": registerHerdrAgentEndLogExtension,
 		"startup-hero": registerStartupHeroExtension,
+		council: registerCouncilExtension,
 		tetris: registerTetrisExtension,
 		tron: registerTronExtension,
 		webtools: registerWebSearchExtension,
 		"local-image-reader": registerLocalImageReaderExtension,
+		handoff: registerHandoffExtension,
 	};
 }
