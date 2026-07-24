@@ -1,4 +1,4 @@
-import { getAgentDirPath } from "@nexus/runtime/config/getAgentDirPath.js";
+import { getAgentDir } from "@earendil-works/pi-coding-agent/dist/config.js";
 import { join } from "node:path";
 
 const CMUX_SESSION_REGISTRY_ENV = "NEXUS_CMUX_SESSION_REGISTRY";
@@ -9,5 +9,5 @@ const CMUX_SESSION_REGISTRY_ENV = "NEXUS_CMUX_SESSION_REGISTRY";
  * @returns Absolute registry file path.
  */
 export function getCmuxSessionRegistryPath(): string {
-	return process.env[CMUX_SESSION_REGISTRY_ENV]?.trim() || join(getAgentDirPath(), "cmux-session-registry.json");
+	return process.env[CMUX_SESSION_REGISTRY_ENV]?.trim() || join(getAgentDir(), "cmux-session-registry.json");
 }

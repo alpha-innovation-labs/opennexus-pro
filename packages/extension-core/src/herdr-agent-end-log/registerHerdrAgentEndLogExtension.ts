@@ -1,10 +1,16 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { getAgentDirPath } from "@nexus/runtime/config/getAgentDirPath.js";
+import { getAgentDir } from "@earendil-works/pi-coding-agent/dist/config.js";
+import { ensureAgentDirEnv } from "@nexus/runtime/config/ensureAgentDirEnv.js";
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
-const STATE_FILE = path.join(getAgentDirPath(), "last-msg.json");
+function getStateFile(): string {
+  ensureAgentDirEnv();
+  return path.join(getAgentDir(), "last-msg.json");
+}
+
+const STATE_FILE = getStateFile();
 
 /**
  * Reads the current pane ID from `herdr pane current --current`.

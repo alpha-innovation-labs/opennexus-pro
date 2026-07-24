@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { getAgentDirPath } from "../../config/getAgentDirPath.js";
+import { getAgentDir } from "@earendil-works/pi-coding-agent/dist/config.js";
 
 /**
  * Resolves the extracted package-asset directory for the installed binary.
@@ -7,5 +7,5 @@ import { getAgentDirPath } from "../../config/getAgentDirPath.js";
  * @returns Absolute extracted package directory.
  */
 export function getEmbeddedPackageDirPath(): string {
-  return join(getAgentDirPath(), ".package");
+  return join(getAgentDir(), ".package");
 }
