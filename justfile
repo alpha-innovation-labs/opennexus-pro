@@ -18,10 +18,6 @@ import 'justfiles/building/lint.just'
 # Testing Commands
 # ============================================================================
 import 'justfiles/testing/test.just'
-import 'justfiles/testing/test-release.just'
-import 'justfiles/testing/test-list.just'
-import 'justfiles/testing/test-release-list.just'
-import 'justfiles/testing/agent-e2e.just'
 
 # ============================================================================
 # Utility Commands

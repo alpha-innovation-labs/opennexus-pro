@@ -7,4 +7,8 @@ test *ARGS:
     #!/usr/bin/env bash
     set -euo pipefail
 
-    node scripts/testing/runTests.mjs "$@"
+    if [ "${1:-}" = "list" ]; then
+        npx tsx scripts/testing/list-tests.ts
+    else
+        npx vitest run "$@"
+    fi
