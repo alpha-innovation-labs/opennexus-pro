@@ -217,9 +217,6 @@ importers:
       '@nexus/assets':
         specifier: workspace:*
         version: link:../assets
-      '@nexus/extensions-core':
-        specifier: workspace:*
-        version: link:../extensions-core
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../feature-flags
@@ -242,32 +239,11 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
 
-  packages/extensions-core:
-    dependencies:
-      '@nexus/extensions':
-        specifier: workspace:*
-        version: link:../extension-core
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../feature-flags
-      '@nexus/observability':
-        specifier: workspace:*
-        version: link:../observability
-      '@nexus/runtime':
-        specifier: workspace:*
-        version: link:../nexus-runtime
-      '@nexus/tui-kit':
-        specifier: workspace:*
-        version: link:../tui-kit
-
   packages/feature-flags:
     dependencies:
       '@nexus/extensions':
         specifier: workspace:*
         version: link:../extension-core
-      '@nexus/extensions-core':
-        specifier: workspace:*
-        version: link:../extensions-core
       '@nexus/mini-apps':
         specifier: workspace:*
         version: link:../mini-apps
@@ -277,6 +253,8 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../nexus-runtime
+
+  packages/herdr: {}
 
   packages/mini-apps:
     dependencies:

@@ -129,6 +129,11 @@ export const bundledFeatureFlags: Readonly<Record<
 		features: ["local-image-reading"],
 		category: "extension",
 	},
+	"custom-tools": {
+		enabled: true,
+		features: ["agent-e2e-tool"],
+		category: "extension",
+	},
 };
 
 /**
