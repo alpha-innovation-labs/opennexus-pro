@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+import { APP_NAME } from "@nexus/pi-platform/config.js";
+
+process.title = APP_NAME;
+
 import { runCliWithApp } from "./cli/runCliWithApp.js";
 import { runApp } from "./runtime/runApp.js";
 

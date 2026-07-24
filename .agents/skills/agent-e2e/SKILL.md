@@ -51,3 +51,13 @@ just agent-e2e close w42
 - **Use `read`** to inspect what the agent is doing or its output.
 - **Always `close`** when done to clean up resources.
 - If agent start fails with "not an available shell", you are not inside a real Herdr session — this is expected when running outside `HERDR_ENV=1`.
+
+## Critical gotchas for e2e test creation
+
+- **`send-keys` interacts with the TUI; `prompt` does not.** `send-keys` sends actual keystrokes into the agent's terminal pane (e.g., `Slash l o g i n Enter` types `/login`). `prompt` sends text instructions to the agent to *report* what it observes. They are not interchangeable — using `prompt` to type TUI commands will fail.
+- **The agent cannot self-interact with the TUI.** The agent-e2e agent is a terminal session, not a UI actor. A human (or test harness) must send keypresses via `send-keys`. The agent only reports back what it sees via `prompt` + `read`.
+- **`read` captures raw terminal ASCII art, not structured data.** The snapshot contains box-drawing characters (`│`, `─`, `╭`, `╰`), promptline text, modal headers, and body text. Assertions must grep for expected strings within this raw output — there is no schema to parse.
+- **Color states are represented by visual markers, not ANSI codes.** The TUI uses symbols like `●` (green/enabled) vs plain text (gray/disabled). Snapshots are text-only — rely on these markers, not color escape sequences.
+- **Run e2e tests *after* the feature is implemented.** Before implementation, the snapshot shows the broken state (e.g., wrong pane titles, empty models). Test snapshots define the *target* state — the expected post-implementation output. Before-implementation runs are for exploration only.
+- **Always save snapshots to named files.** Use `> snapshots/<test-name>.jsonl` to persist `read` output. These files are the verifiable artifacts — the test passes if the snapshot content matches the assertions.
+- **Always `close` the workspace after tests.** Resources accumulate otherwise. Use `just agent-e2e close <workspaceId>` when done.
