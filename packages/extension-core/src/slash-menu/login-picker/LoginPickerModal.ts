@@ -1,3 +1,4 @@
+import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
 import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
@@ -9,6 +10,7 @@ import { filterMenuItems } from "../filterMenuItems.js";
 import { toAutocompleteItems } from "../toAutocompleteItems.js";
 import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
 import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/select/types.js";
 import { createLoginProviderList } from "./createLoginProviderList.js";
 import { createLoginModelList } from "./createLoginModelList.js";
 import { filterLoginItems } from "./filterLoginItems.js";
@@ -33,13 +35,14 @@ export class LoginPickerModal extends SelectPreviewModal {
   private catalog: Array<{ provider: { id: string; name: string }; models: Model<Api>[] }> = [];
 
   constructor(
+    uiTheme: SelectPreviewTheme,
     private readonly requestClose: () => void,
     private readonly requestRender: () => void,
     private readonly onCommandPicked: (commandText: string) => void,
     private readonly notify: (message: string, type: string) => void,
   ) {
     super(
-      { colors: { bg: "#000000", fg: "#ffffff" }, focusColor: "#000000" },
+      uiTheme,
       () => undefined,
       requestClose,
       undefined,
@@ -49,6 +52,7 @@ export class LoginPickerModal extends SelectPreviewModal {
         bottomTitle: "Search",
         bottomPrefix: "> /",
         leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO,
+        fullScreen: true,
       },
     );
     this.init();

@@ -109,6 +109,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     });
     this.setOnPick(() => void this.handleEnter());
     this.loginPicker = new LoginPickerModal(
+      ctx.ui.theme,
       () => void this.handleLoginPickerClose(),
       () => this.requestRender(),
       (commandText) => {

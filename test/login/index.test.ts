@@ -66,6 +66,9 @@ function escape() {
   runHerdr(["agent", "send-keys", agentName, "Escape"]);
 }
 
+const actualDir = join(__dirname, "snapshots", "actual");
+mkdirSync(actualDir, { recursive: true });
+
 function getSnapshot(name) {
   const snapPath = join(__dirname, "snapshots", name);
   try {
@@ -74,6 +77,10 @@ function getSnapshot(name) {
     // First run — return empty so test fails, then capture actual output
     return "__MISSING__";
   }
+}
+
+function writeActual(name: string, content: string) {
+  writeFileSync(join(actualDir, name), content, "utf-8");
 }
 
 function writeSnapshot(name: string, content: string) {
@@ -88,16 +95,24 @@ function writeSnapshot(name: string, content: string) {
 
 describe("login-rework", () => {
 
+  // Normalize timing footer: replace any elapsed time with 0:00 so
+  // non-deterministic runtimes don't break snapshot equality.
+  const NORMALIZE_TIMING_RE = /\b0\.2\.29 \[⏱ \d+:\d+\]/;
+  function normalizeTiming(text: string): string {
+    return text.replace(NORMALIZE_TIMING_RE, "0.2.29 [⏱ 0:00]");
+  }
+
   it("two-pane modal opens on /login", async () => {
     sendKeys(["Slash", "l", "o", "g", "i", "n", "Enter"]);
     const output = readOutput();
+    writeActual("two-pane-modal-opens-on-login.jsonl", output);
     const snap = getSnapshot("two-pane-modal-opens-on-login.jsonl");
     if (snap === "__MISSING__") {
       writeSnapshot("two-pane-modal-opens-on-login.jsonl", output);
       escape();
       return;
     }
-    expect(output).toBe(snap);
+    expect(normalizeTiming(output)).toBe(normalizeTiming(snap));
     escape();
   });
 
@@ -105,14 +120,15 @@ describe("login-rework", () => {
     sendKeys(["Slash", "l", "o", "g", "i", "n", "Enter"]);
     sendKeys(["Enter"]);
     const output = readOutput();
+    writeActual("provider-toggle-on-Enter.jsonl", output);
     const snap = getSnapshot("provider-toggle-on-Enter.jsonl");
     if (snap === "__MISSING__") {
       writeSnapshot("provider-toggle-on-Enter.jsonl", output);
       escape();
       return;
     }
-    expect(output).toBe(snap);
+    expect(normalizeTiming(output)).toBe(normalizeTiming(snap));
     escape();
   });
 
-  });
+});
