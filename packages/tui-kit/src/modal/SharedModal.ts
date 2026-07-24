@@ -26,6 +26,7 @@ export class SharedModal implements Component {
   private sharedFullScreen: boolean;
   private readonly fullScreenHotkey: string | false;
   private sharedFullScreenRows?: number | (() => number);
+  private sharedHidePaneTopBorder: boolean;
   private maxWidth?: number;
   private maxWidthRatio: number;
   private overflowScrollbar: boolean;
@@ -49,6 +50,7 @@ export class SharedModal implements Component {
     this.sharedFullScreen = options.fullScreen ?? false;
     this.fullScreenHotkey = options.fullScreenHotkey ?? "f";
     this.sharedFullScreenRows = options.fullScreenRows;
+    this.sharedHidePaneTopBorder = options.hidePaneTopBorder ?? false;
     this.headerLines = options.headerLines ?? [];
     this.maxWidth = options.maxWidth;
     this.maxWidthRatio = options.maxWidthRatio ?? 0.9;
@@ -102,6 +104,9 @@ export class SharedModal implements Component {
     this.sharedFullScreenRows = fullScreenRows;
   }
 
+  /** Hides the pane-top border (the '┬' separator row below the header). */
+  setHidePaneTopBorder(hide: boolean): void { this.sharedHidePaneTopBorder = hide; }
+
   /**
    * Renders the shared modal frame.
    *
@@ -119,7 +124,9 @@ export class SharedModal implements Component {
 
     if (this.headerLines.length > 0) {
       topRows.push(...renderFullWidthRows(this.theme, this.headerLines, innerWidth));
-      topRows.push(renderModalPaneTopBorder(this.theme, innerWidth, this.panes));
+      if (!this.sharedHidePaneTopBorder) {
+        topRows.push(renderModalPaneTopBorder(this.theme, innerWidth, this.panes));
+      }
     }
 
     const bodyRows = renderModalPanes(this.theme, this.panes, innerWidth);
@@ -129,7 +136,7 @@ export class SharedModal implements Component {
       ? renderModalBorder(this.theme, "└", "─", "┘", innerWidth)
       : renderModalBorderWithPaneSeparators(this.theme, "└", "─", "┴", "┘", innerWidth, this.panes);
     const bottomRows = footerLines.length > 0
-      ? [renderModalPaneBottomBorder(this.theme, innerWidth, this.panes), ...renderFooterRows(this.theme, footerLines, innerWidth), bottomBorder]
+      ? [this.sharedHidePaneTopBorder ? renderModalBorder(this.theme, "└", "─", "┘", innerWidth) : renderModalPaneBottomBorder(this.theme, innerWidth, this.panes), ...renderFooterRows(this.theme, footerLines, innerWidth), bottomBorder]
       : [bottomBorder];
 
     if (this.sharedFullScreen) {

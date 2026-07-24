@@ -27,6 +27,7 @@ import { createTopLevelItems } from "./createTopLevelItems.js";
 import { createCommandLeaves } from "./createCommandLeaves.js";
 import { createToolsTopLevelItem } from "./createToolsTopLevelItem.js";
 import { createThinkingTopLevelItem } from "./createThinkingTopLevelItem.js";
+import { LoginPickerModal } from "./login-picker/LoginPickerModal.js";
 import { createTopLevelPromptCommandLeaves } from "./createTopLevelPromptCommandLeaves.js";
 import { groupAndSortTopLevelItems } from "./groupAndSortTopLevelItems.js";
 import { createDynamicCommandItems, extractSkillName, isFusedSkillValue } from "./createDynamicCommandItems.js";
@@ -86,6 +87,7 @@ export class SlashMenuModal extends SelectPreviewModal {
   private resumeScope: ResumeScope = "current";
   private resourceScope: ResourceCommandScope = "all";
   private modelMenuTab: ModelMenuTab = "models";
+  private loginPicker?: LoginPickerModal;
 
   constructor(
     private readonly ctx: ExtensionContext,
@@ -106,6 +108,15 @@ export class SlashMenuModal extends SelectPreviewModal {
           2 : 1
     });
     this.setOnPick(() => void this.handleEnter());
+    this.loginPicker = new LoginPickerModal(
+      () => void this.handleLoginPickerClose(),
+      () => this.requestRender(),
+      (commandText) => {
+        this.loginPicker?.requestClose();
+        this.onCommandPicked(commandText);
+      },
+      (message, type) => this.ctx.ui.notify(message, type),
+    );
   }
 
   /**
@@ -117,6 +128,9 @@ export class SlashMenuModal extends SelectPreviewModal {
     this.query = query;
     this.searchActive = query.length > 0;
     this.setBottom("Search", query, "> /");
+    if (this.level === "login-picker") {
+      this.loginPicker?.updateQuery(query);
+    }
   }
 
   /**
@@ -145,9 +159,14 @@ export class SlashMenuModal extends SelectPreviewModal {
       this.setModalWidthPolicy(modelWidth, modelWidth, 0.9);
     }
     if (!shouldShowSlashMenuPreview(this.level) && this.level !== "settings" && this.level !==
-      "model" && this.level !== "tools") {
+      "model" && this.level !== "tools" && this.level !== "login-picker") {
       const menuWidth = calculateSinglePaneMenuWidth(this.activeLeaves, this.level);
       this.setModalWidthPolicy(menuWidth, menuWidth, 0.9);
+    }
+    // Delegate login-picker rendering to LoginPickerModal.
+    if (this.level === "login-picker") {
+      this.loginPicker?.renderLeftPane();
+      return;
     }
     this.renderItems(filterMenuItems(this.activeLeaves, this.query), this.level ===
       "setting-choice" ? getSettingChoiceTitle(this.pendingSettingLeaf) :
@@ -166,6 +185,7 @@ export class SlashMenuModal extends SelectPreviewModal {
     if (this.handleResourcePreviewFocusInput(data)) return;
     if (this.handleResourcePreviewInput(data)) return;
     if (this.handleResumeScopeInput(data)) return;
+    if (this.handleLoginPickerInput(data)) return;
     handleSlashMenuInput({
       data,
       level: this.level,
@@ -195,6 +215,25 @@ export class SlashMenuModal extends SelectPreviewModal {
     else return false;
     void this.refresh();
     return true;
+  }
+
+  /**
+   * Delegates keyboard input to the LoginPickerModal.
+   *
+   * @param data Raw keyboard input.
+   * @returns True when handled.
+   */
+  private handleLoginPickerInput(data: string): boolean {
+    if (this.level !== "login-picker") return false;
+    this.loginPicker?.handleInput(data);
+    return true;
+  }
+
+  /**
+   * Closes the login picker and returns to the previous slash-menu level.
+   */
+  private handleLoginPickerClose(): void {
+    void this.handleEscape();
   }
 
   /**
@@ -448,9 +487,13 @@ path).
       return void this.onCommandPicked(`/${skillName}`);
     }
     if (this.level === "tools") return;
-    if (this.level === "login") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
-    if (this.level === "login-providers") return void this.onCommandPicked(`/nexus-login-select ${item.value}`);
     if (this.level === "logout") return void this.logoutSelectedProvider(item.value);
+    if (this.level === "login-picker") {
+      const loginItem = this.loginPicker?.getSelectedItem();
+      if (!loginItem) return;
+      this.loginPicker?.handlePick(loginItem);
+      return;
+    }
   }
 
 
@@ -461,6 +504,20 @@ path).
    */
   async openLevel(level: SlashMenuLevel): Promise<void> {
     this.previousLevels.push(this.level);
+    // Route "login" to "login-picker".
+    if (level === "login") {
+      level = "login-picker";
+    }
+    // Handle login-picker: delegate to LoginPickerModal.
+    if (level === "login-picker") {
+      this.level = level;
+      this.query = "";
+      this.searchActive = false;
+      this.setBottom("Search", "", "> /");
+      this.loginPicker?.init();
+      await this.refresh();
+      return;
+    }
     if (level === "model") {
       this.level = "model";
       this.modelMenuTab = "models";
@@ -630,6 +687,9 @@ path).
   }
 
   override render(width: number): string[] {
+    if (this.level === "login-picker") {
+      return this.loginPicker?.render(width) ?? super.render(width);
+    }
     this.setFooterHintLines(this.createFooterHintLines());
     const item = this.selectedPreviewItem;
     if (this.level === "resume" && item) {

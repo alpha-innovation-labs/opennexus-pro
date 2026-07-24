@@ -21,19 +21,6 @@ import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types.js";
 type ToolInfo = ReturnType<ExtensionAPI["getAllTools"]>[number];
 
 /**
- * Builds a single "hello world" leaf for the /login menu.
- *
- * @returns A single menu leaf displaying "hello world".
- */
-function createHelloWorldLeaves(): SlashMenuLeaf[] {
-  return [{
-    kind: "leaf" as const,
-    label: "hello world",
-    value: "hello-world",
-  }];
-}
-
-/**
  * Builds the active leaf list for one slash-menu level.
  *
  * @param ctx Extension context.
@@ -60,8 +47,6 @@ export async function createActiveLeaves(
   if (level === "scoped-models") return createScopedModelLeaves(ctx);
   if (level === "fork") return createForkLeaves(ctx.sessionManager.getEntries() as never);
   if (level === "resume") return createResumeLeaves(await listResumeSessions(ctx, resumeScope));
-  if (level === "login") return createHelloWorldLeaves();
-  if (level === "login-providers") return createHelloWorldLeaves();
   if (level === "logout") return createLogoutProviderLeaves(ctx);
   if (level === "prompts") return createSourceCommandLeaves(filterResourceCommandsByScope(dynamicCommands, resourceScope), "prompt");
   if (level === "skills") return createSourceCommandLeaves(filterResourceCommandsByScope(dynamicCommands, resourceScope), "skill");

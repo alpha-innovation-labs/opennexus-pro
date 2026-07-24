@@ -28,6 +28,7 @@ export type SharedModalOptions = {
   fullScreen?: boolean;
   fullScreenHotkey?: string | false;
   fullScreenRows?: number | (() => number);
+  hidePaneTopBorder?: boolean;
   headerLines?: string[];
   maxWidth?: number;
   maxWidthRatio?: number;
