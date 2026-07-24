@@ -29,6 +29,88 @@ function getCurrentPaneId(): string | undefined {
 }
 
 /**
+ * Reads the current tab ID from the pane current response.
+ * Returns undefined if the CLI is unavailable or not running inside Herdr.
+ */
+function getCurrentTabId(): string | undefined {
+  const result = spawnSync("herdr", ["pane", "current", "--current"], {
+    encoding: "utf-8",
+    timeout: 5000,
+  });
+
+  if (result.error || result.status !== 0) {
+    return undefined;
+  }
+
+  try {
+    const parsed = JSON.parse(result.stdout);
+    return parsed?.result?.pane?.tab_id;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Reads the current tab label (title) from `herdr tab get <tab_id>`.
+ * Returns undefined if the CLI is unavailable or the tab has no label.
+ */
+function getCurrentTabLabel(tabId: string): string | undefined {
+  const result = spawnSync("herdr", ["tab", "get", tabId], {
+    encoding: "utf-8",
+    timeout: 5000,
+  });
+
+  if (result.error || result.status !== 0) {
+    return undefined;
+  }
+
+  try {
+    const parsed = JSON.parse(result.stdout);
+    return parsed?.result?.tab?.label;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Retrieves the current Nexus session title from the Pi API.
+ * Returns undefined when no session name has been set.
+ * Handles corrupted session names that are JSON arrays (e.g., "[\"topic1\", \"topic2\"]")
+ * by joining them into a single string.
+ */
+function getSessionTitle(pi: ExtensionAPI): string | undefined {
+  const name = pi.getSessionName?.();
+  if (typeof name !== "string") return undefined;
+  const trimmed = name.trim();
+  if (!trimmed) return undefined;
+  // Handle corrupted session names that are JSON arrays: ["topic1", "topic2"]
+  if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+    try {
+      const arr = JSON.parse(trimmed);
+      if (Array.isArray(arr)) {
+        return arr.map((s: unknown) => (typeof s === "string" ? s.trim() : String(s))).join(" — ");
+      }
+    } catch {
+      // Not valid JSON — return as-is
+    }
+  }
+  return trimmed;
+}
+
+/**
+ * Renames the current Herdr tab to the given label.
+ * Returns true on success, false on failure.
+ */
+function renameTab(tabId: string, label: string): boolean {
+  const result = spawnSync("herdr", ["tab", "rename", tabId, label], {
+    encoding: "utf-8",
+    timeout: 5000,
+  });
+
+  return result.status === 0 && !result.error;
+}
+
+/**
  * Reads the last assistant message from agent_end event data.
  * Scans messages array for the last entry with role === "assistant".
  */
@@ -114,6 +196,16 @@ export function registerHerdrAgentEndLogExtension(pi: ExtensionAPI): void {
 
     if (content) {
       writeState(paneId, content);
+    }
+
+    // --- Session title: read the current Nexus session title and update the Herdr tab ---
+    const tabId = getCurrentTabId();
+    const sessionTitle = getSessionTitle(pi);
+    if (tabId && sessionTitle) {
+      const currentLabel = getCurrentTabLabel(tabId);
+      if (currentLabel !== sessionTitle) {
+        renameTab(tabId, sessionTitle);
+      }
     }
   });
 }

@@ -26,7 +26,7 @@ export type ObservationMessageStore = {
  */
 export type ObservationTopic = {
 	index: number;
-	title: string;
+	title: string | string[];
 	startedAt: number;
 	sourceMessageIndex: number;
 	userMessageIndexes?: number[];
