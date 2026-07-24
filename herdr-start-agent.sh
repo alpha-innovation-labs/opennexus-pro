@@ -2,7 +2,7 @@
 #
 # herdr-start-agent.sh
 #
-# Creates a "nexus-e2e" workspace, waits 0.5s, then starts an agent with kind "omp" in the root pane.
+# Creates a "nexus-e2e" workspace, waits 0.5s, then starts an agent with kind "mastracode" in the root pane.
 #
 # Usage: ./herdr-start-agent.sh
 # (No arguments needed — all defaults are hardcoded for e2e testing.)

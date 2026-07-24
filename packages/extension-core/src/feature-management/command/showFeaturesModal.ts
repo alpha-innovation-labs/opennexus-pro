@@ -4,6 +4,7 @@ import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverl
 import { createFeatureStatusRows } from "../model/createFeatureStatusRows.js";
 import { FeatureManagementModal } from "../ui/FeatureManagementModal.js";
 import { updateFeatureStatusRow } from "../model/persistFeatureFlagOverride.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
 
 /**
  * Opens the feature management modal.
@@ -16,16 +17,27 @@ export async function showFeaturesModal(ctx: ExtensionCommandContext): Promise<v
 		return;
 	}
 
-	// Initial load: all extensions from the registry, enabled by default.
+	// Build initial snapshot: all extensions from registry, default enabled.
 	const allIds = getAllBundledExtensionIds();
 	const staticConfig: Record<string, { enabled: boolean; features: string[] }> = {};
 	for (const id of allIds) {
 		staticConfig[id] = { enabled: true, features: [] };
 	}
 
+	// Read user overrides so the modal reflects the real enabled/disabled state.
+	const userConfig = readNexusUserConfig();
+	const userOverrides: Record<string, boolean> = userConfig.featureFlags ?? {};
+	const runtimeConfig: Record<string, { enabled: boolean; features: string[] }> = {};
+	for (const id of allIds) {
+		runtimeConfig[id] = {
+			enabled: userOverrides[id] === false ? false : true,
+			features: [],
+		};
+	}
+
 	let rows = createFeatureStatusRows(
 		{ extensions: staticConfig },
-		{ extensions: staticConfig },
+		{ extensions: runtimeConfig },
 	);
 
 	await ctx.ui.custom<undefined>(
