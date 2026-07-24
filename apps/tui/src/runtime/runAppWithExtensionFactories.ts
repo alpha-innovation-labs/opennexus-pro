@@ -32,8 +32,6 @@ import { startupStartedAtEnvVar } from "@nexus/extensions/startup-hero/startupSt
 import { pruneLoggedOutEnabledModels } from "@nexus/pi-platform/settings/pruneLoggedOutEnabledModels.js";
 import { clearStartupScreen } from "./startup-screen/clearStartupScreen.js";
 import { shouldClearStartupScreen } from "./startup-screen/shouldClearStartupScreen.js";
-import { isHarnessModeEnabled } from "./harness/isHarnessModeEnabled.js";
-import { runHarnessMode } from "./harness/runHarnessMode.js";
 
 export type CreateExtensionFactories = () => Promise<ExtensionFactory[]>;
 
@@ -138,12 +136,6 @@ export async function runAppWithExtensionFactories(
   const extensionFactories = await resolveBundledExtensionFactories(rawArgs, createExtensionFactories);
   logRunAppPhase("resolveBundledExtensionFactories:done", phaseStartedAt);
   logStartupProfileEvent("runApp", "prepareArgsAndExtensions:done");
-
-  if (isHarnessModeEnabled()) {
-    await runHarnessMode({ argv: args, extensionFactories });
-    printExitMessage();
-    return;
-  }
 
   phaseStartedAt = performance.now();
   const { main } = await import("@earendil-works/pi-coding-agent");

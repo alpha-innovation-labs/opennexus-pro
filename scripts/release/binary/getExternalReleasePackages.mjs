@@ -7,7 +7,6 @@ const BASE_EXTERNAL_RELEASE_PACKAGES = [
   "ffi-rs",
   "linkedom",
   "turndown",
-  "@marcfargas/pi-test-harness",
 ];
 
 /**
