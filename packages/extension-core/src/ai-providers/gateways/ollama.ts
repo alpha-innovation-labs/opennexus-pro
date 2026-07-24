@@ -14,7 +14,7 @@ export class OllamaGateway extends AiGateway {
     super({
       providerId: "ollama",
       name: "Ollama",
-      baseUrl: "http://localhost:11434/v1",
+      baseUrl: "http://localhost:11234",
       apiKey: options.apiKey ?? "ollama",
     });
   }
