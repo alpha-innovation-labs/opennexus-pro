@@ -189,9 +189,9 @@ export function prepareHerdr(options: PrepareHerdrOptions = {}): PreparedHerdr {
 
   const error = (startResult.error as Record<string, string>)?.code;
   if (error) {
-    // Agent start may fail if not in a real Herdr session — warn but don't abort.
+    // Agent start failure is a catastrophic error — the agent never started.
     const message = (startResult.error as Record<string, string>)?.message ?? error;
-    console.error(`  ⚠ Agent start warning: ${message}`);
+    throw new Error(`FATAL: Agent start failed — ${message}`);
   } else {
     const name = drill(startResult, "result", "agent", "name") ?? agentName;
     console.error(`  ✓ Agent started: ${name}`);

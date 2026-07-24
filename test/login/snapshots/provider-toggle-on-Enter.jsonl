@@ -1,0 +1,45 @@
+
+                                        ╭─  ~/workspace/alpha-innovation-labs/__nexus/nexus-tui-awe…  ▱▱▱▱▱ 9k/128k ─╮
+                                        │» /                                                                           │
+                                        ╰──────────────────────────────────────────────────────────────────────────── ─╯
+                                         litellm  qwen3.6-35b-a3b  off
+                                ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
+                                │● Menu                                                                                        │
+                                ├──────────────────────────────────────────────────────────────────────────────────────────────┤
+                                │ Resources                                                                                    │
+                                │   › custom commands           Run prompt templates.                                          │
+                                │   › skills                    Run skill commands.                                            │
+                                │   ⚒ tools                     Show available tools.                                          │
+                                │ Custom Commands                                                                              │
+                                │   › git-commit                ---                                                            │
+                                │   › project-grill-me          Grill the user on repository understanding with evidence-back  │
+                                │   › social-share              ---                                                            │
+                                │ Chat                                                                                         │
+                                │   ⧉ clone                     Duplicate the current session at the current position          │
+                                │   ◐ compact                   Manually compact the session context                           │
+                                │   ▣ copy                      Copy last agent message to clipboard                           │
+                                │   ⑂ fork                      Create a new fork from a previous user message                 │
+                                │   ✎ name                      Set session display name                                       │
+                                │   + new                       Start a new session                                            │
+                                │   ↩ resume                    Resume a different session                                     │
+                                │   ⓘ session                   Show session info and stats                                    │
+                                │   ↗ share                     Share session as a secret GitHub gist                          │
+                                │   ┬ tree                      Navigate session tree (switch branches)                        │
+                                │ Auth                                                                                         │
+                                │   ◆ login                     Configure provider authentication                              │
+                                │   ◇ logout                    Remove provider authentication                                 │
+                                │   ✦ model                     Select model (opens selector UI)                               │
+                                │   ◌ thinking                  Set reasoning depth for thinking-capable models.               │
+                                │ Configuration                                                                                │
+                                │   ⌘ hotkeys                   Show all keyboard shortcuts                                    │
+                                │   ↻ reload                    Reload keybindings, extensions, skills, prompts, themes, and   │
+                                │   ⚙ settings                  Toggle settings and open nested configuration.                 │
+                                │ Workspace                                                                                    │
+                                │   ↧ export                    Export session (HTML default, or specify path: .html/.jsonl)   │
+                                │   ↥ import                    Import and resume a session from a JSONL file                  │
+                                │ System                                                                                       │
+                                │   › trust                     Save project trust decision for future sessions                │
+                                │ Extensions                                                                                   │
+                                ├──────────────────────────────────────────────────────────────────────────────────────────────┤
+                                │Search > /                                                                                    │
+                                └──────────────────────────────────────────────────────────────────────────────────────────────┘
