@@ -1,18 +1,22 @@
 import type { InternalSlashHandler } from "./types.js";
-import { showOAuthLoginDialog } from "./showOAuthLoginDialog.js";
 
 /**
- * Logs into one OAuth provider without opening Pi's built-in selector.
+ * Handles the /login-select command. The /login menu now displays "hello world"
+ * as its only option. Selecting it shows an info notification.
  *
  * @param args Command arguments.
  * @param ctx Command context.
  * @param pi Extension API.
  */
-export const handleInternalLoginCommand: InternalSlashHandler = async (args, ctx, pi) => {
+export const handleInternalLoginCommand: InternalSlashHandler = async (args, ctx) => {
   const providerId = args.trim();
   if (!providerId) {
     ctx.ui.notify("Missing provider.", "error");
     return;
   }
-  await showOAuthLoginDialog(providerId, ctx, pi);
+  if (providerId === "hello-world") {
+    ctx.ui.notify("hello world", "info");
+    return;
+  }
+  ctx.ui.notify(`Unknown provider: ${providerId}`, "error");
 };

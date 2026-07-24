@@ -47,13 +47,6 @@ export const showcaseGroups: readonly ShowcaseGroup[] = [
         bullets: ["Slash and @ workflows", "Project, branch, and context status", "Editor trigger submits"],
       },
       {
-        id: "custom-providers",
-        eyebrow: "AI providers",
-        title: "Provider access is bundled",
-        body: "Provider login entries, manual credential prompts, and /login availability checks are bundled so users can reach supported models from Nexus.",
-        bullets: ["Provider login entries", "Manual credential prompts", "/login availability checks"],
-      },
-      {
         id: "custom-operator",
         eyebrow: "Operator layer",
         title: "Sessions report useful state",

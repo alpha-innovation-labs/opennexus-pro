@@ -46,7 +46,6 @@ import { renderResourceCommandScopeTabs } from "./renderResourceCommandScopeTabs
 import { selectResourceCommandScopeByKey } from "./selectResourceCommandScopeByKey.js";
 import { createResourceCommandFooterHint } from "./createResourceCommandFooterHint.js";
 import { formatResourceCommandLabel } from "./formatResourceCommandLabel.js";
-import { formatLoginProviderLabel } from "./formatLoginProviderLabel.js";
 import { handleSlashMenuInput } from "./handleSlashMenuInput.js";
 import { showSessionInfoModal } from "./session-info/showSessionInfoModal.js";
 import { handleTopLevelMenuEnter } from "./handleTopLevelMenuEnter.js";
@@ -693,13 +692,9 @@ path).
       ...item, label: `${item.label}\n${item.description}`,
       description: "", preserveLabelWhitespace: true, resumeRow: true, wrapPreservedLabel: true
     };
-    if ((this.level === "login" || this.level === "login-providers") &&
-      !item.value.startsWith("import:")) return {
-        ...item, label: formatLoginProviderLabel(item as
-          SlashMenuLeaf, icon, this.ctx.ui.theme), description: ""
-      };
     if (this.level === "model") return { ...item, label: `${icon} ${item.label}` };
-    if (this.level === "login" || this.level === "login-providers" || this.level === "logout" ||
+    if (this.level === "login" || this.level === "login-providers" ||
+      this.level === "logout" ||
       this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return {
         ...item, label: `${icon} ${item.label}`, description: ""
       };

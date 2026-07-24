@@ -15,7 +15,7 @@ const builtInPiOAuthProviderIds = new Set([
 
 /**
  * Unregisters all providers that Pi registers natively, so they do not
- * appear in the Nexus /login menu, and registers all local LLM gateways.
+ * Unregisters all providers that Pi registers natively, and registers all local LLM gateways.
  *
  * New gateways are discovered automatically — just create a file in the
  * gateways folder that extends `AiGateway` and add a new instance to the

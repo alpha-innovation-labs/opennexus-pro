@@ -13,7 +13,6 @@ import { resetPromptlineState } from "./features/promptline/resetPromptlineState
 import { getPromptlineRenderRequest, setPromptlineModelOverride } from "./features/promptline/state.js";
 import { setRefreshRequestCallback } from "./features/promptline/state.js";
 import { registerPromptlineStatusWidget } from "./features/promptline/status-widget/registerPromptlineStatusWidget.js";
-import { primeStartupLoginModal } from "./primeStartupLoginModal.js";
 import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
 
 let startupContextReport: ContextUsageReport | undefined;
@@ -47,7 +46,6 @@ export default function(pi: ExtensionAPI) {
     setToolGroupCollapseEnabled(projectConfig.autoCompact === true);
     await refreshAndRender(ctx, deps);
     await primeStartupResumeModal(event.reason, ctx);
-    await primeStartupLoginModal(event.reason, ctx);
     logExtensionEvent("neo-editor", "session_start:done", {
       sessionFile: ctx.sessionManager.getSessionFile() ?? null,
     });

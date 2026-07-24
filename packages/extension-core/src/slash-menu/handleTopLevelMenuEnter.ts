@@ -36,7 +36,7 @@ export async function handleTopLevelMenuEnter(
   if (value === "logout") {
     const leaves = createLogoutProviderLeaves(ctx);
     if (leaves.length === 0) {
-      ctx.ui.notify("No providers logged in. Use /login first.", "info");
+      ctx.ui.notify("No providers logged in.", "info");
       return;
     }
     return openLevel("logout");
