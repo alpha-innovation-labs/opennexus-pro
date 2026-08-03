@@ -5,5 +5,5 @@
  * @returns Arguments without verbose startup flags.
  */
 export function filterVerboseStartupArg(args: string[]): string[] {
-	return args.filter((arg) => arg !== "--verbose");
+  return args.filter((arg) => arg !== "--verbose");
 }

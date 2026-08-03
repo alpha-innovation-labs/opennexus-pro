@@ -15,7 +15,11 @@
     "@nexus/mini-apps": "workspace:*",
     "@nexus/observability": "workspace:*",
     "@nexus/pi-platform": "workspace:*",
-    "@nexus/runtime": "workspace:*"
+    "@nexus/runtime": "workspace:*",
+    "ink": "^7.1.0",
+    "ink-big-text": "^2.0.0",
+    "ink-gradient": "^4.0.1",
+    "react": "^19.2.0"
   },
   "exports": {
     "./*.js": "./src/*.ts",

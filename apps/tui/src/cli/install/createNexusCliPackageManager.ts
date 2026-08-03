@@ -1,8 +1,7 @@
-import { getAgentDir } from "@earendil-works/pi-coding-agent/dist/config.js";
-import { DefaultPackageManager } from "@earendil-works/pi-coding-agent/dist/core/package-manager.js";
-import { SettingsManager } from "@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
+import { DefaultPackageManager, SettingsManager } from "@earendil-works/pi-coding-agent";
+import type { ConfiguredPackage } from "@earendil-works/pi-coding-agent";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import type { ConfiguredPackage } from "@earendil-works/pi-coding-agent/dist/core/package-manager.js";
 
 export type NexusCliPackageManagerRuntime = {
   packageManager: DefaultPackageManager;
@@ -16,8 +15,8 @@ export type NexusCliPackageManagerRuntime = {
  * @returns Package manager runtime backed by Nexus settings.
  */
 export function createNexusCliPackageManager(cwd: string): NexusCliPackageManagerRuntime {
-  const settingsManager = SettingsManager.create(cwd, getAgentDir());
-  const packageManager = new DefaultPackageManager({ cwd, agentDir: getAgentDir(), settingsManager });
+  const settingsManager = SettingsManager.create(cwd, getNexusAgentDirPath());
+  const packageManager = new DefaultPackageManager({ cwd, agentDir: getNexusAgentDirPath(), settingsManager });
   const originalListConfiguredPackages = packageManager.listConfiguredPackages.bind(packageManager);
   packageManager.listConfiguredPackages = function () {
     const configuredPackages = originalListConfiguredPackages();

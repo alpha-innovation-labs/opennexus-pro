@@ -1,4 +1,4 @@
-import { ensureAgentDirEnv } from "@nexus/runtime/config/ensureAgentDirEnv.js";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
 import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch.js";
 import { removeUserExtensionConfig } from "@nexus/runtime/config/removeUserExtensionConfig.js";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
@@ -37,7 +37,7 @@ export async function runUninstallCommand(argv: readonly string[]): Promise<numb
     return 1;
   }
 
-  ensureAgentDirEnv();
+  getNexusAgentDirPath();
   await applyNexusConfigPatch();
   const source = normalizeUninstallSource(options.source);
   const runtime = createNexusCliPackageManager(process.cwd());

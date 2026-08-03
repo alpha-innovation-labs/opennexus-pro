@@ -1,4 +1,4 @@
-import { ensureAgentDirEnv } from "@nexus/runtime/config/ensureAgentDirEnv.js";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
 import { findMiniAppCommand, findMiniAppRunnerCommand, getMiniAppManifests } from "@nexus/mini-apps/index.js";
 import { hasHelpFlag } from "./help/hasHelpFlag.js";
 import { printNexusUsage } from "./help/printNexusUsage.js";
@@ -44,7 +44,7 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   }
 
   if (isObservationsCommand(argv)) {
-    ensureAgentDirEnv();
+    getNexusAgentDirPath();
     return runObservationsCommand(argv, process.cwd(), readSessionDirArg(argv));
   }
 
@@ -72,7 +72,7 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   }
 
   if (hasSessionsAllFlag(argv)) {
-    ensureAgentDirEnv();
+    getNexusAgentDirPath();
     if (hasJsonFlag(argv)) {
       await printAllSessionsJson();
     } else {
@@ -82,7 +82,7 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   }
 
   if (hasSessionsFlag(argv)) {
-    ensureAgentDirEnv();
+    getNexusAgentDirPath();
     if (hasJsonFlag(argv)) {
       await printSessionsJson(process.cwd(), readSessionDirArg(argv));
     } else {
@@ -92,12 +92,12 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   }
 
   if (hasDeleteSessionFlag(argv)) {
-    ensureAgentDirEnv();
+    getNexusAgentDirPath();
     return runDeleteSessionCommand(argv, process.cwd(), readSessionDirArg(argv));
   }
 
   if (hasObservationsFlag(argv)) {
-    ensureAgentDirEnv();
+    getNexusAgentDirPath();
     const sessionId = readObservationsSessionIdArg(argv);
     if (!sessionId) {
       console.error("Usage: nexus --observations <session-id>");

@@ -20,7 +20,7 @@ import { applyPromptTemplateArgAppendPatch } from "@nexus/pi-platform/prompt-tem
 import { applyModelChangeDisplayPatch } from "@nexus/pi-platform/applyModelChangeDisplayPatch.js";
 import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch.js";
 import { ensureEmbeddedPackageDirEnv } from "@nexus/runtime/package/embedded-assets/ensureEmbeddedPackageDirEnv.js";
-import { ensureAgentDirEnv } from "@nexus/runtime/config/ensureAgentDirEnv.js";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
 import { printExitMessage } from "./exit-message/printExitMessage.js";
 import { registerExitMessageProcessHandler } from "./exit-message/registerExitMessageProcessHandler.js";
 import { extractStartupProfileArgs } from "./startup-profile/extractStartupProfileArgs.js";
@@ -60,8 +60,8 @@ export async function runAppWithExtensionFactories(
   logStartupProfileEvent("runApp", "start", { argv: rawArgs });
 
   let phaseStartedAt = performance.now();
-  ensureAgentDirEnv();
-  logRunAppPhase("ensureAgentDirEnv:done", phaseStartedAt);
+  getNexusAgentDirPath();
+  logRunAppPhase("getNexusAgentDirPath:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   await ensureEmbeddedPackageDirEnv();
@@ -85,7 +85,7 @@ export async function runAppWithExtensionFactories(
   logRunAppPhase("applyStartupHelpSilencePatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
-  applyModelKeybindingsPatch();
+  await applyModelKeybindingsPatch();
   logRunAppPhase("applyModelKeybindingsPatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
@@ -109,7 +109,7 @@ export async function runAppWithExtensionFactories(
   logRunAppPhase("applyToolExecutionSpacingPatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
-  applyToolGroupCollapsePatch();
+  await applyToolGroupCollapsePatch();
   logRunAppPhase("applyToolGroupCollapsePatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();

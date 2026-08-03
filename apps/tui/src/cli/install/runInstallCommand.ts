@@ -1,4 +1,4 @@
-import { ensureAgentDirEnv } from "@nexus/runtime/config/ensureAgentDirEnv.js";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
 import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch.js";
 import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled.js";
 import { createNexusCliPackageManager } from "./createNexusCliPackageManager.js";
@@ -35,7 +35,7 @@ export async function runInstallCommand(argv: readonly string[]): Promise<number
     return 1;
   }
 
-  ensureAgentDirEnv();
+  getNexusAgentDirPath();
   await applyNexusConfigPatch();
   const source = normalizeInstallSource(options.source);
   // Keep a package manager only for the npm install step (downloading the package),
