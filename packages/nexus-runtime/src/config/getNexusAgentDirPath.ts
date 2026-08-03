@@ -1,4 +1,3 @@
-import { getAgentDir } from "@earendil-works/pi-coding-agent/dist/config.js";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { expandHomePath } from "./expandHomePath.js";
@@ -26,10 +25,12 @@ if (!process.env.PI_CODING_AGENT_DIR) {
 }
 
 /**
- * Ensures both supported agent-dir environment variables point at the active Nexus config directory.
+ * Returns the resolved Nexus agent directory path.
+ * Sets `NEXUS_CODING_AGENT_DIR` and `PI_CODING_AGENT_DIR` env vars
+ * at module-load time so all downstream code agrees on the directory.
  *
  * @returns Resolved agent directory path.
  */
-export function ensureAgentDirEnv(): string {
+export function getNexusAgentDirPath(): string {
   return nexusAgentDir;
 }

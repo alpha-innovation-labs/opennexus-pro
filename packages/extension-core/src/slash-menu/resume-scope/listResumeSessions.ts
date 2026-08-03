@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { SessionManager } from "@earendil-works/pi-coding-agent/dist/core/session-manager.js";
+import { SessionManager } from "@earendil-works/pi-coding-agent";
 import type { ResumeScope } from "./ResumeScope.js";
 
 export type ResumeSessionInfo = {

@@ -1,4 +1,4 @@
-import { FooterComponent } from "@earendil-works/pi-coding-agent/dist/modes/interactive/components/footer.js";
+import { FooterComponent } from "@earendil-works/pi-coding-agent";
 
 type FooterWithPatch = { __nexusModelChangeDisplayPatched__?: boolean; render(width: number): string[] };
 

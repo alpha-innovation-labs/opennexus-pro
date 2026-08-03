@@ -1,4 +1,20 @@
-import { buildSessionContext, loadEntriesFromFile } from "@earendil-works/pi-coding-agent/dist/core/session-manager.js";
+import { buildSessionContext, parseSessionEntries, SessionManager } from "@earendil-works/pi-coding-agent";
+import { existsSync, readFileSync } from "node:fs";
+
+// loadEntriesFromFile is not exported from the package — re-implemented here.
+function loadEntriesFromFileStub(filePath: string): ReturnType<typeof parseSessionEntries> {
+  const resolved = filePath;
+  if (!existsSync(resolved)) return [];
+  const content = readFileSync(resolved, "utf8");
+  const entries = parseSessionEntries(content);
+  // Validate session header
+  if (entries.length === 0) return entries;
+  const header = entries[0];
+  if (header.type !== "session" || typeof (header as Record<string, unknown>).id !== "string") {
+    return [];
+  }
+  return entries;
+}
 
 export interface ResumeSessionStats {
   humanMessages: number;
@@ -13,7 +29,8 @@ export interface ResumeSessionStats {
  * @returns Human, tool, and thinking counts for the active session branch.
  */
 export function readResumeSessionStats(sessionPath: string): ResumeSessionStats {
-  const entries = loadEntriesFromFile(sessionPath);
+  // loadEntriesFromFile is not exported from the package — re-implemented here.
+  const entries = loadEntriesFromFileStub(sessionPath);
   const sessionContext = buildSessionContext(entries as never);
 
   return sessionContext.messages.reduce<ResumeSessionStats>((stats: ResumeSessionStats, message: any) => {

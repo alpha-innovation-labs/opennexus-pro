@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { getAgentDir } from "@earendil-works/pi-coding-agent/dist/config.js";
+import { getNexusAgentDirPath } from "./getNexusAgentDirPath.js";
 
 /**
  * Resolves the agent commands directory path.
@@ -8,7 +8,7 @@ import { getAgentDir } from "@earendil-works/pi-coding-agent/dist/config.js";
  * @returns Absolute path to `~/.local/share/nexus/agent/commands`.
  */
 export function getAgentCommandsPath(): string {
-  return join(getAgentDir(), "commands");
+  return join(getNexusAgentDirPath(), "commands");
 }
 
 /**

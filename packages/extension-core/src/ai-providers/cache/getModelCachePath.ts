@@ -9,9 +9,9 @@
  *
  * @returns Absolute path to the cache file.
  */
-import { getAgentDir } from "@earendil-works/pi-coding-agent/dist/config.js";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
 import { join } from "node:path";
 
 export function getModelCachePath(): string {
-  return join(getAgentDir(), "cache", "available_models.json");
+  return join(getNexusAgentDirPath(), "cache", "available_models.json");
 }

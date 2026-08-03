@@ -1,4 +1,4 @@
-import type { ConfiguredPackage } from "@earendil-works/pi-coding-agent/dist/core/package-manager.js";
+import type { ConfiguredPackage } from "@earendil-works/pi-coding-agent";
 import type { NexusUserConfig } from "@nexus/runtime/config/types.js";
 import { createConfiguredPackageRows } from "../package/createConfiguredPackageRows.js";
 import type { ManagedExtensionRow } from "./types.js";

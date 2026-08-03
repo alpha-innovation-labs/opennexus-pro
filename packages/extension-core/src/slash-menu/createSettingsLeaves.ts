@@ -1,7 +1,10 @@
 import type { Api, Model } from "@earendil-works/pi-ai";
-import { SettingsManager } from "@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
+import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { getAvailableThemes } from "@earendil-works/pi-coding-agent/dist/modes/interactive/theme/theme.js";
+// getAvailableThemes is not exported from the package — stub with known themes.
+function getAvailableThemes(): string[] {
+  return ["dark", "light"];
+}
 import { createThinkingSettingLeaf } from "./createThinkingSettingLeaf.js";
 import { sortSlashMenuItemsByLabel } from "./sortSlashMenuItemsByLabel.js";
 import type { SlashMenuLeaf } from "./types.js";

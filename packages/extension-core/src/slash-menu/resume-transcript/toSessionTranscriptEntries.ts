@@ -1,4 +1,18 @@
-import { buildSessionContext, loadEntriesFromFile } from "@earendil-works/pi-coding-agent/dist/core/session-manager.js";
+import { buildSessionContext, parseSessionEntries, SessionManager } from "@earendil-works/pi-coding-agent";
+import { existsSync, readFileSync } from "node:fs";
+
+// loadEntriesFromFile is not exported from the package — re-implemented here.
+function loadEntriesFromFileStub(filePath: string): ReturnType<typeof parseSessionEntries> {
+  if (!existsSync(filePath)) return [];
+  const content = readFileSync(filePath, "utf8");
+  const entries = parseSessionEntries(content);
+  if (entries.length === 0) return entries;
+  const header = entries[0];
+  if (header.type !== "session" || typeof (header as Record<string, unknown>).id !== "string") {
+    return [];
+  }
+  return entries;
+}
 import type { TranscriptEntry } from "../../tron/transcript/types.js";
 import { extractMessageText } from "./extractMessageText.js";
 import { getMessageCreatedAt } from "./getMessageCreatedAt.js";
@@ -11,7 +25,7 @@ import { toAssistantTranscriptEntries } from "./toAssistantTranscriptEntries.js"
  * @returns Transcript entries for the active session branch.
  */
 export function toSessionTranscriptEntries(sessionPath: string): TranscriptEntry[] {
-  const entries = loadEntriesFromFile(sessionPath);
+  const entries = loadEntriesFromFileStub(sessionPath);
   const sessionContext = buildSessionContext(entries as never);
 
   return sessionContext.messages.flatMap((message: any) => {

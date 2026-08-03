@@ -1,7 +1,5 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { parseCommandArgs } from
-  "@earendil-works/pi-coding-agent/dist/core/prompt-templates.js";
-import { SENTINEL } from
+import { parseCommandArgs, SENTINEL } from
   "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch.js";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
 import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";

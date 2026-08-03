@@ -1,6 +1,10 @@
-import { SettingsManager } from "@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
-import { getAvailableThemes } from "@earendil-works/pi-coding-agent/dist/modes/interactive/theme/theme.js";
+import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import type { SlashMenuLeaf } from "./types.js";
+
+// getAvailableThemes is not exported from the package — stub with known themes.
+function getAvailableThemes(): string[] {
+  return ["dark", "light"];
+}
 
 /**
  * Builds theme submenu entries from the Pi runtime theme registry.

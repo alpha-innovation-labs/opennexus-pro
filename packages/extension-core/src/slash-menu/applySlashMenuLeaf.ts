@@ -1,8 +1,13 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { setTheme } from "@earendil-works/pi-coding-agent/dist/modes/interactive/theme/theme.js";
-import { SettingsManager } from "@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
+import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import { applySlashMenuSettingValue } from "./applySlashMenuSettingValue.js";
 import type { SlashMenuLeaf } from "./types.js";
+
+// setTheme is not exported from the package — stub as no-op since Nexus
+// manages its own theme system via applyNexusConfigPatch.
+function setTheme(_name: string, _enableWatcher?: boolean): void {
+  // No-op: Nexus handles theme changes through its own system.
+}
 
 /**
  * Applies one selected slash-menu leaf action.

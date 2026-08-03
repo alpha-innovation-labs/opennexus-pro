@@ -1,13 +1,13 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { getAgentDir } from "@earendil-works/pi-coding-agent/dist/config.js";
-import { ensureAgentDirEnv } from "@nexus/runtime/config/ensureAgentDirEnv.js";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 function getStateFile(): string {
-  ensureAgentDirEnv();
-  return path.join(getAgentDir(), "last-msg.json");
+  getNexusAgentDirPath();
+  return path.join(getNexusAgentDirPath(), "last-msg.json");
 }
 
 const STATE_FILE = getStateFile();

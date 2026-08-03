@@ -1,4 +1,4 @@
-import { SkillInvocationMessageComponent } from "@earendil-works/pi-coding-agent/dist/modes/interactive/components/skill-invocation-message.js";
+import { SkillInvocationMessageComponent } from "@earendil-works/pi-coding-agent";
 import { renderSkillInvocationMessage } from "./renderSkillInvocationMessage.ts";
 
 const skillInvocationPrototype = SkillInvocationMessageComponent.prototype as SkillInvocationMessageComponent & {

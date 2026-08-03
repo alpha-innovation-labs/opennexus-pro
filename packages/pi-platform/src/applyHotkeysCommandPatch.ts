@@ -1,4 +1,4 @@
-import { InteractiveMode } from "@earendil-works/pi-coding-agent/dist/modes/interactive/interactive-mode.js";
+import { InteractiveMode } from "@earendil-works/pi-coding-agent";
 import { getHotkeysCommandHook } from "./hotkeysCommandHook.js";
 
 let hotkeysCommandPatchApplied = false;

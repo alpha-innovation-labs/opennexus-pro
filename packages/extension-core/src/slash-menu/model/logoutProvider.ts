@@ -1,4 +1,4 @@
-import { SettingsManager } from "@earendil-works/pi-coding-agent/dist/core/settings-manager.js";
+import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import type { ExtensionCommandContext, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { removeProviderFromEnabledModels, type EnabledModelSettings } from "./removeProviderFromEnabledModels.js";
 

@@ -1,4 +1,4 @@
-import { AssistantMessageComponent } from "@earendil-works/pi-coding-agent/dist/modes/interactive/components/assistant-message.js";
+import { AssistantMessageComponent } from "@earendil-works/pi-coding-agent";
 
 type AssistantMessageUpdateHook = (component: AssistantMessageComponent, message: unknown) => void;
 
