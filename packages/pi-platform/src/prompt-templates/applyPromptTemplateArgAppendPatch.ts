@@ -1,13 +1,93 @@
 /**
- * Patches Pi's `AgentSession.prototype.prompt` to always append user args
- * to the expanded prompt-template content, preventing silent loss of query
- * text (e.g. `/deep-research hello world`).
- *
- * This patch is scoped to known user-facing slash commands (not internal
- * `AgentSession.prompt("/...")` routing) and includes a double-append guard
- * to skip re-appending when the modal path already appended args.
+ * Parses a raw argument string into an array of tokens, respecting single
+ * and double quotes. Copies the upstream implementation from
+ * @earendil-works/pi-coding-agent/dist/core/prompt-templates.js (not exported
+ * from the package's public API).
  */
-import { parseCommandArgs, substituteArgs } from "@earendil-works/pi-coding-agent/dist/core/prompt-templates.js";
+/**
+ * Parses a raw argument string into an array of tokens, respecting single
+ * and double quotes. Copies the upstream implementation from
+ * @earendil-works/pi-coding-agent/dist/core/prompt-templates.js (not exported
+ * from the package's public API).
+ *
+ * Exported for use by SlashMenuModal.ts.
+ */
+export function parseCommandArgs(argsString: string): string[] {
+	const args: string[] = [];
+	let current = "";
+	let inQuote: string | null = null;
+	for (let i = 0; i < argsString.length; i++) {
+		const char = argsString[i];
+		if (inQuote) {
+			if (char === inQuote) {
+				inQuote = null;
+			} else {
+				current += char;
+			}
+		} else if (char === '"' || char === "'") {
+			inQuote = char;
+		} else if (/\s/.test(char)) {
+			if (current) {
+				args.push(current);
+				current = "";
+			}
+		} else {
+			current += char;
+		}
+	}
+	if (current) {
+		args.push(current);
+	}
+	return args;
+}
+
+/**
+ * Substitutes argument placeholders in template content. Copies the upstream
+ * implementation from @earendil-works/pi-coding-agent/dist/core/prompt-templates.js
+ * (not exported from the package's public API).
+ *
+ * Supports: $1, $2, … for positional args; $@ and $ARGUMENTS for all args;
+ * ${N:-default}, ${@:-default}, ${@:N}, ${@:N:L} for advanced bash-style slicing.
+ */
+/**
+ * Substitutes argument placeholders in template content. Copies the upstream
+ * implementation from @earendil-works/pi-coding-agent/dist/core/prompt-templates.js
+ * (not exported from the package's public API).
+ *
+ * Supports: $1, $2, … for positional args; $@ and $ARGUMENTS for all args;
+ * ${N:-default}, ${@:-default}, ${@:N}, ${@:N:L} for advanced bash-style slicing.
+ *
+ * Exported for use by SlashMenuModal.ts.
+ */
+export function substituteArgs(content: string, args: string[]): string {
+	const allArgs = args.join(" ");
+	return content.replace(
+		/\$\{(\d+|ARGUMENTS|@):-([^}]*)\}|\$\{@:(\d+)(?::(\d+))?\}|\$(ARGUMENTS|@|\d+)/g,
+		(_match, defaultTarget, defaultValue, sliceStart, sliceLength, simple) => {
+			if (defaultTarget) {
+				const value =
+					defaultTarget === "@" || defaultTarget === "ARGUMENTS"
+						? allArgs
+						: args[parseInt(defaultTarget, 10) - 1];
+				return value ? value : defaultValue;
+			}
+			if (sliceStart) {
+				let start = parseInt(sliceStart, 10) - 1;
+				if (start < 0) start = 0;
+				if (sliceLength) {
+					const length = parseInt(sliceLength, 10);
+					return args.slice(start, start + length).join(" ");
+				}
+				return args.slice(start).join(" ");
+			}
+			if (simple === "ARGUMENTS" || simple === "@") {
+				return allArgs;
+			}
+			const index = parseInt(simple, 10) - 1;
+			return args[index] ?? "";
+		},
+	);
+}
 
 let __nexusPromptTemplatePatched__ = false;
 
@@ -85,10 +165,8 @@ export function alreadyAppendedWithSentinel(expanded: string): boolean {
 export async function applyPromptTemplateArgAppendPatch(): Promise<void> {
 	if (__nexusPromptTemplatePatched__) return;
 
-	const agentSessionModule = await import(
-		"@earendil-works/pi-coding-agent/dist/core/agent-session.js"
-	);
-	const AgentSession = agentSessionModule.AgentSession as {
+	const { AgentSession: AgentSessionClass } = await import("@earendil-works/pi-coding-agent");
+	const AgentSession = AgentSessionClass as {
 		prototype: { prompt: (...args: unknown[]) => unknown };
 	};
 

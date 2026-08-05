@@ -37,3 +37,6 @@ minimumReleaseAgeExclude:
   - '@typescript/typescript-win32-x64@7.0.2'
   - typebox@1.3.5
   - typescript@7.0.2
+  - '@wterm/core@0.3.2'
+  - '@wterm/dom@0.3.2'
+  - tsx@4.23.5
