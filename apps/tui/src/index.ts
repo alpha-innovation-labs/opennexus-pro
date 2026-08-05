@@ -15,7 +15,7 @@ if (process.env.NEXUS_DEV_MODE === "1") {
 }
 
 import { runCliWithApp } from "./cli/runCliWithApp.js";
-import { runApp } from "./runtime/runApp.js";
+import { runApp } from "./runtime/runAppWithExtensionFactories.js";
 
 /**
  * Boots the installed Nexus executable.

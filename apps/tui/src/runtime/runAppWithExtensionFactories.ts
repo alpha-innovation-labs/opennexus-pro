@@ -1,4 +1,4 @@
-import { platform, release } from "node:os";
+import { createBundledExtensionFactories } from "@nexus/extensions/runtime/createBundledExtensionFactories.js";
 import type { ExtensionFactory } from "@earendil-works/pi-coding-agent";
 import { createAppArgs } from "../cli/createAppArgs.js";
 import { resolveBundledExtensionFactories } from "./extensions/resolveBundledExtensionFactories.js";
@@ -31,6 +31,20 @@ import { startupStartedAtEnvVar } from "@nexus/extensions/startup-hero/startupSt
 import { pruneLoggedOutEnabledModels } from "@nexus/pi-platform/settings/pruneLoggedOutEnabledModels.js";
 import { clearStartupScreen } from "./startup-screen/clearStartupScreen.js";
 import { shouldClearStartupScreen } from "./startup-screen/shouldClearStartupScreen.js";
+
+/**
+ * Runs Nexus with the bundled extension factory set.
+ *
+ * This is the single app entry point for both dev and release modes.
+ * All extensions are hardcoded, user overrides come from config.json,
+ * and system checks (cmux) are applied at startup.
+ *
+ * @param argv Raw command line arguments.
+ * @returns A promise that resolves when the app exits.
+ */
+export async function runApp(argv: string[]): Promise<void> {
+  await runAppWithExtensionFactories(argv, createBundledExtensionFactories);
+}
 
 export type CreateExtensionFactories = () => Promise<ExtensionFactory[]>;
 

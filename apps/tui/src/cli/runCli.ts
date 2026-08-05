@@ -1,4 +1,4 @@
-import { runApp } from "../runtime/runApp.js";
+import { runApp } from "../runtime/runAppWithExtensionFactories.js";
 import { runCliWithApp } from "./runCliWithApp.js";
 
 /**

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { runCliWithApp } from "./cli/runCliWithApp.js";
-import { runBundledApp } from "./runtime/runBundledApp.js";
+import { runApp } from "./runtime/runAppWithExtensionFactories.js";
 import { APP_NAME } from "@nexus/pi-platform/config.js";
 
 process.title = APP_NAME;
@@ -11,7 +11,7 @@ process.title = APP_NAME;
  * @returns {Promise<void>}
  */
 async function main() {
-  process.exitCode = await runCliWithApp(process.argv.slice(2), { runApp: runBundledApp });
+  process.exitCode = await runCliWithApp(process.argv.slice(2), { runApp });
 }
 
 main().catch((error) => {
