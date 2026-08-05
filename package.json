@@ -13,7 +13,8 @@
     "build:binary": "node scripts/release/buildBinaryBundle.mjs",
     "build:release": "npm run build:binary",
     "dev": "npm run generate:package-info && tsx -- apps/tui/src/index.ts",
-    "test": "npx vitest run"
+    "test": "npx vitest run",
+    "postinstall": "node scripts/patch-pi-exports.mjs"
   },
   "dependencies": {
     "@ast-grep/napi": "^0.45.0",
@@ -57,6 +58,7 @@
     "@types/node": "^26.1.2",
     "esbuild": "^0.28.1",
     "javascript-obfuscator": "^5.5.0",
+    "patch-package": "^8.0.1",
     "tsx": "^4.23.5",
     "turbo": "^2.10.8",
     "typescript": "^7.0.2",

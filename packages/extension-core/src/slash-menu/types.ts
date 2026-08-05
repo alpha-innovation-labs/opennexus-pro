@@ -3,6 +3,7 @@ import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 export type RegisteredSlashCommand = {
   name: string;
   description?: string;
+  argumentHint?: string;
   source?: "builtin" | "extension" | "prompt" | "skill";
   sourceInfo?: { path?: string; scope?: "project" | "user" | "temporary" };
   menuGroup?: string;
