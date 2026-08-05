@@ -1,4 +1,11 @@
 
+ Warning: No models available. Use /login to log into a provider via OAuth or API key. See:
+
+ /Users/alpha/workspace/alpha-innovation-labs/__nexus/nexus-tui-awesome/node_modules/.pnpm/@earendil-works+pi-coding-agent@0.83.0_@modelcontextprotocol+sdk@1.30.0_suppor
+ ts-color@_95c016fce35d24d44417040682159515/node_modules/@earendil-works/pi-coding-agent/docs/providers.md
+
+ /Users/alpha/workspace/alpha-innovation-labs/__nexus/nexus-tui-awesome/node_modules/.pnpm/@earendil-works+pi-coding-agent@0.83.0_@modelcontextprotocol+sdk@1.30.0_suppor
+ ts-color@_95c016fce35d24d44417040682159515/node_modules/@earendil-works/pi-coding-agent/docs/models.md
 
 
 
@@ -10,20 +17,19 @@
 
 
 
+                                                               ███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗
+                                                               ████╗  ██║██╔════╝╚██╗██╔╝██║   ██║██╔════╝
+                                                               ██╔██╗ ██║█████╗   ╚███╔╝ ██║   ██║███████╗
+                                                               ██║╚██╗██║██╔══╝   ██╔██╗ ██║   ██║╚════██║
+                                                               ██║ ╚████║███████╗██╔╝ ██╗╚██████╔╝███████║
+                                                               ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+                                                                                    dev
 
-                                                                     ███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗
-                                                                     ████╗  ██║██╔════╝╚██╗██╔╝██║   ██║██╔════╝
-                                                                     ██╔██╗ ██║█████╗   ╚███╔╝ ██║   ██║███████╗
-                                                                     ██║╚██╗██║██╔══╝   ██╔██╗ ██║   ██║╚════██║
-                                                                     ██║ ╚████║███████╗██╔╝ ██╗╚██████╔╝███████║
-                                                                     ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
-                                                                                          dev
+                                                                             v0.2.29 [⏱ 0:66]
 
-                                                                                   v0.2.29 [⏱ 0:43]
+                                                  󰧑 Skills (54) ✓   AGENTS.md ✓   Extensions (20) ✓  󱂬 Mini-Apps (1) ✓
 
-                                                        󰧑 Skills (54) ✓   AGENTS.md ✓   Extensions (20) ✓  󱂬 Mini-Apps (1) ✓
-
-                                             ╭─  ~/workspace/alpha-innovation-labs/__nexus/nexus-tui-awesome › mas…  ▱▱▱▱▱ 10k/128k ─╮
-                                             │»                                                                                        │
-                                             ╰─────────────────────────────────────────────────────────────────────────────────────── ─╯
-                                              litellm  qwen3.6-35b-a3b  off
+                                          ╭─  ~/workspace/alpha-innovation-labs/__nexus/nexus-tui-awesome › ma…  ▱▱▱▱▱ 10k ─╮
+                                          │»                                                                                  │
+                                          ╰───────────────────────────────────────────────────────────────────────────────── ─╯
+                                           unknown  unknown  off

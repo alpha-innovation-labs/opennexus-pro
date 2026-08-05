@@ -21,4 +21,8 @@ dev *APP_ARGS:
     # Set process title via `exec -a` so ps shows "mastracode" instead of "npm exec tsx --".
     # This matches the release wrapper behavior (AGENTS.md: Herdr mastracode hack).
     # TODO: Replace with direct "nexus" once Herdr adds support for it.
+    # NEXUS_DEV_MODE=1 tells index.ts to set process.title = "mastracode" instead
+    # of APP_NAME, ensuring Herdr detects the agent correctly regardless of the
+    # process chain (npx -> tsx -> node).
+    export NEXUS_DEV_MODE=1
     exec -a mastracode npx tsx -- apps/tui/src/index.ts "$@"
