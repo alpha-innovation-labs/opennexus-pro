@@ -21,6 +21,7 @@ import { hasVersionFlag } from "./version/hasVersionFlag.js";
 import { printAppVersion } from "./version/printAppVersion.js";
 import { hasDeleteSessionFlag } from "./delete-session/hasDeleteSessionFlag.js";
 import { runDeleteSessionCommand } from "./delete-session/runDeleteSessionCommand.js";
+import { runPiPackagesCommand } from "./pi-packages/runPiPackagesCommand.js";
 
 export interface RunCliWithAppOptions {
   runApp: (argv: string[]) => Promise<void>;
@@ -65,6 +66,9 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
 
   const uninstallExitCode = await runUninstallCommand(argv);
   if (uninstallExitCode !== undefined) return uninstallExitCode;
+
+  const piPackagesExitCode = await runPiPackagesCommand(argv);
+  if (piPackagesExitCode !== undefined) return piPackagesExitCode;
 
   if (hasHelpFlag(argv)) {
     printNexusUsage();
