@@ -16,6 +16,7 @@ import { applyHotkeysCommandPatch } from "@nexus/pi-platform/applyHotkeysCommand
 import { applyNexusSystemPromptPatch } from "@nexus/pi-platform/system-prompt/applyNexusSystemPromptPatch.js";
 import { applyPromptTemplateArgAppendPatch } from "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch.js";
 import { applyModelChangeDisplayPatch } from "@nexus/pi-platform/applyModelChangeDisplayPatch.js";
+import { copyBundledThemes } from "@nexus/runtime/config/copyBundledThemes.js";
 import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch.js";
 import { ensureEmbeddedPackageDirEnv } from "@nexus/runtime/package/embedded-assets/ensureEmbeddedPackageDirEnv.js";
 import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
@@ -56,16 +57,20 @@ export async function runApp(argv: string[]): Promise<void> {
   logStartupProfileEvent("runApp", "start", { argv: rawArgs });
 
   let phaseStartedAt = performance.now();
+  await copyBundledThemes();
+  logRunAppPhase("copyBundledThemes:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
+  await applyNexusConfigPatch();
+  logRunAppPhase("applyNexusConfigPatch:done", phaseStartedAt);
+
+  phaseStartedAt = performance.now();
   getNexusAgentDirPath();
   logRunAppPhase("getNexusAgentDirPath:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   await ensureEmbeddedPackageDirEnv();
   logRunAppPhase("ensureEmbeddedPackageDirEnv:done", phaseStartedAt);
-
-  phaseStartedAt = performance.now();
-  await applyNexusConfigPatch();
-  logRunAppPhase("applyNexusConfigPatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   applyStartupUpdateSilencePatch();

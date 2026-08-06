@@ -82,5 +82,9 @@ function createCommandUsageLines(): string[] {
 		"  nexus observations recreate all|<id> Recreate observations from session JSONL",
 		"  nexus observations view <id>       Print rendered observations",
 		"  nexus observations get-location    Print the observations storage path",
+		"  nexus themes                       Show themes help",
+		"  nexus themes list [name]           List available themes",
+		"  nexus themes set <theme>           Set the project theme",
+		"  nexus tools                        List all available tools",
 	];
 }

@@ -1,9 +1,4 @@
-import { join } from "node:path";
-import { getNexusAgentDirPath } from "./getNexusAgentDirPath.js";
 import { readBundledDefaultSettings } from "@nexus/assets/default-settings/readBundledDefaultSettings.js";
-import { getDefaultThemeName } from "./getDefaultThemeName.js";
-import { getProjectConfigPath } from "./getProjectConfigPath.js";
-import { getUserConfigPath } from "./getUserConfigPath.js";
 import { mergeSettings, type SettingsRecord } from "./mergeSettings.js";
 import { readNexusUserConfig } from "./readNexusUserConfig.js";
 
@@ -16,19 +11,24 @@ type NexusSettingsManagerInstance = {
 type NexusSettingsManagerClass = {
   __nexusConfigPatched__?: boolean;
   fromStorage(storage: unknown): NexusSettingsManagerInstance;
-  create(cwd?: string, agentDir?: string): NexusSettingsManagerInstance;
-  prototype: { getTheme(): string | undefined };
 };
 
 /**
- * Patches Pi runtime config lookups so Nexus uses shipped app defaults,
- * `.nexus` project config, and a Nexus theme fallback.
+ * Patches Pi runtime config lookups so Nexus uses shipped app defaults
+ * and converts Nexus-style package config into Pi-expected format.
+ *
+ * Converts Nexus-style `extensions.pi_packages` (stored as
+ * `{ "npm:pi-chrome": true }`) into Pi-expected `globalSettings.packages`
+ * (an array of source strings like `["npm:pi-chrome"]`).
+ *
+ * Does NOT replace Pi's file-based settings system. Pi reads its own
+ * settings files normally. This patch only intercepts
+ * `getGlobalSettings()` to inject the converted packages array.
  *
  * @returns Promise that resolves after the patch is installed.
  */
 export async function applyNexusConfigPatch(): Promise<void> {
-  const [{ SettingsManager }, { DefaultResourceLoader }] = await Promise.all([
-    import("@earendil-works/pi-coding-agent"),
+  const [{ SettingsManager }] = await Promise.all([
     import("@earendil-works/pi-coding-agent"),
   ]);
 
@@ -39,7 +39,6 @@ export async function applyNexusConfigPatch(): Promise<void> {
 
   const appDefaults = readBundledDefaultSettings();
   const originalFromStorage = patchedSettingsManager.fromStorage;
-  const originalGetTheme = SettingsManager.prototype.getTheme;
 
   patchedSettingsManager.fromStorage = function fromStorageWithNexusDefaults(storage: unknown) {
     const manager = originalFromStorage.call(this, storage) as unknown as NexusSettingsManagerInstance;
@@ -50,11 +49,6 @@ export async function applyNexusConfigPatch(): Promise<void> {
     // Nexus stores it as { pi_packages: { name: bool } }. Convert on-the-fly.
     // Also clear `globalSettings.extensions` when it's in Nexus object format,
     // because Pi's resolver expects `extensions` to be an array of file paths.
-    //
-    // CRITICAL: We must read from Nexus user config directly (readNexusUserConfig),
-    // NOT from manager.globalSettings. The stub storage provides no data, so
-    // manager.globalSettings.extensions is always undefined. Reading from the
-    // stub would make the entire conversion a no-op, meaning no packages ever load.
     const nexusUserConfig = readNexusUserConfig();
     const nexusExt = nexusUserConfig.extensions;
     let convertedPackages: string[] | undefined;
@@ -94,25 +88,6 @@ export async function applyNexusConfigPatch(): Promise<void> {
       return gs;
     };
     return manager;
-  };
-
-  patchedSettingsManager.prototype.getTheme = function getThemeWithNexusFallback(): string {
-    return originalGetTheme.call(this) ?? getDefaultThemeName();
-  };
-
-  patchedSettingsManager.create = function createNexusSettingsManager(cwd = process.cwd(), agentDir = getNexusAgentDirPath()) {
-    // FileSettingsStorage is not exported from the package — use a minimal stub
-    // that provides the same globalSettingsPath / projectSettingsPath / withLock interface.
-    const storage = {
-      globalSettingsPath: getUserConfigPath(),
-      projectSettingsPath: getProjectConfigPath(cwd),
-      withLock(_scope: string, fn: (current: string | undefined) => string | undefined) {
-        // No-op: Nexus manages settings through readNexusUserConfig / writeNexusUserConfig.
-        // Pi's SettingsManager calls withLock internally; return undefined to skip writes.
-        return fn(undefined);
-      },
-    } as unknown as { globalSettingsPath: string; projectSettingsPath: string; withLock: (scope: string, fn: (current: string | undefined) => string | undefined) => string | undefined };
-    return patchedSettingsManager.fromStorage(storage);
   };
 
   patchedSettingsManager.__nexusConfigPatched__ = true;

@@ -22,6 +22,12 @@ import { printAppVersion } from "./version/printAppVersion.js";
 import { hasDeleteSessionFlag } from "./delete-session/hasDeleteSessionFlag.js";
 import { runDeleteSessionCommand } from "./delete-session/runDeleteSessionCommand.js";
 import { runPiPackagesCommand } from "./pi-packages/runPiPackagesCommand.js";
+import { hasThemesFlag, hasThemesListFlag, hasThemesSetFlag, readThemeNameArg, readListThemeNameArg } from "./themes/hasThemesFlag.js";
+import { printThemesHelp } from "./themes/printThemesHelp.js";
+import { printThemesList } from "./themes/printThemesList.js";
+import { setTheme } from "./themes/setTheme.js";
+import { isToolsCommand } from "./tools/isToolsCommand.js";
+import { printToolsList } from "./tools/printToolsList.js";
 
 export interface RunCliWithAppOptions {
   runApp: (argv: string[]) => Promise<void>;
@@ -70,6 +76,10 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   const piPackagesExitCode = await runPiPackagesCommand(argv);
   if (piPackagesExitCode !== undefined) return piPackagesExitCode;
 
+  if (isToolsCommand(argv)) {
+    return await printToolsList();
+  }
+
   if (hasHelpFlag(argv)) {
     printNexusUsage();
     return 0;
@@ -98,6 +108,23 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   if (hasDeleteSessionFlag(argv)) {
     getNexusAgentDirPath();
     return runDeleteSessionCommand(argv, process.cwd(), readSessionDirArg(argv));
+  }
+
+  if (hasThemesSetFlag(argv)) {
+    const themeName = readThemeNameArg(argv);
+    if (!themeName) {
+      console.error('Usage: nexus themes set <theme-name>');
+      return 1;
+    }
+    return setTheme(themeName);
+  }
+
+  if (hasThemesListFlag(argv)) {
+    return printThemesList(readListThemeNameArg(argv));
+  }
+
+  if (hasThemesFlag(argv)) {
+    return printThemesHelp();
   }
 
   if (hasObservationsFlag(argv)) {

@@ -1,10 +1,6 @@
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
+import { readThemes } from "@nexus/runtime/config/readThemes.js";
 import type { SlashMenuLeaf } from "./types.js";
-
-// getAvailableThemes is not exported from the package — stub with known themes.
-function getAvailableThemes(): string[] {
-  return ["dark", "light"];
-}
 
 /**
  * Builds theme submenu entries from the Pi runtime theme registry.
@@ -15,7 +11,8 @@ function getAvailableThemes(): string[] {
 export async function createThemeLeaves(cwd: string): Promise<SlashMenuLeaf[]> {
   const settings = SettingsManager.create(cwd);
   const activeTheme = settings.getTheme() || "dark";
-  return getAvailableThemes().map((name) => ({
+  const themeNames = await readThemes(cwd);
+  return themeNames.map((name) => ({
     kind: "theme",
     label: name,
     description: name === activeTheme ? "Current theme." : "Set theme.",

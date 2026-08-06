@@ -1,5 +1,4 @@
 import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
-import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch.js";
 import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled.js";
 import { createNexusCliPackageManager } from "./createNexusCliPackageManager.js";
 import { normalizeInstallSource } from "./normalizeInstallSource.js";
@@ -36,7 +35,6 @@ export async function runInstallCommand(argv: readonly string[]): Promise<number
   }
 
   getNexusAgentDirPath();
-  await applyNexusConfigPatch();
   const source = normalizeInstallSource(options.source);
   // Keep a package manager only for the npm install step (downloading the package),
   // but do NOT call installAndPersist — that writes to the legacy `packages` array.

@@ -1,6 +1,6 @@
 import { getMarkdownTheme } from "@earendil-works/pi-coding-agent";
 import { Markdown } from "@earendil-works/pi-tui";
-import { theme } from "@nexus/pi-platform/theme.js";
+import { theme } from "../theme-proxy.js";
 import { BorderedToolResult } from "../compact-tool-lines/BorderedToolResult.ts";
 import { CompactToolResult } from "../compact-tool-lines/CompactToolResult.ts";
 import { FailedToolCallResult } from "../compact-tool-lines/FailedToolCallResult.ts";

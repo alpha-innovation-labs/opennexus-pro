@@ -1,4 +1,4 @@
-import { theme } from "@nexus/pi-platform/theme.js";
+import { theme } from "../theme-proxy.js";
 
 /**
  * Styles the user-message prompt prefix.

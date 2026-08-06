@@ -3,12 +3,6 @@ import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import { applySlashMenuSettingValue } from "./applySlashMenuSettingValue.js";
 import type { SlashMenuLeaf } from "./types.js";
 
-// setTheme is not exported from the package — stub as no-op since Nexus
-// manages its own theme system via applyNexusConfigPatch.
-function setTheme(_name: string, _enableWatcher?: boolean): void {
-  // No-op: Nexus handles theme changes through its own system.
-}
-
 /**
  * Applies one selected slash-menu leaf action.
  *
@@ -29,9 +23,8 @@ export async function applySlashMenuLeaf(
   const nextValue = options[(currentIndex + 1) % options.length] ?? current;
 
   if (leaf.kind === "theme" && leaf.value !== "theme") {
-    setTheme(leaf.value, true);
-    settings.setTheme(leaf.value);
-    return `theme set to ${leaf.value}`;
+    settings.setTheme(nextValue);
+    return `theme set to ${nextValue}`;
   }
 
   return applySlashMenuSettingValue(ctx, leaf, nextValue, setThinkingLevel);

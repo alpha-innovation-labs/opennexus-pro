@@ -1,5 +1,5 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import { theme } from "@nexus/pi-platform/theme.js";
+import { theme } from "../theme-proxy.js";
 import { getCollapsedSummaryNeighbors } from "../activity/getCollapsedSummaryNeighbors.ts";
 import { getCollapsedToolGroupSummary } from "../activity/getCollapsedToolGroupSummary.ts";
 import { colorSecondaryText } from "../colors/colorSecondaryText.ts";

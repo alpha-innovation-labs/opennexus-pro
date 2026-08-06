@@ -1,7 +1,7 @@
 import { getMarkdownTheme } from "@earendil-works/pi-coding-agent";
 import { Spacer, Text } from "@earendil-works/pi-tui";
 import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook.js";
-import { theme } from "@nexus/pi-platform/theme.js";
+import { theme } from "../theme-proxy.js";
 import { recordTronRenderTiming } from "../profiling/recordTronRenderTiming.js";
 import { bridgeThinkingToToolCalls } from "../activity/bridgeThinkingToToolCalls.ts";
 import { getImmediateFollowingToolCallGroup } from "../activity/getImmediateFollowingToolCallGroup.ts";

@@ -1,5 +1,4 @@
 import { getBundledCommandsPath } from "@nexus/assets/commands/getBundledCommandsPath.js";
-import { getBundledThemesPath } from "@nexus/assets/themes/getBundledThemesPath.js";
 import { getAgentCommandsPath, agentCommandsExists } from "@nexus/runtime/config/getAgentCommandsPath.js";
 import { getUserCommandsPath, userCommandsExists } from "@nexus/runtime/config/getUserCommandsPath.js";
 import { filterVerboseStartupArg } from "./filterVerboseStartupArg.js";
@@ -13,19 +12,14 @@ import { addBaseSystemPromptArg } from "./system-prompt/addBaseSystemPromptArg.j
  */
 export function createAppArgs(inputArgs: string[]): string[] {
   const args = filterVerboseStartupArg(addBaseSystemPromptArg([...inputArgs]));
-  const bundledThemesPath = getBundledThemesPath();
   const bundledCommandsPath = getBundledCommandsPath();
   const agentCommandsPath = getAgentCommandsPath();
   const userCommandsPath = getUserCommandsPath();
 
-  let hasBundledThemePath = false;
   let hasBundledCommandsPath = false;
   let hasNoPromptTemplates = false;
 
   for (let index = 0; index < args.length; index += 1) {
-    if (args[index] === "--theme" && args[index + 1] === bundledThemesPath) {
-      hasBundledThemePath = true;
-    }
     if (args[index] === "--prompt-template" && args[index + 1] === bundledCommandsPath) {
       hasBundledCommandsPath = true;
     }
@@ -35,7 +29,9 @@ export function createAppArgs(inputArgs: string[]): string[] {
   }
 
   const prependedArgs: string[] = [];
-  if (!hasBundledThemePath) prependedArgs.push("--theme", bundledThemesPath);
+  // Themes are now discovered natively from agentDir/.themes/ — no --theme
+  // injection needed. The --no-themes flag still works as Pi's built-in
+  // mechanism to disable theme loading.
   // Commands are injected in priority order (first match wins).
   // User commands shadow agent commands shadow bundled commands.
   if (userCommandsExists(userCommandsPath) && !hasNoPromptTemplates) {

@@ -1,10 +1,7 @@
 import type { Api, Model } from "@earendil-works/pi-ai";
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-// getAvailableThemes is not exported from the package — stub with known themes.
-function getAvailableThemes(): string[] {
-  return ["dark", "light"];
-}
+import { readThemes } from "@nexus/runtime/config/readThemes.js";
 import { createThinkingSettingLeaf } from "./createThinkingSettingLeaf.js";
 import { sortSlashMenuItemsByLabel } from "./sortSlashMenuItemsByLabel.js";
 import type { SlashMenuLeaf } from "./types.js";
@@ -23,6 +20,15 @@ export async function createSettingsLeaves(
   model: Model<Api> | undefined,
 ): Promise<SlashMenuLeaf[]> {
   const settings = SettingsManager.create(cwd);
+  const themeNames = await readThemes(cwd);
+  const themeLeaf: SlashMenuLeaf = {
+    kind: "theme",
+    label: "Theme",
+    description: "Color theme for the interface",
+    value: "theme",
+    currentValue: settings.getTheme() || "dark",
+    options: themeNames,
+  };
   return sortSlashMenuItemsByLabel([
     { kind: "toggle", label: "Auto-compact", description: "Automatically compact context when it gets too large", value: "autoCompact", currentValue: String(settings.getCompactionEnabled()), options: ["true", "false"] },
     { kind: "toggle", label: "Show images", description: "Render images inline in terminal", value: "showImages", currentValue: String(settings.getShowImages()), options: ["true", "false"] },
@@ -37,7 +43,7 @@ export async function createSettingsLeaves(
     { kind: "setting", label: "Follow-up mode", description: "Alt+Enter queues follow-up messages until agent stops", value: "followUpMode", currentValue: settings.getFollowUpMode(), options: ["one-at-a-time", "all"] },
     { kind: "setting", label: "Transport", description: "Preferred transport for providers that support multiple transports", value: "transport", currentValue: settings.getTransport(), options: ["sse", "websocket", "auto"] },
     createThinkingSettingLeaf(thinkingLevel, model),
-    { kind: "theme", label: "Theme", description: "Color theme for the interface", value: "theme", currentValue: settings.getTheme() || "dark", options: getAvailableThemes() },
+    themeLeaf,
     { kind: "toggle", label: "Hide thinking", description: "Hide thinking blocks in assistant responses", value: "hideThinkingBlock", currentValue: String(settings.getHideThinkingBlock()), options: ["true", "false"] },
     { kind: "toggle", label: "Collapse changelog", description: "Show condensed changelog after updates", value: "collapseChangelog", currentValue: String(settings.getCollapseChangelog()), options: ["true", "false"] },
     { kind: "toggle", label: "Install telemetry", description: "Send an anonymous version/update ping after changelog-detected updates", value: "enableInstallTelemetry", currentValue: String(settings.getEnableInstallTelemetry()), options: ["true", "false"] },
