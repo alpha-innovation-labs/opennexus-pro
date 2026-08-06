@@ -455,7 +455,11 @@ path).
       return;
     }
     if (this.level === "setting-choice") return this.applySettingChoice(item.value);
-    if (this.level === "theme") return this.applyLeafByValue(item.value);
+    if (this.level === "theme") {
+      await this.applyLeafByValue(item.value);
+      this.onCommandPicked("/reload");
+      return;
+    }
     if (this.level === "model") {
       if (item.value === "__loading__") return;
       this.onCommandPicked(`/nexus-model-select ${resolveModelCatalogCommandValue(item.value)}`);
