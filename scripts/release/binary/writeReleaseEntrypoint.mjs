@@ -14,7 +14,7 @@ export async function writeReleaseEntrypoint(buildWorkDir) {
     'import { setEmbeddedPackageAssets } from "../../packages/nexus-runtime/src/package/embedded-assets/setEmbeddedPackageAssets.ts";',
     "",
     "setEmbeddedPackageAssets({ embeddedPackageAssetVersion, embeddedPackageAssets });",
-    'await import("../../apps/tui/src/index.release.ts");',
+    'await import("../../apps/tui/src/index.ts");',
     "",
   ].join("\n");
 
