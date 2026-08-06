@@ -16,7 +16,7 @@ import { describe, it, expect, afterAll, beforeAll } from "vitest";
 import {
   prepareHerdr,
   closeHerdrWorkspace,
-} from "../packages/herdr/src/index.js";
+} from "../../packages/herdr/src/index.js";
 
 // ---------------------------------------------------------------------------
 // Workspace lifecycle
