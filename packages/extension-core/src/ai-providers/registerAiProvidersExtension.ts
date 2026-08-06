@@ -4,6 +4,7 @@ import { LmStudioGateway } from "./gateways/lm-studio.js";
 import { LlamaCppGateway } from "./gateways/llama-cpp.js";
 import { OllamaGateway } from "./gateways/ollama.js";
 import { VllmGateway } from "./gateways/vllm.js";
+import { getModelCachePath, readModelCache, type ModelCache } from "./cache/index.js";
 
 const builtInPiOAuthProviderIds = new Set([
   "anthropic",
@@ -14,8 +15,12 @@ const builtInPiOAuthProviderIds = new Set([
 ]);
 
 /**
- * Unregisters all providers that Pi registers natively, so they do not
- * Unregisters all providers that Pi registers natively, and registers all local LLM gateways.
+ * Unregisters all providers that Pi registers natively, pre-populates
+ * local gateways from the model cache, and registers all local LLM
+ * gateways so the slash menu discovers them.
+ *
+ * Cache is pre-loaded synchronously; a background warm refreshes from
+ * live servers and updates the cache file.
  *
  * New gateways are discovered automatically — just create a file in the
  * gateways folder that extends `AiGateway` and add a new instance to the
@@ -34,6 +39,9 @@ export async function registerAiProvidersExtension(pi: ExtensionAPI): Promise<vo
   // Note: unregisterOAuthProvider no longer exists in @earendil-works/pi-ai/oauth
   // (the module only re-exports types).  The OAuth registry is handled upstream.
 
+  // Pre-load cache so gateways start with cached models (sync, never blocks).
+  const cache: ModelCache = await readModelCache(getModelCachePath());
+
   // Register all gateways (fire-and-forget, never awaited).
   if (typeof pi.registerProvider === "function") {
     const gateways = [
@@ -43,6 +51,9 @@ export async function registerAiProvidersExtension(pi: ExtensionAPI): Promise<vo
       new OllamaGateway(),
       new VllmGateway(),
     ];
-    gateways.forEach((gw) => gw.registerProvider(pi));
+    for (const gw of gateways) {
+      const models = cache[gw.providerId] ?? [];
+      gw.registerProvider(pi, models);
+    }
   }
 }

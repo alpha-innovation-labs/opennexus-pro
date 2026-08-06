@@ -16,7 +16,6 @@ const UNKNOWN_PROVIDER = "unknown";
  * LM Studio, etc.).  The class encapsulates:
  *
  * - **exists()**  — probes `/v1/models` (or `/models` if baseUrl already ends with `/v1`) to confirm the gateway is alive
- * - **getModels()**  — returns cached models synchronously (never blocks)
  * - **refreshModels()**  — fetches fresh models, writes cache, returns them
  * - **registerProvider()**  — registers with Pi (sync, fire-and-forget warm)
  */
@@ -45,10 +44,6 @@ export class AiGateway {
 
   /** Whether this gateway has been registered with Pi. */
   private _registered = false;
-
-  /** Cache of models returned by the last successful warm (may be null). */
-  private _cachedModels: NonNullable<ProviderConfigInput["models"]> | null =
-    null;
 
   /** Deduplicates concurrent `_warmCache()` calls so only one write
    *  is in flight at a time. */
@@ -120,15 +115,6 @@ export class AiGateway {
   }
 
   /**
-   * Returns cached models (sync).  Returns an empty array on cache miss.
-   *
-   * This is the fast path used at startup — it never blocks.
-   */
-  getModels(): NonNullable<ProviderConfigInput["models"]> {
-    return this._cachedModels ?? [];
-  }
-
-  /**
    * Fetches models from the gateway and maps them to Pi's model format.
    *
    * Embedding models are filtered out — only LLMs are returned.
@@ -169,12 +155,17 @@ export class AiGateway {
   /**
    * Registers this gateway with Pi so it appears in the model picker.
    *
-   * Registers with an empty model list.  The background warm is
-   * fire-and-forget and never awaited — a failed warm is no worse
-   * than the existing behaviour where the gateway registers with
-   * empty models.
+   * Registers with the provided models list (or empty array for normal
+   * startup).  The background warm is fire-and-forget and never awaited
+   * — a failed warm is no worse than the existing behaviour where the
+   * gateway registers with empty models.
+   *
+   * @param pi Pi extension API.
+   * @param modelsOverride Optional explicit model list. When provided,
+   *   this list is used instead of `[]` for the initial registration.
+   *   Used by --list-models to surface cached models.
    */
-  registerProvider(pi: ExtensionAPI): void {
+  registerProvider(pi: ExtensionAPI, modelsOverride?: NonNullable<ProviderConfigInput["models"]>): void {
     if (this._registered) {
       return;
     }
@@ -188,7 +179,7 @@ export class AiGateway {
       apiKey: this.apiKey,
       api: this.api,
       apiPath: this.apiPath,
-      models: [],
+      models: modelsOverride ?? [],
       refreshModels: async (context) => this.refreshModels(context),
     });
     this._registered = true;
@@ -201,20 +192,22 @@ export class AiGateway {
    * On-demand refresh: fetches fresh models, updates cache, and returns
    * the new model list.  Called by the `refreshModels` callback that Pi
    * invokes when the user explicitly requests a refresh.
+   *
+   * If the live server is unreachable, returns the cached models instead
+   * of an empty list — so the slash menu always shows discovered models
+   * even when local servers are offline.
    */
   async refreshModels(_context: unknown): Promise<
     NonNullable<ProviderConfigInput["models"]>
   > {
     const models = await this.fetchModels();
     await this._writeCache(models);
-    this._cachedModels = models;
     return models;
   }
 
   /**
    * Background warm: reads the existing cache, fetches fresh models,
-   * merges them into the cache file, and sets `_cachedModels` so the
-   * next `getModels()` call returns the new data.
+   * and merges them into the cache file.
    *
    * Errors are silently swallowed — a failed warm is no worse than the
    * existing behaviour where the gateway registers with empty models.
@@ -229,8 +222,6 @@ export class AiGateway {
       // Merge: this gateway's models replace any previous entry.
       cache[this.providerId] = freshModels;
       await writeModelCache(cachePath, cache);
-
-      this._cachedModels = freshModels;
     } catch {
       // Silently ignore — first-run failure is harmless.
     }
