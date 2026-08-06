@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import { APP_NAME } from "@nexus/pi-platform/config.js";
 
 // In dev mode (running via `just dev`), override the process title to
