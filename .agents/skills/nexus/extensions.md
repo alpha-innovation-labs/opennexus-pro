@@ -10,9 +10,7 @@
 ## Runtime entry files
 
 - `src/extensions/runtime/registerBundledExtensions.ts`
-- `src/extensions/runtime/registerCompiledBundledExtensions.ts`
 - `src/extensions/runtime/createBundledExtensionFactories.ts`
-- `src/extensions/runtime/createCompiledBundledExtensionFactories.ts`
 
 ## Component map
 
@@ -37,11 +35,10 @@
 
 1. `src/extensions/runtime/registerBundledExtensions.ts`
 2. `src/extensions/runtime/createBundledExtensionFactories.ts`
-3. `src/extensions/runtime/createCompiledBundledExtensionFactories.ts`
 
 ## Navigation notes
 
 - Start with the runtime entry files when you need the boundary or registration flow, then jump into the component that matches the feature you are touching.
 - Use the component map above as the one-level drill-down for this folder; deeper structure stays inside each component doc.
 - `src/extensions/runtime/registerBundledExtensions.ts` is the source-mode extension entrypoint and registers only enabled extensions from the feature-flag registry.
-- `src/extensions/runtime/createBundledExtensionFactories.ts` and `src/extensions/runtime/createCompiledBundledExtensionFactories.ts` split source-mode and release-mode extension loading.
+- `src/extensions/runtime/createBundledExtensionFactories.ts` creates the inline extension factories used by `runApp`.

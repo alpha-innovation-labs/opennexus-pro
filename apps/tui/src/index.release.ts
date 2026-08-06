@@ -1,14 +1,11 @@
-#!/usr/bin/env node
 import { runCliWithApp } from "./cli/runCliWithApp.js";
-import { runApp } from "./runtime/runAppWithExtensionFactories.js";
+import { runApp } from "./runtime/runApp.js";
 import { APP_NAME } from "@nexus/pi-platform/config.js";
 
 process.title = APP_NAME;
 
 /**
  * Boots the compiled Nexus executable.
- *
- * @returns {Promise<void>}
  */
 async function main() {
   process.exitCode = await runCliWithApp(process.argv.slice(2), { runApp });

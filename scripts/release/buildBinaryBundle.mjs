@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { bundleEntryForObfuscation } from "./binary/bundleEntryForObfuscation.mjs";
+import { bundleEntry } from "./binary/bundleEntry.mjs";
 import { ensureCleanDir } from "./binary/ensureCleanDir.mjs";
 import { copyExternalReleasePackages } from "./binary/copyExternalReleasePackages.mjs";
 import { getBuildWorkDir } from "./binary/getBuildWorkDir.mjs";
@@ -7,11 +7,9 @@ import { getBundleDir } from "./binary/getBundleDir.mjs";
 import { getEmbeddedPackageAssetsModulePath } from "./binary/getEmbeddedPackageAssetsModulePath.mjs";
 import { getExternalReleasePackages } from "./binary/getExternalReleasePackages.mjs";
 import { getReleaseTargetOptions } from "./binary/getReleaseTargetOptions.mjs";
-import { obfuscateEntryPoint } from "./binary/obfuscateEntryPoint.mjs";
 import { patchBundledPiConfig } from "./binary/patchBundledPiConfig.mjs";
 import { runBunBuild } from "./binary/runBunBuild.mjs";
 import { stageBinaryAssets } from "./binary/stageBinaryAssets.mjs";
-import { transpileBundleForObfuscation } from "./binary/transpileBundleForObfuscation.mjs";
 import { writeEmbeddedPackageAssetsModule } from "./binary/writeEmbeddedPackageAssetsModule.mjs";
 import { writeReleaseEntrypoint } from "./binary/writeReleaseEntrypoint.mjs";
 
@@ -29,10 +27,8 @@ export async function buildBinaryBundle() {
   await writeEmbeddedPackageAssetsModule(getEmbeddedPackageAssetsModulePath(buildWorkDir));
   const releaseEntrypointPath = await writeReleaseEntrypoint(buildWorkDir);
 
-  const bundledEntryPath = await bundleEntryForObfuscation(buildWorkDir, releaseEntrypointPath);
-  await transpileBundleForObfuscation(bundledEntryPath);
+  const bundledEntryPath = await bundleEntry(buildWorkDir, releaseEntrypointPath);
   await patchBundledPiConfig(bundledEntryPath);
-  const obfuscatedEntryPath = await obfuscateEntryPoint(bundledEntryPath, buildWorkDir);
 
   const targetOptions = getReleaseTargetOptions();
   await runBunBuild([
@@ -40,7 +36,7 @@ export async function buildBinaryBundle() {
     "--compile",
     "--minify",
     ...(targetOptions.bunTarget ? ["--target", targetOptions.bunTarget] : []),
-    obfuscatedEntryPath,
+    bundledEntryPath,
     "--outfile",
     join(bundleDir, "nexus"),
     ...getExternalReleasePackages().flatMap((packageName) => ["--external", packageName]),

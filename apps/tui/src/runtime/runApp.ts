@@ -1,5 +1,4 @@
 import { createBundledExtensionFactories } from "@nexus/extensions/runtime/createBundledExtensionFactories.js";
-import type { ExtensionFactory } from "@earendil-works/pi-coding-agent";
 import { createAppArgs } from "../cli/createAppArgs.js";
 import { resolveBundledExtensionFactories } from "./extensions/resolveBundledExtensionFactories.js";
 import { clearStartupProfileLog } from "@nexus/observability/startup-profile/clearStartupProfileLog.js";
@@ -33,32 +32,16 @@ import { clearStartupScreen } from "./startup-screen/clearStartupScreen.js";
 import { shouldClearStartupScreen } from "./startup-screen/shouldClearStartupScreen.js";
 
 /**
- * Runs Nexus with the bundled extension factory set.
+ * Runs the bundled Nexus app with inline (source-mode) extensions.
  *
- * This is the single app entry point for both dev and release modes.
- * All extensions are hardcoded, user overrides come from config.json,
+ * This is the single app entry point for both dev and release modes:
+ * all extensions are hardcoded, user overrides come from config.json,
  * and system checks (cmux) are applied at startup.
  *
  * @param argv Raw command line arguments.
  * @returns A promise that resolves when the app exits.
  */
 export async function runApp(argv: string[]): Promise<void> {
-  await runAppWithExtensionFactories(argv, createBundledExtensionFactories);
-}
-
-export type CreateExtensionFactories = () => Promise<ExtensionFactory[]>;
-
-/**
- * Runs Nexus with the supplied extension-factory provider.
- *
- * @param argv Raw command line arguments.
- * @param createExtensionFactories Factory provider for the current runtime mode.
- * @returns A promise that resolves when the app exits.
- */
-export async function runAppWithExtensionFactories(
-  argv: string[],
-  createExtensionFactories: CreateExtensionFactories,
-): Promise<void> {
   const { args: extractedArgs, startupProfileEnabled } = extractStartupProfileArgs(argv);
   const rawArgs = normalizeUsageStartupArgs(normalizeResumeStartupArgs(extractedArgs));
   setStartupProfileEnabled(startupProfileEnabled);
@@ -79,7 +62,6 @@ export async function runAppWithExtensionFactories(
   phaseStartedAt = performance.now();
   await ensureEmbeddedPackageDirEnv();
   logRunAppPhase("ensureEmbeddedPackageDirEnv:done", phaseStartedAt);
-
 
   phaseStartedAt = performance.now();
   await applyNexusConfigPatch();
@@ -142,7 +124,10 @@ export async function runAppWithExtensionFactories(
   logRunAppPhase("createAppArgs:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
-  const extensionFactories = await resolveBundledExtensionFactories(rawArgs, createExtensionFactories);
+  const extensionFactories = await resolveBundledExtensionFactories(
+    rawArgs,
+    createBundledExtensionFactories,
+  );
   logRunAppPhase("resolveBundledExtensionFactories:done", phaseStartedAt);
   logStartupProfileEvent("runApp", "prepareArgsAndExtensions:done");
 

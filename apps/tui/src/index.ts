@@ -15,19 +15,16 @@ if (process.env.NEXUS_DEV_MODE === "1") {
 }
 
 import { runCliWithApp } from "./cli/runCliWithApp.js";
-import { runApp } from "./runtime/runAppWithExtensionFactories.js";
+import { runApp } from "./runtime/runApp.js";
 
 /**
- * Boots the installed Nexus executable.
- *
- * @returns {Promise<void>}
+ * Boots the Nexus executable (dev or release).
  */
 async function main() {
   process.exitCode = await runCliWithApp(process.argv.slice(2), { runApp });
 }
 
-main().catch(async (error) => {
-  // Telemetry archived — log crash without sending.
+main().catch((error) => {
   console.error(error);
   process.exit(1);
 });

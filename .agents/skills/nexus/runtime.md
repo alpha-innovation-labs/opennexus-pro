@@ -9,7 +9,7 @@
 
 ## Root entry files
 
-- `src/runtime/runAppWithExtensionFactories.ts`
+- `src/runtime/runApp.ts`
 
 ## Component map
 
@@ -23,9 +23,9 @@
 
 ## Read this first
 
-1. `src/runtime/runAppWithExtensionFactories.ts`
+1. `src/runtime/runApp.ts`
 
 ## Navigation notes
 
 - Start with the root entry file when you need the boundary or registration flow, then jump into the component that matches the feature you are touching.
-- `src/runtime/runAppWithExtensionFactories.ts` is the single app entry point: wraps `runAppWithExtensionFactories` with `createBundledExtensionFactories` for the default call, then the main boot sequence normalizes args, installs Nexus/Pi patches, resolves extensions, imports Pi, and calls `main()`.
+- `src/runtime/runApp.ts` is the single app entry point: normalizes args, installs Nexus/Pi patches, resolves extensions, imports Pi, and calls `main()`.

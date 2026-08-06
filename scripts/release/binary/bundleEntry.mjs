@@ -3,13 +3,13 @@ import { getExternalReleasePackages } from "./getExternalReleasePackages.mjs";
 import { runBunBuild } from "./runBunBuild.mjs";
 
 /**
- * Bundles the app entry into one JavaScript file before obfuscation.
+ * Bundles the app entry into one JavaScript file for the release binary.
  *
  * @param {string} buildWorkDir Release workspace directory.
  * @param {string} entryPath Entrypoint to compile.
  * @returns {Promise<string>} Bundled entry path.
  */
-export async function bundleEntryForObfuscation(buildWorkDir, entryPath) {
+export async function bundleEntry(buildWorkDir, entryPath) {
   const bundledEntryPath = getBundledEntryPath(buildWorkDir);
 
   await runBunBuild([
