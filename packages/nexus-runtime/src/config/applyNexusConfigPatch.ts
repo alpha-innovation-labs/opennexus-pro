@@ -3,21 +3,9 @@ import { getNexusAgentDirPath } from "./getNexusAgentDirPath.js";
 import { readBundledDefaultSettings } from "@nexus/assets/default-settings/readBundledDefaultSettings.js";
 import { getDefaultThemeName } from "./getDefaultThemeName.js";
 import { getProjectConfigPath } from "./getProjectConfigPath.js";
-import { getProjectThemesPath } from "./getProjectThemesPath.js";
 import { getUserConfigPath } from "./getUserConfigPath.js";
-import { getUserThemesPath } from "./getUserThemesPath.js";
 import { mergeSettings, type SettingsRecord } from "./mergeSettings.js";
-
-type SettingsManagerModule = typeof import("@earendil-works/pi-coding-agent");
-type ResourceLoaderModule = typeof import("@earendil-works/pi-coding-agent");
-type LoadThemesResult = {
-  themes: unknown[];
-  diagnostics: unknown[];
-};
-
-type LoadThemesMethod = (paths: string[], includeDefaults?: boolean) => LoadThemesResult;
-
-type ThemeDirectoryLoader = (path: string, themes: unknown[], diagnostics: unknown[]) => void;
+import { readNexusUserConfig } from "./readNexusUserConfig.js";
 
 type NexusSettingsManagerInstance = {
   globalSettings: SettingsRecord;
@@ -30,12 +18,6 @@ type NexusSettingsManagerClass = {
   fromStorage(storage: unknown): NexusSettingsManagerInstance;
   create(cwd?: string, agentDir?: string): NexusSettingsManagerInstance;
   prototype: { getTheme(): string | undefined };
-};
-
-type NexusResourceLoaderPrototype = {
-  agentDir: string;
-  cwd: string;
-  loadThemesFromDir: ThemeDirectoryLoader;
 };
 
 /**
@@ -68,7 +50,13 @@ export async function applyNexusConfigPatch(): Promise<void> {
     // Nexus stores it as { pi_packages: { name: bool } }. Convert on-the-fly.
     // Also clear `globalSettings.extensions` when it's in Nexus object format,
     // because Pi's resolver expects `extensions` to be an array of file paths.
-    const nexusExt = (manager.globalSettings as Record<string, unknown>).extensions;
+    //
+    // CRITICAL: We must read from Nexus user config directly (readNexusUserConfig),
+    // NOT from manager.globalSettings. The stub storage provides no data, so
+    // manager.globalSettings.extensions is always undefined. Reading from the
+    // stub would make the entire conversion a no-op, meaning no packages ever load.
+    const nexusUserConfig = readNexusUserConfig();
+    const nexusExt = nexusUserConfig.extensions;
     let convertedPackages: string[] | undefined;
     let clearedExtensions: unknown;
     if (nexusExt && typeof nexusExt === "object" && !Array.isArray(nexusExt)) {
@@ -125,31 +113,6 @@ export async function applyNexusConfigPatch(): Promise<void> {
       },
     } as unknown as { globalSettingsPath: string; projectSettingsPath: string; withLock: (scope: string, fn: (current: string | undefined) => string | undefined) => string | undefined };
     return patchedSettingsManager.fromStorage(storage);
-  };
-
-  const resourceLoaderPrototype = DefaultResourceLoader.prototype as unknown as NexusResourceLoaderPrototype & { loadThemes: LoadThemesMethod };
-  const originalLoadThemes = resourceLoaderPrototype.loadThemes;
-  resourceLoaderPrototype.loadThemes = function loadThemesFromNexusConfig(
-    this: NexusResourceLoaderPrototype,
-    paths: string[],
-    includeDefaults = true,
-  ): LoadThemesResult {
-    const result = originalLoadThemes.call(this, paths, false);
-
-    if (!includeDefaults) {
-      return result;
-    }
-
-    const themes: unknown[] = [];
-    const diagnostics: unknown[] = [];
-    for (const dir of [getUserThemesPath(), getProjectThemesPath(this.cwd)]) {
-      this.loadThemesFromDir(dir, themes, diagnostics);
-    }
-
-    return {
-      themes: [...themes, ...result.themes],
-      diagnostics: [...diagnostics, ...result.diagnostics],
-    };
   };
 
   patchedSettingsManager.__nexusConfigPatched__ = true;

@@ -9,6 +9,6 @@ import { writeProjectConfig } from "./writeProjectConfig.js";
  */
 export async function setProjectTheme(cwd: string, themeName: string): Promise<void> {
   const projectConfig = await readProjectConfig(cwd);
-  settings.theme = themeName;
+  (projectConfig as { theme?: string }).theme = themeName;
   await writeProjectConfig(cwd, projectConfig);
 }
