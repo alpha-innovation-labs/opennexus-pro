@@ -22,7 +22,6 @@ import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisE
 import registerTronExtension from "@nexus/extensions/tron/index.js";
 import { registerWebSearchExtension } from "@nexus/extensions/web-search/registerWebSearchExtension.js";
 import registerLocalImageReaderExtension from "@nexus/extensions/local-image-reader/registerLocalImageReaderExtension.js";
-import registerCustomToolsExtension from "@nexus/extensions/custom-tools/registerCustomToolsExtension.js";
 
 /**
  * Creates the code-backed extension registration map.
@@ -60,6 +59,5 @@ export function createExtensionRegisterMap(): Record<
 		tron: registerTronExtension,
 		webtools: registerWebSearchExtension,
 		"local-image-reader": registerLocalImageReaderExtension,
-		"custom-tools": registerCustomToolsExtension,
 	};
 }
