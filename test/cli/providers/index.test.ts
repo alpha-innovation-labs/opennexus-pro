@@ -31,7 +31,7 @@ function saveSnapshot(name: string, content: string): void {
   writeFileSync(join(SNAPSHOT_DIR, `${name}.txt`), content, "utf-8");
 }
 
-describe("provider refresh", () => {
+describe("provider", () => {
   it("just dev provider refresh produces snapshot", () => {
     const output = execSync("npx just dev provider refresh", {
       encoding: "utf-8",
@@ -41,5 +41,16 @@ describe("provider refresh", () => {
     const snapshot = loadSnapshot("refresh-mixed-status");
     expect(output).toBe(snapshot || output);
     if (!snapshot) saveSnapshot("refresh-mixed-status", output);
+  });
+
+  it("just dev provider list produces snapshot", () => {
+    const output = execSync("npx just dev provider list", {
+      encoding: "utf-8",
+      timeout: 60_000,
+      cwd: join(__dirname, "../../.."),
+    });
+    const snapshot = loadSnapshot("list-mixed-status");
+    expect(output).toBe(snapshot || output);
+    if (!snapshot) saveSnapshot("list-mixed-status", output);
   });
 });

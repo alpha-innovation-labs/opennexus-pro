@@ -1,28 +1,28 @@
-┌───────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────────┐
-│[37m [0m[01mProvider             [0m │[37m [0m[01mStatus                                                                                     [0m │
-├───────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────────┤
-│[37m [0m[37m[32mlm-studio[0m            [0m │[37m [0m[37m[32m1 models found[0m                                                                             [0m │
-│[37m [0m[37m[31mexllamav2[0m            [0m │[37m [0m[37m[31mAccess denied — Access denied on port 5000 — the server is running but rejected the request[0m[0m │
-│[37m [0m[37m[31mh2ogpt[0m               [0m │[37m [0m[37m[31mAccess denied — Access denied on port 5000 — the server is running but rejected the request[0m[0m │
-│[37m [0m[37m[31mharbor[0m               [0m │[37m [0m[37m[31mAccess denied — Access denied on port 3000 — the server is running but rejected the request[0m[0m │
-│[37m [0m[37m[31mlemonade[0m             [0m │[37m [0m[37m[31mAccess denied — Access denied on port 8080 — the server is running but rejected the request[0m[0m │
-│[37m [0m[37m[31mlitellm[0m              [0m │[37m [0m[37m[31mAccess denied — Access denied on port 4000 — the server is running but rejected the request[0m[0m │
-│[37m [0m[37m[31mllama.cpp[0m            [0m │[37m [0m[37m[31mAccess denied — Access denied on port 8080 — the server is running but rejected the request[0m[0m │
-│[37m [0m[37m[31mllamafile[0m            [0m │[37m [0m[37m[31mAccess denied — Access denied on port 8080 — the server is running but rejected the request[0m[0m │
-│[37m [0m[37m[31mlocalai[0m              [0m │[37m [0m[37m[31mAccess denied — Access denied on port 8080 — the server is running but rejected the request[0m[0m │
-│[37m [0m[37m[31mmlx-lm[0m               [0m │[37m [0m[37m[31mAccess denied — Access denied on port 8080 — the server is running but rejected the request[0m[0m │
-│[37m [0m[37m[31mmlx-openai-server[0m    [0m │[37m [0m[37m[31mAccess denied — Access denied on port 8080 — the server is running but rejected the request[0m[0m │
-│[37m [0m[37m[31mopen-webui[0m           [0m │[37m [0m[37m[31mAccess denied — Access denied on port 3000 — the server is running but rejected the request[0m[0m │
-│[37m [0m[37m[31mopenllm[0m              [0m │[37m [0m[37m[31mAccess denied — Access denied on port 3000 — the server is running but rejected the request[0m[0m │
-│[37m [0m[37m[90mdocker-model-runner[0m  [0m │[37m [0m[37m[90mNothing is running on port 8000[0m                                                            [0m │
-│[37m [0m[37m[90mgpt4all[0m              [0m │[37m [0m[37m[90mNothing is running on port 4891[0m                                                            [0m │
-│[37m [0m[37m[90mjan[0m                  [0m │[37m [0m[37m[90mNothing is running on port 1337[0m                                                            [0m │
-│[37m [0m[37m[90mkoboldcpp[0m            [0m │[37m [0m[37m[90mNothing is running on port 5001[0m                                                            [0m │
-│[37m [0m[37m[90mlmddeploy[0m            [0m │[37m [0m[37m[90mNothing is running on port 23333[0m                                                           [0m │
-│[37m [0m[37m[90mollama[0m               [0m │[37m [0m[37m[90mNothing is running on port 11434[0m                                                           [0m │
-│[37m [0m[37m[90momlx[0m                 [0m │[37m [0m[37m[90mNothing is running on port 8000[0m                                                            [0m │
-│[37m [0m[37m[90msglang[0m               [0m │[37m [0m[37m[90mNothing is running on port 30000[0m                                                           [0m │
-│[37m [0m[37m[90mtensorrt-llm[0m         [0m │[37m [0m[37m[90mNothing is running on port 8000[0m                                                            [0m │
-│[37m [0m[37m[90mtext-generation-webui[0m[0m │[37m [0m[37m[90mNothing is running on port 7860[0m                                                            [0m │
-│[37m [0m[37m[90mvllm[0m                 [0m │[37m [0m[37m[90mNothing is running on port 8000[0m                                                            [0m │
-└───────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────┬──────────────────────────────────┐
+│ Provider              │ Status                           │
+├───────────────────────┼──────────────────────────────────┤
+│ lm-studio             │ 1 models found                   │
+│ docker-model-runner   │ Nothing is running on port 8000  │
+│ exllamav2             │ Nothing is running on port 5000  │
+│ gpt4all               │ Nothing is running on port 4891  │
+│ h2ogpt                │ Nothing is running on port 5000  │
+│ harbor                │ Nothing is running on port 3000  │
+│ jan                   │ Nothing is running on port 1337  │
+│ koboldcpp             │ Nothing is running on port 5001  │
+│ lemonade              │ Nothing is running on port 8080  │
+│ litellm               │ Nothing is running on port 4000  │
+│ llama.cpp             │ Nothing is running on port 8080  │
+│ llamafile             │ Nothing is running on port 8080  │
+│ lmddeploy             │ Nothing is running on port 23333 │
+│ localai               │ Nothing is running on port 8080  │
+│ mlx-lm                │ Nothing is running on port 8080  │
+│ mlx-openai-server     │ Nothing is running on port 8080  │
+│ ollama                │ Nothing is running on port 11434 │
+│ omlx                  │ Nothing is running on port 8000  │
+│ open-webui            │ Nothing is running on port 3000  │
+│ openllm               │ Nothing is running on port 3000  │
+│ sglang                │ Nothing is running on port 30000 │
+│ tensorrt-llm          │ Nothing is running on port 8000  │
+│ text-generation-webui │ Nothing is running on port 7860  │
+│ vllm                  │ Nothing is running on port 8000  │
+└───────────────────────┴──────────────────────────────────┘
