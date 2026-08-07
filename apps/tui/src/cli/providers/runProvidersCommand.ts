@@ -1,4 +1,4 @@
-import type { AiGateway } from "@nexus/extensions/ai-providers/AiGateway.js";
+import type { AiGateway } from "@nexus/extensions/ai-providers/index.js";
 import { getGateways, readProviderConfig } from "@nexus/extensions/ai-providers/index.js";
 import { getAllProviderIds } from "./getAllProviderIds.js";
 import { parseProvidersCommand } from "./parseProvidersCommand.js";

@@ -1,6 +1,6 @@
 import { autocomplete, text, isCancel } from "@clack/prompts";
 import { DEFAULT_PORTS } from "@nexus/extensions/ai-providers/constants/default-ports.js";
-import { createGateway } from "@nexus/extensions/ai-providers/gateways/createGateway.js";
+import { createGateway } from "@nexus/extensions/ai-providers/gateway/createGateway.js";
 import { readProviderConfig } from "@nexus/extensions/ai-providers/config/readProviderConfig.js";
 import { getAllProviderIds } from "./getAllProviderIds.js";
 import { writeProviderConfig } from "@nexus/extensions/ai-providers/config/writeProviderConfig.js";

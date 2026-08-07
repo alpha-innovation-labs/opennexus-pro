@@ -1,5 +1,8 @@
-export { AiGateway } from "./AiGateway.js";
-export { readProviderConfig, writeProviderConfig, toggleProviderEnabled, type ProviderConfig, type ProvidersConfig } from "./config/index.js";
-export { getGateways } from "./gateways/index.js";
-export { registerAiProvidersExtension } from "./registerAiProvidersExtension.js";
-export { getModelCachePath, readModelCache, writeModelCache } from "./cache/index.js";
+/**
+ * Re-exports the AiGateway class and all gateway-related types.
+ */
+export { AiGateway } from "./gateway/gateway.js";
+export type { GatewayProbeResult, GatewayOptions, ProviderStateCache } from "./gateway/types.js";
+export { getGateways } from "./gateway/getGateways.js";
+export { readProviderConfig } from "./config/readProviderConfig.js";
+export { registerAiProvidersExtension } from "./register-ai-providers/registerAiProvidersExtension.js";

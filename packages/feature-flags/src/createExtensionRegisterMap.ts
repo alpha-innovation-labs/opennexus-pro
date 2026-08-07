@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerAiProvidersExtension } from "@nexus/extensions/ai-providers/registerAiProvidersExtension.js";
+import { registerAiProvidersExtension } from "@nexus/extensions/ai-providers/register-ai-providers/registerAiProvidersExtension.js";
 import { registerAutoUpdateExtension } from "@nexus/extensions/auto-update/registerAutoUpdateExtension.js";
 import { registerCmuxExtension } from "@nexus/extensions/cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "@nexus/extensions/context-usage/registerContextUsageExtension.js";

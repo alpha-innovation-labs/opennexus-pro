@@ -1,4 +1,4 @@
-import type { AiGateway } from "../AiGateway.js";
+import type { AiGateway } from "../index.js";
 import { DEFAULT_PORTS } from "../constants/default-ports.js";
 import type { ProvidersConfig } from "../config/types.js";
 import { createGateway } from "./createGateway.js";

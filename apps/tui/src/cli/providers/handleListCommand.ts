@@ -1,6 +1,6 @@
 import { readProviderConfig } from "@nexus/extensions/ai-providers/config/readProviderConfig.js";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import type { AiGateway } from "@nexus/extensions/ai-providers/AiGateway.js";
+import type { AiGateway } from "@nexus/extensions/ai-providers/index.js";
 import { getModelCachePath, readProviderStateCache } from "@nexus/extensions/ai-providers/cache/index.js";
 import { getAllProviderIds } from "./getAllProviderIds.js";
 import { Table } from "console-table-printer";
@@ -45,7 +45,7 @@ export async function handleListCommand(json: boolean, gateways: AiGateway[]): P
 
   const rows: ListRow[] = [];
 
-  // Load cached probe state + models (written by `refresh`).
+  // Load cached models (written by `refresh`). Probe is done live.
   const cachePath = getModelCachePath();
   const stateCache = await readProviderStateCache(cachePath);
 
@@ -60,24 +60,18 @@ export async function handleListCommand(json: boolean, gateways: AiGateway[]): P
 
     const cached = stateCache[providerId];
     if (cached) {
-      const probe = cached.probe;
-      const models = cached.models;
-      modelCount = models.length;
+      // Cache hit: use cached model count.
+      modelCount = cached.length;
+    }
+    // Probe live for status (probe is no longer cached).
+    if (gw) {
+      const probe = await gw.exists();
       if (probe.status === "ok") {
         reachable = "Yes";
         authorized = "Yes";
       } else if (probe.status === "access-denied" || probe.status === "wrong-app") {
         reachable = "No";
         authorized = "No";
-      }
-    } else if (gw) {
-      // Fallback: no cache entry yet — probe live.
-      const probe = await gw.exists();
-      if (probe.status === "ok") {
-        reachable = "Yes";
-        authorized = "Yes";
-        const models = await gw.fetchModels();
-        modelCount = models.length;
       }
     }
 

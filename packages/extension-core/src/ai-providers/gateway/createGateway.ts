@@ -1,5 +1,6 @@
 import { DEFAULT_PORTS } from "../constants/default-ports.js";
-import { AiGateway } from "../AiGateway.js";
+import { AiGateway } from "../index.js";
+import { baseUrlFromPort } from "./types.js";
 
 /**
  * Name lookup for every known provider, keyed by providerId.
@@ -59,7 +60,7 @@ export function createGateway(
   options: CreateGatewayOptions = {},
 ): AiGateway {
   const name = PROVIDER_NAMES[providerId] ?? providerId;
-  const baseUrl = options.baseUrl ?? AiGateway.baseUrlFromPort(providerId);
+  const baseUrl = options.baseUrl ?? baseUrlFromPort(providerId);
 
   return new AiGateway({
     providerId,

@@ -1,28 +1,28 @@
 ┌───────────────────────┬─────────┬───────────┬────────────┬────────┐
-│ Provider             │ Enabled │ Reachable │ Authorized │ Models │
+│ [37m [01mProvider             [0m │ [37m [01mEnabled [0m │ [37m [01mReachable [0m │ [37m [01mAuthorized [0m │ [37m [01mModels [0m │
 ├───────────────────────┼─────────┼───────────┼────────────┼────────┤
-│ lm-studio            │ Yes     │ Yes       │ Yes        │      1 │
-│ litellm              │ Yes     │ Yes       │ No         │      0 │
-│ docker-model-runner  │ Yes     │ No        │ No         │      0 │
-│ exllamav2            │ Yes     │ No        │ No         │      0 │
-│ gpt4all              │ Yes     │ No        │ No         │      0 │
-│ h2ogpt               │ Yes     │ No        │ No         │      0 │
-│ harbor               │ Yes     │ No        │ No         │      0 │
-│ jan                  │ Yes     │ No        │ No         │      0 │
-│ koboldcpp            │ Yes     │ No        │ No         │      0 │
-│ lemonade             │ Yes     │ No        │ No         │      0 │
-│ llama.cpp            │ Yes     │ No        │ No         │      0 │
-│ llamafile            │ Yes     │ No        │ No         │      0 │
-│ lmddeploy            │ Yes     │ No        │ No         │      0 │
-│ localai              │ Yes     │ No        │ No         │      0 │
-│ mlx-lm               │ Yes     │ No        │ No         │      0 │
-│ mlx-openai-server    │ Yes     │ No        │ No         │      0 │
-│ ollama               │ Yes     │ No        │ No         │      0 │
-│ omlx                 │ Yes     │ No        │ No         │      0 │
-│ open-webui           │ Yes     │ No        │ No         │      0 │
-│ openllm              │ Yes     │ No        │ No         │      0 │
-│ sglang               │ Yes     │ No        │ No         │      0 │
-│ tensorrt-llm         │ Yes     │ No        │ No         │      0 │
-│ text-generation-webui│ Yes     │ No        │ No         │      0 │
-│ vllm                 │ Yes     │ No        │ No         │      0 │
+│ [37m [0m[32mlm-studio            [0m │ [37m [0mYes     [0m │ [37m [0mYes       [0m │ [37m [0mYes        [0m │ [37m [0m      1 [0m │
+│ [37m [0m[31mlitellm              [0m │ [37m [0mYes     [0m │ [37m [0mYes       [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mdocker-model-runner  [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mexllamav2            [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mgpt4all              [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mh2ogpt               [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mharbor               [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mjan                  [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mkoboldcpp            [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mlemonade             [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mllama.cpp            [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mllamafile            [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mlmddeploy            [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mlocalai              [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mmlx-lm               [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mmlx-openai-server    [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mollama               [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0molmx                 [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mopen-webui           [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mopenllm              [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0msglang               [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mtensorrt-llm         [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mtext-generation-webui [0m│ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│ [37m [0mvllm                 [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
 └───────────────────────┴─────────┴───────────┴────────────┴────────┘
