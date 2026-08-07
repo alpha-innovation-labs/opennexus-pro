@@ -11,8 +11,8 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { execSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { execSync, spawn } from "node:child_process";
+import { readFileSync, writeFileSync, mkdirSync, unlinkSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 const SNAPSHOT_DIR = join(__dirname, "snapshots");
@@ -29,6 +29,17 @@ function saveSnapshot(name: string, content: string): void {
   const { writeFileSync, mkdirSync } = require("node:fs");
   mkdirSync(SNAPSHOT_DIR, { recursive: true });
   writeFileSync(join(SNAPSHOT_DIR, `${name}.txt`), content, "utf-8");
+}
+
+/**
+ * Resolves the cache file path used by the provider commands.
+ * Mirrors the logic in `getModelCachePath` + `getNexusAgentDirPath`.
+ */
+function getCacheFilePath(): string {
+  const agentDir = process.env.NEXUS_CODING_AGENT_DIR
+    || process.env.PI_CODING_AGENT_DIR
+    || join(require("node:os").homedir(), ".local", "share", "nexus", "agent");
+  return join(agentDir, "cache", "available_models.json");
 }
 
 describe("provider", () => {
@@ -52,5 +63,77 @@ describe("provider", () => {
     const snapshot = loadSnapshot("list-mixed-status");
     expect(output).toBe(snapshot || output);
     if (!snapshot) saveSnapshot("list-mixed-status", output);
+  });
+
+  it("refresh writes cache that list can read, and just dev runs cleanly", async () => {
+    const cachePath = getCacheFilePath();
+
+    // 1. Delete the cache file.
+    if (existsSync(cachePath)) {
+      unlinkSync(cachePath);
+    }
+    expect(existsSync(cachePath)).toBe(false);
+
+    // 2. Run provider refresh — it must recreate the cache.
+    execSync("npx just dev provider refresh", {
+      encoding: "utf-8",
+      timeout: 60_000,
+      cwd: join(__dirname, "../../.."),
+    });
+
+    // 3. Confirm the cache file was recreated.
+    expect(existsSync(cachePath)).toBe(true);
+    const cacheContent = JSON.parse(readFileSync(cachePath, "utf-8"));
+    expect(typeof cacheContent).toBe("object");
+    expect(Object.keys(cacheContent).length).toBeGreaterThan(0);
+
+    // Each entry must have the { probe, models } shape.
+    for (const [providerId, entry] of Object.entries(cacheContent)) {
+      const e = entry as Record<string, unknown>;
+      expect(e).toHaveProperty("probe");
+      expect(e).toHaveProperty("models");
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      expect(typeof (e as { probe: { status: string } }).probe).toHaveProperty("status");
+    }
+
+    // 4. Run `just dev` for 3 seconds and confirm no errors.
+    const outputChunks: Buffer[] = [];
+    const devProc = spawn("npx", ["just", "dev"], {
+      cwd: join(__dirname, "../../.."),
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+
+    devProc.stdout.on("data", (chunk: Buffer) => {
+      outputChunks.push(chunk);
+    });
+
+    let stderrOutput = "";
+    devProc.stderr.on("data", (chunk: Buffer) => {
+      stderrOutput += chunk.toString();
+    });
+
+    // Wait 3 seconds, then kill the process.
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        devProc.kill("SIGTERM");
+        resolve();
+      }, 3_000);
+    });
+
+    // Wait for the process to exit gracefully.
+    await new Promise<void>((resolve) => {
+      devProc.on("exit", () => resolve());
+      // Fallback: force kill after 5 seconds.
+      setTimeout(() => {
+        devProc.kill("SIGKILL");
+        resolve();
+      }, 5_000);
+    });
+
+    const combinedOutput = outputChunks.map((c) => c.toString()).join("");
+    // Check that the combined stdout/stderr does not contain error indicators.
+    expect(combinedOutput + stderrOutput).not.toMatch(/error/i);
+    expect(combinedOutput + stderrOutput).not.toMatch(/exception/i);
+    expect(combinedOutput + stderrOutput).not.toMatch(/traceback/i);
   });
 });

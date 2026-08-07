@@ -1,28 +1,28 @@
 ┌───────────────────────┬──────────────────────────────────┐
-│ Provider              │ Status                           │
+│ [37m [01mProvider             [0m │ [37m [01mStatus                          [0m │
 ├───────────────────────┼──────────────────────────────────┤
-│ lm-studio             │ 1 models found                   │
-│ docker-model-runner   │ Nothing is running on port 8000  │
-│ exllamav2             │ Nothing is running on port 5000  │
-│ gpt4all               │ Nothing is running on port 4891  │
-│ h2ogpt                │ Nothing is running on port 5000  │
-│ harbor                │ Nothing is running on port 3000  │
-│ jan                   │ Nothing is running on port 1337  │
-│ koboldcpp             │ Nothing is running on port 5001  │
-│ lemonade              │ Nothing is running on port 8080  │
-│ litellm               │ Nothing is running on port 4000  │
-│ llama.cpp             │ Nothing is running on port 8080  │
-│ llamafile             │ Nothing is running on port 8080  │
-│ lmddeploy             │ Nothing is running on port 23333 │
-│ localai               │ Nothing is running on port 8080  │
-│ mlx-lm                │ Nothing is running on port 8080  │
-│ mlx-openai-server     │ Nothing is running on port 8080  │
-│ ollama                │ Nothing is running on port 11434 │
-│ omlx                  │ Nothing is running on port 8000  │
-│ open-webui            │ Nothing is running on port 3000  │
-│ openllm               │ Nothing is running on port 3000  │
-│ sglang                │ Nothing is running on port 30000 │
-│ tensorrt-llm          │ Nothing is running on port 8000  │
-│ text-generation-webui │ Nothing is running on port 7860  │
-│ vllm                  │ Nothing is running on port 8000  │
+│ [37m [0m[32mlm-studio[0m            [0m │ [37m [0m[32m1 models found[0m                  [0m │
+│ [37m [0m[31mlitellm[0m              [0m │ [37m [0m[31mAccess denied[0m                  [0m │
+│ [37m [0m[33mdocker-model-runner[0m  [0m │ [37m [0m[33mSomething is listening on port 8000[0m [0m │
+│ [37m [0m[33mexllamav2[0m            [0m │ [37m [0m[33mSomething is listening on port 5000[0m [0m │
+│ [37m [0m[33mgpt4all[0m              [0m │ [37m [0m[33mSomething is listening on port 4891[0m [0m │
+│ [37m [0m[33mh2ogpt[0m               [0m │ [37m [0m[33mSomething is listening on port 5000[0m [0m │
+│ [37m [0m[33mharbor[0m               [0m │ [37m [0m[33mSomething is listening on port 3000[0m [0m │
+│ [37m [0m[33mjan[0m                  [0m │ [37m [0m[33mSomething is listening on port 1337[0m [0m │
+│ [37m [0m[33mkoboldcpp[0m            [0m │ [37m [0m[33mSomething is listening on port 5001[0m [0m │
+│ [37m [0m[33mlemonade[0m             [0m │ [37m [0m[33mSomething is listening on port 8080[0m [0m │
+│ [37m [0m[33mllama.cpp[0m            [0m │ [37m [0m[33mSomething is listening on port 8080[0m [0m │
+│ [37m [0m[33mllamafile[0m            [0m │ [37m [0m[33mSomething is listening on port 8080[0m [0m │
+│ [37m [0m[33mlmddeploy[0m            [0m │ [37m [0m[33mSomething is listening on port 23333[0m[0m [0m│
+│ [37m [0m[33mlocalai[0m              [0m │ [37m [0m[33mSomething is listening on port 8080[0m [0m │
+│ [37m [0m[33mmlx-lm[0m               [0m │ [37m [0m[33mSomething is listening on port 8080[0m [0m │
+│ [37m [0m[33mmlx-openai-server[0m    [0m │ [37m [0m[33mSomething is listening on port 8080[0m [0m │
+│ [37m [0m[33molllama[0m              [0m │ [37m [0m[33mSomething is listening on port 11434[0m[0m [0m│
+│ [37m [0m[33momlx[0m                 [0m │ [37m [0m[33mSomething is listening on port 8000[0m [0m │
+│ [37m [0m[33mopen-webui[0m           [0m │ [37m [0m[33mSomething is listening on port 3000[0m [0m │
+│ [37m [0m[33mopenllm[0m              [0m │ [37m [0m[33mSomething is listening on port 3000[0m [0m │
+│ [37m [0m[33msglang[0m               [0m │ [37m [0m[33mSomething is listening on port 30000[0m[0m [0m│
+│ [37m [0m[33mtensorrt-llm[0m         [0m │ [37m [0m[33mSomething is listening on port 8000[0m [0m │
+│ [37m [0m[33mtext-generation-webui[0m[0m [0m│ [37m [0m[33mSomething is listening on port 7860[0m [0m │
+│ [37m [0m[33mvllm[0m                 [0m │ [37m [0m[33mSomething is listening on port 8000[0m [0m │
 └───────────────────────┴──────────────────────────────────┘
