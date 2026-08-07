@@ -1,10 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { LiteLLmGateway } from "./gateways/litellm.js";
-import { LmStudioGateway } from "./gateways/lm-studio.js";
-import { LlamaCppGateway } from "./gateways/llama-cpp.js";
-import { OllamaGateway } from "./gateways/ollama.js";
-import { VllmGateway } from "./gateways/vllm.js";
+import { readProviderConfig } from "./config/index.js";
 import { getModelCachePath, readModelCache, type ModelCache } from "./cache/index.js";
+import { getGateways } from "./gateways/getGateways.js";
 
 const builtInPiOAuthProviderIds = new Set([
   "anthropic",
@@ -22,9 +19,8 @@ const builtInPiOAuthProviderIds = new Set([
  * Cache is pre-loaded synchronously; a background warm refreshes from
  * live servers and updates the cache file.
  *
- * New gateways are discovered automatically — just create a file in the
- * gateways folder that extends `AiGateway` and add a new instance to the
- * array below.
+ * New gateways are discovered automatically — add a port and name to
+ * `default-ports.ts` and `PROVIDER_NAMES` in `createGateway.ts`.
  *
  * @param pi Pi extension API.
  * @returns A promise that resolves when providers are unregistered.
@@ -42,15 +38,12 @@ export async function registerAiProvidersExtension(pi: ExtensionAPI): Promise<vo
   // Pre-load cache so gateways start with cached models (sync, never blocks).
   const cache: ModelCache = await readModelCache(getModelCachePath());
 
+  // Build gateways from user config (or fall back to hardcoded defaults).
+  const providerConfig = readProviderConfig();
+  const gateways = getGateways(providerConfig);
+
   // Register all gateways (fire-and-forget, never awaited).
   if (typeof pi.registerProvider === "function") {
-    const gateways = [
-      new LiteLLmGateway(),
-      new LmStudioGateway(),
-      new LlamaCppGateway(),
-      new OllamaGateway(),
-      new VllmGateway(),
-    ];
     for (const gw of gateways) {
       const models = cache[gw.providerId] ?? [];
       gw.registerProvider(pi, models);

@@ -26,6 +26,8 @@ import { hasThemesFlag, hasThemesListFlag, hasThemesSetFlag, readThemeNameArg, r
 import { printThemesHelp } from "./themes/printThemesHelp.js";
 import { printThemesList } from "./themes/printThemesList.js";
 import { setTheme } from "./themes/setTheme.js";
+import { hasProvidersFlag } from "./providers/hasProvidersFlag.js";
+import { runProvidersCommand } from "./providers/runProvidersCommand.js";
 
 export interface RunCliWithAppOptions {
   runApp: (argv: string[]) => Promise<void>;
@@ -119,6 +121,10 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
 
   if (hasThemesFlag(argv)) {
     return printThemesHelp();
+  }
+
+  if (hasProvidersFlag(argv)) {
+    return runProvidersCommand(argv);
   }
 
   if (hasObservationsFlag(argv)) {

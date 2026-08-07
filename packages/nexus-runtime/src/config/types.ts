@@ -48,9 +48,4 @@ export type NexusUserConfig = {
 	notifyEnabled?: boolean;
 	/** Per-feature-flag overrides from the user config file. */
 	featureFlags?: Record<string, UserFeatureFlagOverride>;
-	/** Provider toggle states persisted in the user config file.
-	 * Key is the provider id (e.g. "minimax", "anthropic"), value is { enabled: boolean }.
-	 * `true` means the provider is toggled on (green), `false` means off (default color).
-	 */
-	providers?: Record<string, { enabled: boolean }>;
 }

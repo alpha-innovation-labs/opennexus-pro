@@ -16,6 +16,8 @@
     "@nexus/observability": "workspace:*",
     "@nexus/pi-platform": "workspace:*",
     "@nexus/runtime": "workspace:*",
+    "@clack/prompts": "^1.7.0",
+    "console-table-printer": "^2.16.1",
     "ink": "^7.1.0",
     "ink-big-text": "^2.0.0",
     "ink-gradient": "^4.0.1",

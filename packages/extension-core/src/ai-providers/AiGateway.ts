@@ -1,4 +1,5 @@
 import type { ExtensionAPI, ProviderConfigInput } from "@earendil-works/pi-coding-agent";
+import { getBuiltinModels, getBuiltinProviders } from "@earendil-works/pi-ai/providers/all";
 import { DEFAULT_PORTS } from "./constants/default-ports.js";
 import {
   getModelCachePath,
@@ -7,7 +8,11 @@ import {
   type ModelCache,
 } from "./cache/index.js";
 
-const UNKNOWN_PROVIDER = "unknown";
+/** Result of probing a gateway. */
+export type GatewayProbeResult =
+  | { status: "ok"; statusCode: number; statusText: string }
+  | { status: "access-denied"; reason: string }
+  | { status: "unreachable"; reason: string };
 
 /**
  * A local LLM inference server that exposes an OpenAI-compatible API.
@@ -80,12 +85,19 @@ export class AiGateway {
   }
 
   /**
-   * Probes the gateway to confirm it is alive and serving `/v1/models`.
+   * Probes the gateway at `/v1/models` (or `/models` if baseUrl already ends
+   * with `/v1`) and returns a detailed status.
    *
-   * Returns `true` if the endpoint responds with HTTP 200, `false` otherwise.
+   * Distinguishes three cases:
+   * - `ok`: server responded with HTTP 200–299 and the body matches the
+   *   OpenAI `/v1/models` contract (`{ data: [{ object: "model" }] })`)
+   * - `access-denied`: server responded with a non-2xx status — the server
+   *   IS an AI provider, but auth was rejected (401/403)
+   * - `unreachable`: connection error (DNS failure, connection refused, timeout)
+   *
    * The `/v1/models` suffix is appended unless `baseUrl` already ends with `/v1`.
    */
-  async exists(): Promise<boolean> {
+  async exists(): Promise<GatewayProbeResult> {
     try {
       const url = this.baseUrl.endsWith('/v1')
         ? `${this.baseUrl}/models`
@@ -93,9 +105,36 @@ export class AiGateway {
       const res = await fetch(url, {
         headers: this._authHeaders(),
       });
-      return res.ok;
-    } catch {
-      return false;
+      // Any HTTP response (2xx, 4xx, 5xx) means the server IS reachable
+      // and exposes /v1/models — it is an AI provider.  Only connection
+      // errors (caught below) mean "unreachable".
+      if (!res.ok) {
+        const port = DEFAULT_PORTS[this.providerId];
+        const portHint = port ? `port ${port}` : "a port";
+        // 401/403 with an api_key = wrong key on the correct server
+        // 401/403 without an api_key = the server is running but no key configured
+        // 404 = the server is running but doesn't support /v1/models
+        // In all cases the server IS an AI provider — just not accessible.
+        return {
+          status: "access-denied",
+          reason: `Access denied on ${portHint} — the server is running but rejected the request`,
+        };
+      }
+      // Validate the response body matches the OpenAI /v1/models contract:
+      // { data: [{ object: "model", id: string, ... }] }
+      const body = await res.json();
+      const dataArray = body?.data;
+      if (!Array.isArray(dataArray) || dataArray.length === 0) {
+        return { status: "unreachable", reason: "Not an OpenAI-compatible server (no data array)" };
+      }
+      const firstItem = dataArray[0];
+      if (firstItem?.object !== "model") {
+        return { status: "unreachable", reason: "Not an OpenAI-compatible server (missing object: 'model')" };
+      }
+      return { status: "ok", statusCode: res.status, statusText: res.statusText };
+    } catch (err) {
+      const reason = err instanceof Error ? err.message : String(err);
+      return { status: "unreachable", reason };
     }
   }
 
@@ -115,9 +154,43 @@ export class AiGateway {
   }
 
   /**
+   * Looks up a model ID across all built-in providers in the pi-ai catalog.
+   *
+   * @param modelId — The model identifier to search for.
+   * @returns The catalog metadata if found, or `undefined` when no catalog
+   *   entry exists.  Callers MUST NOT fabricate a value in that case —
+   *   hardcoding is a CATASTROPHIC FAILURE.
+   */
+  private static _lookupCatalogModel(modelId: string): {
+    reasoning: boolean;
+    input: ("text" | "image")[];
+    cost: ProviderConfigInput["models"][number]["cost"];
+    contextWindow: number;
+    maxTokens: number;
+  } | undefined {
+    for (const provider of getBuiltinProviders()) {
+      const models = getBuiltinModels(provider);
+      const match = models.find((m) => m.id === modelId);
+      if (match) {
+        return {
+          reasoning: match.reasoning,
+          input: match.input,
+          cost: match.cost,
+          contextWindow: match.contextWindow,
+          maxTokens: match.maxTokens,
+        };
+      }
+    }
+    return undefined;
+  }
+
+  /**
    * Fetches models from the gateway and maps them to Pi's model format.
    *
-   * Embedding models are filtered out — only LLMs are returned.
+   * Embedding models are filtered out.  For each model ID returned by the
+   * gateway, the built-in model catalog is consulted — `reasoning`,
+   * `input`, `cost`, `contextWindow`, and `maxTokens` are all sourced from
+   * the catalog.  Models with no catalog entry are silently skipped.
    *
    * Returns an empty array if the gateway is unreachable.
    * The `/v1/models` suffix is appended unless `baseUrl` already ends with `/v1`.
@@ -136,17 +209,32 @@ export class AiGateway {
         return [];
       }
       const data = await res.json();
-      return (data.data ?? [])
-        .filter((m: { id: string }) => !AiGateway.isEmbeddingModel(m.id))
-        .map((m: { id: string }) => ({
+      const catalogModels = data.data ?? [];
+      const results: NonNullable<ProviderConfigInput["models"]> = [];
+      for (const m of catalogModels as Array<{ id: string }>) {
+        // Skip embedding models — they are not LLMs.
+        if (AiGateway.isEmbeddingModel(m.id)) {
+          continue;
+        }
+        const catalog = AiGateway._lookupCatalogModel(m.id);
+        if (!catalog) {
+          // NOTE: Hardcoding reasoning, input, cost, contextWindow, or maxTokens
+          // when no catalog entry exists is a CATASTROPHIC FAILURE.  Always add
+          // the model to the pi-ai catalog (models.generated.ts) before using it
+          // through a gateway, so the real values flow through here.
+          continue;
+        }
+        results.push({
           id: m.id,
           name: m.id,
-          reasoning: false,
-          input: ["text"] as const,
-          cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-          contextWindow: 128_000,
-          maxTokens: 8_192,
-        }));
+          reasoning: catalog.reasoning,
+          input: catalog.input,
+          cost: catalog.cost,
+          contextWindow: catalog.contextWindow,
+          maxTokens: catalog.maxTokens,
+        });
+      }
+      return results;
     } catch {
       return [];
     }

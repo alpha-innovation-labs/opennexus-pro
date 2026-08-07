@@ -9,3 +9,5 @@ export { getModelCachePath } from "./getModelCachePath.js";
 export type { ModelCache } from "./readModelCache.js";
 export { readModelCache } from "./readModelCache.js";
 export { writeModelCache } from "./writeModelCache.js";
+export type { ProviderStateCache, CachedProviderState } from "./providerStateCache.js";
+export { readProviderStateCache } from "./providerStateCache.js";

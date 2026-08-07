@@ -2,7 +2,6 @@
 export const DEFAULT_PORTS: Record<string, number> = {
   vllm: 8000,
   ollama: 11434,
-  "lm-studio": 1234,
   "llama.cpp": 8080,
   localai: 8080,
   sglang: 30000,
@@ -24,4 +23,5 @@ export const DEFAULT_PORTS: Record<string, number> = {
   litellm: 4000,
   harbor: 3000,
   openllm: 3000,
+  "lm-studio": 1234,
 };

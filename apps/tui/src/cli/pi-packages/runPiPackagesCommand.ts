@@ -6,6 +6,7 @@ import { createNexusPackageManager } from "@nexus/extensions/pi-packages/package
 import { normalizeNpmPackageName } from "@nexus/extensions/pi-packages/package/normalizeNpmPackageName.js";
 import { parsePiPackagesCommand } from "./parsePiPackagesCommand.js";
 import { printPiPackagesUsage } from "./printPiPackagesUsage.js";
+import { Table } from "console-table-printer";
 
 /**
  * Runs the Nexus pi-packages CLI when argv targets it.
@@ -78,16 +79,22 @@ async function runListCommand(): Promise<number> {
     return { name, source: entry.source, enabled, scope: entry.scope };
   });
 
-  const maxName = Math.max(...rows.map((r) => r.name.length), 10);
+  const tableData = rows.map((row) => ({
+    Package: row.name,
+    Status: row.enabled ? "enabled" : "disabled",
+    Source: `${row.source}${row.scope === "project" ? " [project]" : ""}`,
+  }));
 
-  console.log(`${"Package".padEnd(maxName)}  Status    Source`.padEnd(rows.reduce((max, r) => Math.max(max, r.source.length, 0), 0) + 40));
-  console.log("-".repeat(Math.max(maxName + 12 + rows.reduce((max, r) => Math.max(max, r.source.length, 0), 0) + 4, 40)));
-
-  for (const row of rows) {
-    const status = row.enabled ? "enabled" : "disabled";
-    const scopeLabel = row.scope === "project" ? " [project]" : "";
-    console.log(`${row.name.padEnd(maxName)}  ${status.padEnd(10)} ${row.source}${scopeLabel}`);
-  }
+  const ct = new Table({
+    columns: [
+      { name: "Package", alignment: "left" },
+      { name: "Status", alignment: "left" },
+      { name: "Source", alignment: "left" },
+    ],
+    border: {},
+  });
+  ct.addRows(tableData);
+  ct.printTable();
 
   return 0;
 }
