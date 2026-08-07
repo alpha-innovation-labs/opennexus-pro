@@ -135,7 +135,7 @@ Nexus is a custom terminal UI application built on Pi that prioritizes local AI 
 
 ## Version History
 
-### v1.0.0 (2026-08-06)
+### V1.0.0 (2026-08-06) [48ccb32]
 **Type**: Major
 **Changed**: Initial vision established
 **Approved by**: [Role/Name]

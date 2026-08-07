@@ -26,8 +26,6 @@ import { hasThemesFlag, hasThemesListFlag, hasThemesSetFlag, readThemeNameArg, r
 import { printThemesHelp } from "./themes/printThemesHelp.js";
 import { printThemesList } from "./themes/printThemesList.js";
 import { setTheme } from "./themes/setTheme.js";
-import { isToolsCommand } from "./tools/isToolsCommand.js";
-import { printToolsList } from "./tools/printToolsList.js";
 
 export interface RunCliWithAppOptions {
   runApp: (argv: string[]) => Promise<void>;
@@ -75,10 +73,6 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
 
   const piPackagesExitCode = await runPiPackagesCommand(argv);
   if (piPackagesExitCode !== undefined) return piPackagesExitCode;
-
-  if (isToolsCommand(argv)) {
-    return await printToolsList();
-  }
 
   if (hasHelpFlag(argv)) {
     printNexusUsage();
