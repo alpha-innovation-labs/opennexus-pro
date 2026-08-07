@@ -22,22 +22,5 @@ export function registerContextUsageExtension(pi: ExtensionAPI): void {
     },
   }, "Extensions"));
 
-  pi.registerTool(
-    defineTool({
-      name: "context_usage",
-      label: "Context Usage",
-      description: "Returns the current chat context usage for the active model.",
-      promptSnippet: "Inspect the current chat context-window usage.",
-      promptGuidelines: [
-        "Use context_usage when the user asks how much chat context or context window has been used.",
-      ],
-      parameters: Type.Object({}),
-      async execute(_toolCallId, _params, _signal, _onUpdate, ctx) {
-        return {
-          content: [{ type: "text", text: await getContextUsageToolText(ctx) }],
-          details: undefined,
-        };
-      },
-    }),
-  );
+  // context_usage tool removed
 }
