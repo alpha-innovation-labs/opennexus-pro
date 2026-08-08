@@ -8,6 +8,7 @@ const EMBEDDED_ASSET_ROOTS = [
   [resolve("package.json"), "package.json"],
   [resolve("packages", "assets", "src", "themes"), "theme"],
   [resolve("packages", "assets", "src", "default-settings", "settings.json"), "runtime/config/default-settings/settings.json"],
+  [resolve("packages", "assets", "src", "prompts", "base-system-prompt", "system_prompt.md"), "prompts/base-system-prompt/system_prompt.md"],
   [resolve("node_modules", "@earendil-works", "pi-coding-agent", "dist", "core", "export-html"), "export-html"],
   [resolve("node_modules", "@earendil-works", "pi-coding-agent", "dist", "modes", "interactive", "theme"), "theme"],
   [resolve("node_modules", "@earendil-works", "pi-coding-agent", "dist", "modes", "interactive", "assets"), "assets"],
