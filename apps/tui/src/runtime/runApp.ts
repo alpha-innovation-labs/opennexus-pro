@@ -1,5 +1,6 @@
 import { createBundledExtensionFactories } from "@nexus/extensions/runtime/createBundledExtensionFactories.js";
 import { createAppArgs } from "../cli/createAppArgs.js";
+import { stripFeatureFlags } from "../cli/features/hasFeaturesFlag.js";
 import { resolveBundledExtensionFactories } from "./extensions/resolveBundledExtensionFactories.js";
 import { clearStartupProfileLog } from "@nexus/observability/startup-profile/clearStartupProfileLog.js";
 import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent.js";
@@ -40,9 +41,10 @@ import { shouldClearStartupScreen } from "./startup-screen/shouldClearStartupScr
  * and system checks (cmux) are applied at startup.
  *
  * @param argv Raw command line arguments.
+ * @param featureOverrides Optional CLI-level feature flag overrides.
  * @returns A promise that resolves when the app exits.
  */
-export async function runApp(argv: string[]): Promise<void> {
+export async function runApp(argv: string[], featureOverrides?: { disabledFeatures?: string[]; enabledFeatures?: string[] }): Promise<void> {
   const { args: extractedArgs, startupProfileEnabled } = extractStartupProfileArgs(argv);
   const rawArgs = normalizeUsageStartupArgs(normalizeResumeStartupArgs(extractedArgs));
   setStartupProfileEnabled(startupProfileEnabled);
@@ -125,13 +127,15 @@ export async function runApp(argv: string[]): Promise<void> {
   logRunAppPhase("pruneLoggedOutEnabledModels:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
-  const args = createAppArgs(rawArgs);
+  const strippedArgs = stripFeatureFlags(rawArgs);
+  const args = createAppArgs(strippedArgs);
   logRunAppPhase("createAppArgs:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   const extensionFactories = await resolveBundledExtensionFactories(
     rawArgs,
     createBundledExtensionFactories,
+    featureOverrides,
   );
   logRunAppPhase("resolveBundledExtensionFactories:done", phaseStartedAt);
   logStartupProfileEvent("runApp", "prepareArgsAndExtensions:done");

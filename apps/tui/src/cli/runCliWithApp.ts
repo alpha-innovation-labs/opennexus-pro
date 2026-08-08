@@ -30,9 +30,11 @@ import { hasProvidersFlag } from "./providers/hasProvidersFlag.js";
 import { runProvidersCommand } from "./providers/runProvidersCommand.js";
 import { hasSubagentFlag } from "./subagent/hasSubagentFlag.js";
 import { runSubagentCommand } from "./subagent/runSubagentCommand.js";
+import { hasFeaturesOverrideFlag, readDisabledFeatures, readEnabledFeatures } from "./features/hasFeaturesFlag.js";
+import { hasMinimalFlag, MINIMAL_EXTENSION_WHITELIST } from "./extensions/hasMinimalFlag.js";
 
 export interface RunCliWithAppOptions {
-  runApp: (argv: string[]) => Promise<void>;
+  runApp: (argv: string[], options?: { disabledFeatures?: string[]; enabledFeatures?: string[] }) => Promise<void>;
 }
 
 /**
@@ -141,6 +143,34 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
       return 1;
     }
     await printObservationsList(sessionId, process.cwd());
+    return 0;
+  }
+
+  // Collect CLI-level feature overrides before starting the app.
+  const disabledFeatures = readDisabledFeatures(argv);
+  const enabledFeatures = readEnabledFeatures(argv);
+
+  // --minimal: whitelist only the specified extensions, disable everything else.
+  if (hasMinimalFlag(argv)) {
+    await options.runApp(argv, {
+      enabledFeatures: MINIMAL_EXTENSION_WHITELIST,
+    });
+    return 0;
+  }
+
+  if (hasFeaturesOverrideFlag(argv)) {
+    const { getAllBundledExtensionIds } = await import("@nexus/feature-flags/registry.js");
+    const validIds = new Set(getAllBundledExtensionIds());
+    const invalidDisabled = disabledFeatures.filter((id) => !validIds.has(id));
+    const invalidEnabled = enabledFeatures.filter((id) => !validIds.has(id));
+    const allInvalid = [...new Set([...invalidDisabled, ...invalidEnabled])];
+    if (allInvalid.length > 0) {
+      const validList = getAllBundledExtensionIds().join(", ");
+      console.error(`Error: unknown feature(s): ${allInvalid.join(", ")}`);
+      console.error(`Valid features: ${validList}`);
+      return 1;
+    }
+    await options.runApp(argv, { disabledFeatures, enabledFeatures });
     return 0;
   }
 
