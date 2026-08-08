@@ -1,21 +1,21 @@
 import { spawnSync } from "node:child_process";
 
 /**
- * Sends key presses to a pane via `herdr pane send-keys`.
+ * Sends key presses to an agent via `herdr agent send-keys`.
  *
- * @param paneId The target pane ID (e.g. "w72:p1").
- * @param keys Key names to send (space-separated: "Enter", "Esc", "Ctrl+c").
+ * @param agentName The target agent name (e.g. "agent-abc1").
+ * @param keys      Key presses (e.g. "Enter", "Esc").
  * @returns Process exit code.
  */
-export async function runSubagentSendKeysCommand(paneId: string, keys: string[]): Promise<number> {
-  if (!paneId || keys.length === 0) {
-    console.error('Usage: nexus subagent send-keys <pane-id> <keys...>');
+export async function runSubagentSendKeysCommand(agentName: string, keys: string[]): Promise<number> {
+  if (!agentName || keys.length === 0) {
+    console.error('Usage: nexus subagent send-keys <agent-name> <keys...>');
     return 1;
   }
 
-  console.error(`Sending keys to pane ${paneId}: ${keys.join(", ")}`);
+  console.error(`Sending keys to agent ${agentName}: ${keys.join(", ")}`);
 
-  const result = spawnSync("herdr", ["pane", "send-keys", paneId, ...keys], {
+  const result = spawnSync("herdr", ["agent", "send-keys", agentName, ...keys], {
     encoding: "utf-8",
     timeout: 10_000,
   });

@@ -1,22 +1,22 @@
 import { spawnSync } from "node:child_process";
 
 /**
- * Reads terminal output from a pane via `herdr pane read`.
+ * Reads terminal output from an agent via `herdr agent read`.
  *
- * @param paneId The target pane ID (e.g. "w72:p1").
+ * @param agentName The target agent name (e.g. "agent-abc1").
  * @param options Read options (lines, source).
  * @returns Process exit code.
  */
 export async function runSubagentReadCommand(
-  paneId: string,
+  agentName: string,
   options: { lines?: string; source?: string } = {},
 ): Promise<number> {
-  if (!paneId) {
-    console.error("Usage: nexus subagent read <pane-id> [--lines N] [--source visible|recent]");
+  if (!agentName) {
+    console.error("Usage: nexus subagent read <agent-name> [--lines N] [--source visible|recent]");
     return 1;
   }
 
-  const args = ["pane", "read", paneId];
+  const args = ["agent", "read", agentName];
   if (options.lines) args.push("--lines", options.lines);
   if (options.source) args.push("--source", options.source);
 

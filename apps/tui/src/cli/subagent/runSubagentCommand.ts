@@ -1,5 +1,6 @@
 import { parseSubagentArgs } from "./parseSubagentArgs.js";
 import { runSubagentStartCommand } from "./runSubagentStartCommand.js";
+import { runSubagentPromptCommand } from "./runSubagentPromptCommand.js";
 import { runSubagentSendCommand } from "./runSubagentSendCommand.js";
 import { runSubagentSendKeysCommand } from "./runSubagentSendKeysCommand.js";
 import { runSubagentReadCommand } from "./runSubagentReadCommand.js";
@@ -8,10 +9,11 @@ import { runSubagentReadCommand } from "./runSubagentReadCommand.js";
  * Dispatches the subagent CLI command to the appropriate subcommand handler.
  *
  * Usage:
- *   nexus subagent start                          — split right + launch nexus
- *   nexus subagent send <pane-id> "<text>"        — send text to a pane
- *   nexus subagent send-keys <pane-id> <keys...>  — send key presses
- *   nexus subagent read <pane-id> [--lines N]     — read pane output
+ *   nexus subagent start [--session <name>]       — split right + start mastracode agent
+ *   nexus subagent prompt <agent-name> "<text>"   — prompt agent + wait for response
+ *   nexus subagent send <agent-name> "<text>"     — send text to an agent
+ *   nexus subagent send-keys <agent-name> <keys...>  — send key presses
+ *   nexus subagent read <agent-name> [--lines N]  — read agent output
  *
  * @returns Process exit code.
  */
@@ -22,29 +24,39 @@ export async function runSubagentCommand(): Promise<number> {
     case "start":
       return runSubagentStartCommand();
 
-    case "send": {
-      const paneId = args[0];
+    case "prompt": {
+      const agentName = args[0];
       const text = args.slice(1).join(" ");
-      if (!paneId || !text) {
-        console.error('Usage: nexus subagent send <pane-id> "<text>"');
+      if (!agentName || !text) {
+        console.error('Usage: nexus subagent prompt <agent-name> "<text>"');
         return 1;
       }
-      return runSubagentSendCommand(paneId, text);
+      return runSubagentPromptCommand(agentName, text, flags.timeout ? parseInt(flags.timeout, 10) : undefined);
+    }
+
+    case "send": {
+      const agentName = args[0];
+      const text = args.slice(1).join(" ");
+      if (!agentName || !text) {
+        console.error('Usage: nexus subagent send <agent-name> "<text>"');
+        return 1;
+      }
+      return runSubagentSendCommand(agentName, text);
     }
 
     case "send-keys": {
-      const paneId = args[0];
+      const agentName = args[0];
       const keys = args.slice(1);
-      if (!paneId || keys.length === 0) {
-        console.error('Usage: nexus subagent send-keys <pane-id> <keys...>');
+      if (!agentName || keys.length === 0) {
+        console.error('Usage: nexus subagent send-keys <agent-name> <keys...>');
         return 1;
       }
-      return runSubagentSendKeysCommand(paneId, keys);
+      return runSubagentSendKeysCommand(agentName, keys);
     }
 
     case "read": {
-      const paneId = args[0];
-      return runSubagentReadCommand(paneId, {
+      const agentName = args[0];
+      return runSubagentReadCommand(agentName, {
         lines: flags.lines,
         source: flags.source,
       });
@@ -53,14 +65,15 @@ export async function runSubagentCommand(): Promise<number> {
     case "help":
     default:
       console.log(`
-subagent — manage subagent panes.
+subagent — manage subagent agents.
 
 Usage:
-  nexus subagent start                          Split current pane right and launch nexus
-  nexus subagent send <pane-id> "<text>" [--enter]  Send text + Enter
-  nexus subagent send-keys <pane-id> <keys...>  Send key presses (e.g. Enter, Esc)
-  nexus subagent read <pane-id> [--lines N]     Read pane terminal output
-  nexus subagent help                           Show this message
+  nexus subagent start [--session <name>]            Split current pane right and start mastracode agent
+  nexus subagent prompt <agent-name> "<text>"        Prompt agent and wait for response
+  nexus subagent send <agent-name> "<text>"          Send text + Enter to agent
+  nexus subagent send-keys <agent-name> <keys...>    Send key presses (e.g. Enter, Esc)
+  nexus subagent read <agent-name> [--lines N]       Read agent terminal output
+  nexus subagent help                                Show this message
 `);
       return 0;
   }
