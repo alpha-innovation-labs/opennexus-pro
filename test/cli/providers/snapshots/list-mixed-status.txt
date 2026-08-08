@@ -1,28 +1,28 @@
 ┌───────────────────────┬─────────┬───────────┬────────────┬────────┐
-│ [37m [01mProvider             [0m │ [37m [01mEnabled [0m │ [37m [01mReachable [0m │ [37m [01mAuthorized [0m │ [37m [01mModels [0m │
+│[37m [0m[01mProvider             [0m │[37m [0m[01mEnabled[0m │[37m [0m[01mReachable[0m │[37m [0m[01mAuthorized[0m │[37m [0m[01mModels[0m │
 ├───────────────────────┼─────────┼───────────┼────────────┼────────┤
-│ [37m [0m[32mlm-studio            [0m │ [37m [0mYes     [0m │ [37m [0mYes       [0m │ [37m [0mYes        [0m │ [37m [0m      1 [0m │
-│ [37m [0m[31mlitellm              [0m │ [37m [0mYes     [0m │ [37m [0mYes       [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mdocker-model-runner  [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mexllamav2            [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mgpt4all              [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mh2ogpt               [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mharbor               [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mjan                  [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mkoboldcpp            [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mlemonade             [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mllama.cpp            [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mllamafile            [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mlmddeploy            [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mlocalai              [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mmlx-lm               [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mmlx-openai-server    [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mollama               [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0molmx                 [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mopen-webui           [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mopenllm              [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0msglang               [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mtensorrt-llm         [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mtext-generation-webui [0m│ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
-│ [37m [0mvllm                 [0m │ [37m [0mYes     [0m │ [37m [0mNo        [0m │ [37m [0mNo         [0m │ [37m [0m      0 [0m │
+│[37m [0m[37m[32mlm-studio[0m            [0m │[37m [0m[37m[32mYes[0m    [0m │[37m [0m[37m[32mYes[0m      [0m │[37m [0m[37m[32mYes[0m       [0m │[37m [0m[37m     [32m4[0m[0m │
+│[37m [0m[37m[31mdocker-model-runner[0m  [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mexllamav2[0m            [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mgpt4all[0m              [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mh2ogpt[0m               [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mharbor[0m               [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mjan[0m                  [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mkoboldcpp[0m            [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mlemonade[0m             [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mlitellm[0m              [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mllama.cpp[0m            [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mllamafile[0m            [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mlmddeploy[0m            [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mlocalai[0m              [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mmlx-lm[0m               [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mmlx-openai-server[0m    [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mollama[0m               [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31momlx[0m                 [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mopen-webui[0m           [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mopenllm[0m              [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31msglang[0m               [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mtensorrt-llm[0m         [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mtext-generation-webui[0m[0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
+│[37m [0m[37m[31mvllm[0m                 [0m │[37m [0m[37m[31mYes[0m    [0m │[37m [0m[37m[31mNo[0m       [0m │[37m [0m[37m[31mNo[0m        [0m │[37m [0m[37m     [31m0[0m[0m │
 └───────────────────────┴─────────┴───────────┴────────────┴────────┘

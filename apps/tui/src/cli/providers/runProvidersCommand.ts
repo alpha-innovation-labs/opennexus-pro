@@ -27,7 +27,7 @@ export async function runProvidersCommand(argv: readonly string[]): Promise<numb
 
   const { request } = parsed;
   const providerConfig = readProviderConfig();
-  const gateways = getGateways(providerConfig);
+  const gateways = await getGateways(providerConfig);
 
   switch (request.action) {
     case "list":

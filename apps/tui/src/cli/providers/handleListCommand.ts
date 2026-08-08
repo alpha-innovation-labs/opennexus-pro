@@ -70,20 +70,21 @@ export async function handleListCommand(json: boolean, gateways: AiGateway[]): P
         reachable = "Yes";
         authorized = "Yes";
       } else if (probe.status === "access-denied" || probe.status === "wrong-app") {
-        reachable = "No";
+        reachable = "Yes";
         authorized = "No";
       }
+      // not-a-gateway and unreachable → reachable=No, authorized=No (default)
     }
 
     rows.push({ providerId, enabled, reachable, authorized, models: modelCount });
   }
 
-  // Sort: green (enabled+reachable+authorized) first, orange (enabled+reachable+not-authorized) second,
-  // red (enabled+not-reachable) third, gray (disabled) last.
+  // Sort: green (reachable+authorized) first, red (reachable but not authorized) second,
+  // gray (not reachable) third, gray (disabled) last.
   rows.sort((a, b) => {
     const aDisabled = providerStates[a.providerId]?.enabled === false;
     const bDisabled = providerStates[b.providerId]?.enabled === false;
-    // Priority: green=0 > orange=1 > red=2 > gray=3
+    // Priority: green=0 > red=1 > gray=2 > disabled=3
     const aPriority = aDisabled
       ? 3
       : a.authorized === "Yes"
@@ -105,7 +106,7 @@ export async function handleListCommand(json: boolean, gateways: AiGateway[]): P
       if (b.models !== a.models) return b.models - a.models;
       return a.providerId.localeCompare(b.providerId);
     }
-    // Within orange/red/gray: by providerId
+    // Within red/gray: by providerId
     return a.providerId.localeCompare(b.providerId);
   });
 
@@ -139,24 +140,24 @@ export async function handleListCommand(json: boolean, gateways: AiGateway[]): P
       };
     }
 
-    // Enabled + reachable + not authorized → orange
+    // Enabled + reachable but not authorized → red
     if (row.reachable === "Yes") {
       return {
-        Provider: `${ORANGE}${row.providerId}${RESET}`,
-        Enabled: `${ORANGE}${row.enabled}${RESET}`,
-        Reachable: `${ORANGE}${row.reachable}${RESET}`,
-        Authorized: `${ORANGE}${row.authorized}${RESET}`,
-        Models: `${ORANGE}${row.models}${RESET}`,
+        Provider: `${RED}${row.providerId}${RESET}`,
+        Enabled: `${RED}${row.enabled}${RESET}`,
+        Reachable: `${RED}${row.reachable}${RESET}`,
+        Authorized: `${RED}${row.authorized}${RESET}`,
+        Models: `${RED}${row.models}${RESET}`,
       };
     }
 
-    // Enabled + not reachable → red
+    // Enabled + not reachable → gray
     return {
-      Provider: `${RED}${row.providerId}${RESET}`,
-      Enabled: `${RED}${row.enabled}${RESET}`,
-      Reachable: `${RED}${row.reachable}${RESET}`,
-      Authorized: `${RED}${row.authorized}${RESET}`,
-      Models: `${RED}${row.models}${RESET}`,
+      Provider: `${GRAY}${row.providerId}${RESET}`,
+      Enabled: `${GRAY}${row.enabled}${RESET}`,
+      Reachable: `${GRAY}${row.reachable}${RESET}`,
+      Authorized: `${GRAY}${row.authorized}${RESET}`,
+      Models: `${GRAY}${row.models}${RESET}`,
     };
   });
 

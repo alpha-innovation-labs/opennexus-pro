@@ -1,28 +1,28 @@
-┌───────────────────────┬──────────────────────────────────┐
-│ [37m [01mProvider             [0m │ [37m [01mStatus                          [0m │
-├───────────────────────┼──────────────────────────────────┤
-│ [37m [0m[32mlm-studio[0m            [0m │ [37m [0m[32m1 models found[0m                  [0m │
-│ [37m [0m[31mlitellm[0m              [0m │ [37m [0m[31mAccess denied[0m                  [0m │
-│ [37m [0m[33mdocker-model-runner[0m  [0m │ [37m [0m[33mSomething is listening on port 8000[0m [0m │
-│ [37m [0m[33mexllamav2[0m            [0m │ [37m [0m[33mSomething is listening on port 5000[0m [0m │
-│ [37m [0m[33mgpt4all[0m              [0m │ [37m [0m[33mSomething is listening on port 4891[0m [0m │
-│ [37m [0m[33mh2ogpt[0m               [0m │ [37m [0m[33mSomething is listening on port 5000[0m [0m │
-│ [37m [0m[33mharbor[0m               [0m │ [37m [0m[33mSomething is listening on port 3000[0m [0m │
-│ [37m [0m[33mjan[0m                  [0m │ [37m [0m[33mSomething is listening on port 1337[0m [0m │
-│ [37m [0m[33mkoboldcpp[0m            [0m │ [37m [0m[33mSomething is listening on port 5001[0m [0m │
-│ [37m [0m[33mlemonade[0m             [0m │ [37m [0m[33mSomething is listening on port 8080[0m [0m │
-│ [37m [0m[33mllama.cpp[0m            [0m │ [37m [0m[33mSomething is listening on port 8080[0m [0m │
-│ [37m [0m[33mllamafile[0m            [0m │ [37m [0m[33mSomething is listening on port 8080[0m [0m │
-│ [37m [0m[33mlmddeploy[0m            [0m │ [37m [0m[33mSomething is listening on port 23333[0m[0m [0m│
-│ [37m [0m[33mlocalai[0m              [0m │ [37m [0m[33mSomething is listening on port 8080[0m [0m │
-│ [37m [0m[33mmlx-lm[0m               [0m │ [37m [0m[33mSomething is listening on port 8080[0m [0m │
-│ [37m [0m[33mmlx-openai-server[0m    [0m │ [37m [0m[33mSomething is listening on port 8080[0m [0m │
-│ [37m [0m[33molllama[0m              [0m │ [37m [0m[33mSomething is listening on port 11434[0m[0m [0m│
-│ [37m [0m[33momlx[0m                 [0m │ [37m [0m[33mSomething is listening on port 8000[0m [0m │
-│ [37m [0m[33mopen-webui[0m           [0m │ [37m [0m[33mSomething is listening on port 3000[0m [0m │
-│ [37m [0m[33mopenllm[0m              [0m │ [37m [0m[33mSomething is listening on port 3000[0m [0m │
-│ [37m [0m[33msglang[0m               [0m │ [37m [0m[33mSomething is listening on port 30000[0m[0m [0m│
-│ [37m [0m[33mtensorrt-llm[0m         [0m │ [37m [0m[33mSomething is listening on port 8000[0m [0m │
-│ [37m [0m[33mtext-generation-webui[0m[0m [0m│ [37m [0m[33mSomething is listening on port 7860[0m [0m │
-│ [37m [0m[33mvllm[0m                 [0m │ [37m [0m[33mSomething is listening on port 8000[0m [0m │
-└───────────────────────┴──────────────────────────────────┘
+┌───────────────────────┬───────┬────────────────────────┐
+│[37m [0m[01mProvider             [0m │[37m [0m[01m Port[0m │[37m [0m[01mStatus                [0m │
+├───────────────────────┼───────┼────────────────────────┤
+│[37m [0m[37m[32mlm-studio[0m            [0m │[37m [0m[37m [32m1234[0m[0m │[37m [0m[37m[32m4 models found[0m        [0m │
+│[37m [0m[37m[31mlitellm[0m              [0m │[37m [0m[37m [31m4000[0m[0m │[37m [0m[37m[31mAccess denied[0m         [0m │
+│[37m [0m[37m[33mexllamav2[0m            [0m │[37m [0m[37m [33m5000[0m[0m │[37m [0m[37m[33mSomething is listening[0m[0m │
+│[37m [0m[37m[33mh2ogpt[0m               [0m │[37m [0m[37m [33m5000[0m[0m │[37m [0m[37m[33mSomething is listening[0m[0m │
+│[37m [0m[37m[33mharbor[0m               [0m │[37m [0m[37m [33m3000[0m[0m │[37m [0m[37m[33mSomething is listening[0m[0m │
+│[37m [0m[37m[33mlemonade[0m             [0m │[37m [0m[37m [33m8080[0m[0m │[37m [0m[37m[33mSomething is listening[0m[0m │
+│[37m [0m[37m[33mllama.cpp[0m            [0m │[37m [0m[37m [33m8080[0m[0m │[37m [0m[37m[33mSomething is listening[0m[0m │
+│[37m [0m[37m[33mllamafile[0m            [0m │[37m [0m[37m [33m8080[0m[0m │[37m [0m[37m[33mSomething is listening[0m[0m │
+│[37m [0m[37m[33mlocalai[0m              [0m │[37m [0m[37m [33m8080[0m[0m │[37m [0m[37m[33mSomething is listening[0m[0m │
+│[37m [0m[37m[33mmlx-lm[0m               [0m │[37m [0m[37m [33m8080[0m[0m │[37m [0m[37m[33mSomething is listening[0m[0m │
+│[37m [0m[37m[33mmlx-openai-server[0m    [0m │[37m [0m[37m [33m8080[0m[0m │[37m [0m[37m[33mSomething is listening[0m[0m │
+│[37m [0m[37m[33mopen-webui[0m           [0m │[37m [0m[37m [33m3000[0m[0m │[37m [0m[37m[33mSomething is listening[0m[0m │
+│[37m [0m[37m[33mopenllm[0m              [0m │[37m [0m[37m [33m3000[0m[0m │[37m [0m[37m[33mSomething is listening[0m[0m │
+│[37m [0m[37m[90mdocker-model-runner[0m  [0m │[37m [0m[37m [90m8000[0m[0m │[37m [0m[37m[90mNo provider running[0m   [0m │
+│[37m [0m[37m[90mgpt4all[0m              [0m │[37m [0m[37m [90m4891[0m[0m │[37m [0m[37m[90mNo provider running[0m   [0m │
+│[37m [0m[37m[90mjan[0m                  [0m │[37m [0m[37m [90m1337[0m[0m │[37m [0m[37m[90mNo provider running[0m   [0m │
+│[37m [0m[37m[90mkoboldcpp[0m            [0m │[37m [0m[37m [90m5001[0m[0m │[37m [0m[37m[90mNo provider running[0m   [0m │
+│[37m [0m[37m[90mlmddeploy[0m            [0m │[37m [0m[37m[90m23333[0m[0m │[37m [0m[37m[90mNo provider running[0m   [0m │
+│[37m [0m[37m[90mollama[0m               [0m │[37m [0m[37m[90m11434[0m[0m │[37m [0m[37m[90mNo provider running[0m   [0m │
+│[37m [0m[37m[90momlx[0m                 [0m │[37m [0m[37m [90m8000[0m[0m │[37m [0m[37m[90mNo provider running[0m   [0m │
+│[37m [0m[37m[90msglang[0m               [0m │[37m [0m[37m[90m30000[0m[0m │[37m [0m[37m[90mNo provider running[0m   [0m │
+│[37m [0m[37m[90mtensorrt-llm[0m         [0m │[37m [0m[37m [90m8000[0m[0m │[37m [0m[37m[90mNo provider running[0m   [0m │
+│[37m [0m[37m[90mtext-generation-webui[0m[0m │[37m [0m[37m [90m7860[0m[0m │[37m [0m[37m[90mNo provider running[0m   [0m │
+│[37m [0m[37m[90mvllm[0m                 [0m │[37m [0m[37m [90m8000[0m[0m │[37m [0m[37m[90mNo provider running[0m   [0m │
+└───────────────────────┴───────┴────────────────────────┘

@@ -6,10 +6,14 @@ import { getModelCachePath, readProviderStateCache, writeProviderStateCache, typ
 import { Table } from "console-table-printer";
 import { GRAY, GREEN, ORANGE, RED, RESET } from "../shared/ansiColors.js";
 
+type RefreshStatus = "ok" | "access-denied" | "not-a-gateway" | "no-provider";
+
 interface RefreshResult {
   providerId: string;
+  port: string;
   probe: Awaited<ReturnType<AiGateway["exists"]>>;
   models: Awaited<ReturnType<AiGateway["fetchModels"]>>;
+  status: RefreshStatus;
   statusLine: string;
 }
 
@@ -28,7 +32,7 @@ export async function handleRefreshCommand(
   providerId?: string,
   gateways?: AiGateway[],
 ): Promise<number> {
-  const allGateways = gateways ?? getGateways(readProviderConfig());
+  const allGateways = gateways ?? (await getGateways(readProviderConfig()));
   const allProviderIds = getAllProviderIds();
 
   const gatewaysToRefresh = providerId
@@ -47,48 +51,60 @@ export async function handleRefreshCommand(
   // Probe each gateway once, storing results for both display and cache write.
   const refreshResults: RefreshResult[] = await Promise.all(
     gatewaysToRefresh.map(async (gw) => {
+      const port = gw.baseUrl.split(':')[2]?.replace('/', '') ?? '';
       const probe = await gw.exists();
       const models = await gw.refreshModels();
+      let status: RefreshStatus;
       let statusLine: string;
       if (probe.status === "ok") {
+        status = "ok";
         statusLine = `${GREEN}${models.length} models found${RESET}`;
       } else if (probe.status === "access-denied") {
+        status = "access-denied";
         statusLine = `${RED}Access denied${RESET}`;
+      } else if (probe.status === "not-a-gateway") {
+        status = "not-a-gateway";
+        statusLine = `${ORANGE}Something is listening${RESET}`;
       } else {
-        const port = gw.baseUrl.split(':')[2]?.replace('/', '') ?? '';
-        const portHint = port ? `port ${port}` : "a port";
-        statusLine = `${ORANGE}Something is listening on ${portHint}${RESET}`;
+        status = "no-provider";
+        statusLine = `${GRAY}No provider running${RESET}`;
       }
-      return { providerId: gw.providerId, probe, models, statusLine };
+      return { providerId: gw.providerId, port, probe, models, status, statusLine };
     }),
   );
 
-  // Sort: models found (green) first, then access-denied (red),
-  // then listening-but-not-gateway (orange).
+  // Sort: ok (green) first, then access-denied (red),
+  // then not-a-gateway (orange), then no-provider (dim).
   refreshResults.sort((a, b) => {
-    const aGreen = a.statusLine.includes("models found");
-    const bGreen = b.statusLine.includes("models found");
-    const aAccessDenied = a.statusLine.includes("Access denied");
-    const bAccessDenied = b.statusLine.includes("Access denied");
-    const aListening = a.statusLine.includes("Something is listening");
-    const bListening = b.statusLine.includes("Something is listening");
-    // Priority: green=0, red=1, orange=2
-    const aPriority = aGreen ? 0 : aAccessDenied ? 1 : aListening ? 2 : 3;
-    const bPriority = bGreen ? 0 : bAccessDenied ? 1 : bListening ? 2 : 3;
-    if (aPriority !== bPriority) return aPriority - bPriority;
-    return a.providerId.localeCompare(b.providerId);
+    // Priority: ok=0, access-denied=1, not-a-gateway=2, no-provider=3
+    const priorityOrder: Record<RefreshStatus, number> = {
+      ok: 0,
+      "access-denied": 1,
+      "not-a-gateway": 2,
+      "no-provider": 3,
+    };
+    return priorityOrder[a.status] - priorityOrder[b.status] || a.providerId.localeCompare(b.providerId);
   });
 
   // Display table.
   const ct = new Table({
     columns: [
       { name: "Provider", alignment: "left" },
+      { name: "Port", alignment: "right" },
       { name: "Status", alignment: "left" },
     ],
     border: {},
   });
   for (const r of refreshResults) {
-    ct.addRow({ Provider: `${GREEN}${r.providerId}${RESET}`, Status: r.statusLine });
+    let rowColor = GREEN;
+    if (r.status === "access-denied") {
+      rowColor = RED;
+    } else if (r.status === "not-a-gateway") {
+      rowColor = ORANGE;
+    } else if (r.status === "no-provider") {
+      rowColor = GRAY;
+    }
+    ct.addRow({ Provider: `${rowColor}${r.providerId}${RESET}`, Port: `${rowColor}${r.port}${RESET}`, Status: r.statusLine });
   }
   ct.printTable();
 
