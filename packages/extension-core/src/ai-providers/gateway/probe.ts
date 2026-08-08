@@ -64,11 +64,19 @@ export async function probeGateway(
     // and exposes /v1/models — it is an AI provider.  Only connection
     // errors (caught below) mean "unreachable".
     if (!res.ok) {
-      const port = DEFAULT_PORTS[providerId ?? ""];
-      const portHint = port ? `port ${port}` : "a port";
+      // 401 = auth key is wrong but this IS an AI provider.
+      // All other non-2xx (403, 404, 500, etc.) = not an OpenAI-compatible AI provider.
+      if (res.status === 401) {
+        const port = DEFAULT_PORTS[providerId ?? ""];
+        const portHint = port ? `port ${port}` : "a port";
+        return {
+          status: "access-denied",
+          reason: `Access denied on ${portHint} — the server is running but rejected the request`,
+        };
+      }
       return {
-        status: "access-denied",
-        reason: `Access denied on ${portHint} — the server is running but rejected the request`,
+        status: "not-a-gateway",
+        reason: `Server responded with ${res.status} — not an OpenAI-compatible AI provider`,
       };
     }
 
@@ -77,11 +85,11 @@ export async function probeGateway(
     const body = await res.json();
     const dataArray = body?.data;
     if (!Array.isArray(dataArray) || dataArray.length === 0) {
-      return { status: "unreachable", reason: "Not an OpenAI-compatible server (no data array)" };
+      return { status: "not-a-gateway", reason: "Not an OpenAI-compatible server (no data array)" };
     }
     const firstItem = dataArray[0];
     if (firstItem?.object !== "model") {
-      return { status: "unreachable", reason: "Not an OpenAI-compatible server (missing object: 'model')" };
+      return { status: "not-a-gateway", reason: "Not an OpenAI-compatible server (missing object: 'model')" };
     }
     return { status: "ok", statusCode: res.status, statusText: res.statusText };
   } catch (err) {

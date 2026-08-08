@@ -5,7 +5,7 @@
  * LM Studio, etc.).  The class encapsulates:
  *
  * - **exists()**  — probes `/v1/models` (or `/models` if baseUrl already ends with `/v1`) to confirm the gateway is alive
- * - **getModels()**  — reads from cache or fetches live models
+ * - **getModels()**  — reads from cache only (never fetches live)
  * - **refreshModels()**  — fetches fresh models, writes cache, returns them
  * - **registerProvider()**  — registers with Pi (sync, fire-and-forget warm)
  */
@@ -85,18 +85,15 @@ export class AiGateway {
   }
 
   /**
-   * Returns the models for this gateway.  Reads from the cache first;
-   * if the cache has no entry for this provider, fetches from the live
-   * server.  Always writes back to the cache so the next read is fast.
+   * Returns the cached models for this gateway, or an empty array if
+   * no cache entry exists.  This function never makes network calls.
    *
-   * If the live server is unreachable, returns the cached models instead
-   * of an empty list — so the slash menu always shows discovered models
-   * even when local servers are offline.
+   * Use `refreshModels()` to force a live fetch.
    */
   async getModels(): Promise<
     NonNullable<ProviderConfigInput["models"]>
   > {
-    return getModels(this.providerId, this.baseUrl, this.apiKey);
+    return getModels(this.providerId);
   }
 
   /**

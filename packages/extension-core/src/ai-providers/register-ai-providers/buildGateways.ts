@@ -15,6 +15,6 @@ import { getGateways as _getGateways } from "../gateway/getGateways.js";
  * @param configuredProviders — Provider config map from NexusUserConfig.
  * @returns Array of configured AiGateway instances.
  */
-export function buildGateways(configuredProviders: ProvidersConfig) {
+export async function buildGateways(configuredProviders: ProvidersConfig) {
   return _getGateways(configuredProviders);
 }

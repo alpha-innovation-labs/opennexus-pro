@@ -4,10 +4,11 @@
  * Reads and writes the cache file at `{agentDir}/cache/available_models.json`.
  * The cache stores `{ providerId: Model[] }` entries.
  *
- * This module handles:
- * - Reading cached models (cache hit)
- * - Fetching from live server (cache miss)
- * - Writing models back to cache with concurrency control
+ * This module provides:
+ * - `getModels()` — reads cached models only (never fetches live)
+ * - `resolveModels()` — reads cache, fetches live on cache miss
+ * - `refreshModels()` — always fetches live, updates cache
+ * - `writeSingleGatewayCache()` — writes models to cache
  */
 import {
   getModelCachePath,
@@ -19,19 +20,33 @@ import type { ProviderConfigInput } from "@earendil-works/pi-coding-agent";
 import { fetchModelsFromGateway } from "./model-discovery.js";
 
 /**
- * Returns the models for this gateway.  Reads from the cache first;
- * if the cache has no entry for this provider, fetches from the live
- * server.  Always writes back to the cache so the next read is fast.
+ * Returns the cached models for this gateway, or an empty array if
+ * no cache entry exists.  This function never makes network calls —
+ * it is a pure cache read.
  *
- * If the live server is unreachable, returns the cached models instead
- * of an empty list — so the slash menu always shows discovered models
- * even when local servers are offline.
+ * @param providerId — The gateway's provider identifier.
+ */
+export async function getModels(
+  providerId: string,
+): Promise<NonNullable<ProviderConfigInput["models"]>> {
+  const cachePath = getModelCachePath();
+  const cache: ProviderStateCache = await readProviderStateCache(cachePath);
+  const cached = cache[providerId];
+  return cached ?? [];
+}
+
+/**
+ * Resolves models for a gateway: reads from cache, and if the cache
+ * is empty, fetches from the live server and writes the result back.
+ *
+ * If the live server is unreachable, returns an empty array — so the
+ * caller can fall back to cached models.
  *
  * @param providerId — The gateway's provider identifier.
  * @param baseUrl — The base URL of the inference server.
  * @param apiKey — Optional API key for authentication.
  */
-export async function getModels(
+export async function resolveModels(
   providerId: string,
   baseUrl: string,
   apiKey?: string,

@@ -10,6 +10,7 @@ import { DEFAULT_PORTS } from "../constants/default-ports.js";
 export type GatewayProbeResult =
   | { status: "ok"; statusCode: number; statusText: string }
   | { status: "access-denied"; reason: string }
+  | { status: "not-a-gateway"; reason: string }
   | { status: "unreachable"; reason: string };
 
 /** Full cache: providerId → array of model objects. */

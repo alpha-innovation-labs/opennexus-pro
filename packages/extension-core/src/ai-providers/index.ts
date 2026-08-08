@@ -6,3 +6,4 @@ export type { GatewayProbeResult, GatewayOptions, ProviderStateCache } from "./g
 export { getGateways } from "./gateway/getGateways.js";
 export { readProviderConfig } from "./config/readProviderConfig.js";
 export { registerAiProvidersExtension } from "./register-ai-providers/registerAiProvidersExtension.js";
+export { resolveModels } from "./gateway/cache.js";

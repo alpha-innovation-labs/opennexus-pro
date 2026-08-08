@@ -8,8 +8,9 @@ import { registerGateways } from "./registerGateways.js";
  * Unregisters all providers that Pi registers natively, and registers
  * all local LLM gateways so the slash menu discovers them.
  *
- * Each gateway's `getModels()` reads from cache (if available) or
- * fetches from the live server and writes back to the cache.
+ * `getModels()` reads from cache only (never fetches live).  On cache
+ * miss, `resolveModels()` fetches from the live server and writes back
+ * — but only during background resolution, never on the critical path.
  *
  * New gateways are discovered automatically — add a port and name to
  * `default-ports.ts` and `PROVIDER_NAMES` in `createGateway.ts`.
@@ -21,7 +22,7 @@ export async function registerAiProvidersExtension(pi: ExtensionAPI): Promise<vo
   unregisterBuiltInProviders(pi);
 
   const providerConfig = readProviderConfig();
-  const gateways = buildGateways(providerConfig);
+  const gateways = await buildGateways(providerConfig);
 
   await registerGateways(pi, gateways);
 }

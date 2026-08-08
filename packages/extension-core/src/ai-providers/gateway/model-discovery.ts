@@ -1,13 +1,11 @@
 /**
- * Discovers models from a gateway and maps them to Pi's model format.
+ * Discovers models from a gateway and returns them as-is.
  *
  * Fetches models from the live server, filters out embedding models,
- * looks up each model in the built-in catalog, and returns them in
- * Pi's model format (id, name, reasoning, input, cost, contextWindow,
- * maxTokens).  Models with no catalog entry are silently skipped.
+ * and returns every remaining model with sensible defaults for
+ * reasoning, cost, contextWindow, and maxTokens.  No catalog lookup.
  */
 import type { ProviderConfigInput } from "@earendil-works/pi-coding-agent";
-import { getBuiltinModels, getBuiltinProviders } from "@earendil-works/pi-ai/providers/all";
 import { buildModelsUrl, authHeaders } from "./probe.js";
 
 /**
@@ -28,43 +26,23 @@ export function isEmbeddingModel(id: string): boolean {
 }
 
 /**
- * Looks up a model ID across all built-in providers in the pi-ai catalog.
- *
- * @param modelId — The model identifier to search for.
- * @returns The catalog metadata if found, or `undefined` when no catalog
- *   entry exists.  Callers MUST NOT fabricate a value in that case —
- *   hardcoding is a CATASTROPHIC FAILURE.
+ * Default model metadata used when no catalog entry is available.
  */
-export function lookupCatalogModel(modelId: string): {
-  reasoning: boolean;
-  input: ("text" | "image")[];
-  cost: ProviderConfigInput["models"][number]["cost"];
-  contextWindow: number;
-  maxTokens: number;
-} | undefined {
-  for (const provider of getBuiltinProviders()) {
-    const models = getBuiltinModels(provider);
-    const match = models.find((m) => m.id === modelId);
-    if (match) {
-      return {
-        reasoning: match.reasoning,
-        input: match.input,
-        cost: match.cost,
-        contextWindow: match.contextWindow,
-        maxTokens: match.maxTokens,
-      };
-    }
-  }
-  return undefined;
-}
+const DEFAULT_MODEL: ProviderConfigInput["models"][number] = {
+  id: "",
+  name: "",
+  reasoning: false,
+  input: ["text"] as const,
+  cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+  contextWindow: 128000,
+  maxTokens: 8192,
+};
 
 /**
- * Fetches models from the gateway and maps them to Pi's model format.
+ * Fetches models from the gateway and returns them as-is.
  *
- * Embedding models are filtered out.  For each model ID returned by the
- * gateway, the built-in model catalog is consulted — `reasoning`,
- * `input`, `cost`, `contextWindow`, and `maxTokens` are all sourced from
- * the catalog.  Models with no catalog entry are silently skipped.
+ * Embedding models are filtered out.  All remaining models are returned
+ * with default metadata — no catalog lookup.
  *
  * Returns an empty array if the gateway is unreachable.
  *
@@ -87,27 +65,11 @@ export async function fetchModelsFromGateway(
     const catalogModels = data.data ?? [];
     const results: NonNullable<ProviderConfigInput["models"]> = [];
     for (const m of catalogModels as Array<{ id: string }>) {
-      // Skip embedding models — they are not LLMs.
       if (isEmbeddingModel(m.id)) {
         continue;
       }
-      const catalog = lookupCatalogModel(m.id);
-      if (!catalog) {
-        // NOTE: Hardcoding reasoning, input, cost, contextWindow, or maxTokens
-        // when no catalog entry exists is a CATASTROPHIC FAILURE.  Always add
-        // the model to the pi-ai catalog (models.generated.ts) before using it
-        // through a gateway, so the real values flow through here.
-        continue;
-      }
-      results.push({
-        id: m.id,
-        name: m.id,
-        reasoning: catalog.reasoning,
-        input: catalog.input,
-        cost: catalog.cost,
-        contextWindow: catalog.contextWindow,
-        maxTokens: catalog.maxTokens,
-      });
+      const entry = { ...DEFAULT_MODEL, id: m.id, name: m.id };
+      results.push(entry);
     }
     return results;
   } catch {

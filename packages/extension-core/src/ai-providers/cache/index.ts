@@ -5,4 +5,5 @@
  */
 export { getModelCachePath } from "./getModelCachePath.js";
 export { readProviderStateCache, writeProviderStateCache } from "./providerStateCache.js";
+export { resolveModels } from "../gateway/cache.js";
 export type { ProviderStateCache } from "./providerStateCache.js";

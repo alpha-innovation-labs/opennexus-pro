@@ -1,44 +1,36 @@
 import type { AiGateway } from "../index.js";
-import { DEFAULT_PORTS } from "../constants/default-ports.js";
+import { getModelCachePath, readProviderStateCache, type ProviderStateCache } from "../cache/index.js";
 import type { ProvidersConfig } from "../config/types.js";
 import { createGateway } from "./createGateway.js";
 
 /**
- * Builds configured gateway instances from user config.
- *
- * For each provider in config, constructs baseUrl as `http://${host}:${port}`
- * and passes it to the gateway factory. For providers without config, falls
- * back to the hardcoded default port.
- *
- * Only builds gateways for providers that have a registered default port
- * (all providers listed in `default-ports.ts`). Unknown providers in config
- * are silently skipped.
+ * Builds configured gateway instances from user config, plus any
+ * providers that appear in the model cache but have no config entry
+ * (fallback to hardcoded default ports).
  *
  * @param configuredProviders Provider config map from NexusUserConfig.
  * @returns Array of configured AiGateway instances.
  */
-export function getGateways(configuredProviders: ProvidersConfig): AiGateway[] {
+export async function getGateways(configuredProviders: ProvidersConfig): Promise<AiGateway[]> {
   const gateways: AiGateway[] = [];
+  const configuredIds = new Set(Object.keys(configuredProviders));
 
-  // Build gateways from user config first (config takes priority).
-  const configuredIds = Object.keys(configuredProviders);
-  const seen = new Set<string>();
-
-  for (const providerId of configuredIds) {
-    const providerConfig = configuredProviders[providerId];
+  // Build gateways from user config.
+  for (const [providerId, providerConfig] of Object.entries(configuredProviders)) {
     const baseUrl = `http://${providerConfig.host}:${providerConfig.port}`;
     const gateway = createGateway(providerId, {
       baseUrl,
       apiKey: providerConfig.api_key,
     });
     gateways.push(gateway);
-    seen.add(providerId);
   }
 
-  // Also include all known gateways that have NO config entry, so the
-  // hardcoded defaults are used as a fallback for unconfigured providers.
-  for (const providerId of Object.keys(DEFAULT_PORTS)) {
-    if (!seen.has(providerId)) {
+  // Add cached providers that have no config entry, using hardcoded
+  // default ports as fallback.
+  const cachePath = getModelCachePath();
+  const cache: ProviderStateCache = await readProviderStateCache(cachePath);
+  for (const providerId of Object.keys(cache)) {
+    if (!configuredIds.has(providerId)) {
       const gateway = createGateway(providerId);
       gateways.push(gateway);
     }
