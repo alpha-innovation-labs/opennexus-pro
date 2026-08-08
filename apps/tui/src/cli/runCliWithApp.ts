@@ -28,6 +28,8 @@ import { printThemesList } from "./themes/printThemesList.js";
 import { setTheme } from "./themes/setTheme.js";
 import { hasProvidersFlag } from "./providers/hasProvidersFlag.js";
 import { runProvidersCommand } from "./providers/runProvidersCommand.js";
+import { hasSubagentFlag } from "./subagent/hasSubagentFlag.js";
+import { runSubagentCommand } from "./subagent/runSubagentCommand.js";
 
 export interface RunCliWithAppOptions {
   runApp: (argv: string[]) => Promise<void>;
@@ -125,6 +127,10 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
 
   if (hasProvidersFlag(argv)) {
     return runProvidersCommand(argv);
+  }
+
+  if (hasSubagentFlag(argv)) {
+    return runSubagentCommand();
   }
 
   if (hasObservationsFlag(argv)) {

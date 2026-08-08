@@ -28,8 +28,7 @@ export async function handleRefreshCommand(
   providerId?: string,
   gateways?: AiGateway[],
 ): Promise<number> {
-  const providerConfig = readProviderConfig();
-  const allGateways = gateways ?? getGateways(providerConfig);
+  const allGateways = gateways ?? getGateways(readProviderConfig());
   const allProviderIds = getAllProviderIds();
 
   const gatewaysToRefresh = providerId
@@ -49,32 +48,33 @@ export async function handleRefreshCommand(
   const refreshResults: RefreshResult[] = await Promise.all(
     gatewaysToRefresh.map(async (gw) => {
       const probe = await gw.exists();
-      const models = await gw.getModels();
+      const models = await gw.refreshModels();
       let statusLine: string;
       if (probe.status === "ok") {
         statusLine = `${GREEN}${models.length} models found${RESET}`;
       } else if (probe.status === "access-denied") {
-        statusLine = `${RED}Access denied — ${probe.reason}${RESET}`;
+        statusLine = `${RED}Access denied${RESET}`;
       } else {
         const port = gw.baseUrl.split(':')[2]?.replace('/', '') ?? '';
         const portHint = port ? `port ${port}` : "a port";
-        statusLine = `${GRAY}Nothing is running on ${portHint}${RESET}`;
+        statusLine = `${ORANGE}Something is listening on ${portHint}${RESET}`;
       }
       return { providerId: gw.providerId, probe, models, statusLine };
     }),
   );
 
-  // Sort: models found (green) first, then access-denied (red), then unreachable (gray).
+  // Sort: models found (green) first, then access-denied (red),
+  // then listening-but-not-gateway (orange).
   refreshResults.sort((a, b) => {
     const aGreen = a.statusLine.includes("models found");
     const bGreen = b.statusLine.includes("models found");
     const aAccessDenied = a.statusLine.includes("Access denied");
     const bAccessDenied = b.statusLine.includes("Access denied");
-    const aUnreachable = a.statusLine.includes("Nothing is running");
-    const bUnreachable = b.statusLine.includes("Nothing is running");
-    // Priority: green=0, red=1, gray=2
-    const aPriority = aGreen ? 0 : aAccessDenied ? 1 : aUnreachable ? 2 : 0;
-    const bPriority = bGreen ? 0 : bAccessDenied ? 1 : bUnreachable ? 2 : 0;
+    const aListening = a.statusLine.includes("Something is listening");
+    const bListening = b.statusLine.includes("Something is listening");
+    // Priority: green=0, red=1, orange=2
+    const aPriority = aGreen ? 0 : aAccessDenied ? 1 : aListening ? 2 : 3;
+    const bPriority = bGreen ? 0 : bAccessDenied ? 1 : bListening ? 2 : 3;
     if (aPriority !== bPriority) return aPriority - bPriority;
     return a.providerId.localeCompare(b.providerId);
   });

@@ -166,7 +166,7 @@ export async function handleConfigureCommand(
     console.log(`\nProbing ${providerIdResolved} at ${baseUrl}…`);
 
     const probe = await gateway.exists();
-    const models = await gateway.fetchModels();
+    const models = await gateway.getModels();
 
     if (probe.status === "unreachable") {
       console.error(`\n✗ Provider is unreachable at ${baseUrl} (${probe.reason}).`);
