@@ -1,4 +1,4 @@
-import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "./collapsedToolGroupState.ts";
+import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "./collapsedToolGroupState";
 
 /**
  * Closes one collapsed thinking window when the next thinking block begins.

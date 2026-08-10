@@ -1,10 +1,10 @@
 import { measureTronRender } from "../profiling/measureTronRender";
 import { recordTronCacheEvent } from "../profiling/recordTronCacheEvent";
-import { OSC133_ZONE_END, OSC133_ZONE_FINAL, OSC133_ZONE_START } from "./constants.ts";
-import { getRawText } from "./getRawText.ts";
-import { getUserMessageMetadataCacheKey } from "./metadata/getUserMessageMetadataCacheKey.ts";
-import { resolveUserMessageMetadata } from "./metadata/userMessageMetadataStore.ts";
-import { renderCompactInputBubble } from "./renderCompactInputBubble.ts";
+import { OSC133_ZONE_END, OSC133_ZONE_FINAL, OSC133_ZONE_START } from "./constants";
+import { getRawText } from "./getRawText";
+import { getUserMessageMetadataCacheKey } from "./metadata/getUserMessageMetadataCacheKey";
+import { resolveUserMessageMetadata } from "./metadata/userMessageMetadataStore";
+import { renderCompactInputBubble } from "./renderCompactInputBubble";
 
 type UserMessageRenderCache = {
   cachedText?: string;

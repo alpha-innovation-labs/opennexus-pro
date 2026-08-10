@@ -1,7 +1,7 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 import { colorSecondaryText } from '@extensions/tron/colors/colorSecondaryText.ts';
 import { colorToolCallIcon } from '@extensions/tron/colors/colorToolCallIcon.ts';
-import { createRenderedOptions } from "./createRenderedOptions.ts";
+import { createRenderedOptions } from "./createRenderedOptions";
 
 /**
  * Shared compact Tron-style line renderer for tool and widget rows.

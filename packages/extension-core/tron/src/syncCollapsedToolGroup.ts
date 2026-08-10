@@ -1,4 +1,4 @@
-import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "./collapsedToolGroupState.ts";
+import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "./collapsedToolGroupState";
 
 /**
  * Syncs collapsed-group membership for one contiguous tool block.

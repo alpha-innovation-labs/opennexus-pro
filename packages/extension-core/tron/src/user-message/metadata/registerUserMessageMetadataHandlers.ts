@@ -1,7 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { createCurrentUserMessageMetadata } from "./createCurrentUserMessageMetadata.ts";
-import { createUserMessageMetadataQueueFromSession } from "./createUserMessageMetadataQueueFromSession.ts";
-import { enqueueUserMessageMetadata, resetPendingUserMessageMetadata } from "./userMessageMetadataStore.ts";
+import { createCurrentUserMessageMetadata } from "./createCurrentUserMessageMetadata";
+import { createUserMessageMetadataQueueFromSession } from "./createUserMessageMetadataQueueFromSession";
+import { enqueueUserMessageMetadata, resetPendingUserMessageMetadata } from "./userMessageMetadataStore";
 
 /**
  * Registers lifecycle handlers that feed prompt metadata to the Tron renderer.

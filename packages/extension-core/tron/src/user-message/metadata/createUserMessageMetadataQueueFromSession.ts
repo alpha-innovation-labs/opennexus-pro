@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createUserMessageSignature } from "./createUserMessageSignature.ts";
-import type { UserMessageMetadata } from "./types.ts";
+import { createUserMessageSignature } from "./createUserMessageSignature";
+import type { UserMessageMetadata } from "./types";
 
 /**
  * Creates timestamp metadata in the same order user messages are rendered for the active branch.

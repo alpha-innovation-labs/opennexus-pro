@@ -1,4 +1,4 @@
-import { getUserMessageTextFromMessage } from "./getUserMessageTextFromMessage.ts";
+import { getUserMessageTextFromMessage } from "./getUserMessageTextFromMessage";
 
 /**
  * Creates a matching signature for a user message.

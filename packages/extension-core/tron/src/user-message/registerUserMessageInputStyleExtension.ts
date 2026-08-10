@@ -1,8 +1,8 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { logExtensionEvent } from "@nexus/observability/startup-debug";
-import { installUserMessageRenderHook } from "./installUserMessageRenderHook.ts";
-import { registerUserMessageMetadataHandlers } from "./metadata/registerUserMessageMetadataHandlers.ts";
-import { restoreUserMessageRenderer } from "./restoreUserMessageRenderer.ts";
+import { installUserMessageRenderHook } from "./installUserMessageRenderHook";
+import { registerUserMessageMetadataHandlers } from "./metadata/registerUserMessageMetadataHandlers";
+import { restoreUserMessageRenderer } from "./restoreUserMessageRenderer";
 
 /**
  * Registers the custom user-message styling extension.

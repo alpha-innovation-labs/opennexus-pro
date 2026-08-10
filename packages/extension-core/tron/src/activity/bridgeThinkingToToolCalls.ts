@@ -1,4 +1,4 @@
-import { bridgedToolCallClosingIds, bridgedToolCallIds } from "./state.ts";
+import { bridgedToolCallClosingIds, bridgedToolCallIds } from "./state";
 
 /**
  * Marks the first tool call in a group as visually attached to prior thinking.

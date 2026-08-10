@@ -1,5 +1,5 @@
 import { isToolGroupCollapseEnabled } from "../collapse/state";
-import { collapsedToolGroupLeaderByToolCallId } from "./collapsedToolGroupState.ts";
+import { collapsedToolGroupLeaderByToolCallId } from "./collapsedToolGroupState";
 
 /**
  * Returns whether one tool call row should be hidden in collapsed mode.

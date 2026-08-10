@@ -1,6 +1,6 @@
 import type { SessionEntry } from "@nexus/pi-platform/sessionManager";
 import { formatCompactDuration } from "../duration/formatCompactDuration";
-import { restoreAssistantMessageTiming } from "./assistantMessageTimingState.ts";
+import { restoreAssistantMessageTiming } from "./assistantMessageTimingState";
 
 /**
  * Rebuilds assistant footer timing labels from resumed session history.

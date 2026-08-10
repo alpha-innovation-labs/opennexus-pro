@@ -1,7 +1,7 @@
-import { formatClockTime } from "./formatClockTime.ts";
-import { formatDate } from "./formatDate.ts";
-import { isWithinPastDay } from "./isWithinPastDay.ts";
-import { toDate } from "./toDate.ts";
+import { formatClockTime } from "./formatClockTime";
+import { formatDate } from "./formatDate";
+import { isWithinPastDay } from "./isWithinPastDay";
+import { toDate } from "./toDate";
 
 /**
  * Formats the timestamp shown on the bottom-right user-message border.

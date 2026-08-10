@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { logExtensionEvent } from "@nexus/observability/startup-debug";
-import { installSkillInvocationMessageRenderHook } from "./installSkillInvocationMessageRenderHook.ts";
+import { installSkillInvocationMessageRenderHook } from "./installSkillInvocationMessageRenderHook";
 
 /**
  * Registers Tron styling for skill invocation messages.

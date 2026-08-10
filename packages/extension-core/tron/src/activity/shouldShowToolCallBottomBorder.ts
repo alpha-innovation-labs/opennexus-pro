@@ -1,4 +1,4 @@
-import { toolCallBottomBorderIds } from "./state.ts";
+import { toolCallBottomBorderIds } from "./state";
 
 /**
  * Returns whether a compact tool-call row should render its bottom border.

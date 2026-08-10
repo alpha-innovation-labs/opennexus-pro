@@ -1,7 +1,7 @@
-import { activityInvalidators, bridgedToolCallClosingIds, bridgedToolCallIds, toolActivityFrameCursor, toolCallBottomBorderIds, toolCallFrameSyncedIds, toolCallTopBorderIds } from "./state.ts";
-import { collapsedSummaryNeighbors, collapsedSummaryOrder } from "../collapsedSummaryState.ts";
-import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "../collapsedToolGroupState.ts";
-import { resetCollapsedSummaryMessages } from "../collapsedSummaryMessageState.ts";
+import { activityInvalidators, bridgedToolCallClosingIds, bridgedToolCallIds, toolActivityFrameCursor, toolCallBottomBorderIds, toolCallFrameSyncedIds, toolCallTopBorderIds } from "./state";
+import { collapsedSummaryNeighbors, collapsedSummaryOrder } from "../collapsedSummaryState";
+import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "../collapsedToolGroupState";
+import { resetCollapsedSummaryMessages } from "../collapsedSummaryMessageState";
 
 /**
  * Clears all cached grouping state.

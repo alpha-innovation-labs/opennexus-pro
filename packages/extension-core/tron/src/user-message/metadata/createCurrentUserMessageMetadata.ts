@@ -1,4 +1,4 @@
-import type { UserMessageMetadata } from "./types.ts";
+import type { UserMessageMetadata } from "./types";
 
 /**
  * Creates timestamp metadata for a live user message.

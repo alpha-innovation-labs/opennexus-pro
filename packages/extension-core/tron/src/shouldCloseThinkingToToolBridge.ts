@@ -1,4 +1,4 @@
-import { bridgedToolCallClosingIds } from "./activity/state.ts";
+import { bridgedToolCallClosingIds } from "./activity/state";
 
 /**
  * Returns whether one tool call should close a prior thinking-to-tool shared box.

@@ -1,6 +1,6 @@
 import type { SkillInvocationMessageComponent } from "@earendil-works/pi-coding-agent";
 import { theme } from "../theme-proxy";
-import { CompactToolRow } from "../shared/compact-row/CompactToolRow.ts";
+import { CompactToolRow } from "../shared/compact-row/CompactToolRow";
 
 /**
  * Renders a collapsed skill invocation with Tron tool-call chrome.

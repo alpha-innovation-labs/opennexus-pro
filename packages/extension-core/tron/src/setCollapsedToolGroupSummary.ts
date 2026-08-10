@@ -1,4 +1,4 @@
-import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "./collapsedToolGroupState.ts";
+import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "./collapsedToolGroupState";
 
 /**
  * Stores the summary text and timing anchor for one collapsed tool group.

@@ -1,6 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { parseCommandArgs, SENTINEL } from
-  "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch.js";
+  "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
 import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
 import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
@@ -56,7 +56,7 @@ import { getNextModelMenuTab } from "./model-catalog/getNextModelMenuTab";
 import type { ModelMenuTab } from "./model-catalog/ModelMenuTab";
 import { renderModelMenuTabs } from "./model-catalog/renderModelMenuTabs";
 import { resolveModelCatalogCommandValue } from
-  "./model-catalog/resolveModelCatalogCommandValue.js";
+  "./model-catalog/resolveModelCatalogCommandValue";
 import { resolveRequestedSlashMenuLevel } from "./resolveRequestedSlashMenuLevel";
 import type { SlashMenuLevel } from "./SlashMenuLevel";
 import { toAutocompleteItems } from "./toAutocompleteItems";

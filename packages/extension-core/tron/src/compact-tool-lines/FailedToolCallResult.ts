@@ -1,10 +1,10 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import { hasToolCallFrameState } from "../activity/hasToolCallFrameState.ts";
-import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder.ts";
-import { shouldShowToolCallTopBorder } from "../activity/shouldShowToolCallTopBorder.ts";
-import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon.ts";
+import { hasToolCallFrameState } from "../activity/hasToolCallFrameState";
+import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder";
+import { shouldShowToolCallTopBorder } from "../activity/shouldShowToolCallTopBorder";
+import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon";
 import { measureTronRender } from "../profiling/measureTronRender";
-import { iconForToolName } from "./iconForToolName.ts";
+import { iconForToolName } from "./iconForToolName";
 
 /**
  * Single-row renderer for failed compact tool calls.

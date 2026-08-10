@@ -1,4 +1,4 @@
-import { PRIMARY_TEXT_FG, RESET } from "./constants.ts";
+import { PRIMARY_TEXT_FG, RESET } from "./constants";
 
 /**
  * Styles nexus section titles with the shared primary rose color.

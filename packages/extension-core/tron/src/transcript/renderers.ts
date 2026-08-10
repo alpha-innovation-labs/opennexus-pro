@@ -1,5 +1,5 @@
-import { renderCompactInputBubble } from "../user-message/renderCompactInputBubble.ts";
-import type { EntryRenderer } from "./types.ts";
+import { renderCompactInputBubble } from "../user-message/renderCompactInputBubble";
+import type { EntryRenderer } from "./types";
 
 /**
  * Simple renderer that returns precomputed lines.

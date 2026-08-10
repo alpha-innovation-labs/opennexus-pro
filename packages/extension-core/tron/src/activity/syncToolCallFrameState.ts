@@ -1,4 +1,4 @@
-import { toolActivityFrameCursor, toolCallBottomBorderIds, toolCallFrameSyncedIds, toolCallTopBorderIds } from "./state.ts";
+import { toolActivityFrameCursor, toolCallBottomBorderIds, toolCallFrameSyncedIds, toolCallTopBorderIds } from "./state";
 
 type AssistantContent = { type?: unknown; id?: unknown; name?: unknown; text?: unknown; thinking?: unknown };
 

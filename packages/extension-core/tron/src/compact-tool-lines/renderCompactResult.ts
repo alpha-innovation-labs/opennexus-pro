@@ -1,6 +1,6 @@
 import { Text } from "@earendil-works/pi-tui";
-import { CompactToolResult } from "./CompactToolResult.ts";
-import { getResultText } from "./getResultText.ts";
+import { CompactToolResult } from "./CompactToolResult";
+import { getResultText } from "./getResultText";
 
 /**
  * Creates the fallback compact result renderer.

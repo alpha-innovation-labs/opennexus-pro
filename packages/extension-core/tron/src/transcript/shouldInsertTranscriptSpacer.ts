@@ -1,4 +1,4 @@
-import type { TranscriptEntry } from "./types.ts";
+import type { TranscriptEntry } from "./types";
 
 /**
  * Returns whether one transcript join should keep a blank separator line.

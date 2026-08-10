@@ -1,4 +1,4 @@
-import { RESET, SECONDARY_TEXT_FG } from "./constants.ts";
+import { RESET, SECONDARY_TEXT_FG } from "./constants";
 
 /**
  * Styles nexus secondary text with the shared muted gray color.

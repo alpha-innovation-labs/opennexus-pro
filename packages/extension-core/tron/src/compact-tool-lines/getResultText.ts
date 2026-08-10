@@ -1,4 +1,4 @@
-import type { ToolResultBlock } from "./types.ts";
+import type { ToolResultBlock } from "./types";
 
 /**
  * Extracts plain text from a tool result payload.

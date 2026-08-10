@@ -1,6 +1,6 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { formatUserMessageTime } from "./metadata/formatUserMessageTime.ts";
-import type { UserMessageMetadata } from "./metadata/types.ts";
+import { formatUserMessageTime } from "./metadata/formatUserMessageTime";
+import type { UserMessageMetadata } from "./metadata/types";
 
 /**
  * Calculates the preferred inner width for bottom-border timestamp metadata.

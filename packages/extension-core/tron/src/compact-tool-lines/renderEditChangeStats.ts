@@ -1,4 +1,4 @@
-import type { SummaryText } from "./SummaryText.ts";
+import type { SummaryText } from "./SummaryText";
 
 /**
  * Creates colored git-style change stats for one compact edit summary.

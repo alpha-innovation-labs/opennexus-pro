@@ -1,6 +1,6 @@
-import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "./collapsedToolGroupState.ts";
-import { getToolLineChangeStats } from "./getToolLineChangeStats.ts";
-import { syncCollapsedToolGroup } from "./syncCollapsedToolGroup.ts";
+import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "./collapsedToolGroupState";
+import { getToolLineChangeStats } from "./getToolLineChangeStats";
+import { syncCollapsedToolGroup } from "./syncCollapsedToolGroup";
 
 /**
  * Records tool metadata needed by the collapsed summary renderer.

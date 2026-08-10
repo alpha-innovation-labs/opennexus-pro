@@ -1,4 +1,4 @@
-import type { UserMessageMetadata } from "./types.ts";
+import type { UserMessageMetadata } from "./types";
 
 const metadataByComponent = new WeakMap<object, UserMessageMetadata>();
 let pendingMetadata: UserMessageMetadata[] = [];

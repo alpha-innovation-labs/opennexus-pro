@@ -1,11 +1,11 @@
-import { countChangedLines } from "./countChangedLines.ts";
-import { countContentLines } from "./countContentLines.ts";
-import { firstLine } from "./firstLine.ts";
-import { shortenPath } from "./shortenPath.ts";
+import { countChangedLines } from "./countChangedLines";
+import { countContentLines } from "./countContentLines";
+import { firstLine } from "./firstLine";
+import { shortenPath } from "./shortenPath";
 import { summarizeGenericObjectArgs } from "./summarizeGenericObjectArgs";
-import type { SummaryText } from "./SummaryText.ts";
-import { truncateSingleLine } from "./truncateSingleLine.ts";
-import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart.ts";
+import type { SummaryText } from "./SummaryText";
+import { truncateSingleLine } from "./truncateSingleLine";
+import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart";
 
 /**
  * Builds a compact one-line summary for tool-call arguments.

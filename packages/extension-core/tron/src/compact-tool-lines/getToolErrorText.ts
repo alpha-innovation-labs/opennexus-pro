@@ -1,5 +1,5 @@
-import { firstLine } from "./firstLine.ts";
-import { getResultText } from "./getResultText.ts";
+import { firstLine } from "./firstLine";
+import { getResultText } from "./getResultText";
 
 /**
  * Extracts the inline error text shown for a failed tool call.

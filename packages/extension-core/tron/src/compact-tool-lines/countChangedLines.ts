@@ -1,4 +1,4 @@
-import { countContentLines } from "./countContentLines.ts";
+import { countContentLines } from "./countContentLines";
 
 /**
  * Counts added and removed lines across one edit-tool payload.

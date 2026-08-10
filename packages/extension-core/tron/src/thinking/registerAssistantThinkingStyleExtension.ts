@@ -9,9 +9,9 @@ import {
 	resetAssistantMessageTimings,
 	startAssistantMessageTiming,
 	startAssistantTurnTiming,
-} from "./assistantMessageTimingState.ts";
-import { bootstrapAssistantMessageTimings } from "./bootstrapAssistantMessageTimings.ts";
-import { installAssistantThinkingStyle } from "./installAssistantThinkingStyle.ts";
+} from "./assistantMessageTimingState";
+import { bootstrapAssistantMessageTimings } from "./bootstrapAssistantMessageTimings";
+import { installAssistantThinkingStyle } from "./installAssistantThinkingStyle";
 
 /**
  * Registers the tron assistant-thinking extension.

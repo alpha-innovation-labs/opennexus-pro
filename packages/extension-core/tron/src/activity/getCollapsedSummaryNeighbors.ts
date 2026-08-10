@@ -1,4 +1,4 @@
-import { collapsedSummaryNeighbors } from "../collapsedSummaryState.ts";
+import { collapsedSummaryNeighbors } from "../collapsedSummaryState";
 
 /**
  * Reads cached border ownership for one collapsed thinking summary row.

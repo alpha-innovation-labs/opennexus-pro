@@ -1,6 +1,6 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { hasToolCallFrameState } from "../activity/hasToolCallFrameState.ts";
-import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder.ts";
+import { hasToolCallFrameState } from "../activity/hasToolCallFrameState";
+import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder";
 import { measureTronRender } from "../profiling/measureTronRender";
 
 /**

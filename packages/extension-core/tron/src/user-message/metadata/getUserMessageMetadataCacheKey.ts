@@ -1,5 +1,5 @@
-import { formatUserMessageTime } from "./formatUserMessageTime.ts";
-import type { UserMessageMetadata } from "./types.ts";
+import { formatUserMessageTime } from "./formatUserMessageTime";
+import type { UserMessageMetadata } from "./types";
 
 /**
  * Builds the render-cache key for user-message timestamp metadata.

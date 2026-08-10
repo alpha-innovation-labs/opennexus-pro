@@ -1,4 +1,4 @@
-import { toolCallTopBorderIds } from "./state.ts";
+import { toolCallTopBorderIds } from "./state";
 
 /**
  * Returns whether a compact tool-call row should render its top border.

@@ -1,4 +1,4 @@
-import { activityInvalidators, type ActivityInvalidator } from "./state.ts";
+import { activityInvalidators, type ActivityInvalidator } from "./state";
 
 /**
  * Remembers the latest invalidator for one rendered activity key.

@@ -1,8 +1,8 @@
-import { SingleLineToolCall } from "./SingleLineToolCall.ts";
-import { renderEditChangeStats } from "./renderEditChangeStats.ts";
-import type { SummaryText } from "./SummaryText.ts";
-import { truncateSingleLine } from "./truncateSingleLine.ts";
-import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart.ts";
+import { SingleLineToolCall } from "./SingleLineToolCall";
+import { renderEditChangeStats } from "./renderEditChangeStats";
+import type { SummaryText } from "./SummaryText";
+import { truncateSingleLine } from "./truncateSingleLine";
+import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart";
 
 /**
  * Creates a compact tool-call renderer from summary text.

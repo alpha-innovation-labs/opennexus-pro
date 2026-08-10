@@ -1,13 +1,13 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
 import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled";
 import { logExtensionEvent } from "@nexus/observability/startup-debug";
-import { colorBorder } from "./colorBorder.ts";
-import { colorContent } from "./colorContent.ts";
-import { colorPrefix } from "./colorPrefix.ts";
-import { getMetadataInnerWidth } from "./getMetadataInnerWidth.ts";
-import type { UserMessageMetadata } from "./metadata/types.ts";
-import { renderBottomBorder } from "./renderBottomBorder.ts";
-import { wrapPlainText } from "./wrapPlainText.ts";
+import { colorBorder } from "./colorBorder";
+import { colorContent } from "./colorContent";
+import { colorPrefix } from "./colorPrefix";
+import { getMetadataInnerWidth } from "./getMetadataInnerWidth";
+import type { UserMessageMetadata } from "./metadata/types";
+import { renderBottomBorder } from "./renderBottomBorder";
+import { wrapPlainText } from "./wrapPlainText";
 
 /**
  * Renders the compact bordered user-message bubble.

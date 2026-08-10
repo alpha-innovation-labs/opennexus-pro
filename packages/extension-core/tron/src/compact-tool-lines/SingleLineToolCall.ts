@@ -1,11 +1,11 @@
-import { hasToolCallFrameState } from "../activity/hasToolCallFrameState.ts";
-import { shouldBridgeThinkingToTool } from "../activity/shouldBridgeThinkingToTool.ts";
-import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder.ts";
-import { shouldShowToolCallTopBorder } from "../activity/shouldShowToolCallTopBorder.ts";
-import { CompactToolRow } from "../shared/compact-row/CompactToolRow.ts";
+import { hasToolCallFrameState } from "../activity/hasToolCallFrameState";
+import { shouldBridgeThinkingToTool } from "../activity/shouldBridgeThinkingToTool";
+import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder";
+import { shouldShowToolCallTopBorder } from "../activity/shouldShowToolCallTopBorder";
+import { CompactToolRow } from "../shared/compact-row/CompactToolRow";
 import { measureTronRender } from "../profiling/measureTronRender";
-import { iconForToolName } from "./iconForToolName.ts";
-import type { SummaryText } from "./SummaryText.ts";
+import { iconForToolName } from "./iconForToolName";
+import type { SummaryText } from "./SummaryText";
 
 /**
  * Single-row compact tool-call renderer.

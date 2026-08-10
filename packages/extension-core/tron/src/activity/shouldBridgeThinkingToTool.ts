@@ -1,4 +1,4 @@
-import { bridgedToolCallIds } from "./state.ts";
+import { bridgedToolCallIds } from "./state";
 
 /**
  * Returns whether the tool call should visually attach to prior thinking.

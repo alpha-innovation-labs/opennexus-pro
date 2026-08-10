@@ -1,11 +1,11 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 import { theme } from "../theme-proxy";
-import { getCollapsedSummaryNeighbors } from "../activity/getCollapsedSummaryNeighbors.ts";
-import { getCollapsedToolGroupSummary } from "../activity/getCollapsedToolGroupSummary.ts";
-import { colorSecondaryText } from "@extensions/tron/colors/colorSecondaryText.ts";
-import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon.ts";
+import { getCollapsedSummaryNeighbors } from "../activity/getCollapsedSummaryNeighbors";
+import { getCollapsedToolGroupSummary } from "../activity/getCollapsedToolGroupSummary";
+import { colorSecondaryText } from "@extensions/tron/colors/colorSecondaryText";
+import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon";
 import { measureTronRender } from "../profiling/measureTronRender";
-import { isCompactModeThinkingExpanded } from "../collapse/thinkingVisibility.ts";
+import { isCompactModeThinkingExpanded } from "../collapse/thinkingVisibility";
 
 const THINKING_ICON = "󰧑";
 const TOOL_ICON = "󰘧";

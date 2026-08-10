@@ -1,4 +1,4 @@
-import { toolCallFrameSyncedIds } from "./state.ts";
+import { toolCallFrameSyncedIds } from "./state";
 
 /**
  * Returns whether frame state has been synchronized for one tool call.

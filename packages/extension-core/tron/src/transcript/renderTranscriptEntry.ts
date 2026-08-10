@@ -1,17 +1,17 @@
 import { getMarkdownTheme } from "@earendil-works/pi-coding-agent";
 import { Markdown } from "@earendil-works/pi-tui";
 import { theme } from "../theme-proxy";
-import { BorderedToolResult } from "../compact-tool-lines/BorderedToolResult.ts";
-import { CompactToolResult } from "../compact-tool-lines/CompactToolResult.ts";
-import { FailedToolCallResult } from "../compact-tool-lines/FailedToolCallResult.ts";
-import { getToolErrorText } from "../compact-tool-lines/getToolErrorText.ts";
+import { BorderedToolResult } from "../compact-tool-lines/BorderedToolResult";
+import { CompactToolResult } from "../compact-tool-lines/CompactToolResult";
+import { FailedToolCallResult } from "../compact-tool-lines/FailedToolCallResult";
+import { getToolErrorText } from "../compact-tool-lines/getToolErrorText";
 import { renderSummary } from "../compact-tool-lines/renderSummary";
 import { summarizeArgs } from "../compact-tool-lines/summarizeArgs";
-import { ThinkingLabelBlock } from "../thinking/ThinkingLabelBlock.ts";
-import { getThinkingPreview } from "../thinking/getThinkingPreview.ts";
+import { ThinkingLabelBlock } from "../thinking/ThinkingLabelBlock";
+import { getThinkingPreview } from "../thinking/getThinkingPreview";
 import { toPlainTextLines } from "../toolcalls/toPlainTextLines";
-import { ErrorRenderer, StaticEntryRenderer, UserMessageRenderer } from "./renderers.ts";
-import type { RenderContext, RenderTranscriptEntryResult, TranscriptEntry } from "./types.ts";
+import { ErrorRenderer, StaticEntryRenderer, UserMessageRenderer } from "./renderers";
+import type { RenderContext, RenderTranscriptEntryResult, TranscriptEntry } from "./types";
 
 /**
  * Creates a renderer for one transcript entry.

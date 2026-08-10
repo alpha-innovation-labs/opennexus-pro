@@ -1,4 +1,4 @@
-import { PRIMARY_ICON_FG, RESET } from "./constants.ts";
+import { PRIMARY_ICON_FG, RESET } from "./constants";
 
 /**
  * Styles tool call icons with the shared lavender icon color.

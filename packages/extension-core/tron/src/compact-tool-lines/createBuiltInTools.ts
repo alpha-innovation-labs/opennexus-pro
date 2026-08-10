@@ -9,7 +9,7 @@ import {
 } from "@earendil-works/pi-coding-agent";
 import { getRtkRuntimeForCwd } from '@extensions/rtk/runtime/runtimeStore.ts';
 import { createRtkBuiltInTools } from '@extensions/rtk/tooling/createRtkBuiltInTools.ts';
-import type { BuiltInTools } from "./types.ts";
+import type { BuiltInTools } from "./types";
 
 /**
  * Creates compact-rendered built-in tool instances for one cwd.

@@ -1,5 +1,5 @@
 import { homedir } from "node:os";
-import { truncatePathFromStart } from "./truncatePathFromStart.ts";
+import { truncatePathFromStart } from "./truncatePathFromStart";
 
 /**
  * Shortens a path and replaces the home prefix with `~`.

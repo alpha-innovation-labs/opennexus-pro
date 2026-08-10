@@ -1,4 +1,4 @@
-import { renderCompactLine } from "../compact-line/renderCompactLine.ts";
+import { renderCompactLine } from "../compact-line/renderCompactLine";
 
 /**
  * Shared Tron-style compact row renderer for tool-like UI blocks.
