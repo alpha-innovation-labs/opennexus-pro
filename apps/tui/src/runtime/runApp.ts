@@ -141,12 +141,12 @@ export async function runApp(argv: string[], featureOverrides?: { disabledFeatur
   logStartupProfileEvent("runApp", "prepareArgsAndExtensions:done");
 
   phaseStartedAt = performance.now();
-  const { main } = await import("@earendil-works/pi-coding-agent");
+  const piModule = await import("@earendil-works/pi-coding-agent");
   applyModelChangeDisplayPatch();
   logRunAppPhase("importPiMain:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
-  await main(args, { extensionFactories });
+  await piModule.main(args, { extensionFactories: extensionFactories });
   logRunAppPhase("piMain:done", phaseStartedAt);
 
   printExitMessage();

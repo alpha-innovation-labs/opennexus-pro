@@ -4,8 +4,6 @@ import { registerAutoUpdateExtension } from "@nexus/extensions/auto-update/regis
 import { registerCmuxExtension } from "@nexus/extensions/cmux/registerCmuxExtension.js";
 import { registerContextUsageExtension } from "@nexus/extensions/context-usage/registerContextUsageExtension.js";
 import { registerExitMessageExtension } from "@nexus/extensions/exit-message/registerExitMessageExtension.js";
-import { registerHerdrAgentEndLogExtension } from "@nexus/extensions/herdr-agent-end-log/registerHerdrAgentEndLogExtension.js";
-import { registerPiPackagesExtension } from "@nexus/extensions/pi-packages/registerPiPackagesExtension.js";
 import { registerFeatureManagementExtension } from "@nexus/extensions/feature-management/registerFeatureManagementExtension.js";
 import registerFffExtension from "@nexus/extensions/fff/index.js";
 import registerNeoEditorExtension from "@nexus/extensions/neo-editor/registerNeoEditorExtension.js";
@@ -22,6 +20,8 @@ import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisE
 import registerTronExtension from "@nexus/extensions/tron/index.js";
 import { registerWebSearchExtension } from "@nexus/extensions/web-search/registerWebSearchExtension.js";
 import registerLocalImageReaderExtension from "@nexus/extensions/local-image-reader/registerLocalImageReaderExtension.js";
+import { registerSubagentsExtension } from "@nexus/extensions/subagents/registerSubagentsExtension.js";
+import { registerPiPackagesExtension } from "@nexus/extensions/pi-packages/registerPiPackagesExtension.js";
 
 /**
  * Creates the code-backed extension registration map.
@@ -41,7 +41,6 @@ export function createExtensionRegisterMap(): Record<
 		"auto-update": registerAutoUpdateExtension,
 		cmux: registerCmuxExtension,
 		"context-usage": registerContextUsageExtension,
-		"pi-packages": registerPiPackagesExtension,
 		"feature-management": registerFeatureManagementExtension,
 		fff: registerFffExtension,
 		rtk: registerRtkExtension,
@@ -53,11 +52,12 @@ export function createExtensionRegisterMap(): Record<
 		notify: registerNotifyExtension,
 		"system-prompt": registerSystemPromptExtension,
 		"exit-message": registerExitMessageExtension,
-		"herdr-agent-end-log": registerHerdrAgentEndLogExtension,
 		"startup-hero": registerStartupHeroExtension,
 		tetris: registerTetrisExtension,
 		tron: registerTronExtension,
 		webtools: registerWebSearchExtension,
 		"local-image-reader": registerLocalImageReaderExtension,
+		subagents: registerSubagentsExtension,
+		"pi-packages": registerPiPackagesExtension,
 	};
 }

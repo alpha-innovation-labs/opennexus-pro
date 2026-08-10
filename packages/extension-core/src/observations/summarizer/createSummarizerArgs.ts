@@ -11,6 +11,7 @@ export function createSummarizerArgs(
 ): string[] {
   const args = [
     "--no-session",
+    "--no-extensions",
     "--no-context-files",
     "--no-tools",
     "--thinking",

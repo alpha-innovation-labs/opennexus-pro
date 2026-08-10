@@ -1,4 +1,4 @@
-import { spawnSync } from "node:child_process";
+import { runHerdr } from "@nexus/herdr/herdr-client";
 
 /**
  * Reads terminal output from an agent via `herdr agent read`.
@@ -11,37 +11,24 @@ export async function runSubagentReadCommand(
   agentName: string,
   options: { lines?: string; source?: string } = {},
 ): Promise<number> {
-  if (!agentName) {
-    console.error("Usage: nexus subagent read <agent-name> [--lines N] [--source visible|recent]");
+  try {
+    const args = ["agent", "read", agentName];
+    if (options.lines) args.push("--lines", options.lines);
+    if (options.source) args.push("--source", options.source);
+
+    const result = runHerdr(args, { timeoutMs: 10_000 });
+
+    // Output may be plain text (terminal content) or JSON (error).
+    if (typeof result === "object" && result !== null && "_raw" in result) {
+      console.log((result as Record<string, unknown>)._raw);
+    } else {
+      console.log(JSON.stringify(result));
+    }
+
+    return 0;
+  } catch (err) {
+    const message = (err as Error).message ?? `read failed: status=1`;
+    console.error(message);
     return 1;
   }
-
-  const args = ["agent", "read", agentName];
-  if (options.lines) args.push("--lines", options.lines);
-  if (options.source) args.push("--source", options.source);
-
-  const result = spawnSync("herdr", args, {
-    encoding: "utf-8",
-    timeout: 10_000,
-  });
-
-  const stderr = (result.stderr ?? "").toString();
-  const stdout = (result.stdout ?? "").toString();
-  const output = stderr.startsWith("{") ? stderr : stdout;
-
-  if (result.error || result.status !== 0) {
-    console.error(`read failed: status=${result.status}`);
-    if (output) console.error(output.slice(0, 500));
-    return 1;
-  }
-
-  // Output may be plain text (terminal content) or JSON (error).
-  // If it starts with "{", print it; otherwise print raw text.
-  if (output.startsWith("{")) {
-    console.log(output);
-  } else if (output) {
-    console.log(output);
-  }
-
-  return 0;
 }

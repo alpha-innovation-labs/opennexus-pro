@@ -9,7 +9,7 @@
  * code and CLI entrypoints import from here.
  */
 
-import { execSync, spawnSync } from "node:child_process";
+import { execSync, spawn, spawnSync } from "node:child_process";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -18,7 +18,7 @@ import { execSync, spawnSync } from "node:child_process";
 /**
  * Runs a herdr CLI command and returns parsed JSON, or throws on failure.
  */
-export function runHerdr(
+function runHerdr(
   args: string[],
   { timeoutMs = 10_000 }: { timeoutMs?: number } = {},
 ): Record<string, unknown> {
@@ -57,7 +57,7 @@ export function runHerdr(
 /**
  * Drills into nested object keys, returning undefined if any key is missing.
  */
-export function drill(data: Record<string, unknown>, ...keys: string[]): string | undefined {
+function drill(data: Record<string, unknown>, ...keys: string[]): string | undefined {
   let current: unknown = data;
   for (const key of keys) {
     if (typeof current === "object" && current !== null && key in (current as Record<string, unknown>)) {
@@ -74,7 +74,7 @@ export function drill(data: Record<string, unknown>, ...keys: string[]): string 
  * Handles both plain recipes and shebang-body recipes (which print the
  * full script when queried with `-n`).
  */
-export function resolveJustDevBinary(): string {
+function resolveJustDevBinary(): string {
   let output: string;
   try {
     // Use `npx just` because `tsx` may not resolve `just` from PATH.
@@ -127,7 +127,7 @@ export function resolveJustDevBinary(): string {
 /**
  * Options for preparing a Herdr workspace for e2e testing.
  */
-export interface PrepareHerdrOptions {
+interface PrepareHerdrOptions {
   /** Unique label for the workspace (default: "nexus-e2e"). */
   workspaceLabel?: string;
   /** Maximum seconds to wait for the pane to become available (default 30). */
@@ -139,7 +139,7 @@ export interface PrepareHerdrOptions {
 /**
  * Result of preparing a Herdr workspace.
  */
-export interface PreparedHerdr {
+interface PreparedHerdr {
   /** The workspace ID (e.g. "w42"). */
   workspaceId: string;
   /** The root pane ID (e.g. "w42:p1"). */
@@ -160,7 +160,7 @@ export interface PreparedHerdr {
  * @param options Workspace label and optional max wait time.
  * @returns Handle containing workspaceId, rootPaneId, and agentName.
  */
-export function prepareHerdr(options: PrepareHerdrOptions = {}): PreparedHerdr {
+function prepareHerdr(options: PrepareHerdrOptions = {}): PreparedHerdr {
   const { workspaceLabel = "nexus-e2e", maxWaitSeconds = 30, agentName: providedAgentName } = options;
 
   // Step 1: Create workspace (no-focus to avoid stealing UI focus).
@@ -208,7 +208,7 @@ export function prepareHerdr(options: PrepareHerdrOptions = {}): PreparedHerdr {
  * @param maxWaitSeconds Maximum seconds to wait for agent readiness (default 60).
  * @returns The agent name.
  */
-export function startHerdrAgent(
+function startHerdrAgent(
   paneId: string,
   { maxWaitSeconds = 60 }: { maxWaitSeconds?: number } = {},
 ): string {
@@ -240,7 +240,7 @@ export function startHerdrAgent(
  * @param timeoutMs Maximum milliseconds to wait (default 120_000).
  * @returns The agent state after the prompt settles.
  */
-export function promptHerdrAgent(
+function promptHerdrAgent(
   agentName: string,
   promptText: string,
   { timeoutMs = 120_000 }: { timeoutMs?: number } = {},
@@ -256,7 +256,7 @@ export function promptHerdrAgent(
  *
  * @param workspaceId The workspace ID to close (e.g. "w42").
  */
-export function closeHerdrWorkspace(workspaceId: string): void {
+function closeHerdrWorkspace(workspaceId: string): void {
   try {
     runHerdr(["workspace", "close", workspaceId]);
     console.error(`  ✓ Workspace ${workspaceId} closed.`);
@@ -264,3 +264,91 @@ export function closeHerdrWorkspace(workspaceId: string): void {
     // Ignore — workspace may already be closed.
   }
 }
+
+// ---------------------------------------------------------------------------
+// Unified operations (used by both CLI and extension layers)
+// ---------------------------------------------------------------------------
+
+/**
+ * Splits the current pane to the right and returns the new pane ID.
+ *
+ * @returns The pane_id of the newly split pane.
+ * @throws If the split fails or returns no pane_id.
+ */
+function splitPaneRight(): string {
+  const result = runHerdr(["pane", "split", "--current", "--direction", "right"], { timeoutMs: 10_000 });
+  const paneId = drill(result, "result", "pane", "pane_id");
+
+  if (!paneId) {
+    throw new Error(`Split did not return a pane_id: ${JSON.stringify(result)}`);
+  }
+
+  return paneId;
+}
+
+/**
+ * Sends text to an agent via `herdr agent send-text`, then sends Enter
+ * to submit it.
+ *
+ * @param agentName The target agent name (e.g. "agent-abc1").
+ * @param text      The text to send.
+ */
+function sendTextToAgent(agentName: string, text: string): void {
+  runHerdr(["agent", "send-text", agentName, text], { timeoutMs: 10_000 });
+  runHerdr(["agent", "send-keys", agentName, "Enter"], { timeoutMs: 10_000 });
+}
+
+/**
+ * Sends key presses to an agent via `herdr agent send-keys`.
+ *
+ * @param agentName The target agent name.
+ * @param keys      Key presses (e.g. "Enter", "Esc").
+ */
+function sendKeysToAgent(agentName: string, ...keys: string[]): void {
+  runHerdr(["agent", "send-keys", agentName, ...keys], { timeoutMs: 10_000 });
+}
+
+/**
+ * Starts an agent in a pane with inherited stdio (foreground blocking).
+ * Use this when the caller should wait for the agent to finish,
+ * e.g. when the CLI or extension tool is the terminal itself.
+ *
+ * @param agentName The agent name.
+ * @param paneId    The pane to start in.
+ * @param options   Optional skills to preload.
+ * @returns The process exit status.
+ */
+function startForegroundAgent(
+  agentName: string,
+  paneId: string,
+  options?: { skills?: string[]; stdio?: "inherit" | "pipe"; blocking?: boolean },
+): number {
+  const { stdio: stdioOption = "inherit", blocking = false } = options ?? {};
+  const args = [
+    "agent", "start", agentName,
+    "--kind", "mastracode", "--pane", paneId,
+    "--", "--no-skills", "--minimal",
+  ];
+
+  if (blocking) {
+    const result = spawnSync("herdr", args, {
+      encoding: "utf-8",
+      stdio: stdioOption,
+      timeout: 0,
+    });
+    return result.status ?? 0;
+  }
+
+  spawn("herdr", args, {
+    stdio: stdioOption === "inherit" ? "inherit" : "pipe",
+    timeout: 0,
+  });
+  return 0;
+}
+
+export {
+  runHerdr, drill, resolveJustDevBinary, prepareHerdr, startHerdrAgent,
+  promptHerdrAgent, closeHerdrWorkspace,
+  splitPaneRight, sendTextToAgent, sendKeysToAgent, startForegroundAgent,
+};
+export type { PreparedHerdr, PrepareHerdrOptions };

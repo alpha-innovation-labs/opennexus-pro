@@ -21,8 +21,10 @@ export async function runSubagentCommand(): Promise<number> {
   const { command, args, flags } = parseSubagentArgs();
 
   switch (command) {
-    case "start":
-      return runSubagentStartCommand();
+    case "start": {
+      const sessionName = flags.session;
+      return runSubagentStartCommand(sessionName);
+    }
 
     case "prompt": {
       const agentName = args[0];

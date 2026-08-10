@@ -77,8 +77,11 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   const uninstallExitCode = await runUninstallCommand(argv);
   if (uninstallExitCode !== undefined) return uninstallExitCode;
 
-  const piPackagesExitCode = await runPiPackagesCommand(argv);
-  if (piPackagesExitCode !== undefined) return piPackagesExitCode;
+  // --minimal: disable pi-packages CLI entirely.
+  if (!hasMinimalFlag(argv)) {
+    const piPackagesExitCode = await runPiPackagesCommand(argv);
+    if (piPackagesExitCode !== undefined) return piPackagesExitCode;
+  }
 
   if (hasHelpFlag(argv)) {
     printNexusUsage();
@@ -152,7 +155,11 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
 
   // --minimal: whitelist only the specified extensions, disable everything else.
   if (hasMinimalFlag(argv)) {
+    const { getAllBundledExtensionIds } = await import("@nexus/feature-flags/registry.js");
+    const allIds = getAllBundledExtensionIds();
+    const disabledFeatures = allIds.filter((id) => !MINIMAL_EXTENSION_WHITELIST.includes(id));
     await options.runApp(argv, {
+      disabledFeatures,
       enabledFeatures: MINIMAL_EXTENSION_WHITELIST,
     });
     return 0;

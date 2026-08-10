@@ -1,0 +1,11 @@
+{
+  "name": "@nexus/shared",
+  "version": "0.2.24",
+  "private": true,
+  "type": "module",
+  "scripts": {},
+  "exports": {
+    "./*.js": "./src/*.ts",
+    "./*": "./src/*"
+  }
+}

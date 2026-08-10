@@ -44,11 +44,6 @@ export const bundledFeatureFlags: Readonly<Record<
 		features: ["exit-message-display"],
 		category: "core",
 	},
-	"herdr-agent-end-log": {
-		enabled: true,
-		features: ["herdr-agent-end-logging"],
-		category: "core",
-	},
 	"pi-packages": {
 		enabled: true,
 		features: ["pi-package-management"],
@@ -127,6 +122,11 @@ export const bundledFeatureFlags: Readonly<Record<
 	"local-image-reader": {
 		enabled: true,
 		features: ["local-image-reading"],
+		category: "extension",
+	},
+	subagents: {
+		enabled: true,
+		features: ["subagent-start", "subagent-prompt", "subagent-read", "subagent-send", "subagent-send-keys"],
 		category: "extension",
 	},
 };

@@ -4,6 +4,7 @@ import { showFeaturesModal } from "./command/showFeaturesModal.js";
 
 /**
  * Registers the feature management command.
+ * Pi packages are displayed within /features.
  *
  * @param pi Extension API.
  */

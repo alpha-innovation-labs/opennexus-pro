@@ -46,15 +46,22 @@ export function renderSelectListLines(options: RenderSelectListLinesOptions): st
 function createSelectListRenderRows(options: RenderSelectListLinesOptions): SelectListRenderRow[] {
   const rows: SelectListRenderRow[] = [];
   let previousGroupLabel: string | undefined;
+  let previousSubGroupLabel: string | undefined;
   let renderedGroupHeaderDescription = false;
   for (let index = 0; index < options.items.length; index += 1) {
     const item = options.items[index]!;
     const groupLabel = getGroupLabel(item);
+    const subGroupLabel = getSubGroupLabel(item);
     if (groupLabel && groupLabel !== previousGroupLabel) {
       rows.push({ text: renderGroupHeader(options, item, groupLabel, !renderedGroupHeaderDescription) });
+      previousSubGroupLabel = undefined;
       if (getGroupHeaderDescription(item)) renderedGroupHeaderDescription = true;
     }
+    if (subGroupLabel && subGroupLabel !== previousSubGroupLabel) {
+      rows.push({ text: renderSubGroupHeader(options, item, subGroupLabel) });
+    }
     previousGroupLabel = groupLabel;
+    previousSubGroupLabel = subGroupLabel;
     rows.push(...renderSelectListItem(options, item, index === options.selectedIndex).map((text) => ({ itemIndex: index, text })));
   }
   return rows;
@@ -209,7 +216,9 @@ function renderFixedLabelDescribedItem(options: RenderSelectListLinesOptions, it
  */
 function renderGroupHeader(options: RenderSelectListLinesOptions, item: AutocompleteItem, groupLabel: string, showDescription: boolean): string {
   const description = showDescription ? getGroupHeaderDescription(item) : undefined;
-  if (!description) return ` ${options.theme.fg("accent", options.theme.bold(truncateToWidth(groupLabel, Math.max(1, options.width - 2), "")))}`;
+  if (!description) {
+    return ` ${options.theme.fg("accent", options.theme.bold(truncateToWidth(groupLabel, Math.max(1, options.width - 2), "")))}`;
+  }
   const fixedLabelWidth = (item as { fixedLabelWidth?: number }).fixedLabelWidth;
   const indentWidth = visibleWidth(getItemIndent(item));
   const labelColumnWidth = fixedLabelWidth !== undefined
@@ -230,7 +239,36 @@ function renderGroupHeader(options: RenderSelectListLinesOptions, item: Autocomp
  */
 function getGroupLabel(item: AutocompleteItem): string | undefined {
   const groupLabel = (item as { groupLabel?: string }).groupLabel?.trim();
-  return groupLabel || undefined;
+  if (!groupLabel) return undefined;
+  // Return top-level group for indentation.
+  const parts = groupLabel.split(" > ");
+  return parts.length > 1 ? parts[0] : groupLabel;
+}
+
+/**
+ * Returns the nested sub-group label when present.
+ *
+ * @param item Item to inspect.
+ * @returns Sub-group label, or undefined.
+ */
+function getSubGroupLabel(item: AutocompleteItem): string | undefined {
+  const groupLabel = (item as { groupLabel?: string }).groupLabel?.trim();
+  if (!groupLabel) return undefined;
+  const parts = groupLabel.split(" > ");
+  return parts.length > 1 ? parts.slice(1).join(" > ") : undefined;
+}
+
+/**
+ * Renders an indented sub-group heading for nested list items.
+ *
+ * @param options Render options.
+ * @param item First item in the sub-group.
+ * @param subGroupLabel Sub-group heading text.
+ * @returns Rendered sub-group heading.
+ */
+function renderSubGroupHeader(options: RenderSelectListLinesOptions, item: AutocompleteItem, subGroupLabel: string): string {
+  const label = truncateToWidth(subGroupLabel, Math.max(1, options.width - 2), "");
+  return `  ${options.theme.fg("accent", options.theme.bold(label))}`;
 }
 
 /**

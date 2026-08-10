@@ -1,4 +1,4 @@
-import { spawnSync } from "node:child_process";
+import { promptHerdrAgent } from "@nexus/herdr/herdr-client";
 
 /**
  * Runs `nexus subagent prompt <session-id> "<text>"`: sends a prompt to an
@@ -9,31 +9,22 @@ import { spawnSync } from "node:child_process";
  * @returns Process exit code.
  */
 export async function runSubagentPromptCommand(sessionId: string, text: string, timeoutMs?: number): Promise<number> {
-  const timeout = timeoutMs ?? 120_000;
+  try {
+    console.error(`Prompting agent '${sessionId}': ${text}`);
 
-  console.error(`Prompting agent '${sessionId}': ${text}`);
+    const result = promptHerdrAgent(sessionId, text, { timeoutMs });
+    const output = JSON.stringify(result);
 
-  const result = spawnSync("herdr", ["agent", "prompt", sessionId, text, "--wait", "--timeout", String(timeout)], {
-    encoding: "utf-8",
-    timeout: 0,
-  });
+    if (output.startsWith("{")) {
+      console.log(output);
+    } else if (output) {
+      console.log(output);
+    }
 
-  const stderr = (result.stderr ?? "").toString();
-  const stdout = (result.stdout ?? "").toString();
-  const output = stderr.startsWith("{") ? stderr : stdout;
-
-  if (result.error || result.status !== 0) {
-    console.error(`prompt failed: status=${result.status}`);
-    if (output) console.error(output.slice(0, 500));
+    return 0;
+  } catch (err) {
+    const message = (err as Error).message ?? `prompt failed: status=1`;
+    console.error(message);
     return 1;
   }
-
-  // Output may be plain text (terminal content) or JSON (error).
-  if (output.startsWith("{")) {
-    console.log(output);
-  } else if (output) {
-    console.log(output);
-  }
-
-  return 0;
 }

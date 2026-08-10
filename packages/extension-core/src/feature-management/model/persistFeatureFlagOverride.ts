@@ -47,6 +47,7 @@ export function updateFeatureStatusRow(
 	extensionId: string,
 	patch: FeatureFlagConfigPatch,
 	row: FeatureStatusRow,
+	minimalWhitelist?: readonly string[],
 ): FeatureStatusRow[] {
 	const newStatus = patch.status === "disabled" ? false : true;
 	persistFeatureFlagOverride(extensionId, newStatus);
@@ -70,7 +71,7 @@ export function updateFeatureStatusRow(
 			extensionId: id,
 			feature: id,
 			status: enabled ? "enabled" : "disabled",
-			group: getFeatureManagementGroup(id),
+			group: getFeatureManagementGroup(id, minimalWhitelist),
 		} satisfies FeatureStatusRow;
 	});
 }

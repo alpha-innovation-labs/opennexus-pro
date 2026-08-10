@@ -1,6 +1,7 @@
 export { applySystemExtensionAvailability } from "./applySystemExtensionAvailability.js";
 export { createExtensionFeatureFlagReport } from "./createExtensionFeatureFlagReport.js";
 export { createExtensionFeatureFlags } from "./createExtensionFeatureFlags.js";
+export { createExtensionRegistrationTask } from "./createExtensionRegistrationTask.js";
 export { getEnabledExtensionFeatureFlags } from "./getEnabledExtensionFeatureFlags.js";
 export { registerEnabledExtensions } from "./registerEnabledExtensions.js";
 export { isRuntimeExtensionFeatureEnabled, setRuntimeExtensionFeatureFlags, setRuntimeExtensionFeatureState } from "./runtimeExtensionFeatureState.js";
