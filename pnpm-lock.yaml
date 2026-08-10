@@ -238,9 +238,81 @@ importers:
 
   packages/extension-core:
     dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@nexus/assets':
         specifier: workspace:*
         version: link:../assets
+      '@nexus/extensions-core-ai-providers':
+        specifier: workspace:*
+        version: link:ai-providers
+      '@nexus/extensions-core-auto-update':
+        specifier: workspace:*
+        version: link:auto-update
+      '@nexus/extensions-core-cmux':
+        specifier: workspace:*
+        version: link:cmux
+      '@nexus/extensions-core-context-usage':
+        specifier: workspace:*
+        version: link:context-usage
+      '@nexus/extensions-core-exit-message':
+        specifier: workspace:*
+        version: link:exit-message
+      '@nexus/extensions-core-feature-management':
+        specifier: workspace:*
+        version: link:feature-management
+      '@nexus/extensions-core-fff':
+        specifier: workspace:*
+        version: link:fff
+      '@nexus/extensions-core-herdr-agent-end-log':
+        specifier: workspace:*
+        version: link:herdr-agent-end-log
+      '@nexus/extensions-core-hotkeys':
+        specifier: workspace:*
+        version: link:hotkeys
+      '@nexus/extensions-core-local-image-reader':
+        specifier: workspace:*
+        version: link:local-image-reader
+      '@nexus/extensions-core-neo-editor':
+        specifier: workspace:*
+        version: link:neo-editor
+      '@nexus/extensions-core-notify':
+        specifier: workspace:*
+        version: link:notify
+      '@nexus/extensions-core-observations':
+        specifier: workspace:*
+        version: link:observations
+      '@nexus/extensions-core-pi-packages':
+        specifier: workspace:*
+        version: link:pi-packages
+      '@nexus/extensions-core-prompts':
+        specifier: workspace:*
+        version: link:prompts
+      '@nexus/extensions-core-rtk':
+        specifier: workspace:*
+        version: link:rtk
+      '@nexus/extensions-core-runtime':
+        specifier: workspace:*
+        version: link:runtime
+      '@nexus/extensions-core-slash-menu':
+        specifier: workspace:*
+        version: link:slash-menu
+      '@nexus/extensions-core-startup-hero':
+        specifier: workspace:*
+        version: link:startup-hero
+      '@nexus/extensions-core-subagents':
+        specifier: workspace:*
+        version: link:subagents
+      '@nexus/extensions-core-system-prompt':
+        specifier: workspace:*
+        version: link:system-prompt
+      '@nexus/extensions-core-tron':
+        specifier: workspace:*
+        version: link:tron
+      '@nexus/extensions-core-web-search':
+        specifier: workspace:*
+        version: link:web-search
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../feature-flags
@@ -268,6 +340,348 @@ importers:
       strip-ansi:
         specifier: ^6.0.1
         version: 6.0.1
+
+  packages/extension-core/ai-providers:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+
+  packages/extension-core/auto-update:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/assets':
+        specifier: workspace:*
+        version: link:../../assets
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../tui-kit
+
+  packages/extension-core/cmux:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../tui-kit
+
+  packages/extension-core/context-usage:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/observability':
+        specifier: workspace:*
+        version: link:../../observability
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../tui-kit
+
+  packages/extension-core/exit-message:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+
+  packages/extension-core/feature-management:
+    dependencies:
+      '@nexus/extensions-core-pi-packages':
+        specifier: workspace:*
+        version: link:../pi-packages
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../tui-kit
+
+  packages/extension-core/fff:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+
+  packages/extension-core/herdr-agent-end-log:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/observability':
+        specifier: workspace:*
+        version: link:../../observability
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+
+  packages/extension-core/hotkeys:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+
+  packages/extension-core/local-image-reader:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+
+  packages/extension-core/neo-editor:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/extensions-core-context-usage':
+        specifier: workspace:*
+        version: link:../context-usage
+      '@nexus/extensions-core-slash-menu':
+        specifier: workspace:*
+        version: link:../slash-menu
+      '@nexus/extensions-core-tron':
+        specifier: workspace:*
+        version: link:../tron
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/observability':
+        specifier: workspace:*
+        version: link:../../observability
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../tui-kit
+
+  packages/extension-core/notify:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+
+  packages/extension-core/observations:
+    dependencies:
+      '@nexus/extensions-core-prompts':
+        specifier: workspace:*
+        version: link:../prompts
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/observability':
+        specifier: workspace:*
+        version: link:../../observability
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+      '@nexus/shared':
+        specifier: workspace:*
+        version: link:../../shared
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../tui-kit
+
+  packages/extension-core/pi-packages:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../tui-kit
+
+  packages/extension-core/prompts:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/pi-platform':
+        specifier: workspace:*
+        version: link:../../pi-platform
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+      '@nexus/shared':
+        specifier: workspace:*
+        version: link:../../shared
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../tui-kit
+
+  packages/extension-core/rtk:
+    dependencies:
+      '@nexus/extensions-core-slash-menu':
+        specifier: workspace:*
+        version: link:../slash-menu
+      '@nexus/extensions-core-tron':
+        specifier: workspace:*
+        version: link:../tron
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../tui-kit
+
+  packages/extension-core/runtime:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/extensions-core-hotkeys':
+        specifier: workspace:*
+        version: link:../hotkeys
+      '@nexus/extensions-core-slash-menu':
+        specifier: workspace:*
+        version: link:../slash-menu
+      '@nexus/extensions-core-tron':
+        specifier: workspace:*
+        version: link:../tron
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/observability':
+        specifier: workspace:*
+        version: link:../../observability
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../tui-kit
+
+  packages/extension-core/slash-menu:
+    dependencies:
+      '@nexus/extensions-core-tron':
+        specifier: workspace:*
+        version: link:../tron
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/observability':
+        specifier: workspace:*
+        version: link:../../observability
+      '@nexus/pi-platform':
+        specifier: workspace:*
+        version: link:../../pi-platform
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../tui-kit
+
+  packages/extension-core/startup-hero:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/observability':
+        specifier: workspace:*
+        version: link:../../observability
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+
+  packages/extension-core/subagents:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/herdr':
+        specifier: workspace:*
+        version: link:../../herdr
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+
+  packages/extension-core/system-prompt:
+    dependencies:
+      '@nexus/extensions-core-prompts':
+        specifier: workspace:*
+        version: link:../prompts
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+
+  packages/extension-core/tron:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: ^0.83.0
+        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/observability':
+        specifier: workspace:*
+        version: link:../../observability
+      '@nexus/pi-platform':
+        specifier: workspace:*
+        version: link:../../pi-platform
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../tui-kit
+
+  packages/extension-core/web-search:
+    dependencies:
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
 
   packages/feature-flags:
     dependencies:

@@ -1,0 +1,14 @@
+{
+  "name": "@nexus/extensions-core-subagents",
+  "version": "0.2.24",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*"
+  },
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "^0.83.0",
+    "@nexus/feature-flags": "workspace:*",
+    "@nexus/herdr": "workspace:*",
+    "@nexus/runtime": "workspace:*"
+  }
+}

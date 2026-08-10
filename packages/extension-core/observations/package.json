@@ -1,0 +1,16 @@
+{
+  "name": "@nexus/extensions-core-observations",
+  "version": "0.2.24",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*"
+  },
+  "dependencies": {
+    "@nexus/feature-flags": "workspace:*",
+    "@nexus/observability": "workspace:*",
+    "@nexus/runtime": "workspace:*",
+    "@nexus/shared": "workspace:*",
+    "@nexus/tui-kit": "workspace:*",
+    "@nexus/extensions-core-prompts": "workspace:*"
+  }
+}
