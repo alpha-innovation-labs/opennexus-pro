@@ -1,9 +1,9 @@
 {
-  "name": "@nexus/extensions-core-web-search",
+  "name": "@nexus/extensions/web-search",
   "version": "0.2.24",
   "type": "module",
   "exports": {
-    "./*": "./src/*"
+    "./*": "./"
   },
   "dependencies": {
     "@nexus/feature-flags": "workspace:*",

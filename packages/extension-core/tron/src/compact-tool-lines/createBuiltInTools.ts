@@ -7,8 +7,8 @@ import {
 	createReadTool,
 	createWriteTool,
 } from "@earendil-works/pi-coding-agent";
-import { getRtkRuntimeForCwd } from "../../rtk/runtime/runtimeStore.ts";
-import { createRtkBuiltInTools } from "../../rtk/tooling/createRtkBuiltInTools.ts";
+import { getRtkRuntimeForCwd } from '../rtk/runtime/runtimeStore.ts';
+import { createRtkBuiltInTools } from '../rtk/tooling/createRtkBuiltInTools.ts';
 import type { BuiltInTools } from "./types.ts";
 
 /**

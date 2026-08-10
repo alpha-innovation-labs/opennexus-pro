@@ -1,14 +1,14 @@
 {
-  "name": "@nexus/extensions-core-feature-management",
+  "name": "@nexus/extensions/feature-management",
   "version": "0.2.24",
   "type": "module",
   "exports": {
-    "./*": "./src/*"
+    "./*": "./"
   },
   "dependencies": {
     "@nexus/feature-flags": "workspace:*",
     "@nexus/runtime": "workspace:*",
     "@nexus/tui-kit": "workspace:*",
-    "@nexus/extensions-core-pi-packages": "workspace:*"
+    "@nexus/extensions/pi-packages": "workspace:*"
   }
 }

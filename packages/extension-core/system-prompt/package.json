@@ -1,13 +1,13 @@
 {
-  "name": "@nexus/extensions-core-system-prompt",
+  "name": "@nexus/extensions/system-prompt",
   "version": "0.2.24",
   "type": "module",
   "exports": {
-    "./*": "./src/*"
+    "./*": "./"
   },
   "dependencies": {
     "@nexus/feature-flags": "workspace:*",
     "@nexus/runtime": "workspace:*",
-    "@nexus/extensions-core-prompts": "workspace:*"
+    "@nexus/extensions/prompts": "workspace:*"
   }
 }

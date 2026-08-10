@@ -1,5 +1,5 @@
 {
-  "name": "@nexus/extensions-core-shared",
+  "name": "@nexus/extensions/shared",
   "version": "0.2.24",
   "private": true,
   "type": "module",
@@ -8,7 +8,6 @@
     "@nexus/runtime": "workspace:*"
   },
   "exports": {
-    "./*.js": "./src/*.ts",
-    "./*": "./src/*"
+    "./*": "./"
   }
 }
