@@ -10,7 +10,7 @@
   },
   "scripts": {
     "generate:package-info": "node scripts/auto-update/generatePackageInfo.mjs",
-    "build": "node scripts/release/buildRelease.mjs",
+    "build": "tsc --project tsconfig.json",
     "dev": "npm run generate:package-info && tsx -- apps/tui/src/index.ts",
     "test": "npx vitest run"
   },
