@@ -262,9 +262,6 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.83.0
         version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -346,9 +343,6 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.83.0
         version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -394,9 +388,6 @@ importers:
       '@extensions/prompts':
         specifier: workspace:*
         version: link:../prompts
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
@@ -412,9 +403,6 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.83.0
         version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -445,9 +433,6 @@ importers:
       '@extensions/tron':
         specifier: workspace:*
         version: link:../tron
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -520,9 +505,6 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.83.0
         version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/herdr':
         specifier: workspace:*
         version: link:../../herdr
@@ -535,9 +517,6 @@ importers:
       '@extensions/prompts':
         specifier: workspace:*
         version: link:../prompts
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -547,9 +526,6 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.83.0
         version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
@@ -565,9 +541,6 @@ importers:
 
   packages/extension-core/web-search:
     dependencies:
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime

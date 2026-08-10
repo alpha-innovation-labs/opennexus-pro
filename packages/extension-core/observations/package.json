@@ -6,7 +6,6 @@
     "./*": "./src/*"
   },
   "dependencies": {
-    "@nexus/feature-flags": "workspace:*",
     "@nexus/observability": "workspace:*",
     "@nexus/runtime": "workspace:*",
     "@nexus/tui-kit": "workspace:*",
