@@ -22,6 +22,7 @@ import { registerWebSearchExtension } from "@nexus/extensions/web-search/registe
 import registerLocalImageReaderExtension from "@nexus/extensions/local-image-reader/registerLocalImageReaderExtension.js";
 import { registerSubagentsExtension } from "@nexus/extensions/subagents/registerSubagentsExtension.js";
 import { registerPiPackagesExtension } from "@nexus/extensions/pi-packages/registerPiPackagesExtension.js";
+import { registerHerdrAgentEndLogExtension } from "@nexus/extensions/herdr-agent-end-log/registerHerdrAgentEndLogExtension.js";
 
 /**
  * Creates the code-backed extension registration map.
@@ -59,5 +60,6 @@ export function createExtensionRegisterMap(): Record<
 		"local-image-reader": registerLocalImageReaderExtension,
 		subagents: registerSubagentsExtension,
 		"pi-packages": registerPiPackagesExtension,
+		herdrAgentEndLog: registerHerdrAgentEndLogExtension,
 	};
 }
