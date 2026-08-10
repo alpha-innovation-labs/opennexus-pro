@@ -324,7 +324,11 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
 
-  packages/shared: {}
+  packages/shared:
+    dependencies:
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../nexus-runtime
 
   packages/tui-kit:
     dependencies:

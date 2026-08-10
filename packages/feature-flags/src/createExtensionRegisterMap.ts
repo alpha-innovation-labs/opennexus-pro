@@ -13,6 +13,7 @@ import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manag
 import { registerNotifyExtension } from "@nexus/extensions/notify/registerNotifyExtension.js";
 import { registerObservationsExtension } from "@nexus/extensions/observations/registerObservationsExtension.js";
 import { registerSystemPromptExtension } from "@nexus/extensions/system-prompt/registerSystemPromptExtension.js";
+import { registerEndMessageFormatterExtension } from "@nexus/extensions/prompts/end-message-formatter/registerEndMessageFormatterExtension.js";
 import { registerRtkExtension } from "@nexus/extensions/rtk/registerRtkExtension.js";
 import { registerStartupHeroExtension } from "@nexus/extensions/startup-hero/registerStartupHeroExtension.js";
 import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension.js";
@@ -52,6 +53,7 @@ export function createExtensionRegisterMap(): Record<
 		"mini-app-manager": registerMiniAppManagerExtension,
 		notify: registerNotifyExtension,
 		"system-prompt": registerSystemPromptExtension,
+		"end-message-formatter": registerEndMessageFormatterExtension,
 		"exit-message": registerExitMessageExtension,
 		"startup-hero": registerStartupHeroExtension,
 		tetris: registerTetrisExtension,

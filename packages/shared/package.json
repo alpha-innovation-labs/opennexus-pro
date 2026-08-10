@@ -4,8 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {},
+  "dependencies": {
+    "@nexus/runtime": "workspace:*"
+  },
   "exports": {
     "./*.js": "./src/*.ts",
-    "./*": "./src/*"
+    "./*": "./src/*",
+    "./child-process/*": "./src/child-process/*"
   }
 }
