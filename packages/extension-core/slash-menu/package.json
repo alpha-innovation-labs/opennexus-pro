@@ -1,9 +1,9 @@
 {
-  "name": "@nexus/extensions/slash-menu",
+  "name": "@extensions/slash-menu",
   "version": "0.2.24",
   "type": "module",
   "exports": {
-    "./*": "./"
+    "./*": "./src/*"
   },
   "dependencies": {
     "@nexus/feature-flags": "workspace:*",
@@ -11,6 +11,6 @@
     "@nexus/pi-platform": "workspace:*",
     "@nexus/runtime": "workspace:*",
     "@nexus/tui-kit": "workspace:*",
-    "@nexus/extensions/tron": "workspace:*"
+    "@extensions/tron": "workspace:*"
   }
 }

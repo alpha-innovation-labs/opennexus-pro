@@ -1,7 +1,7 @@
-import { readProviderConfig } from "@nexus/extensions/ai-providers/config/readProviderConfig.js";
+import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig.js";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import type { AiGateway } from "@nexus/extensions/ai-providers/index.js";
-import { getModelCachePath, readProviderStateCache } from "@nexus/extensions/ai-providers/cache/index.js";
+import type { AiGateway } from "@extensions/ai-providers/index.js";
+import { getModelCachePath, readProviderStateCache } from "@extensions/ai-providers/cache/index.js";
 import { getAllProviderIds } from "./getAllProviderIds.js";
 import { Table } from "console-table-printer";
 import { GRAY, GREEN, ORANGE, RED, RESET } from "../shared/ansiColors.js";

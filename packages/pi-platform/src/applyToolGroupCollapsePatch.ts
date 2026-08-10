@@ -1,8 +1,8 @@
 import { KEYBINDINGS } from "./keybindings.ts";
 import { InteractiveMode } from "@earendil-works/pi-coding-agent";
-import { invalidateActivityKeys } from "@nexus/extensions/tron/activity/invalidateActivityKeys.ts";
-import { activityInvalidators } from "@nexus/extensions/tron/activity/state.ts";
-import { toggleToolGroupCollapse } from "@nexus/extensions/tron/collapse/state.ts";
+import { invalidateActivityKeys } from "@extensions/tron/invalidateActivityKeys.ts";
+import { activityInvalidators } from "@extensions/tron/state.ts";
+import { toggleToolGroupCollapse } from "@extensions/tron/collapse/state.ts";
 
 type InteractiveModeWithCollapsePatch = {
 	defaultEditor: { onAction(action: string, handler: () => void): void };

@@ -2,8 +2,8 @@ import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath
 import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch.js";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
 import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled.js";
-import { createNexusPackageManager } from "@nexus/extensions/pi-packages/package/createNexusPackageManager.js";
-import { normalizeNpmPackageName } from "@nexus/extensions/pi-packages/package/normalizeNpmPackageName.js";
+import { createNexusPackageManager } from "@extensions/pi-packages/package/createNexusPackageManager.js";
+import { normalizeNpmPackageName } from "@extensions/pi-packages/package/normalizeNpmPackageName.js";
 import { parsePiPackagesCommand } from "./parsePiPackagesCommand.js";
 import { printPiPackagesUsage } from "./printPiPackagesUsage.js";
 import { Table } from "console-table-printer";

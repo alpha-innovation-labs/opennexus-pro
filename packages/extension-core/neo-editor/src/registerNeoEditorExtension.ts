@@ -1,10 +1,10 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { createContextUsageReport } from "../context-usage/createContextUsageReport.js";
-import type { ContextUsageReport } from "../context-usage/types.js";
-import { createRuntimeSnapshot } from "../context-usage/createRuntimeSnapshot.js";
-import { readProjectConfig } from "../slash-menu/readProjectConfig.js";
-import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
+import { createContextUsageReport } from "@extensions/context-usage/createContextUsageReport.js";
+import type { ContextUsageReport } from "@extensions/context-usage/types.js";
+import { createRuntimeSnapshot } from "@extensions/context-usage/createRuntimeSnapshot.js";
+import { readProjectConfig } from "@extensions/slash-menu/readProjectConfig.js";
+import { setToolGroupCollapseEnabled } from "@extensions/tron/collapse/state.js";
 import { ensurePromptlineInstalled } from "./features/promptline/ensurePromptlineInstalled.js";
 import { getPromptlineConfig } from "./features/promptline/config/getPromptlineConfig.js";
 import { refreshPromptlineConfig } from "./features/promptline/config/refreshPromptlineConfig.js";

@@ -6,11 +6,11 @@ import { createFeatureStatusRows } from "../model/createFeatureStatusRows.js";
 import { FeatureManagementModal } from "../ui/FeatureManagementModal.js";
 import { updateFeatureStatusRow } from "../model/persistFeatureFlagOverride.js";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { createNexusPackageManager } from "../../pi-packages/package/createNexusPackageManager.js";
-import { normalizeNpmPackageName } from "../../pi-packages/package/normalizeNpmPackageName.js";
+import { createNexusPackageManager } from "@extensions/pi-packages/package/createNexusPackageManager.js";
+import { normalizeNpmPackageName } from "@extensions/pi-packages/package/normalizeNpmPackageName.js";
 import { getFeatureManagementGroup } from "../model/getFeatureManagementGroup.js";
 import type { FeatureStatusRow } from "../model/types.js";
-import { MINIMAL_EXTENSION_WHITELIST } from "@nexus/extensions/shared/minimal.js";
+import { MINIMAL_EXTENSION_WHITELIST } from "@extensions/shared/minimal.js";
 
 /**
  * Opens the feature management modal.

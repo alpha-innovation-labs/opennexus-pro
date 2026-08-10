@@ -13,8 +13,7 @@
     "build:binary": "node scripts/release/buildBinaryBundle.mjs",
     "build:release": "npm run build:binary",
     "dev": "npm run generate:package-info && tsx -- apps/tui/src/index.ts",
-    "test": "npx vitest run",
-    "postinstall": "node scripts/patch-pi-exports.mjs"
+    "test": "npx vitest run"
   },
   "dependencies": {
     "@ast-grep/napi": "^0.45.0",

@@ -4,13 +4,13 @@ import type { AutocompleteItem, AutocompleteProvider } from "@earendil-works/pi-
 import { matchesKey } from "@earendil-works/pi-tui";
 import { readClipboardImageViaMacOsJxa } from "@nexus/runtime/clipboard-image/readClipboardImageViaMacOsJxa.js";
 import { writeClipboardImageTempFile } from "@nexus/runtime/clipboard-image/writeClipboardImageTempFile.js";
-import { clearStartupHero } from "../../../startup-hero/clearStartupHero.js";
+import { clearStartupHero } from "@extensions/startup-hero/clearStartupHero.js";
 import { handleClipboardImagePaste } from "./clipboard/handleClipboardImagePaste.js";
 import { extractCompleteBracketedPaste } from "./paste/extractCompleteBracketedPaste.js";
 import { normalizeBracketedPasteText } from "./paste/normalizeBracketedPasteText.js";
-import { wrapAutocompleteProviderForCwd } from "../../../fff/editor/wrapAutocompleteProviderForCwd.js";
-import { getRegisteredHotkeysShortcuts } from "../../../hotkeys/getRegisteredHotkeysShortcuts.js";
-import { openHotkeysModal } from "../../../hotkeys/openHotkeysModal.js";
+import { wrapAutocompleteProviderForCwd } from "@extensions/fff/editor/wrapAutocompleteProviderForCwd.js";
+import { getRegisteredHotkeysShortcuts } from "@extensions/hotkeys/getRegisteredHotkeysShortcuts.js";
+import { openHotkeysModal } from "@extensions/hotkeys/openHotkeysModal.js";
 import { findMatchingTrigger } from "../editor-triggers/findMatchingTrigger.js";
 import { isReloadCommandText } from "./isReloadCommandText.js";
 import { logRenderedOverflow } from "./logRenderedOverflow.js";

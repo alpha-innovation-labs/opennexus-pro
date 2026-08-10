@@ -1,4 +1,4 @@
-import { getObservationsDir } from "@nexus/extensions/observations/shared/getObservationsDir.js";
+import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir.js";
 import { createObservationsUsageText } from "./createObservationsUsageText.js";
 import { createObservationListJsonRows } from "./createObservationListJsonRows.js";
 import { deleteObservationArtifacts } from "./deleteObservationArtifacts.js";

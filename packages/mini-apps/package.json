@@ -4,8 +4,10 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@nexus/app-tui": "workspace:*",
+    "@apps/app-tui": "workspace:*",
     "@nexus/extensions": "workspace:*",
+    "@extensions/pi-packages": "workspace:*",
+    "@extensions/slash-menu": "workspace:*",
     "@nexus/feature-flags": "workspace:*",
     "@nexus/runtime": "workspace:*",
     "@nexus/tui-kit": "workspace:*",

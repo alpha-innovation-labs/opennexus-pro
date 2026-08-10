@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { runChild } from "@nexus/extensions/shared/child-process/runChild.js";
+import { runChild } from "@extensions/shared/child-process/runChild.js";
 
 /**
  * Runs a lightweight Nexus summarizer prompt and returns its stdout.

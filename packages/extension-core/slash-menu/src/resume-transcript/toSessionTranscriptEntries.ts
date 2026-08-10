@@ -13,7 +13,7 @@ function loadEntriesFromFileStub(filePath: string): ReturnType<typeof parseSessi
   }
   return entries;
 }
-import type { TranscriptEntry } from "../../tron/transcript/types.js";
+import type { TranscriptEntry } from "@extensions/tron/transcript/types.js";
 import { extractMessageText } from "./extractMessageText.js";
 import { getMessageCreatedAt } from "./getMessageCreatedAt.js";
 import { toAssistantTranscriptEntries } from "./toAssistantTranscriptEntries.js";

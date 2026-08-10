@@ -1,7 +1,7 @@
 import { homedir } from "node:os";
 import type { AssistantMessage, UserMessage } from "@earendil-works/pi-ai";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { estimateTokensFromText } from "../../../../context-usage/estimateTokensFromText.js";
+import { estimateTokensFromText } from "@extensions/context-usage/estimateTokensFromText.js";
 import { getGitState } from "../../../shared/git/state.js";
 import { getPromptlineModel } from "../getPromptlineModel.js";
 import { buildContextBar } from "./buildContextBar.js";

@@ -1,5 +1,5 @@
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import { getPromptlineRenderRequest, setPromptlineModelOverride } from "../../neo-editor/features/promptline/state.js";
+import { getPromptlineRenderRequest, setPromptlineModelOverride } from "@extensions/neo-editor/features/promptline/state.js";
 import { ensureEnabledModelIncludesSelection } from "../model/ensureEnabledModelIncludesSelection.js";
 import type { InternalSlashHandler } from "./types.js";
 

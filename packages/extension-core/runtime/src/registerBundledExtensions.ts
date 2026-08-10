@@ -1,12 +1,12 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { clearRegisteredToolRecords, createExtensionFeatureFlags, getEnabledExtensionFeatureFlags, registerEnabledExtensions, setRuntimeExtensionFeatureFlags } from "@nexus/feature-flags/index.js";
-import { clearHotkeysCommandHook } from "../hotkeys/clearHotkeysCommandHook.js";
-import { clearRegisteredSlashCommands, registerSlashCommand } from "../slash-menu/registerSlashCommand.js";
+import { clearHotkeysCommandHook } from "@extensions/hotkeys/clearHotkeysCommandHook.js";
+import { clearRegisteredSlashCommands, registerSlashCommand } from "@extensions/slash-menu/registerSlashCommand.js";
 import { recordRegisteredShortcut } from "@nexus/tui-kit/shortcuts/recordRegisteredShortcut.js";
-import { createTronToolWrappingExtensionApi } from "../tron/compact-tool-lines/createTronToolWrappingExtensionApi.js";
+import { createTronToolWrappingExtensionApi } from "@extensions/tron/compact-tool-lines/createTronToolWrappingExtensionApi.js";
 
 // Re-export for backwards compatibility — consumers that reference
-// these from @nexus/extensions still work.
+// these from @extensions still work.
 export { createExtensionFeatureFlags, createExtensionFeatureFlagReport, getEnabledExtensionFeatureFlags } from "@nexus/feature-flags/index.js";
 
 /**

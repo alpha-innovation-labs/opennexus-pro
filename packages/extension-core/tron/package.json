@@ -1,7 +1,10 @@
 {
-  "name": "@nexus/extensions/tron",
+  "name": "@extensions/tron",
   "version": "0.2.24",
   "type": "module",
+  "exports": {
+    "./*": "./src/*"
+  },
   "dependencies": {
     "@earendil-works/pi-coding-agent": "^0.83.0",
     "@nexus/feature-flags": "workspace:*",

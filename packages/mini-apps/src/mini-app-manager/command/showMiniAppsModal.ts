@@ -1,8 +1,8 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { getAllBundledExtensionIds } from "@nexus/feature-flags/registry.js";
 import type { FeatureFlagConfig, FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
-import { PiPackagesModal } from "@nexus/extensions/pi-packages/ui/PiPackagesModal.js";
-import { updateManagedExtensionRows } from "@nexus/extensions/pi-packages/model/updateManagedExtensionRows.js";
+import { PiPackagesModal } from "@extensions/pi-packages/ui/PiPackagesModal.js";
+import { updateManagedExtensionRows } from "@extensions/pi-packages/model/updateManagedExtensionRows.js";
 import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
 import { createManagedMiniAppRows } from "../model/createManagedMiniAppRows.js";
 

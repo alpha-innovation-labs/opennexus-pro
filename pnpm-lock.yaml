@@ -187,15 +187,33 @@ importers:
       '@clack/prompts':
         specifier: ^1.7.0
         version: 1.7.0
+      '@extensions/ai-providers':
+        specifier: workspace:*
+        version: link:../../packages/extension-core/ai-providers
+      '@extensions/exit-message':
+        specifier: workspace:*
+        version: link:../../packages/extension-core/exit-message
+      '@extensions/observations':
+        specifier: workspace:*
+        version: link:../../packages/extension-core/observations
+      '@extensions/pi-packages':
+        specifier: workspace:*
+        version: link:../../packages/extension-core/pi-packages
+      '@extensions/runtime':
+        specifier: workspace:*
+        version: link:../../packages/extension-core/runtime
+      '@extensions/shared':
+        specifier: workspace:*
+        version: link:../../packages/extension-core/shared
+      '@extensions/startup-hero':
+        specifier: workspace:*
+        version: link:../../packages/extension-core/startup-hero
       '@nexus/assets':
         specifier: workspace:*
         version: link:../../packages/assets
       '@nexus/extensions':
         specifier: workspace:*
         version: link:../../packages/extension-core
-      '@nexus/extensions-core-shared':
-        specifier: workspace:*
-        version: link:../../packages/extension-core/shared
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../../packages/feature-flags
@@ -241,81 +259,81 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.83.0
         version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@extensions/ai-providers':
+        specifier: workspace:*
+        version: link:ai-providers
+      '@extensions/auto-update':
+        specifier: workspace:*
+        version: link:auto-update
+      '@extensions/cmux':
+        specifier: workspace:*
+        version: link:cmux
+      '@extensions/context-usage':
+        specifier: workspace:*
+        version: link:context-usage
+      '@extensions/exit-message':
+        specifier: workspace:*
+        version: link:exit-message
+      '@extensions/feature-management':
+        specifier: workspace:*
+        version: link:feature-management
+      '@extensions/fff':
+        specifier: workspace:*
+        version: link:fff
+      '@extensions/herdr-agent-end-log':
+        specifier: workspace:*
+        version: link:herdr-agent-end-log
+      '@extensions/hotkeys':
+        specifier: workspace:*
+        version: link:hotkeys
+      '@extensions/local-image-reader':
+        specifier: workspace:*
+        version: link:local-image-reader
+      '@extensions/neo-editor':
+        specifier: workspace:*
+        version: link:neo-editor
+      '@extensions/notify':
+        specifier: workspace:*
+        version: link:notify
+      '@extensions/observations':
+        specifier: workspace:*
+        version: link:observations
+      '@extensions/pi-packages':
+        specifier: workspace:*
+        version: link:pi-packages
+      '@extensions/prompts':
+        specifier: workspace:*
+        version: link:prompts
+      '@extensions/rtk':
+        specifier: workspace:*
+        version: link:rtk
+      '@extensions/runtime':
+        specifier: workspace:*
+        version: link:runtime
+      '@extensions/shared':
+        specifier: workspace:*
+        version: link:shared
+      '@extensions/slash-menu':
+        specifier: workspace:*
+        version: link:slash-menu
+      '@extensions/startup-hero':
+        specifier: workspace:*
+        version: link:startup-hero
+      '@extensions/subagents':
+        specifier: workspace:*
+        version: link:subagents
+      '@extensions/system-prompt':
+        specifier: workspace:*
+        version: link:system-prompt
+      '@extensions/tron':
+        specifier: workspace:*
+        version: link:tron
+      '@extensions/web-search':
+        specifier: workspace:*
+        version: link:web-search
       '@nexus/assets':
         specifier: workspace:*
         version: link:../assets
-      '@nexus/extensions-core-ai-providers':
-        specifier: workspace:*
-        version: link:ai-providers
-      '@nexus/extensions-core-auto-update':
-        specifier: workspace:*
-        version: link:auto-update
-      '@nexus/extensions-core-cmux':
-        specifier: workspace:*
-        version: link:cmux
-      '@nexus/extensions-core-context-usage':
-        specifier: workspace:*
-        version: link:context-usage
-      '@nexus/extensions-core-exit-message':
-        specifier: workspace:*
-        version: link:exit-message
-      '@nexus/extensions-core-feature-management':
-        specifier: workspace:*
-        version: link:feature-management
-      '@nexus/extensions-core-fff':
-        specifier: workspace:*
-        version: link:fff
-      '@nexus/extensions-core-herdr-agent-end-log':
-        specifier: workspace:*
-        version: link:herdr-agent-end-log
-      '@nexus/extensions-core-hotkeys':
-        specifier: workspace:*
-        version: link:hotkeys
-      '@nexus/extensions-core-local-image-reader':
-        specifier: workspace:*
-        version: link:local-image-reader
-      '@nexus/extensions-core-neo-editor':
-        specifier: workspace:*
-        version: link:neo-editor
-      '@nexus/extensions-core-notify':
-        specifier: workspace:*
-        version: link:notify
-      '@nexus/extensions-core-observations':
-        specifier: workspace:*
-        version: link:observations
-      '@nexus/extensions-core-pi-packages':
-        specifier: workspace:*
-        version: link:pi-packages
-      '@nexus/extensions-core-prompts':
-        specifier: workspace:*
-        version: link:prompts
-      '@nexus/extensions-core-rtk':
-        specifier: workspace:*
-        version: link:rtk
-      '@nexus/extensions-core-runtime':
-        specifier: workspace:*
-        version: link:runtime
-      '@nexus/extensions-core-shared':
-        specifier: workspace:*
-        version: link:shared
-      '@nexus/extensions-core-slash-menu':
-        specifier: workspace:*
-        version: link:slash-menu
-      '@nexus/extensions-core-startup-hero':
-        specifier: workspace:*
-        version: link:startup-hero
-      '@nexus/extensions-core-subagents':
-        specifier: workspace:*
-        version: link:subagents
-      '@nexus/extensions-core-system-prompt':
-        specifier: workspace:*
-        version: link:system-prompt
-      '@nexus/extensions-core-tron':
-        specifier: workspace:*
-        version: link:tron
-      '@nexus/extensions-core-web-search':
-        specifier: workspace:*
-        version: link:web-search
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../feature-flags
@@ -400,7 +418,7 @@ importers:
 
   packages/extension-core/feature-management:
     dependencies:
-      '@nexus/extensions-core-pi-packages':
+      '@extensions/pi-packages':
         specifier: workspace:*
         version: link:../pi-packages
       '@nexus/feature-flags':
@@ -463,13 +481,13 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.83.0
         version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      '@nexus/extensions-core-context-usage':
+      '@extensions/context-usage':
         specifier: workspace:*
         version: link:../context-usage
-      '@nexus/extensions-core-slash-menu':
+      '@extensions/slash-menu':
         specifier: workspace:*
         version: link:../slash-menu
-      '@nexus/extensions-core-tron':
+      '@extensions/tron':
         specifier: workspace:*
         version: link:../tron
       '@nexus/feature-flags':
@@ -496,10 +514,10 @@ importers:
 
   packages/extension-core/observations:
     dependencies:
-      '@nexus/extensions-core-prompts':
+      '@extensions/prompts':
         specifier: workspace:*
         version: link:../prompts
-      '@nexus/extensions-core-shared':
+      '@extensions/shared':
         specifier: workspace:*
         version: link:../shared
       '@nexus/feature-flags':
@@ -535,7 +553,7 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.83.0
         version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      '@nexus/extensions-core-shared':
+      '@extensions/shared':
         specifier: workspace:*
         version: link:../shared
       '@nexus/pi-platform':
@@ -550,10 +568,10 @@ importers:
 
   packages/extension-core/rtk:
     dependencies:
-      '@nexus/extensions-core-slash-menu':
+      '@extensions/slash-menu':
         specifier: workspace:*
         version: link:../slash-menu
-      '@nexus/extensions-core-tron':
+      '@extensions/tron':
         specifier: workspace:*
         version: link:../tron
       '@nexus/feature-flags':
@@ -571,13 +589,13 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.83.0
         version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      '@nexus/extensions-core-hotkeys':
+      '@extensions/hotkeys':
         specifier: workspace:*
         version: link:../hotkeys
-      '@nexus/extensions-core-slash-menu':
+      '@extensions/slash-menu':
         specifier: workspace:*
         version: link:../slash-menu
-      '@nexus/extensions-core-tron':
+      '@extensions/tron':
         specifier: workspace:*
         version: link:../tron
       '@nexus/feature-flags':
@@ -601,7 +619,7 @@ importers:
 
   packages/extension-core/slash-menu:
     dependencies:
-      '@nexus/extensions-core-tron':
+      '@extensions/tron':
         specifier: workspace:*
         version: link:../tron
       '@nexus/feature-flags':
@@ -649,7 +667,7 @@ importers:
 
   packages/extension-core/system-prompt:
     dependencies:
-      '@nexus/extensions-core-prompts':
+      '@extensions/prompts':
         specifier: workspace:*
         version: link:../prompts
       '@nexus/feature-flags':
@@ -691,6 +709,69 @@ importers:
 
   packages/feature-flags:
     dependencies:
+      '@extensions/ai-providers':
+        specifier: workspace:*
+        version: link:../extension-core/ai-providers
+      '@extensions/auto-update':
+        specifier: workspace:*
+        version: link:../extension-core/auto-update
+      '@extensions/cmux':
+        specifier: workspace:*
+        version: link:../extension-core/cmux
+      '@extensions/context-usage':
+        specifier: workspace:*
+        version: link:../extension-core/context-usage
+      '@extensions/exit-message':
+        specifier: workspace:*
+        version: link:../extension-core/exit-message
+      '@extensions/feature-management':
+        specifier: workspace:*
+        version: link:../extension-core/feature-management
+      '@extensions/fff':
+        specifier: workspace:*
+        version: link:../extension-core/fff
+      '@extensions/herdr-agent-end-log':
+        specifier: workspace:*
+        version: link:../extension-core/herdr-agent-end-log
+      '@extensions/hotkeys':
+        specifier: workspace:*
+        version: link:../extension-core/hotkeys
+      '@extensions/local-image-reader':
+        specifier: workspace:*
+        version: link:../extension-core/local-image-reader
+      '@extensions/neo-editor':
+        specifier: workspace:*
+        version: link:../extension-core/neo-editor
+      '@extensions/notify':
+        specifier: workspace:*
+        version: link:../extension-core/notify
+      '@extensions/observations':
+        specifier: workspace:*
+        version: link:../extension-core/observations
+      '@extensions/pi-packages':
+        specifier: workspace:*
+        version: link:../extension-core/pi-packages
+      '@extensions/rtk':
+        specifier: workspace:*
+        version: link:../extension-core/rtk
+      '@extensions/slash-menu':
+        specifier: workspace:*
+        version: link:../extension-core/slash-menu
+      '@extensions/startup-hero':
+        specifier: workspace:*
+        version: link:../extension-core/startup-hero
+      '@extensions/subagents':
+        specifier: workspace:*
+        version: link:../extension-core/subagents
+      '@extensions/system-prompt':
+        specifier: workspace:*
+        version: link:../extension-core/system-prompt
+      '@extensions/tron':
+        specifier: workspace:*
+        version: link:../extension-core/tron
+      '@extensions/web-search':
+        specifier: workspace:*
+        version: link:../extension-core/web-search
       '@nexus/extensions':
         specifier: workspace:*
         version: link:../extension-core
@@ -708,9 +789,15 @@ importers:
 
   packages/mini-apps:
     dependencies:
-      '@nexus/app-tui':
+      '@apps/app-tui':
         specifier: workspace:*
         version: link:../../apps/tui
+      '@extensions/pi-packages':
+        specifier: workspace:*
+        version: link:../extension-core/pi-packages
+      '@extensions/slash-menu':
+        specifier: workspace:*
+        version: link:../extension-core/slash-menu
       '@nexus/extensions':
         specifier: workspace:*
         version: link:../extension-core
@@ -737,6 +824,9 @@ importers:
 
   packages/pi-platform:
     dependencies:
+      '@extensions/tron':
+        specifier: workspace:*
+        version: link:../extension-core/tron
       '@nexus/extensions':
         specifier: workspace:*
         version: link:../extension-core

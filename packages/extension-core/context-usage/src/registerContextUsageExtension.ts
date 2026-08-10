@@ -1,6 +1,6 @@
 import { Type } from "@earendil-works/pi-ai";
 import { defineTool, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { withSlashMenuGroup } from "../slash-menu/withSlashMenuGroup.js";
+import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup.js";
 import { getContextUsageToolText } from "./getContextUsageToolText.js";
 import { setLatestSystemPromptOptions } from "./contextUsageState.js";
 import { showContextUsageCommand } from "./showContextUsageCommand.js";

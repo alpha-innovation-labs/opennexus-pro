@@ -6,6 +6,7 @@
   "scripts": {},
   "dependencies": {
     "@nexus/extensions": "workspace:*",
+    "@extensions/tron": "workspace:*",
     "strip-ansi": "^6.0.1"
   },
   "exports": {

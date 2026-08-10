@@ -1,6 +1,6 @@
-import { renderObservationsMarkdown } from "@nexus/extensions/observations/tracker/renderObservationsMarkdown.js";
-import { readObservationState } from "@nexus/extensions/observations/tracker/readObservationState.js";
-import { getObservationsDir } from "@nexus/extensions/observations/shared/getObservationsDir.js";
+import { renderObservationsMarkdown } from "@extensions/observations/tracker/renderObservationsMarkdown.js";
+import { readObservationState } from "@extensions/observations/tracker/readObservationState.js";
+import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir.js";
 import { listObservationArtifactGroups } from "./listObservationArtifactGroups.js";
 import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups.js";
 

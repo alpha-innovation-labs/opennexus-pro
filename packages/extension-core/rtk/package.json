@@ -1,15 +1,15 @@
 {
-  "name": "@nexus/extensions/rtk",
+  "name": "@extensions/rtk",
   "version": "0.2.24",
   "type": "module",
   "exports": {
-    "./*": "./"
+    "./*": "./src/*"
   },
   "dependencies": {
     "@nexus/feature-flags": "workspace:*",
     "@nexus/runtime": "workspace:*",
     "@nexus/tui-kit": "workspace:*",
-    "@nexus/extensions/slash-menu": "workspace:*",
-    "@nexus/extensions/tron": "workspace:*"
+    "@extensions/slash-menu": "workspace:*",
+    "@extensions/tron": "workspace:*"
   }
 }

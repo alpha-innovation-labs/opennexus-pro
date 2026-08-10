@@ -1,5 +1,5 @@
 import { getAllProviderIds } from "./getAllProviderIds.js";
-import { toggleProviderEnabled } from "@nexus/extensions/ai-providers/config/toggleProviderEnabled.js";
+import { toggleProviderEnabled } from "@extensions/ai-providers/config/toggleProviderEnabled.js";
 
 /**
  * Handles the "disable" subcommand: disables a provider.

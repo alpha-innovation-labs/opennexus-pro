@@ -1,5 +1,5 @@
 import { createEditTool, createWriteTool } from "@earendil-works/pi-coding-agent";
-import type { BuiltInTools } from "@nexus/extensions/tron/compact-tool-lines/types.js";
+import type { BuiltInTools } from "@extensions/tron/compact-tool-lines/types.js";
 import { createRtkBashTool } from "./createRtkBashTool.js";
 import { createRtkFindTool } from "./createRtkFindTool.js";
 import { createRtkGrepTool } from "./createRtkGrepTool.js";

@@ -1,9 +1,9 @@
 {
-  "name": "@nexus/extensions/neo-editor",
+  "name": "@extensions/neo-editor",
   "version": "0.2.24",
   "type": "module",
   "exports": {
-    "./*": "./"
+    "./*": "./src/*"
   },
   "dependencies": {
     "@earendil-works/pi-coding-agent": "^0.83.0",
@@ -11,8 +11,8 @@
     "@nexus/observability": "workspace:*",
     "@nexus/runtime": "workspace:*",
     "@nexus/tui-kit": "workspace:*",
-    "@nexus/extensions/context-usage": "workspace:*",
-    "@nexus/extensions/slash-menu": "workspace:*",
-    "@nexus/extensions/tron": "workspace:*"
+    "@extensions/context-usage": "workspace:*",
+    "@extensions/slash-menu": "workspace:*",
+    "@extensions/tron": "workspace:*"
   }
 }

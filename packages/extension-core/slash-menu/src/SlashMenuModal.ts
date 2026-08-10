@@ -4,8 +4,8 @@ import { parseCommandArgs, SENTINEL } from
 import { Key, matchesKey } from "@earendil-works/pi-tui";
 import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
 import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { getRegisteredHotkeysShortcuts } from "../hotkeys/getRegisteredHotkeysShortcuts.js";
-import { HotkeysModal } from "../hotkeys/HotkeysModal.js";
+import { getRegisteredHotkeysShortcuts } from "@extensions/hotkeys/getRegisteredHotkeysShortcuts.js";
+import { HotkeysModal } from "@extensions/hotkeys/HotkeysModal.js";
 import { applySlashMenuLeaf } from "./applySlashMenuLeaf.js";
 import { applySlashMenuSettingValue } from "./applySlashMenuSettingValue.js";
 import { calculateModelMenuWidth } from "./calculateModelMenuWidth.js";

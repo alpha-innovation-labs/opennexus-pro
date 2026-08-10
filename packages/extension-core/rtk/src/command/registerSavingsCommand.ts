@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { withSlashMenuGroup } from "@nexus/extensions/slash-menu/withSlashMenuGroup.js";
+import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup.js";
 import { getRtkExecutionCwd } from "../runtime/getRtkExecutionCwd.js";
 import { formatRtkSavings } from "../savings/formatRtkSavings.js";
 import { getRtkGainJsonArgs } from "../savings/getRtkGainJsonArgs.js";

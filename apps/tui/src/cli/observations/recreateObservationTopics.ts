@@ -1,6 +1,6 @@
-import { runObservationSummarizer } from "@nexus/extensions/observations/tracker/runObservationSummarizer.js";
+import { runObservationSummarizer } from "@extensions/observations/tracker/runObservationSummarizer.js";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import type { StoredObservationMessage } from "@nexus/extensions/observations/tracker/types.js";
+import type { StoredObservationMessage } from "@extensions/observations/tracker/types.js";
 import { buildObservationRecreationPrompt } from "./buildObservationRecreationPrompt.js";
 import { parseRecreatedObservationTopics } from "./parseRecreatedObservationTopics.js";
 import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopic.js";

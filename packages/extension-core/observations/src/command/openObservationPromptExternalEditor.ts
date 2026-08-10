@@ -1,5 +1,5 @@
 import type { TUI } from "@earendil-works/pi-tui";
-import { openSystemPromptExternalEditor } from "@nexus/extensions/prompts/modal/openSystemPromptExternalEditor.js";
+import { openSystemPromptExternalEditor } from "@extensions/prompts/modal/openSystemPromptExternalEditor.js";
 
 /**
  * Opens the observation prompt in the configured external editor.

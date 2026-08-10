@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { ensureSubmitTrigger } from "../../neo-editor/features/editor-triggers/ensureSubmitTrigger.js";
-import { refreshPromptlineConfig } from "../../neo-editor/features/promptline/config/refreshPromptlineConfig.js";
+import { ensureSubmitTrigger } from "@extensions/neo-editor/features/editor-triggers/ensureSubmitTrigger.js";
+import { refreshPromptlineConfig } from "@extensions/neo-editor/features/promptline/config/refreshPromptlineConfig.js";
 import { SlashMenuModal } from "../SlashMenuModal.js";
 import { registerStartupModalTerminalInputForwarder } from "./registerStartupModalTerminalInputForwarder.js";
 

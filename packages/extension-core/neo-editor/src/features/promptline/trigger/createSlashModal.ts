@@ -1,5 +1,5 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { SlashMenuModal } from "@nexus/extensions/slash-menu/SlashMenuModal.js";
+import { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal.js";
 import type { TriggerModalHandle, ShowOverlay } from "./types.js";
 
 /**

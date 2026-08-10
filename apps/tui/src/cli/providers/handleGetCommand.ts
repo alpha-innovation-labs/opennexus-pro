@@ -1,6 +1,6 @@
-import type { AiGateway } from "@nexus/extensions/ai-providers/index.js";
-import { readProviderConfig } from "@nexus/extensions/ai-providers/config/readProviderConfig.js";
-import { getGateways } from "@nexus/extensions/ai-providers/gateway/getGateways.js";
+import type { AiGateway } from "@extensions/ai-providers/index.js";
+import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig.js";
+import { getGateways } from "@extensions/ai-providers/gateway/getGateways.js";
 import { getAllProviderIds } from "./getAllProviderIds.js";
 import { Table } from "console-table-printer";
 import { GREEN, RESET } from "../shared/ansiColors.js";

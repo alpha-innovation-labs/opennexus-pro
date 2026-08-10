@@ -2,7 +2,7 @@ import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
 import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
-import { setToolGroupCollapseEnabled } from "../tron/collapse/state.js";
+import { setToolGroupCollapseEnabled } from "@extensions/tron/collapse/state.js";
 import type { SlashMenuLeaf } from "./types.js";
 
 /**

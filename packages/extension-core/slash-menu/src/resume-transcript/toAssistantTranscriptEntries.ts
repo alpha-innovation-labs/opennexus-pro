@@ -1,4 +1,4 @@
-import type { TranscriptEntry } from "../../tron/transcript/types.js";
+import type { TranscriptEntry } from "@extensions/tron/transcript/types.js";
 import { getMessageCreatedAt } from "./getMessageCreatedAt.js";
 
 /**
