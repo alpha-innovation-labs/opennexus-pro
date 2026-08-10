@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "build-tmp",
+    "rootDir": "apps/tui/src",
+    "skipLibCheck": true,
+    "noEmit": false
+  },
+  "include": ["apps/tui/src"]
+}
