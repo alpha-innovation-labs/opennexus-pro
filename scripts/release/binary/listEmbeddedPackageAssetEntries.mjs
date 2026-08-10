@@ -2,13 +2,13 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import { basename, join, relative, resolve } from "node:path";
 import { listMarkdownFilesFromDir } from "./listMarkdownFilesFromDir.mjs";
 
-const COMMANDS_SOURCE_DIR = resolve("packages", "assets", "src", "commands");
+const COMMANDS_SOURCE_DIR = resolve(".release", "npm-package", "commands");
 
 const EMBEDDED_ASSET_ROOTS = [
   [resolve("package.json"), "package.json"],
-  [resolve("packages", "assets", "src", "themes"), "theme"],
-  [resolve("packages", "assets", "src", "default-settings", "settings.json"), "runtime/config/default-settings/settings.json"],
-  [resolve("packages", "assets", "src", "prompts", "base-system-prompt", "system_prompt.md"), "prompts/base-system-prompt/system_prompt.md"],
+  [resolve("packages", "nexus-runtime", "src", "config", "themes"), "theme"],
+  [resolve("packages", "nexus-runtime", "src", "config", "default-settings", "settings.json"), "runtime/config/default-settings/settings.json"],
+  [resolve("packages", "nexus-runtime", "src", "config", "prompts", "system_prompt.md"), "prompts/system_prompt.md"],
   [resolve("node_modules", "@earendil-works", "pi-coding-agent", "dist", "core", "export-html"), "export-html"],
   [resolve("node_modules", "@earendil-works", "pi-coding-agent", "dist", "modes", "interactive", "theme"), "theme"],
   [resolve("node_modules", "@earendil-works", "pi-coding-agent", "dist", "modes", "interactive", "assets"), "assets"],
