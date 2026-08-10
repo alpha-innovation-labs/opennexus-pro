@@ -1,6 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { createSummarizerArgs } from "../summarizer/createSummarizerArgs.js";
-import { runBundledObservationSummarizer } from "../summarizer/runBundledObservationSummarizer.js";
+import { runChild } from "@nexus/shared/child-process/runChild.js";
 
 /**
  * Runs a lightweight Nexus summarizer prompt and returns its stdout.
@@ -11,13 +10,9 @@ import { runBundledObservationSummarizer } from "../summarizer/runBundledObserva
  * @returns Raw summarizer output.
  */
 export async function runObservationSummarizer(
-	_pi: ExtensionAPI,
-	ctx: { cwd: string; model?: { provider?: string; id?: string } },
+	pi: ExtensionAPI,
+	ctx: { cwd: string },
 	prompt: string,
 ): Promise<string> {
-	const args = createSummarizerArgs(prompt, ctx.model);
-	const { stdout, stderr, code } = await runBundledObservationSummarizer(args, ctx.cwd);
-	if (code !== 0) return "";
-	if (stderr.trim()) return "";
-	return stdout;
+	return runChild(ctx.cwd, prompt);
 }
