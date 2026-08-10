@@ -9,7 +9,6 @@
   },
   "exports": {
     "./*.js": "./src/*.ts",
-    "./*": "./src/*",
-    "./child-process/*": "./src/child-process/*"
+    "./*": "./src/*"
   }
 }

@@ -4,6 +4,7 @@ export const MINIMAL_FLAGS = new Set(["--minimal", "-m"]);
 /** Minimal extension whitelist — only these extensions are loaded in minimal mode. */
 export const MINIMAL_EXTENSION_WHITELIST = [
   "ai-providers",
+  "end-message-formatter",
   "exit-message",
   "feature-management",
   "fff",

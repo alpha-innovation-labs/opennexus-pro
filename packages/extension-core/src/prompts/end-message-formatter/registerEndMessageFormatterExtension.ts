@@ -1,11 +1,14 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { runChild } from "@nexus/shared/child-process/runChild.js";
 import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const END_MESSAGE_FORMATTER_PATH = resolve(
   __dirname,
-  "../../../../assets/src/prompts/base-system-prompt/end-message-formatter.md",
+  "end-message-formatter.md",
 );
 
 /**
@@ -20,6 +23,7 @@ const END_MESSAGE_FORMATTER_PATH = resolve(
 export function registerEndMessageFormatterExtension(pi: ExtensionAPI): void {
   pi.on("message_end", async (event, ctx) => {
     if (event.message.role !== "assistant") return;
+    if (event.message.content.startsWith("[END_MESSAGE_FORMATTER_RAN]")) return;
 
     const formatterPrompt = readFileSync(END_MESSAGE_FORMATTER_PATH, "utf-8");
     const combinedPrompt = `${formatterPrompt}\n\n---\n\n${event.message.content}`;
@@ -28,11 +32,6 @@ export function registerEndMessageFormatterExtension(pi: ExtensionAPI): void {
 
     const formatted = output || `Error: end-message formatter failed to produce output.\n\nOriginal message:\n${event.message.content}`;
 
-    return {
-      message: {
-        ...event.message,
-        content: `[END_MESSAGE_FORMATTER_RAN] ${formatted}`,
-      },
-    };
+    event.message.content = `[END_MESSAGE_FORMATTER_RAN] ${formatted}`;
   });
 }
