@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { syncCmuxPaneTitle } from "../../../cmux/src/syncCmuxPaneTitle.ts";
+import { syncCmuxPaneTitle } from "../../../cmux/src/syncCmuxPaneTitle";
 import type { ObservationState, ObservationTopic } from "./types";
 
 /**

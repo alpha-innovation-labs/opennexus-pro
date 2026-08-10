@@ -48,4 +48,6 @@ export type NexusUserConfig = {
 	notifyEnabled?: boolean;
 	/** Per-feature-flag overrides from the user config file. */
 	featureFlags?: Record<string, UserFeatureFlagOverride>;
+	/** Per-provider enable/disable overlay. Key is the provider name. */
+	providers?: Record<string, { enabled: boolean }>;
 }

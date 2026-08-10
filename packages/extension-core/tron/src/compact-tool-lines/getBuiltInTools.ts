@@ -1,4 +1,4 @@
-import { getRtkRuntimeForCwd } from '@extensions/rtk/runtime/runtimeStore.ts';
+import { getRtkRuntimeForCwd } from '@extensions/rtk/runtime/runtimeStore';
 import { createBuiltInTools } from "./createBuiltInTools";
 import { toolCache } from "./toolCache";
 import type { BuiltInTools } from "./types";
