@@ -5,7 +5,7 @@ import { theme } from "../theme-proxy.js";
 import { recordTronRenderTiming } from "../profiling/recordTronRenderTiming.js";
 import { bridgeThinkingToToolCalls } from "../activity/bridgeThinkingToToolCalls.ts";
 import { getImmediateFollowingToolCallGroup } from "../activity/getImmediateFollowingToolCallGroup.ts";
-import { syncToolCallFrameState } from "../syncToolCallFrameState.ts";
+import { syncToolCallFrameState } from "../activity/syncToolCallFrameState.ts";
 import { setCompactModeThinkingExpanded } from "../collapse/thinkingVisibility.ts";
 import { getAssistantMessageTiming } from "./assistantMessageTimingState.ts";
 import { createAssistantMetaText } from "./createAssistantMetaText.ts";

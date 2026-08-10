@@ -2,8 +2,8 @@ import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 import { theme } from "../theme-proxy.js";
 import { getCollapsedSummaryNeighbors } from "../activity/getCollapsedSummaryNeighbors.ts";
 import { getCollapsedToolGroupSummary } from "../activity/getCollapsedToolGroupSummary.ts";
-import { colorSecondaryText } from "../colors/colorSecondaryText.ts";
-import { colorToolCallIcon } from "../colors/colorToolCallIcon.ts";
+import { colorSecondaryText } from "@extensions/tron/colors/colorSecondaryText.ts";
+import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon.ts";
 import { measureTronRender } from "../profiling/measureTronRender.js";
 import { isCompactModeThinkingExpanded } from "../collapse/thinkingVisibility.ts";
 

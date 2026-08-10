@@ -1,5 +1,5 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { syncToolCallFrameState } from "../syncToolCallFrameState.ts";
+import { syncToolCallFrameState } from "../activity/syncToolCallFrameState.ts";
 import { renderTranscriptEntry } from "./renderTranscriptEntry.js";
 import { trimTrailingTranscriptBorder } from "./trimTrailingTranscriptBorder.js";
 import type { TranscriptEntry } from "./types.js";

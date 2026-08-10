@@ -211,9 +211,6 @@ importers:
       '@nexus/assets':
         specifier: workspace:*
         version: link:../../packages/assets
-      '@nexus/extensions':
-        specifier: workspace:*
-        version: link:../../packages/extension-core
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../../packages/feature-flags
@@ -253,111 +250,6 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../nexus-runtime
-
-  packages/extension-core:
-    dependencies:
-      '@earendil-works/pi-coding-agent':
-        specifier: ^0.83.0
-        version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      '@extensions/ai-providers':
-        specifier: workspace:*
-        version: link:ai-providers
-      '@extensions/auto-update':
-        specifier: workspace:*
-        version: link:auto-update
-      '@extensions/cmux':
-        specifier: workspace:*
-        version: link:cmux
-      '@extensions/context-usage':
-        specifier: workspace:*
-        version: link:context-usage
-      '@extensions/exit-message':
-        specifier: workspace:*
-        version: link:exit-message
-      '@extensions/feature-management':
-        specifier: workspace:*
-        version: link:feature-management
-      '@extensions/fff':
-        specifier: workspace:*
-        version: link:fff
-      '@extensions/herdr-agent-end-log':
-        specifier: workspace:*
-        version: link:herdr-agent-end-log
-      '@extensions/hotkeys':
-        specifier: workspace:*
-        version: link:hotkeys
-      '@extensions/local-image-reader':
-        specifier: workspace:*
-        version: link:local-image-reader
-      '@extensions/neo-editor':
-        specifier: workspace:*
-        version: link:neo-editor
-      '@extensions/notify':
-        specifier: workspace:*
-        version: link:notify
-      '@extensions/observations':
-        specifier: workspace:*
-        version: link:observations
-      '@extensions/pi-packages':
-        specifier: workspace:*
-        version: link:pi-packages
-      '@extensions/prompts':
-        specifier: workspace:*
-        version: link:prompts
-      '@extensions/rtk':
-        specifier: workspace:*
-        version: link:rtk
-      '@extensions/runtime':
-        specifier: workspace:*
-        version: link:runtime
-      '@extensions/shared':
-        specifier: workspace:*
-        version: link:shared
-      '@extensions/slash-menu':
-        specifier: workspace:*
-        version: link:slash-menu
-      '@extensions/startup-hero':
-        specifier: workspace:*
-        version: link:startup-hero
-      '@extensions/subagents':
-        specifier: workspace:*
-        version: link:subagents
-      '@extensions/system-prompt':
-        specifier: workspace:*
-        version: link:system-prompt
-      '@extensions/tron':
-        specifier: workspace:*
-        version: link:tron
-      '@extensions/web-search':
-        specifier: workspace:*
-        version: link:web-search
-      '@nexus/assets':
-        specifier: workspace:*
-        version: link:../assets
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../feature-flags
-      '@nexus/herdr':
-        specifier: workspace:*
-        version: link:../herdr
-      '@nexus/mini-apps':
-        specifier: workspace:*
-        version: link:../mini-apps
-      '@nexus/observability':
-        specifier: workspace:*
-        version: link:../observability
-      '@nexus/pi-platform':
-        specifier: workspace:*
-        version: link:../pi-platform
-      '@nexus/runtime':
-        specifier: workspace:*
-        version: link:../nexus-runtime
-      '@nexus/tui-kit':
-        specifier: workspace:*
-        version: link:../tui-kit
-      strip-ansi:
-        specifier: ^6.0.1
-        version: 6.0.1
 
   packages/extension-core/ai-providers:
     dependencies:
@@ -772,9 +664,6 @@ importers:
       '@extensions/web-search':
         specifier: workspace:*
         version: link:../extension-core/web-search
-      '@nexus/extensions':
-        specifier: workspace:*
-        version: link:../extension-core
       '@nexus/mini-apps':
         specifier: workspace:*
         version: link:../mini-apps
@@ -798,9 +687,6 @@ importers:
       '@extensions/slash-menu':
         specifier: workspace:*
         version: link:../extension-core/slash-menu
-      '@nexus/extensions':
-        specifier: workspace:*
-        version: link:../extension-core
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../feature-flags
@@ -827,9 +713,6 @@ importers:
       '@extensions/tron':
         specifier: workspace:*
         version: link:../extension-core/tron
-      '@nexus/extensions':
-        specifier: workspace:*
-        version: link:../extension-core
       strip-ansi:
         specifier: ^6.0.1
         version: 6.0.1

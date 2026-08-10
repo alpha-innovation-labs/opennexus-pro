@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { withSlashMenuGroup } from '../slash-menu/withSlashMenuGroup.js';
+import { withSlashMenuGroup } from '@extensions/slash-menu/withSlashMenuGroup.js';
 import { showToolCallsModal } from "./showToolCallsModal.js";
 
 /**

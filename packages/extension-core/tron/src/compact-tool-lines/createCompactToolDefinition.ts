@@ -1,6 +1,6 @@
 import type { ToolDefinition } from "@earendil-works/pi-coding-agent";
 import { Container } from "@earendil-works/pi-tui";
-import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator.js";
+import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator.ts";
 import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry.js";
 import { markCompactWrappedToolDefinition } from "./markCompactWrappedToolDefinition.js";
 

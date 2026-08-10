@@ -1,6 +1,6 @@
 import { Container, truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 import { theme } from "../theme-proxy.js";
-import { colorToolCallIcon } from "../colors/colorToolCallIcon.ts";
+import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon.ts";
 import { measureTronRender } from "../profiling/measureTronRender.js";
 
 /**

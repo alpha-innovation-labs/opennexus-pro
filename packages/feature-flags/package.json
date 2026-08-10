@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {},
   "dependencies": {
-    "@nexus/extensions": "workspace:*",
     "@extensions/ai-providers": "workspace:*",
     "@extensions/auto-update": "workspace:*",
     "@extensions/cmux": "workspace:*",

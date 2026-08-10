@@ -1,4 +1,4 @@
-import type { ActivityNeighbors } from "./state.ts";
+import type { ActivityNeighbors } from "./activity/state.ts";
 
 /**
  * Display order for collapsed thinking-summary leaders.

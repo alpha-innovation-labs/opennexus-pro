@@ -5,7 +5,6 @@
   "type": "module",
   "dependencies": {
     "@apps/app-tui": "workspace:*",
-    "@nexus/extensions": "workspace:*",
     "@extensions/pi-packages": "workspace:*",
     "@extensions/slash-menu": "workspace:*",
     "@nexus/feature-flags": "workspace:*",

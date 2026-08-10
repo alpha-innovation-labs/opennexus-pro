@@ -1,6 +1,6 @@
 import { formatCompactDuration } from "../duration/formatCompactDuration.ts";
 import { iconForToolName } from "../compact-tool-lines/iconForToolName.ts";
-import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "./collapsedToolGroupState.ts";
+import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "../collapsedToolGroupState.ts";
 
 /**
  * Reads the summary data for one collapsed tool group.
