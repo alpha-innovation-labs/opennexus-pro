@@ -11,11 +11,14 @@ export function createSummarizerArgs(
 ): string[] {
   const args = [
     "--no-session",
-    "--no-extensions",
     "--no-context-files",
     "--no-tools",
-    "--thinking",
-    "minimal",
+    "--no-skills",
+    "--no-extensions",
+    "--enable-features",
+    "ai-providers",
+    "--disable-features",
+    "end-message-formatter",
     "-p",
     prompt,
   ];

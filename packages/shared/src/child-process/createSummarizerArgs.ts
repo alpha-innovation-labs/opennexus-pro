@@ -7,11 +7,10 @@
 export function createSummarizerArgs(prompt: string): string[] {
   const args = [
     "--no-session",
-    "--minimal",
     "--no-context-files",
     "--no-tools",
-    "--thinking",
-    "minimal",
+    "--disable-features",
+    "end-message-formatter",
     "-p",
     prompt,
   ];

@@ -1,5 +1,6 @@
 import type { ExtensionFactory } from "@earendil-works/pi-coding-agent";
 import { hasNoExtensionsFlag } from "../../cli/extensions/hasNoExtensionsFlag.js";
+import { getAllBundledExtensionIds } from "@nexus/feature-flags/registry.js";
 
 export type CreateExtensionFactories = (
   skipExtensions?: string[],
@@ -25,12 +26,16 @@ export async function resolveBundledExtensionFactories(
   createExtensionFactories: CreateExtensionFactories,
   featureOverrides?: FeatureOverrides,
 ): Promise<ExtensionFactory[]> {
-  if (hasNoExtensionsFlag(argv)) {
-    return [];
-  }
-
   const disabledFeatures = featureOverrides?.disabledFeatures ?? [];
   const enabledFeatures = featureOverrides?.enabledFeatures ?? [];
+
+  if (hasNoExtensionsFlag(argv)) {
+    const allIds = getAllBundledExtensionIds();
+    const skipIds = enabledFeatures.length > 0
+      ? allIds.filter((id) => !enabledFeatures.includes(id))
+      : allIds;
+    return createExtensionFactories(skipIds, disabledFeatures, enabledFeatures);
+  }
 
   return createExtensionFactories([], disabledFeatures, enabledFeatures);
 }
