@@ -10,7 +10,7 @@ import { createNexusPackageManager } from "@extensions/pi-packages/package/creat
 import { normalizeNpmPackageName } from "@extensions/pi-packages/package/normalizeNpmPackageName.js";
 import { getFeatureManagementGroup } from "../model/getFeatureManagementGroup.js";
 import type { FeatureStatusRow } from "../model/types.js";
-import { MINIMAL_EXTENSION_WHITELIST } from "@extensions/shared/minimal.js";
+import { MINIMAL_EXTENSION_WHITELIST } from "@nexus/runtime/shared/minimal.js";
 
 /**
  * Opens the feature management modal.

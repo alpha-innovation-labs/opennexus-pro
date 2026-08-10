@@ -1,6 +1,6 @@
 import { basename, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveBundledAssetPath } from "@nexus/runtime/package/resolveBundledAssetPath.js";
+import { resolveBundledAssetPath } from "../package/resolveBundledAssetPath.js";
 
 /**
  * Resolves the bundled themes directory path.

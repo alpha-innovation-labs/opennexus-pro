@@ -1,5 +1,5 @@
 import { createSummarizerArgs } from "./createSummarizerArgs.js";
-import { getCurrentNexusLaunchSpec } from "@nexus/runtime/cli/getCurrentNexusLaunchSpec.js";
+import { getCurrentNexusLaunchSpec } from "../../cli/getCurrentNexusLaunchSpec.js";
 import { runBundledChildProcess } from "./runBundledChildProcess.js";
 
 /**

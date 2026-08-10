@@ -1,4 +1,4 @@
-import { resolveBundledAssetPath } from "@nexus/runtime/package/resolveBundledAssetPath.js";
+import { resolveBundledAssetPath } from "../package/resolveBundledAssetPath.js";
 
 /**
  * Resolves the bundled Nexus prompt-template directory path.

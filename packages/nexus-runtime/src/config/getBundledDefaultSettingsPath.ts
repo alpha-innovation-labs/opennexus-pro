@@ -15,5 +15,5 @@ export function getBundledDefaultSettingsPath(): string {
   // Use source-relative resolution so this works in dev mode regardless of
   // which package PI_PACKAGE_DIR currently points to.
   const selfDir = dirname(fileURLToPath(import.meta.url));
-  return `${selfDir}/settings.json`;
+  return `${selfDir}/default-settings/settings.json`;
 }

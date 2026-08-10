@@ -9,10 +9,8 @@
     "test": "npm --prefix ../.. test"
   },
   "dependencies": {
-    "@nexus/assets": "workspace:*",
     "@nexus/herdr": "workspace:*",
     "@extensions/observations": "workspace:*",
-    "@extensions/shared": "workspace:*",
     "@extensions/pi-packages": "workspace:*",
     "@extensions/ai-providers": "workspace:*",
     "@extensions/runtime": "workspace:*",

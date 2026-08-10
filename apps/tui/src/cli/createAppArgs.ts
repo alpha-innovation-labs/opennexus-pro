@@ -1,4 +1,4 @@
-import { getBundledCommandsPath } from "@nexus/assets/commands/getBundledCommandsPath.js";
+import { getBundledCommandsPath } from "@nexus/runtime/config/getBundledCommandsPath.js";
 import { getAgentCommandsPath, agentCommandsExists } from "@nexus/runtime/config/getAgentCommandsPath.js";
 import { getUserCommandsPath, userCommandsExists } from "@nexus/runtime/config/getUserCommandsPath.js";
 import { filterVerboseStartupArg } from "./filterVerboseStartupArg.js";

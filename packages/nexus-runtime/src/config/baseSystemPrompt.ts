@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { resolveBundledAssetPath } from "@nexus/runtime/package/resolveBundledAssetPath.js";
-import { embeddedPackageAssetsGlobalKey } from "@nexus/runtime/package/embedded-assets/embeddedPackageAssetsGlobal.js";
+import { resolveBundledAssetPath } from "../package/resolveBundledAssetPath.js";
+import { embeddedPackageAssetsGlobalKey } from "../package/embedded-assets/embeddedPackageAssetsGlobal.js";
 
 /**
  * Reads the bundled system prompt from embedded package assets when available
@@ -27,7 +27,7 @@ function readSystemPrompt(): string {
     resolveBundledAssetPath(
       import.meta.url,
       "prompts/base-system-prompt/system_prompt.md",
-      "./system_prompt.md",
+      "./prompts/system_prompt.md",
     ),
     "utf-8",
   ).trimEnd();

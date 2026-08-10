@@ -1,4 +1,4 @@
-import { readBundledDefaultSettings } from "@nexus/assets/default-settings/readBundledDefaultSettings.js";
+import { readBundledDefaultSettings } from "@nexus/runtime/config/readBundledDefaultSettings.js";
 import { mergeSettings } from "@nexus/runtime/config/mergeSettings.js";
 import { readGlobalConfigs } from "./readGlobalConfigs.js";
 import { readProjectConfig } from "./readProjectConfig.js";

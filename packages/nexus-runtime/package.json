@@ -4,9 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {},
-  "dependencies": {
-    "@nexus/assets": "workspace:*"
-  },
+  "dependencies": {},
   "exports": {
     "./*.js": "./src/*.ts",
     "./*": "./src/*"

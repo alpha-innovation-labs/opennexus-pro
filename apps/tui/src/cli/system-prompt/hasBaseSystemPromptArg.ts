@@ -1,4 +1,4 @@
-import { baseSystemPrompt } from "@nexus/assets/prompts/base-system-prompt/baseSystemPrompt.js";
+import { baseSystemPrompt } from "@nexus/runtime/config/baseSystemPrompt.js";
 
 /**
  * Checks whether the CLI arguments already include the bundled base system prompt append.

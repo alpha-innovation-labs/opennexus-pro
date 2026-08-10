@@ -1,5 +1,5 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { runChild } from "@extensions/shared/child-process/runChild.js";
+import { runChild } from "@nexus/runtime/shared/child-process/runChild.js";
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
