@@ -9,7 +9,7 @@
     "@earendil-works/pi-coding-agent": "^0.83.0",
     "@nexus/pi-platform": "workspace:*",
     "@nexus/runtime": "workspace:*",
-    "@nexus/shared": "workspace:*",
+    "@nexus/extensions-core-shared": "workspace:*",
     "@nexus/tui-kit": "workspace:*"
   }
 }

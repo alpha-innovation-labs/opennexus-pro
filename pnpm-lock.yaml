@@ -193,6 +193,9 @@ importers:
       '@nexus/extensions':
         specifier: workspace:*
         version: link:../../packages/extension-core
+      '@nexus/extensions-core-shared':
+        specifier: workspace:*
+        version: link:../../packages/extension-core/shared
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../../packages/feature-flags
@@ -211,9 +214,6 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../packages/nexus-runtime
-      '@nexus/shared':
-        specifier: workspace:*
-        version: link:../../packages/shared
       console-table-printer:
         specifier: ^2.16.1
         version: 2.16.1
@@ -295,6 +295,9 @@ importers:
       '@nexus/extensions-core-runtime':
         specifier: workspace:*
         version: link:runtime
+      '@nexus/extensions-core-shared':
+        specifier: workspace:*
+        version: link:shared
       '@nexus/extensions-core-slash-menu':
         specifier: workspace:*
         version: link:slash-menu
@@ -331,9 +334,6 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../nexus-runtime
-      '@nexus/shared':
-        specifier: workspace:*
-        version: link:../shared
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../tui-kit
@@ -499,6 +499,9 @@ importers:
       '@nexus/extensions-core-prompts':
         specifier: workspace:*
         version: link:../prompts
+      '@nexus/extensions-core-shared':
+        specifier: workspace:*
+        version: link:../shared
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../../feature-flags
@@ -508,9 +511,6 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
-      '@nexus/shared':
-        specifier: workspace:*
-        version: link:../../shared
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
@@ -535,15 +535,15 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.83.0
         version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@nexus/extensions-core-shared':
+        specifier: workspace:*
+        version: link:../shared
       '@nexus/pi-platform':
         specifier: workspace:*
         version: link:../../pi-platform
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
-      '@nexus/shared':
-        specifier: workspace:*
-        version: link:../../shared
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
@@ -592,6 +592,12 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+
+  packages/extension-core/shared:
+    dependencies:
+      '@nexus/runtime':
+        specifier: workspace:*
+        version: link:../../nexus-runtime
 
   packages/extension-core/slash-menu:
     dependencies:
@@ -737,12 +743,6 @@ importers:
       strip-ansi:
         specifier: ^6.0.1
         version: 6.0.1
-
-  packages/shared:
-    dependencies:
-      '@nexus/runtime':
-        specifier: workspace:*
-        version: link:../nexus-runtime
 
   packages/tui-kit:
     dependencies:

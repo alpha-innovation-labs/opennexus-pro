@@ -17,7 +17,7 @@
     "@nexus/observability": "workspace:*",
     "@nexus/pi-platform": "workspace:*",
     "@nexus/runtime": "workspace:*",
-    "@nexus/shared": "workspace:*",
+    "@nexus/extensions-core-shared": "workspace:*",
     "@clack/prompts": "^1.7.0",
     "console-table-printer": "^2.16.1",
     "ink": "^7.1.0",

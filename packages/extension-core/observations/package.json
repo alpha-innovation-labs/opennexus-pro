@@ -9,7 +9,7 @@
     "@nexus/feature-flags": "workspace:*",
     "@nexus/observability": "workspace:*",
     "@nexus/runtime": "workspace:*",
-    "@nexus/shared": "workspace:*",
+    "@nexus/extensions-core-shared": "workspace:*",
     "@nexus/tui-kit": "workspace:*",
     "@nexus/extensions-core-prompts": "workspace:*"
   }

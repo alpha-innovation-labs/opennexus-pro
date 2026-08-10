@@ -1,4 +1,4 @@
 /**
- * Re-exported from @nexus/shared for backwards compatibility.
+ * Re-exported from @nexus/extensions-core-shared for backwards compatibility.
  */
-export { MINIMAL_FLAGS, MINIMAL_EXTENSION_WHITELIST, hasMinimalFlag } from "@nexus/shared/minimal.js";
+export { MINIMAL_FLAGS, MINIMAL_EXTENSION_WHITELIST, hasMinimalFlag } from "@nexus/extensions-core-shared/minimal.js";
