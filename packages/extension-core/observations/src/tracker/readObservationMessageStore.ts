@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
-import { createEmptyObservationMessageStore } from "./createEmptyObservationMessageStore.js";
-import type { ObservationMessageStore } from "./types.js";
+import { createEmptyObservationMessageStore } from "./createEmptyObservationMessageStore";
+import type { ObservationMessageStore } from "./types";
 
 /**
  * Reads the raw observation message store.

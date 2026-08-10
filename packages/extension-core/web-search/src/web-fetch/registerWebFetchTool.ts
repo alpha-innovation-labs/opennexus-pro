@@ -1,8 +1,8 @@
 import { Type } from "@earendil-works/pi-ai";
 import { defineTool, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { createWebFetchToolResult } from "./createWebFetchToolResult.js";
-import { executeWebFetch } from "./executeWebFetch.js";
-import type { WebFetchFormat } from "./webFetchTypes.js";
+import { createWebFetchToolResult } from "./createWebFetchToolResult";
+import { executeWebFetch } from "./executeWebFetch";
+import type { WebFetchFormat } from "./webFetchTypes";
 
 /**
  * Registers the native Pi web_fetch tool with Crawl4AI + Jina fallback.

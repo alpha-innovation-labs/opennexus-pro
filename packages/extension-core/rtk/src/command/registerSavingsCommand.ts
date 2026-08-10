@@ -1,13 +1,13 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup.js";
-import { getRtkExecutionCwd } from "../runtime/getRtkExecutionCwd.js";
-import { formatRtkSavings } from "../savings/formatRtkSavings.js";
-import { getRtkGainJsonArgs } from "../savings/getRtkGainJsonArgs.js";
-import { parseRtkGainJson } from "../savings/parseRtkGainJson.js";
-import { fetchOpenRouterModelOptions } from "../pricing/fetchOpenRouterModelOptions.js";
-import { getEarliestRtkGainDate } from "../savings/getEarliestRtkGainDate.js";
-import { collectSessionTokenUsage } from "../usage/collectSessionTokenUsage.js";
-import { showRtkSavingsModal } from "../ui/showRtkSavingsModal.js";
+import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
+import { getRtkExecutionCwd } from "../runtime/getRtkExecutionCwd";
+import { formatRtkSavings } from "../savings/formatRtkSavings";
+import { getRtkGainJsonArgs } from "../savings/getRtkGainJsonArgs";
+import { parseRtkGainJson } from "../savings/parseRtkGainJson";
+import { fetchOpenRouterModelOptions } from "../pricing/fetchOpenRouterModelOptions";
+import { getEarliestRtkGainDate } from "../savings/getEarliestRtkGainDate";
+import { collectSessionTokenUsage } from "../usage/collectSessionTokenUsage";
+import { showRtkSavingsModal } from "../ui/showRtkSavingsModal";
 
 /**
  * Registers the RTK savings command.

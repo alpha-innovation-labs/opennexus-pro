@@ -1,6 +1,6 @@
-import type { SharedModalHotkey } from "@nexus/tui-kit/modal/index.js";
-import { createHotkeysFilterFooterHotkeys } from "./createHotkeysFilterFooterHotkeys.js";
-import { createHotkeysFooterHotkeys } from "./createHotkeysFooterHotkeys.js";
+import type { SharedModalHotkey } from "@nexus/tui-kit/modal/index";
+import { createHotkeysFilterFooterHotkeys } from "./createHotkeysFilterFooterHotkeys";
+import { createHotkeysFooterHotkeys } from "./createHotkeysFooterHotkeys";
 
 export type HotkeysModalFooterState = {
   footerHotkeys: SharedModalHotkey[];

@@ -1,5 +1,5 @@
-import { getPiPackageNameFromUrl } from "./getPiPackageNameFromUrl.js";
-import { isLikelyNpmPackageName } from "./isLikelyNpmPackageName.js";
+import { getPiPackageNameFromUrl } from "./getPiPackageNameFromUrl";
+import { isLikelyNpmPackageName } from "./isLikelyNpmPackageName";
 
 /**
  * Normalizes user-friendly install inputs into Pi package-manager sources.

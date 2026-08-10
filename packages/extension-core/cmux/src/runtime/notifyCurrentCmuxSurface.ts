@@ -1,5 +1,5 @@
-import { getCurrentCmuxRenameTarget } from "./getCurrentCmuxRenameTarget.js";
-import { runCmuxCommand } from "./runCmuxCommand.js";
+import { getCurrentCmuxRenameTarget } from "./getCurrentCmuxRenameTarget";
+import { runCmuxCommand } from "./runCmuxCommand";
 
 /**
  * Sends a completion notification for the current cmux surface.

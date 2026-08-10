@@ -1,4 +1,4 @@
-import { normalizePromptlineTitleText } from "./normalizePromptlineTitleText.js";
+import { normalizePromptlineTitleText } from "./normalizePromptlineTitleText";
 
 /**
  * Converts session content into one compact status title.

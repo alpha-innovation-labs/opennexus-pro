@@ -1,5 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import type { SharedModalTheme } from "../types.js";
+import type { SharedModalTheme } from "../types";
 
 /**
  * Wraps hotkey footer segments without splitting individual hotkey hints.

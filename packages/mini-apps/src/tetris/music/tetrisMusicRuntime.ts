@@ -1,7 +1,7 @@
 import type { ChildProcess } from "node:child_process";
-import { registerTetrisMusicShutdown } from "./registerTetrisMusicShutdown.js";
-import { startTetrisMusic } from "./startTetrisMusic.js";
-import { stopTetrisMusic } from "./stopTetrisMusic.js";
+import { registerTetrisMusicShutdown } from "./registerTetrisMusicShutdown";
+import { startTetrisMusic } from "./startTetrisMusic";
+import { stopTetrisMusic } from "./stopTetrisMusic";
 
 let musicProcess: ChildProcess | null = null;
 let paused = false;

@@ -1,6 +1,6 @@
-import { readNexusUserConfig } from "./readNexusUserConfig.js";
-import type { NexusUserConfig } from "./types.js";
-import { writeNexusUserConfig } from "./writeNexusUserConfig.js";
+import { readNexusUserConfig } from "./readNexusUserConfig";
+import type { NexusUserConfig } from "./types";
+import { writeNexusUserConfig } from "./writeNexusUserConfig";
 
 /**
  * Removes one persisted user package preference from the Nexus user config.

@@ -1,10 +1,10 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerSlashCommand } from "../registerSlashCommand.js";
-import { handleInternalForkCommand } from "./handleInternalForkCommand.js";
-import { handleInternalLogoutCommand } from "./handleInternalLogoutCommand.js";
-import { handleInternalModelCommand } from "./handleInternalModelCommand.js";
-import { handleInternalResumeCommand } from "./handleInternalResumeCommand.js";
-import { handleInternalScopedModelsCommand } from "./handleInternalScopedModelsCommand.js";
+import { registerSlashCommand } from "../registerSlashCommand";
+import { handleInternalForkCommand } from "./handleInternalForkCommand";
+import { handleInternalLogoutCommand } from "./handleInternalLogoutCommand";
+import { handleInternalModelCommand } from "./handleInternalModelCommand";
+import { handleInternalResumeCommand } from "./handleInternalResumeCommand";
+import { handleInternalScopedModelsCommand } from "./handleInternalScopedModelsCommand";
 
 const commands = {
   "nexus-model-select": handleInternalModelCommand,

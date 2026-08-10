@@ -1,6 +1,6 @@
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir.js";
-import { sanitizeConversationId } from "@extensions/observations/shared/sanitizeConversationId.js";
-import { findObservationStateConversationId } from "./findObservationStateConversationId.js";
+import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
+import { sanitizeConversationId } from "@extensions/observations/shared/sanitizeConversationId";
+import { findObservationStateConversationId } from "./findObservationStateConversationId";
 
 /**
  * Resolves a CLI session id to the stored observation conversation id.

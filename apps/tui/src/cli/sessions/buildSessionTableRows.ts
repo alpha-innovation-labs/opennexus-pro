@@ -1,7 +1,7 @@
 import type { SessionInfo } from "@earendil-works/pi-coding-agent";
-import type { SessionTableRow } from "./SessionTableRow.js";
-import { formatSessionDate } from "./formatSessionDate.js";
-import { formatSessionTitle } from "./formatSessionTitle.js";
+import type { SessionTableRow } from "./SessionTableRow";
+import { formatSessionDate } from "./formatSessionDate";
+import { formatSessionTitle } from "./formatSessionTitle";
 
 /**
  * Converts session manager metadata into printable table rows.

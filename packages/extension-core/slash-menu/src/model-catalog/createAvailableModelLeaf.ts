@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import type { Api, Model } from "@earendil-works/pi-ai";
-import type { SlashMenuLeaf } from "../types.js";
-import { createProviderQualifiedModelLabel } from "./createProviderQualifiedModelLabel.js";
+import type { SlashMenuLeaf } from "../types";
+import { createProviderQualifiedModelLabel } from "./createProviderQualifiedModelLabel";
 
 /**
  * Creates one available-model slash-menu row.

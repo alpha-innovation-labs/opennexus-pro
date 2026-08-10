@@ -1,8 +1,8 @@
-import { runCmuxJsonCommand } from "../runtime/runCmuxJsonCommand.js";
-import { normalizeCmuxBoolean } from "./normalizeCmuxBoolean.js";
-import { normalizeCmuxIndex } from "./normalizeCmuxIndex.js";
-import { normalizeCmuxString } from "./normalizeCmuxString.js";
-import type { CmuxSurface } from "./types.js";
+import { runCmuxJsonCommand } from "../runtime/runCmuxJsonCommand";
+import { normalizeCmuxBoolean } from "./normalizeCmuxBoolean";
+import { normalizeCmuxIndex } from "./normalizeCmuxIndex";
+import { normalizeCmuxString } from "./normalizeCmuxString";
+import type { CmuxSurface } from "./types";
 
 type CmuxPaneSurfacesOutput = {
 	surfaces?: unknown[];

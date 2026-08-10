@@ -1,11 +1,11 @@
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
-import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch.js";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled.js";
-import { createNexusPackageManager } from "@extensions/pi-packages/package/createNexusPackageManager.js";
-import { normalizeNpmPackageName } from "@extensions/pi-packages/package/normalizeNpmPackageName.js";
-import { parsePiPackagesCommand } from "./parsePiPackagesCommand.js";
-import { printPiPackagesUsage } from "./printPiPackagesUsage.js";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
+import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled";
+import { createNexusPackageManager } from "@extensions/pi-packages/package/createNexusPackageManager";
+import { normalizeNpmPackageName } from "@extensions/pi-packages/package/normalizeNpmPackageName";
+import { parsePiPackagesCommand } from "./parsePiPackagesCommand";
+import { printPiPackagesUsage } from "./printPiPackagesUsage";
 import { Table } from "console-table-printer";
 
 /**

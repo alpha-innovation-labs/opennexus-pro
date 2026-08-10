@@ -1,8 +1,8 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { createProfiledExtensionApi } from "@nexus/observability/startup-profile/createProfiledExtensionApi.js";
-import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent.js";
-import { isPromiseLike } from "./isPromiseLike.js";
-import type { ExtensionFeatureFlag } from "./types.js";
+import { createProfiledExtensionApi } from "@nexus/observability/startup-profile/createProfiledExtensionApi";
+import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent";
+import { isPromiseLike } from "./isPromiseLike";
+import type { ExtensionFeatureFlag } from "./types";
 
 /**
  * Starts one extension registration and returns an async completion task.

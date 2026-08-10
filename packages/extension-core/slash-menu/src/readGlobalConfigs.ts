@@ -1,5 +1,5 @@
-import { getUserConfigPath } from "@nexus/runtime/config/getUserConfigPath.js";
-import { readJsonFile } from "./readJsonFile.js";
+import { getUserConfigPath } from "@nexus/runtime/config/getUserConfigPath";
+import { readJsonFile } from "./readJsonFile";
 
 /**
  * Reads global Nexus config.

@@ -1,4 +1,4 @@
-import type { DeleteSessionMatch } from "./DeleteSessionMatch.js";
+import type { DeleteSessionMatch } from "./DeleteSessionMatch";
 
 export type DeleteSessionResolveResult =
   | { type: "found"; session: DeleteSessionMatch }

@@ -1,6 +1,6 @@
 import { appendFileSync } from "node:fs";
-import { isTronProfilingEnabled } from "./isTronProfilingEnabled.js";
-import { tronProfileLogPath } from "./tronProfileLogPath.js";
+import { isTronProfilingEnabled } from "./isTronProfilingEnabled";
+import { tronProfileLogPath } from "./tronProfileLogPath";
 
 /**
  * Appends one Tron profiling event to the profiling log.

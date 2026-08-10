@@ -1,4 +1,4 @@
-import { formatTokenCount } from "./formatTokenCount.js";
+import { formatTokenCount } from "./formatTokenCount";
 
 /**
  * Formats a nullable token count.

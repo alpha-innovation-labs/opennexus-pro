@@ -1,9 +1,9 @@
 import type { ExtensionCommandContext, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import type { TUI } from "@earendil-works/pi-tui";
-import { DEFAULT_OBSERVATION_RECREATION_PROMPT_TEMPLATE } from "../shared/defaultObservationRecreationPromptTemplate.js";
-import { readObservationPromptOverride } from "../shared/readObservationPromptOverride.js";
-import { writeObservationPromptOverride } from "../shared/writeObservationPromptOverride.js";
-import { openObservationPromptExternalEditor } from "./openObservationPromptExternalEditor.js";
+import { DEFAULT_OBSERVATION_RECREATION_PROMPT_TEMPLATE } from "../shared/defaultObservationRecreationPromptTemplate";
+import { readObservationPromptOverride } from "../shared/readObservationPromptOverride";
+import { writeObservationPromptOverride } from "../shared/writeObservationPromptOverride";
+import { openObservationPromptExternalEditor } from "./openObservationPromptExternalEditor";
 
 /**
  * Opens the external editor and persists the observation prompt override.

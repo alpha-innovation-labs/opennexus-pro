@@ -1,10 +1,10 @@
-import { findRegisteredNexusSession } from "../session-registry/findRegisteredNexusSession.js";
-import type { CmuxSessionRegistryEntry } from "../session-registry/types.js";
-import { formatCmuxSurfaceLabel } from "./formatCmuxSurfaceLabel.js";
-import { getCmuxSurfaceIdentifier } from "./getCmuxSurfaceIdentifier.js";
-import { getCmuxWorkspaceIdentifier } from "./getCmuxWorkspaceIdentifier.js";
-import { formatCmuxWorkspaceTitle } from "./formatCmuxWorkspaceTitle.js";
-import type { CmuxWorkspaceShellView } from "./types.js";
+import { findRegisteredNexusSession } from "../session-registry/findRegisteredNexusSession";
+import type { CmuxSessionRegistryEntry } from "../session-registry/types";
+import { formatCmuxSurfaceLabel } from "./formatCmuxSurfaceLabel";
+import { getCmuxSurfaceIdentifier } from "./getCmuxSurfaceIdentifier";
+import { getCmuxWorkspaceIdentifier } from "./getCmuxWorkspaceIdentifier";
+import { formatCmuxWorkspaceTitle } from "./formatCmuxWorkspaceTitle";
+import type { CmuxWorkspaceShellView } from "./types";
 
 /**
  * Formats the cmux workspace shell view for display in Nexus.

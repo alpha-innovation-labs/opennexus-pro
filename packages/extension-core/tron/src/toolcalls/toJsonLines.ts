@@ -1,4 +1,4 @@
-import { sanitizePlainText } from "@nexus/tui-kit/modal/index.js";
+import { sanitizePlainText } from "@nexus/tui-kit/modal/index";
 
 /**
  * Serializes a value into sanitized JSON lines.

@@ -1,9 +1,9 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { ensureSubmitTrigger } from "@extensions/neo-editor/features/editor-triggers/ensureSubmitTrigger.js";
-import { refreshPromptlineConfig } from "@extensions/neo-editor/features/promptline/config/refreshPromptlineConfig.js";
-import { SlashMenuModal } from "../SlashMenuModal.js";
-import { registerStartupModalTerminalInputForwarder } from "./registerStartupModalTerminalInputForwarder.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { ensureSubmitTrigger } from "@extensions/neo-editor/features/editor-triggers/ensureSubmitTrigger";
+import { refreshPromptlineConfig } from "@extensions/neo-editor/features/promptline/config/refreshPromptlineConfig";
+import { SlashMenuModal } from "../SlashMenuModal";
+import { registerStartupModalTerminalInputForwarder } from "./registerStartupModalTerminalInputForwarder";
 
 /**
  * Opens the Nexus resume modal during startup instead of Pi's default resume selector.

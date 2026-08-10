@@ -1,3 +1,3 @@
-import type { CmuxWorkspaceShellLinesCache } from "./types.js";
+import type { CmuxWorkspaceShellLinesCache } from "./types";
 
 export const cmuxWorkspaceShellLinesCache: CmuxWorkspaceShellLinesCache = {};

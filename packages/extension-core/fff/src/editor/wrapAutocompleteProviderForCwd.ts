@@ -1,7 +1,7 @@
 import type { AutocompleteProvider } from "@earendil-works/pi-tui";
-import { loadFeatureState } from "../features/loadFeatureState.js";
-import { getRuntimeForCwd } from "../runtime/runtimeStore.js";
-import { createFffAutocompleteProvider } from "./createFffAutocompleteProvider.js";
+import { loadFeatureState } from "../features/loadFeatureState";
+import { getRuntimeForCwd } from "../runtime/runtimeStore";
+import { createFffAutocompleteProvider } from "./createFffAutocompleteProvider";
 
 /**
  * Wraps a Neo editor autocomplete provider with FFF support when enabled.

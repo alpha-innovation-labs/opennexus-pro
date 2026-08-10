@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
 
 /**
  * Resolves the theme color used by a context usage marker.

@@ -1,5 +1,5 @@
 import { basename } from "node:path";
-import { sanitizeConversationId } from "./sanitizeConversationId.js";
+import { sanitizeConversationId } from "./sanitizeConversationId";
 
 /**
  * Builds a stable conversation identifier from a persisted session path.

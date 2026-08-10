@@ -1,4 +1,4 @@
-import type { SlashMenuLeaf } from "./types.js";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Builds forkable user-message leaves from the current session branch.

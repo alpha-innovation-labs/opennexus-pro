@@ -1,4 +1,4 @@
-import { hasNoExtensionsFlag } from "./hasNoExtensionsFlag.js";
+import { hasNoExtensionsFlag } from "./hasNoExtensionsFlag";
 
 /**
  * Appends the canonical no-extensions flag when argv does not already disable extensions.

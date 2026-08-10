@@ -1,7 +1,7 @@
 import { cp, mkdir, readdir } from "node:fs/promises";
 import { join } from "node:path";
-import { getBundledThemesPath } from "./getBundledThemesPath.js";
-import { getNexusAgentDirPath } from "./getNexusAgentDirPath.js";
+import { getBundledThemesPath } from "./getBundledThemesPath";
+import { getNexusAgentDirPath } from "./getNexusAgentDirPath";
 
 const THEMES_DIR_NAME = "themes";
 

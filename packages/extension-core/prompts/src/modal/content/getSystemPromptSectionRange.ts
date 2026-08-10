@@ -1,4 +1,4 @@
-import type { SystemPromptOutlineRow } from "../outline/createSystemPromptOutlineRows.js";
+import type { SystemPromptOutlineRow } from "../outline/createSystemPromptOutlineRows";
 
 export interface SystemPromptSectionRange {
 	start: number;

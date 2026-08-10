@@ -1,14 +1,14 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { normalizeNpmPackageName } from "../package/normalizeNpmPackageName.js";
-import { removeUserExtensionConfig } from "@nexus/runtime/config/removeUserExtensionConfig.js";
-import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled.js";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { createThirdPartyManagedExtensionRows } from "../model/createThirdPartyManagedExtensionRows.js";
-import { updateManagedExtensionRows } from "../model/updateManagedExtensionRows.js";
-import { createNexusPackageManager } from "../package/createNexusPackageManager.js";
-import { fetchNpmPackageSearchRows } from "../package/fetchNpmPackageSearchRows.js";
-import { PiPackagesModal } from "../ui/PiPackagesModal.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { normalizeNpmPackageName } from "../package/normalizeNpmPackageName";
+import { removeUserExtensionConfig } from "@nexus/runtime/config/removeUserExtensionConfig";
+import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createThirdPartyManagedExtensionRows } from "../model/createThirdPartyManagedExtensionRows";
+import { updateManagedExtensionRows } from "../model/updateManagedExtensionRows";
+import { createNexusPackageManager } from "../package/createNexusPackageManager";
+import { fetchNpmPackageSearchRows } from "../package/fetchNpmPackageSearchRows";
+import { PiPackagesModal } from "../ui/PiPackagesModal";
 
 /**
  * Opens the installed Pi packages modal.

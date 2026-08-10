@@ -1,4 +1,4 @@
-import type { TokenUsagePeriod } from "./TokenUsagePeriod.js";
+import type { TokenUsagePeriod } from "./TokenUsagePeriod";
 
 /**
  * Reads a token usage daily key as a UTC day.

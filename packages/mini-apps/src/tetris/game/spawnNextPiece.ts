@@ -1,6 +1,6 @@
-import { canPlacePiece } from "./canPlacePiece.js";
-import { createTetrisPiece, TETRIS_SEQUENCE } from "./tetrominoes.js";
-import type { TetrisGame } from "./types.js";
+import { canPlacePiece } from "./canPlacePiece";
+import { createTetrisPiece, TETRIS_SEQUENCE } from "./tetrominoes";
+import type { TetrisGame } from "./types";
 
 /**
  * Advances the active piece queue and detects spawn collisions.

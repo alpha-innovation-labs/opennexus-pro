@@ -1,7 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup.js";
-import type { SystemPromptState } from "../state/types.js";
-import { handleSystemPromptCommand } from "./handleSystemPromptCommand.js";
+import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
+import type { SystemPromptState } from "../state/types";
+import { handleSystemPromptCommand } from "./handleSystemPromptCommand";
 
 /**
  * Registers the /SystemPrompt command.

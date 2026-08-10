@@ -1,4 +1,4 @@
-import type { MarkdownInlineSegment } from "../types.js";
+import type { MarkdownInlineSegment } from "../types";
 
 const inlinePattern = /(\*\*\*([^*]+)\*\*\*|\*\*([^*]+)\*\*|\*([^*]+)\*|`([^`]+)`|~~([^~]+)~~|\[([^\]]+)\]\(([^)]+)\))/gu;
 

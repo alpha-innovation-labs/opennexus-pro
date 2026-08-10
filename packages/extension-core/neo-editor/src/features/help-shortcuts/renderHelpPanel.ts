@@ -1,8 +1,8 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import type { HelpShortcutGroup } from "./types.js";
-import { padVisible } from "./padVisible.js";
-import { renderHelpPanelTop } from "./renderHelpPanelTop.js";
-import { renderHelpShortcutRow } from "./renderHelpShortcutRow.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import type { HelpShortcutGroup } from "./types";
+import { padVisible } from "./padVisible";
+import { renderHelpPanelTop } from "./renderHelpPanelTop";
+import { renderHelpShortcutRow } from "./renderHelpShortcutRow";
 
 /**
  * Renders one titled shortcut group panel.

@@ -1,6 +1,6 @@
-import type { CmuxSessionRegistryEntry } from "../session-registry/types.js";
-import { formatCmuxWorkspaceShells } from "./formatCmuxWorkspaceShells.js";
-import type { CmuxWorkspaceShellView } from "./types.js";
+import type { CmuxSessionRegistryEntry } from "../session-registry/types";
+import { formatCmuxWorkspaceShells } from "./formatCmuxWorkspaceShells";
+import type { CmuxWorkspaceShellView } from "./types";
 
 /**
  * Builds modal body lines for cmux workspace shell mappings.

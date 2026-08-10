@@ -1,6 +1,6 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { PlainSelectList } from "./PlainSelectList.js";
-import type { SelectPreviewItemStyleFns, SelectPreviewTheme } from "./types.js";
+import { PlainSelectList } from "./PlainSelectList";
+import type { SelectPreviewItemStyleFns, SelectPreviewTheme } from "./types";
 
 /**
  * Creates a selectable list instance.

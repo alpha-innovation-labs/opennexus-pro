@@ -1,8 +1,8 @@
 import { getMarkdownTheme } from "@earendil-works/pi-coding-agent";
 import { Spacer, Text } from "@earendil-works/pi-tui";
-import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook.js";
-import { theme } from "../theme-proxy.js";
-import { recordTronRenderTiming } from "../profiling/recordTronRenderTiming.js";
+import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook";
+import { theme } from "../theme-proxy";
+import { recordTronRenderTiming } from "../profiling/recordTronRenderTiming";
 import { bridgeThinkingToToolCalls } from "../activity/bridgeThinkingToToolCalls.ts";
 import { getImmediateFollowingToolCallGroup } from "../activity/getImmediateFollowingToolCallGroup.ts";
 import { syncToolCallFrameState } from "../activity/syncToolCallFrameState.ts";
@@ -10,9 +10,9 @@ import { setCompactModeThinkingExpanded } from "../collapse/thinkingVisibility.t
 import { getAssistantMessageTiming } from "./assistantMessageTimingState.ts";
 import { createAssistantMetaText } from "./createAssistantMetaText.ts";
 import { isThinkingOnlyVisibleMessage } from "./isThinkingOnlyVisibleMessage.ts";
-import { BorderedAssistantErrorRow } from "./BorderedAssistantErrorRow.js";
-import { formatAssistantErrorText } from "./formatAssistantErrorText.js";
-import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry.js";
+import { BorderedAssistantErrorRow } from "./BorderedAssistantErrorRow";
+import { formatAssistantErrorText } from "./formatAssistantErrorText";
+import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry";
 
 /**
  * Returns whether a tool call should remain visible in Tron assistant layout.

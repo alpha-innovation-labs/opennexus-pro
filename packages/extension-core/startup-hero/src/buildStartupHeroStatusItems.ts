@@ -1,4 +1,4 @@
-import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
+import type { StartupHeroStatus, StartupHeroTheme } from "./types";
 
 /**
  * Builds colored startup hero status item segments.

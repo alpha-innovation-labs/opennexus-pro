@@ -1,6 +1,6 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { renderTranscriptLines } from "@extensions/tron/transcript/renderTranscriptLines.js";
-import { toSessionTranscriptEntries } from "./toSessionTranscriptEntries.js";
+import { renderTranscriptLines } from "@extensions/tron/transcript/renderTranscriptLines";
+import { toSessionTranscriptEntries } from "./toSessionTranscriptEntries";
 
 /**
  * Reads and renders one resumable session preview using the shared /agents transcript renderer.

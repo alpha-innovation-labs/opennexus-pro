@@ -1,5 +1,5 @@
-import type { TetrisGame } from "../game/types.js";
-import { renderTetrisBox } from "./renderTetrisBox.js";
+import type { TetrisGame } from "../game/types";
+import { renderTetrisBox } from "./renderTetrisBox";
 
 /**
  * Formats one colored stat row.

@@ -1,6 +1,6 @@
 import type { Component } from "@earendil-works/pi-tui";
-import { renderMarkdownPreview } from "./renderMarkdownPreview.js";
-import type { MarkdownPreviewTheme } from "./types.js";
+import { renderMarkdownPreview } from "./renderMarkdownPreview";
+import type { MarkdownPreviewTheme } from "./types";
 
 /** Options for the composable markdown preview component. */
 export type MarkdownPreviewComponentOptions = {

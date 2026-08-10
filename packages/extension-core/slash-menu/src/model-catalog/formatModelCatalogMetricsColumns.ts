@@ -1,7 +1,7 @@
 import type { Api, Model } from "@earendil-works/pi-ai";
-import { formatContextWindow } from "./formatContextWindow.js";
-import { formatModelCost } from "./formatModelCost.js";
-import { getModelCatalogMetricColumnSpecs } from "./getModelCatalogMetricColumnSpecs.js";
+import { formatContextWindow } from "./formatContextWindow";
+import { formatModelCost } from "./formatModelCost";
+import { getModelCatalogMetricColumnSpecs } from "./getModelCatalogMetricColumnSpecs";
 
 /**
  * Formats the numeric catalog columns for one model row.

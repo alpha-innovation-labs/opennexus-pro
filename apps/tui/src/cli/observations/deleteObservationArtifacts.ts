@@ -1,7 +1,7 @@
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir.js";
-import { deleteObservationArtifactGroup } from "./deleteObservationArtifactGroup.js";
-import { listObservationArtifactGroups } from "./listObservationArtifactGroups.js";
-import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups.js";
+import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
+import { deleteObservationArtifactGroup } from "./deleteObservationArtifactGroup";
+import { listObservationArtifactGroups } from "./listObservationArtifactGroups";
+import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups";
 
 /**
  * Deletes observation artifacts for one target.

@@ -1,8 +1,8 @@
-import { applySystemExtensionAvailability } from "./applySystemExtensionAvailability.js";
-import { createExtensionRegisterMap } from "./createExtensionRegisterMap.js";
-import { bundledFeatureFlags, getAllBundledExtensionIds } from "./registry.js";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import type { ExtensionFeatureFlag } from "./types.js";
+import { applySystemExtensionAvailability } from "./applySystemExtensionAvailability";
+import { createExtensionRegisterMap } from "./createExtensionRegisterMap";
+import { bundledFeatureFlags, getAllBundledExtensionIds } from "./registry";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import type { ExtensionFeatureFlag } from "./types";
 
 /**
  * Creates runtime extension flags from the hardcoded registry,

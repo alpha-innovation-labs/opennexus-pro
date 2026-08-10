@@ -1,4 +1,4 @@
-import { getPersistentConversationId } from "../shared/getPersistentConversationId.js";
+import { getPersistentConversationId } from "../shared/getPersistentConversationId";
 
 /**
  * Resolves the active conversation identifier.

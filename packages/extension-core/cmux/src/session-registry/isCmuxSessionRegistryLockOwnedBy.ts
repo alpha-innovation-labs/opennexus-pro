@@ -1,5 +1,5 @@
-import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockMetadata.js";
-import { readCmuxSessionRegistryLockMetadata } from "./readCmuxSessionRegistryLockMetadata.js";
+import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockMetadata";
+import { readCmuxSessionRegistryLockMetadata } from "./readCmuxSessionRegistryLockMetadata";
 
 /**
  * Checks whether a lock directory still belongs to the expected owner metadata.

@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerInternalSlashSelectorCommands } from "./internal-commands/registerInternalSlashSelectorCommands.js";
+import { registerInternalSlashSelectorCommands } from "./internal-commands/registerInternalSlashSelectorCommands";
 
 /**
  * Registers the standalone slash-menu extension internals.

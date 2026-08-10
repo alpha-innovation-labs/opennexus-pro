@@ -1,6 +1,6 @@
-import { getAtTriggerModal } from "./getAtTriggerModal.js";
-import { refreshAtTriggerProvider } from "./refreshAtTriggerProvider.js";
-import type { TriggerProvider } from "../types.js";
+import { getAtTriggerModal } from "./getAtTriggerModal";
+import { refreshAtTriggerProvider } from "./refreshAtTriggerProvider";
+import type { TriggerProvider } from "../types";
 
 /**
  * Provider contract for the `@` trigger.

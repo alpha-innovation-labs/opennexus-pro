@@ -1,5 +1,5 @@
-import type { ProvidersConfig } from "./types.js";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
+import type { ProvidersConfig } from "./types";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 
 /**
  * Reads configured providers from the Nexus user config file.

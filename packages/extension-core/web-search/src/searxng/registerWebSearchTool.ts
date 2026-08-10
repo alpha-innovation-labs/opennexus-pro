@@ -1,8 +1,8 @@
 import { Type } from "@earendil-works/pi-ai";
 import { defineTool, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { executeWebSearch } from "./executeWebSearch.js";
-import { formatWebSearchResult } from "./formatWebSearchResult.js";
-import type { WebSearchParams, WebSearchCategory, WebSearchTimeRange } from "./webSearchTypes.js";
+import { executeWebSearch } from "./executeWebSearch";
+import { formatWebSearchResult } from "./formatWebSearchResult";
+import type { WebSearchParams, WebSearchCategory, WebSearchTimeRange } from "./webSearchTypes";
 
 const VALID_CATEGORIES: WebSearchCategory[] = [
   "general", "news", "videos", "images", "music", "files", "it", "science", "map",

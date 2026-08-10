@@ -1,4 +1,4 @@
-import type { ContextUsageRuntimeSnapshot } from "./types.js";
+import type { ContextUsageRuntimeSnapshot } from "./types";
 
 /**
  * Normalizes Pi context usage values and ignores impossible snapshots.

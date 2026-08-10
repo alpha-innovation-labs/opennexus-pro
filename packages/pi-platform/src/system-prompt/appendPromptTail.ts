@@ -1,7 +1,7 @@
 import { formatSkillsForPrompt } from "@earendil-works/pi-coding-agent";
-import { appendAgentsSection } from "./appendAgentsSection.js";
-import { formatCurrentDate } from "./formatCurrentDate.js";
-import type { NexusSystemPromptOptions } from "./types.js";
+import { appendAgentsSection } from "./appendAgentsSection";
+import { formatCurrentDate } from "./formatCurrentDate";
+import type { NexusSystemPromptOptions } from "./types";
 
 /**
  * Appends context, skills, date, and working directory like Pi's prompt builder.

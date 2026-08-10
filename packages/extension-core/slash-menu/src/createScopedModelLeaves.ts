@@ -1,6 +1,6 @@
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import type { SlashMenuLeaf } from "./types.js";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Builds scoped-model leaves from persisted settings.

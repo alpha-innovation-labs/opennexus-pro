@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { getUserConfigDirPath } from "./getUserConfigDirPath.js";
+import { getUserConfigDirPath } from "./getUserConfigDirPath";
 
 /**
  * Resolves the Nexus global user keybindings file path.

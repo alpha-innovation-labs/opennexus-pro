@@ -1,4 +1,4 @@
-import type { HotkeysGroup } from "./types.js";
+import type { HotkeysGroup } from "./types";
 
 /**
  * Returns Nexus editor trigger shortcuts that are not Pi keybinding ids.

@@ -1,6 +1,6 @@
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import { readThemes } from "@nexus/runtime/config/readThemes.js";
-import type { SlashMenuLeaf } from "./types.js";
+import { readThemes } from "@nexus/runtime/config/readThemes";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Builds theme submenu entries from the Pi runtime theme registry.

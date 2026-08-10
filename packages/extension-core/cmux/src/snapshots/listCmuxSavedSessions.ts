@@ -1,6 +1,6 @@
-import { getCmuxSavedSessionsPath } from "./getCmuxSavedSessionsPath.js";
-import { readCmuxSavedSessionStore } from "./readCmuxSavedSessionStore.js";
-import type { CmuxSavedSession } from "./types.js";
+import { getCmuxSavedSessionsPath } from "./getCmuxSavedSessionsPath";
+import { readCmuxSavedSessionStore } from "./readCmuxSavedSessionStore";
+import type { CmuxSavedSession } from "./types";
 
 /**
  * Lists saved cmux session snapshots.

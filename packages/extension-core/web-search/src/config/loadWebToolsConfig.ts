@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import type { WebToolsConfig } from "./WebToolsConfig.js";
+import type { WebToolsConfig } from "./WebToolsConfig";
 
 const USER_CONFIG_DIR_ENV_NAME = "NEXUS_CONFIG_DIR";
 const CONFIG_FILE_NAME = "config.json";

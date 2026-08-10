@@ -1,4 +1,4 @@
-import type { ModelMenuTab } from "./ModelMenuTab.js";
+import type { ModelMenuTab } from "./ModelMenuTab";
 
 /**
  * Returns the ordered slash model-menu tabs.

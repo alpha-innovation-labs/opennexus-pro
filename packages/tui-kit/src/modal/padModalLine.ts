@@ -1,6 +1,6 @@
 import stripAnsi from "strip-ansi";
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { truncateAnsiToWidth } from "./truncateAnsiToWidth.js";
+import { truncateAnsiToWidth } from "./truncateAnsiToWidth";
 
 /**
  * Truncates and pads a modal line to an exact visible width.

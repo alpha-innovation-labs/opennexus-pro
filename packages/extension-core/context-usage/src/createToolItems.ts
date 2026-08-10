@@ -1,7 +1,7 @@
-import type { ContextUsageDetailItem } from "./types.js";
-import { estimateTokensFromText } from "./estimateTokensFromText.js";
-import { getToolText } from "./getToolText.js";
-import { isMcpToolName } from "./isMcpToolName.js";
+import type { ContextUsageDetailItem } from "./types";
+import { estimateTokensFromText } from "./estimateTokensFromText";
+import { getToolText } from "./getToolText";
+import { isMcpToolName } from "./isMcpToolName";
 
 /**
  * Creates tokenized tool detail items from system prompt options.

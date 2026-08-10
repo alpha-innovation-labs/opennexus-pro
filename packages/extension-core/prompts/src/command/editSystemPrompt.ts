@@ -1,7 +1,7 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { extractAppendSection } from "../modal/append-section/extractAppendSection.js";
-import { replaceAppendSection } from "../modal/append-section/replaceAppendSection.js";
-import type { SystemPromptState } from "../state/types.js";
+import { extractAppendSection } from "../modal/append-section/extractAppendSection";
+import { replaceAppendSection } from "../modal/append-section/replaceAppendSection";
+import type { SystemPromptState } from "../state/types";
 
 /**
  * Opens the multiline editor and saves only the user prompt content when submitted.

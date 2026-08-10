@@ -1,4 +1,4 @@
-import { recordTronRenderTiming } from "./recordTronRenderTiming.js";
+import { recordTronRenderTiming } from "./recordTronRenderTiming";
 
 /**
  * Measures one Tron render operation and records aggregate timing.

@@ -1,5 +1,5 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import type { ResourceCommandScope } from "./ResourceCommandScope.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { ResourceCommandScope } from "./ResourceCommandScope";
 
 /**
  * Formats one resource command scope selector tab.

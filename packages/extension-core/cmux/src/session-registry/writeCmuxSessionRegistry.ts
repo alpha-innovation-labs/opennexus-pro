@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import type { CmuxSessionRegistry } from "./types.js";
+import type { CmuxSessionRegistry } from "./types";
 
 /**
  * Writes the cmux session registry to disk with private permissions.

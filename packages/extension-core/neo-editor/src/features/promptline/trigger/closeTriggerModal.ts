@@ -1,5 +1,5 @@
-import type { TriggerModalState } from "./types.js";
-import { clearTriggerSession } from "./sessionState.js";
+import type { TriggerModalState } from "./types";
+import { clearTriggerSession } from "./sessionState";
 
 /**
  * Closes any active trigger modal and clears modal state.

@@ -1,14 +1,14 @@
-import type { ContextUsageReport, ContextUsageRuntimeSnapshot } from "./types.js";
-import { calculatePercent } from "./calculatePercent.js";
-import { createAgentsItems } from "./createAgentsItems.js";
-import { createPromptSkillItems } from "./createPromptSkillItems.js";
-import { createPromptToolItems } from "./createPromptToolItems.js";
-import { createSkillItems } from "./createSkillItems.js";
-import { createToolItems } from "./createToolItems.js";
-import { estimateTokensFromText } from "./estimateTokensFromText.js";
-import { createPiBuiltinToolItems } from "./pi/createPiBuiltinToolItems.js";
-import { getPiDefaultCompactionReserveTokens } from "./pi/getPiDefaultCompactionReserveTokens.js";
-import { sumTokens } from "./sumTokens.js";
+import type { ContextUsageReport, ContextUsageRuntimeSnapshot } from "./types";
+import { calculatePercent } from "./calculatePercent";
+import { createAgentsItems } from "./createAgentsItems";
+import { createPromptSkillItems } from "./createPromptSkillItems";
+import { createPromptToolItems } from "./createPromptToolItems";
+import { createSkillItems } from "./createSkillItems";
+import { createToolItems } from "./createToolItems";
+import { estimateTokensFromText } from "./estimateTokensFromText";
+import { createPiBuiltinToolItems } from "./pi/createPiBuiltinToolItems";
+import { getPiDefaultCompactionReserveTokens } from "./pi/getPiDefaultCompactionReserveTokens";
+import { sumTokens } from "./sumTokens";
 
 /**
  * Creates a fallback base prompt slice when the live rendered prompt is stale or incomplete.

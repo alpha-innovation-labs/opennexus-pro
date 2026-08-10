@@ -1,5 +1,5 @@
-import { fetchGitHubApiJson } from "./fetchGitHubApiJson.js";
-import type { GitHubTreeResponse } from "./githubTypes.js";
+import { fetchGitHubApiJson } from "./fetchGitHubApiJson";
+import type { GitHubTreeResponse } from "./githubTypes";
 
 const MAX_TREE_ENTRIES = 200;
 

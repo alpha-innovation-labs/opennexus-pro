@@ -1,4 +1,4 @@
-import type { FffRuntime } from "./FffRuntime.js";
+import type { FffRuntime } from "./FffRuntime";
 
 const runtimes = new Map<string, FffRuntime>();
 

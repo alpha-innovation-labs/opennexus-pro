@@ -1,9 +1,9 @@
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
-import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled.js";
-import { createNexusCliPackageManager } from "./createNexusCliPackageManager.js";
-import { normalizeInstallSource } from "./normalizeInstallSource.js";
-import { parseInstallCommand } from "./parseInstallCommand.js";
-import { printInstallUsage } from "./printInstallUsage.js";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
+import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled";
+import { createNexusCliPackageManager } from "./createNexusCliPackageManager";
+import { normalizeInstallSource } from "./normalizeInstallSource";
+import { parseInstallCommand } from "./parseInstallCommand";
+import { printInstallUsage } from "./printInstallUsage";
 
 /**
  * Runs the Nexus package install command when argv targets it.

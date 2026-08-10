@@ -1,7 +1,7 @@
-import type { CmuxSessionRegistryEntry } from "../session-registry/types.js";
-import { formatCmuxNexusTitle } from "./formatCmuxNexusTitle.js";
-import { getCmuxShellIcon } from "./getCmuxShellIcon.js";
-import type { CmuxSurface } from "./types.js";
+import type { CmuxSessionRegistryEntry } from "../session-registry/types";
+import { formatCmuxNexusTitle } from "./formatCmuxNexusTitle";
+import { getCmuxShellIcon } from "./getCmuxShellIcon";
+import type { CmuxSurface } from "./types";
 
 /**
  * Formats a cmux surface as a shell label, replacing Nexus shells with session ids.

@@ -1,5 +1,5 @@
-import { readJsonFile } from "./readJsonFile.js";
-import type { ObservationArtifactGroup, ObservationListJsonRow } from "./types.js";
+import { readJsonFile } from "./readJsonFile";
+import type { ObservationArtifactGroup, ObservationListJsonRow } from "./types";
 
 type ObservationStateLike = { topics?: unknown[]; updatedAt?: number; messageCount?: number; sessionFile?: string | null };
 

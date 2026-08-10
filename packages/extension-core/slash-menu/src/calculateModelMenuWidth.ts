@@ -1,6 +1,6 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { getSlashMenuItemIcon } from "./getSlashMenuItemIcon.js";
-import type { SlashMenuLeaf } from "./types.js";
+import { getSlashMenuItemIcon } from "./getSlashMenuItemIcon";
+import type { SlashMenuLeaf } from "./types";
 
 const MODEL_MENU_EXTRA_WIDTH = 8;
 const MODEL_MENU_MIN_WIDTH = 36;

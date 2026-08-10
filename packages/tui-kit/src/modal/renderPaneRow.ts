@@ -1,5 +1,5 @@
-import { padModalLine } from "./padModalLine.js";
-import type { SharedModalTheme } from "./types.js";
+import { padModalLine } from "./padModalLine";
+import type { SharedModalTheme } from "./types";
 
 /**
  * Renders one row across all modal panes.

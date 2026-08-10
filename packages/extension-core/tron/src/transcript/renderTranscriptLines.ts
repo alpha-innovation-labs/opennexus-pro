@@ -1,8 +1,8 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { syncToolCallFrameState } from "../activity/syncToolCallFrameState.ts";
-import { renderTranscriptEntry } from "./renderTranscriptEntry.js";
-import { trimTrailingTranscriptBorder } from "./trimTrailingTranscriptBorder.js";
-import type { TranscriptEntry } from "./types.js";
+import { renderTranscriptEntry } from "./renderTranscriptEntry";
+import { trimTrailingTranscriptBorder } from "./trimTrailingTranscriptBorder";
+import type { TranscriptEntry } from "./types";
 
 /**
  * Content-block shape used by `syncToolCallFrameState` to track tool-call frame borders.

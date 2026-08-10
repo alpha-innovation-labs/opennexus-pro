@@ -1,4 +1,4 @@
-import type { ClipboardImage } from "@nexus/runtime/clipboard-image/types.js";
+import type { ClipboardImage } from "@nexus/runtime/clipboard-image/types";
 
 interface HandleClipboardImagePasteOptions {
   platform: NodeJS.Platform;

@@ -1,6 +1,6 @@
 import { getSupportedThinkingLevels } from "@earendil-works/pi-ai";
 import type { Api, Model } from "@earendil-works/pi-ai";
-import type { SlashMenuLeaf } from "./types.js";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Builds the shared thinking-level setting leaf for settings and root menu flows.

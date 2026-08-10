@@ -1,5 +1,5 @@
-import type { FffFeatureKey } from "../shared/types.js";
-import { getAllFeatureKeys } from "./getAllFeatureKeys.js";
+import type { FffFeatureKey } from "../shared/types";
+import { getAllFeatureKeys } from "./getAllFeatureKeys";
 
 /**
  * Filters unknown values out of a persisted feature-key list.

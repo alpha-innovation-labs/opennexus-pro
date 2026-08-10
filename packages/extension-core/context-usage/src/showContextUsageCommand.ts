@@ -1,9 +1,9 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { ContextUsageModal } from "./ContextUsageModal.js";
-import { createContextUsageReport } from "./createContextUsageReport.js";
-import { createRuntimeSnapshot } from "./createRuntimeSnapshot.js";
-import { formatContextUsage } from "./formatContextUsage.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { ContextUsageModal } from "./ContextUsageModal";
+import { createContextUsageReport } from "./createContextUsageReport";
+import { createRuntimeSnapshot } from "./createRuntimeSnapshot";
+import { formatContextUsage } from "./formatContextUsage";
 
 /**
  * Handles /context by showing categorized live context usage.

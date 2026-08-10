@@ -1,6 +1,6 @@
 import stripAnsi from "strip-ansi";
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { truncateAnsiToWidth } from "./truncateAnsiToWidth.js";
+import { truncateAnsiToWidth } from "./truncateAnsiToWidth";
 
 /** Truncates and pads a markdown preview line to the requested visible width. */
 export function padMarkdownPreviewLine(value: string, width: number): string {

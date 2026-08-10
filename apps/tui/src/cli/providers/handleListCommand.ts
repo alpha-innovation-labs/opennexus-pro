@@ -1,10 +1,10 @@
-import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig.js";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import type { AiGateway } from "@extensions/ai-providers/index.js";
-import { getModelCachePath, readProviderStateCache } from "@extensions/ai-providers/cache/index.js";
-import { getAllProviderIds } from "./getAllProviderIds.js";
+import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import type { AiGateway } from "@extensions/ai-providers/index";
+import { getModelCachePath, readProviderStateCache } from "@extensions/ai-providers/cache/index";
+import { getAllProviderIds } from "./getAllProviderIds";
 import { Table } from "console-table-printer";
-import { GRAY, GREEN, ORANGE, RED, RESET } from "../shared/ansiColors.js";
+import { GRAY, GREEN, ORANGE, RED, RESET } from "../shared/ansiColors";
 
 interface ListRow {
   providerId: string;

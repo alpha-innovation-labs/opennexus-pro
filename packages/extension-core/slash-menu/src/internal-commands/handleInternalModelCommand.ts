@@ -1,7 +1,7 @@
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import { getPromptlineRenderRequest, setPromptlineModelOverride } from "@extensions/neo-editor/features/promptline/state.js";
-import { ensureEnabledModelIncludesSelection } from "../model/ensureEnabledModelIncludesSelection.js";
-import type { InternalSlashHandler } from "./types.js";
+import { getPromptlineRenderRequest, setPromptlineModelOverride } from "@extensions/neo-editor/features/promptline/state";
+import { ensureEnabledModelIncludesSelection } from "../model/ensureEnabledModelIncludesSelection";
+import type { InternalSlashHandler } from "./types";
 
 /**
  * Applies one model selection without opening Pi's built-in selector.

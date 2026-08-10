@@ -1,9 +1,9 @@
-import { HEADING_ICONS, getHeadingStyleToken } from "../constants.js";
-import { padMarkdownPreviewLine } from "../padMarkdownPreviewLine.js";
-import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment.js";
-import type { MarkdownPreviewTheme } from "../types.js";
-import { parseInlineSegments } from "../inline/parseInlineSegments.js";
-import { renderInlineSegments } from "../inline/renderInlineSegments.js";
+import { HEADING_ICONS, getHeadingStyleToken } from "../constants";
+import { padMarkdownPreviewLine } from "../padMarkdownPreviewLine";
+import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment";
+import type { MarkdownPreviewTheme } from "../types";
+import { parseInlineSegments } from "../inline/parseInlineSegments";
+import { renderInlineSegments } from "../inline/renderInlineSegments";
 
 /** Renders a Ratkit-style full-width heading bar. */
 export function renderHeading(level: number, text: string, width: number, theme?: MarkdownPreviewTheme): string {

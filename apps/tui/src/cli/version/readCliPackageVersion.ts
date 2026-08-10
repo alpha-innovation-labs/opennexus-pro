@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { getBinaryPackageDir } from "@nexus/runtime/package/getBinaryPackageDir.js";
+import { getBinaryPackageDir } from "@nexus/runtime/package/getBinaryPackageDir";
 
 /**
  * Reads the packaged Nexus version from the adjacent package.json file.

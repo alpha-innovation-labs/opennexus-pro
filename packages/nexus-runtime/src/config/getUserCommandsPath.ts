@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { getUserConfigDirPath } from "./getUserConfigDirPath.js";
+import { getUserConfigDirPath } from "./getUserConfigDirPath";
 
 /**
  * Resolves the user commands directory path.

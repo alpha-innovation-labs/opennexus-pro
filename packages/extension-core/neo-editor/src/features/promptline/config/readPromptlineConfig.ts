@@ -1,6 +1,6 @@
-import { readEditorTriggerConfig } from "../../editor-triggers/readEditorTriggerConfig.js";
-import { readNeoConfig } from "../../../readNeoConfig.js";
-import type { PromptlineConfig } from "./types.js";
+import { readEditorTriggerConfig } from "../../editor-triggers/readEditorTriggerConfig";
+import { readNeoConfig } from "../../../readNeoConfig";
+import type { PromptlineConfig } from "./types";
 
 /**
  * Reads the promptline trigger and Neo config from disk.

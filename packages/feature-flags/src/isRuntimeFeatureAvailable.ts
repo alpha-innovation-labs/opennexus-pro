@@ -1,4 +1,4 @@
-import type { FeatureFlagConfig } from "./types.js";
+import type { FeatureFlagConfig } from "./types";
 
 /**
  * Reports whether a feature flag should be exposed by non-development runtime surfaces.

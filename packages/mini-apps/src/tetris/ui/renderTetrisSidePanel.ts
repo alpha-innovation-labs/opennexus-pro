@@ -1,6 +1,6 @@
-import type { TetrisGame } from "../game/types.js";
-import { createTetrisDividerLine } from "./createTetrisDividerLine.js";
-import { renderTetrisHelpLine } from "./renderTetrisHelpLine.js";
+import type { TetrisGame } from "../game/types";
+import { createTetrisDividerLine } from "./createTetrisDividerLine";
+import { renderTetrisHelpLine } from "./renderTetrisHelpLine";
 
 /**
  * Renders the wide-layout Tetris score and controls side panel.

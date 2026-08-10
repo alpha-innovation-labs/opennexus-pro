@@ -1,6 +1,6 @@
 import type { ExtensionAPI, ToolDefinition } from "@earendil-works/pi-coding-agent";
-import { createCompactToolDefinition } from "./createCompactToolDefinition.js";
-import { isCompactWrappedToolDefinition } from "./isCompactWrappedToolDefinition.js";
+import { createCompactToolDefinition } from "./createCompactToolDefinition";
+import { isCompactWrappedToolDefinition } from "./isCompactWrappedToolDefinition";
 
 /**
  * Creates an extension API proxy that gives every registered tool Tron compact rendering.

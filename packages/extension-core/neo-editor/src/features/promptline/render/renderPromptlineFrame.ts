@@ -1,13 +1,13 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { renderBottomBorderLabel } from "../../../shared/ui/renderBottomBorderLabel.js";
-import { getGitState } from "../../../shared/git/state.js";
-import { extractEditorContentLines } from "../extractEditorContentLines.js";
-import { getPromptlineModel } from "../getPromptlineModel.js";
-import { padToWidth } from "../padToWidth.js";
-import { prefixEditorLine } from "../prefixEditorLine.js";
-import { buildPromptline } from "./buildPromptline.js";
-import { getCachedContextUsage } from "./getCachedContextUsage.js";
-import { renderPromptlineBorder } from "./renderPromptlineBorder.js";
+import { renderBottomBorderLabel } from "../../../shared/ui/renderBottomBorderLabel";
+import { getGitState } from "../../../shared/git/state";
+import { extractEditorContentLines } from "../extractEditorContentLines";
+import { getPromptlineModel } from "../getPromptlineModel";
+import { padToWidth } from "../padToWidth";
+import { prefixEditorLine } from "../prefixEditorLine";
+import { buildPromptline } from "./buildPromptline";
+import { getCachedContextUsage } from "./getCachedContextUsage";
+import { renderPromptlineBorder } from "./renderPromptlineBorder";
 
 interface PromptlineFrameChromeCache {
   key: string;

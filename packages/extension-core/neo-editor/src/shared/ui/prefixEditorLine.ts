@@ -1,5 +1,5 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import { padToWidth } from "./padToWidth.js";
+import { padToWidth } from "./padToWidth";
 
 /**
  * Applies the Neo prefix treatment to the first visible editor content line.

@@ -1,5 +1,5 @@
-import type { RtkGainPeriod } from "./RtkGainPeriod.js";
-import type { RtkGainReport } from "./RtkGainReport.js";
+import type { RtkGainPeriod } from "./RtkGainPeriod";
+import type { RtkGainReport } from "./RtkGainReport";
 
 /**
  * Finds the first date covered by an RTK gain report.

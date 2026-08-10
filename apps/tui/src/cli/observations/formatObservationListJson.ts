@@ -1,4 +1,4 @@
-import type { ObservationListJsonRow } from "./types.js";
+import type { ObservationListJsonRow } from "./types";
 
 /**
  * Formats observation rows as pretty JSON.

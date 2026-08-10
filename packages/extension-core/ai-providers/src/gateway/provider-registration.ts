@@ -15,7 +15,7 @@
  * @param refreshModelsCallback — Function to call when the user
  *   explicitly requests a model refresh.
  */
-import { getModels } from "../gateway/cache.js";
+import { getModels } from "../gateway/cache";
 import type { ExtensionAPI, ProviderConfigInput } from "@earendil-works/pi-coding-agent";
 
 export function registerProvider(

@@ -1,4 +1,4 @@
-import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent.js";
+import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent";
 
 /**
  * Logs one timed runApp startup phase.

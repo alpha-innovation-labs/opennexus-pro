@@ -1,11 +1,11 @@
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
-import { removeUserExtensionConfig } from "@nexus/runtime/config/removeUserExtensionConfig.js";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
-import { createNexusCliPackageManager } from "../install/createNexusCliPackageManager.js";
-import { normalizeUninstallSource } from "./normalizeUninstallSource.js";
-import { parseUninstallCommand } from "./parseUninstallCommand.js";
-import { printUninstallUsage } from "./printUninstallUsage.js";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
+import { removeUserExtensionConfig } from "@nexus/runtime/config/removeUserExtensionConfig";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
+import { createNexusCliPackageManager } from "../install/createNexusCliPackageManager";
+import { normalizeUninstallSource } from "./normalizeUninstallSource";
+import { parseUninstallCommand } from "./parseUninstallCommand";
+import { printUninstallUsage } from "./printUninstallUsage";
 
 /**
  * Runs the Nexus package uninstall command when argv targets it.

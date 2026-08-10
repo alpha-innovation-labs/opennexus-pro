@@ -1,4 +1,4 @@
-import { theme } from "../theme-proxy.js";
+import { theme } from "../theme-proxy";
 
 /**
  * Styles the user-message prompt prefix.

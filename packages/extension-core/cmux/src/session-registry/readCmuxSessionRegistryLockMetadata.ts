@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
-import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockMetadata.js";
-import { getCmuxSessionRegistryLockMetadataPath } from "./getCmuxSessionRegistryLockMetadataPath.js";
-import { parseCmuxSessionRegistryLockMetadata } from "./parseCmuxSessionRegistryLockMetadata.js";
+import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockMetadata";
+import { getCmuxSessionRegistryLockMetadataPath } from "./getCmuxSessionRegistryLockMetadataPath";
+import { parseCmuxSessionRegistryLockMetadata } from "./parseCmuxSessionRegistryLockMetadata";
 
 /**
  * Reads valid owner metadata from a cmux registry lock directory.

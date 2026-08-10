@@ -1,8 +1,8 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import type { LocalImageReaderConfig } from "../config/types.js";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
-import { fetchModels } from "../request/executor.js";
+import type { LocalImageReaderConfig } from "../config/types";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
+import { fetchModels } from "../request/executor";
 
 /**
  * Register the /local-image command with the Pi extension API.

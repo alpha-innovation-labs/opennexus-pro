@@ -1,4 +1,4 @@
-import type { ModelMenuTab } from "./ModelMenuTab.js";
+import type { ModelMenuTab } from "./ModelMenuTab";
 
 /**
  * Gets the display label for one model-menu tab.

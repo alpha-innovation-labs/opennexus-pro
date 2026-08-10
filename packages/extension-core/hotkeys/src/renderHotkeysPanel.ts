@@ -1,9 +1,9 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import { padVisible } from "./padVisible.js";
-import { renderHotkeysPanelTop } from "./renderHotkeysPanelTop.js";
-import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId.js";
-import { truncateVisible } from "./truncateVisible.js";
-import type { HotkeysGroup } from "./types.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import { padVisible } from "./padVisible";
+import { renderHotkeysPanelTop } from "./renderHotkeysPanelTop";
+import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId";
+import { truncateVisible } from "./truncateVisible";
+import type { HotkeysGroup } from "./types";
 
 /**
  * Renders one titled hotkeys panel.

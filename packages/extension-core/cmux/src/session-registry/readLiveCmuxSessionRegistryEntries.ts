@@ -1,7 +1,7 @@
-import { getCmuxSessionRegistryPath } from "./getCmuxSessionRegistryPath.js";
-import { pruneCmuxSessionRegistryEntries } from "./pruneCmuxSessionRegistryEntries.js";
-import { readCmuxSessionRegistry } from "./readCmuxSessionRegistry.js";
-import type { CmuxSessionRegistryEntry } from "./types.js";
+import { getCmuxSessionRegistryPath } from "./getCmuxSessionRegistryPath";
+import { pruneCmuxSessionRegistryEntries } from "./pruneCmuxSessionRegistryEntries";
+import { readCmuxSessionRegistry } from "./readCmuxSessionRegistry";
+import type { CmuxSessionRegistryEntry } from "./types";
 
 /**
  * Reads live Nexus cmux session registrations.

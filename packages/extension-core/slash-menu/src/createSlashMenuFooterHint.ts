@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
 
 /**
  * Creates the general slash menu helper footer line rendered above Search.

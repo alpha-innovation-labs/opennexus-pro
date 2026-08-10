@@ -1,4 +1,4 @@
-import type { ObservationState } from "./types.js";
+import type { ObservationState } from "./types";
 
 /**
  * Creates an empty structured observations state.

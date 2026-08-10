@@ -1,4 +1,4 @@
-import { exitMessageState } from "./exitMessageState.js";
+import { exitMessageState } from "./exitMessageState";
 
 /**
  * Stores the exit message to print after the app restores the terminal.

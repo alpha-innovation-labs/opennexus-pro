@@ -208,9 +208,6 @@ importers:
       '@extensions/startup-hero':
         specifier: workspace:*
         version: link:../../packages/extension-core/startup-hero
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../packages/feature-flags
       '@nexus/herdr':
         specifier: workspace:*
         version: link:../../packages/herdr
@@ -298,9 +295,6 @@ importers:
       '@extensions/pi-packages':
         specifier: workspace:*
         version: link:../pi-packages
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -334,9 +328,6 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.83.0
         version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -364,9 +355,6 @@ importers:
       '@extensions/tron':
         specifier: workspace:*
         version: link:../tron
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
@@ -457,9 +445,6 @@ importers:
       '@extensions/tron':
         specifier: workspace:*
         version: link:../tron
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
@@ -475,9 +460,6 @@ importers:
       '@extensions/tron':
         specifier: workspace:*
         version: link:../tron
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
@@ -627,18 +609,12 @@ importers:
 
   packages/mini-apps:
     dependencies:
-      '@apps/app-tui':
-        specifier: workspace:*
-        version: link:../../apps/tui
       '@extensions/pi-packages':
         specifier: workspace:*
         version: link:../extension-core/pi-packages
       '@extensions/slash-menu':
         specifier: workspace:*
         version: link:../extension-core/slash-menu
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../feature-flags
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../nexus-runtime
@@ -655,9 +631,6 @@ importers:
 
   packages/pi-platform:
     dependencies:
-      '@extensions/tron':
-        specifier: workspace:*
-        version: link:../extension-core/tron
       strip-ansi:
         specifier: ^6.0.1
         version: 6.0.1

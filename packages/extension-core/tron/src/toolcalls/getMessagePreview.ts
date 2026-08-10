@@ -1,4 +1,4 @@
-import { sanitizePlainText } from "@nexus/tui-kit/modal/index.js";
+import { sanitizePlainText } from "@nexus/tui-kit/modal/index";
 
 /**
  * Builds a compact preview from message content.

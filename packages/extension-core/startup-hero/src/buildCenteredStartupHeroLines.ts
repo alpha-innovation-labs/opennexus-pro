@@ -1,9 +1,9 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { buildStartupHeroLines } from "./buildStartupHeroLines.js";
-import { buildStartupHeroLogoLines } from "./buildStartupHeroLogoLines.js";
-import { calculateStartupHeroTopPadding } from "./calculateStartupHeroTopPadding.js";
-import { centerStartupHeroLines } from "./centerStartupHeroLines.js";
-import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
+import { buildStartupHeroLines } from "./buildStartupHeroLines";
+import { buildStartupHeroLogoLines } from "./buildStartupHeroLogoLines";
+import { calculateStartupHeroTopPadding } from "./calculateStartupHeroTopPadding";
+import { centerStartupHeroLines } from "./centerStartupHeroLines";
+import type { StartupHeroStatus, StartupHeroTheme } from "./types";
 
 const STARTUP_HERO_BOTTOM_PADDING_LINES = 1;
 

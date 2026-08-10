@@ -1,5 +1,5 @@
-import { formatShortcut } from "@nexus/tui-kit/shortcuts/index.js";
-import type { HotkeysExtensionShortcut, HotkeysGroup } from "./types.js";
+import { formatShortcut } from "@nexus/tui-kit/shortcuts/index";
+import type { HotkeysExtensionShortcut, HotkeysGroup } from "./types";
 
 /**
  * Converts extension shortcut registrations into a hotkeys group.

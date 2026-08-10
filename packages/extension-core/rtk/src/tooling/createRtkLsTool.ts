@@ -1,6 +1,6 @@
 import { createLsTool } from "@earendil-works/pi-coding-agent";
-import { getRtkRuntimeForCwd } from "../runtime/runtimeStore.js";
-import { resolveRtkPath } from "../runtime/resolveRtkPath.js";
+import { getRtkRuntimeForCwd } from "../runtime/runtimeStore";
+import { resolveRtkPath } from "../runtime/resolveRtkPath";
 
 /**
  * Creates the RTK-backed ls tool.

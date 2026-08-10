@@ -1,4 +1,4 @@
-import { formatShortcut } from "@nexus/tui-kit/shortcuts/index.js";
+import { formatShortcut } from "@nexus/tui-kit/shortcuts/index";
 
 /**
  * Formats key ids for hotkeys display.

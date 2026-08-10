@@ -1,5 +1,5 @@
-import type { TokenUsagePeriod } from "./TokenUsagePeriod.js";
-import type { TokenUsageTotals } from "./TokenUsageTotals.js";
+import type { TokenUsagePeriod } from "./TokenUsagePeriod";
+import type { TokenUsageTotals } from "./TokenUsageTotals";
 
 /**
  * Token usage grouped by display periods.

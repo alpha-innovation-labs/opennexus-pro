@@ -1,4 +1,4 @@
-import type { WebFetchResult } from "./webFetchTypes.js";
+import type { WebFetchResult } from "./webFetchTypes";
 
 /**
  * Fetches a URL via Jina Reader API as a fallback.

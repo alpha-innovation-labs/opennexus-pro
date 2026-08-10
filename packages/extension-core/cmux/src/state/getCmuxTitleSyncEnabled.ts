@@ -1,4 +1,4 @@
-import { cmuxTitleSyncState } from "./cmuxTitleSyncState.js";
+import { cmuxTitleSyncState } from "./cmuxTitleSyncState";
 
 /**
  * Returns whether cmux title syncing is currently enabled.

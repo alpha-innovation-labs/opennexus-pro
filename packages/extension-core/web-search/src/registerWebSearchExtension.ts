@@ -1,7 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerWebFetchTool } from "./web-fetch/registerWebFetchTool.js";
-import { registerWebSearchTool } from "./searxng/registerWebSearchTool.js";
-import { loadWebToolsConfig } from "./config/loadWebToolsConfig.js";
+import { registerWebFetchTool } from "./web-fetch/registerWebFetchTool";
+import { registerWebSearchTool } from "./searxng/registerWebSearchTool";
+import { loadWebToolsConfig } from "./config/loadWebToolsConfig";
 
 /**
  * Registers Pi-native web access tools.

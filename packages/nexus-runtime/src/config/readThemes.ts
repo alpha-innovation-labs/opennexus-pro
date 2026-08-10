@@ -1,5 +1,5 @@
 import { DefaultResourceLoader } from "@earendil-works/pi-coding-agent";
-import { getNexusAgentDirPath } from "./getNexusAgentDirPath.js";
+import { getNexusAgentDirPath } from "./getNexusAgentDirPath";
 
 let cachedNames: string[] | null = null;
 let cacheCwd: string | null = null;

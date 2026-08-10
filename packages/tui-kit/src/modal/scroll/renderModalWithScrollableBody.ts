@@ -1,5 +1,5 @@
-import type { SharedModalTheme } from "../types.js";
-import { replaceRightBorderWithScrollThumb } from "./replaceRightBorderWithScrollThumb.js";
+import type { SharedModalTheme } from "../types";
+import { replaceRightBorderWithScrollThumb } from "./replaceRightBorderWithScrollThumb";
 
 export type ScrollableModalBodyResult = {
   lines: string[];

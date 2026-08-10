@@ -1,5 +1,5 @@
-import { readObservationsCommandTarget } from "./readObservationsCommandTarget.js";
-import type { ObservationCliRequest } from "./types.js";
+import { readObservationsCommandTarget } from "./readObservationsCommandTarget";
+import type { ObservationCliRequest } from "./types";
 
 /**
  * Parses a Nexus observations command request.

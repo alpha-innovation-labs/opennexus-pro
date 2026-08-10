@@ -1,4 +1,4 @@
-import type { HotkeysExtensionShortcut, HotkeysKeybindings } from "./types.js";
+import type { HotkeysExtensionShortcut, HotkeysKeybindings } from "./types";
 
 type ModeWithShortcuts = {
   session?: {

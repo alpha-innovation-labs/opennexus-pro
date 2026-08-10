@@ -1,4 +1,4 @@
-import type { HotkeysEntry } from "./types.js";
+import type { HotkeysEntry } from "./types";
 
 /**
  * Returns a stable focus id for editable and static hotkey entries.

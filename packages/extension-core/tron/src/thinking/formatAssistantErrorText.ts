@@ -1,4 +1,4 @@
-import { extractAssistantErrorMessage } from "./extractAssistantErrorMessage.js";
+import { extractAssistantErrorMessage } from "./extractAssistantErrorMessage";
 
 const assistantErrorIcon = "✗";
 

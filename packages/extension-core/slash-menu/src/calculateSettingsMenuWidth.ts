@@ -1,6 +1,6 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { SETTINGS_VALUE_COLUMN } from "./formatSettingsMenuLabel.js";
-import type { SlashMenuLeaf } from "./types.js";
+import { SETTINGS_VALUE_COLUMN } from "./formatSettingsMenuLabel";
+import type { SlashMenuLeaf } from "./types";
 
 const SETTINGS_MENU_MIN_WIDTH = 36;
 const SETTINGS_MENU_EXTRA_WIDTH = 6;

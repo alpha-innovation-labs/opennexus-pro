@@ -1,4 +1,4 @@
-import type { ResumeCliRequest } from "./parseResumeCliRequest.js";
+import type { ResumeCliRequest } from "./parseResumeCliRequest";
 
 /**
  * Rewrites a direct resume request into Pi's native --session syntax.

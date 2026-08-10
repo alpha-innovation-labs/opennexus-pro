@@ -1,4 +1,4 @@
-import type { SlashMenuLeaf } from "./types.js";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Creates a disabled-looking leaf used while an async menu level loads.

@@ -1,5 +1,5 @@
 import { homedir } from "node:os";
-import { expandHomePath } from "./expandHomePath.js";
+import { expandHomePath } from "./expandHomePath";
 
 /**
  * Reads the package directory override from the environment.

@@ -1,6 +1,6 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import { getObservationPromptOverridePath } from "./getObservationPromptOverridePath.js";
+import { getObservationPromptOverridePath } from "./getObservationPromptOverridePath";
 
 /**
  * Writes or clears the observation prompt override.

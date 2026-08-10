@@ -1,13 +1,13 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import type { ContextUsageReport } from "./types.js";
-import { colorContextUsageMarker } from "./getContextUsageMarkerColor.js";
-import { formatDetailConnector } from "./formatDetailConnector.js";
-import { formatMaybeTokenCount } from "./formatMaybeTokenCount.js";
-import { formatPercent } from "./formatPercent.js";
-import { formatThemedDetailSection } from "./formatThemedDetailSection.js";
-import { formatTokenCount } from "./formatTokenCount.js";
-import { renderNeoContextMeter } from "./renderNeoContextMeter.js";
-import { renderThemedContextUsageMeter } from "./renderThemedContextUsageMeter.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { ContextUsageReport } from "./types";
+import { colorContextUsageMarker } from "./getContextUsageMarkerColor";
+import { formatDetailConnector } from "./formatDetailConnector";
+import { formatMaybeTokenCount } from "./formatMaybeTokenCount";
+import { formatPercent } from "./formatPercent";
+import { formatThemedDetailSection } from "./formatThemedDetailSection";
+import { formatTokenCount } from "./formatTokenCount";
+import { renderNeoContextMeter } from "./renderNeoContextMeter";
+import { renderThemedContextUsageMeter } from "./renderThemedContextUsageMeter";
 
 /**
  * Renders colored context usage rows for the shared modal.

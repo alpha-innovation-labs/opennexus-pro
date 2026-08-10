@@ -1,9 +1,9 @@
-import { runObservationSummarizer } from "@extensions/observations/tracker/runObservationSummarizer.js";
+import { runObservationSummarizer } from "@extensions/observations/tracker/runObservationSummarizer";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import type { StoredObservationMessage } from "@extensions/observations/tracker/types.js";
-import { buildObservationRecreationPrompt } from "./buildObservationRecreationPrompt.js";
-import { parseRecreatedObservationTopics } from "./parseRecreatedObservationTopics.js";
-import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopic.js";
+import type { StoredObservationMessage } from "@extensions/observations/tracker/types";
+import { buildObservationRecreationPrompt } from "./buildObservationRecreationPrompt";
+import { parseRecreatedObservationTopics } from "./parseRecreatedObservationTopics";
+import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopic";
 
 const RECREATE_EXTENSION_API = {} as ExtensionAPI;
 

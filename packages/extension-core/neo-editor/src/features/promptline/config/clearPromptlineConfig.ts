@@ -1,4 +1,4 @@
-import { setPromptlineConfig } from "./state.js";
+import { setPromptlineConfig } from "./state";
 
 /**
  * Clears the cached promptline config for the current session.

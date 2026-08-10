@@ -1,9 +1,9 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import type { LocalImageReaderConfig } from "../config/types.js";
-import { LOCAL_IMAGE_READER_PARAMS } from "../config/schema.js";
-import { encodeImageToBase64 } from "../image/encoder.js";
-import { buildMessages, buildRequestBody, buildToolResult } from "../request/builder.js";
-import { makeApiRequest, handleApiError } from "../request/executor.js";
+import type { LocalImageReaderConfig } from "../config/types";
+import { LOCAL_IMAGE_READER_PARAMS } from "../config/schema";
+import { encodeImageToBase64 } from "../image/encoder";
+import { buildMessages, buildRequestBody, buildToolResult } from "../request/builder";
+import { makeApiRequest, handleApiError } from "../request/executor";
 
 /**
  * Register the local_image_reader tool with the Pi extension API.

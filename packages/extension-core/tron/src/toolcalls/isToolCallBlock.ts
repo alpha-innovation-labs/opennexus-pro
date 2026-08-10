@@ -1,4 +1,4 @@
-import type { ToolCallBlock } from "./types.js";
+import type { ToolCallBlock } from "./types";
 
 /**
  * Returns whether a value is a tool call content block.

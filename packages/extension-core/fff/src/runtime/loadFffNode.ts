@@ -1,5 +1,5 @@
 import { pathToFileURL } from "node:url";
-import { getFffNodeEntryPath } from "./getFffNodeEntryPath.js";
+import { getFffNodeEntryPath } from "./getFffNodeEntryPath";
 
 /**
  * Loads the FFF runtime entrypoint from the available packaged module path.

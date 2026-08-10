@@ -1,9 +1,9 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { createReadTool } from "@earendil-works/pi-coding-agent";
-import { loadFeatureState } from "../features/loadFeatureState.js";
-import { buildReadFailureMessage } from "./buildReadFailureMessage.js";
-import { locationToReadParams } from "./locationToReadParams.js";
-import { getRuntimeForCwd } from "../runtime/runtimeStore.js";
+import { loadFeatureState } from "../features/loadFeatureState";
+import { buildReadFailureMessage } from "./buildReadFailureMessage";
+import { locationToReadParams } from "./locationToReadParams";
+import { getRuntimeForCwd } from "../runtime/runtimeStore";
 
 /**
  * Registers the bundled FFF override for the built-in `read` tool.

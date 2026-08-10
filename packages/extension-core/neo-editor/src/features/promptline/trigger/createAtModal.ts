@@ -1,8 +1,8 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { AtModal } from "../AtModal.js";
-import type { TriggerModalHandle, ShowOverlay } from "./types.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { AtModal } from "../AtModal";
+import type { TriggerModalHandle, ShowOverlay } from "./types";
 
 /**
  * Creates and shows the `@` trigger modal.

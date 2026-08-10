@@ -1,11 +1,11 @@
-import { readLiveCmuxSessionRegistryEntries } from "../session-registry/readLiveCmuxSessionRegistryEntries.js";
-import { collectCmuxWorkspaceShells } from "../workspaces/collectCmuxWorkspaceShells.js";
-import { createCmuxWorkspaceShellLines } from "../workspaces/createCmuxWorkspaceShellLines.js";
-import { createCmuxSavedSession } from "./createCmuxSavedSession.js";
-import { createCmuxSavedWorkspaces } from "./createCmuxSavedWorkspaces.js";
-import { getCmuxSavedSessionsPath } from "./getCmuxSavedSessionsPath.js";
-import { readCmuxSavedSessionStore } from "./readCmuxSavedSessionStore.js";
-import { writeCmuxSavedSessionStore } from "./writeCmuxSavedSessionStore.js";
+import { readLiveCmuxSessionRegistryEntries } from "../session-registry/readLiveCmuxSessionRegistryEntries";
+import { collectCmuxWorkspaceShells } from "../workspaces/collectCmuxWorkspaceShells";
+import { createCmuxWorkspaceShellLines } from "../workspaces/createCmuxWorkspaceShellLines";
+import { createCmuxSavedSession } from "./createCmuxSavedSession";
+import { createCmuxSavedWorkspaces } from "./createCmuxSavedWorkspaces";
+import { getCmuxSavedSessionsPath } from "./getCmuxSavedSessionsPath";
+import { readCmuxSavedSessionStore } from "./readCmuxSavedSessionStore";
+import { writeCmuxSavedSessionStore } from "./writeCmuxSavedSessionStore";
 
 /**
  * Saves the current cmux workspace/pane snapshot with a user name.

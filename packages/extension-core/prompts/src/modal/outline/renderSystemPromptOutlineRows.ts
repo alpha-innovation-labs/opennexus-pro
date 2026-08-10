@@ -1,7 +1,7 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import { renderOutlineConnector } from "./renderOutlineConnector.js";
-import { styleSelectedSystemPromptOutlineRow } from "./styleSelectedSystemPromptOutlineRow.js";
-import type { SystemPromptOutlineRow } from "./createSystemPromptOutlineRows.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import { renderOutlineConnector } from "./renderOutlineConnector";
+import { styleSelectedSystemPromptOutlineRow } from "./styleSelectedSystemPromptOutlineRow";
+import type { SystemPromptOutlineRow } from "./createSystemPromptOutlineRows";
 
 /**
  * Renders flattened outline rows for the left pane.

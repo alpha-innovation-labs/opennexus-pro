@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { getProjectConfigDirPath } from "./getProjectConfigDirPath.js";
+import { getProjectConfigDirPath } from "./getProjectConfigDirPath";
 
 /**
  * Resolves the Nexus project config file path.

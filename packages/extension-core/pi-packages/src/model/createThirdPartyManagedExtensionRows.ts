@@ -1,8 +1,8 @@
 import type { ConfiguredPackage } from "@earendil-works/pi-coding-agent";
-import type { NexusUserConfig } from "@nexus/runtime/config/types.js";
-import { createConfiguredPackageRows } from "../package/createConfiguredPackageRows.js";
-import type { ManagedExtensionRow } from "./types.js";
-import { sortManagedExtensionRows } from "./sortManagedExtensionRows.js";
+import type { NexusUserConfig } from "@nexus/runtime/config/types";
+import { createConfiguredPackageRows } from "../package/createConfiguredPackageRows";
+import type { ManagedExtensionRow } from "./types";
+import { sortManagedExtensionRows } from "./sortManagedExtensionRows";
 
 /**
  * Creates Pi packages rows from configured third-party package settings only.

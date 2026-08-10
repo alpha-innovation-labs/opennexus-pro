@@ -1,8 +1,8 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import type { HotkeysModal } from "./HotkeysModal.js";
-import type { HotkeysExtensionShortcut, HotkeysKeybindings } from "./types.js";
-import { HotkeysModal as HotkeysModalComponent } from "./HotkeysModal.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import type { HotkeysModal } from "./HotkeysModal";
+import type { HotkeysExtensionShortcut, HotkeysKeybindings } from "./types";
+import { HotkeysModal as HotkeysModalComponent } from "./HotkeysModal";
 
 export type HotkeysOverlayHandle = { hide(): void; focus(): void };
 export type ShowHotkeysOverlay = (component: HotkeysModal, options?: unknown) => HotkeysOverlayHandle;

@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { syncCmuxPaneTitle } from "../../../cmux/src/syncCmuxPaneTitle.ts";
-import type { ObservationState, ObservationTopic } from "./types.js";
+import type { ObservationState, ObservationTopic } from "./types";
 
 /**
  * Updates the Pi session title from the latest observation topic.

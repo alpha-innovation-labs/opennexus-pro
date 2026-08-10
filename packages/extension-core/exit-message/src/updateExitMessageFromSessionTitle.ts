@@ -1,6 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { formatExitMessage } from "./formatExitMessage.js";
-import { setExitMessage } from "./state/setExitMessage.js";
+import { formatExitMessage } from "./formatExitMessage";
+import { setExitMessage } from "./state/setExitMessage";
 
 /**
  * Refreshes the queued exit message from the current session id and title.

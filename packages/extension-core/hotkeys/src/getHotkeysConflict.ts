@@ -1,5 +1,5 @@
-import { toKeyList } from "./toKeyList.js";
-import type { HotkeysKeybindings } from "./types.js";
+import { toKeyList } from "./toKeyList";
+import type { HotkeysKeybindings } from "./types";
 
 /**
  * Finds resolved keybindings that already use a candidate replacement key.

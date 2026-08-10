@@ -1,4 +1,4 @@
-import type { TetrisGame } from "./types.js";
+import type { TetrisGame } from "./types";
 
 /**
  * Locks the active piece into the board.

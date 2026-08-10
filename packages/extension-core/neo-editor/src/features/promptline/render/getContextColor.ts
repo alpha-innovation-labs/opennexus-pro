@@ -1,4 +1,4 @@
-import { CONTEXT_DANGER_FG, CONTEXT_FG, CONTEXT_OK_FG, CONTEXT_WARN_FG } from "./constants.js";
+import { CONTEXT_DANGER_FG, CONTEXT_FG, CONTEXT_OK_FG, CONTEXT_WARN_FG } from "./constants";
 
 /**
  * Picks the context-meter color for the current usage percentage.

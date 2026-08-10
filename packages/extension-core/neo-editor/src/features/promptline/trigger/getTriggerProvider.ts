@@ -1,6 +1,6 @@
-import type { TriggerKind, TriggerProvider } from "./types.js";
-import { atTriggerProvider } from "./providers/atTriggerProvider.js";
-import { slashTriggerProvider } from "./providers/slashTriggerProvider.js";
+import type { TriggerKind, TriggerProvider } from "./types";
+import { atTriggerProvider } from "./providers/atTriggerProvider";
+import { slashTriggerProvider } from "./providers/slashTriggerProvider";
 
 const triggerProviders: Record<TriggerKind, TriggerProvider> = {
   at: atTriggerProvider,

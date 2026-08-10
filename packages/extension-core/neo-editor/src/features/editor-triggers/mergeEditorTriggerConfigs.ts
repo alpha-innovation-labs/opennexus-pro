@@ -1,4 +1,4 @@
-import type { EditorTriggerConfig } from "./types.js";
+import type { EditorTriggerConfig } from "./types";
 
 /**
  * Merges global and project trigger configs with project precedence.

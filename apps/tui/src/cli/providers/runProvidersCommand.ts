@@ -1,15 +1,15 @@
-import type { AiGateway } from "@extensions/ai-providers/index.js";
-import { getGateways, readProviderConfig } from "@extensions/ai-providers/index.js";
-import { getAllProviderIds } from "./getAllProviderIds.js";
-import { parseProvidersCommand } from "./parseProvidersCommand.js";
-import { handleListCommand } from "./handleListCommand.js";
-import { handleSetupCommand } from "./handleSetupCommand.js";
-import { handleConfigureCommand } from "./handleConfigureCommand.js";
-import { handleEnableCommand } from "./handleEnableCommand.js";
-import { handleDisableCommand } from "./handleDisableCommand.js";
-import { handleRefreshCommand } from "./handleRefreshCommand.js";
-import { handleGetCommand } from "./handleGetCommand.js";
-import { printProvidersHelp } from "./printProvidersHelp.js";
+import type { AiGateway } from "@extensions/ai-providers/index";
+import { getGateways, readProviderConfig } from "@extensions/ai-providers/index";
+import { getAllProviderIds } from "./getAllProviderIds";
+import { parseProvidersCommand } from "./parseProvidersCommand";
+import { handleListCommand } from "./handleListCommand";
+import { handleSetupCommand } from "./handleSetupCommand";
+import { handleConfigureCommand } from "./handleConfigureCommand";
+import { handleEnableCommand } from "./handleEnableCommand";
+import { handleDisableCommand } from "./handleDisableCommand";
+import { handleRefreshCommand } from "./handleRefreshCommand";
+import { handleGetCommand } from "./handleGetCommand";
+import { printProvidersHelp } from "./printProvidersHelp";
 
 /**
  * Dispatches the provider CLI command to the appropriate subcommand handler.

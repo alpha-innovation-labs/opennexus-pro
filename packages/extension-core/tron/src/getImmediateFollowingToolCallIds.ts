@@ -1,4 +1,4 @@
-import { getImmediateFollowingToolCallGroup } from "./getImmediateFollowingToolCallGroup.ts";
+import { getImmediateFollowingToolCallGroup } from "./getImmediateFollowingToolCallGroup";
 
 type ToolCallContent = { type?: unknown; id?: unknown; text?: unknown; thinking?: unknown };
 

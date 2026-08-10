@@ -1,4 +1,4 @@
-import { writeTetrisSettings } from "../settings/writeTetrisSettings.js";
+import { writeTetrisSettings } from "../settings/writeTetrisSettings";
 
 /**
  * Persists the Tetris music preference under ~/.config/nexus/config.json.

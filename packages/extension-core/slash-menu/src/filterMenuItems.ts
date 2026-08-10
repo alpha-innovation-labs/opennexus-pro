@@ -1,7 +1,7 @@
-import { createSearchTokens } from "./search/createSearchTokens.js";
-import { doesSearchQueryMatch } from "./search/doesSearchQueryMatch.js";
-import { normalizeSearchText } from "./search/normalizeSearchText.js";
-import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
+import { createSearchTokens } from "./search/createSearchTokens";
+import { doesSearchQueryMatch } from "./search/doesSearchQueryMatch";
+import { normalizeSearchText } from "./search/normalizeSearchText";
+import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 
 /**
  * Filters and ranks slash menu items by the current query.

@@ -1,6 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal.js";
-import type { TriggerModalHandle, ShowOverlay } from "./types.js";
+import { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal";
+import type { TriggerModalHandle, ShowOverlay } from "./types";
 
 /**
  * Creates and shows the slash trigger modal.

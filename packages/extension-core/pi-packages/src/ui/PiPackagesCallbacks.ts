@@ -1,4 +1,4 @@
-import type { ManagedExtensionRow } from "../model/types.js";
+import type { ManagedExtensionRow } from "../model/types";
 
 /**
  * Side-effect callbacks used by the Pi packages modal.

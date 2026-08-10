@@ -1,5 +1,5 @@
-import type { RtkGainPeriod } from "./RtkGainPeriod.js";
-import { isRecord } from "./isRecord.js";
+import type { RtkGainPeriod } from "./RtkGainPeriod";
+import { isRecord } from "./isRecord";
 
 const REQUIRED_NUMBER_FIELDS = [
   "commands",

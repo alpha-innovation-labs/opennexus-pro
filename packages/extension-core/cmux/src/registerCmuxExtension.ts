@@ -1,8 +1,8 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerCmuxCommand } from "./command/registerCmuxCommand.js";
-import { notifyCmuxPaneCompletion } from "./notifyCmuxPaneCompletion.js";
-import { registerCurrentNexusSession } from "./session-registry/registerCurrentNexusSession.js";
-import { setCmuxTitleSyncEnabled } from "./state/setCmuxTitleSyncEnabled.js";
+import { registerCmuxCommand } from "./command/registerCmuxCommand";
+import { notifyCmuxPaneCompletion } from "./notifyCmuxPaneCompletion";
+import { registerCurrentNexusSession } from "./session-registry/registerCurrentNexusSession";
+import { setCmuxTitleSyncEnabled } from "./state/setCmuxTitleSyncEnabled";
 
 /**
  * Enables cmux pane-title syncing and pane-done notifications.

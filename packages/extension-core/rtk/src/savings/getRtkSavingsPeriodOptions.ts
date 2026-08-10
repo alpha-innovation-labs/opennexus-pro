@@ -1,4 +1,4 @@
-import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey.js";
+import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey";
 
 /**
  * Returns selectable RTK savings period keys in display order.

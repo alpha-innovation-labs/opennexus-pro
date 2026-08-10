@@ -1,10 +1,10 @@
-import type { PromptlineContext, PromptlineDeps } from "./types.js";
-import { PromptlineEditor } from "./PromptlineEditor.js";
-import { refreshGitState } from "../../shared/git/refreshGitState.js";
-import { refreshTransportPreference } from "../../shared/transport/refreshTransportPreference.js";
-import { installPromptlineFooter } from "./installPromptlineFooter.js";
-import { installPromptlineRenderScheduler } from "./installPromptlineRenderScheduler.js";
-import { getUsageRenderUnsubscribe, setPromptlineRenderRequest, setUsageRenderUnsubscribe } from "./state.js";
+import type { PromptlineContext, PromptlineDeps } from "./types";
+import { PromptlineEditor } from "./PromptlineEditor";
+import { refreshGitState } from "../../shared/git/refreshGitState";
+import { refreshTransportPreference } from "../../shared/transport/refreshTransportPreference";
+import { installPromptlineFooter } from "./installPromptlineFooter";
+import { installPromptlineRenderScheduler } from "./installPromptlineRenderScheduler";
+import { getUsageRenderUnsubscribe, setPromptlineRenderRequest, setUsageRenderUnsubscribe } from "./state";
 
 /**
  * Installs the custom promptline editor for one session context.

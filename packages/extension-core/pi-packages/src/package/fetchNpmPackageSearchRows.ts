@@ -1,5 +1,5 @@
-import type { ManagedExtensionRow } from "../model/types.js";
-import { createPackageSource } from "./createPackageSource.js";
+import type { ManagedExtensionRow } from "../model/types";
+import { createPackageSource } from "./createPackageSource";
 
 /**
  * Searches npm for discoverable Pi packages and maps them to pi-packages rows.

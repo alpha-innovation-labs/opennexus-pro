@@ -1,4 +1,4 @@
-import type { RegisteredSlashCommand } from "./types.js";
+import type { RegisteredSlashCommand } from "./types";
 
 /**
  * Returns the built-in interactive Pi slash commands.

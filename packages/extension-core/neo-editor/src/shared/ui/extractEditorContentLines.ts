@@ -1,4 +1,4 @@
-import { isEditorBorderLine } from "./isEditorBorderLine.js";
+import { isEditorBorderLine } from "./isEditorBorderLine";
 
 /**
  * Extracts only the content lines from the stock editor render output.

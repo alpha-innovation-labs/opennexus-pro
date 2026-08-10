@@ -1,5 +1,5 @@
-import { createCmuxSavedSessionId } from "./createCmuxSavedSessionId.js";
-import type { CmuxSavedSession, CmuxSavedWorkspace } from "./types.js";
+import { createCmuxSavedSessionId } from "./createCmuxSavedSessionId";
+import type { CmuxSavedSession, CmuxSavedWorkspace } from "./types";
 
 /**
  * Creates a saved cmux session snapshot object.

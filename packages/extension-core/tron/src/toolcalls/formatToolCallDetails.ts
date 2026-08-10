@@ -1,7 +1,7 @@
-import { previewContent } from "./previewContent.js";
-import { toJsonLines } from "./toJsonLines.js";
-import { toPlainTextLines } from "./toPlainTextLines.js";
-import type { ToolCallInfo } from "./types.js";
+import { previewContent } from "./previewContent";
+import { toJsonLines } from "./toJsonLines";
+import { toPlainTextLines } from "./toPlainTextLines";
+import type { ToolCallInfo } from "./types";
 
 /**
  * Formats fallback detail lines for one tool call.

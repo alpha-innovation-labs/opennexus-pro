@@ -1,7 +1,7 @@
-import { getTriggerProvider } from "./getTriggerProvider.js";
-import type { TriggerKind, TriggerModalState } from "./types.js";
-import type { AtModal } from "../AtModal.js";
-import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal.js";
+import { getTriggerProvider } from "./getTriggerProvider";
+import type { TriggerKind, TriggerModalState } from "./types";
+import type { AtModal } from "../AtModal";
+import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal";
 
 /**
  * Returns the active modal instance for one trigger kind.

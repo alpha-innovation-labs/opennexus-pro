@@ -1,5 +1,5 @@
-import { createNexusRestoreLaunchSpec } from "./createNexusRestoreLaunchSpec.js";
-import { shellQuote } from "./shellQuote.js";
+import { createNexusRestoreLaunchSpec } from "./createNexusRestoreLaunchSpec";
+import { shellQuote } from "./shellQuote";
 
 export type NexusRestoreCommand = {
 	command: string;

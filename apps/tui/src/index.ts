@@ -1,4 +1,4 @@
-import { APP_NAME } from "@nexus/pi-platform/config.js";
+import { APP_NAME } from "@nexus/pi-platform/config";
 
 // In dev mode (running via `just dev`), override the process title to
 // "mastracode" so Herdr's detection logic matches the agent kind.
@@ -13,8 +13,8 @@ if (process.env.NEXUS_DEV_MODE === "1") {
   process.title = APP_NAME;
 }
 
-import { runCliWithApp } from "./cli/runCliWithApp.js";
-import { runApp } from "./runtime/runApp.js";
+import { runCliWithApp } from "./cli/runCliWithApp";
+import { runApp } from "./runtime/runApp";
 
 /**
  * Boots the Nexus executable (dev or release).

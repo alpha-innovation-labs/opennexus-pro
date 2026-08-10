@@ -1,4 +1,4 @@
-import { normalizeObservationSummaryText } from "./normalizeObservationSummaryText.js";
+import { normalizeObservationSummaryText } from "./normalizeObservationSummaryText";
 
 export const OBSERVATION_SUMMARY_MAX_CHARS = 360;
 

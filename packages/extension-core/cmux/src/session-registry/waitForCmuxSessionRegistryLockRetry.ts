@@ -1,4 +1,4 @@
-import { CMUX_SESSION_REGISTRY_LOCK_RETRY_MS } from "./cmuxSessionRegistryLockConstants.js";
+import { CMUX_SESSION_REGISTRY_LOCK_RETRY_MS } from "./cmuxSessionRegistryLockConstants";
 
 /**
  * Waits before retrying a contended cmux registry lock acquisition.

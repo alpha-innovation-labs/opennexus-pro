@@ -1,5 +1,5 @@
 import { isAbsolute, relative, resolve } from "node:path";
-import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types.js";
+import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types";
 
 /**
  * Resolves a command's resource scope from Pi source metadata.

@@ -1,8 +1,8 @@
-import type { SessionTableRow } from "./SessionTableRow.js";
-import type { SessionTableFormatOptions } from "./SessionTableFormatOptions.js";
-import { calculateSessionTableColumnWidths } from "./calculateSessionTableColumnWidths.js";
-import { createSessionsCliTable } from "./createSessionsCliTable.js";
-import { formatSessionTableCell } from "./formatSessionTableCell.js";
+import type { SessionTableRow } from "./SessionTableRow";
+import type { SessionTableFormatOptions } from "./SessionTableFormatOptions";
+import { calculateSessionTableColumnWidths } from "./calculateSessionTableColumnWidths";
+import { createSessionsCliTable } from "./createSessionsCliTable";
+import { formatSessionTableCell } from "./formatSessionTableCell";
 
 /**
  * Renders session rows as a responsive unicode CLI table using cli-table3.

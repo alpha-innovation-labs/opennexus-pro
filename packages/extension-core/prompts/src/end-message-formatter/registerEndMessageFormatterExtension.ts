@@ -1,9 +1,9 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { runChild } from "@nexus/runtime/shared/child-process/runChild.js";
+import { runChild } from "@nexus/runtime/shared/child-process/runChild";
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook.js";
+import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const END_MESSAGE_FORMATTER_PATH = resolve(

@@ -1,9 +1,9 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { deleteCmuxSavedSession } from "../snapshots/deleteCmuxSavedSession.js";
-import { listCmuxSavedSessions } from "../snapshots/listCmuxSavedSessions.js";
-import { CmuxSavedSessionsModal } from "../ui/CmuxSavedSessionsModal.js";
-import type { CmuxSavedSessionsAction } from "./CmuxWorkspaceShellAction.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { deleteCmuxSavedSession } from "../snapshots/deleteCmuxSavedSession";
+import { listCmuxSavedSessions } from "../snapshots/listCmuxSavedSessions";
+import { CmuxSavedSessionsModal } from "../ui/CmuxSavedSessionsModal";
+import type { CmuxSavedSessionsAction } from "./CmuxWorkspaceShellAction";
 
 /**
  * Opens the saved cmux sessions browser.

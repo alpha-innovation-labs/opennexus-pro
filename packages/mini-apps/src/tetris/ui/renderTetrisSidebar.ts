@@ -1,4 +1,4 @@
-import type { TetrisGame } from "../game/types.js";
+import type { TetrisGame } from "../game/types";
 
 /**
  * Renders score and control text beside the board.

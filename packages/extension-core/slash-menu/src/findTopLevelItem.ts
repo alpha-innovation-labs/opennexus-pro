@@ -1,4 +1,4 @@
-import { createTopLevelItems } from "./createTopLevelItems.js";
+import { createTopLevelItems } from "./createTopLevelItems";
 
 /**
  * Finds one top-level slash menu item by value.

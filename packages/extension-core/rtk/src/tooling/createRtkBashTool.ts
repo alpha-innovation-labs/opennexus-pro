@@ -1,5 +1,5 @@
 import { createBashTool } from "@earendil-works/pi-coding-agent";
-import { getRtkRuntimeForCwd } from "../runtime/runtimeStore.js";
+import { getRtkRuntimeForCwd } from "../runtime/runtimeStore";
 
 /**
  * Creates the RTK-backed bash tool.

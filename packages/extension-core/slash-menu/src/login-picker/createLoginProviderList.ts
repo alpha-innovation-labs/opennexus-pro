@@ -1,5 +1,5 @@
 import { getBuiltinProviders } from "@earendil-works/pi-ai/providers/all";
-import type { SlashMenuLeaf } from "../types.js";
+import type { SlashMenuLeaf } from "../types";
 
 /**
  * Builds left-pane provider list entries from Pi's built-in provider registry.

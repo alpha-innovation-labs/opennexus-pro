@@ -1,4 +1,4 @@
-import { formatCompactDuration } from "../duration/formatCompactDuration.js";
+import { formatCompactDuration } from "../duration/formatCompactDuration";
 
 /**
  * Formats the active prompt working message with an elapsed timer.

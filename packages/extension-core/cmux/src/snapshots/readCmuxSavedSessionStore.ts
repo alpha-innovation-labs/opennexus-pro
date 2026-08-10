@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
-import { createEmptyCmuxSavedSessionStore } from "./createEmptyCmuxSavedSessionStore.js";
-import type { CmuxSavedSessionStore } from "./types.js";
+import { createEmptyCmuxSavedSessionStore } from "./createEmptyCmuxSavedSessionStore";
+import type { CmuxSavedSessionStore } from "./types";
 
 /**
  * Reads saved cmux sessions from disk.

@@ -1,15 +1,15 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled.js";
-import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { getPromptlineModel } from "../getPromptlineModel.js";
-import { getPromptlineFrameWidth } from "../layout/getPromptlineFrameWidth.js";
-import { hasConversationMessages } from "../layout/hasConversationMessages.js";
-import { padPromptlineFrameToWidth } from "../layout/padPromptlineFrameToWidth.js";
-import { buildPromptlineStatusLine } from "./buildPromptlineStatusLine.js";
-import { getPromptlineSessionRunTimeLabel } from "./getPromptlineSessionRunTimeLabel.js";
-import { getPromptlineStatusTitle } from "./getPromptlineStatusTitle.js";
-import { createPromptlineBadge } from "./createPromptlineBadge.js";
+import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled";
+import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { getPromptlineModel } from "../getPromptlineModel";
+import { getPromptlineFrameWidth } from "../layout/getPromptlineFrameWidth";
+import { hasConversationMessages } from "../layout/hasConversationMessages";
+import { padPromptlineFrameToWidth } from "../layout/padPromptlineFrameToWidth";
+import { buildPromptlineStatusLine } from "./buildPromptlineStatusLine";
+import { getPromptlineSessionRunTimeLabel } from "./getPromptlineSessionRunTimeLabel";
+import { getPromptlineStatusTitle } from "./getPromptlineStatusTitle";
+import { createPromptlineBadge } from "./createPromptlineBadge";
 
 const PROVIDER_BADGE_BG = "\x1b[48;2;120;30;30m";
 const MODEL_BADGE_BG = "\x1b[48;2;180;45;45m";

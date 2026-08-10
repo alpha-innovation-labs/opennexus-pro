@@ -1,5 +1,5 @@
-import type { UninstallCommandOptions } from "./UninstallCommandOptions.js";
-import { isUninstallCommand } from "./isUninstallCommand.js";
+import type { UninstallCommandOptions } from "./UninstallCommandOptions";
+import { isUninstallCommand } from "./isUninstallCommand";
 
 /**
  * Parses Nexus uninstall command options.

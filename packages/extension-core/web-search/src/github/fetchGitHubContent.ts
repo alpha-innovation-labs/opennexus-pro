@@ -1,8 +1,8 @@
-import { fetchGitHubReadme } from "./fetchGitHubReadme.js";
-import { fetchGitHubTree } from "./fetchGitHubTree.js";
-import { fetchRawGitHubFile } from "./fetchRawGitHubFile.js";
-import { getDefaultBranch } from "./getDefaultBranch.js";
-import type { GitHubUrlInfo } from "./githubTypes.js";
+import { fetchGitHubReadme } from "./fetchGitHubReadme";
+import { fetchGitHubTree } from "./fetchGitHubTree";
+import { fetchRawGitHubFile } from "./fetchRawGitHubFile";
+import { getDefaultBranch } from "./getDefaultBranch";
+import type { GitHubUrlInfo } from "./githubTypes";
 
 /**
  * Fetches markdown content for a parsed GitHub code URL.

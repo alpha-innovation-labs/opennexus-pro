@@ -1,6 +1,6 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import { renderHotkeysPanel } from "./renderHotkeysPanel.js";
-import type { HotkeysGroup } from "./types.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import { renderHotkeysPanel } from "./renderHotkeysPanel";
+import type { HotkeysGroup } from "./types";
 
 /**
  * Renders one column of hotkeys groups.

@@ -1,4 +1,4 @@
-import type { SlashMenuSection } from "./types.js";
+import type { SlashMenuSection } from "./types";
 
 /**
  * Builds the top-level Tools resource menu item.

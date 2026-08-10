@@ -1,4 +1,4 @@
-import { getPromptlineFrameLeftPadding } from "./getPromptlineFrameLeftPadding.js";
+import { getPromptlineFrameLeftPadding } from "./getPromptlineFrameLeftPadding";
 
 /**
  * Pads promptline frame lines so compact startup input is centered in the terminal.

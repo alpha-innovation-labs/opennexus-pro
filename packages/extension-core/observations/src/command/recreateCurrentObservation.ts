@@ -1,5 +1,5 @@
 import type { ExtensionCommandContext, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { runObservationRecreateCliCommand } from "./runObservationRecreateCliCommand.js";
+import { runObservationRecreateCliCommand } from "./runObservationRecreateCliCommand";
 
 /**
  * Recreates observations for the active session through the Nexus CLI path.

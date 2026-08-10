@@ -1,9 +1,9 @@
-import { computeModalWidth } from "@nexus/tui-kit/modal/index.js";
+import { computeModalWidth } from "@nexus/tui-kit/modal/index";
 import {
   RTK_SAVINGS_MODAL_MAX_WIDTH,
   RTK_SAVINGS_MODAL_MAX_WIDTH_RATIO,
   RTK_SAVINGS_MODAL_MIN_WIDTH,
-} from "./rtkSavingsModalLayout.js";
+} from "./rtkSavingsModalLayout";
 
 /**
  * Computes the RTK savings modal inner width for header alignment.

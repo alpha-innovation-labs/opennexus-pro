@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import type { SlashMenuLevel } from "./SlashMenuLevel.js";
+import type { SlashMenuLevel } from "./SlashMenuLevel";
 
 /**
  * Redirects model selection to login-picker when no authenticated models are available.

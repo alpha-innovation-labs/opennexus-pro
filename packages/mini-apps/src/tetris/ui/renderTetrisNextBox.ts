@@ -1,8 +1,8 @@
-import { TETROMINOES } from "../game/tetrominoes.js";
-import type { TetrisGame } from "../game/types.js";
-import { centerTetrisLine } from "./centerTetrisLine.js";
-import { renderTetrisBox } from "./renderTetrisBox.js";
-import { renderTetrisCellSegment } from "./renderTetrisCellSegment.js";
+import { TETROMINOES } from "../game/tetrominoes";
+import type { TetrisGame } from "../game/types";
+import { centerTetrisLine } from "./centerTetrisLine";
+import { renderTetrisBox } from "./renderTetrisBox";
+import { renderTetrisCellSegment } from "./renderTetrisCellSegment";
 
 /**
  * Renders the boxed next-piece preview.

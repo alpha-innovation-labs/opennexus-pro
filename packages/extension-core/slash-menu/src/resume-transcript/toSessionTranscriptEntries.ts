@@ -13,10 +13,10 @@ function loadEntriesFromFileStub(filePath: string): ReturnType<typeof parseSessi
   }
   return entries;
 }
-import type { TranscriptEntry } from "@extensions/tron/transcript/types.js";
-import { extractMessageText } from "./extractMessageText.js";
-import { getMessageCreatedAt } from "./getMessageCreatedAt.js";
-import { toAssistantTranscriptEntries } from "./toAssistantTranscriptEntries.js";
+import type { TranscriptEntry } from "@extensions/tron/transcript/types";
+import { extractMessageText } from "./extractMessageText";
+import { getMessageCreatedAt } from "./getMessageCreatedAt";
+import { toAssistantTranscriptEntries } from "./toAssistantTranscriptEntries";
 
 /**
  * Converts one persisted Nexus session file into Tron-style transcript entries.

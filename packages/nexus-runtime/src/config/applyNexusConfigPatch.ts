@@ -1,6 +1,6 @@
-import { readBundledDefaultSettings } from "./readBundledDefaultSettings.js";
-import { mergeSettings, type SettingsRecord } from "./mergeSettings.js";
-import { readNexusUserConfig } from "./readNexusUserConfig.js";
+import { readBundledDefaultSettings } from "./readBundledDefaultSettings";
+import { mergeSettings, type SettingsRecord } from "./mergeSettings";
+import { readNexusUserConfig } from "./readNexusUserConfig";
 
 type NexusSettingsManagerInstance = {
   globalSettings: SettingsRecord;

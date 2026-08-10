@@ -1,5 +1,5 @@
-import { isImageLine } from "@earendil-works/pi-tui/dist/terminal-image.js";
-import type { CompositeLineAt, TuiWithInlineImageOverlayPatch } from "./types.js";
+import { isImageLine } from "@earendil-works/pi-tui/dist/terminal-image";
+import type { CompositeLineAt, TuiWithInlineImageOverlayPatch } from "./types";
 
 /**
  * Composites overlays over inline-image terminal rows by treating image rows as blank cells.

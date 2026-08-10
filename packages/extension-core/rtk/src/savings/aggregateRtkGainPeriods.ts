@@ -1,4 +1,4 @@
-import type { RtkGainPeriod } from "./RtkGainPeriod.js";
+import type { RtkGainPeriod } from "./RtkGainPeriod";
 
 /**
  * Aggregates RTK gain rows into one combined savings period.

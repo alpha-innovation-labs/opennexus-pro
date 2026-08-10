@@ -1,4 +1,4 @@
-import type { MiniAppManifest } from "./MiniAppManifest.js";
+import type { MiniAppManifest } from "./MiniAppManifest";
 
 /**
  * Returns the bundled mini-app manifests in CLI routing order.

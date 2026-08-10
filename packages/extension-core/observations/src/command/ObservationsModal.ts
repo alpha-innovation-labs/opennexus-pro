@@ -1,6 +1,6 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
+import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
 
 /**
  * Two-pane modal for browsing observation topics and details.

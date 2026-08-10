@@ -1,5 +1,5 @@
-import { buildObservationSummary } from "./buildObservationSummary.js";
-import type { ObservationState } from "./types.js";
+import { buildObservationSummary } from "./buildObservationSummary";
+import type { ObservationState } from "./types";
 
 /**
  * Refreshes the persisted session-wide observation summary.

@@ -1,5 +1,5 @@
-import { canPlacePiece } from "./canPlacePiece.js";
-import type { TetrisGame } from "./types.js";
+import { canPlacePiece } from "./canPlacePiece";
+import type { TetrisGame } from "./types";
 
 /**
  * Moves the active piece horizontally when the destination is valid.

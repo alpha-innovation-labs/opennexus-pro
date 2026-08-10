@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup.js";
-import { showCmuxWorkspaceShellsModal } from "./showCmuxWorkspaceShellsModal.js";
+import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
+import { showCmuxWorkspaceShellsModal } from "./showCmuxWorkspaceShellsModal";
 
 /**
  * Registers the /cmux workspace shell command.

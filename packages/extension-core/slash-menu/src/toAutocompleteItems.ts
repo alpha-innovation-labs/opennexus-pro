@@ -1,5 +1,5 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
+import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 
 /**
  * Converts slash-menu records into autocomplete items.

@@ -1,5 +1,5 @@
 import { rm } from "node:fs/promises";
-import type { ObservationArtifactGroup } from "./types.js";
+import type { ObservationArtifactGroup } from "./types";
 
 /**
  * Deletes all known files for one observation artifact group.

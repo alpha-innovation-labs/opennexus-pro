@@ -1,4 +1,4 @@
-import type { TokenUsageTotals } from "./TokenUsageTotals.js";
+import type { TokenUsageTotals } from "./TokenUsageTotals";
 
 /**
  * Adds one token usage total into another in place.

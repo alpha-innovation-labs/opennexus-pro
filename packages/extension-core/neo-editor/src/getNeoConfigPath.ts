@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { getProjectConfigDirPath } from "@nexus/runtime/config/getProjectConfigDirPath.js";
+import { getProjectConfigDirPath } from "@nexus/runtime/config/getProjectConfigDirPath";
 
 /**
  * Returns the Neo config file path.

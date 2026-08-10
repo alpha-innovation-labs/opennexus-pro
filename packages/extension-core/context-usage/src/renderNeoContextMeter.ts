@@ -1,5 +1,5 @@
-import { getContextColor } from "@extensions/neo-editor/features/promptline/render/getContextColor.js";
-import { RESET } from "@extensions/neo-editor/features/promptline/render/constants.js";
+import { getContextColor } from "@extensions/neo-editor/features/promptline/render/getContextColor";
+import { RESET } from "@extensions/neo-editor/features/promptline/render/constants";
 
 /**
  * Renders the context usage meter using Neo promptline color and an extended bar.

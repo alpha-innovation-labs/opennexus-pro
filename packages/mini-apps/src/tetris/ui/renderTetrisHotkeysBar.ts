@@ -1,6 +1,6 @@
-import { getTetrisHotkeyRows } from "./getTetrisHotkeyRows.js";
-import { renderTetrisBox } from "./renderTetrisBox.js";
-import { wrapTetrisText } from "./wrapTetrisText.js";
+import { getTetrisHotkeyRows } from "./getTetrisHotkeyRows";
+import { renderTetrisBox } from "./renderTetrisBox";
+import { wrapTetrisText } from "./wrapTetrisText";
 
 /**
  * Renders compact hotkeys as a wrapping horizontal bar.

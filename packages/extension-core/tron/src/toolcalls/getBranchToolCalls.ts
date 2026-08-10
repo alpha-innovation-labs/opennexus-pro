@@ -1,13 +1,13 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { USER_HEADER_PREFIX } from "./constants.js";
-import { getGroupDurationLabel } from "./getGroupDurationLabel.js";
-import { getMessagePreview } from "./getMessagePreview.js";
-import { getThinkingText } from "./getThinkingText.js";
-import { isToolCallBlock } from "./isToolCallBlock.js";
-import { mergeAssistantThinking } from "./mergeAssistantThinking.js";
-import { summarizeToolCall } from "./summarizeToolCall.js";
-import type { BranchToolCalls, ToolCallGroup, ToolCallInfo } from "./types.js";
+import { USER_HEADER_PREFIX } from "./constants";
+import { getGroupDurationLabel } from "./getGroupDurationLabel";
+import { getMessagePreview } from "./getMessagePreview";
+import { getThinkingText } from "./getThinkingText";
+import { isToolCallBlock } from "./isToolCallBlock";
+import { mergeAssistantThinking } from "./mergeAssistantThinking";
+import { summarizeToolCall } from "./summarizeToolCall";
+import type { BranchToolCalls, ToolCallGroup, ToolCallInfo } from "./types";
 
 /**
  * Collects tool calls from the current branch for modal browsing.

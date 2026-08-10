@@ -2,7 +2,7 @@ import type { AutocompleteItem } from "@earendil-works/pi-tui";
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { SelectPreviewModal, sanitizePlainText } from "@nexus/tui-kit/modal/index.js";
+import { SelectPreviewModal, sanitizePlainText } from "@nexus/tui-kit/modal/index";
 
 /**
  * Two-pane picker used for `@` file and folder autocomplete.

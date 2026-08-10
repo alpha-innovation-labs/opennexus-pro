@@ -1,5 +1,5 @@
 import type { FileFinder, InitOptions, Result } from "@ff-labs/fff-node";
-import { shouldRetryWithoutDatabases } from "./shouldRetryWithoutDatabases.js";
+import { shouldRetryWithoutDatabases } from "./shouldRetryWithoutDatabases";
 
 /**
  * Creates an FFF file finder and falls back to in-memory mode when LMDB readers are exhausted.

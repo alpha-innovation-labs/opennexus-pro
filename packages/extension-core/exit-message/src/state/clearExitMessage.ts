@@ -1,4 +1,4 @@
-import { exitMessageState } from "./exitMessageState.js";
+import { exitMessageState } from "./exitMessageState";
 
 /**
  * Clears the queued exit message.

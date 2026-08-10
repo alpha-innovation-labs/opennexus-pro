@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
-import { getUserConfigPath } from "./getUserConfigPath.js";
-import type { NexusUserConfig } from "./types.js";
+import { getUserConfigPath } from "./getUserConfigPath";
+import type { NexusUserConfig } from "./types";
 
 /**
  * Writes the Nexus user config to disk.

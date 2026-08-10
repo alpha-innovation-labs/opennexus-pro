@@ -1,7 +1,7 @@
-import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath.js";
-import { getUserConfigPath } from "@nexus/runtime/config/getUserConfigPath.js";
-import { readJson } from "./readJson.js";
-import { setTransportPreference } from "./state.js";
+import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath";
+import { getUserConfigPath } from "@nexus/runtime/config/getUserConfigPath";
+import { readJson } from "./readJson";
+import { setTransportPreference } from "./state";
 
 /**
  * Refreshes the cached transport preference from global and project settings.

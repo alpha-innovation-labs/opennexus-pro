@@ -1,4 +1,4 @@
-import type { SharedModalHotkey } from "./types.js";
+import type { SharedModalHotkey } from "./types";
 
 /**
  * Returns the default body-scroll hotkeys for overflowing shared modals.

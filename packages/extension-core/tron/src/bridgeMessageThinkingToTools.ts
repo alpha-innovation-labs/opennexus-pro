@@ -1,5 +1,5 @@
-import { bridgeThinkingToToolCalls } from "./bridgeThinkingToToolCalls.ts";
-import { getImmediateFollowingToolCallGroup } from "./getImmediateFollowingToolCallGroup.ts";
+import { bridgeThinkingToToolCalls } from "./bridgeThinkingToToolCalls";
+import { getImmediateFollowingToolCallGroup } from "./getImmediateFollowingToolCallGroup";
 
 /**
  * Marks tool sections that directly follow thinking so they share one divider.

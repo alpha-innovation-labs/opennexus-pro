@@ -1,5 +1,5 @@
-import { tickTetrisGame } from "./tickTetrisGame.js";
-import type { TetrisGame } from "./types.js";
+import { tickTetrisGame } from "./tickTetrisGame";
+import type { TetrisGame } from "./types";
 
 /**
  * Drops the active piece by one row and awards soft-drop score.

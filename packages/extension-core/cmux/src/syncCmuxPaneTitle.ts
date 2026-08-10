@@ -1,8 +1,8 @@
-import { getCmuxTitleSyncEnabled } from "./state/getCmuxTitleSyncEnabled.js";
-import { renameCurrentCmuxSurface } from "./runtime/renameCurrentCmuxSurface.js";
-import { renameCurrentCmuxWorkspace } from "./runtime/renameCurrentCmuxWorkspace.js";
-import { updateCurrentNexusSessionTitle } from "./session-registry/updateCurrentNexusSessionTitle.js";
-import { formatCmuxNexusTitle } from "./workspaces/formatCmuxNexusTitle.js";
+import { getCmuxTitleSyncEnabled } from "./state/getCmuxTitleSyncEnabled";
+import { renameCurrentCmuxSurface } from "./runtime/renameCurrentCmuxSurface";
+import { renameCurrentCmuxWorkspace } from "./runtime/renameCurrentCmuxWorkspace";
+import { updateCurrentNexusSessionTitle } from "./session-registry/updateCurrentNexusSessionTitle";
+import { formatCmuxNexusTitle } from "./workspaces/formatCmuxNexusTitle";
 
 /**
  * Mirrors the current Nexus session title into the active cmux surface title.

@@ -1,7 +1,7 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey.js";
-import { renderRtkSavingsPeriodTabs } from "./renderRtkSavingsPeriodTabs.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey";
+import { renderRtkSavingsPeriodTabs } from "./renderRtkSavingsPeriodTabs";
 
 /**
  * Creates the RTK savings modal header with title left and selector right.

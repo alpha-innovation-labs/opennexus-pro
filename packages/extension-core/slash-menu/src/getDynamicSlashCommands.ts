@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { filterVisibleRuntimeSlashCommands } from "./filters/filterVisibleRuntimeSlashCommands.js";
-import type { RegisteredSlashCommand } from "./types.js";
+import { filterVisibleRuntimeSlashCommands } from "./filters/filterVisibleRuntimeSlashCommands";
+import type { RegisteredSlashCommand } from "./types";
 
 /**
  * Reads slash commands exposed by the live Pi runtime.

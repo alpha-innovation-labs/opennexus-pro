@@ -1,7 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { clearStartupHero } from "./clearStartupHero.js";
-import { shouldShowStartupHero } from "./shouldShowStartupHero.js";
-import { showStartupHero } from "./showStartupHero.js";
+import { clearStartupHero } from "./clearStartupHero";
+import { shouldShowStartupHero } from "./shouldShowStartupHero";
+import { showStartupHero } from "./showStartupHero";
 
 /**
  * Registers the startup hero widget for fresh sessions.

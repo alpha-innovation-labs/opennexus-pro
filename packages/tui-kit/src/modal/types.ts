@@ -1,4 +1,4 @@
-import type { SharedModalHotkey } from "./hotkeys/types.js";
+import type { SharedModalHotkey } from "./hotkeys/types";
 
 /**
  * Theme contract used by shared modal components.

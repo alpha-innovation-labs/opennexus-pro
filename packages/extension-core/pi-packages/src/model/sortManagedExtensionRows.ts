@@ -1,4 +1,4 @@
-import type { ManagedExtensionRow } from "./types.js";
+import type { ManagedExtensionRow } from "./types";
 
 const kindRank: Record<ManagedExtensionRow["kind"], number> = {
 	core: 0,

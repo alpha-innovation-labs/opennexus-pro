@@ -1,4 +1,4 @@
-import type { ObservationState, StoredObservationMessage } from "./types.js";
+import type { ObservationState, StoredObservationMessage } from "./types";
 
 /**
  * Creates one stored observation message and advances state message metadata.

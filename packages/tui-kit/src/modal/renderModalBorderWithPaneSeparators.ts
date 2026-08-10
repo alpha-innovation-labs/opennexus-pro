@@ -1,6 +1,6 @@
-import { computePaneWidths } from "./computePaneWidths.js";
-import { renderModalBorder } from "./renderModalBorder.js";
-import type { SharedModalPane, SharedModalTheme } from "./types.js";
+import { computePaneWidths } from "./computePaneWidths";
+import { renderModalBorder } from "./renderModalBorder";
+import type { SharedModalPane, SharedModalTheme } from "./types";
 
 /**
  * Renders a modal border row with pane separators connected to body dividers.

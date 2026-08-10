@@ -1,6 +1,6 @@
 import stripAnsi from "strip-ansi";
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { truncateAnsiToWidth } from "./truncateAnsiToWidth.js";
+import { truncateAnsiToWidth } from "./truncateAnsiToWidth";
 
 /** Wraps rendered markdown preview rows to a visible width. */
 export function wrapMarkdownPreviewLines(line: string, width: number): string[] {

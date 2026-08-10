@@ -1,4 +1,4 @@
-import type { PromptlineConfig } from "./types.js";
+import type { PromptlineConfig } from "./types";
 
 /**
  * Creates the default in-memory promptline config.

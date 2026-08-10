@@ -1,7 +1,7 @@
 import { Key, matchesKey, wrapTextWithAnsi } from "@earendil-works/pi-tui";
-import { computeModalWidth, SharedModal, type SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import type { ContextUsageReport } from "./types.js";
-import { renderThemedContextUsageRows } from "./renderThemedContextUsageRows.js";
+import { computeModalWidth, SharedModal, type SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import type { ContextUsageReport } from "./types";
+import { renderThemedContextUsageRows } from "./renderThemedContextUsageRows";
 
 /**
  * Shared tui-kit modal for current context usage.

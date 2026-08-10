@@ -1,4 +1,4 @@
-import type { SlashMenuLeaf } from "./types.js";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Formats the title for a setting choice submenu.

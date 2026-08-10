@@ -1,5 +1,5 @@
-import { createObservationListJsonRow } from "./createObservationListJsonRow.js";
-import type { ObservationArtifactGroup, ObservationListJsonRow } from "./types.js";
+import { createObservationListJsonRow } from "./createObservationListJsonRow";
+import type { ObservationArtifactGroup, ObservationListJsonRow } from "./types";
 
 /**
  * Builds machine-readable rows for observation groups.

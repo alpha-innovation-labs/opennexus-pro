@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { getNexusAgentDirPath } from "../../config/getNexusAgentDirPath.js";
+import { getNexusAgentDirPath } from "../../config/getNexusAgentDirPath";
 
 /**
  * Resolves the extracted package-asset directory for the installed binary.

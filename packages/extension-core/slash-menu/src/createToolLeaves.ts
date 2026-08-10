@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { formatToolGroupLabel } from "./formatToolGroupLabel.js";
-import type { SlashMenuLeaf } from "./types.js";
+import { formatToolGroupLabel } from "./formatToolGroupLabel";
+import type { SlashMenuLeaf } from "./types";
 
 type ToolInfo = ReturnType<ExtensionAPI["getAllTools"]>[number];
 

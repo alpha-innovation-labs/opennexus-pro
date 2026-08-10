@@ -1,5 +1,5 @@
 import type { AgentToolResult } from "@earendil-works/pi-coding-agent";
-import type { WebFetchResult } from "./webFetchTypes.js";
+import type { WebFetchResult } from "./webFetchTypes";
 
 /**
  * Converts a web fetch result into a Pi tool response.

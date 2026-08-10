@@ -1,5 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import type { FeatureStatusRow } from "../model/types.js";
+import type { FeatureStatusRow } from "../model/types";
 
 /**
  * Calculates the display width needed for the feature-name column.

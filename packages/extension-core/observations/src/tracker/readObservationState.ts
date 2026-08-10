@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
-import { buildObservationSummary } from "./buildObservationSummary.js";
-import { createEmptyObservationState } from "./createEmptyObservationState.js";
-import { truncateObservationSummary } from "./truncateObservationSummary.js";
-import type { ObservationState } from "./types.js";
+import { buildObservationSummary } from "./buildObservationSummary";
+import { createEmptyObservationState } from "./createEmptyObservationState";
+import { truncateObservationSummary } from "./truncateObservationSummary";
+import type { ObservationState } from "./types";
 
 /**
  * Reads the structured observations state.

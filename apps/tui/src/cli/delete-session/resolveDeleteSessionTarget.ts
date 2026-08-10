@@ -1,7 +1,7 @@
-import type { DeleteSessionResolveResult } from "./DeleteSessionResolveResult.js";
-import { getUniqueDeleteSessionMatchesByPath } from "./getUniqueDeleteSessionMatchesByPath.js";
-import { listDeleteSessionSearchDirs } from "./listDeleteSessionSearchDirs.js";
-import { listSessionFileMatchesInDir } from "./listSessionFileMatchesInDir.js";
+import type { DeleteSessionResolveResult } from "./DeleteSessionResolveResult";
+import { getUniqueDeleteSessionMatchesByPath } from "./getUniqueDeleteSessionMatchesByPath";
+import { listDeleteSessionSearchDirs } from "./listDeleteSessionSearchDirs";
+import { listSessionFileMatchesInDir } from "./listSessionFileMatchesInDir";
 
 /**
  * Resolves a session ID or unique ID prefix to one persisted session file by filename.

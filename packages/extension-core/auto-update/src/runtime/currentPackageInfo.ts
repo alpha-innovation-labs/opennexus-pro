@@ -1,4 +1,4 @@
-import { generatedPackageInfo } from "./packageInfo.generated.js";
+import { generatedPackageInfo } from "./packageInfo.generated";
 
 export type CurrentPackageInfo = {
 	name: string;

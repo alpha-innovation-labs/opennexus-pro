@@ -1,5 +1,5 @@
-import type { SessionEntry } from "@nexus/pi-platform/sessionManager.js";
-import { formatCompactDuration } from "../duration/formatCompactDuration.js";
+import type { SessionEntry } from "@nexus/pi-platform/sessionManager";
+import { formatCompactDuration } from "../duration/formatCompactDuration";
 import { restoreAssistantMessageTiming } from "./assistantMessageTimingState.ts";
 
 /**

@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
 
 const EFFICIENCY_BAR_WIDTH = 24;
 

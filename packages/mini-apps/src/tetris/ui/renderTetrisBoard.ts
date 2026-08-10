@@ -1,5 +1,5 @@
-import { getTetrisCells } from "../game/getTetrisCells.js";
-import type { TetrisGame } from "../game/types.js";
+import { getTetrisCells } from "../game/getTetrisCells";
+import type { TetrisGame } from "../game/types";
 
 const CELL_COLORS: Record<string, string> = {
 	I: "accent",

@@ -1,6 +1,6 @@
-import type { RtkGainReport } from "./RtkGainReport.js";
-import { formatPercent } from "./formatPercent.js";
-import { formatTokenCount } from "./formatTokenCount.js";
+import type { RtkGainReport } from "./RtkGainReport";
+import { formatPercent } from "./formatPercent";
+import { formatTokenCount } from "./formatTokenCount";
 
 /**
  * Formats an RTK gain report as a compact Nexus savings summary.

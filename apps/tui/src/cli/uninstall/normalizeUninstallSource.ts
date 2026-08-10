@@ -1,4 +1,4 @@
-import { normalizeInstallSource } from "../install/normalizeInstallSource.js";
+import { normalizeInstallSource } from "../install/normalizeInstallSource";
 
 /**
  * Normalizes user-friendly uninstall inputs into Pi package-manager sources.

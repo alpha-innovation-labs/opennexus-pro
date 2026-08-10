@@ -4,7 +4,7 @@
  * Exports the gateway probe result type, the cached provider state shape,
  * and utility functions for constructing base URLs from default ports.
  */
-import { DEFAULT_PORTS } from "../constants/default-ports.js";
+import { DEFAULT_PORTS } from "../constants/default-ports";
 
 /** Result of probing a gateway. */
 export type GatewayProbeResult =

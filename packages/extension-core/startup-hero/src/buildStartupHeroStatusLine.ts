@@ -1,6 +1,6 @@
 import { truncateToWidth } from "@earendil-works/pi-tui";
-import { buildStartupHeroStatusItems } from "./buildStartupHeroStatusItems.js";
-import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
+import { buildStartupHeroStatusItems } from "./buildStartupHeroStatusItems";
+import type { StartupHeroStatus, StartupHeroTheme } from "./types";
 
 /**
  * Builds the startup hero status line with colored availability icons.

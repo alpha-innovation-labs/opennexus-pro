@@ -1,6 +1,6 @@
-import { readLiveCmuxSessionRegistryEntries } from "../session-registry/readLiveCmuxSessionRegistryEntries.js";
-import { collectCmuxWorkspaceShells } from "../workspaces/collectCmuxWorkspaceShells.js";
-import { formatCmuxWorkspaceShells } from "../workspaces/formatCmuxWorkspaceShells.js";
+import { readLiveCmuxSessionRegistryEntries } from "../session-registry/readLiveCmuxSessionRegistryEntries";
+import { collectCmuxWorkspaceShells } from "../workspaces/collectCmuxWorkspaceShells";
+import { formatCmuxWorkspaceShells } from "../workspaces/formatCmuxWorkspaceShells";
 
 /**
  * Loads plain text for non-interactive cmux workspace output.

@@ -1,9 +1,9 @@
-import { getCurrentCmuxRenameTarget } from "../runtime/getCurrentCmuxRenameTarget.js";
-import { getCmuxSessionRegistryPath } from "./getCmuxSessionRegistryPath.js";
-import { readCmuxSessionRegistry } from "./readCmuxSessionRegistry.js";
-import { removeCmuxSessionRegistryEntry } from "./removeCmuxSessionRegistryEntry.js";
-import { withCmuxSessionRegistryLock } from "./withCmuxSessionRegistryLock.js";
-import { writeCmuxSessionRegistry } from "./writeCmuxSessionRegistry.js";
+import { getCurrentCmuxRenameTarget } from "../runtime/getCurrentCmuxRenameTarget";
+import { getCmuxSessionRegistryPath } from "./getCmuxSessionRegistryPath";
+import { readCmuxSessionRegistry } from "./readCmuxSessionRegistry";
+import { removeCmuxSessionRegistryEntry } from "./removeCmuxSessionRegistryEntry";
+import { withCmuxSessionRegistryLock } from "./withCmuxSessionRegistryLock";
+import { writeCmuxSessionRegistry } from "./writeCmuxSessionRegistry";
 
 /**
  * Removes the current Nexus session registration for the active cmux surface.

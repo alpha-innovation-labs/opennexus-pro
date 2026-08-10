@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
 
 /**
  * Formats one RTK savings period tab.

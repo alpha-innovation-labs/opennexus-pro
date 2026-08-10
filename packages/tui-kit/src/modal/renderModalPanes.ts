@@ -1,7 +1,7 @@
-import { computePaneWidths } from "./computePaneWidths.js";
-import { renderPaneRow } from "./renderPaneRow.js";
-import { renderSharedModalPaneFillerLine, renderSharedModalPaneLines } from "./renderSharedModalPaneLines.js";
-import type { SharedModalPane, SharedModalTheme } from "./types.js";
+import { computePaneWidths } from "./computePaneWidths";
+import { renderPaneRow } from "./renderPaneRow";
+import { renderSharedModalPaneFillerLine, renderSharedModalPaneLines } from "./renderSharedModalPaneLines";
+import type { SharedModalPane, SharedModalTheme } from "./types";
 
 /**
  * Renders modal panes into framed content rows.

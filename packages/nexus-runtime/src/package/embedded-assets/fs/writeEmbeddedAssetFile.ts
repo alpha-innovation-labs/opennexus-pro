@@ -1,6 +1,6 @@
 import { chmod, mkdir, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import type { EmbeddedPackageAsset } from "../types.js";
+import type { EmbeddedPackageAsset } from "../types";
 
 /**
  * Writes one embedded package asset to disk.

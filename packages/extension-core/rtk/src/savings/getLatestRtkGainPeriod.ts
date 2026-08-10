@@ -1,4 +1,4 @@
-import type { RtkGainPeriod } from "./RtkGainPeriod.js";
+import type { RtkGainPeriod } from "./RtkGainPeriod";
 
 /**
  * Returns the latest row from an RTK period array.

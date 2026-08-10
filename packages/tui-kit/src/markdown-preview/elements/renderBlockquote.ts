@@ -1,7 +1,7 @@
-import { BLOCKQUOTE_MARKER } from "../constants.js";
-import { renderParagraph } from "./renderParagraph.js";
-import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment.js";
-import type { MarkdownPreviewTheme } from "../types.js";
+import { BLOCKQUOTE_MARKER } from "../constants";
+import { renderParagraph } from "./renderParagraph";
+import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment";
+import type { MarkdownPreviewTheme } from "../types";
 
 /** Renders a nested Ratkit-style blockquote line. */
 export function renderBlockquote(depth: number, content: string, theme?: MarkdownPreviewTheme): string {

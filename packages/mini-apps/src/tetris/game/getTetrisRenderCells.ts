@@ -1,5 +1,5 @@
-import { getGhostPiece } from "./getGhostPiece.js";
-import type { TetrisCell, TetrisGame } from "./types.js";
+import { getGhostPiece } from "./getGhostPiece";
+import type { TetrisCell, TetrisGame } from "./types";
 
 /** Tetris render cell with optional ghost projection marker. */
 export type TetrisRenderCell = TetrisCell | "ghost";

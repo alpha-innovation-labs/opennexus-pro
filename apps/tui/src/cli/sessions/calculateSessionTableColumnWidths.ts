@@ -1,4 +1,4 @@
-import type { SessionTableColumnWidths } from "./SessionTableColumnWidths.js";
+import type { SessionTableColumnWidths } from "./SessionTableColumnWidths";
 
 const DATE_COLUMN_WIDTH = 21;
 const SESSION_ID_COLUMN_WIDTH = 38;

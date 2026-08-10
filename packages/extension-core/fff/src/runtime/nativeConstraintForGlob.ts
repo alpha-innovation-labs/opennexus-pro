@@ -1,4 +1,4 @@
-import { normalizeSlashes } from "./normalizeSlashes.js";
+import { normalizeSlashes } from "./normalizeSlashes";
 
 /**
  * Normalizes a glob constraint for FFF.

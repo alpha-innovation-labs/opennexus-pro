@@ -1,7 +1,7 @@
-import { SHARED_MODAL_FOOTER_BORDER } from "./SHARED_MODAL_FOOTER_BORDER.js";
-import { renderFullWidthRows } from "./renderFullWidthRows.js";
-import { renderModalBorder } from "./renderModalBorder.js";
-import type { SharedModalTheme } from "./types.js";
+import { SHARED_MODAL_FOOTER_BORDER } from "./SHARED_MODAL_FOOTER_BORDER";
+import { renderFullWidthRows } from "./renderFullWidthRows";
+import { renderModalBorder } from "./renderModalBorder";
+import type { SharedModalTheme } from "./types";
 
 /**
  * Renders footer rows, allowing sentinel rows to become connected modal borders.

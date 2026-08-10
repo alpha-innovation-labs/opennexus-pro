@@ -1,4 +1,4 @@
-import { refreshCmuxWorkspaceShellLinesCache } from "../workspace-cache/refreshCmuxWorkspaceShellLinesCache.js";
+import { refreshCmuxWorkspaceShellLinesCache } from "../workspace-cache/refreshCmuxWorkspaceShellLinesCache";
 
 /**
  * Loads display lines for the cmux workspace shell modal.

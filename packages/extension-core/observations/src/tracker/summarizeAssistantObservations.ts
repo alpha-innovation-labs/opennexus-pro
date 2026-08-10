@@ -1,7 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { buildAssistantObservationPrompt } from "./buildAssistantObservationPrompt.js";
-import { parseAssistantObservationOutput } from "./parseAssistantObservationOutput.js";
-import { runObservationSummarizer } from "./runObservationSummarizer.js";
+import { buildAssistantObservationPrompt } from "./buildAssistantObservationPrompt";
+import { parseAssistantObservationOutput } from "./parseAssistantObservationOutput";
+import { runObservationSummarizer } from "./runObservationSummarizer";
 
 /**
  * Summarizes one assistant message into high-level observation bullets.

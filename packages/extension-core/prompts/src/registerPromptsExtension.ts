@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerSystemPromptCommand } from "./command/registerSystemPromptCommand.js";
-import { createSystemPromptState } from "./state/createSystemPromptState.js";
+import { registerSystemPromptCommand } from "./command/registerSystemPromptCommand";
+import { createSystemPromptState } from "./state/createSystemPromptState";
 
 /**
  * Registers prompt-management commands and applies custom system prompt overrides.

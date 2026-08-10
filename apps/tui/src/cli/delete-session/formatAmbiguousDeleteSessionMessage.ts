@@ -1,4 +1,4 @@
-import type { DeleteSessionMatch } from "./DeleteSessionMatch.js";
+import type { DeleteSessionMatch } from "./DeleteSessionMatch";
 
 /**
  * Formats a diagnostic for an ambiguous delete-session reference.

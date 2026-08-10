@@ -1,5 +1,5 @@
-import { decodeBase64Arg } from "./decodeBase64Arg.js";
-import type { InternalSlashHandler } from "./types.js";
+import { decodeBase64Arg } from "./decodeBase64Arg";
+import type { InternalSlashHandler } from "./types";
 
 /**
  * Switches to a selected session path without opening Pi's built-in resume selector.

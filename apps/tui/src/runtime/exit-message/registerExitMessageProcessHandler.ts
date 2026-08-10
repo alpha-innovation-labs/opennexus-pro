@@ -1,4 +1,4 @@
-import { printExitMessage } from "./printExitMessage.js";
+import { printExitMessage } from "./printExitMessage";
 
 let registered = false;
 

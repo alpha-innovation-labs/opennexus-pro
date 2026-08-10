@@ -1,4 +1,4 @@
-import { registeredShortcuts } from "./state.js";
+import { registeredShortcuts } from "./state";
 
 /**
  * Clears the shortcut registry for deterministic tests.

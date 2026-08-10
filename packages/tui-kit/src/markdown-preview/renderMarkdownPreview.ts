@@ -1,17 +1,17 @@
 import stripAnsi from "strip-ansi";
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { addMarkdownPreviewLineNumbers, getMarkdownPreviewNumberedContentWidth } from "./addMarkdownPreviewLineNumbers.js";
-import { BULLET_MARKERS, CHECKBOX_CHECKED, CHECKBOX_TODO, CHECKBOX_UNCHECKED } from "./constants.js";
-import { renderBlockquote } from "./elements/renderBlockquote.js";
-import { renderCodeBlock } from "./elements/renderCodeBlock.js";
-import { renderFrontmatter } from "./elements/renderFrontmatter.js";
-import { renderHeading } from "./elements/renderHeading.js";
-import { renderHorizontalRule } from "./elements/renderHorizontalRule.js";
-import { renderListItem } from "./elements/renderListItem.js";
-import { renderParagraph } from "./elements/renderParagraph.js";
-import type { MarkdownCodeBlock, MarkdownPreviewOptions, MarkdownPreviewRow } from "./types.js";
-import { wrapMarkdownPreviewLines } from "./wrapMarkdownPreviewLines.js";
-import { styleMarkdownPreviewSegment } from "./styleMarkdownPreviewSegment.js";
+import { addMarkdownPreviewLineNumbers, getMarkdownPreviewNumberedContentWidth } from "./addMarkdownPreviewLineNumbers";
+import { BULLET_MARKERS, CHECKBOX_CHECKED, CHECKBOX_TODO, CHECKBOX_UNCHECKED } from "./constants";
+import { renderBlockquote } from "./elements/renderBlockquote";
+import { renderCodeBlock } from "./elements/renderCodeBlock";
+import { renderFrontmatter } from "./elements/renderFrontmatter";
+import { renderHeading } from "./elements/renderHeading";
+import { renderHorizontalRule } from "./elements/renderHorizontalRule";
+import { renderListItem } from "./elements/renderListItem";
+import { renderParagraph } from "./elements/renderParagraph";
+import type { MarkdownCodeBlock, MarkdownPreviewOptions, MarkdownPreviewRow } from "./types";
+import { wrapMarkdownPreviewLines } from "./wrapMarkdownPreviewLines";
+import { styleMarkdownPreviewSegment } from "./styleMarkdownPreviewSegment";
 
 /** Renders markdown into Ratkit/lazy-skills inspired terminal preview lines. */
 export function renderMarkdownPreview(options: MarkdownPreviewOptions): string[] {

@@ -1,6 +1,6 @@
-import { DEFAULT_PORTS } from "@extensions/ai-providers/constants/default-ports.js";
-import { getAllProviderIds } from "./getAllProviderIds.js";
-import { writeProviderConfig } from "@extensions/ai-providers/config/writeProviderConfig.js";
+import { DEFAULT_PORTS } from "@extensions/ai-providers/constants/default-ports";
+import { getAllProviderIds } from "./getAllProviderIds";
+import { writeProviderConfig } from "@extensions/ai-providers/config/writeProviderConfig";
 
 /**
  * Handles the "setup" subcommand: configures a provider with host, port, and optional API key.

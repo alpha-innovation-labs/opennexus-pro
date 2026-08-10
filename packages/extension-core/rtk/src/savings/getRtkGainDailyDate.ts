@@ -1,4 +1,4 @@
-import type { RtkGainPeriod } from "./RtkGainPeriod.js";
+import type { RtkGainPeriod } from "./RtkGainPeriod";
 
 /**
  * Reads a daily RTK gain row date as a UTC day.

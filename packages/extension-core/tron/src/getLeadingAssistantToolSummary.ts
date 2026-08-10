@@ -1,4 +1,4 @@
-import { getThinkingPreview } from "../thinking/getThinkingPreview.ts";
+import { getThinkingPreview } from "../thinking/getThinkingPreview";
 
 type AssistantContentBlock = { type?: unknown; text?: unknown; thinking?: unknown };
 

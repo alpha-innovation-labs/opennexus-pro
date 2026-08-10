@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import type { TriggerModalHandle, ShowOverlay } from "../promptline/trigger/types.js";
-import { HelpShortcutsModal } from "./HelpShortcutsModal.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import type { TriggerModalHandle, ShowOverlay } from "../promptline/trigger/types";
+import { HelpShortcutsModal } from "./HelpShortcutsModal";
 
 /**
  * Opens the keyboard shortcuts modal and wires its close callback to the overlay.

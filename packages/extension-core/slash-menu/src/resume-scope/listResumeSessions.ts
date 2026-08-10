@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { SessionManager } from "@earendil-works/pi-coding-agent";
-import type { ResumeScope } from "./ResumeScope.js";
+import type { ResumeScope } from "./ResumeScope";
 
 export type ResumeSessionInfo = {
   path: string;

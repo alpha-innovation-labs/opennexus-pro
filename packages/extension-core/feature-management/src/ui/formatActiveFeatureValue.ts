@@ -1,4 +1,4 @@
-import { padFeatureColumn } from "./padFeatureColumn.js";
+import { padFeatureColumn } from "./padFeatureColumn";
 
 /**
  * Formats one focused or unfocused feature-management value column.

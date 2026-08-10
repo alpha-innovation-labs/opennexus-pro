@@ -1,4 +1,4 @@
-import type { RegisteredSlashCommand } from "./types.js";
+import type { RegisteredSlashCommand } from "./types";
 
 const slashCommands = new Map<string, RegisteredSlashCommand>();
 

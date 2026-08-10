@@ -1,4 +1,4 @@
-import type { SharedModalPane } from "./types.js";
+import type { SharedModalPane } from "./types";
 
 /**
  * Computes pane widths from proportional pane sizes.

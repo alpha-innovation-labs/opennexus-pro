@@ -1,5 +1,5 @@
-import type { SlashMenuLeaf } from "./types.js";
-import { formatSettingValue } from "./formatSettingValue.js";
+import type { SlashMenuLeaf } from "./types";
+import { formatSettingValue } from "./formatSettingValue";
 
 /**
  * Converts one merged settings entry into a menu leaf.

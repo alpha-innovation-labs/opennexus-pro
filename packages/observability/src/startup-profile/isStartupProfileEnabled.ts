@@ -1,4 +1,4 @@
-import { STARTUP_PROFILE_ENV } from "./constants.js";
+import { STARTUP_PROFILE_ENV } from "./constants";
 
 /**
  * Reports whether startup profiling is enabled for the current run.

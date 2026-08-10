@@ -1,5 +1,5 @@
-import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId.js";
-import type { HotkeysEntry } from "./types.js";
+import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId";
+import type { HotkeysEntry } from "./types";
 
 export type HotkeysEditStart = {
   editingEntryId?: string;

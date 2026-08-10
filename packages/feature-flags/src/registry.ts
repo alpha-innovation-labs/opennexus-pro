@@ -1,4 +1,4 @@
-import type { FeatureProductCategory } from "./types.js";
+import type { FeatureProductCategory } from "./types";
 
 /**
  * Canonical registry of all bundled extensions and mini-apps.

@@ -1,11 +1,11 @@
-import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types.js";
-import { defaultRuntimeSlashCommandFilterConfig } from "./filters/defaultRuntimeSlashCommandFilterConfig.js";
-import { filterVisibleRuntimeSlashCommands } from "./filters/filterVisibleRuntimeSlashCommands.js";
-import { isHiddenRuntimeSlashCommand } from "./filters/isHiddenRuntimeSlashCommand.js";
-import { getRegisteredSlashCommands } from "./registerSlashCommand.js";
-import { getSlashCommandMenuGroup } from "./getSlashCommandMenuGroup.js";
-import { normalizeBuiltinCommandDescription } from "./normalizeBuiltinCommandDescription.js";
-import { readBuiltinSlashCommands } from "./readBuiltinSlashCommands.js";
+import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types";
+import { defaultRuntimeSlashCommandFilterConfig } from "./filters/defaultRuntimeSlashCommandFilterConfig";
+import { filterVisibleRuntimeSlashCommands } from "./filters/filterVisibleRuntimeSlashCommands";
+import { isHiddenRuntimeSlashCommand } from "./filters/isHiddenRuntimeSlashCommand";
+import { getRegisteredSlashCommands } from "./registerSlashCommand";
+import { getSlashCommandMenuGroup } from "./getSlashCommandMenuGroup";
+import { normalizeBuiltinCommandDescription } from "./normalizeBuiltinCommandDescription";
+import { readBuiltinSlashCommands } from "./readBuiltinSlashCommands";
 
 /**
  * Builds slash-menu command entries.

@@ -1,4 +1,4 @@
-import type { ObservationArtifactGroup } from "./types.js";
+import type { ObservationArtifactGroup } from "./types";
 
 /**
  * Selects observation groups by the all target, conversation id, or session id.

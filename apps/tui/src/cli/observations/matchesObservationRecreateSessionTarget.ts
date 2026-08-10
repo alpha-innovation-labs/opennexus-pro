@@ -1,5 +1,5 @@
 import type { SessionInfo } from "@earendil-works/pi-coding-agent";
-import { getObservationRecreateSessionTargetIds } from "./getObservationRecreateSessionTargetIds.js";
+import { getObservationRecreateSessionTargetIds } from "./getObservationRecreateSessionTargetIds";
 
 /**
  * Checks whether a session matches an observations recreate target.

@@ -1,12 +1,12 @@
 import type { ExtensionCommandContext, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { getCurrentConversationId } from "../shared/getCurrentConversationId.js";
-import { getObservationStatePath } from "../shared/getObservationStatePath.js";
-import { editObservationPrompt } from "./editObservationPrompt.js";
-import { isObservationPromptEditingEnabled } from "./isObservationPromptEditingEnabled.js";
-import { ObservationsModal } from "./ObservationsModal.js";
-import { readObservationSections } from "./readObservationSections.js";
-import { recreateAndRefreshObservationsModal } from "./recreateAndRefreshObservationsModal.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { getCurrentConversationId } from "../shared/getCurrentConversationId";
+import { getObservationStatePath } from "../shared/getObservationStatePath";
+import { editObservationPrompt } from "./editObservationPrompt";
+import { isObservationPromptEditingEnabled } from "./isObservationPromptEditingEnabled";
+import { ObservationsModal } from "./ObservationsModal";
+import { readObservationSections } from "./readObservationSections";
+import { recreateAndRefreshObservationsModal } from "./recreateAndRefreshObservationsModal";
 
 /**
  * Opens the observations browser modal for the current conversation.

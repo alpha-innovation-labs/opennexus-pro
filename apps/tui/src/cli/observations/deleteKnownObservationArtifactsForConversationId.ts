@@ -1,5 +1,5 @@
-import { createKnownObservationArtifactPaths } from "./createKnownObservationArtifactPaths.js";
-import { deleteObservationArtifactFileIfPresent } from "./deleteObservationArtifactFileIfPresent.js";
+import { createKnownObservationArtifactPaths } from "./createKnownObservationArtifactPaths";
+import { deleteObservationArtifactFileIfPresent } from "./deleteObservationArtifactFileIfPresent";
 
 /**
  * Deletes known observation artifacts for one conversation without listing observation storage.

@@ -1,5 +1,5 @@
-import { getTriggerState } from "./getTriggerState.js";
-import type { TriggerState } from "./types.js";
+import { getTriggerState } from "./getTriggerState";
+import type { TriggerState } from "./types";
 
 /**
  * Resolves whether one typed character should start a new trigger session.

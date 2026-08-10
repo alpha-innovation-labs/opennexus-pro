@@ -1,4 +1,4 @@
-import { toKeyList } from "./toKeyList.js";
+import { toKeyList } from "./toKeyList";
 
 /**
  * Removes an overridden key from conflicting keybinding entries.

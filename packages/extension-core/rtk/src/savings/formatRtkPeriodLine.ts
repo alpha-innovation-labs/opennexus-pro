@@ -1,9 +1,9 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import type { RtkGainPeriod } from "./RtkGainPeriod.js";
-import { colorizeSavingsPercent } from "./colorizeSavingsPercent.js";
-import { colorizeSavingsValue } from "./colorizeSavingsValue.js";
-import { formatPercent } from "./formatPercent.js";
-import { formatTokenCount } from "./formatTokenCount.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { RtkGainPeriod } from "./RtkGainPeriod";
+import { colorizeSavingsPercent } from "./colorizeSavingsPercent";
+import { colorizeSavingsValue } from "./colorizeSavingsValue";
+import { formatPercent } from "./formatPercent";
+import { formatTokenCount } from "./formatTokenCount";
 
 /**
  * Formats one period row for the RTK savings modal.

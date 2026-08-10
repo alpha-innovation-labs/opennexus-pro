@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "./types.js";
+import type { SharedModalTheme } from "./types";
 
 /**
  * Renders a modal border line.

@@ -1,5 +1,5 @@
-import { extractJsonArrayText } from "./extractJsonArrayText.js";
-import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopic.js";
+import { extractJsonArrayText } from "./extractJsonArrayText";
+import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopic";
 
 /**
  * Parses LLM observation-recreation output into validated topics.

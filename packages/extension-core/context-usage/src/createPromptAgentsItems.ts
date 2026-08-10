@@ -1,6 +1,6 @@
-import type { ContextUsageDetailItem } from "./types.js";
-import { estimateTokensFromText } from "./estimateTokensFromText.js";
-import { readAgentsFileContent } from "./readAgentsFileContent.js";
+import type { ContextUsageDetailItem } from "./types";
+import { estimateTokensFromText } from "./estimateTokensFromText";
+import { readAgentsFileContent } from "./readAgentsFileContent";
 
 /**
  * Parses AGENTS.md context files from the rendered system prompt.

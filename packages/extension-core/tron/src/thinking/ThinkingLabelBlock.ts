@@ -1,7 +1,7 @@
 import { Container, truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import { theme } from "../theme-proxy.js";
+import { theme } from "../theme-proxy";
 import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon.ts";
-import { measureTronRender } from "../profiling/measureTronRender.js";
+import { measureTronRender } from "../profiling/measureTronRender";
 
 /**
  * Compact bordered renderer for hidden assistant thinking.

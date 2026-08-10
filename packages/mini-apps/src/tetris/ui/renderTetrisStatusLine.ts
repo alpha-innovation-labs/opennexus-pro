@@ -1,4 +1,4 @@
-import type { TetrisGame } from "../game/types.js";
+import type { TetrisGame } from "../game/types";
 
 /**
  * Renders the single-line Tetris score and state header.

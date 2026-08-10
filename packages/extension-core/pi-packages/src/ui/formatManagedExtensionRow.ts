@@ -1,6 +1,6 @@
-import type { ManagedExtensionRow } from "../model/types.js";
-import { colorManagedExtensionStatus } from "./colorManagedExtensionStatus.js";
-import { padManagedExtensionColumn } from "./padManagedExtensionColumn.js";
+import type { ManagedExtensionRow } from "../model/types";
+import { colorManagedExtensionStatus } from "./colorManagedExtensionStatus";
+import { padManagedExtensionColumn } from "./padManagedExtensionColumn";
 
 /**
  * Formats an Pi packages row using feature-management-style alignment.

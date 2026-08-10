@@ -1,4 +1,4 @@
-import { isToolGroupCollapseEnabled } from "../collapse/state.ts";
+import { isToolGroupCollapseEnabled } from "../collapse/state";
 import { collapsedToolGroupLeaderByToolCallId } from "./collapsedToolGroupState.ts";
 
 /**

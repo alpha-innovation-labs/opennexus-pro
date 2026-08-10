@@ -1,4 +1,4 @@
-import type { EditorTriggerConfig } from "./types.js";
+import type { EditorTriggerConfig } from "./types";
 
 /**
  * Returns bundled editor triggers that must work before any user config exists.

@@ -1,5 +1,5 @@
-import { formatShortcut, getRegisteredShortcuts } from "@nexus/tui-kit/shortcuts/index.js";
-import type { HelpShortcutGroup } from "./types.js";
+import { formatShortcut, getRegisteredShortcuts } from "@nexus/tui-kit/shortcuts/index";
+import type { HelpShortcutGroup } from "./types";
 
 /**
  * Returns the keyboard shortcuts shown in Neo's inline help modal.

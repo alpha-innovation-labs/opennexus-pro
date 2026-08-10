@@ -1,4 +1,4 @@
-import { formatCompactDuration } from "../duration/formatCompactDuration.js";
+import { formatCompactDuration } from "../duration/formatCompactDuration";
 
 /**
  * Builds the duration label for one user-prompt group.

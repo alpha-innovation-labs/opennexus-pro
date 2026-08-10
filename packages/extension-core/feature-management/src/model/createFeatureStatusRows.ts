@@ -1,6 +1,6 @@
-import type { FeatureFlagConfig, FeatureFlagsConfig, FeatureProductCategory } from "@nexus/feature-flags/types.js";
-import { getFeatureManagementGroup } from "./getFeatureManagementGroup.js";
-import type { FeatureFlagSourceCategory, FeatureRuntimeStatus, FeatureStatusCategory, FeatureStatusRow } from "./types.js";
+import type { FeatureFlagConfig, FeatureFlagsConfig, FeatureProductCategory } from "@nexus/feature-flags/types";
+import { getFeatureManagementGroup } from "./getFeatureManagementGroup";
+import type { FeatureFlagSourceCategory, FeatureRuntimeStatus, FeatureStatusCategory, FeatureStatusRow } from "./types";
 
 /**
  * Sort order for group section headers.

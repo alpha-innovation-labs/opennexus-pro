@@ -1,4 +1,4 @@
-import { readCliPackageVersion } from "./readCliPackageVersion.js";
+import { readCliPackageVersion } from "./readCliPackageVersion";
 
 /**
  * Prints the packaged Nexus version to stdout.

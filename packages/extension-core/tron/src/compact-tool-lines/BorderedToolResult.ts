@@ -1,7 +1,7 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
 import { hasToolCallFrameState } from "../activity/hasToolCallFrameState.ts";
 import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder.ts";
-import { measureTronRender } from "../profiling/measureTronRender.js";
+import { measureTronRender } from "../profiling/measureTronRender";
 
 /**
  * Wraps a built-in tool result component in nexus borders.

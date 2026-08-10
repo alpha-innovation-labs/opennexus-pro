@@ -1,5 +1,5 @@
-import { matchesHotkeysEntry } from "./matchesHotkeysEntry.js";
-import type { HotkeysGroup } from "./types.js";
+import { matchesHotkeysEntry } from "./matchesHotkeysEntry";
+import type { HotkeysGroup } from "./types";
 
 /**
  * Filters hotkeys groups by label or key text.

@@ -1,5 +1,5 @@
-import { deleteAllKittyImages, getCapabilities } from "@earendil-works/pi-tui/dist/terminal-image.js";
-import type { DoRender, TuiWithInlineImageOverlayPatch } from "./types.js";
+import { deleteAllKittyImages, getCapabilities } from "@earendil-works/pi-tui/dist/terminal-image";
+import type { DoRender, TuiWithInlineImageOverlayPatch } from "./types";
 
 /**
  * Renders with a Kitty image cleanup prefix while an overlay is visible.

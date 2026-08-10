@@ -1,5 +1,5 @@
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import { readThemes } from "@nexus/runtime/config/readThemes.js";
+import { readThemes } from "@nexus/runtime/config/readThemes";
 
 /**
  * Sets the active project theme by name, persisting to the agent

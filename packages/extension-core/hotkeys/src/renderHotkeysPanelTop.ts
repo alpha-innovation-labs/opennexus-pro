@@ -1,5 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
 
 /**
  * Renders one titled hotkeys panel top border.

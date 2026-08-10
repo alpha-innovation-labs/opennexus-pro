@@ -1,4 +1,4 @@
-import type { ManagedExtensionKind } from "../model/types.js";
+import type { ManagedExtensionKind } from "../model/types";
 
 /**
  * Gets the display group label for an extension source kind.

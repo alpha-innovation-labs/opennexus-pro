@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
-import { createEmptyCmuxSessionRegistry } from "./createEmptyCmuxSessionRegistry.js";
-import type { CmuxSessionRegistry } from "./types.js";
+import { createEmptyCmuxSessionRegistry } from "./createEmptyCmuxSessionRegistry";
+import type { CmuxSessionRegistry } from "./types";
 
 /**
  * Reads the cmux session registry from disk.

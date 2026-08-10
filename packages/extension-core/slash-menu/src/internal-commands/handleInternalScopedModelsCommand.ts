@@ -1,6 +1,6 @@
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import { decodeBase64Arg } from "./decodeBase64Arg.js";
-import type { InternalSlashHandler } from "./types.js";
+import { decodeBase64Arg } from "./decodeBase64Arg";
+import type { InternalSlashHandler } from "./types";
 
 /**
  * Persists the selected scoped-model set from the custom Nexus menu.

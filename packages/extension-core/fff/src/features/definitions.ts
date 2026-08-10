@@ -1,4 +1,4 @@
-import type { FffFeatureKey } from "../shared/types.js";
+import type { FffFeatureKey } from "../shared/types";
 
 export type FffFeatureDefinition = {
   id: FffFeatureKey;

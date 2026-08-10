@@ -1,4 +1,4 @@
-import type { PiPackagesTab } from "../model/types.js";
+import type { PiPackagesTab } from "../model/types";
 
 const tabs: PiPackagesTab[] = ["all", "third-party"];
 

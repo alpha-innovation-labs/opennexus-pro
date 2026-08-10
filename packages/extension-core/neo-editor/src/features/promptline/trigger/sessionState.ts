@@ -1,4 +1,4 @@
-import type { TriggerKind, TriggerState } from "./types.js";
+import type { TriggerKind, TriggerState } from "./types";
 
 let activeTriggerSession: TriggerState | null = null;
 

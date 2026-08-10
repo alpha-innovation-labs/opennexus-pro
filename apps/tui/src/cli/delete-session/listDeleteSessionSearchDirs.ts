@@ -1,7 +1,7 @@
 import { readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { getAgentDir } from "@earendil-works/pi-coding-agent";
-import { getDefaultDeleteSessionDir } from "./getDefaultDeleteSessionDir.js";
+import { getDefaultDeleteSessionDir } from "./getDefaultDeleteSessionDir";
 
 /**
  * Lists session directories that can contain a delete-session target.

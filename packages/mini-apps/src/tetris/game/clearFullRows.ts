@@ -1,4 +1,4 @@
-import type { TetrisCell, TetrisGame } from "./types.js";
+import type { TetrisCell, TetrisGame } from "./types";
 
 const LINE_SCORES = [0, 100, 300, 500, 800] as const;
 

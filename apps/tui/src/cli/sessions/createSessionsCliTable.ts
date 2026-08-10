@@ -1,5 +1,5 @@
 import Table from "cli-table3";
-import type { SessionTableColumnWidths } from "./SessionTableColumnWidths.js";
+import type { SessionTableColumnWidths } from "./SessionTableColumnWidths";
 
 const TABLE_HEAD = ["Date", "Session title", "Session ID"];
 

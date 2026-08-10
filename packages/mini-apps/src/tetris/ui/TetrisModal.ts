@@ -1,18 +1,18 @@
 import { type Focusable } from "@earendil-works/pi-tui";
-import { SharedModal } from "@nexus/tui-kit/modal/index.js";
-import { hardDropTetrisPiece } from "../game/hardDropTetrisPiece.js";
-import { moveTetrisPiece } from "../game/moveTetrisPiece.js";
-import { resetTetrisGame } from "../game/resetTetrisGame.js";
-import { rotateTetrisPiece } from "../game/rotateTetrisPiece.js";
-import { softDropTetrisPiece } from "../game/softDropTetrisPiece.js";
-import { tickTetrisGame } from "../game/tickTetrisGame.js";
-import type { TetrisGame, TetrisModalOptions } from "../game/types.js";
-import { ensureTetrisMusicRunning, isTetrisMusicRunning, pauseTetrisMusicRuntime, stopTetrisMusicRuntime } from "../music/tetrisMusicRuntime.js";
-import { getTetrisMusicPreference, setTetrisMusicPreference } from "../music/tetrisMusicPreference.js";
-import { getTetrisSettingsPreference, setTetrisSettingsPreference } from "../settings/tetrisSettingsPreference.js";
-import { createTetrisModalLines } from "./createTetrisModalLines.js";
-import { isTetrisDown, isTetrisEscape, isTetrisLeft, isTetrisQuit, isTetrisRight, isTetrisUp } from "./isTetrisKey.js";
-import type { TetrisModalHost } from "./TetrisModalHost.js";
+import { SharedModal } from "@nexus/tui-kit/modal/index";
+import { hardDropTetrisPiece } from "../game/hardDropTetrisPiece";
+import { moveTetrisPiece } from "../game/moveTetrisPiece";
+import { resetTetrisGame } from "../game/resetTetrisGame";
+import { rotateTetrisPiece } from "../game/rotateTetrisPiece";
+import { softDropTetrisPiece } from "../game/softDropTetrisPiece";
+import { tickTetrisGame } from "../game/tickTetrisGame";
+import type { TetrisGame, TetrisModalOptions } from "../game/types";
+import { ensureTetrisMusicRunning, isTetrisMusicRunning, pauseTetrisMusicRuntime, stopTetrisMusicRuntime } from "../music/tetrisMusicRuntime";
+import { getTetrisMusicPreference, setTetrisMusicPreference } from "../music/tetrisMusicPreference";
+import { getTetrisSettingsPreference, setTetrisSettingsPreference } from "../settings/tetrisSettingsPreference";
+import { createTetrisModalLines } from "./createTetrisModalLines";
+import { isTetrisDown, isTetrisEscape, isTetrisLeft, isTetrisQuit, isTetrisRight, isTetrisUp } from "./isTetrisKey";
+import type { TetrisModalHost } from "./TetrisModalHost";
 
 /** Full-screen Tetris overlay controlled by keyboard input. */
 export class TetrisModal extends SharedModal implements Focusable {

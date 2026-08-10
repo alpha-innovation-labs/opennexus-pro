@@ -1,4 +1,4 @@
-import type { ResumeScope } from "./ResumeScope.js";
+import type { ResumeScope } from "./ResumeScope";
 
 /**
  * Creates the resume menu source switcher title.

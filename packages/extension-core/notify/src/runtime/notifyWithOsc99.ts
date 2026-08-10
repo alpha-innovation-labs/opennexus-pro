@@ -1,4 +1,4 @@
-import { wrapForTmux } from "./wrapForTmux.js";
+import { wrapForTmux } from "./wrapForTmux";
 
 /**
  * Sends a terminal notification using Kitty OSC 99.

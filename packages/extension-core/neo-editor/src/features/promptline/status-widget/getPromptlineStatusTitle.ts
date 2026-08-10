@@ -1,5 +1,5 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { normalizePromptlineTitleContent } from "./normalizePromptlineTitleContent.js";
+import { normalizePromptlineTitleContent } from "./normalizePromptlineTitleContent";
 
 /**
  * Reads the status title: session name (set by the observations tracker),

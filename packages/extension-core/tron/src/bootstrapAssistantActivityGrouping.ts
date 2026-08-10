@@ -1,5 +1,5 @@
-import type { SessionEntry } from "@nexus/pi-platform/sessionManager.js";
-import { resetAssistantActivityGrouping } from "./resetAssistantActivityGrouping.ts";
+import type { SessionEntry } from "@nexus/pi-platform/sessionManager";
+import { resetAssistantActivityGrouping } from "./resetAssistantActivityGrouping";
 
 /**
  * Standalone tool mode resets any stale grouping cache without rebuilding it.

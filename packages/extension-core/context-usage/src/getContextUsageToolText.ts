@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createContextUsageReport } from "./createContextUsageReport.js";
-import { createRuntimeSnapshot } from "./createRuntimeSnapshot.js";
-import { formatContextUsage } from "./formatContextUsage.js";
+import { createContextUsageReport } from "./createContextUsageReport";
+import { createRuntimeSnapshot } from "./createRuntimeSnapshot";
+import { formatContextUsage } from "./formatContextUsage";
 
 /**
  * Builds the context usage text returned by the LLM-callable tool.

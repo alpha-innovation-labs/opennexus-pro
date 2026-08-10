@@ -1,16 +1,16 @@
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir.js";
-import { createObservationsUsageText } from "./createObservationsUsageText.js";
-import { createObservationListJsonRows } from "./createObservationListJsonRows.js";
-import { deleteObservationArtifacts } from "./deleteObservationArtifacts.js";
-import { formatObservationListJson } from "./formatObservationListJson.js";
-import { formatObservationListTable } from "./formatObservationListTable.js";
-import { listObservationArtifactGroups } from "./listObservationArtifactGroups.js";
-import { listObservationRecreateSessions } from "./listObservationRecreateSessions.js";
-import { parseObservationsCommand } from "./parseObservationsCommand.js";
-import { readObservationViewContent } from "./readObservationViewContent.js";
-import { recreateObservationArtifactsForSession } from "./recreateObservationArtifactsForSession.js";
-import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups.js";
-import { selectObservationRecreateSessions } from "./selectObservationRecreateSessions.js";
+import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
+import { createObservationsUsageText } from "./createObservationsUsageText";
+import { createObservationListJsonRows } from "./createObservationListJsonRows";
+import { deleteObservationArtifacts } from "./deleteObservationArtifacts";
+import { formatObservationListJson } from "./formatObservationListJson";
+import { formatObservationListTable } from "./formatObservationListTable";
+import { listObservationArtifactGroups } from "./listObservationArtifactGroups";
+import { listObservationRecreateSessions } from "./listObservationRecreateSessions";
+import { parseObservationsCommand } from "./parseObservationsCommand";
+import { readObservationViewContent } from "./readObservationViewContent";
+import { recreateObservationArtifactsForSession } from "./recreateObservationArtifactsForSession";
+import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups";
+import { selectObservationRecreateSessions } from "./selectObservationRecreateSessions";
 
 /**
  * Runs the Nexus observations CLI command namespace.

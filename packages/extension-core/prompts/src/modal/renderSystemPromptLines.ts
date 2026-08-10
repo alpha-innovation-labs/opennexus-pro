@@ -1,5 +1,5 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import { wrapSystemPromptLine } from "./wrapSystemPromptLine.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import { wrapSystemPromptLine } from "./wrapSystemPromptLine";
 
 /**
  * Renders the current system prompt as wrapped modal content.

@@ -1,4 +1,4 @@
-import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
+import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
 
 /**
  * Counts enabled mini-app-category features from the hardcoded registry.

@@ -1,4 +1,4 @@
-import type { TokenUsagePeriod } from "./TokenUsagePeriod.js";
+import type { TokenUsagePeriod } from "./TokenUsagePeriod";
 
 /**
  * Creates an empty period bucket.

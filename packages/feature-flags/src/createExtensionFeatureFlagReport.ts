@@ -1,4 +1,4 @@
-import type { ExtensionFeatureFlag } from "./types.js";
+import type { ExtensionFeatureFlag } from "./types";
 
 /**
  * Builds a readable report of extension flags and their features.

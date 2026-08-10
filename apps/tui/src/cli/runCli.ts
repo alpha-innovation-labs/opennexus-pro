@@ -1,5 +1,5 @@
-import { runApp } from "../runtime/runApp.js";
-import { runCliWithApp } from "./runCliWithApp.js";
+import { runApp } from "../runtime/runApp";
+import { runCliWithApp } from "./runCliWithApp";
 
 /**
  * Runs the Nexus CLI entrypoint.

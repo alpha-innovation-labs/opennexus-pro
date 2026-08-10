@@ -1,9 +1,9 @@
-import { getTetrisRenderCells, type TetrisRenderCell } from "../game/getTetrisRenderCells.js";
-import type { TetrisGame } from "../game/types.js";
-import { centerTetrisLine } from "./centerTetrisLine.js";
-import { createTetrisSegmentWidths } from "./createTetrisSegmentWidths.js";
-import { getTetrisCellWidth } from "./getTetrisCellWidth.js";
-import { renderTetrisCellSegment } from "./renderTetrisCellSegment.js";
+import { getTetrisRenderCells, type TetrisRenderCell } from "../game/getTetrisRenderCells";
+import type { TetrisGame } from "../game/types";
+import { centerTetrisLine } from "./centerTetrisLine";
+import { createTetrisSegmentWidths } from "./createTetrisSegmentWidths";
+import { getTetrisCellWidth } from "./getTetrisCellWidth";
+import { renderTetrisCellSegment } from "./renderTetrisCellSegment";
 
 /**
  * Renders a proportional Tetris board centered inside the requested modal area.

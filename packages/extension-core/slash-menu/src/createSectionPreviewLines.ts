@@ -1,4 +1,4 @@
-import type { SlashMenuSection } from "./types.js";
+import type { SlashMenuSection } from "./types";
 
 /**
  * Builds right-pane preview text for one top-level section.

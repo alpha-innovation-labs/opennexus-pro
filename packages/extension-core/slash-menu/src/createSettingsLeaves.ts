@@ -1,10 +1,10 @@
 import type { Api, Model } from "@earendil-works/pi-ai";
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { readThemes } from "@nexus/runtime/config/readThemes.js";
-import { createThinkingSettingLeaf } from "./createThinkingSettingLeaf.js";
-import { sortSlashMenuItemsByLabel } from "./sortSlashMenuItemsByLabel.js";
-import type { SlashMenuLeaf } from "./types.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { readThemes } from "@nexus/runtime/config/readThemes";
+import { createThinkingSettingLeaf } from "./createThinkingSettingLeaf";
+import { sortSlashMenuItemsByLabel } from "./sortSlashMenuItemsByLabel";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Builds settings entries from the live Pi runtime settings contract.

@@ -1,6 +1,6 @@
-import { getControlKeyFilterToken } from "./getControlKeyFilterToken.js";
-import { getPrintableKeyFilterToken } from "./getPrintableKeyFilterToken.js";
-import { getSpecialKeyFilterToken } from "./getSpecialKeyFilterToken.js";
+import { getControlKeyFilterToken } from "./getControlKeyFilterToken";
+import { getPrintableKeyFilterToken } from "./getPrintableKeyFilterToken";
+import { getSpecialKeyFilterToken } from "./getSpecialKeyFilterToken";
 
 /**
  * Converts one raw keypress into a hotkeys filter token.

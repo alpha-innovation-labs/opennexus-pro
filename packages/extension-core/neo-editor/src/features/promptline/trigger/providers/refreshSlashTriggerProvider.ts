@@ -1,9 +1,9 @@
-import { closeTriggerModal } from "../closeTriggerModal.js";
-import { refreshSlashTrigger } from "../refreshSlashTrigger.js";
-import { removeTriggerPrefixFromLines } from "../removeTriggerPrefixFromLines.js";
-import { ensureSlashTriggerModal } from "./ensureSlashTriggerModal.js";
-import { getSlashTriggerModal } from "./getSlashTriggerModal.js";
-import type { TriggerProviderRefreshArgs } from "../types.js";
+import { closeTriggerModal } from "../closeTriggerModal";
+import { refreshSlashTrigger } from "../refreshSlashTrigger";
+import { removeTriggerPrefixFromLines } from "../removeTriggerPrefixFromLines";
+import { ensureSlashTriggerModal } from "./ensureSlashTriggerModal";
+import { getSlashTriggerModal } from "./getSlashTriggerModal";
+import type { TriggerProviderRefreshArgs } from "../types";
 
 /**
  * Refreshes the `/` trigger provider.

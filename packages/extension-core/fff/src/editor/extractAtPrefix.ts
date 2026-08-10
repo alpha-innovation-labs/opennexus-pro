@@ -1,6 +1,6 @@
-import { findLastDelimiter } from "./findLastDelimiter.js";
-import { findUnclosedQuoteStart } from "./findUnclosedQuoteStart.js";
-import { isTokenStart } from "./isTokenStart.js";
+import { findLastDelimiter } from "./findLastDelimiter";
+import { findUnclosedQuoteStart } from "./findUnclosedQuoteStart";
+import { isTokenStart } from "./isTokenStart";
 
 /**
  * Extracts the active `@...` autocomplete prefix from editor text.

@@ -1,8 +1,8 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { getLanguageIcon } from "../constants.js";
-import { padMarkdownPreviewLine } from "../padMarkdownPreviewLine.js";
-import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment.js";
-import type { MarkdownCodeBlock, MarkdownPreviewTheme } from "../types.js";
+import { getLanguageIcon } from "../constants";
+import { padMarkdownPreviewLine } from "../padMarkdownPreviewLine";
+import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment";
+import type { MarkdownCodeBlock, MarkdownPreviewTheme } from "../types";
 
 /** Renders a Ratkit-style fenced code block with header and borders. */
 export function renderCodeBlock(block: MarkdownCodeBlock, width: number, theme?: MarkdownPreviewTheme): string[] {

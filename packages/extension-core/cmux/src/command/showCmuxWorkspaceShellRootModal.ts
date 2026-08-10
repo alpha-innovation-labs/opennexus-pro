@@ -1,9 +1,9 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { CmuxWorkspaceShellsModal } from "../ui/CmuxWorkspaceShellsModal.js";
-import { getCachedCmuxWorkspaceShellLines } from "../workspace-cache/getCachedCmuxWorkspaceShellLines.js";
-import { refreshCmuxWorkspaceShellLinesCache } from "../workspace-cache/refreshCmuxWorkspaceShellLinesCache.js";
-import type { CmuxWorkspaceShellAction } from "./CmuxWorkspaceShellAction.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { CmuxWorkspaceShellsModal } from "../ui/CmuxWorkspaceShellsModal";
+import { getCachedCmuxWorkspaceShellLines } from "../workspace-cache/getCachedCmuxWorkspaceShellLines";
+import { refreshCmuxWorkspaceShellLinesCache } from "../workspace-cache/refreshCmuxWorkspaceShellLinesCache";
+import type { CmuxWorkspaceShellAction } from "./CmuxWorkspaceShellAction";
 
 /**
  * Opens the root cmux workspace shell modal and returns the selected action.

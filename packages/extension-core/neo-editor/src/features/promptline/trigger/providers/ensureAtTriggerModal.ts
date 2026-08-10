@@ -1,7 +1,7 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createAtModal } from "../createAtModal.js";
-import type { TriggerModalState, ShowOverlay } from "../types.js";
+import { createAtModal } from "../createAtModal";
+import type { TriggerModalState, ShowOverlay } from "../types";
 
 /**
  * Ensures the `@` modal exists.

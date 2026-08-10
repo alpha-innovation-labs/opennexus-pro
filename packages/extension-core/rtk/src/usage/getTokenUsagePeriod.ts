@@ -1,7 +1,7 @@
-import type { RtkSavingsPeriodKey } from "../savings/RtkSavingsPeriodKey.js";
-import type { TokenUsagePeriod } from "./TokenUsagePeriod.js";
-import type { TokenUsageReport } from "./TokenUsageReport.js";
-import { getRollingTokenUsagePeriod } from "./getRollingTokenUsagePeriod.js";
+import type { RtkSavingsPeriodKey } from "../savings/RtkSavingsPeriodKey";
+import type { TokenUsagePeriod } from "./TokenUsagePeriod";
+import type { TokenUsageReport } from "./TokenUsageReport";
+import { getRollingTokenUsagePeriod } from "./getRollingTokenUsagePeriod";
 
 /**
  * Gets the latest token usage period for a selected period key.

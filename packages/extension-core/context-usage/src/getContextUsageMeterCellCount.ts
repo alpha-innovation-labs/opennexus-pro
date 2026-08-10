@@ -1,4 +1,4 @@
-import type { ContextUsageCategory } from "./types.js";
+import type { ContextUsageCategory } from "./types";
 
 const CELLS_PER_ROW = 5;
 const HEADER_ROWS = 1;

@@ -1,4 +1,4 @@
-import type { TokenUsageTotals } from "./TokenUsageTotals.js";
+import type { TokenUsageTotals } from "./TokenUsageTotals";
 
 /**
  * Creates a zeroed token usage total.

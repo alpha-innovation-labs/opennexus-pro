@@ -1,6 +1,6 @@
 import type { SessionInfo } from "@earendil-works/pi-coding-agent";
-import type { SessionJsonRow } from "./SessionJsonRow.js";
-import { formatSessionTitle } from "./formatSessionTitle.js";
+import type { SessionJsonRow } from "./SessionJsonRow";
+import { formatSessionTitle } from "./formatSessionTitle";
 
 /**
  * Converts session manager metadata into JSON-safe session rows.

@@ -1,5 +1,5 @@
 import { visibleWidth, wrapTextWithAnsi } from "@earendil-works/pi-tui";
-import { measureTronRender } from "../profiling/measureTronRender.js";
+import { measureTronRender } from "../profiling/measureTronRender";
 
 /**
  * Compact Tron-style bordered row for assistant provider errors.

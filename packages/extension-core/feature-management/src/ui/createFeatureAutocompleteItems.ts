@@ -1,8 +1,8 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import type { FeatureStatusRow } from "../model/types.js";
-import { formatFeatureManagementRow } from "./formatFeatureManagementRow.js";
-import { getFeatureColumnWidth } from "./getFeatureColumnWidth.js";
-import { sortFeatureStatusRows } from "./sortFeatureStatusRows.js";
+import type { FeatureStatusRow } from "../model/types";
+import { formatFeatureManagementRow } from "./formatFeatureManagementRow";
+import { getFeatureColumnWidth } from "./getFeatureColumnWidth";
+import { sortFeatureStatusRows } from "./sortFeatureStatusRows";
 
 /**
  * Converts feature status rows into selectable modal items.

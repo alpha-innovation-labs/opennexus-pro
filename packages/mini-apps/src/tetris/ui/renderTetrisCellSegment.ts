@@ -1,4 +1,4 @@
-import type { TetrisRenderCell } from "../game/getTetrisRenderCells.js";
+import type { TetrisRenderCell } from "../game/getTetrisRenderCells";
 
 const CELL_COLORS: Record<string, string> = {
 	I: "accent",

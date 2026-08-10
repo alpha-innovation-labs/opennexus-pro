@@ -1,5 +1,5 @@
-import { createSystemPromptOutline } from "./createSystemPromptOutline.js";
-import type { SystemPromptOutlineChild, SystemPromptOutlineSection } from "./types.js";
+import { createSystemPromptOutline } from "./createSystemPromptOutline";
+import type { SystemPromptOutlineChild, SystemPromptOutlineSection } from "./types";
 
 export type SystemPromptOutlineRow = {
 	label: string;

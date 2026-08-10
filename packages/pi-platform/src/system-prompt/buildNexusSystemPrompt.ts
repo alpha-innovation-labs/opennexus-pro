@@ -1,6 +1,6 @@
-import { appendPromptTail } from "./appendPromptTail.js";
-import { createNexusDefaultPromptBody } from "./createNexusDefaultPromptBody.js";
-import type { NexusSystemPromptOptions } from "./types.js";
+import { appendPromptTail } from "./appendPromptTail";
+import { createNexusDefaultPromptBody } from "./createNexusDefaultPromptBody";
+import type { NexusSystemPromptOptions } from "./types";
 
 /**
  * Builds Nexus' system prompt with Pi parity, excluding Pi documentation guidance.

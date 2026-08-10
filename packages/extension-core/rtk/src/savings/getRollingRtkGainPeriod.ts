@@ -1,8 +1,8 @@
-import type { RtkGainPeriod } from "./RtkGainPeriod.js";
-import { aggregateRtkGainPeriods } from "./aggregateRtkGainPeriods.js";
-import { formatUtcDateKey } from "./formatUtcDateKey.js";
-import { getRollingWindowStartDate } from "./getRollingWindowStartDate.js";
-import { getRtkGainDailyDate } from "./getRtkGainDailyDate.js";
+import type { RtkGainPeriod } from "./RtkGainPeriod";
+import { aggregateRtkGainPeriods } from "./aggregateRtkGainPeriods";
+import { formatUtcDateKey } from "./formatUtcDateKey";
+import { getRollingWindowStartDate } from "./getRollingWindowStartDate";
+import { getRtkGainDailyDate } from "./getRtkGainDailyDate";
 
 /**
  * Aggregates the latest rolling daily RTK gain window.

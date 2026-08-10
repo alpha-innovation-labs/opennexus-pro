@@ -1,4 +1,4 @@
-import type { MarkdownPreviewStyleToken } from "./types.js";
+import type { MarkdownPreviewStyleToken } from "./types";
 
 export const HEADING_ICONS = ["① ", "② ", "③ ", "④ ", "⑤ ", "⑥ "] as const;
 export const BULLET_MARKERS = ["● ", "○ ", "◆ ", "◇ "] as const;

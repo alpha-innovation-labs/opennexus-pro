@@ -1,5 +1,5 @@
-import { readTetrisSettings, type TetrisSettings } from "./readTetrisSettings.js";
-import { writeTetrisSettings } from "./writeTetrisSettings.js";
+import { readTetrisSettings, type TetrisSettings } from "./readTetrisSettings";
+import { writeTetrisSettings } from "./writeTetrisSettings";
 
 let cachedSettings: TetrisSettings | undefined;
 

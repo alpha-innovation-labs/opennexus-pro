@@ -1,6 +1,6 @@
-import type { LocalImageReaderConfig } from "../config/types.js";
-import type { ChatCompletionResponse } from "./types.js";
-import { buildToolResult } from "./builder.js";
+import type { LocalImageReaderConfig } from "../config/types";
+import type { ChatCompletionResponse } from "./types";
+import { buildToolResult } from "./builder";
 
 /**
  * Make an HTTP POST request to a chat completions API endpoint.

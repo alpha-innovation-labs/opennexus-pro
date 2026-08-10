@@ -1,5 +1,5 @@
-import type { InstallCommandOptions } from "./InstallCommandOptions.js";
-import { isInstallCommand } from "./isInstallCommand.js";
+import type { InstallCommandOptions } from "./InstallCommandOptions";
+import { isInstallCommand } from "./isInstallCommand";
 
 /**
  * Parses Nexus install command options.

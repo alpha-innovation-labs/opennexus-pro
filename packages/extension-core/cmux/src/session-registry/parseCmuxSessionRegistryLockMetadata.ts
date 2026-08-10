@@ -1,4 +1,4 @@
-import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockMetadata.js";
+import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockMetadata";
 
 /**
  * Parses untrusted cmux registry lock owner metadata.

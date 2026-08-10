@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { getObservationPromptOverridePath } from "./getObservationPromptOverridePath.js";
+import { getObservationPromptOverridePath } from "./getObservationPromptOverridePath";
 
 /**
  * Reads the persisted observation prompt override.

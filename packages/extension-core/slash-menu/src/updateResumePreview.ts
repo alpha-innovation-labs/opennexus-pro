@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { computeTwoPaneWidths } from "@nexus/tui-kit/modal/index.js";
-import { readResumeTranscriptLines } from "./resume-transcript/readResumeTranscriptLines.js";
-import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
+import { computeTwoPaneWidths } from "@nexus/tui-kit/modal/index";
+import { readResumeTranscriptLines } from "./resume-transcript/readResumeTranscriptLines";
+import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 
 export type ResumePreviewState = {
   renderedPreviewKey?: string;

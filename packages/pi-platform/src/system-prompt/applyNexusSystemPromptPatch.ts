@@ -1,5 +1,5 @@
-import { buildNexusSystemPrompt } from "./buildNexusSystemPrompt.js";
-import type { NexusSystemPromptOptions } from "./types.js";
+import { buildNexusSystemPrompt } from "./buildNexusSystemPrompt";
+import type { NexusSystemPromptOptions } from "./types";
 
 type AgentSessionClass = {
 	__nexusSystemPromptPatched__?: boolean;

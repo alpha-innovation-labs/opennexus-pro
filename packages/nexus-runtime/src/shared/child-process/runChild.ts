@@ -1,6 +1,6 @@
-import { createSummarizerArgs } from "./createSummarizerArgs.js";
-import { getCurrentNexusLaunchSpec } from "../../cli/getCurrentNexusLaunchSpec.js";
-import { runBundledChildProcess } from "./runBundledChildProcess.js";
+import { createSummarizerArgs } from "./createSummarizerArgs";
+import { getCurrentNexusLaunchSpec } from "../../cli/getCurrentNexusLaunchSpec";
+import { runBundledChildProcess } from "./runBundledChildProcess";
 
 /**
  * Runs a generic child process with the given prompt and returns stdout.

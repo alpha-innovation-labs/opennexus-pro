@@ -1,4 +1,4 @@
-import type { HotkeysEntry, HotkeysGroup } from "./types.js";
+import type { HotkeysEntry, HotkeysGroup } from "./types";
 
 /**
  * Flattens editable keybinding entries from rendered hotkeys groups.

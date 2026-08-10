@@ -1,4 +1,4 @@
-import type { WebFetchFormat } from "./webFetchTypes.js";
+import type { WebFetchFormat } from "./webFetchTypes";
 
 /**
  * Renders fetched text into the requested output format.

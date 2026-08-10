@@ -1,4 +1,4 @@
-import { hasBunBinaryMarker } from "./hasBunBinaryMarker.js";
+import { hasBunBinaryMarker } from "./hasBunBinaryMarker";
 
 /**
  * Reports whether the current module is running from a Bun compiled binary.

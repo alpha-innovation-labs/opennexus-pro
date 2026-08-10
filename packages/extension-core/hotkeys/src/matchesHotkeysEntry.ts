@@ -1,4 +1,4 @@
-import type { HotkeysEntry } from "./types.js";
+import type { HotkeysEntry } from "./types";
 
 /**
  * Returns whether one hotkeys entry matches a filter query.

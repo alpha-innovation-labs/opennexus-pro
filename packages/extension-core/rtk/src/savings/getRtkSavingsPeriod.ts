@@ -1,8 +1,8 @@
-import type { RtkGainPeriod } from "./RtkGainPeriod.js";
-import type { RtkGainReport } from "./RtkGainReport.js";
-import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey.js";
-import { getLatestRtkGainPeriod } from "./getLatestRtkGainPeriod.js";
-import { getRollingRtkGainPeriod } from "./getRollingRtkGainPeriod.js";
+import type { RtkGainPeriod } from "./RtkGainPeriod";
+import type { RtkGainReport } from "./RtkGainReport";
+import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey";
+import { getLatestRtkGainPeriod } from "./getLatestRtkGainPeriod";
+import { getRollingRtkGainPeriod } from "./getRollingRtkGainPeriod";
 
 /**
  * Resolves the latest RTK gain row for a selected period.

@@ -1,10 +1,10 @@
-import type { RegisteredSlashCommand, SlashMenuLeaf, SlashMenuSection } from "./types.js";
-import { createCommandLeaves } from "./createCommandLeaves.js";
-import { createDynamicCommandItems } from "./createDynamicCommandItems.js";
-import { createThinkingTopLevelItem } from "./createThinkingTopLevelItem.js";
-import { createToolsTopLevelItem } from "./createToolsTopLevelItem.js";
-import { createTopLevelPromptCommandLeaves } from "./createTopLevelPromptCommandLeaves.js";
-import { groupAndSortTopLevelItems } from "./groupAndSortTopLevelItems.js";
+import type { RegisteredSlashCommand, SlashMenuLeaf, SlashMenuSection } from "./types";
+import { createCommandLeaves } from "./createCommandLeaves";
+import { createDynamicCommandItems } from "./createDynamicCommandItems";
+import { createThinkingTopLevelItem } from "./createThinkingTopLevelItem";
+import { createToolsTopLevelItem } from "./createToolsTopLevelItem";
+import { createTopLevelPromptCommandLeaves } from "./createTopLevelPromptCommandLeaves";
+import { groupAndSortTopLevelItems } from "./groupAndSortTopLevelItems";
 
 /**
  * Builds top-level slash menu items from registered commands plus settings.

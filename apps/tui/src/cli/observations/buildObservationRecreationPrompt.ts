@@ -1,7 +1,7 @@
-import { readObservationPromptOverride } from "@extensions/observations/shared/readObservationPromptOverride.js";
-import type { StoredObservationMessage } from "@extensions/observations/tracker/types.js";
-import { formatObservationRecreationMessages } from "./formatObservationRecreationMessages.js";
-import { renderObservationRecreationPrompt } from "./renderObservationRecreationPrompt.js";
+import { readObservationPromptOverride } from "@extensions/observations/shared/readObservationPromptOverride";
+import type { StoredObservationMessage } from "@extensions/observations/tracker/types";
+import { formatObservationRecreationMessages } from "./formatObservationRecreationMessages";
+import { renderObservationRecreationPrompt } from "./renderObservationRecreationPrompt";
 
 /**
  * Builds one LLM prompt that recreates final observations from full message history.

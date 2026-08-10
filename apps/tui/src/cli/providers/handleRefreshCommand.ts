@@ -1,10 +1,10 @@
-import type { AiGateway } from "@extensions/ai-providers/index.js";
-import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig.js";
-import { getGateways } from "@extensions/ai-providers/gateway/getGateways.js";
-import { getAllProviderIds } from "./getAllProviderIds.js";
-import { getModelCachePath, readProviderStateCache, writeProviderStateCache, type ProviderStateCache } from "@extensions/ai-providers/cache/index.js";
+import type { AiGateway } from "@extensions/ai-providers/index";
+import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig";
+import { getGateways } from "@extensions/ai-providers/gateway/getGateways";
+import { getAllProviderIds } from "./getAllProviderIds";
+import { getModelCachePath, readProviderStateCache, writeProviderStateCache, type ProviderStateCache } from "@extensions/ai-providers/cache/index";
 import { Table } from "console-table-printer";
-import { GRAY, GREEN, ORANGE, RED, RESET } from "../shared/ansiColors.js";
+import { GRAY, GREEN, ORANGE, RED, RESET } from "../shared/ansiColors";
 
 type RefreshStatus = "ok" | "access-denied" | "not-a-gateway" | "no-provider";
 

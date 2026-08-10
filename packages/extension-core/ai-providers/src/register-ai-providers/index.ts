@@ -1,1 +1,1 @@
-export { registerAiProvidersExtension } from "./registerAiProvidersExtension.js";
+export { registerAiProvidersExtension } from "./registerAiProvidersExtension";

@@ -1,7 +1,7 @@
-import { formatResumeAge } from "./formatResumeAge.js";
-import { formatResumeSummary } from "./formatResumeSummary.js";
-import { readResumeSessionStats } from "./readResumeSessionStats.js";
-import type { SlashMenuLeaf } from "./types.js";
+import { formatResumeAge } from "./formatResumeAge";
+import { formatResumeSummary } from "./formatResumeSummary";
+import { readResumeSessionStats } from "./readResumeSessionStats";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Builds session resume leaves from session listings.

@@ -1,5 +1,5 @@
-import { getResourceCommandScope } from "./getResourceCommandScope.js";
-import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types.js";
+import { getResourceCommandScope } from "./getResourceCommandScope";
+import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types";
 
 /**
  * Builds slash-menu leaves for one dynamic command source.

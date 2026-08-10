@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import type { EditorTriggerConfig } from "./types.js";
+import type { EditorTriggerConfig } from "./types";
 
 /**
  * Reads one editor-trigger config file.

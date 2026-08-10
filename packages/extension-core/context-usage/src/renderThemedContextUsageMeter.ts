@@ -1,8 +1,8 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import type { ContextUsageCategory } from "./types.js";
-import { colorContextUsageMarker } from "./getContextUsageMarkerColor.js";
-import { getContextUsageMeterCellCount, getContextUsageMeterCellsPerRow } from "./getContextUsageMeterCellCount.js";
-import { orderContextUsageMeterCategories } from "./orderContextUsageMeterCategories.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { ContextUsageCategory } from "./types";
+import { colorContextUsageMarker } from "./getContextUsageMarkerColor";
+import { getContextUsageMeterCellCount, getContextUsageMeterCellsPerRow } from "./getContextUsageMeterCellCount";
+import { orderContextUsageMeterCategories } from "./orderContextUsageMeterCategories";
 
 /**
  * Renders a colored block-meter visualization using category markers.

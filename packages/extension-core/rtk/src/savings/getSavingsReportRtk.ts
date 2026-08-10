@@ -1,5 +1,5 @@
-import type { RtkGainReport } from "./RtkGainReport.js";
-import type { SavingsReport } from "./SavingsReport.js";
+import type { RtkGainReport } from "./RtkGainReport";
+import type { SavingsReport } from "./SavingsReport";
 
 /**
  * Unwraps a combined savings report to its RTK report.

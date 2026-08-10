@@ -1,5 +1,5 @@
 import type { ExtensionFactory } from "@earendil-works/pi-coding-agent";
-import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent.js";
+import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent";
 
 /**
  * Creates the inline extension factories bundled with this app.
@@ -15,7 +15,7 @@ export async function createBundledExtensionFactories(
   enabledFeatures?: string[],
 ): Promise<ExtensionFactory[]> {
   const startedAt = performance.now();
-  const { default: registerBundledExtensions } = await import("./registerBundledExtensions.js");
+  const { default: registerBundledExtensions } = await import("./registerBundledExtensions");
   logStartupProfileEvent("extensions", "importBundledExtensions:done", {
     durationMs: Number((performance.now() - startedAt).toFixed(3)),
   });

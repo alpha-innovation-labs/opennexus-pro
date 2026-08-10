@@ -1,6 +1,6 @@
-import type { TriggerState } from "./types.js";
-import { detectAtPrefix } from "./detectAtPrefix.js";
-import { detectSlashPrefix } from "./detectSlashPrefix.js";
+import type { TriggerState } from "./types";
+import { detectAtPrefix } from "./detectAtPrefix";
+import { detectSlashPrefix } from "./detectSlashPrefix";
 
 /**
  * Resolves the active editor trigger state from text before the cursor.

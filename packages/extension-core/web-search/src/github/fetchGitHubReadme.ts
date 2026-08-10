@@ -1,4 +1,4 @@
-import { fetchRawGitHubFile } from "./fetchRawGitHubFile.js";
+import { fetchRawGitHubFile } from "./fetchRawGitHubFile";
 
 const README_CANDIDATES = ["README.md", "readme.md", "README", "README.txt", "README.rst"];
 

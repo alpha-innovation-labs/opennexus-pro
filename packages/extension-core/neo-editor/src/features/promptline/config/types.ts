@@ -1,5 +1,5 @@
-import type { EditorTriggerConfig } from "../../editor-triggers/types.js";
-import type { NeoConfig } from "../../../types.js";
+import type { EditorTriggerConfig } from "../../editor-triggers/types";
+import type { NeoConfig } from "../../../types";
 
 export type PromptlineConfig = {
   triggerConfig: EditorTriggerConfig;

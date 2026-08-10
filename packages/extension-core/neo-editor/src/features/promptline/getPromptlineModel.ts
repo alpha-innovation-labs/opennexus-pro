@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { getPromptlineModelOverride } from "./state.js";
+import { getPromptlineModelOverride } from "./state";
 
 /**
  * Resolves the model that promptline chrome should render.

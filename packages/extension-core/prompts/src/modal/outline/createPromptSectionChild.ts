@@ -1,4 +1,4 @@
-import type { SystemPromptOutlineChild } from "./types.js";
+import type { SystemPromptOutlineChild } from "./types";
 
 /**
  * Creates an outline child when its source line exists.

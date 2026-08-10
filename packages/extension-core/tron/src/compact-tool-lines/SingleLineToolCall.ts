@@ -3,7 +3,7 @@ import { shouldBridgeThinkingToTool } from "../activity/shouldBridgeThinkingToTo
 import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder.ts";
 import { shouldShowToolCallTopBorder } from "../activity/shouldShowToolCallTopBorder.ts";
 import { CompactToolRow } from "../shared/compact-row/CompactToolRow.ts";
-import { measureTronRender } from "../profiling/measureTronRender.js";
+import { measureTronRender } from "../profiling/measureTronRender";
 import { iconForToolName } from "./iconForToolName.ts";
 import type { SummaryText } from "./SummaryText.ts";
 

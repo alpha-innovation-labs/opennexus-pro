@@ -23,7 +23,7 @@ import {
   closeHerdrWorkspace,
   runHerdr,
   PreparedHerdr,
-} from "../index.js";
+} from "../index";
 
 // ---------------------------------------------------------------------------
 // Argument parsing (minimal, no dependencies)

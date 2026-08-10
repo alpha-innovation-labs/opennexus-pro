@@ -1,4 +1,4 @@
-import type { OpenRouterModelOption } from "./OpenRouterModelOption.js";
+import type { OpenRouterModelOption } from "./OpenRouterModelOption";
 /**
  * Fetches priced OpenRouter model options.
  *

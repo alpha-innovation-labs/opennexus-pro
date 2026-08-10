@@ -1,10 +1,10 @@
-import type { TetrisGame } from "../game/types.js";
-import { createCompactTetrisModalLines } from "./createCompactTetrisModalLines.js";
-import { createTetrisDividerLine } from "./createTetrisDividerLine.js";
-import { createWideTetrisModalLines } from "./createWideTetrisModalLines.js";
-import { renderScaledTetrisBoard } from "./renderScaledTetrisBoard.js";
-import { renderTetrisHelpLine } from "./renderTetrisHelpLine.js";
-import { renderTetrisStatusLine } from "./renderTetrisStatusLine.js";
+import type { TetrisGame } from "../game/types";
+import { createCompactTetrisModalLines } from "./createCompactTetrisModalLines";
+import { createTetrisDividerLine } from "./createTetrisDividerLine";
+import { createWideTetrisModalLines } from "./createWideTetrisModalLines";
+import { renderScaledTetrisBoard } from "./renderScaledTetrisBoard";
+import { renderTetrisHelpLine } from "./renderTetrisHelpLine";
+import { renderTetrisStatusLine } from "./renderTetrisStatusLine";
 
 /**
  * Builds full-width Tetris modal body lines.

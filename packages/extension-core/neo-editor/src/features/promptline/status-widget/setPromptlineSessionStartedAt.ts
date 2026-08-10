@@ -1,4 +1,4 @@
-import { PROMPTLINE_SESSION_STARTED_AT_KEY } from "./sessionStartedAtKey.js";
+import { PROMPTLINE_SESSION_STARTED_AT_KEY } from "./sessionStartedAtKey";
 
 /**
  * Stores the timestamp for the current promptline session.

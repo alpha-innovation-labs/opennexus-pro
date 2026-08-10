@@ -1,5 +1,5 @@
-import type { ContextUsageDetailItem } from "./types.js";
-import { estimateTokensFromText } from "./estimateTokensFromText.js";
+import type { ContextUsageDetailItem } from "./types";
+import { estimateTokensFromText } from "./estimateTokensFromText";
 
 /**
  * Parses loaded skills from the rendered system prompt when structured options are unavailable.

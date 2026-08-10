@@ -1,9 +1,9 @@
-import { bundledFeatureFlags, getAllBundledExtensionIds } from "@nexus/feature-flags/registry.js";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
-import type { FeatureFlagConfigPatch } from "./updateFeatureFlagsConfig.js";
-import type { FeatureProductCategory, FeatureStatusCategory, FeatureStatusRow } from "./types.js";
-import { getFeatureManagementGroup } from "./getFeatureManagementGroup.js";
+import { bundledFeatureFlags, getAllBundledExtensionIds } from "@nexus/feature-flags/registry";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
+import type { FeatureFlagConfigPatch } from "./updateFeatureFlagsConfig";
+import type { FeatureProductCategory, FeatureStatusCategory, FeatureStatusRow } from "./types";
+import { getFeatureManagementGroup } from "./getFeatureManagementGroup";
 
 /**
  * Persists a feature flag disable/enable override to config.json.

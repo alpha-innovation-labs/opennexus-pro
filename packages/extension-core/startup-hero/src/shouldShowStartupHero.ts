@@ -1,4 +1,4 @@
-import { hasResumeCliFlag } from "./hasResumeCliFlag.js";
+import { hasResumeCliFlag } from "./hasResumeCliFlag";
 
 /**
  * Returns whether the startup hero should be shown for the session start reason.

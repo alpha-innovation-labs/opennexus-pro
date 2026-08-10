@@ -1,6 +1,6 @@
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { expandHomePath } from "./expandHomePath.js";
+import { expandHomePath } from "./expandHomePath";
 
 const USER_CONFIG_DIR_ENV_NAME = "NEXUS_CONFIG_DIR";
 

@@ -1,5 +1,5 @@
-import { getTetrisHotkeyRows } from "./getTetrisHotkeyRows.js";
-import { renderTetrisBox } from "./renderTetrisBox.js";
+import { getTetrisHotkeyRows } from "./getTetrisHotkeyRows";
+import { renderTetrisBox } from "./renderTetrisBox";
 
 /**
  * Renders the boxed hotkey table with purple key labels.

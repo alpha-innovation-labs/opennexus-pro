@@ -1,6 +1,6 @@
-import { getSlashTriggerModal } from "./getSlashTriggerModal.js";
-import { refreshSlashTriggerProvider } from "./refreshSlashTriggerProvider.js";
-import type { TriggerProvider } from "../types.js";
+import { getSlashTriggerModal } from "./getSlashTriggerModal";
+import { refreshSlashTriggerProvider } from "./refreshSlashTriggerProvider";
+import type { TriggerProvider } from "../types";
 
 /**
  * Provider contract for the `/` trigger.

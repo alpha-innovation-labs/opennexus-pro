@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
-import { filterValidFeatureKeys } from "./filterValidFeatureKeys.js";
-import { getAllFeatureKeys } from "./getAllFeatureKeys.js";
-import { getFeatureStatePath } from "./getFeatureStatePath.js";
-import type { FffFeatureKey } from "../shared/types.js";
+import { filterValidFeatureKeys } from "./filterValidFeatureKeys";
+import { getAllFeatureKeys } from "./getAllFeatureKeys";
+import { getFeatureStatePath } from "./getFeatureStatePath";
+import type { FffFeatureKey } from "../shared/types";
 
 /**
  * Loads persisted FFF feature flags.

@@ -1,5 +1,5 @@
-import { deleteKnownObservationArtifactsForConversationId } from "./deleteKnownObservationArtifactsForConversationId.js";
-import { getConversationIdFromSessionPath } from "./getConversationIdFromSessionPath.js";
+import { deleteKnownObservationArtifactsForConversationId } from "./deleteKnownObservationArtifactsForConversationId";
+import { getConversationIdFromSessionPath } from "./getConversationIdFromSessionPath";
 
 /**
  * Deletes observation artifacts associated with a session file path.

@@ -1,7 +1,7 @@
 import { mkdir, rm, rmdir } from "node:fs/promises";
-import { isCmuxSessionRegistryLockDirOld } from "./isCmuxSessionRegistryLockDirOld.js";
-import { isCmuxSessionRegistryLockStale } from "./isCmuxSessionRegistryLockStale.js";
-import { readCmuxSessionRegistryLockMetadata } from "./readCmuxSessionRegistryLockMetadata.js";
+import { isCmuxSessionRegistryLockDirOld } from "./isCmuxSessionRegistryLockDirOld";
+import { isCmuxSessionRegistryLockStale } from "./isCmuxSessionRegistryLockStale";
+import { readCmuxSessionRegistryLockMetadata } from "./readCmuxSessionRegistryLockMetadata";
 
 /**
  * Removes an abandoned cmux registry lock after a guarded stale recheck.

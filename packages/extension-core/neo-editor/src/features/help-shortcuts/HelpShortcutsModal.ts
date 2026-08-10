@@ -1,9 +1,9 @@
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { computeModalWidth, SharedModal, type SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import { arrangeHelpGroups } from "./arrangeHelpGroups.js";
-import { getHelpShortcutGroups } from "./getHelpShortcutGroups.js";
-import { padVisible } from "./padVisible.js";
-import { renderHelpPanel } from "./renderHelpPanel.js";
+import { computeModalWidth, SharedModal, type SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import { arrangeHelpGroups } from "./arrangeHelpGroups";
+import { getHelpShortcutGroups } from "./getHelpShortcutGroups";
+import { padVisible } from "./padVisible";
+import { renderHelpPanel } from "./renderHelpPanel";
 
 /**
  * Modal that shows grouped Neo keyboard shortcuts.

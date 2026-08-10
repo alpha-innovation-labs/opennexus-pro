@@ -1,5 +1,5 @@
-import type { TranscriptEntry } from "@extensions/tron/transcript/types.js";
-import { getMessageCreatedAt } from "./getMessageCreatedAt.js";
+import type { TranscriptEntry } from "@extensions/tron/transcript/types";
+import { getMessageCreatedAt } from "./getMessageCreatedAt";
 
 /**
  * Converts one assistant session message into Tron-style transcript entries.

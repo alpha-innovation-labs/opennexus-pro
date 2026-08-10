@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { summarizeAssistantObservations } from "./summarizeAssistantObservations.js";
-import type { ObservationState, StoredObservationMessage } from "./types.js";
+import { summarizeAssistantObservations } from "./summarizeAssistantObservations";
+import type { ObservationState, StoredObservationMessage } from "./types";
 
 /**
  * Applies one assistant message to the current observation topic.

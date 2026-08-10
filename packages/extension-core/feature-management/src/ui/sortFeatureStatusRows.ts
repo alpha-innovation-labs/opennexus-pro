@@ -1,5 +1,5 @@
-import type { FeatureManagementGroup, FeatureStatusRow } from "../model/types.js";
-import { getFeatureGroupRank } from "./getFeatureGroupRank.js";
+import type { FeatureManagementGroup, FeatureStatusRow } from "../model/types";
+import { getFeatureGroupRank } from "./getFeatureGroupRank";
 
 /**
  * Sorts feature rows into stable sections (Mini apps, Extensions),

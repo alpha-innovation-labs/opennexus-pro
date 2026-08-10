@@ -1,6 +1,6 @@
-import { createGuidelinesList } from "./createGuidelinesList.js";
-import { createToolsList } from "./createToolsList.js";
-import type { NexusSystemPromptOptions } from "./types.js";
+import { createGuidelinesList } from "./createGuidelinesList";
+import { createToolsList } from "./createToolsList";
+import type { NexusSystemPromptOptions } from "./types";
 
 /**
  * Creates the Nexus default prompt body copied from Pi without the Pi docs section.

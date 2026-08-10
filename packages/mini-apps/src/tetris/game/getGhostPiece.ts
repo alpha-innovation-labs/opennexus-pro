@@ -1,5 +1,5 @@
-import { canPlacePiece } from "./canPlacePiece.js";
-import type { TetrisActivePiece, TetrisGame } from "./types.js";
+import { canPlacePiece } from "./canPlacePiece";
+import type { TetrisActivePiece, TetrisGame } from "./types";
 
 /**
  * Calculates where the active Tetris piece would land after a hard drop.

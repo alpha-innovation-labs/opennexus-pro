@@ -1,6 +1,6 @@
 import { writeFile } from "node:fs/promises";
-import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockMetadata.js";
-import { getCmuxSessionRegistryLockMetadataPath } from "./getCmuxSessionRegistryLockMetadataPath.js";
+import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockMetadata";
+import { getCmuxSessionRegistryLockMetadataPath } from "./getCmuxSessionRegistryLockMetadataPath";
 
 /**
  * Writes cmux registry lock owner metadata with private permissions.

@@ -1,10 +1,10 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createStartupHeroWidget } from "./createStartupHeroWidget.js";
-import { getStartupDurationBadge } from "./getStartupDurationBadge.js";
-import { getStartupHeroStatus } from "./getStartupHeroStatus.js";
-import { getStartupHeroVersion } from "./getStartupHeroVersion.js";
-import { shouldShowStartupDurationBadge } from "./shouldShowStartupDurationBadge.js";
-import { startupHeroWidgetKey } from "./startupHeroWidgetKey.js";
+import { createStartupHeroWidget } from "./createStartupHeroWidget";
+import { getStartupDurationBadge } from "./getStartupDurationBadge";
+import { getStartupHeroStatus } from "./getStartupHeroStatus";
+import { getStartupHeroVersion } from "./getStartupHeroVersion";
+import { shouldShowStartupDurationBadge } from "./shouldShowStartupDurationBadge";
+import { startupHeroWidgetKey } from "./startupHeroWidgetKey";
 
 /**
  * Renders the startup hero above the editor.

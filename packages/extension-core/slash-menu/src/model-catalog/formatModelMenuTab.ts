@@ -1,6 +1,6 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import { getModelMenuTabLabel } from "./getModelMenuTabLabel.js";
-import type { ModelMenuTab } from "./ModelMenuTab.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import { getModelMenuTabLabel } from "./getModelMenuTabLabel";
+import type { ModelMenuTab } from "./ModelMenuTab";
 
 /**
  * Formats one model-menu tab marker.

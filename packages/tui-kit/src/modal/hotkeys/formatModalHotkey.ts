@@ -1,6 +1,6 @@
-import type { SharedModalTheme } from "../types.js";
-import { getModalHotkeyColor } from "./getModalHotkeyColor.js";
-import type { SharedModalHotkey } from "./types.js";
+import type { SharedModalTheme } from "../types";
+import { getModalHotkeyColor } from "./getModalHotkeyColor";
+import type { SharedModalHotkey } from "./types";
 
 /**
  * Formats one hotkey hint with purple key text and dim label text.

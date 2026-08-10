@@ -1,5 +1,5 @@
-import { fetchGitHubApiJson } from "./fetchGitHubApiJson.js";
-import type { GitHubApiRepo } from "./githubTypes.js";
+import { fetchGitHubApiJson } from "./fetchGitHubApiJson";
+import type { GitHubApiRepo } from "./githubTypes";
 
 /**
  * Resolves the default branch for a GitHub repository.

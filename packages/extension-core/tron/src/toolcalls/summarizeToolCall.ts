@@ -1,5 +1,5 @@
-import type { ToolCallInfo } from "./types.js";
-import { toolIcon } from "./toolIcon.js";
+import type { ToolCallInfo } from "./types";
+import { toolIcon } from "./toolIcon";
 
 /**
  * Builds the left-pane label for one tool call.

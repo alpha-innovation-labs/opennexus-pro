@@ -5,8 +5,8 @@
  * Builds the `/v1/models` URL (or `/models` if baseUrl already ends
  * with `/v1`), sends a fetch request, and returns a detailed status.
  */
-import type { GatewayProbeResult } from "./types.js";
-import { DEFAULT_PORTS } from "../constants/default-ports.js";
+import type { GatewayProbeResult } from "./types";
+import { DEFAULT_PORTS } from "../constants/default-ports";
 
 /**
  * Returns the HTTP auth headers for this gateway.

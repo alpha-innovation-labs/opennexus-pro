@@ -1,9 +1,9 @@
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
-import { isBundledBinary } from "../package/isBundledBinary.js";
-import { getSourceEntrypointPath } from "./getSourceEntrypointPath.js";
-import { getTsxRuntimeBinaryPath } from "./getTsxRuntimeBinaryPath.js";
-import type { NexusLaunchSpec } from "./types.js";
+import { isBundledBinary } from "../package/isBundledBinary";
+import { getSourceEntrypointPath } from "./getSourceEntrypointPath";
+import { getTsxRuntimeBinaryPath } from "./getTsxRuntimeBinaryPath";
+import type { NexusLaunchSpec } from "./types";
 
 /**
  * Resolves how the current Nexus process should relaunch itself.

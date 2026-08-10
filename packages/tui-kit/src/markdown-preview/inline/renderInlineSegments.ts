@@ -1,6 +1,6 @@
-import { getLinkIcon } from "../constants.js";
-import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment.js";
-import type { MarkdownInlineSegment, MarkdownPreviewTheme } from "../types.js";
+import { getLinkIcon } from "../constants";
+import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment";
+import type { MarkdownInlineSegment, MarkdownPreviewTheme } from "../types";
 
 /** Renders parsed inline markdown segments into a terminal string. */
 export function renderInlineSegments(segments: MarkdownInlineSegment[], theme?: MarkdownPreviewTheme): string {

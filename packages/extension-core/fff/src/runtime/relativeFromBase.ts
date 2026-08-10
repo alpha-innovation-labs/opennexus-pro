@@ -1,5 +1,5 @@
 import { relative } from "node:path";
-import { normalizeSlashes } from "./normalizeSlashes.js";
+import { normalizeSlashes } from "./normalizeSlashes";
 
 /**
  * Builds a normalized relative path from the runtime base.

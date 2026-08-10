@@ -1,6 +1,6 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import { padVisible } from "./padVisible.js";
-import type { PendingHotkeysConflict } from "./types.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import { padVisible } from "./padVisible";
+import type { PendingHotkeysConflict } from "./types";
 
 /**
  * Renders the conflict approval prompt above the hotkeys list.

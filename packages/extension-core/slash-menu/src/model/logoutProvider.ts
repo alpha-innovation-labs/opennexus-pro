@@ -1,6 +1,6 @@
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import type { ExtensionCommandContext, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { removeProviderFromEnabledModels, type EnabledModelSettings } from "./removeProviderFromEnabledModels.js";
+import { removeProviderFromEnabledModels, type EnabledModelSettings } from "./removeProviderFromEnabledModels";
 
 /**
  * Removes stored auth for a provider and refreshes model availability.

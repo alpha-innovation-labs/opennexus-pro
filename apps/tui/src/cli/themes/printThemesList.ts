@@ -1,4 +1,4 @@
-import { listThemes } from "./listThemes.js";
+import { listThemes } from "./listThemes";
 
 /**
  * Prints available themes to stdout with a checkmark on the active one.

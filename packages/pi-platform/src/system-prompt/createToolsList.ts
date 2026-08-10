@@ -1,4 +1,4 @@
-import type { NexusSystemPromptOptions } from "./types.js";
+import type { NexusSystemPromptOptions } from "./types";
 
 /**
  * Creates Pi-compatible visible tool lines from selected tools and snippets.

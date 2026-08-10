@@ -1,4 +1,4 @@
-import compactToolWrapMarker from "./compactToolWrapMarker.js";
+import compactToolWrapMarker from "./compactToolWrapMarker";
 
 /**
  * Checks whether a tool definition already uses Tron compact wrapping.

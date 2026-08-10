@@ -1,5 +1,5 @@
 import type { FileItem, Score } from "@ff-labs/fff-node";
-import type { FffFileCandidate } from "../shared/types.js";
+import type { FffFileCandidate } from "../shared/types";
 
 /**
  * Converts an FFF engine item into the local candidate shape.

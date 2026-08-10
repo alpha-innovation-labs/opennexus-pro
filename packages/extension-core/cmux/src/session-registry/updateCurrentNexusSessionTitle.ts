@@ -1,10 +1,10 @@
-import { getCurrentCmuxRenameTarget } from "../runtime/getCurrentCmuxRenameTarget.js";
-import { getCmuxSessionRegistryPath } from "./getCmuxSessionRegistryPath.js";
-import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration.js";
-import { readCmuxSessionRegistry } from "./readCmuxSessionRegistry.js";
-import { updateCmuxSessionRegistryEntryTitle } from "./updateCmuxSessionRegistryEntryTitle.js";
-import { withCmuxSessionRegistryLock } from "./withCmuxSessionRegistryLock.js";
-import { writeCmuxSessionRegistry } from "./writeCmuxSessionRegistry.js";
+import { getCurrentCmuxRenameTarget } from "../runtime/getCurrentCmuxRenameTarget";
+import { getCmuxSessionRegistryPath } from "./getCmuxSessionRegistryPath";
+import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration";
+import { readCmuxSessionRegistry } from "./readCmuxSessionRegistry";
+import { updateCmuxSessionRegistryEntryTitle } from "./updateCmuxSessionRegistryEntryTitle";
+import { withCmuxSessionRegistryLock } from "./withCmuxSessionRegistryLock";
+import { writeCmuxSessionRegistry } from "./writeCmuxSessionRegistry";
 
 /**
  * Updates the registered title for the current Nexus cmux surface.

@@ -1,7 +1,7 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { getTetrisSession } from "../game/tetrisSession.js";
-import { TetrisModal } from "../ui/TetrisModal.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { getTetrisSession } from "../game/tetrisSession";
+import { TetrisModal } from "../ui/TetrisModal";
 
 /**
  * Opens the shared Tetris full-screen modal.

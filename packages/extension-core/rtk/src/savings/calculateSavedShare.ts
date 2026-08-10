@@ -1,4 +1,4 @@
-import type { RtkGainPeriod } from "./RtkGainPeriod.js";
+import type { RtkGainPeriod } from "./RtkGainPeriod";
 
 /**
  * Calculates saved tokens as a share of spent plus saved tokens.

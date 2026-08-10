@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { getObservationStatePath } from "../shared/getObservationStatePath.js";
-import { getObservationsDir } from "../shared/getObservationsDir.js";
-import { getTrackedConversationId } from "./getTrackedConversationId.js";
+import { getObservationStatePath } from "../shared/getObservationStatePath";
+import { getObservationsDir } from "../shared/getObservationsDir";
+import { getTrackedConversationId } from "./getTrackedConversationId";
 
 /**
  * Resolves all storage paths needed by the observations tracker.

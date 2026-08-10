@@ -1,8 +1,8 @@
 import type { BuildSystemPromptOptions } from "@earendil-works/pi-coding-agent";
-import type { ContextUsageDetailItem } from "./types.js";
-import { createPromptAgentsItems } from "./createPromptAgentsItems.js";
-import { estimateTokensFromText } from "./estimateTokensFromText.js";
-import { readAgentsFileContent } from "./readAgentsFileContent.js";
+import type { ContextUsageDetailItem } from "./types";
+import { createPromptAgentsItems } from "./createPromptAgentsItems";
+import { estimateTokensFromText } from "./estimateTokensFromText";
+import { readAgentsFileContent } from "./readAgentsFileContent";
 
 /**
  * Creates tokenized AGENTS.md items from live system prompt options or prompt text.

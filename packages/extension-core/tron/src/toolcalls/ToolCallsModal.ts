@@ -1,11 +1,11 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
-import { USER_HEADER_PREFIX } from "./constants.js";
-import { getGroupDurationLabel } from "./getGroupDurationLabel.js";
-import { renderBuiltInToolDetails } from "./renderBuiltInToolDetails.js";
-import { summarizeToolCall } from "./summarizeToolCall.js";
-import type { ToolCallGroup, ToolCallInfo } from "./types.js";
+import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
+import { USER_HEADER_PREFIX } from "./constants";
+import { getGroupDurationLabel } from "./getGroupDurationLabel";
+import { renderBuiltInToolDetails } from "./renderBuiltInToolDetails";
+import { summarizeToolCall } from "./summarizeToolCall";
+import type { ToolCallGroup, ToolCallInfo } from "./types";
 
 /**
  * Two-pane modal for browsing tool calls and rendered details.

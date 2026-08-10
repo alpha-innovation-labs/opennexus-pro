@@ -1,6 +1,6 @@
-import { DEFAULT_PORTS } from "../constants/default-ports.js";
-import { AiGateway } from "../index.js";
-import { baseUrlFromPort } from "./types.js";
+import { DEFAULT_PORTS } from "../constants/default-ports";
+import { AiGateway } from "../index";
+import { baseUrlFromPort } from "./types";
 
 /**
  * Name lookup for every known provider, keyed by providerId.

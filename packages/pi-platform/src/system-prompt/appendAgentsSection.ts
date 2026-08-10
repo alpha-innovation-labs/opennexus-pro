@@ -1,4 +1,4 @@
-import type { NexusSystemPromptContextFile } from "./types.js";
+import type { NexusSystemPromptContextFile } from "./types";
 
 /**
  * Appends Nexus' AGENTS.md section using Pi's project-context content format.

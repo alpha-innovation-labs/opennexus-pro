@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { resolveModels } from "../gateway/cache.js";
-import type { AiGateway } from "../index.js";
+import { resolveModels } from "../gateway/cache";
+import type { AiGateway } from "../index";
 
 /**
  * Registers gateways with Pi.

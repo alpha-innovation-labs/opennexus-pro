@@ -1,4 +1,4 @@
-import type { RuntimeSlashCommandFilterConfig } from "./RuntimeSlashCommandFilterConfig.js";
+import type { RuntimeSlashCommandFilterConfig } from "./RuntimeSlashCommandFilterConfig";
 
 /**
  * Reports whether a runtime slash command should stay hidden from the Nexus menu.

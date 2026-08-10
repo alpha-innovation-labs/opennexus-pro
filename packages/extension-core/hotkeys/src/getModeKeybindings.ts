@@ -1,4 +1,4 @@
-import type { HotkeysKeybindings } from "./types.js";
+import type { HotkeysKeybindings } from "./types";
 
 type ModeWithKeybindings = {
   keybindings?: HotkeysKeybindings;

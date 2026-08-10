@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { resolveBundledAssetPath } from "../package/resolveBundledAssetPath.js";
-import { embeddedPackageAssetsGlobalKey } from "../package/embedded-assets/embeddedPackageAssetsGlobal.js";
+import { resolveBundledAssetPath } from "../package/resolveBundledAssetPath";
+import { embeddedPackageAssetsGlobalKey } from "../package/embedded-assets/embeddedPackageAssetsGlobal";
 
 /**
  * Reads the bundled system prompt from embedded package assets when available

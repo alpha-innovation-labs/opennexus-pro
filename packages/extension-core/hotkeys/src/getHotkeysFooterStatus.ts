@@ -1,4 +1,4 @@
-import { getHotkeysFooterText } from "./getHotkeysFooterText.js";
+import { getHotkeysFooterText } from "./getHotkeysFooterText";
 
 /**
  * Resolves the hotkeys modal footer for conflict, editing, status, or navigation states.

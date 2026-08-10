@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup.js";
-import { showMiniAppsModal } from "./command/showMiniAppsModal.js";
+import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
+import { showMiniAppsModal } from "./command/showMiniAppsModal";
 
 /**
  * Registers the user-facing mini-app manager command.

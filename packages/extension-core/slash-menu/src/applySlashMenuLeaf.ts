@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import { applySlashMenuSettingValue } from "./applySlashMenuSettingValue.js";
-import type { SlashMenuLeaf } from "./types.js";
+import { applySlashMenuSettingValue } from "./applySlashMenuSettingValue";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Applies one selected slash-menu leaf action.

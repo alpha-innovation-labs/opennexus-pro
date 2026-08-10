@@ -1,4 +1,4 @@
-import { registeredToolRecords } from "./registeredToolRecords.js";
+import { registeredToolRecords } from "./registeredToolRecords";
 
 /**
  * Records an extension tool registration for Nexus UI grouping.

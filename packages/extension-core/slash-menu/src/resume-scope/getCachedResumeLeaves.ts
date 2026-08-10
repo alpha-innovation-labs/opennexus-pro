@@ -1,8 +1,8 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createResumeLeaves } from "../createResumeLeaves.js";
-import type { SlashMenuLeaf } from "../types.js";
-import { listResumeSessions } from "./listResumeSessions.js";
-import type { ResumeScope } from "./ResumeScope.js";
+import { createResumeLeaves } from "../createResumeLeaves";
+import type { SlashMenuLeaf } from "../types";
+import { listResumeSessions } from "./listResumeSessions";
+import type { ResumeScope } from "./ResumeScope";
 
 /**
  * Returns cached resume leaves for one source, loading them once per modal session.

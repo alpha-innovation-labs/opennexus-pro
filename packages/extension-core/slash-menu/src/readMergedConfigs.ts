@@ -1,7 +1,7 @@
-import { readBundledDefaultSettings } from "@nexus/runtime/config/readBundledDefaultSettings.js";
-import { mergeSettings } from "@nexus/runtime/config/mergeSettings.js";
-import { readGlobalConfigs } from "./readGlobalConfigs.js";
-import { readProjectConfig } from "./readProjectConfig.js";
+import { readBundledDefaultSettings } from "@nexus/runtime/config/readBundledDefaultSettings";
+import { mergeSettings } from "@nexus/runtime/config/mergeSettings";
+import { readGlobalConfigs } from "./readGlobalConfigs";
+import { readProjectConfig } from "./readProjectConfig";
 
 /**
  * Reads bundled, global, and project config with normal override order.

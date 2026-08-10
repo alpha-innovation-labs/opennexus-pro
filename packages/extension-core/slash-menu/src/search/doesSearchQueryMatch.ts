@@ -1,7 +1,7 @@
-import { compactSearchText } from "./compactSearchText.js";
-import { doesCompactSearchTokenMatch } from "./doesCompactSearchTokenMatch.js";
-import { doesSearchTokenMatch } from "./doesSearchTokenMatch.js";
-import { normalizeSearchText } from "./normalizeSearchText.js";
+import { compactSearchText } from "./compactSearchText";
+import { doesCompactSearchTokenMatch } from "./doesCompactSearchTokenMatch";
+import { doesSearchTokenMatch } from "./doesSearchTokenMatch";
+import { normalizeSearchText } from "./normalizeSearchText";
 
 /**
  * Checks whether every search token appears somewhere in an item's searchable text.

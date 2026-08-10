@@ -1,37 +1,37 @@
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath.js";
-import { findMiniAppCommand, findMiniAppRunnerCommand, getMiniAppManifests } from "@nexus/mini-apps/index.js";
-import { hasHelpFlag } from "./help/hasHelpFlag.js";
-import { printNexusUsage } from "./help/printNexusUsage.js";
-import { hasObservationsFlag } from "./observations/hasObservationsFlag.js";
-import { isObservationsCommand } from "./observations/isObservationsCommand.js";
-import { printObservationsList } from "./observations/printObservationsList.js";
-import { readObservationsSessionIdArg } from "./observations/readObservationsSessionIdArg.js";
-import { runObservationsCommand } from "./observations/runObservationsCommand.js";
-import { runInstallCommand } from "./install/runInstallCommand.js";
-import { runUninstallCommand } from "./uninstall/runUninstallCommand.js";
-import { hasJsonFlag } from "./sessions/hasJsonFlag.js";
-import { hasSessionsAllFlag } from "./sessions/hasSessionsAllFlag.js";
-import { hasSessionsFlag } from "./sessions/hasSessionsFlag.js";
-import { printAllSessionsJson } from "./sessions/printAllSessionsJson.js";
-import { printAllSessionsTable } from "./sessions/printAllSessionsTable.js";
-import { printSessionsJson } from "./sessions/printSessionsJson.js";
-import { printSessionsTable } from "./sessions/printSessionsTable.js";
-import { readSessionDirArg } from "./sessions/readSessionDirArg.js";
-import { hasVersionFlag } from "./version/hasVersionFlag.js";
-import { printAppVersion } from "./version/printAppVersion.js";
-import { hasDeleteSessionFlag } from "./delete-session/hasDeleteSessionFlag.js";
-import { runDeleteSessionCommand } from "./delete-session/runDeleteSessionCommand.js";
-import { runPiPackagesCommand } from "./pi-packages/runPiPackagesCommand.js";
-import { hasThemesFlag, hasThemesListFlag, hasThemesSetFlag, readThemeNameArg, readListThemeNameArg } from "./themes/hasThemesFlag.js";
-import { printThemesHelp } from "./themes/printThemesHelp.js";
-import { printThemesList } from "./themes/printThemesList.js";
-import { setTheme } from "./themes/setTheme.js";
-import { hasProvidersFlag } from "./providers/hasProvidersFlag.js";
-import { runProvidersCommand } from "./providers/runProvidersCommand.js";
-import { hasSubagentFlag } from "./subagent/hasSubagentFlag.js";
-import { runSubagentCommand } from "./subagent/runSubagentCommand.js";
-import { hasFeaturesOverrideFlag, readDisabledFeatures, readEnabledFeatures } from "./features/hasFeaturesFlag.js";
-import { hasMinimalFlag, MINIMAL_EXTENSION_WHITELIST } from "./extensions/hasMinimalFlag.js";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
+import { findMiniAppCommand, findMiniAppRunnerCommand, getMiniAppManifests } from "@nexus/mini-apps/index";
+import { hasHelpFlag } from "./help/hasHelpFlag";
+import { printNexusUsage } from "./help/printNexusUsage";
+import { hasObservationsFlag } from "./observations/hasObservationsFlag";
+import { isObservationsCommand } from "./observations/isObservationsCommand";
+import { printObservationsList } from "./observations/printObservationsList";
+import { readObservationsSessionIdArg } from "./observations/readObservationsSessionIdArg";
+import { runObservationsCommand } from "./observations/runObservationsCommand";
+import { runInstallCommand } from "./install/runInstallCommand";
+import { runUninstallCommand } from "./uninstall/runUninstallCommand";
+import { hasJsonFlag } from "./sessions/hasJsonFlag";
+import { hasSessionsAllFlag } from "./sessions/hasSessionsAllFlag";
+import { hasSessionsFlag } from "./sessions/hasSessionsFlag";
+import { printAllSessionsJson } from "./sessions/printAllSessionsJson";
+import { printAllSessionsTable } from "./sessions/printAllSessionsTable";
+import { printSessionsJson } from "./sessions/printSessionsJson";
+import { printSessionsTable } from "./sessions/printSessionsTable";
+import { readSessionDirArg } from "./sessions/readSessionDirArg";
+import { hasVersionFlag } from "./version/hasVersionFlag";
+import { printAppVersion } from "./version/printAppVersion";
+import { hasDeleteSessionFlag } from "./delete-session/hasDeleteSessionFlag";
+import { runDeleteSessionCommand } from "./delete-session/runDeleteSessionCommand";
+import { runPiPackagesCommand } from "./pi-packages/runPiPackagesCommand";
+import { hasThemesFlag, hasThemesListFlag, hasThemesSetFlag, readThemeNameArg, readListThemeNameArg } from "./themes/hasThemesFlag";
+import { printThemesHelp } from "./themes/printThemesHelp";
+import { printThemesList } from "./themes/printThemesList";
+import { setTheme } from "./themes/setTheme";
+import { hasProvidersFlag } from "./providers/hasProvidersFlag";
+import { runProvidersCommand } from "./providers/runProvidersCommand";
+import { hasSubagentFlag } from "./subagent/hasSubagentFlag";
+import { runSubagentCommand } from "./subagent/runSubagentCommand";
+import { hasFeaturesOverrideFlag, readDisabledFeatures, readEnabledFeatures } from "./features/hasFeaturesFlag";
+import { hasMinimalFlag, MINIMAL_EXTENSION_WHITELIST } from "./extensions/hasMinimalFlag";
 
 export interface RunCliWithAppOptions {
   runApp: (argv: string[], options?: { disabledFeatures?: string[]; enabledFeatures?: string[] }) => Promise<void>;
@@ -155,7 +155,7 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
 
   // --minimal: whitelist only the specified extensions, disable everything else.
   if (hasMinimalFlag(argv)) {
-    const { getAllBundledExtensionIds } = await import("@nexus/feature-flags/registry.js");
+    const { getAllBundledExtensionIds } = await import("@nexus/feature-flags/registry");
     const allIds = getAllBundledExtensionIds();
     const disabledFeatures = allIds.filter((id) => !MINIMAL_EXTENSION_WHITELIST.includes(id));
     await options.runApp(argv, {
@@ -166,7 +166,7 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   }
 
   if (hasFeaturesOverrideFlag(argv)) {
-    const { getAllBundledExtensionIds } = await import("@nexus/feature-flags/registry.js");
+    const { getAllBundledExtensionIds } = await import("@nexus/feature-flags/registry");
     const validIds = new Set(getAllBundledExtensionIds());
     const invalidDisabled = disabledFeatures.filter((id) => !validIds.has(id));
     const invalidEnabled = enabledFeatures.filter((id) => !validIds.has(id));

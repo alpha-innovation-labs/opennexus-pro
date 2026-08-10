@@ -1,4 +1,4 @@
-import type { GitHubUrlInfo } from "./githubTypes.js";
+import type { GitHubUrlInfo } from "./githubTypes";
 
 const NON_CODE_SEGMENTS = new Set(["issues", "pull", "pulls", "discussions", "releases", "wiki", "actions"]);
 

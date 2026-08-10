@@ -1,9 +1,9 @@
-import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
+import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
 import type { AutocompleteItem, AutocompleteProvider } from "@earendil-works/pi-tui";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { closeTriggerModal } from "./closeTriggerModal.js";
-import { getTriggerProvider } from "./getTriggerProvider.js";
-import type { ShowOverlay, TriggerModalState, TriggerState } from "./types.js";
+import { closeTriggerModal } from "./closeTriggerModal";
+import { getTriggerProvider } from "./getTriggerProvider";
+import type { ShowOverlay, TriggerModalState, TriggerState } from "./types";
 
 /**
  * Refreshes the active trigger modal for `@` or `/`.

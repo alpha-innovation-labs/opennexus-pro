@@ -1,5 +1,5 @@
-import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath.js";
-import { readJsonFile } from "./readJsonFile.js";
+import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath";
+import { readJsonFile } from "./readJsonFile";
 
 /**
  * Reads project Nexus config.

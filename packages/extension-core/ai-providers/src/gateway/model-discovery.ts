@@ -6,7 +6,7 @@
  * reasoning, cost, contextWindow, and maxTokens.  No catalog lookup.
  */
 import type { ProviderConfigInput } from "@earendil-works/pi-coding-agent";
-import { buildModelsUrl, authHeaders } from "./probe.js";
+import { buildModelsUrl, authHeaders } from "./probe";
 
 /**
  * Returns true if a model ID looks like an embedding model.

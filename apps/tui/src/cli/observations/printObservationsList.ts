@@ -1,9 +1,9 @@
-import { readObservationState } from "@extensions/observations/tracker/readObservationState.js";
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir.js";
-import { formatObservationTopicList } from "./formatObservationTopicList.js";
-import { listObservationArtifactGroups } from "./listObservationArtifactGroups.js";
-import { resolveObservationConversationId } from "./resolveObservationConversationId.js";
-import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups.js";
+import { readObservationState } from "@extensions/observations/tracker/readObservationState";
+import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
+import { formatObservationTopicList } from "./formatObservationTopicList";
+import { listObservationArtifactGroups } from "./listObservationArtifactGroups";
+import { resolveObservationConversationId } from "./resolveObservationConversationId";
+import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups";
 
 /**
  * Prints persisted observations for a session id to stdout.

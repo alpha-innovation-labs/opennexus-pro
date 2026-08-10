@@ -1,7 +1,7 @@
-import { getEmbeddedPackageAssets } from "./getEmbeddedPackageAssets.js";
-import { getEmbeddedPackageDirPath } from "./getEmbeddedPackageDirPath.js";
-import { readEmbeddedPackageVersion } from "./readEmbeddedPackageVersion.js";
-import { writeEmbeddedPackageAssets } from "./writeEmbeddedPackageAssets.js";
+import { getEmbeddedPackageAssets } from "./getEmbeddedPackageAssets";
+import { getEmbeddedPackageDirPath } from "./getEmbeddedPackageDirPath";
+import { readEmbeddedPackageVersion } from "./readEmbeddedPackageVersion";
+import { writeEmbeddedPackageAssets } from "./writeEmbeddedPackageAssets";
 
 /**
  * Ensures the binary-only package assets are extracted under the agent dir.

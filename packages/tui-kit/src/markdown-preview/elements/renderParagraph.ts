@@ -1,6 +1,6 @@
-import { parseInlineSegments } from "../inline/parseInlineSegments.js";
-import { renderInlineSegments } from "../inline/renderInlineSegments.js";
-import type { MarkdownPreviewTheme } from "../types.js";
+import { parseInlineSegments } from "../inline/parseInlineSegments";
+import { renderInlineSegments } from "../inline/renderInlineSegments";
+import type { MarkdownPreviewTheme } from "../types";
 
 /** Renders a markdown paragraph with Ratkit-style inline segments. */
 export function renderParagraph(markdown: string, theme?: MarkdownPreviewTheme): string {

@@ -1,4 +1,4 @@
-import type { CmuxSessionRegistryEntry } from "../session-registry/types.js";
+import type { CmuxSessionRegistryEntry } from "../session-registry/types";
 
 const NEXUS_SHELL_ICON = "󰀘";
 const TERMINAL_SHELL_ICON = "󰆍";

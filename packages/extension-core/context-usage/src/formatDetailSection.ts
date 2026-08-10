@@ -1,6 +1,6 @@
-import type { ContextUsageDetailItem } from "./types.js";
-import { formatDetailConnector } from "./formatDetailConnector.js";
-import { formatTokenCount } from "./formatTokenCount.js";
+import type { ContextUsageDetailItem } from "./types";
+import { formatDetailConnector } from "./formatDetailConnector";
+import { formatTokenCount } from "./formatTokenCount";
 
 /**
  * Formats a detail section with tokenized child rows.

@@ -1,5 +1,5 @@
-import { readResourceCommandMarkdown } from "./readResourceCommandMarkdown.js";
-import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
+import { readResourceCommandMarkdown } from "./readResourceCommandMarkdown";
+import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 
 /**
  * Creates markdown details for a prompt or skill command.

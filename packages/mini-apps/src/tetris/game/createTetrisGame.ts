@@ -1,5 +1,5 @@
-import { createTetrisPiece, TETRIS_SEQUENCE } from "./tetrominoes.js";
-import type { TetrisCell, TetrisGame } from "./types.js";
+import { createTetrisPiece, TETRIS_SEQUENCE } from "./tetrominoes";
+import type { TetrisCell, TetrisGame } from "./types";
 
 /**
  * Creates a deterministic empty Tetris game.

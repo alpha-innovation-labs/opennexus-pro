@@ -1,4 +1,4 @@
-import type { WebSearchParams, WebSearchResponse, WebSearchResult, WebSearchTimeRange, WebSearchCategory } from "./webSearchTypes.js";
+import type { WebSearchParams, WebSearchResponse, WebSearchResult, WebSearchTimeRange, WebSearchCategory } from "./webSearchTypes";
 
 const USER_AGENT = "Nexus-WebTools/1.0";
 

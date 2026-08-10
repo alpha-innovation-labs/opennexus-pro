@@ -1,23 +1,23 @@
 import { Key, matchesKey, type TUI } from "@earendil-works/pi-tui";
-import { renderSharedModalPaneLines } from "@nexus/tui-kit/modal/renderSharedModalPaneLines.js";
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/select/types.js";
-import { extractAgentsSection } from "./agents-section/extractAgentsSection.js";
-import { replaceAgentsSection } from "./agents-section/replaceAgentsSection.js";
-import { extractAppendSection } from "./append-section/extractAppendSection.js";
-import { replaceAppendSection } from "./append-section/replaceAppendSection.js";
-import { clampSystemPromptScrollOffset } from "./clampSystemPromptScrollOffset.js";
-import { getSelectedSystemPromptContent } from "./content/getSelectedSystemPromptContent.js";
-import { createSystemPromptFooterHotkeys } from "./createSystemPromptFooterHotkeys.js";
-import { getDefaultSystemPromptModalRows } from "./getDefaultSystemPromptModalRows.js";
-import { getSystemPromptViewportHeight } from "./getSystemPromptViewportHeight.js";
-import { openSystemPromptExternalEditor } from "./openSystemPromptExternalEditor.js";
-import { createSystemPromptOutlineRows } from "./outline/createSystemPromptOutlineRows.js";
-import { renderSystemPromptOutlineRows } from "./outline/renderSystemPromptOutlineRows.js";
-import { padPaneLinesToHeight } from "./scroll/padPaneLinesToHeight.js";
-import { renderPaneScrollbar } from "./scroll/renderPaneScrollbar.js";
-import { createNativeSystemToolMarkdown } from "./tools/createNativeSystemToolMarkdown.js";
-import { renderSystemPromptModalFrame } from "./renderSystemPromptModalFrame.js";
-import type { SystemPromptModalAction } from "./types.js";
+import { renderSharedModalPaneLines } from "@nexus/tui-kit/modal/renderSharedModalPaneLines";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/select/types";
+import { extractAgentsSection } from "./agents-section/extractAgentsSection";
+import { replaceAgentsSection } from "./agents-section/replaceAgentsSection";
+import { extractAppendSection } from "./append-section/extractAppendSection";
+import { replaceAppendSection } from "./append-section/replaceAppendSection";
+import { clampSystemPromptScrollOffset } from "./clampSystemPromptScrollOffset";
+import { getSelectedSystemPromptContent } from "./content/getSelectedSystemPromptContent";
+import { createSystemPromptFooterHotkeys } from "./createSystemPromptFooterHotkeys";
+import { getDefaultSystemPromptModalRows } from "./getDefaultSystemPromptModalRows";
+import { getSystemPromptViewportHeight } from "./getSystemPromptViewportHeight";
+import { openSystemPromptExternalEditor } from "./openSystemPromptExternalEditor";
+import { createSystemPromptOutlineRows } from "./outline/createSystemPromptOutlineRows";
+import { renderSystemPromptOutlineRows } from "./outline/renderSystemPromptOutlineRows";
+import { padPaneLinesToHeight } from "./scroll/padPaneLinesToHeight";
+import { renderPaneScrollbar } from "./scroll/renderPaneScrollbar";
+import { createNativeSystemToolMarkdown } from "./tools/createNativeSystemToolMarkdown";
+import { renderSystemPromptModalFrame } from "./renderSystemPromptModalFrame";
+import type { SystemPromptModalAction } from "./types";
 
 /**
  * Displays the effective system prompt and exposes edit/reset actions.

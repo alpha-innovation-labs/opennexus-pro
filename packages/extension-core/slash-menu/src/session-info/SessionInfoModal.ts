@@ -1,6 +1,6 @@
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { computeModalWidth, SharedModal, type SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import { renderSessionInfoRows } from "./renderSessionInfoRows.js";
+import { computeModalWidth, SharedModal, type SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import { renderSessionInfoRows } from "./renderSessionInfoRows";
 
 /**
  * Nexus-owned modal for current session info.

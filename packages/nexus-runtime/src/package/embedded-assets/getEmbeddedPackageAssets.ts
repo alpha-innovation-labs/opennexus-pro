@@ -1,5 +1,5 @@
-import { embeddedPackageAssetsGlobalKey, type EmbeddedPackageAssetsGlobal } from "./embeddedPackageAssetsGlobal.js";
-import type { EmbeddedPackageAssetsModule } from "./types.js";
+import { embeddedPackageAssetsGlobalKey, type EmbeddedPackageAssetsGlobal } from "./embeddedPackageAssetsGlobal";
+import type { EmbeddedPackageAssetsModule } from "./types";
 
 /**
  * Reads release-embedded package assets registered by the compiled binary entrypoint.

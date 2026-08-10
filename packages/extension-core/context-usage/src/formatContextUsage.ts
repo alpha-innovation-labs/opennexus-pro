@@ -1,10 +1,10 @@
-import type { ContextUsageReport } from "./types.js";
-import { formatDetailConnector } from "./formatDetailConnector.js";
-import { formatDetailSection } from "./formatDetailSection.js";
-import { formatMaybeTokenCount } from "./formatMaybeTokenCount.js";
-import { formatPercent } from "./formatPercent.js";
-import { formatTokenCount } from "./formatTokenCount.js";
-import { renderNeoContextMeter } from "./renderNeoContextMeter.js";
+import type { ContextUsageReport } from "./types";
+import { formatDetailConnector } from "./formatDetailConnector";
+import { formatDetailSection } from "./formatDetailSection";
+import { formatMaybeTokenCount } from "./formatMaybeTokenCount";
+import { formatPercent } from "./formatPercent";
+import { formatTokenCount } from "./formatTokenCount";
+import { renderNeoContextMeter } from "./renderNeoContextMeter";
 
 /**
  * Formats the current context usage report for plain command and tool output.

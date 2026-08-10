@@ -1,8 +1,8 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { buildFallbackTopicTitle } from "./buildFallbackTopicTitle.js";
-import { buildObservationMessageExcerpt } from "./buildObservationMessageExcerpt.js";
-import { decideTopicTitle } from "./decideTopicTitle.js";
-import type { ObservationState, StoredObservationMessage } from "./types.js";
+import { buildFallbackTopicTitle } from "./buildFallbackTopicTitle";
+import { buildObservationMessageExcerpt } from "./buildObservationMessageExcerpt";
+import { decideTopicTitle } from "./decideTopicTitle";
+import type { ObservationState, StoredObservationMessage } from "./types";
 
 /**
  * Applies a new user message to the structured observation state.

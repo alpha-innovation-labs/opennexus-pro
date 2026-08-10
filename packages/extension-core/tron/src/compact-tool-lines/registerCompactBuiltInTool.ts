@@ -1,9 +1,9 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Container } from "@earendil-works/pi-tui";
-import { allToolDefinitions } from "@nexus/pi-platform/tools.js";
+import { allToolDefinitions } from "@nexus/pi-platform/tools";
 import { getRtkExecutionCwd } from '@extensions/rtk/runtime/getRtkExecutionCwd.ts';
 import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator.ts";
-import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry.js";
+import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry";
 import { getBuiltInTools } from "./getBuiltInTools.ts";
 import { markCompactWrappedToolDefinition } from "./markCompactWrappedToolDefinition.ts";
 import type { BuiltInTools } from "./types.ts";

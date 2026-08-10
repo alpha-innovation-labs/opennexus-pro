@@ -1,4 +1,4 @@
-import { getRegisteredSlashCommands } from "./registerSlashCommand.js";
+import { getRegisteredSlashCommands } from "./registerSlashCommand";
 
 /**
  * Finds one registered slash command by name.

@@ -1,6 +1,6 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { formatCmuxSavedSessionDate } from "./formatCmuxSavedSessionDate.js";
-import type { CmuxSavedSession } from "./types.js";
+import { formatCmuxSavedSessionDate } from "./formatCmuxSavedSessionDate";
+import type { CmuxSavedSession } from "./types";
 
 /**
  * Converts saved cmux sessions to select modal items.

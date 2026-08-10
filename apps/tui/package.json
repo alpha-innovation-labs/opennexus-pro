@@ -16,7 +16,6 @@
     "@extensions/runtime": "workspace:*",
     "@extensions/exit-message": "workspace:*",
     "@extensions/startup-hero": "workspace:*",
-    "@nexus/feature-flags": "workspace:*",
     "@nexus/mini-apps": "workspace:*",
     "@nexus/observability": "workspace:*",
     "@nexus/pi-platform": "workspace:*",

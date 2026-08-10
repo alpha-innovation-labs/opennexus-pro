@@ -1,8 +1,8 @@
-import { canPlacePiece } from "./canPlacePiece.js";
-import { clearFullRows } from "./clearFullRows.js";
-import { mergePiece } from "./mergePiece.js";
-import { spawnNextPiece } from "./spawnNextPiece.js";
-import type { TetrisGame } from "./types.js";
+import { canPlacePiece } from "./canPlacePiece";
+import { clearFullRows } from "./clearFullRows";
+import { mergePiece } from "./mergePiece";
+import { spawnNextPiece } from "./spawnNextPiece";
+import type { TetrisGame } from "./types";
 
 /**
  * Advances gravity by one row or locks the active piece.

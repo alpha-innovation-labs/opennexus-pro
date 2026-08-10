@@ -1,4 +1,4 @@
-import type { SlashMenuSection } from "./types.js";
+import type { SlashMenuSection } from "./types";
 
 /**
  * Returns the top-level slash menu sections.

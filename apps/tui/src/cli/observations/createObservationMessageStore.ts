@@ -1,4 +1,4 @@
-import type { ObservationMessageStore, StoredObservationMessage } from "@extensions/observations/tracker/types.js";
+import type { ObservationMessageStore, StoredObservationMessage } from "@extensions/observations/tracker/types";
 
 /**
  * Creates a persisted observation message store payload.

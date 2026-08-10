@@ -1,9 +1,9 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { isNewerVersion } from "../model/isNewerVersion.js";
-import { fetchLatestNpmVersion } from "../registry/fetchLatestNpmVersion.js";
-import { showAutoUpdateModal } from "../ui/showAutoUpdateModal.js";
-import { currentPackageInfo } from "./currentPackageInfo.js";
-import { installNexusUpdate } from "./installNexusUpdate.js";
+import { isNewerVersion } from "../model/isNewerVersion";
+import { fetchLatestNpmVersion } from "../registry/fetchLatestNpmVersion";
+import { showAutoUpdateModal } from "../ui/showAutoUpdateModal";
+import { currentPackageInfo } from "./currentPackageInfo";
+import { installNexusUpdate } from "./installNexusUpdate";
 
 /**
  * Returns true when the error looks like a network or offline failure.

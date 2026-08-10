@@ -1,6 +1,6 @@
-import { getTriggerSession } from "./sessionState.js";
-import { getTriggerState } from "./getTriggerState.js";
-import type { TriggerState } from "./types.js";
+import { getTriggerSession } from "./sessionState";
+import { getTriggerState } from "./getTriggerState";
+import type { TriggerState } from "./types";
 
 /**
  * Resolves the currently active trigger state for the ongoing trigger session.

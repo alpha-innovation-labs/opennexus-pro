@@ -1,19 +1,19 @@
 import { Key, matchesKey, type Component } from "@earendil-works/pi-tui";
-import { centerModalLine } from "./centerModalLine.js";
-import { computeModalWidth } from "./computeModalWidth.js";
-import { renderFooterRows } from "./renderFooterRows.js";
-import { renderFullWidthRows } from "./renderFullWidthRows.js";
-import { renderModalBorder } from "./renderModalBorder.js";
-import { renderModalBorderWithPaneSeparators } from "./renderModalBorderWithPaneSeparators.js";
-import { renderModalPaneBottomBorder } from "./renderModalPaneBottomBorder.js";
-import { renderModalPaneFillerRows, renderModalPanes } from "./renderModalPanes.js";
-import { renderModalPaneTopBorder } from "./renderModalPaneTopBorder.js";
-import { createModalHotkeyFooterSegments } from "./hotkeys/createModalHotkeyFooterSegments.js";
-import { wrapModalHotkeyFooterSegments } from "./hotkeys/wrapModalHotkeyFooterSegments.js";
-import { getModalWindowRows } from "./scroll/getModalWindowRows.js";
-import { handleModalScrollInput } from "./scroll/handleModalScrollInput.js";
-import { renderModalWithScrollableBody } from "./scroll/renderModalWithScrollableBody.js";
-import type { SharedModalOptions, SharedModalPane, SharedModalTheme } from "./types.js";
+import { centerModalLine } from "./centerModalLine";
+import { computeModalWidth } from "./computeModalWidth";
+import { renderFooterRows } from "./renderFooterRows";
+import { renderFullWidthRows } from "./renderFullWidthRows";
+import { renderModalBorder } from "./renderModalBorder";
+import { renderModalBorderWithPaneSeparators } from "./renderModalBorderWithPaneSeparators";
+import { renderModalPaneBottomBorder } from "./renderModalPaneBottomBorder";
+import { renderModalPaneFillerRows, renderModalPanes } from "./renderModalPanes";
+import { renderModalPaneTopBorder } from "./renderModalPaneTopBorder";
+import { createModalHotkeyFooterSegments } from "./hotkeys/createModalHotkeyFooterSegments";
+import { wrapModalHotkeyFooterSegments } from "./hotkeys/wrapModalHotkeyFooterSegments";
+import { getModalWindowRows } from "./scroll/getModalWindowRows";
+import { handleModalScrollInput } from "./scroll/handleModalScrollInput";
+import { renderModalWithScrollableBody } from "./scroll/renderModalWithScrollableBody";
+import type { SharedModalOptions, SharedModalPane, SharedModalTheme } from "./types";
 
 /**
  * Shared framed modal with configurable header, footer, and N content panes.

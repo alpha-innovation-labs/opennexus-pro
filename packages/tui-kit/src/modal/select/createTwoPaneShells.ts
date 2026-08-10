@@ -1,4 +1,4 @@
-import type { SharedModalPane } from "../types.js";
+import type { SharedModalPane } from "../types";
 
 export type TwoPaneShell = Omit<SharedModalPane, "lines">;
 

@@ -1,4 +1,4 @@
-import type { LocalImageReaderConfig } from "./types.js";
+import type { LocalImageReaderConfig } from "./types";
 
 /**
  * Validate a config.json sub-entry (from the local-image-reader key).

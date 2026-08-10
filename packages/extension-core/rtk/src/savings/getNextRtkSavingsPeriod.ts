@@ -1,5 +1,5 @@
-import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey.js";
-import { getRtkSavingsPeriodOptions } from "./getRtkSavingsPeriodOptions.js";
+import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey";
+import { getRtkSavingsPeriodOptions } from "./getRtkSavingsPeriodOptions";
 
 /**
  * Cycles the selected RTK savings period.

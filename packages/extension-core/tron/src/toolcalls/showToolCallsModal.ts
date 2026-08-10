@@ -1,7 +1,7 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { ToolCallsModal } from "./ToolCallsModal.js";
-import { getBranchToolCalls } from "./getBranchToolCalls.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { ToolCallsModal } from "./ToolCallsModal";
+import { getBranchToolCalls } from "./getBranchToolCalls";
 
 /**
  * Opens the tool-calls browser for the current branch.

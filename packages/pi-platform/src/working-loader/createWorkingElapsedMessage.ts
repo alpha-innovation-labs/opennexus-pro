@@ -1,4 +1,4 @@
-import { formatWorkingElapsed } from "./formatWorkingElapsed.js";
+import { formatWorkingElapsed } from "./formatWorkingElapsed";
 
 /**
  * Adds an elapsed-time prefix to a working loader message.

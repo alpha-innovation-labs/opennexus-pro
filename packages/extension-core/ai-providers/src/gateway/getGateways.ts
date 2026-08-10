@@ -1,7 +1,7 @@
-import type { AiGateway } from "../index.js";
-import { getModelCachePath, readProviderStateCache, type ProviderStateCache } from "../cache/index.js";
-import type { ProvidersConfig } from "../config/types.js";
-import { createGateway } from "./createGateway.js";
+import type { AiGateway } from "../index";
+import { getModelCachePath, readProviderStateCache, type ProviderStateCache } from "../cache/index";
+import type { ProvidersConfig } from "../config/types";
+import { createGateway } from "./createGateway";
 
 /**
  * Builds configured gateway instances from user config, plus any

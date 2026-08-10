@@ -1,6 +1,6 @@
-import type { ContextUsageCategory } from "./types.js";
-import { getContextUsageMeterCellCount, getContextUsageMeterCellsPerRow } from "./getContextUsageMeterCellCount.js";
-import { orderContextUsageMeterCategories } from "./orderContextUsageMeterCategories.js";
+import type { ContextUsageCategory } from "./types";
+import { getContextUsageMeterCellCount, getContextUsageMeterCellsPerRow } from "./getContextUsageMeterCellCount";
+import { orderContextUsageMeterCategories } from "./orderContextUsageMeterCategories";
 
 /**
  * Renders a block-meter visualization using category markers.

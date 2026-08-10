@@ -1,5 +1,5 @@
-import { measureTronRender } from "../profiling/measureTronRender.js";
-import { recordTronCacheEvent } from "../profiling/recordTronCacheEvent.js";
+import { measureTronRender } from "../profiling/measureTronRender";
+import { recordTronCacheEvent } from "../profiling/recordTronCacheEvent";
 import { OSC133_ZONE_END, OSC133_ZONE_FINAL, OSC133_ZONE_START } from "./constants.ts";
 import { getRawText } from "./getRawText.ts";
 import { getUserMessageMetadataCacheKey } from "./metadata/getUserMessageMetadataCacheKey.ts";

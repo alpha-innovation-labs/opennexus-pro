@@ -1,6 +1,6 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import { buildStartupHeroStatusItems } from "./buildStartupHeroStatusItems.js";
-import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
+import { buildStartupHeroStatusItems } from "./buildStartupHeroStatusItems";
+import type { StartupHeroStatus, StartupHeroTheme } from "./types";
 
 const STARTUP_HERO_STATUS_SEPARATOR = "  ";
 

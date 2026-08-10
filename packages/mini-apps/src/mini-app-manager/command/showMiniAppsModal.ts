@@ -1,10 +1,10 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { getAllBundledExtensionIds } from "@nexus/feature-flags/registry.js";
-import type { FeatureFlagConfig, FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
-import { PiPackagesModal } from "@extensions/pi-packages/ui/PiPackagesModal.js";
-import { updateManagedExtensionRows } from "@extensions/pi-packages/model/updateManagedExtensionRows.js";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { createManagedMiniAppRows } from "../model/createManagedMiniAppRows.js";
+import { getAllBundledMiniAppIds } from "../../registry/bundledMiniAppIds";
+import type { FeatureFlagConfig, FeatureFlagsConfig } from "../../registry/featureFlagsTypes";
+import { PiPackagesModal } from "@extensions/pi-packages/ui/PiPackagesModal";
+import { updateManagedExtensionRows } from "@extensions/pi-packages/model/updateManagedExtensionRows";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createManagedMiniAppRows } from "../model/createManagedMiniAppRows";
 
 /**
  * Opens the mini-app manager modal.
@@ -49,7 +49,7 @@ export async function showMiniAppsModal(ctx: ExtensionCommandContext): Promise<v
  * @returns Feature flag config containing mini-app entries from the registry.
  */
 function readMiniAppFeatureFlagsConfig(): FeatureFlagsConfig {
-	const allIds = getAllBundledExtensionIds();
+	const allIds = getAllBundledMiniAppIds();
 	const knownMiniApps = new Set(["tetris"]);
 	const miniAppEntries: Record<string, FeatureFlagConfig> = {};
 	for (const id of allIds) {

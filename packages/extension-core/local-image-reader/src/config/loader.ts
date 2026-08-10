@@ -1,7 +1,7 @@
-import type { LocalImageReaderConfig } from "./types.js";
-import { validateSettingsEntry } from "./validators.js";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
+import type { LocalImageReaderConfig } from "./types";
+import { validateSettingsEntry } from "./validators";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
 
 /**
  * Load the local-image-reader sub-entry from the Nexus user config file.

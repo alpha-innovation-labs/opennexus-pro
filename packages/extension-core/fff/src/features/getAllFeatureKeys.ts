@@ -1,5 +1,5 @@
-import { FFF_FEATURE_DEFINITIONS } from "./definitions.js";
-import type { FffFeatureKey } from "../shared/types.js";
+import { FFF_FEATURE_DEFINITIONS } from "./definitions";
+import type { FffFeatureKey } from "../shared/types";
 
 /**
  * Returns every supported FFF feature key.

@@ -1,4 +1,4 @@
-import { formatCompact } from "./formatCompact.js";
+import { formatCompact } from "./formatCompact";
 
 /**
  * Formats current and total context usage.

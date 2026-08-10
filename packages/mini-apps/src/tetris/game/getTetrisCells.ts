@@ -1,4 +1,4 @@
-import type { TetrisCell, TetrisGame } from "./types.js";
+import type { TetrisCell, TetrisGame } from "./types";
 
 /**
  * Builds a board snapshot including the active falling piece.

@@ -1,6 +1,6 @@
-import { SelectPreviewModal, type SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import { createCmuxSavedSessionItems } from "../snapshots/createCmuxSavedSessionItems.js";
-import type { CmuxSavedSession } from "../snapshots/types.js";
+import { SelectPreviewModal, type SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import { createCmuxSavedSessionItems } from "../snapshots/createCmuxSavedSessionItems";
+import type { CmuxSavedSession } from "../snapshots/types";
 
 /**
  * Two-pane modal for browsing saved cmux session snapshots.

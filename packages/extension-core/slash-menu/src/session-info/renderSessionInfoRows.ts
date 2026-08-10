@@ -1,5 +1,5 @@
 import { truncateToWidth } from "@earendil-works/pi-tui";
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
 
 /**
  * Renders Nexus session info rows with lightweight section styling.

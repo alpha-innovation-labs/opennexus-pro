@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { type BinaryPackageDirOptions, getBinaryPackageDir } from "./getBinaryPackageDir.js";
+import { type BinaryPackageDirOptions, getBinaryPackageDir } from "./getBinaryPackageDir";
 
 /**
  * Resolves a package asset path in source mode and compiled-binary mode.

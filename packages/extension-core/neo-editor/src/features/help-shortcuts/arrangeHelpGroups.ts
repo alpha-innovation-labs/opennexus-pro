@@ -1,4 +1,4 @@
-import type { HelpShortcutGroup } from "./types.js";
+import type { HelpShortcutGroup } from "./types";
 
 /**
  * Splits shortcut groups into balanced display columns.

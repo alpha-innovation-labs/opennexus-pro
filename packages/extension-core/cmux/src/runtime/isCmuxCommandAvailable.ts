@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { getCmuxExecutablePath } from "./getCmuxExecutablePath.js";
+import { getCmuxExecutablePath } from "./getCmuxExecutablePath";
 
 /**
  * Checks whether the cmux CLI is available on the current system.

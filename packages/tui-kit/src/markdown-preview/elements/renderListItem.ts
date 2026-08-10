@@ -1,7 +1,7 @@
-import { BULLET_MARKERS, CHECKBOX_CHECKED, CHECKBOX_TODO, CHECKBOX_UNCHECKED } from "../constants.js";
-import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment.js";
-import type { MarkdownPreviewTheme } from "../types.js";
-import { renderParagraph } from "./renderParagraph.js";
+import { BULLET_MARKERS, CHECKBOX_CHECKED, CHECKBOX_TODO, CHECKBOX_UNCHECKED } from "../constants";
+import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment";
+import type { MarkdownPreviewTheme } from "../types";
+import { renderParagraph } from "./renderParagraph";
 
 /** Renders a Ratkit-style ordered, unordered, or task-list item. */
 export function renderListItem(depth: number, orderedNumber: number | undefined, content: string, theme?: MarkdownPreviewTheme): string {

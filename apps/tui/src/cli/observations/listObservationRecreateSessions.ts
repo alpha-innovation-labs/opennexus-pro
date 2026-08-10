@@ -1,5 +1,5 @@
 import { SessionManager, type SessionInfo } from "@earendil-works/pi-coding-agent";
-import { getUniqueSessionsByPath } from "../delete-session/getUniqueSessionsByPath.js";
+import { getUniqueSessionsByPath } from "../delete-session/getUniqueSessionsByPath";
 
 /**
  * Lists sessions eligible for observation recreation.

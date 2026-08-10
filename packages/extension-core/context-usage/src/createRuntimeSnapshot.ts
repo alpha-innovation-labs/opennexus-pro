@@ -1,10 +1,10 @@
 import type { ExtensionCommandContext, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import type { ContextUsageRuntimeSnapshot } from "./types.js";
-import { getBranchMessages } from "./getBranchMessages.js";
-import { getContextWindow } from "./getContextWindow.js";
-import { getLatestSystemPromptOptions } from "./contextUsageState.js";
-import { getModelDisplayName } from "./getModelDisplayName.js";
-import { normalizeContextUsage } from "./normalizeContextUsage.js";
+import type { ContextUsageRuntimeSnapshot } from "./types";
+import { getBranchMessages } from "./getBranchMessages";
+import { getContextWindow } from "./getContextWindow";
+import { getLatestSystemPromptOptions } from "./contextUsageState";
+import { getModelDisplayName } from "./getModelDisplayName";
+import { normalizeContextUsage } from "./normalizeContextUsage";
 
 /**
  * Creates a live context usage snapshot from the active Nexus runtime context.

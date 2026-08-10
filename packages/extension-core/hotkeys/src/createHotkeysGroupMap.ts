@@ -1,4 +1,4 @@
-import type { HotkeysEntry, HotkeysGroup } from "./types.js";
+import type { HotkeysEntry, HotkeysGroup } from "./types";
 
 /**
  * Creates an insertion-ordered group map for hotkeys entries.

@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { getBundledDefaultSettingsPath } from "./getBundledDefaultSettingsPath.js";
+import { getBundledDefaultSettingsPath } from "./getBundledDefaultSettingsPath";
 
 export type NexusAppDefaults = Record<string, unknown>;
 

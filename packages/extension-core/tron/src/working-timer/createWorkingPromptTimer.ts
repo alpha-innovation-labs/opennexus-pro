@@ -1,5 +1,5 @@
-import { formatWorkingPromptMessage } from "./formatWorkingPromptMessage.js";
-import type { WorkingPromptTimer, WorkingPromptTimerContext } from "./types.js";
+import { formatWorkingPromptMessage } from "./formatWorkingPromptMessage";
+import type { WorkingPromptTimer, WorkingPromptTimerContext } from "./types";
 
 /**
  * Starts a UI working-message timer for one active prompt.

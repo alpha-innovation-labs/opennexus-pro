@@ -1,4 +1,4 @@
-import type { PatchableLoader } from "./types.js";
+import type { PatchableLoader } from "./types";
 
 const workingStartedAt = new WeakMap<PatchableLoader, number>();
 

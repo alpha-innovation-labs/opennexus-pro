@@ -1,5 +1,5 @@
-import type { FffFileCandidate } from "../shared/types.js";
-import { scoreTotal } from "./scoreTotal.js";
+import type { FffFileCandidate } from "../shared/types";
+import { scoreTotal } from "./scoreTotal";
 
 /**
  * Decides whether the top candidate is strong enough to auto-resolve.

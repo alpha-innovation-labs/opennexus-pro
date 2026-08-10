@@ -1,6 +1,6 @@
 import { writeFileSync } from "node:fs";
-import { isStartupProfileEnabled } from "./isStartupProfileEnabled.js";
-import { startupProfileLogPath } from "./startupProfileLogPath.js";
+import { isStartupProfileEnabled } from "./isStartupProfileEnabled";
+import { startupProfileLogPath } from "./startupProfileLogPath";
 
 /**
  * Clears the startup-profile log for the current profiled run.

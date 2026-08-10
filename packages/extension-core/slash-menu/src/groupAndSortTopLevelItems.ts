@@ -1,6 +1,6 @@
-import { getTopLevelMenuGroupRank } from "./getTopLevelMenuGroupRank.js";
-import { sortSlashMenuItemsByLabel } from "./sortSlashMenuItemsByLabel.js";
-import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
+import { getTopLevelMenuGroupRank } from "./getTopLevelMenuGroupRank";
+import { sortSlashMenuItemsByLabel } from "./sortSlashMenuItemsByLabel";
+import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 
 /**
  * Groups top-level menu items by rank and sorts entries inside each group.

@@ -1,4 +1,4 @@
-import type { MarkdownPreviewStyleToken } from "./types.js";
+import type { MarkdownPreviewStyleToken } from "./types";
 
 type HeadingAnsiColors = {
   background: string;

@@ -1,4 +1,4 @@
-import type { CmuxSessionRegistryEntry } from "./types.js";
+import type { CmuxSessionRegistryEntry } from "./types";
 
 /**
  * Checks whether a registry entry belongs to a cmux workspace surface.

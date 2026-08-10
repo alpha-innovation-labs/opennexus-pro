@@ -1,4 +1,4 @@
-import { registeredShortcuts } from "./state.js";
+import { registeredShortcuts } from "./state";
 
 /**
  * Records one registered shortcut for help-modal rendering.

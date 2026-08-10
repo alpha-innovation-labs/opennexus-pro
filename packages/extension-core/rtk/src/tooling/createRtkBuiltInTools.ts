@@ -1,10 +1,10 @@
 import { createEditTool, createWriteTool } from "@earendil-works/pi-coding-agent";
-import type { BuiltInTools } from "@extensions/tron/compact-tool-lines/types.js";
-import { createRtkBashTool } from "./createRtkBashTool.js";
-import { createRtkFindTool } from "./createRtkFindTool.js";
-import { createRtkGrepTool } from "./createRtkGrepTool.js";
-import { createRtkLsTool } from "./createRtkLsTool.js";
-import { createRtkReadTool } from "./createRtkReadTool.js";
+import type { BuiltInTools } from "@extensions/tron/compact-tool-lines/types";
+import { createRtkBashTool } from "./createRtkBashTool";
+import { createRtkFindTool } from "./createRtkFindTool";
+import { createRtkGrepTool } from "./createRtkGrepTool";
+import { createRtkLsTool } from "./createRtkLsTool";
+import { createRtkReadTool } from "./createRtkReadTool";
 
 /**
  * Creates the RTK-backed built-in tool map.

@@ -1,7 +1,7 @@
-import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { installPromptline } from "./installPromptline.js";
-import { getPromptlineInstalledForSession, setPromptlineInstalledForSession } from "./state.js";
-import type { PromptlineContext, PromptlineDeps } from "./types.js";
+import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { installPromptline } from "./installPromptline";
+import { getPromptlineInstalledForSession, setPromptlineInstalledForSession } from "./state";
+import type { PromptlineContext, PromptlineDeps } from "./types";
 
 /**
  * Ensures the custom promptline is installed once per session file.

@@ -1,4 +1,4 @@
-import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types.js";
+import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types";
 
 /**
  * Builds top-level leaves for custom prompt commands.

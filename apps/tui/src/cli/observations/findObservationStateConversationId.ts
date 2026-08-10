@@ -1,5 +1,5 @@
 import { readdir } from "node:fs/promises";
-import { stripObservationStateExtension } from "./stripObservationStateExtension.js";
+import { stripObservationStateExtension } from "./stripObservationStateExtension";
 
 /**
  * Finds a stored observation conversation id by exact id or session-id suffix.

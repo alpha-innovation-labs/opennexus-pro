@@ -1,4 +1,4 @@
-import { compareVersions } from "./compareVersions.js";
+import { compareVersions } from "./compareVersions";
 
 /**
  * Checks whether a candidate version is newer than the current version.

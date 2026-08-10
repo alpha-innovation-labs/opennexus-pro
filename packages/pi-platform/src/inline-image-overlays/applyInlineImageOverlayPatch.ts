@@ -1,7 +1,7 @@
 import { TUI } from "@earendil-works/pi-tui";
-import { compositeOverlayOverImageLine } from "./compositeOverlayOverImageLine.js";
-import { renderWithInlineImageCleanup } from "./renderWithInlineImageCleanup.js";
-import type { TuiWithInlineImageOverlayPatch } from "./types.js";
+import { compositeOverlayOverImageLine } from "./compositeOverlayOverImageLine";
+import { renderWithInlineImageCleanup } from "./renderWithInlineImageCleanup";
+import type { TuiWithInlineImageOverlayPatch } from "./types";
 
 let inlineImageOverlayPatchApplied = false;
 

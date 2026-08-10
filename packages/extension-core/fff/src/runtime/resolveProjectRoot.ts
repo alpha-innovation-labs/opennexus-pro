@@ -1,5 +1,5 @@
 import { dirname, resolve } from "node:path";
-import { pathExists } from "./pathExists.js";
+import { pathExists } from "./pathExists";
 
 /**
  * Resolves the closest git-root ancestor for the provided cwd.

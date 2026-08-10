@@ -1,7 +1,7 @@
 import type { ConfiguredPackage } from "@earendil-works/pi-coding-agent";
-import type { NexusUserConfig } from "@nexus/runtime/config/types.js";
-import type { ManagedExtensionRow } from "../model/types.js";
-import { normalizeNpmPackageName } from "./normalizeNpmPackageName.js";
+import type { NexusUserConfig } from "@nexus/runtime/config/types";
+import type { ManagedExtensionRow } from "../model/types";
+import { normalizeNpmPackageName } from "./normalizeNpmPackageName";
 
 /**
  * Creates third-party package rows from Nexus settings package sources.

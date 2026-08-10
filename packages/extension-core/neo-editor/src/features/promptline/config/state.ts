@@ -1,4 +1,4 @@
-import type { PromptlineConfig } from "./types.js";
+import type { PromptlineConfig } from "./types";
 
 let promptlineConfig: PromptlineConfig | undefined;
 

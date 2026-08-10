@@ -1,4 +1,4 @@
-import type { ResourceCommandScope } from "./ResourceCommandScope.js";
+import type { ResourceCommandScope } from "./ResourceCommandScope";
 
 /**
  * Resolves a numeric hotkey to a resource command scope.

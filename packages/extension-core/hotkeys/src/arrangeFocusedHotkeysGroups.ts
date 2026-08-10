@@ -1,6 +1,6 @@
-import { arrangeHotkeysGroups } from "./arrangeHotkeysGroups.js";
-import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId.js";
-import type { HotkeysGroup } from "./types.js";
+import { arrangeHotkeysGroups } from "./arrangeHotkeysGroups";
+import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId";
+import type { HotkeysGroup } from "./types";
 
 /**
  * Arranges hotkey panes so the pane containing focus is always rendered left.

@@ -1,5 +1,5 @@
-import { getRegisteredShortcuts } from "@nexus/tui-kit/shortcuts/index.js";
-import type { HotkeysExtensionShortcut } from "./types.js";
+import { getRegisteredShortcuts } from "@nexus/tui-kit/shortcuts/index";
+import type { HotkeysExtensionShortcut } from "./types";
 
 /**
  * Returns extension shortcuts captured by Nexus's extension API proxy.

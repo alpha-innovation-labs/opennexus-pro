@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { countSessionEntries } from "./countSessionEntries.js";
-import { formatSessionCount } from "./formatSessionCount.js";
+import { countSessionEntries } from "./countSessionEntries";
+import { formatSessionCount } from "./formatSessionCount";
 
 /**
  * Builds display rows for Nexus-owned session info UI.

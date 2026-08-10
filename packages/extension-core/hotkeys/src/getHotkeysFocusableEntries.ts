@@ -1,6 +1,6 @@
-import { filterHotkeysGroups } from "./filterHotkeysGroups.js";
-import { getHotkeysGroups } from "./getHotkeysGroups.js";
-import type { HotkeysEntry, HotkeysExtensionShortcut, HotkeysKeybindings } from "./types.js";
+import { filterHotkeysGroups } from "./filterHotkeysGroups";
+import { getHotkeysGroups } from "./getHotkeysGroups";
+import type { HotkeysEntry, HotkeysExtensionShortcut, HotkeysKeybindings } from "./types";
 
 /**
  * Returns all focusable entries from the current filtered hotkeys view.

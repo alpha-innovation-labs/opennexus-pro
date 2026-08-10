@@ -1,4 +1,4 @@
-import type { PiPackagesTab, ManagedExtensionRow } from "../model/types.js";
+import type { PiPackagesTab, ManagedExtensionRow } from "../model/types";
 
 /**
  * Filters extension rows by active tab and search text.

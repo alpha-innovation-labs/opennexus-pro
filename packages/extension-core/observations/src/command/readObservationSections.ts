@@ -1,6 +1,6 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { formatObservationTimestamp } from "../tracker/formatObservationTimestamp.js";
-import { readObservationState } from "../tracker/readObservationState.js";
+import { formatObservationTimestamp } from "../tracker/formatObservationTimestamp";
+import { readObservationState } from "../tracker/readObservationState";
 
 /**
  * Reads observation topics as modal items and detail sections.

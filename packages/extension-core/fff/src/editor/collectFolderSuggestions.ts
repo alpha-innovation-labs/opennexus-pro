@@ -1,4 +1,4 @@
-import type { FffFileCandidate } from "../shared/types.js";
+import type { FffFileCandidate } from "../shared/types";
 
 /**
  * Collects unique folder suggestions from file candidates.

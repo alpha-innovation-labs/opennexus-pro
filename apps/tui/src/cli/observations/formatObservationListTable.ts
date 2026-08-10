@@ -1,5 +1,5 @@
 import Table from "cli-table3";
-import type { ObservationListJsonRow } from "./types.js";
+import type { ObservationListJsonRow } from "./types";
 
 /**
  * Formats observation rows as a human-readable table.

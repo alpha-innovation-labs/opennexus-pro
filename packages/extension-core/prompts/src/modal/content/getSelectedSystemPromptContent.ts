@@ -1,5 +1,5 @@
-import { getSystemPromptSectionRange } from "./getSystemPromptSectionRange.js";
-import type { SystemPromptOutlineRow } from "../outline/createSystemPromptOutlineRows.js";
+import { getSystemPromptSectionRange } from "./getSystemPromptSectionRange";
+import type { SystemPromptOutlineRow } from "../outline/createSystemPromptOutlineRows";
 
 /**
  * Extracts the raw prompt text represented by the selected outline row.

@@ -1,4 +1,4 @@
-import { readTetrisSettings } from "../settings/readTetrisSettings.js";
+import { readTetrisSettings } from "../settings/readTetrisSettings";
 
 /**
  * Reads the persisted Tetris music preference from Nexus config.

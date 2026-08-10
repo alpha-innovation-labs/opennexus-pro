@@ -1,6 +1,6 @@
-import type { ResourceCommandScope } from "./ResourceCommandScope.js";
-import { getResourceCommandScope } from "./getResourceCommandScope.js";
-import type { RegisteredSlashCommand } from "./types.js";
+import type { ResourceCommandScope } from "./ResourceCommandScope";
+import { getResourceCommandScope } from "./getResourceCommandScope";
+import type { RegisteredSlashCommand } from "./types";
 
 /**
  * Filters prompt or skill commands by local/global scope.

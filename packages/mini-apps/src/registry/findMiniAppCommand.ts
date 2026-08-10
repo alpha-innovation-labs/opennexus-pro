@@ -1,4 +1,4 @@
-import type { MiniAppManifest } from "./MiniAppManifest.js";
+import type { MiniAppManifest } from "./MiniAppManifest";
 
 /**
  * Finds the mini-app manifest that owns a user-facing command.

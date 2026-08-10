@@ -1,5 +1,5 @@
-import { isBundledBinary } from "../isBundledBinary.js";
-import { ensureEmbeddedPackageDir } from "./ensureEmbeddedPackageDir.js";
+import { isBundledBinary } from "../isBundledBinary";
+import { ensureEmbeddedPackageDir } from "./ensureEmbeddedPackageDir";
 
 /**
  * Ensures bundled-binary package assets are available and exported via env.

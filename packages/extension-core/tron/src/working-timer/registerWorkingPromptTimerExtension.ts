@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { createWorkingPromptTimer } from "./createWorkingPromptTimer.js";
-import type { WorkingPromptTimer } from "./types.js";
+import { createWorkingPromptTimer } from "./createWorkingPromptTimer";
+import type { WorkingPromptTimer } from "./types";
 
 /**
  * Registers the active-prompt working-message elapsed timer.

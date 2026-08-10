@@ -1,5 +1,5 @@
-import type { PiPackagesCommandOptions } from "./PiPackagesCommandOptions.js";
-import { isPiPackagesCommand } from "./isPiPackagesCommand.js";
+import type { PiPackagesCommandOptions } from "./PiPackagesCommandOptions";
+import { isPiPackagesCommand } from "./isPiPackagesCommand";
 
 /**
  * Parses nexus pi-packages subcommand options.

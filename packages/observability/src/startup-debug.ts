@@ -1,5 +1,5 @@
-import { logStartupProfileEvent } from "./startup-profile/logStartupProfileEvent.js";
-import { startupProfileLogPath } from "./startup-profile/startupProfileLogPath.js";
+import { logStartupProfileEvent } from "./startup-profile/logStartupProfileEvent";
+import { startupProfileLogPath } from "./startup-profile/startupProfileLogPath";
 
 /**
  * Appends one extension lifecycle event to the startup debug log.

@@ -1,16 +1,16 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { getAllBundledExtensionIds, bundledFeatureFlags } from "@nexus/feature-flags/registry.js";
-import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { createFeatureStatusRows } from "../model/createFeatureStatusRows.js";
-import { FeatureManagementModal } from "../ui/FeatureManagementModal.js";
-import { updateFeatureStatusRow } from "../model/persistFeatureFlagOverride.js";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { createNexusPackageManager } from "@extensions/pi-packages/package/createNexusPackageManager.js";
-import { normalizeNpmPackageName } from "@extensions/pi-packages/package/normalizeNpmPackageName.js";
-import { getFeatureManagementGroup } from "../model/getFeatureManagementGroup.js";
-import type { FeatureStatusRow } from "../model/types.js";
-import { MINIMAL_EXTENSION_WHITELIST } from "@nexus/runtime/shared/minimal.js";
+import { getAllBundledExtensionIds, bundledFeatureFlags } from "@nexus/feature-flags/registry";
+import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createFeatureStatusRows } from "../model/createFeatureStatusRows";
+import { FeatureManagementModal } from "../ui/FeatureManagementModal";
+import { updateFeatureStatusRow } from "../model/persistFeatureFlagOverride";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { createNexusPackageManager } from "@extensions/pi-packages/package/createNexusPackageManager";
+import { normalizeNpmPackageName } from "@extensions/pi-packages/package/normalizeNpmPackageName";
+import { getFeatureManagementGroup } from "../model/getFeatureManagementGroup";
+import type { FeatureStatusRow } from "../model/types";
+import { MINIMAL_EXTENSION_WHITELIST } from "@nexus/runtime/shared/minimal";
 
 /**
  * Opens the feature management modal.

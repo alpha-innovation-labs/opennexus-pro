@@ -1,17 +1,17 @@
 import { homedir } from "node:os";
 import type { AssistantMessage, UserMessage } from "@earendil-works/pi-ai";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { estimateTokensFromText } from "@extensions/context-usage/estimateTokensFromText.js";
-import { getGitState } from "../../../shared/git/state.js";
-import { getPromptlineModel } from "../getPromptlineModel.js";
-import { buildContextBar } from "./buildContextBar.js";
-import { collectUsage } from "./collectUsage.js";
-import { PRIMARY_COLOR, RESET } from "./constants.js";
-import { formatContextTokenUsage } from "./formatContextTokenUsage.js";
-import { getCachedContextUsage } from "./getCachedContextUsage.js";
-import { getContextColor } from "./getContextColor.js";
-import { getStartupContextReport } from "../../../registerNeoEditorExtension.js";
-import { truncateFromStart } from "./truncateFromStart.js";
+import { estimateTokensFromText } from "@extensions/context-usage/estimateTokensFromText";
+import { getGitState } from "../../../shared/git/state";
+import { getPromptlineModel } from "../getPromptlineModel";
+import { buildContextBar } from "./buildContextBar";
+import { collectUsage } from "./collectUsage";
+import { PRIMARY_COLOR, RESET } from "./constants";
+import { formatContextTokenUsage } from "./formatContextTokenUsage";
+import { getCachedContextUsage } from "./getCachedContextUsage";
+import { getContextColor } from "./getContextColor";
+import { getStartupContextReport } from "../../../registerNeoEditorExtension";
+import { truncateFromStart } from "./truncateFromStart";
 
 /**
  * Builds the promptline left and right display segments.

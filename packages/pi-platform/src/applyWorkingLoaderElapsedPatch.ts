@@ -1,8 +1,8 @@
 import { Loader } from "@earendil-works/pi-tui";
-import { createWorkingElapsedMessage } from "./working-loader/createWorkingElapsedMessage.js";
-import { isWorkingLoaderMessage } from "./working-loader/isWorkingLoaderMessage.js";
-import type { PatchableLoader } from "./working-loader/types.js";
-import { clearWorkingLoaderStartedAt, getWorkingLoaderStartedAt } from "./working-loader/workingLoaderStartedAt.js";
+import { createWorkingElapsedMessage } from "./working-loader/createWorkingElapsedMessage";
+import { isWorkingLoaderMessage } from "./working-loader/isWorkingLoaderMessage";
+import type { PatchableLoader } from "./working-loader/types";
+import { clearWorkingLoaderStartedAt, getWorkingLoaderStartedAt } from "./working-loader/workingLoaderStartedAt";
 
 let workingLoaderElapsedPatchApplied = false;
 

@@ -1,7 +1,7 @@
 import { appendFileSync } from "node:fs";
-import { isStartupProfileEnabled } from "./isStartupProfileEnabled.js";
-import { safeSerialize } from "./safeSerialize.js";
-import { startupProfileLogPath } from "./startupProfileLogPath.js";
+import { isStartupProfileEnabled } from "./isStartupProfileEnabled";
+import { safeSerialize } from "./safeSerialize";
+import { startupProfileLogPath } from "./startupProfileLogPath";
 
 /**
  * Appends one startup-profile event to the shared log.

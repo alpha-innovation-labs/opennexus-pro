@@ -1,7 +1,7 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { TOP_LEVEL_DESCRIPTION_COLUMN } from "./formatTopLevelMenuLabel.js";
-import { getSlashMenuItemIcon } from "./getSlashMenuItemIcon.js";
-import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
+import { TOP_LEVEL_DESCRIPTION_COLUMN } from "./formatTopLevelMenuLabel";
+import { getSlashMenuItemIcon } from "./getSlashMenuItemIcon";
+import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 
 const TOP_LEVEL_EXTRA_WIDTH = 6;
 const TOP_LEVEL_MIN_WIDTH = 36;

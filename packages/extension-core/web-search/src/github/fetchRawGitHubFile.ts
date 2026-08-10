@@ -1,4 +1,4 @@
-import { createRawGitHubUrl } from "./createRawGitHubUrl.js";
+import { createRawGitHubUrl } from "./createRawGitHubUrl";
 
 /**
  * Fetches a raw text file from GitHub.

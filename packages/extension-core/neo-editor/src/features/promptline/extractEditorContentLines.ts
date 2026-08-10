@@ -1,4 +1,4 @@
-import { isEditorBorderLine } from "../../shared/ui/isEditorBorderLine.js";
+import { isEditorBorderLine } from "../../shared/ui/isEditorBorderLine";
 
 /**
  * Extracts content rows from the base editor chrome render.

@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import { getGlobalEditorTriggerConfigPath } from "./getGlobalEditorTriggerConfigPath.js";
-import type { EditorTriggerConfig } from "./types.js";
+import { getGlobalEditorTriggerConfigPath } from "./getGlobalEditorTriggerConfigPath";
+import type { EditorTriggerConfig } from "./types";
 
 /**
  * Writes the global editor-trigger config file.

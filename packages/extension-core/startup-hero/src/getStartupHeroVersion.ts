@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { getBinaryPackageDir } from "@nexus/runtime/package/getBinaryPackageDir.js";
+import { getBinaryPackageDir } from "@nexus/runtime/package/getBinaryPackageDir";
 
 /**
  * Reads the Nexus package version for the startup hero.

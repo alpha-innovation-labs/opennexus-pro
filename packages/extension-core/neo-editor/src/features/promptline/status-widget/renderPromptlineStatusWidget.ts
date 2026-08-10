@@ -1,6 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createPromptlineStatusWidget } from "./createPromptlineStatusWidget.js";
-import { PROMPTLINE_STATUS_WIDGET_KEY } from "./promptlineStatusWidgetKey.js";
+import { createPromptlineStatusWidget } from "./createPromptlineStatusWidget";
+import { PROMPTLINE_STATUS_WIDGET_KEY } from "./promptlineStatusWidgetKey";
 
 /**
  * Renders the promptline metadata widget below the editor.

@@ -1,5 +1,5 @@
-import type { TriggerModalState } from "../types.js";
-import type { AtModal } from "../../AtModal.js";
+import type { TriggerModalState } from "../types";
+import type { AtModal } from "../../AtModal";
 
 /**
  * Returns the active `@` modal instance.

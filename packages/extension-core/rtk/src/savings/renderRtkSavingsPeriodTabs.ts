@@ -1,8 +1,8 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey.js";
-import { formatRtkSavingsPeriodTab } from "./formatRtkSavingsPeriodTab.js";
-import { getRtkSavingsPeriodLabel } from "./getRtkSavingsPeriodLabel.js";
-import { getRtkSavingsPeriodOptions } from "./getRtkSavingsPeriodOptions.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey";
+import { formatRtkSavingsPeriodTab } from "./formatRtkSavingsPeriodTab";
+import { getRtkSavingsPeriodLabel } from "./getRtkSavingsPeriodLabel";
+import { getRtkSavingsPeriodOptions } from "./getRtkSavingsPeriodOptions";
 
 /**
  * Renders the period selector tabs for the RTK savings modal header.

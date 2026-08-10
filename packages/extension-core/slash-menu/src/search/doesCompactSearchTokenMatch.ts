@@ -1,5 +1,5 @@
-import { compactSearchText } from "./compactSearchText.js";
-import { isSearchSubsequence } from "./isSearchSubsequence.js";
+import { compactSearchText } from "./compactSearchText";
+import { isSearchSubsequence } from "./isSearchSubsequence";
 
 /**
  * Checks whether a compact search token matches label text fuzzily.

@@ -1,5 +1,5 @@
-import { extractForkSelectedText } from "./extractForkSelectedText.js";
-import type { InternalSlashHandler } from "./types.js";
+import { extractForkSelectedText } from "./extractForkSelectedText";
+import type { InternalSlashHandler } from "./types";
 
 /**
  * Forks from one selected entry without opening Pi's built-in fork selector.

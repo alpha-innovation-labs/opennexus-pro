@@ -1,5 +1,5 @@
-import { createPiToolDefinitions } from "@nexus/pi-platform/tools/createPiToolDefinitions.js";
-import type { SlashMenuLeaf } from "./types.js";
+import { createPiToolDefinitions } from "@nexus/pi-platform/tools/createPiToolDefinitions";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Builds slash-menu leaves for Pi built-in tool definitions.

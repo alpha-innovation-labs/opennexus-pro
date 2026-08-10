@@ -1,4 +1,4 @@
-import { findAgentsSectionRange } from "./findAgentsSectionRange.js";
+import { findAgentsSectionRange } from "./findAgentsSectionRange";
 
 /**
  * Replaces only the AGENTS.md section inside a full system prompt.

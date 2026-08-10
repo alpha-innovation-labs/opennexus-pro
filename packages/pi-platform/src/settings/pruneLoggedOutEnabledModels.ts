@@ -1,5 +1,5 @@
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import { filterLoggedInEnabledModelPatterns } from "./filterLoggedInEnabledModelPatterns.js";
+import { filterLoggedInEnabledModelPatterns } from "./filterLoggedInEnabledModelPatterns";
 import { homedir } from "node:os";
 import { join } from "node:path";
 

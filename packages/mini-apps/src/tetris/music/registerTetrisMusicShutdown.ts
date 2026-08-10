@@ -1,4 +1,4 @@
-import { stopTetrisMusicRuntime } from "./tetrisMusicRuntime.js";
+import { stopTetrisMusicRuntime } from "./tetrisMusicRuntime";
 
 let registered = false;
 

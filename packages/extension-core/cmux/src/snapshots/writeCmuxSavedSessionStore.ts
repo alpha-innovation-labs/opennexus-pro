@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import type { CmuxSavedSessionStore } from "./types.js";
+import type { CmuxSavedSessionStore } from "./types";
 
 /**
  * Writes saved cmux sessions to disk.

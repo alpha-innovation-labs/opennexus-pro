@@ -1,4 +1,4 @@
-import type { TetrisActivePiece, TetrisGame } from "./types.js";
+import type { TetrisActivePiece, TetrisGame } from "./types";
 
 /**
  * Checks whether a piece can occupy its current cells on the board.

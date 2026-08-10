@@ -1,10 +1,10 @@
 import { autocomplete, text, isCancel } from "@clack/prompts";
-import { DEFAULT_PORTS } from "@extensions/ai-providers/constants/default-ports.js";
-import { createGateway } from "@extensions/ai-providers/gateway/createGateway.js";
-import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig.js";
-import { getAllProviderIds } from "./getAllProviderIds.js";
-import { writeProviderConfig } from "@extensions/ai-providers/config/writeProviderConfig.js";
-import { BOLD, GREEN, RESET } from "../shared/ansiColors.js";
+import { DEFAULT_PORTS } from "@extensions/ai-providers/constants/default-ports";
+import { createGateway } from "@extensions/ai-providers/gateway/createGateway";
+import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig";
+import { getAllProviderIds } from "./getAllProviderIds";
+import { writeProviderConfig } from "@extensions/ai-providers/config/writeProviderConfig";
+import { BOLD, GREEN, RESET } from "../shared/ansiColors";
 
 /**
  * Handles the "configure" subcommand: launches an interactive, fuzzy-filtered

@@ -1,4 +1,4 @@
-import { getModelCatalogMetricColumnSpecs } from "./getModelCatalogMetricColumnSpecs.js";
+import { getModelCatalogMetricColumnSpecs } from "./getModelCatalogMetricColumnSpecs";
 
 /**
  * Gets the All models metric column header text.

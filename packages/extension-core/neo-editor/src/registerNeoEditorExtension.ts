@@ -1,19 +1,19 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { createContextUsageReport } from "@extensions/context-usage/createContextUsageReport.js";
-import type { ContextUsageReport } from "@extensions/context-usage/types.js";
-import { createRuntimeSnapshot } from "@extensions/context-usage/createRuntimeSnapshot.js";
-import { readProjectConfig } from "@extensions/slash-menu/readProjectConfig.js";
-import { setToolGroupCollapseEnabled } from "@extensions/tron/collapse/state.js";
-import { ensurePromptlineInstalled } from "./features/promptline/ensurePromptlineInstalled.js";
-import { getPromptlineConfig } from "./features/promptline/config/getPromptlineConfig.js";
-import { refreshPromptlineConfig } from "./features/promptline/config/refreshPromptlineConfig.js";
-import { refreshAndRender } from "./features/promptline/refreshAndRender.js";
-import { resetPromptlineState } from "./features/promptline/resetPromptlineState.js";
-import { getPromptlineRenderRequest, setPromptlineModelOverride } from "./features/promptline/state.js";
-import { setRefreshRequestCallback } from "./features/promptline/state.js";
-import { registerPromptlineStatusWidget } from "./features/promptline/status-widget/registerPromptlineStatusWidget.js";
-import { primeStartupResumeModal } from "./primeStartupResumeModal.js";
+import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { createContextUsageReport } from "@extensions/context-usage/createContextUsageReport";
+import type { ContextUsageReport } from "@extensions/context-usage/types";
+import { createRuntimeSnapshot } from "@extensions/context-usage/createRuntimeSnapshot";
+import { readProjectConfig } from "@extensions/slash-menu/readProjectConfig";
+import { setToolGroupCollapseEnabled } from "@extensions/tron/collapse/state";
+import { ensurePromptlineInstalled } from "./features/promptline/ensurePromptlineInstalled";
+import { getPromptlineConfig } from "./features/promptline/config/getPromptlineConfig";
+import { refreshPromptlineConfig } from "./features/promptline/config/refreshPromptlineConfig";
+import { refreshAndRender } from "./features/promptline/refreshAndRender";
+import { resetPromptlineState } from "./features/promptline/resetPromptlineState";
+import { getPromptlineRenderRequest, setPromptlineModelOverride } from "./features/promptline/state";
+import { setRefreshRequestCallback } from "./features/promptline/state";
+import { registerPromptlineStatusWidget } from "./features/promptline/status-widget/registerPromptlineStatusWidget";
+import { primeStartupResumeModal } from "./primeStartupResumeModal";
 
 let startupContextReport: ContextUsageReport | undefined;
 

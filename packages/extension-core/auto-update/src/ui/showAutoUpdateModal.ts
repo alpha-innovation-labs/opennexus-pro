@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { AutoUpdateModal } from "./AutoUpdateModal.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { AutoUpdateModal } from "./AutoUpdateModal";
 
 export type ShowAutoUpdateModalInput = {
 	currentVersion: string;

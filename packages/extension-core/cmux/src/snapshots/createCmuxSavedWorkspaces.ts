@@ -1,9 +1,9 @@
-import { findRegisteredNexusSession } from "../session-registry/findRegisteredNexusSession.js";
-import type { CmuxSessionRegistryEntry } from "../session-registry/types.js";
-import { getCmuxSurfaceIdentifier } from "../workspaces/getCmuxSurfaceIdentifier.js";
-import { getCmuxWorkspaceIdentifier } from "../workspaces/getCmuxWorkspaceIdentifier.js";
-import type { CmuxWorkspaceShellView } from "../workspaces/types.js";
-import type { CmuxSavedWorkspace } from "./types.js";
+import { findRegisteredNexusSession } from "../session-registry/findRegisteredNexusSession";
+import type { CmuxSessionRegistryEntry } from "../session-registry/types";
+import { getCmuxSurfaceIdentifier } from "../workspaces/getCmuxSurfaceIdentifier";
+import { getCmuxWorkspaceIdentifier } from "../workspaces/getCmuxWorkspaceIdentifier";
+import type { CmuxWorkspaceShellView } from "../workspaces/types";
+import type { CmuxSavedWorkspace } from "./types";
 
 /**
  * Creates structured saved workspaces with Nexus session ids for future restore.

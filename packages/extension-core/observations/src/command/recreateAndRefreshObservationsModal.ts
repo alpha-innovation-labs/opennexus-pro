@@ -1,9 +1,9 @@
 import type { ExtensionCommandContext, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { getCurrentConversationId } from "../shared/getCurrentConversationId.js";
-import { getObservationStatePath } from "../shared/getObservationStatePath.js";
-import type { ObservationsModal } from "./ObservationsModal.js";
-import { readObservationSections } from "./readObservationSections.js";
-import { recreateCurrentObservation } from "./recreateCurrentObservation.js";
+import { getCurrentConversationId } from "../shared/getCurrentConversationId";
+import { getObservationStatePath } from "../shared/getObservationStatePath";
+import type { ObservationsModal } from "./ObservationsModal";
+import { readObservationSections } from "./readObservationSections";
+import { recreateCurrentObservation } from "./recreateCurrentObservation";
 
 /**
  * Recreates the active observation and refreshes the open observations modal.

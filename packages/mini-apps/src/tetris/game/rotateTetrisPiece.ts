@@ -1,6 +1,6 @@
-import { canPlacePiece } from "./canPlacePiece.js";
-import { rotateMatrix } from "./rotateMatrix.js";
-import type { TetrisGame } from "./types.js";
+import { canPlacePiece } from "./canPlacePiece";
+import { rotateMatrix } from "./rotateMatrix";
+import type { TetrisGame } from "./types";
 
 /**
  * Rotates the active piece clockwise when the destination is valid.

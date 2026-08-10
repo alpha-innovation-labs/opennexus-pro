@@ -1,7 +1,7 @@
-import type { HotkeysKeybindings } from "./types.js";
-import { readKeybindingsConfigFile } from "./readKeybindingsConfigFile.js";
-import { removeConflictingHotkeysBindings } from "./removeConflictingHotkeysBindings.js";
-import { writeKeybindingsConfigFile } from "./writeKeybindingsConfigFile.js";
+import type { HotkeysKeybindings } from "./types";
+import { readKeybindingsConfigFile } from "./readKeybindingsConfigFile";
+import { removeConflictingHotkeysBindings } from "./removeConflictingHotkeysBindings";
+import { writeKeybindingsConfigFile } from "./writeKeybindingsConfigFile";
 
 /**
  * Persists one keybinding override to the active keybindings manager and config file.

@@ -1,6 +1,6 @@
 import type { BuildSystemPromptOptions } from "@earendil-works/pi-coding-agent";
-import type { ContextUsageDetailItem } from "./types.js";
-import { estimateTokensFromText } from "./estimateTokensFromText.js";
+import type { ContextUsageDetailItem } from "./types";
+import { estimateTokensFromText } from "./estimateTokensFromText";
 
 
 /**

@@ -1,5 +1,5 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import type { PromptlineConfig } from "./config/types.js";
+import type { PromptlineConfig } from "./config/types";
 
 export type PromptlineDeps = {
   exec: ExtensionAPI["exec"];

@@ -1,5 +1,5 @@
-import type { ResolvedPath } from "../shared/types.js";
-import { normalizeSlashes } from "./normalizeSlashes.js";
+import type { ResolvedPath } from "../shared/types";
+import { normalizeSlashes } from "./normalizeSlashes";
 
 /**
  * Builds an FFF native scope constraint from a resolved path.

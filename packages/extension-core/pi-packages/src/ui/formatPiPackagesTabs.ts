@@ -1,4 +1,4 @@
-import type { PiPackagesTab } from "../model/types.js";
+import type { PiPackagesTab } from "../model/types";
 
 const labels: Record<PiPackagesTab, string> = {
 	all: "All",

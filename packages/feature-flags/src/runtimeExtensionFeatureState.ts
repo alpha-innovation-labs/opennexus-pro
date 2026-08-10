@@ -1,4 +1,4 @@
-import type { ExtensionFeatureFlag } from "./types.js";
+import type { ExtensionFeatureFlag } from "./types";
 
 const runtimeExtensionFeatureState = new Map<string, boolean>();
 

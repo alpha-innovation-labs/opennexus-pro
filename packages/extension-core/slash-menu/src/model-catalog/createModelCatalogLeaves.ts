@@ -1,6 +1,6 @@
 import { getBuiltinModels, getBuiltinProviders } from "@earendil-works/pi-ai/providers/all";
-import type { SlashMenuLeaf } from "../types.js";
-import { createModelCatalogLeaf } from "./createModelCatalogLeaf.js";
+import type { SlashMenuLeaf } from "../types";
+import { createModelCatalogLeaf } from "./createModelCatalogLeaf";
 
 /**
  * Builds full model catalog leaves from Pi's generated model registry.

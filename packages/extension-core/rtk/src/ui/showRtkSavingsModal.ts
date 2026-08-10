@@ -1,8 +1,8 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import type { RtkGainReport } from "../savings/RtkGainReport.js";
-import type { SavingsReport } from "../savings/SavingsReport.js";
-import { RtkSavingsModal } from "./RtkSavingsModal.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import type { RtkGainReport } from "../savings/RtkGainReport";
+import type { SavingsReport } from "../savings/SavingsReport";
+import { RtkSavingsModal } from "./RtkSavingsModal";
 
 /**
  * Opens the RTK savings modal as a child overlay.

@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { getNexusAgentDirPath } from "./getNexusAgentDirPath.js";
+import { getNexusAgentDirPath } from "./getNexusAgentDirPath";
 
 /**
  * Resolves the agent commands directory path.

@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createContextUsageCacheKey } from "./createContextUsageCacheKey.js";
+import { createContextUsageCacheKey } from "./createContextUsageCacheKey";
 
 type ContextUsage = ReturnType<ExtensionContext["getContextUsage"]>;
 

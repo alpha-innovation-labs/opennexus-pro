@@ -1,5 +1,5 @@
-import { isResumeSelectorFlag } from "./isResumeSelectorFlag.js";
-import { looksLikeSessionReference } from "./looksLikeSessionReference.js";
+import { isResumeSelectorFlag } from "./isResumeSelectorFlag";
+import { looksLikeSessionReference } from "./looksLikeSessionReference";
 
 export interface ResumeCliRequest {
   mode: "none" | "picker" | "direct";

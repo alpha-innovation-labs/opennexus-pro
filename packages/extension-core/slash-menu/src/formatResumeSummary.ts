@@ -1,4 +1,4 @@
-import type { ResumeSessionStats } from "./readResumeSessionStats.js";
+import type { ResumeSessionStats } from "./readResumeSessionStats";
 const HUMAN_ICON = "󰀄";
 const TOOL_ICON = "󰍉";
 const THINKING_ICON = "󰧑";

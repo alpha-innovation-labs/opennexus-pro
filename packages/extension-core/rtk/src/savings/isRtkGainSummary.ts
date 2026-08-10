@@ -1,5 +1,5 @@
-import type { RtkGainSummary } from "./RtkGainSummary.js";
-import { isRecord } from "./isRecord.js";
+import type { RtkGainSummary } from "./RtkGainSummary";
+import { isRecord } from "./isRecord";
 
 const REQUIRED_NUMBER_FIELDS = [
   "total_commands",

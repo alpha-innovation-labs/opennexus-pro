@@ -1,5 +1,5 @@
-import { parseResumeCliRequest } from "./resume/parseResumeCliRequest.js";
-import { rewriteDirectResumeArgs } from "./resume/rewriteDirectResumeArgs.js";
+import { parseResumeCliRequest } from "./resume/parseResumeCliRequest";
+import { rewriteDirectResumeArgs } from "./resume/rewriteDirectResumeArgs";
 
 export const startupResumeEnvVar = "NEXUS_STARTUP_RESUME_MODAL";
 export const resumeLaunchEnvVar = "NEXUS_RESUME_LAUNCH";

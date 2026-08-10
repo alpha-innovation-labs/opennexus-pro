@@ -1,7 +1,7 @@
-import { buildObservationMessageExcerpt } from "@extensions/observations/tracker/buildObservationMessageExcerpt.js";
-import type { ObservationState, StoredObservationMessage } from "@extensions/observations/tracker/types.js";
-import { recreateObservationTopics } from "./recreateObservationTopics.js";
-import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopic.js";
+import { buildObservationMessageExcerpt } from "@extensions/observations/tracker/buildObservationMessageExcerpt";
+import type { ObservationState, StoredObservationMessage } from "@extensions/observations/tracker/types";
+import { recreateObservationTopics } from "./recreateObservationTopics";
+import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopic";
 
 /**
  * Rebuilds observation state with one LLM pass over the complete session history.

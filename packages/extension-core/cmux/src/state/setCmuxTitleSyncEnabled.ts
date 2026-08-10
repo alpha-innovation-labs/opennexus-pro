@@ -1,4 +1,4 @@
-import { cmuxTitleSyncState } from "./cmuxTitleSyncState.js";
+import { cmuxTitleSyncState } from "./cmuxTitleSyncState";
 
 /**
  * Updates the runtime cmux title-sync enablement flag.

@@ -1,6 +1,6 @@
-import type { SlashMenuLevel } from "./SlashMenuLevel.js";
-import { getResourceMenuIcon } from "./getResourceMenuIcon.js";
-import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
+import type { SlashMenuLevel } from "./SlashMenuLevel";
+import { getResourceMenuIcon } from "./getResourceMenuIcon";
+import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 
 const TOP_LEVEL_ICONS: Record<string, string> = {
 	agents: "◇",

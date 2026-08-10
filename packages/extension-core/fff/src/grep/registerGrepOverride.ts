@@ -1,11 +1,11 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { createGrepTool } from "@earendil-works/pi-coding-agent";
-import { loadFeatureState } from "../features/loadFeatureState.js";
-import { getRuntimeForCwd } from "../runtime/runtimeStore.js";
-import { buildGrepFailureMessage } from "./buildGrepFailureMessage.js";
-import { createGrepSchema } from "./createGrepSchema.js";
-import { normalizeGrepMode } from "./normalizeGrepMode.js";
-import { shouldFallbackToBuiltinGrep } from "./shouldFallbackToBuiltinGrep.js";
+import { loadFeatureState } from "../features/loadFeatureState";
+import { getRuntimeForCwd } from "../runtime/runtimeStore";
+import { buildGrepFailureMessage } from "./buildGrepFailureMessage";
+import { createGrepSchema } from "./createGrepSchema";
+import { normalizeGrepMode } from "./normalizeGrepMode";
+import { shouldFallbackToBuiltinGrep } from "./shouldFallbackToBuiltinGrep";
 
 /**
  * Registers the bundled FFF override for the built-in `grep` tool.

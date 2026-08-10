@@ -1,5 +1,5 @@
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { getHotkeysFilterToken } from "./getHotkeysFilterToken.js";
+import { getHotkeysFilterToken } from "./getHotkeysFilterToken";
 
 export type HotkeysFilterInputResult = {
   action?: "edit";

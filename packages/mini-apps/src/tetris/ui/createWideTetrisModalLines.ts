@@ -1,13 +1,13 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import type { TetrisGame } from "../game/types.js";
-import { getTetrisHotkeysBoxHeight } from "./getTetrisHotkeysBoxHeight.js";
-import { getTetrisHotkeysBoxWidth } from "./getTetrisHotkeysBoxWidth.js";
-import { padTetrisLine } from "./padTetrisLine.js";
-import { padTetrisLines } from "./padTetrisLines.js";
-import { renderTetrisBoardBox } from "./renderTetrisBoardBox.js";
-import { renderTetrisHotkeysBox } from "./renderTetrisHotkeysBox.js";
-import { renderTetrisNextBox } from "./renderTetrisNextBox.js";
-import { renderTetrisStatsBox } from "./renderTetrisStatsBox.js";
+import type { TetrisGame } from "../game/types";
+import { getTetrisHotkeysBoxHeight } from "./getTetrisHotkeysBoxHeight";
+import { getTetrisHotkeysBoxWidth } from "./getTetrisHotkeysBoxWidth";
+import { padTetrisLine } from "./padTetrisLine";
+import { padTetrisLines } from "./padTetrisLines";
+import { renderTetrisBoardBox } from "./renderTetrisBoardBox";
+import { renderTetrisHotkeysBox } from "./renderTetrisHotkeysBox";
+import { renderTetrisNextBox } from "./renderTetrisNextBox";
+import { renderTetrisStatsBox } from "./renderTetrisStatsBox";
 
 /**
  * Builds the screenshot-style wide Tetris body with score, board, and right stacked menus.

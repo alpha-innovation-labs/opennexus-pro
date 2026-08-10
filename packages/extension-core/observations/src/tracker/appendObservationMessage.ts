@@ -1,7 +1,7 @@
 import { withFileMutationQueue } from "@earendil-works/pi-coding-agent";
 import { writeFile } from "node:fs/promises";
-import { readObservationMessageStore } from "./readObservationMessageStore.js";
-import type { StoredObservationMessage } from "./types.js";
+import { readObservationMessageStore } from "./readObservationMessageStore";
+import type { StoredObservationMessage } from "./types";
 
 /**
  * Appends one raw tracked message to the observation store.

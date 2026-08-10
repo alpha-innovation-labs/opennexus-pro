@@ -1,5 +1,5 @@
-import { logoutProvider } from "../model/logoutProvider.js";
-import type { InternalSlashHandler } from "./types.js";
+import { logoutProvider } from "../model/logoutProvider";
+import type { InternalSlashHandler } from "./types";
 
 /**
  * Logs out one OAuth provider without opening Pi's built-in selector.

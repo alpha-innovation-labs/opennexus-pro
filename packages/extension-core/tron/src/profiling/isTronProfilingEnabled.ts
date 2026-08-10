@@ -1,4 +1,4 @@
-import { STARTUP_PROFILE_ENV } from "@nexus/observability/startup-profile/constants.js";
+import { STARTUP_PROFILE_ENV } from "@nexus/observability/startup-profile/constants";
 
 /**
  * Reports whether Tron profiling logs should be emitted.

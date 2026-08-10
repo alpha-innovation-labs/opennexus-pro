@@ -1,7 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { clearExitMessage } from "./state/clearExitMessage.js";
-import { hasRealSessionMessages } from "./hasRealSessionMessages.js";
-import { updateExitMessageFromSessionTitle } from "./updateExitMessageFromSessionTitle.js";
+import { clearExitMessage } from "./state/clearExitMessage";
+import { hasRealSessionMessages } from "./hasRealSessionMessages";
+import { updateExitMessageFromSessionTitle } from "./updateExitMessageFromSessionTitle";
 
 /**
  * Captures the current session resume command and title so they can be printed after shutdown.

@@ -1,6 +1,6 @@
-import { padMarkdownPreviewLine } from "./padMarkdownPreviewLine.js";
-import { styleMarkdownPreviewSegment } from "./styleMarkdownPreviewSegment.js";
-import type { MarkdownPreviewRow, MarkdownPreviewTheme } from "./types.js";
+import { padMarkdownPreviewLine } from "./padMarkdownPreviewLine";
+import { styleMarkdownPreviewSegment } from "./styleMarkdownPreviewSegment";
+import type { MarkdownPreviewRow, MarkdownPreviewTheme } from "./types";
 
 /** Adds a source-line gutter to rendered markdown preview rows. */
 export function addMarkdownPreviewLineNumbers(rows: MarkdownPreviewRow[], totalWidth: number, sourceLineCount: number, theme?: MarkdownPreviewTheme): string[] {

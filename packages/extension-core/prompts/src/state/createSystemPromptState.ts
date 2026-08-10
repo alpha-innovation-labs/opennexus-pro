@@ -1,4 +1,4 @@
-import type { SystemPromptState } from "./types.js";
+import type { SystemPromptState } from "./types";
 
 /**
  * Creates in-memory session state for the custom system prompt override.

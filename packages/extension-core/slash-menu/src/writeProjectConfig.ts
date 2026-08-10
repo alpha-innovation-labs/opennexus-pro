@@ -1,5 +1,5 @@
-import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath.js";
-import { writeJsonFile } from "./writeJsonFile.js";
+import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath";
+import { writeJsonFile } from "./writeJsonFile";
 
 /**
  * Writes project Nexus config.

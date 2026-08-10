@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { getProjectConfigDirName } from "./getProjectConfigDirName.js";
+import { getProjectConfigDirName } from "./getProjectConfigDirName";
 
 /**
  * Resolves the Nexus project config directory path.

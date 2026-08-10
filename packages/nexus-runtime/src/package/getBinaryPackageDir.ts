@@ -1,7 +1,7 @@
 import { dirname } from "node:path";
 import { homedir } from "node:os";
-import { getConfiguredPackageDir } from "./getConfiguredPackageDir.js";
-import { isBundledBinary } from "./isBundledBinary.js";
+import { getConfiguredPackageDir } from "./getConfiguredPackageDir";
+import { isBundledBinary } from "./isBundledBinary";
 
 export interface BinaryPackageDirOptions {
   env?: NodeJS.ProcessEnv;

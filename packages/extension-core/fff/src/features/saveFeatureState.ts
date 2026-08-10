@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import { getFeatureStatePath } from "./getFeatureStatePath.js";
-import type { FffFeatureKey } from "../shared/types.js";
+import { getFeatureStatePath } from "./getFeatureStatePath";
+import type { FffFeatureKey } from "../shared/types";
 
 /**
  * Persists enabled FFF feature keys.

@@ -1,5 +1,5 @@
-import { readObservationState } from "./readObservationState.js";
-import type { ObservationState } from "./types.js";
+import { readObservationState } from "./readObservationState";
+import type { ObservationState } from "./types";
 
 /**
  * Reads the stored observation state using the current path tuple.

@@ -1,4 +1,4 @@
-import type { SlashMenuLevel } from "./SlashMenuLevel.js";
+import type { SlashMenuLevel } from "./SlashMenuLevel";
 
 /**
  * Formats the visible title for one slash-menu level.

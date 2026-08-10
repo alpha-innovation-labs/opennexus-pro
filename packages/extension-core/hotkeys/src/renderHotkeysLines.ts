@@ -1,8 +1,8 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import { padVisible } from "./padVisible.js";
-import { arrangeFocusedHotkeysGroups } from "./arrangeFocusedHotkeysGroups.js";
-import { renderHotkeysColumn } from "./renderHotkeysColumn.js";
-import type { HotkeysGroup } from "./types.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import { padVisible } from "./padVisible";
+import { arrangeFocusedHotkeysGroups } from "./arrangeFocusedHotkeysGroups";
+import { renderHotkeysColumn } from "./renderHotkeysColumn";
+import type { HotkeysGroup } from "./types";
 
 /**
  * Renders arranged hotkeys groups into two-column modal content lines.

@@ -15,12 +15,12 @@ import {
   baseUrlFromPort,
   type GatewayProbeResult,
   type GatewayOptions,
-} from "./types.js";
-import { probeGateway } from "./probe.js";
-import { fetchModelsFromGateway } from "./model-discovery.js";
-import { getModels, refreshModels } from "./cache.js";
-import { registerProvider as registerWithPi } from "./provider-registration.js";
-import { getModelCachePath, readProviderStateCache } from "../cache/index.js";
+} from "./types";
+import { probeGateway } from "./probe";
+import { fetchModelsFromGateway } from "./model-discovery";
+import { getModels, refreshModels } from "./cache";
+import { registerProvider as registerWithPi } from "./provider-registration";
+import { getModelCachePath, readProviderStateCache } from "../cache/index";
 
 /**
  * A local LLM inference server that exposes an OpenAI-compatible API.

@@ -1,5 +1,5 @@
-import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId.js";
-import type { HotkeysEntry } from "./types.js";
+import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId";
+import type { HotkeysEntry } from "./types";
 
 /**
  * Resolves the next focused editable entry after vim-style navigation.

@@ -1,7 +1,7 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { renderSelectListLines } from "./renderSelectListLines.js";
-import type { SelectPreviewItemStyleFns, SelectPreviewTheme } from "./types.js";
+import { renderSelectListLines } from "./renderSelectListLines";
+import type { SelectPreviewItemStyleFns, SelectPreviewTheme } from "./types";
 
 /** Minimal selectable list used inside shared select preview modals. */
 export class PlainSelectList {

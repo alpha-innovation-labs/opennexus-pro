@@ -1,7 +1,7 @@
 import { readdir } from "node:fs/promises";
 import { join } from "node:path";
-import { getObservationSessionId } from "./getObservationSessionId.js";
-import type { ObservationArtifactGroup } from "./types.js";
+import { getObservationSessionId } from "./getObservationSessionId";
+import type { ObservationArtifactGroup } from "./types";
 
 /**
  * Lists grouped observation artifacts in the storage directory.

@@ -1,8 +1,8 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { createExtensionRegistrationTask } from "./createExtensionRegistrationTask.js";
-import { getEnabledExtensionFeatureFlags } from "./getEnabledExtensionFeatureFlags.js";
-import { setRuntimeExtensionFeatureFlags } from "./runtimeExtensionFeatureState.js";
-import type { ExtensionFeatureFlag } from "./types.js";
+import { createExtensionRegistrationTask } from "./createExtensionRegistrationTask";
+import { getEnabledExtensionFeatureFlags } from "./getEnabledExtensionFeatureFlags";
+import { setRuntimeExtensionFeatureFlags } from "./runtimeExtensionFeatureState";
+import type { ExtensionFeatureFlag } from "./types";
 
 /**
  * Registers only the enabled extensions from the feature-flag registry.

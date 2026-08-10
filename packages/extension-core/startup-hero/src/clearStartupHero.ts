@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { startupHeroWidgetKey } from "./startupHeroWidgetKey.js";
+import { startupHeroWidgetKey } from "./startupHeroWidgetKey";
 
 /**
  * Clears the startup hero widget.

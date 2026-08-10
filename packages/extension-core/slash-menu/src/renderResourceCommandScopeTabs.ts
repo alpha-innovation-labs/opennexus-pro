@@ -1,7 +1,7 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import type { ResourceCommandScope } from "./ResourceCommandScope.js";
-import { createResourceCommandScopeOptions } from "./createResourceCommandScopeOptions.js";
-import { formatResourceCommandScopeTab } from "./formatResourceCommandScopeTab.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { ResourceCommandScope } from "./ResourceCommandScope";
+import { createResourceCommandScopeOptions } from "./createResourceCommandScopeOptions";
+import { formatResourceCommandScopeTab } from "./formatResourceCommandScopeTab";
 
 /**
  * Renders scope tabs for prompt and skill command submenus.

@@ -1,5 +1,5 @@
-import { readProjectConfig } from "./readProjectConfig.js";
-import { writeProjectConfig } from "./writeProjectConfig.js";
+import { readProjectConfig } from "./readProjectConfig";
+import { writeProjectConfig } from "./writeProjectConfig";
 
 /**
  * Toggles one boolean project config and returns the next state.

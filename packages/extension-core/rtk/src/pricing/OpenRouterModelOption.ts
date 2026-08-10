@@ -1,4 +1,4 @@
-import type { OpenRouterPricing } from "./OpenRouterPricing.js";
+import type { OpenRouterPricing } from "./OpenRouterPricing";
 
 /**
  * OpenRouter model option with pricing attached.

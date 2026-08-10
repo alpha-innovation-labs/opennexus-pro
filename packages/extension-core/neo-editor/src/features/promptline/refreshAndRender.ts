@@ -1,8 +1,8 @@
-import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { refreshGitState } from "../../shared/git/refreshGitState.js";
-import { refreshTransportPreference } from "../../shared/transport/refreshTransportPreference.js";
-import { getPromptlineRenderRequest } from "./state.js";
-import type { PromptlineContext, PromptlineRefreshDeps } from "./types.js";
+import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { refreshGitState } from "../../shared/git/refreshGitState";
+import { refreshTransportPreference } from "../../shared/transport/refreshTransportPreference";
+import { getPromptlineRenderRequest } from "./state";
+import type { PromptlineContext, PromptlineRefreshDeps } from "./types";
 
 /**
  * Refreshes promptline data sources and requests a re-render.

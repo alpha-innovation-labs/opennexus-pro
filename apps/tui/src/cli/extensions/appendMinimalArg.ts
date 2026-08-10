@@ -1,4 +1,4 @@
-import { hasMinimalFlag } from "./hasMinimalFlag.js";
+import { hasMinimalFlag } from "./hasMinimalFlag";
 
 /**
  * Appends the canonical minimal flag when argv does not already use minimal mode.

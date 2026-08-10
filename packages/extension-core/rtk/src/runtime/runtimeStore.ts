@@ -1,4 +1,4 @@
-import type { RtkRuntime } from "./createRtkRuntime.js";
+import type { RtkRuntime } from "./createRtkRuntime";
 
 const runtimes = new Map<string, RtkRuntime>();
 let activeRtkCwd: string | undefined;

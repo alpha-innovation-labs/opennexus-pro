@@ -1,8 +1,8 @@
-import { getBundledCommandsPath } from "@nexus/runtime/config/getBundledCommandsPath.js";
-import { getAgentCommandsPath, agentCommandsExists } from "@nexus/runtime/config/getAgentCommandsPath.js";
-import { getUserCommandsPath, userCommandsExists } from "@nexus/runtime/config/getUserCommandsPath.js";
-import { filterVerboseStartupArg } from "./filterVerboseStartupArg.js";
-import { addBaseSystemPromptArg } from "./system-prompt/addBaseSystemPromptArg.js";
+import { getBundledCommandsPath } from "@nexus/runtime/config/getBundledCommandsPath";
+import { getAgentCommandsPath, agentCommandsExists } from "@nexus/runtime/config/getAgentCommandsPath";
+import { getUserCommandsPath, userCommandsExists } from "@nexus/runtime/config/getUserCommandsPath";
+import { filterVerboseStartupArg } from "./filterVerboseStartupArg";
+import { addBaseSystemPromptArg } from "./system-prompt/addBaseSystemPromptArg";
 
 /**
  * Creates the CLI arguments for the bundled Pi app.

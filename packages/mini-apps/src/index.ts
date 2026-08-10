@@ -1,4 +1,4 @@
-export type { MiniAppManifest } from "./registry/MiniAppManifest.js";
-export { findMiniAppCommand } from "./registry/findMiniAppCommand.js";
-export { findMiniAppRunnerCommand } from "./registry/findMiniAppRunnerCommand.js";
-export { getMiniAppManifests } from "./registry/getMiniAppManifests.js";
+export type { MiniAppManifest } from "./registry/MiniAppManifest";
+export { findMiniAppCommand } from "./registry/findMiniAppCommand";
+export { findMiniAppRunnerCommand } from "./registry/findMiniAppRunnerCommand";
+export { getMiniAppManifests } from "./registry/getMiniAppManifests";

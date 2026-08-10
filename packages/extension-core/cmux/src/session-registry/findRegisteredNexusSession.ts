@@ -1,5 +1,5 @@
-import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration.js";
-import type { CmuxSessionRegistryEntry } from "./types.js";
+import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration";
+import type { CmuxSessionRegistryEntry } from "./types";
 
 /**
  * Finds the Nexus session registered for a cmux surface.

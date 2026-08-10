@@ -1,5 +1,5 @@
 import type { SkillInvocationMessageComponent } from "@earendil-works/pi-coding-agent";
-import { theme } from "../theme-proxy.js";
+import { theme } from "../theme-proxy";
 import { CompactToolRow } from "../shared/compact-row/CompactToolRow.ts";
 
 /**

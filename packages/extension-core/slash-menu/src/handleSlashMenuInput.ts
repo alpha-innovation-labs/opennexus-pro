@@ -1,7 +1,7 @@
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { encodeSlashMenuValue } from "./encodeSlashMenuValue.js";
-import { isSlashTextInput } from "./isSlashTextInput.js";
-import type { SlashMenuLevel } from "./SlashMenuLevel.js";
+import { encodeSlashMenuValue } from "./encodeSlashMenuValue";
+import { isSlashTextInput } from "./isSlashTextInput";
+import type { SlashMenuLevel } from "./SlashMenuLevel";
 
 /**
  * Handles key input owned by the slash-menu shell.

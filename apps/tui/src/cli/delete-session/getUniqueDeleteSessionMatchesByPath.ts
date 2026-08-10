@@ -1,4 +1,4 @@
-import type { DeleteSessionMatch } from "./DeleteSessionMatch.js";
+import type { DeleteSessionMatch } from "./DeleteSessionMatch";
 
 /**
  * Deduplicates filename-derived session matches by file path while preserving order.

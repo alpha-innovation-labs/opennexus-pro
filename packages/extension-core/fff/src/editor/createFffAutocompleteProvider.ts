@@ -1,11 +1,11 @@
 import type { AutocompleteProvider } from "@earendil-works/pi-tui";
-import type { FffRuntime } from "../runtime/FffRuntime.js";
-import { collectFolderSuggestions } from "./collectFolderSuggestions.js";
-import { createFolderAutocompleteItems } from "./createFolderAutocompleteItems.js";
-import { extractAtPrefix } from "./extractAtPrefix.js";
-import { normalizeInsertedPath } from "./normalizeInsertedPath.js";
-import { parseAtPrefix } from "./parseAtPrefix.js";
-import { toAutocompleteItem } from "./toAutocompleteItem.js";
+import type { FffRuntime } from "../runtime/FffRuntime";
+import { collectFolderSuggestions } from "./collectFolderSuggestions";
+import { createFolderAutocompleteItems } from "./createFolderAutocompleteItems";
+import { extractAtPrefix } from "./extractAtPrefix";
+import { normalizeInsertedPath } from "./normalizeInsertedPath";
+import { parseAtPrefix } from "./parseAtPrefix";
+import { toAutocompleteItem } from "./toAutocompleteItem";
 
 const MAX_RESULTS = 20;
 

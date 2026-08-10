@@ -1,4 +1,4 @@
-import { logStartupProfileEvent } from "./logStartupProfileEvent.js";
+import { logStartupProfileEvent } from "./logStartupProfileEvent";
 
 /**
  * Wraps one extension event handler with startup-profile timing.

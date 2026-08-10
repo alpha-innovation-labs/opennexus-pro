@@ -1,6 +1,6 @@
-import type { TokenUsagePeriod } from "./TokenUsagePeriod.js";
-import { addTokenUsageTotals } from "./addTokenUsageTotals.js";
-import { createTokenUsagePeriod } from "./createTokenUsagePeriod.js";
+import type { TokenUsagePeriod } from "./TokenUsagePeriod";
+import { addTokenUsageTotals } from "./addTokenUsageTotals";
+import { createTokenUsagePeriod } from "./createTokenUsagePeriod";
 
 /**
  * Aggregates token usage rows into one combined period.

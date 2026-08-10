@@ -1,4 +1,4 @@
-import type { EmbeddedPackageAssetsModule } from "./types.js";
+import type { EmbeddedPackageAssetsModule } from "./types";
 
 export const embeddedPackageAssetsGlobalKey = "__nexusEmbeddedPackageAssets";
 

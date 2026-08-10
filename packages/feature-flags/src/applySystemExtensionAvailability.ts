@@ -1,5 +1,5 @@
-import { isCmuxCommandAvailable } from "@extensions/cmux/runtime/isCmuxCommandAvailable.js";
-import type { ExtensionFeatureFlag } from "./types.js";
+import { isCmuxCommandAvailable } from "@extensions/cmux/runtime/isCmuxCommandAvailable";
+import type { ExtensionFeatureFlag } from "./types";
 
 /**
  * Applies runtime extension availability overrides for the current system.

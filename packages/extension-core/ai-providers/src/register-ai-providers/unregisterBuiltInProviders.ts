@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { builtInPiOAuthProviderIds } from "./builtInPiOAuthProviderIds.js";
+import { builtInPiOAuthProviderIds } from "./builtInPiOAuthProviderIds";
 
 /**
  * Unregisters all providers that Pi registers natively, so that

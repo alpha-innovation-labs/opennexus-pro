@@ -1,8 +1,8 @@
-import { countActiveSkillsInSystemPrompt } from "./countActiveSkillsInSystemPrompt.js";
-import { countEnabledStartupHeroExtensions } from "./countEnabledStartupHeroExtensions.js";
-import { countEnabledStartupHeroMiniApps } from "./countEnabledStartupHeroMiniApps.js";
-import { isAgentsMdLoadedInSystemPrompt } from "./isAgentsMdLoadedInSystemPrompt.js";
-import type { StartupHeroStatus } from "./types.js";
+import { countActiveSkillsInSystemPrompt } from "./countActiveSkillsInSystemPrompt";
+import { countEnabledStartupHeroExtensions } from "./countEnabledStartupHeroExtensions";
+import { countEnabledStartupHeroMiniApps } from "./countEnabledStartupHeroMiniApps";
+import { isAgentsMdLoadedInSystemPrompt } from "./isAgentsMdLoadedInSystemPrompt";
+import type { StartupHeroStatus } from "./types";
 
 /**
  * Builds startup hero status values from the effective system prompt.

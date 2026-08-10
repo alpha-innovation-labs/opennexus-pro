@@ -1,4 +1,4 @@
-import type { HotkeysGroup } from "./types.js";
+import type { HotkeysGroup } from "./types";
 
 /**
  * Splits hotkeys groups into balanced display columns.

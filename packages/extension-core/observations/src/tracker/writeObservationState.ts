@@ -1,7 +1,7 @@
 import { withFileMutationQueue } from "@earendil-works/pi-coding-agent";
 import { writeFile } from "node:fs/promises";
-import type { ObservationState } from "./types.js";
-import { updateObservationSummary } from "./updateObservationSummary.js";
+import type { ObservationState } from "./types";
+import { updateObservationSummary } from "./updateObservationSummary";
 
 /**
  * Persists the structured observations state.

@@ -1,4 +1,4 @@
-import { styleExitBorder } from "./styleExitCommand.js";
+import { styleExitBorder } from "./styleExitCommand";
 
 export interface PurpleBoxLine {
 	text: string;

@@ -1,6 +1,6 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import { renderOutlineConnector } from "./renderOutlineConnector.js";
-import type { SystemPromptOutline } from "./types.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import { renderOutlineConnector } from "./renderOutlineConnector";
+import type { SystemPromptOutline } from "./types";
 
 /**
  * Renders system prompt outline rows for the left pane.

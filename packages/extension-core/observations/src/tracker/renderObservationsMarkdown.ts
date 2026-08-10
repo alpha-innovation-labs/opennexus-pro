@@ -1,5 +1,5 @@
-import type { ObservationState } from "./types.js";
-import { formatObservationTimestamp } from "./formatObservationTimestamp.js";
+import type { ObservationState } from "./types";
+import { formatObservationTimestamp } from "./formatObservationTimestamp";
 
 /**
  * Renders the structured observations state into markdown.

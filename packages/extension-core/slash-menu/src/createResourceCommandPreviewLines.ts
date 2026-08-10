@@ -1,7 +1,7 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import { renderMarkdownPreview, type MarkdownPreviewStyleToken } from "@nexus/tui-kit/markdown-preview/index.js";
-import { createResourceCommandMarkdown } from "./createResourceCommandMarkdown.js";
-import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import { renderMarkdownPreview, type MarkdownPreviewStyleToken } from "@nexus/tui-kit/markdown-preview/index";
+import { createResourceCommandMarkdown } from "./createResourceCommandMarkdown";
+import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 
 const RESOURCE_COMMAND_PREVIEW_WIDTH = 58;
 

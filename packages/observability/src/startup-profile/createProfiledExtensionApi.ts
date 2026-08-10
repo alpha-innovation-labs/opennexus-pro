@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { isStartupProfileEnabled } from "./isStartupProfileEnabled.js";
-import { wrapExtensionEventHandler } from "./wrapExtensionEventHandler.js";
+import { isStartupProfileEnabled } from "./isStartupProfileEnabled";
+import { wrapExtensionEventHandler } from "./wrapExtensionEventHandler";
 
 /**
  * Creates an extension API wrapper that times extension event handlers.

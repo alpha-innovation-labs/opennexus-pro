@@ -1,5 +1,5 @@
-import { baseSystemPrompt } from "@nexus/runtime/config/baseSystemPrompt.js";
-import { hasBaseSystemPromptArg } from "./hasBaseSystemPromptArg.js";
+import { baseSystemPrompt } from "@nexus/runtime/config/baseSystemPrompt";
+import { hasBaseSystemPromptArg } from "./hasBaseSystemPromptArg";
 
 /**
  * Adds the bundled base system prompt append argument once.

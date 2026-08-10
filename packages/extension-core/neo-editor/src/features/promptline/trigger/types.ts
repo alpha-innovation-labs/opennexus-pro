@@ -1,8 +1,8 @@
 import type { AutocompleteItem, AutocompleteProvider } from "@earendil-works/pi-tui";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import type { Component } from "@earendil-works/pi-tui";
-import type { AtModal } from "../AtModal.js";
-import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal.js";
+import type { AtModal } from "../AtModal";
+import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal";
 
 export type TriggerKind = "at" | "slash";
 

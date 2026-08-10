@@ -1,10 +1,10 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
-import type { FeatureFlagConfigPatch } from "../model/updateFeatureFlagsConfig.js";
-import type { FeatureRuntimeStatus, FeatureStatusRow } from "../model/types.js";
-import { createFeatureAutocompleteItems } from "./createFeatureAutocompleteItems.js";
-import { getFeatureStatusRowForItem } from "./getFeatureStatusRowForItem.js";
+import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
+import type { FeatureFlagConfigPatch } from "../model/updateFeatureFlagsConfig";
+import type { FeatureRuntimeStatus, FeatureStatusRow } from "../model/types";
+import { createFeatureAutocompleteItems } from "./createFeatureAutocompleteItems";
+import { getFeatureStatusRowForItem } from "./getFeatureStatusRowForItem";
 
 export type FeatureManagementUpdate = (
 	extensionId: string,

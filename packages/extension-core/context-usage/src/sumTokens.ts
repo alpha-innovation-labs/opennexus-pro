@@ -1,4 +1,4 @@
-import type { ContextUsageDetailItem } from "./types.js";
+import type { ContextUsageDetailItem } from "./types";
 
 /**
  * Sums token counts across detail items.

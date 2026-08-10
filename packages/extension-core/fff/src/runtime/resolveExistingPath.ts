@@ -1,6 +1,6 @@
 import { isAbsolute, resolve } from "node:path";
-import { getPathType } from "./getPathType.js";
-import { relativeFromBase } from "./relativeFromBase.js";
+import { getPathType } from "./getPathType";
+import { relativeFromBase } from "./relativeFromBase";
 
 /**
  * Resolves a direct file-system path before fuzzy lookup.

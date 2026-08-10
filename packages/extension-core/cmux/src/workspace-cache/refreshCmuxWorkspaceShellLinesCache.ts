@@ -1,7 +1,7 @@
-import { loadFreshCmuxWorkspaceShellLines } from "../command/loadFreshCmuxWorkspaceShellLines.js";
-import { cmuxWorkspaceShellLinesCache } from "./cmuxWorkspaceShellLinesCache.js";
-import { isCmuxWorkspaceShellLinesCacheFresh } from "./isCmuxWorkspaceShellLinesCacheFresh.js";
-import { setCmuxWorkspaceShellLinesCache } from "./setCmuxWorkspaceShellLinesCache.js";
+import { loadFreshCmuxWorkspaceShellLines } from "../command/loadFreshCmuxWorkspaceShellLines";
+import { cmuxWorkspaceShellLinesCache } from "./cmuxWorkspaceShellLinesCache";
+import { isCmuxWorkspaceShellLinesCacheFresh } from "./isCmuxWorkspaceShellLinesCacheFresh";
+import { setCmuxWorkspaceShellLinesCache } from "./setCmuxWorkspaceShellLinesCache";
 
 /**
  * Refreshes cmux workspace shell lines while reusing fresh or pending cache work.

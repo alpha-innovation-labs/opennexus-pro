@@ -1,8 +1,8 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { allToolDefinitions } from "@nexus/pi-platform/tools.js";
-import { formatToolCallDetails } from "./formatToolCallDetails.js";
-import { toPlainTextLines } from "./toPlainTextLines.js";
-import type { ToolCallInfo } from "./types.js";
+import { allToolDefinitions } from "@nexus/pi-platform/tools";
+import { formatToolCallDetails } from "./formatToolCallDetails";
+import { toPlainTextLines } from "./toPlainTextLines";
+import type { ToolCallInfo } from "./types";
 
 /**
  * Renders built-in call and result components when available.

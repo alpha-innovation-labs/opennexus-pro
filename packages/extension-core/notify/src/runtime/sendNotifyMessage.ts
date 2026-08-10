@@ -1,10 +1,10 @@
 import { execFile, spawn } from "node:child_process";
-import { getNotifySoundCommand } from "./getNotifySoundCommand.js";
-import { notifyWithOsc777 } from "./notifyWithOsc777.js";
-import { notifyWithOsc9 } from "./notifyWithOsc9.js";
-import { notifyWithOsc99 } from "./notifyWithOsc99.js";
-import { notifyWithWindowsToast } from "./notifyWithWindowsToast.js";
-import { runNotifySound } from "./runNotifySound.js";
+import { getNotifySoundCommand } from "./getNotifySoundCommand";
+import { notifyWithOsc777 } from "./notifyWithOsc777";
+import { notifyWithOsc9 } from "./notifyWithOsc9";
+import { notifyWithOsc99 } from "./notifyWithOsc99";
+import { notifyWithWindowsToast } from "./notifyWithWindowsToast";
+import { runNotifySound } from "./runNotifySound";
 
 export type NotifyDeps = {
 	env?: NodeJS.ProcessEnv;

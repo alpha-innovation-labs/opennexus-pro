@@ -1,6 +1,6 @@
-import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration.js";
-import { pruneCmuxSessionRegistryEntries } from "./pruneCmuxSessionRegistryEntries.js";
-import type { CmuxSessionRegistry } from "./types.js";
+import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration";
+import { pruneCmuxSessionRegistryEntries } from "./pruneCmuxSessionRegistryEntries";
+import type { CmuxSessionRegistry } from "./types";
 
 /**
  * Removes one cmux surface registration from a registry object.

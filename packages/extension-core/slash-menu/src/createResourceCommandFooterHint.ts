@@ -1,5 +1,5 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import { styleFocusedFooterMode } from "./styleFocusedFooterMode.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import { styleFocusedFooterMode } from "./styleFocusedFooterMode";
 
 /**
  * Creates the resource command menu helper footer line.

@@ -1,18 +1,18 @@
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { SharedModal, type SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import type { OpenRouterModelOption } from "../pricing/OpenRouterModelOption.js";
-import type { RtkGainReport } from "../savings/RtkGainReport.js";
-import type { SavingsReport } from "../savings/SavingsReport.js";
-import type { RtkSavingsPeriodKey } from "../savings/RtkSavingsPeriodKey.js";
-import { createRtkSavingsHeaderLine } from "../savings/createRtkSavingsHeaderLine.js";
-import { createRtkSavingsLines } from "../savings/createRtkSavingsLines.js";
-import { getNextRtkSavingsPeriod } from "../savings/getNextRtkSavingsPeriod.js";
-import { getRtkSavingsModalInnerWidth } from "./getRtkSavingsModalInnerWidth.js";
+import { SharedModal, type SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { OpenRouterModelOption } from "../pricing/OpenRouterModelOption";
+import type { RtkGainReport } from "../savings/RtkGainReport";
+import type { SavingsReport } from "../savings/SavingsReport";
+import type { RtkSavingsPeriodKey } from "../savings/RtkSavingsPeriodKey";
+import { createRtkSavingsHeaderLine } from "../savings/createRtkSavingsHeaderLine";
+import { createRtkSavingsLines } from "../savings/createRtkSavingsLines";
+import { getNextRtkSavingsPeriod } from "../savings/getNextRtkSavingsPeriod";
+import { getRtkSavingsModalInnerWidth } from "./getRtkSavingsModalInnerWidth";
 import {
   RTK_SAVINGS_MODAL_MAX_WIDTH,
   RTK_SAVINGS_MODAL_MAX_WIDTH_RATIO,
   RTK_SAVINGS_MODAL_MIN_WIDTH,
-} from "./rtkSavingsModalLayout.js";
+} from "./rtkSavingsModalLayout";
 
 /**
  * Modal that displays RTK token savings.

@@ -3,7 +3,7 @@ import { hasToolCallFrameState } from "../activity/hasToolCallFrameState.ts";
 import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder.ts";
 import { shouldShowToolCallTopBorder } from "../activity/shouldShowToolCallTopBorder.ts";
 import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon.ts";
-import { measureTronRender } from "../profiling/measureTronRender.js";
+import { measureTronRender } from "../profiling/measureTronRender";
 import { iconForToolName } from "./iconForToolName.ts";
 
 /**

@@ -1,6 +1,6 @@
-import type { ToolRegistrationRecord } from "@nexus/feature-flags/index.js";
-import { formatExtensionIdLabel } from "./formatExtensionIdLabel.js";
-import type { SlashMenuLeaf } from "./types.js";
+import type { ToolRegistrationRecord } from "@nexus/feature-flags/index";
+import { formatExtensionIdLabel } from "./formatExtensionIdLabel";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Builds slash-menu leaves from recorded extension tool registrations.

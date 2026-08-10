@@ -1,7 +1,7 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import type { SelectPreviewItemStyleFns, SelectPreviewTheme } from "./types.js";
-import { wrapTextLines } from "./wrapTextLines.js";
+import type { SelectPreviewItemStyleFns, SelectPreviewTheme } from "./types";
+import { wrapTextLines } from "./wrapTextLines";
 
 export type RenderSelectListLinesOptions = {
   itemMaxLines?: (item: AutocompleteItem) => number;

@@ -1,5 +1,5 @@
-import { sanitizePlainText } from "@nexus/tui-kit/modal/index.js";
-import type { ToolCallGroup } from "./types.js";
+import { sanitizePlainText } from "@nexus/tui-kit/modal/index";
+import type { ToolCallGroup } from "./types";
 
 /**
  * Builds compact transcript preview lines for one grouped user turn.

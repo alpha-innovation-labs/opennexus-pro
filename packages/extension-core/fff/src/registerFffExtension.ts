@@ -1,9 +1,9 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { loadFeatureState } from "./features/loadFeatureState.js";
-import { registerGrepOverride } from "./grep/registerGrepOverride.js";
-import { registerReadOverride } from "./read/registerReadOverride.js";
-import { FffRuntime } from "./runtime/FffRuntime.js";
-import { clearRuntimeForCwd, setRuntimeForCwd } from "./runtime/runtimeStore.js";
+import { loadFeatureState } from "./features/loadFeatureState";
+import { registerGrepOverride } from "./grep/registerGrepOverride";
+import { registerReadOverride } from "./read/registerReadOverride";
+import { FffRuntime } from "./runtime/FffRuntime";
+import { clearRuntimeForCwd, setRuntimeForCwd } from "./runtime/runtimeStore";
 
 let activeCtx: ExtensionContext | undefined;
 let activeRuntime: FffRuntime | undefined;

@@ -1,5 +1,5 @@
-import type { ObservationState } from "./types.js";
-import { truncateObservationSummary } from "./truncateObservationSummary.js";
+import type { ObservationState } from "./types";
+import { truncateObservationSummary } from "./truncateObservationSummary";
 
 /**
  * Builds a compact one-paragraph summary across all observation topics.

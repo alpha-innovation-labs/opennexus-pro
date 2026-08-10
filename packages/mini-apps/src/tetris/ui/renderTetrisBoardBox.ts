@@ -1,5 +1,5 @@
-import type { TetrisGame } from "../game/types.js";
-import { renderScaledTetrisBoard } from "./renderScaledTetrisBoard.js";
+import type { TetrisGame } from "../game/types";
+import { renderScaledTetrisBoard } from "./renderScaledTetrisBoard";
 
 /**
  * Renders the main Tetris board without adding a second inner panel border.

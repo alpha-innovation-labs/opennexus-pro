@@ -1,13 +1,13 @@
 import { mkdir, rm } from "node:fs/promises";
 import { dirname } from "node:path";
-import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockMetadata.js";
-import { CMUX_SESSION_REGISTRY_LOCK_TIMEOUT_MS } from "./cmuxSessionRegistryLockConstants.js";
-import { createCmuxSessionRegistryLockMetadata } from "./createCmuxSessionRegistryLockMetadata.js";
-import { getCmuxSessionRegistryLockPath } from "./getCmuxSessionRegistryLockPath.js";
-import { isCmuxSessionRegistryLockOwnedBy } from "./isCmuxSessionRegistryLockOwnedBy.js";
-import { removeStaleCmuxSessionRegistryLock } from "./removeStaleCmuxSessionRegistryLock.js";
-import { waitForCmuxSessionRegistryLockRetry } from "./waitForCmuxSessionRegistryLockRetry.js";
-import { writeCmuxSessionRegistryLockMetadata } from "./writeCmuxSessionRegistryLockMetadata.js";
+import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockMetadata";
+import { CMUX_SESSION_REGISTRY_LOCK_TIMEOUT_MS } from "./cmuxSessionRegistryLockConstants";
+import { createCmuxSessionRegistryLockMetadata } from "./createCmuxSessionRegistryLockMetadata";
+import { getCmuxSessionRegistryLockPath } from "./getCmuxSessionRegistryLockPath";
+import { isCmuxSessionRegistryLockOwnedBy } from "./isCmuxSessionRegistryLockOwnedBy";
+import { removeStaleCmuxSessionRegistryLock } from "./removeStaleCmuxSessionRegistryLock";
+import { waitForCmuxSessionRegistryLockRetry } from "./waitForCmuxSessionRegistryLockRetry";
+import { writeCmuxSessionRegistryLockMetadata } from "./writeCmuxSessionRegistryLockMetadata";
 
 /**
  * Serializes registry read-modify-write operations with a lock directory.

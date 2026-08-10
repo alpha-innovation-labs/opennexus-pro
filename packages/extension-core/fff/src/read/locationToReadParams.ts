@@ -1,4 +1,4 @@
-import type { ResolvedPath } from "../shared/types.js";
+import type { ResolvedPath } from "../shared/types";
 
 /**
  * Derives read offsets from an FFF path resolution location.

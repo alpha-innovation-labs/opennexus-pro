@@ -1,8 +1,8 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { resolveConfig, persistUserConfig } from "./config/loader.js";
-import type { LocalImageReaderConfig } from "./config/types.js";
-import { registerLocalImageTool } from "./tool/registerTool.js";
-import { registerCommands } from "./commands/registerCommands.js";
+import { resolveConfig, persistUserConfig } from "./config/loader";
+import type { LocalImageReaderConfig } from "./config/types";
+import { registerLocalImageTool } from "./tool/registerTool";
+import { registerCommands } from "./commands/registerCommands";
 
 /**
  * Extension factory — the composition root.

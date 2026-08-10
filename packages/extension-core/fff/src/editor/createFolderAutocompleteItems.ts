@@ -1,5 +1,5 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { toAutocompleteItem } from "./toAutocompleteItem.js";
+import { toAutocompleteItem } from "./toAutocompleteItem";
 
 /**
  * Converts folder paths into autocomplete items.

@@ -1,5 +1,5 @@
-import { notifyCurrentCmuxSurface } from "./runtime/notifyCurrentCmuxSurface.js";
-import { getCmuxTitleSyncEnabled } from "./state/getCmuxTitleSyncEnabled.js";
+import { notifyCurrentCmuxSurface } from "./runtime/notifyCurrentCmuxSurface";
+import { getCmuxTitleSyncEnabled } from "./state/getCmuxTitleSyncEnabled";
 
 /**
  * Emits a completion notification for the active cmux pane.

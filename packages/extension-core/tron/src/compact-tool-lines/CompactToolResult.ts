@@ -1,7 +1,7 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 import { hasToolCallFrameState } from "../activity/hasToolCallFrameState.ts";
 import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder.ts";
-import { measureTronRender } from "../profiling/measureTronRender.js";
+import { measureTronRender } from "../profiling/measureTronRender";
 import { getResultText } from "./getResultText.ts";
 
 /**

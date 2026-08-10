@@ -1,7 +1,7 @@
-import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration.js";
-import { normalizeCmuxSessionTitle } from "./normalizeCmuxSessionTitle.js";
-import { pruneCmuxSessionRegistryEntries } from "./pruneCmuxSessionRegistryEntries.js";
-import type { CmuxSessionRegistry } from "./types.js";
+import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration";
+import { normalizeCmuxSessionTitle } from "./normalizeCmuxSessionTitle";
+import { pruneCmuxSessionRegistryEntries } from "./pruneCmuxSessionRegistryEntries";
+import type { CmuxSessionRegistry } from "./types";
 
 /**
  * Updates the stored Nexus session title for one cmux surface registration.

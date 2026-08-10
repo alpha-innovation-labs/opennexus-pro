@@ -1,7 +1,7 @@
 import stripAnsi from "strip-ansi";
 import { visibleWidth } from "@earendil-works/pi-tui";
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import { truncateAnsiToWidth } from "@nexus/tui-kit/modal/truncateAnsiToWidth.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import { truncateAnsiToWidth } from "@nexus/tui-kit/modal/truncateAnsiToWidth";
 
 /**
  * Adds an inline scrollbar thumb to a pane's visible rows.

@@ -15,9 +15,9 @@ import {
   readProviderStateCache,
   writeProviderStateCache,
   type ProviderStateCache,
-} from "../cache/index.js";
+} from "../cache/index";
 import type { ProviderConfigInput } from "@earendil-works/pi-coding-agent";
-import { fetchModelsFromGateway } from "./model-discovery.js";
+import { fetchModelsFromGateway } from "./model-discovery";
 
 /**
  * Returns the cached models for this gateway, or an empty array if

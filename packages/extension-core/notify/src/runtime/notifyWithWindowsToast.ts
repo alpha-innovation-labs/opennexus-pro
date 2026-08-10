@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { buildWindowsToastScript } from "./buildWindowsToastScript.js";
+import { buildWindowsToastScript } from "./buildWindowsToastScript";
 
 /**
  * Sends a Windows toast notification.

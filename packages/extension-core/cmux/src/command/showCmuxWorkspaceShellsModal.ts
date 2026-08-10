@@ -1,8 +1,8 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { saveCmuxSessionSnapshot } from "../snapshots/saveCmuxSessionSnapshot.js";
-import { loadCmuxWorkspaceShellText } from "./loadCmuxWorkspaceShellText.js";
-import { showCmuxSavedSessionsModal } from "./showCmuxSavedSessionsModal.js";
-import { showCmuxWorkspaceShellRootModal } from "./showCmuxWorkspaceShellRootModal.js";
+import { saveCmuxSessionSnapshot } from "../snapshots/saveCmuxSessionSnapshot";
+import { loadCmuxWorkspaceShellText } from "./loadCmuxWorkspaceShellText";
+import { showCmuxSavedSessionsModal } from "./showCmuxSavedSessionsModal";
+import { showCmuxWorkspaceShellRootModal } from "./showCmuxWorkspaceShellRootModal";
 
 /**
  * Opens the cmux workspace shell modal, falling back to stdout without UI.

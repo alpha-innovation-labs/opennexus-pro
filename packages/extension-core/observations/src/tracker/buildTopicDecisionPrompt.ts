@@ -1,4 +1,4 @@
-import type { ObservationTopic } from "./types.js";
+import type { ObservationTopic } from "./types";
 
 /**
  * Builds the prompt that decides whether a user message starts a new topic.

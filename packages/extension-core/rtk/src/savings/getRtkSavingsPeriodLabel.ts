@@ -1,4 +1,4 @@
-import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey.js";
+import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey";
 
 /**
  * Gets a user-facing label for an RTK savings period.

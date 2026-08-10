@@ -1,5 +1,5 @@
-import { createTetrisGame } from "./createTetrisGame.js";
-import type { TetrisGame } from "./types.js";
+import { createTetrisGame } from "./createTetrisGame";
+import type { TetrisGame } from "./types";
 
 /**
  * Resets an existing game object while preserving external references.

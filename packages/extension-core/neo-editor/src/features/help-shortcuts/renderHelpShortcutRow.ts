@@ -1,6 +1,6 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import type { HelpShortcut } from "./types.js";
-import { padVisible } from "./padVisible.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import type { HelpShortcut } from "./types";
+import { padVisible } from "./padVisible";
 
 /**
  * Renders one shortcut row inside a help panel.

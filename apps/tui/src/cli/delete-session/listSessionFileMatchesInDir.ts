@@ -1,7 +1,7 @@
 import { readdir } from "node:fs/promises";
 import { join } from "node:path";
-import type { DeleteSessionMatch } from "./DeleteSessionMatch.js";
-import { getSessionIdFromSessionFileName } from "./getSessionIdFromSessionFileName.js";
+import type { DeleteSessionMatch } from "./DeleteSessionMatch";
+import { getSessionIdFromSessionFileName } from "./getSessionIdFromSessionFileName";
 
 /**
  * Lists session files in one directory using filenames only.

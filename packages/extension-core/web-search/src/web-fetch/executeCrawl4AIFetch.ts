@@ -1,4 +1,4 @@
-import type { WebFetchResult } from "./webFetchTypes.js";
+import type { WebFetchResult } from "./webFetchTypes";
 
 /**
  * Strips control characters that break JSON parsing.

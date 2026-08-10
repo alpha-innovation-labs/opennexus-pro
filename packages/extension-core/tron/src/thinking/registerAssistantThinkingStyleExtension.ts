@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook.js";
-import { formatCompactDuration } from "../duration/formatCompactDuration.js";
+import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook";
+import { formatCompactDuration } from "../duration/formatCompactDuration";
 import {
 	clearActiveAssistantTurnTiming,
 	finishAssistantMessageTiming,

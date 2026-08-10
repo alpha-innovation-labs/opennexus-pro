@@ -1,7 +1,7 @@
-import { getGlobalEditorTriggerConfigPath } from "./getGlobalEditorTriggerConfigPath.js";
-import { readEditorTriggerConfig } from "./readEditorTriggerConfig.js";
-import { readEditorTriggerConfigFile } from "./readEditorTriggerConfigFile.js";
-import { writeEditorTriggerConfig } from "./writeEditorTriggerConfig.js";
+import { getGlobalEditorTriggerConfigPath } from "./getGlobalEditorTriggerConfigPath";
+import { readEditorTriggerConfig } from "./readEditorTriggerConfig";
+import { readEditorTriggerConfigFile } from "./readEditorTriggerConfigFile";
+import { writeEditorTriggerConfig } from "./writeEditorTriggerConfig";
 
 /**
  * Ensures an exact-match submit trigger exists for the provided editor text.

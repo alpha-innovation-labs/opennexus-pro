@@ -1,4 +1,4 @@
-import type { RegisteredSlashCommand } from "./types.js";
+import type { RegisteredSlashCommand } from "./types";
 
 const BUILTIN_MENU_GROUPS: Record<string, string> = {
   clone: "Chat",

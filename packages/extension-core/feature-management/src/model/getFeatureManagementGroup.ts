@@ -1,4 +1,4 @@
-import type { FeatureManagementGroup } from "./types.js";
+import type { FeatureManagementGroup } from "./types";
 
 /**
  * Maps a feature id to its group label.

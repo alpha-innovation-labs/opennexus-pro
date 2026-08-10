@@ -1,4 +1,4 @@
-import { findAppendSectionRange } from "./findAppendSectionRange.js";
+import { findAppendSectionRange } from "./findAppendSectionRange";
 
 /**
  * Replaces only the appendSection inside a full system prompt.

@@ -1,15 +1,15 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
-import { updateManagedExtensionRows } from "../model/updateManagedExtensionRows.js";
-import type { PiPackagesTab, ManagedExtensionRow } from "../model/types.js";
-import type { PiPackagesCallbacks } from "./PiPackagesCallbacks.js";
-import { createPiPackagesHeader } from "./createPiPackagesHeader.js";
-import { createManagedExtensionItems } from "./createManagedExtensionItems.js";
-import { filterManagedExtensionRows } from "./filterManagedExtensionRows.js";
-import { getPiPackagesHeaderWidth } from "./getPiPackagesHeaderWidth.js";
-import { getNextPiPackagesTab } from "./getNextPiPackagesTab.js";
-import { isPiPackagesTextInput } from "./isPiPackagesTextInput.js";
+import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
+import { updateManagedExtensionRows } from "../model/updateManagedExtensionRows";
+import type { PiPackagesTab, ManagedExtensionRow } from "../model/types";
+import type { PiPackagesCallbacks } from "./PiPackagesCallbacks";
+import { createPiPackagesHeader } from "./createPiPackagesHeader";
+import { createManagedExtensionItems } from "./createManagedExtensionItems";
+import { filterManagedExtensionRows } from "./filterManagedExtensionRows";
+import { getPiPackagesHeaderWidth } from "./getPiPackagesHeaderWidth";
+import { getNextPiPackagesTab } from "./getNextPiPackagesTab";
+import { isPiPackagesTextInput } from "./isPiPackagesTextInput";
 
 export type PiPackagesUpdate = (extensionId: string, enabled: boolean) => ManagedExtensionRow[];
 

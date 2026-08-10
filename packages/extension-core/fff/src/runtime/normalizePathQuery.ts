@@ -1,6 +1,6 @@
-import { expandHomePath } from "./expandHomePath.js";
-import { normalizeSlashes } from "./normalizeSlashes.js";
-import { stripWrappedQuotes } from "./stripWrappedQuotes.js";
+import { expandHomePath } from "./expandHomePath";
+import { normalizeSlashes } from "./normalizeSlashes";
+import { stripWrappedQuotes } from "./stripWrappedQuotes";
 
 /**
  * Normalizes fuzzy file path input for FFF lookup.

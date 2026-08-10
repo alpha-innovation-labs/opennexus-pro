@@ -1,6 +1,6 @@
-import { readLiveCmuxSessionRegistryEntries } from "../session-registry/readLiveCmuxSessionRegistryEntries.js";
-import { collectCmuxWorkspaceShells } from "../workspaces/collectCmuxWorkspaceShells.js";
-import { createCmuxWorkspaceShellLines } from "../workspaces/createCmuxWorkspaceShellLines.js";
+import { readLiveCmuxSessionRegistryEntries } from "../session-registry/readLiveCmuxSessionRegistryEntries";
+import { collectCmuxWorkspaceShells } from "../workspaces/collectCmuxWorkspaceShells";
+import { createCmuxWorkspaceShellLines } from "../workspaces/createCmuxWorkspaceShellLines";
 
 /**
  * Loads fresh display lines for the cmux workspace shell modal.

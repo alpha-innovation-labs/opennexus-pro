@@ -1,6 +1,6 @@
-import { firstLine } from "./firstLine.js";
-import type { SummaryText } from "./SummaryText.js";
-import { truncateSingleLine } from "./truncateSingleLine.js";
+import { firstLine } from "./firstLine";
+import type { SummaryText } from "./SummaryText";
+import { truncateSingleLine } from "./truncateSingleLine";
 
 const MAIN_FIELD_NAMES = ["subject", "title", "question", "query", "prompt", "description", "url", "path", "name", "id"];
 const OPTION_FIELD_NAMES = ["action", "status", "mode", "type", "provider", "limit", "offset", "activeForm"];

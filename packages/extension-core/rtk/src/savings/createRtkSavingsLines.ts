@@ -1,21 +1,21 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import type { RtkGainReport } from "./RtkGainReport.js";
-import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey.js";
-import type { SavingsReport } from "./SavingsReport.js";
-import { calculateSavedShare } from "./calculateSavedShare.js";
-import { colorizeSavingsPercent } from "./colorizeSavingsPercent.js";
-import { colorizeSavingsValue } from "./colorizeSavingsValue.js";
-import { createEfficiencyMeter } from "./createEfficiencyMeter.js";
-import { createTokenCostReport } from "../pricing/createTokenCostReport.js";
-import { formatDollar } from "./formatDollar.js";
-import { formatPercent } from "./formatPercent.js";
-import { formatRtkSavingsMetricLine } from "./formatRtkSavingsMetricLine.js";
-import { formatSavingsDividerLine } from "./formatSavingsDividerLine.js";
-import { formatTokenCount } from "./formatTokenCount.js";
-import { getRtkSavingsPeriod } from "./getRtkSavingsPeriod.js";
-import { getRtkSavingsPeriodLabel } from "./getRtkSavingsPeriodLabel.js";
-import { getSavingsReportRtk } from "./getSavingsReportRtk.js";
-import { getTokenUsagePeriod } from "../usage/getTokenUsagePeriod.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { RtkGainReport } from "./RtkGainReport";
+import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey";
+import type { SavingsReport } from "./SavingsReport";
+import { calculateSavedShare } from "./calculateSavedShare";
+import { colorizeSavingsPercent } from "./colorizeSavingsPercent";
+import { colorizeSavingsValue } from "./colorizeSavingsValue";
+import { createEfficiencyMeter } from "./createEfficiencyMeter";
+import { createTokenCostReport } from "../pricing/createTokenCostReport";
+import { formatDollar } from "./formatDollar";
+import { formatPercent } from "./formatPercent";
+import { formatRtkSavingsMetricLine } from "./formatRtkSavingsMetricLine";
+import { formatSavingsDividerLine } from "./formatSavingsDividerLine";
+import { formatTokenCount } from "./formatTokenCount";
+import { getRtkSavingsPeriod } from "./getRtkSavingsPeriod";
+import { getRtkSavingsPeriodLabel } from "./getRtkSavingsPeriodLabel";
+import { getSavingsReportRtk } from "./getSavingsReportRtk";
+import { getTokenUsagePeriod } from "../usage/getTokenUsagePeriod";
 
 /**
  * Creates the body rows for the RTK savings modal.

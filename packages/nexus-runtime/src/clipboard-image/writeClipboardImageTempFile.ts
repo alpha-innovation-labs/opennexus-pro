@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { ClipboardImage } from "./types.js";
+import type { ClipboardImage } from "./types";
 
 /**
  * Writes clipboard image bytes to a temporary PNG file.

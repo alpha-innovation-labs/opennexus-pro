@@ -1,4 +1,4 @@
-import { getObservationStatePath } from "@extensions/observations/shared/getObservationStatePath.js";
+import { getObservationStatePath } from "@extensions/observations/shared/getObservationStatePath";
 
 /**
  * Resolves the single observation state path for one conversation id.

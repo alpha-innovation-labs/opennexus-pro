@@ -1,5 +1,5 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createUpdateInstallArgs } from "./createUpdateInstallArgs.js";
+import { createUpdateInstallArgs } from "./createUpdateInstallArgs";
 
 /**
  * Installs the latest Nexus npm package after explicit user confirmation.

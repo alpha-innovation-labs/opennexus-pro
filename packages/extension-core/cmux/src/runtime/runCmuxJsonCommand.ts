@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { getCmuxExecutablePath } from "./getCmuxExecutablePath.js";
+import { getCmuxExecutablePath } from "./getCmuxExecutablePath";
 
 const CMUX_COMMAND_TIMEOUT_MS = 5000;
 

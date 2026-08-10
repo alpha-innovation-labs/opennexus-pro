@@ -1,7 +1,7 @@
-import { HORIZONTAL_RULE_CHAR } from "../constants.js";
-import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment.js";
-import { wrapMarkdownPreviewLines } from "../wrapMarkdownPreviewLines.js";
-import type { MarkdownPreviewRow, MarkdownPreviewTheme } from "../types.js";
+import { HORIZONTAL_RULE_CHAR } from "../constants";
+import { styleMarkdownPreviewSegment } from "../styleMarkdownPreviewSegment";
+import { wrapMarkdownPreviewLines } from "../wrapMarkdownPreviewLines";
+import type { MarkdownPreviewRow, MarkdownPreviewTheme } from "../types";
 
 /** Renders YAML frontmatter with Ratkit/lazy-skills style markers. */
 export function renderFrontmatter(lines: string[], startSourceLine: number, width: number, theme?: MarkdownPreviewTheme): MarkdownPreviewRow[] {

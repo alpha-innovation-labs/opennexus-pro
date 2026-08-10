@@ -1,4 +1,4 @@
-import type { TetrisActivePiece, TetrisCell } from "./types.js";
+import type { TetrisActivePiece, TetrisCell } from "./types";
 
 /** Deterministic tetromino sequence used for reproducible gameplay and tests. */
 export const TETRIS_SEQUENCE: Array<Exclude<TetrisCell, "">> = ["I", "O", "T", "S", "Z", "J", "L"];

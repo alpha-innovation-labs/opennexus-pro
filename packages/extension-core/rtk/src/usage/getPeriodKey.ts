@@ -1,5 +1,5 @@
-import type { RtkSavingsPeriodKey } from "../savings/RtkSavingsPeriodKey.js";
-import { getWeekKey } from "./getWeekKey.js";
+import type { RtkSavingsPeriodKey } from "../savings/RtkSavingsPeriodKey";
+import { getWeekKey } from "./getWeekKey";
 
 /**
  * Gets a grouping key for the selected period type.

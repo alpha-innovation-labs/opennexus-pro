@@ -1,12 +1,12 @@
-import { createHotkeysGroupMap } from "./createHotkeysGroupMap.js";
-import { formatKeyList } from "./formatKeyList.js";
-import { getRegisteredHotkeysShortcuts } from "./getRegisteredHotkeysShortcuts.js";
-import { getResolvedHotkeysBindings } from "./getResolvedHotkeysBindings.js";
-import { getStaticHotkeysGroups } from "./getStaticHotkeysGroups.js";
-import { getHotkeysGroupTitle } from "./getHotkeysGroupTitle.js";
-import { toKeyList } from "./toKeyList.js";
-import { toHotkeysExtensionGroup } from "./toHotkeysExtensionGroup.js";
-import type { HotkeysExtensionShortcut, HotkeysGroup, HotkeysKeybindings } from "./types.js";
+import { createHotkeysGroupMap } from "./createHotkeysGroupMap";
+import { formatKeyList } from "./formatKeyList";
+import { getRegisteredHotkeysShortcuts } from "./getRegisteredHotkeysShortcuts";
+import { getResolvedHotkeysBindings } from "./getResolvedHotkeysBindings";
+import { getStaticHotkeysGroups } from "./getStaticHotkeysGroups";
+import { getHotkeysGroupTitle } from "./getHotkeysGroupTitle";
+import { toKeyList } from "./toKeyList";
+import { toHotkeysExtensionGroup } from "./toHotkeysExtensionGroup";
+import type { HotkeysExtensionShortcut, HotkeysGroup, HotkeysKeybindings } from "./types";
 
 const GROUP_ORDER = ["Nexus Triggers", "Input", "Editor", "Application", "Models & Thinking", "Tools", "Messages", "Clipboard", "Selection", "Sessions", "Session Tree", "Scoped Models"];
 

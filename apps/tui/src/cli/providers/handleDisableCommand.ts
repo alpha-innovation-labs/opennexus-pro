@@ -1,5 +1,5 @@
-import { getAllProviderIds } from "./getAllProviderIds.js";
-import { toggleProviderEnabled } from "@extensions/ai-providers/config/toggleProviderEnabled.js";
+import { getAllProviderIds } from "./getAllProviderIds";
+import { toggleProviderEnabled } from "@extensions/ai-providers/config/toggleProviderEnabled";
 
 /**
  * Handles the "disable" subcommand: disables a provider.

@@ -1,17 +1,17 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { SharedModal } from "../SharedModal.js";
-import { computeModalWidth } from "../computeModalWidth.js";
-import { computePaneWidths as computeSharedPaneWidths } from "../computePaneWidths.js";
-import { createRightPaneLines } from "./createRightPaneLines.js";
-import { createSelectList } from "./createSelectList.js";
-import { SHARED_MODAL_FOOTER_BORDER } from "../SHARED_MODAL_FOOTER_BORDER.js";
-import { createTwoPaneFooterLine } from "./createTwoPaneFooterLine.js";
-import { createTwoPaneHeaderLine } from "./createTwoPaneHeaderLine.js";
-import { createTwoPaneShells } from "./createTwoPaneShells.js";
-import { getTwoPaneBodyHeight } from "./getTwoPaneBodyHeight.js";
-import { handleTwoPaneRightInput } from "./handleTwoPaneRightInput.js";
-import type { PlainSelectList } from "./PlainSelectList.js";
-import type { SelectPreviewModalOptions, SelectPreviewTheme } from "./types.js";
+import { SharedModal } from "../SharedModal";
+import { computeModalWidth } from "../computeModalWidth";
+import { computePaneWidths as computeSharedPaneWidths } from "../computePaneWidths";
+import { createRightPaneLines } from "./createRightPaneLines";
+import { createSelectList } from "./createSelectList";
+import { SHARED_MODAL_FOOTER_BORDER } from "../SHARED_MODAL_FOOTER_BORDER";
+import { createTwoPaneFooterLine } from "./createTwoPaneFooterLine";
+import { createTwoPaneHeaderLine } from "./createTwoPaneHeaderLine";
+import { createTwoPaneShells } from "./createTwoPaneShells";
+import { getTwoPaneBodyHeight } from "./getTwoPaneBodyHeight";
+import { handleTwoPaneRightInput } from "./handleTwoPaneRightInput";
+import type { PlainSelectList } from "./PlainSelectList";
+import type { SelectPreviewModalOptions, SelectPreviewTheme } from "./types";
 
 /** Framed selectable list with an optional preview pane, backed by SharedModal. */
 export class SelectPreviewModal extends SharedModal {

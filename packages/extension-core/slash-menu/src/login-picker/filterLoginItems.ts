@@ -1,5 +1,5 @@
-import type { SlashMenuLeaf } from "../types.js";
-import { filterMenuItems } from "../filterMenuItems.js";
+import type { SlashMenuLeaf } from "../types";
+import { filterMenuItems } from "../filterMenuItems";
 
 /**
  * Two-pass filter for login-picker: first filters providers, then for each

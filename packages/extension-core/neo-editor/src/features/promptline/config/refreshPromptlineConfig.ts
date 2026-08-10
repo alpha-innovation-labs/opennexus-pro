@@ -1,6 +1,6 @@
-import { readPromptlineConfig } from "./readPromptlineConfig.js";
-import { setPromptlineConfig } from "./state.js";
-import type { PromptlineConfig } from "./types.js";
+import { readPromptlineConfig } from "./readPromptlineConfig";
+import { setPromptlineConfig } from "./state";
+import type { PromptlineConfig } from "./types";
 
 /**
  * Reloads promptline config from disk and caches it for the session.

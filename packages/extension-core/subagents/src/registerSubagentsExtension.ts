@@ -1,9 +1,9 @@
 import { type ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerSubagentStartTool } from "./tools/registerSubagentStartTool.js";
-import { registerSubagentPromptTool } from "./tools/registerSubagentPromptTool.js";
-import { registerSubagentReadTool } from "./tools/registerSubagentReadTool.js";
-import { registerSubagentSendTool } from "./tools/registerSubagentSendTool.js";
-import { registerSubagentSendKeysTool } from "./tools/registerSubagentSendKeysTool.js";
+import { registerSubagentStartTool } from "./tools/registerSubagentStartTool";
+import { registerSubagentPromptTool } from "./tools/registerSubagentPromptTool";
+import { registerSubagentReadTool } from "./tools/registerSubagentReadTool";
+import { registerSubagentSendTool } from "./tools/registerSubagentSendTool";
+import { registerSubagentSendKeysTool } from "./tools/registerSubagentSendKeysTool";
 
 /**
  * Registers subagent tools that wrap `herdr agent` commands.

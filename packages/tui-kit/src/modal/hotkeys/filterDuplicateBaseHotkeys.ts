@@ -1,5 +1,5 @@
-import type { SharedModalHotkey } from "./types.js";
-import { splitModalHotkeyKeys } from "./splitModalHotkeyKeys.js";
+import type { SharedModalHotkey } from "./types";
+import { splitModalHotkeyKeys } from "./splitModalHotkeyKeys";
 
 /**
  * Removes base hotkey hints already covered by modal-specific hotkeys.

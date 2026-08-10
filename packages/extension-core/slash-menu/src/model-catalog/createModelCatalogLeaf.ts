@@ -1,8 +1,8 @@
 import type { Api, Model } from "@earendil-works/pi-ai";
-import type { SlashMenuLeaf } from "../types.js";
-import { createProviderQualifiedModelLabel } from "./createProviderQualifiedModelLabel.js";
-import { formatModelCatalogMetricsColumns } from "./formatModelCatalogMetricsColumns.js";
-import { getModelCatalogColumnHeaderText } from "./getModelCatalogColumnHeaderText.js";
+import type { SlashMenuLeaf } from "../types";
+import { createProviderQualifiedModelLabel } from "./createProviderQualifiedModelLabel";
+import { formatModelCatalogMetricsColumns } from "./formatModelCatalogMetricsColumns";
+import { getModelCatalogColumnHeaderText } from "./getModelCatalogColumnHeaderText";
 
 const MODEL_CATALOG_LABEL_WIDTH = 34;
 

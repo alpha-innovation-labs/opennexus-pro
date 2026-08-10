@@ -1,8 +1,8 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createAvailableModelLeaves } from "./createAvailableModelLeaves.js";
-import { createModelCatalogLeaves } from "./createModelCatalogLeaves.js";
-import type { ModelMenuTab } from "./ModelMenuTab.js";
-import type { SlashMenuLeaf } from "../types.js";
+import { createAvailableModelLeaves } from "./createAvailableModelLeaves";
+import { createModelCatalogLeaves } from "./createModelCatalogLeaves";
+import type { ModelMenuTab } from "./ModelMenuTab";
+import type { SlashMenuLeaf } from "../types";
 
 /**
  * Builds model-menu leaves for the selected tab.

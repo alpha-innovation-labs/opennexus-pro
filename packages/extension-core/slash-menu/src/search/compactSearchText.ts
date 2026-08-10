@@ -1,4 +1,4 @@
-import { normalizeSearchText } from "./normalizeSearchText.js";
+import { normalizeSearchText } from "./normalizeSearchText";
 
 /**
  * Removes separator spaces from normalized search text for compact matching.

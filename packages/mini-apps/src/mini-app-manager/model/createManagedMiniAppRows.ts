@@ -1,5 +1,5 @@
-import type { FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
-import type { ManagedExtensionRow } from "@extensions/pi-packages/model/types.js";
+import type { FeatureFlagsConfig } from "../registry/featureFlagsTypes";
+import type { ManagedExtensionRow } from "@extensions/pi-packages/model/types";
 
 /**
  * Creates mini-app manager rows from feature flags marked as mini-apps.

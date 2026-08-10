@@ -1,8 +1,8 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { readProviderConfig } from "../config/index.js";
-import { unregisterBuiltInProviders } from "./unregisterBuiltInProviders.js";
-import { buildGateways } from "./buildGateways.js";
-import { registerGateways } from "./registerGateways.js";
+import { readProviderConfig } from "../config/index";
+import { unregisterBuiltInProviders } from "./unregisterBuiltInProviders";
+import { buildGateways } from "./buildGateways";
+import { registerGateways } from "./registerGateways";
 
 /**
  * Unregisters all providers that Pi registers natively, and registers

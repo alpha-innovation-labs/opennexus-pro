@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createForkLeaves } from "./createForkLeaves.js";
-import { createLogoutProviderLeaves } from "./createLogoutProviderLeaves.js";
-import type { SlashMenuLevel } from "./SlashMenuLevel.js";
+import { createForkLeaves } from "./createForkLeaves";
+import { createLogoutProviderLeaves } from "./createLogoutProviderLeaves";
+import type { SlashMenuLevel } from "./SlashMenuLevel";
 
 /**
  * Handles an enter key selection from the top-level slash menu.

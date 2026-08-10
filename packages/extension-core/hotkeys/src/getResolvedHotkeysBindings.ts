@@ -1,4 +1,4 @@
-import type { HotkeysKeybindings } from "./types.js";
+import type { HotkeysKeybindings } from "./types";
 
 /**
  * Reads resolved keybindings from the injected Pi keybinding manager.

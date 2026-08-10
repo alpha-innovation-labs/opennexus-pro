@@ -1,4 +1,4 @@
-import type { ExtensionFeatureFlag } from "./types.js";
+import type { ExtensionFeatureFlag } from "./types";
 
 /**
  * Filters the registry down to enabled extensions only.

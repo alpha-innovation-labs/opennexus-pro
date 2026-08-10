@@ -1,4 +1,4 @@
-import { stripMarkdownBullet } from "./stripMarkdownBullet.js";
+import { stripMarkdownBullet } from "./stripMarkdownBullet";
 
 /**
  * Normalizes free-form summarizer output into markdown bullets.

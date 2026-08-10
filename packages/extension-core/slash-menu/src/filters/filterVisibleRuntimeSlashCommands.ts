@@ -1,7 +1,7 @@
-import type { RegisteredSlashCommand } from "../types.js";
-import { defaultRuntimeSlashCommandFilterConfig } from "./defaultRuntimeSlashCommandFilterConfig.js";
-import type { RuntimeSlashCommandFilterConfig } from "./RuntimeSlashCommandFilterConfig.js";
-import { isHiddenRuntimeSlashCommand } from "./isHiddenRuntimeSlashCommand.js";
+import type { RegisteredSlashCommand } from "../types";
+import { defaultRuntimeSlashCommandFilterConfig } from "./defaultRuntimeSlashCommandFilterConfig";
+import type { RuntimeSlashCommandFilterConfig } from "./RuntimeSlashCommandFilterConfig";
+import { isHiddenRuntimeSlashCommand } from "./isHiddenRuntimeSlashCommand";
 
 /**
  * Filters runtime extension commands to those visible in the Nexus slash menu.

@@ -1,4 +1,4 @@
-import type { ContextUsageCategory } from "./types.js";
+import type { ContextUsageCategory } from "./types";
 
 /**
  * Orders meter categories so reserved buffer cells render at the end.

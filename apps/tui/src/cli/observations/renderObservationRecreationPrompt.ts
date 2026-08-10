@@ -1,7 +1,7 @@
 import {
   DEFAULT_OBSERVATION_RECREATION_PROMPT_TEMPLATE,
   OBSERVATION_RECREATION_MESSAGES_PLACEHOLDER,
-} from "@extensions/observations/shared/defaultObservationRecreationPromptTemplate.js";
+} from "@extensions/observations/shared/defaultObservationRecreationPromptTemplate";
 
 /**
  * Renders an observation recreation prompt from a template and message history.

@@ -1,4 +1,4 @@
-import type { TokenUsageTotals } from "./TokenUsageTotals.js";
+import type { TokenUsageTotals } from "./TokenUsageTotals";
 
 /**
  * Aggregated token usage for a day, week, or month.

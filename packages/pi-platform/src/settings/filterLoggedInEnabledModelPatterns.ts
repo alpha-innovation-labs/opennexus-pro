@@ -1,4 +1,4 @@
-import { getProviderFromEnabledModelPattern } from "./getProviderFromEnabledModelPattern.js";
+import { getProviderFromEnabledModelPattern } from "./getProviderFromEnabledModelPattern";
 
 export type ProviderAuthStatusReader = {
   hasAuth: (provider: string) => boolean;

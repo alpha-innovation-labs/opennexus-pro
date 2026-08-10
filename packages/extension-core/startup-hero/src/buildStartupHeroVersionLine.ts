@@ -1,5 +1,5 @@
 import { truncateToWidth } from "@earendil-works/pi-tui";
-import type { StartupHeroTheme } from "./types.js";
+import type { StartupHeroTheme } from "./types";
 
 /**
  * Builds the text-colored Nexus version line.

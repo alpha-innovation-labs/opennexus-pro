@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { getObservationsDir } from "./getObservationsDir.js";
+import { getObservationsDir } from "./getObservationsDir";
 
 /**
  * Resolves the persisted observation prompt override path.

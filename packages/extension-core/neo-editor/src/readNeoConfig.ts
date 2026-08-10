@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
-import { getNeoConfigPath } from "./getNeoConfigPath.js";
-import type { NeoConfig } from "./types.js";
+import { getNeoConfigPath } from "./getNeoConfigPath";
+import type { NeoConfig } from "./types";
 
 const DEFAULT_NEO_CONFIG: NeoConfig = {
 	clearEditorOnTriggerSubmit: true,

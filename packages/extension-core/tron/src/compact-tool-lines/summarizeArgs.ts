@@ -2,7 +2,7 @@ import { countChangedLines } from "./countChangedLines.ts";
 import { countContentLines } from "./countContentLines.ts";
 import { firstLine } from "./firstLine.ts";
 import { shortenPath } from "./shortenPath.ts";
-import { summarizeGenericObjectArgs } from "./summarizeGenericObjectArgs.js";
+import { summarizeGenericObjectArgs } from "./summarizeGenericObjectArgs";
 import type { SummaryText } from "./SummaryText.ts";
 import { truncateSingleLine } from "./truncateSingleLine.ts";
 import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart.ts";

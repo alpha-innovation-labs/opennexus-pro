@@ -1,4 +1,4 @@
-import type { WebSearchResponse } from "./webSearchTypes.js";
+import type { WebSearchResponse } from "./webSearchTypes";
 
 /**
  * Formats a WebSearchResponse for display in the TUI.

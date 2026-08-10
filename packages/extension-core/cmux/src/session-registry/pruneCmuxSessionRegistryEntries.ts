@@ -1,5 +1,5 @@
-import { isProcessRunning } from "./isProcessRunning.js";
-import type { CmuxSessionRegistryEntry } from "./types.js";
+import { isProcessRunning } from "./isProcessRunning";
+import type { CmuxSessionRegistryEntry } from "./types";
 
 /**
  * Removes registry entries whose owning Nexus process exited.

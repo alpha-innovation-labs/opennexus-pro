@@ -1,18 +1,18 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { applyAssistantObservation } from "./applyAssistantObservation.js";
-import { applyUserObservation } from "./applyUserObservation.js";
-import { createEphemeralConversationId } from "./createEphemeralConversationId.js";
-import { createObservationContextSnapshot } from "./createObservationContextSnapshot.js";
-import { createStoredObservationMessage } from "./createStoredObservationMessage.js";
-import { enqueueObservationTask } from "./enqueueObservationTask.js";
-import { ensureObservationsDir } from "./ensureObservationsDir.js";
-import { extractAssistantSummaryInput } from "./extractAssistantSummaryInput.js";
-import { extractUserText } from "./extractUserText.js";
-import { getObservationPaths } from "./getObservationPaths.js";
-import { getStoredObservationState } from "./getStoredObservationState.js";
-import { updateSessionTitleFromObservationState } from "./updateSessionTitleFromObservationState.js";
-import { writeObservationState } from "./writeObservationState.js";
+import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { applyAssistantObservation } from "./applyAssistantObservation";
+import { applyUserObservation } from "./applyUserObservation";
+import { createEphemeralConversationId } from "./createEphemeralConversationId";
+import { createObservationContextSnapshot } from "./createObservationContextSnapshot";
+import { createStoredObservationMessage } from "./createStoredObservationMessage";
+import { enqueueObservationTask } from "./enqueueObservationTask";
+import { ensureObservationsDir } from "./ensureObservationsDir";
+import { extractAssistantSummaryInput } from "./extractAssistantSummaryInput";
+import { extractUserText } from "./extractUserText";
+import { getObservationPaths } from "./getObservationPaths";
+import { getStoredObservationState } from "./getStoredObservationState";
+import { updateSessionTitleFromObservationState } from "./updateSessionTitleFromObservationState";
+import { writeObservationState } from "./writeObservationState";
 
 /**
  * Registers the observations tracking flow.

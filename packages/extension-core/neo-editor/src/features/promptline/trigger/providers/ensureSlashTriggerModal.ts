@@ -1,6 +1,6 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createSlashModal } from "../createSlashModal.js";
-import type { TriggerModalState, ShowOverlay } from "../types.js";
+import { createSlashModal } from "../createSlashModal";
+import type { TriggerModalState, ShowOverlay } from "../types";
 
 /**
  * Ensures the `/` modal exists.

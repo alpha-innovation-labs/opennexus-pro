@@ -1,7 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup.js";
-import { showObservationsModal } from "./showObservationsModal.js";
+import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
+import { showObservationsModal } from "./showObservationsModal";
 
 /**
  * Registers the observations command and keyboard shortcut.

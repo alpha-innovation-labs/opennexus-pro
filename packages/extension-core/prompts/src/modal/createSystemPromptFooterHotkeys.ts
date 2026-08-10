@@ -1,4 +1,4 @@
-import type { SharedModalOptions } from "@nexus/tui-kit/modal/index.js";
+import type { SharedModalOptions } from "@nexus/tui-kit/modal/index";
 
 /**
  * Builds /SystemPrompt footer hotkeys without advertising hidden arrow-key support.

@@ -1,9 +1,9 @@
-import type { AiGateway } from "@extensions/ai-providers/index.js";
-import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig.js";
-import { getGateways } from "@extensions/ai-providers/gateway/getGateways.js";
-import { getAllProviderIds } from "./getAllProviderIds.js";
+import type { AiGateway } from "@extensions/ai-providers/index";
+import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig";
+import { getGateways } from "@extensions/ai-providers/gateway/getGateways";
+import { getAllProviderIds } from "./getAllProviderIds";
 import { Table } from "console-table-printer";
-import { GREEN, RESET } from "../shared/ansiColors.js";
+import { GREEN, RESET } from "../shared/ansiColors";
 
 /**
  * Handles the "get" subcommand: displays available models for a configured provider.

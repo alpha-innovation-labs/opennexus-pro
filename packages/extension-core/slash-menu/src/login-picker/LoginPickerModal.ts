@@ -1,21 +1,21 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
 import { getBuiltinModels, getBuiltinProviders } from "@earendil-works/pi-ai/providers/all";
 import type { Model, Api } from "@earendil-works/pi-ai";
-import type { SlashMenuLeaf } from "../types.js";
-import { createLoadingLeaf } from "../createLoadingLeaf.js";
-import { filterMenuItems } from "../filterMenuItems.js";
-import { toAutocompleteItems } from "../toAutocompleteItems.js";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/select/types.js";
-import { createLoginProviderList } from "./createLoginProviderList.js";
-import { createLoginModelList } from "./createLoginModelList.js";
-import { filterLoginItems } from "./filterLoginItems.js";
-import { resolveProviderModels } from "./resolveProviderModels.js";
-import { toggleProviderEnabled } from "./toggleProviderEnabled.js";
+import type { SlashMenuLeaf } from "../types";
+import { createLoadingLeaf } from "../createLoadingLeaf";
+import { filterMenuItems } from "../filterMenuItems";
+import { toAutocompleteItems } from "../toAutocompleteItems";
+import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/select/types";
+import { createLoginProviderList } from "./createLoginProviderList";
+import { createLoginModelList } from "./createLoginModelList";
+import { filterLoginItems } from "./filterLoginItems";
+import { resolveProviderModels } from "./resolveProviderModels";
+import { toggleProviderEnabled } from "./toggleProviderEnabled";
 
 const SLASH_MENU_LEFT_PANE_RATIO = 0.42;
 

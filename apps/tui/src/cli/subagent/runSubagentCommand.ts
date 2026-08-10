@@ -1,9 +1,9 @@
-import { parseSubagentArgs } from "./parseSubagentArgs.js";
-import { runSubagentStartCommand } from "./runSubagentStartCommand.js";
-import { runSubagentPromptCommand } from "./runSubagentPromptCommand.js";
-import { runSubagentSendCommand } from "./runSubagentSendCommand.js";
-import { runSubagentSendKeysCommand } from "./runSubagentSendKeysCommand.js";
-import { runSubagentReadCommand } from "./runSubagentReadCommand.js";
+import { parseSubagentArgs } from "./parseSubagentArgs";
+import { runSubagentStartCommand } from "./runSubagentStartCommand";
+import { runSubagentPromptCommand } from "./runSubagentPromptCommand";
+import { runSubagentSendCommand } from "./runSubagentSendCommand";
+import { runSubagentSendKeysCommand } from "./runSubagentSendKeysCommand";
+import { runSubagentReadCommand } from "./runSubagentReadCommand";
 
 /**
  * Dispatches the subagent CLI command to the appropriate subcommand handler.

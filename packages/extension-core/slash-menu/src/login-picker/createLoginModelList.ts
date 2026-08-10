@@ -1,7 +1,7 @@
 import { getBuiltinModels, getBuiltinProviders } from "@earendil-works/pi-ai/providers/all";
-import type { SlashMenuLeaf } from "../types.js";
-import { filterMenuItems } from "../filterMenuItems.js";
-import { resolveProviderModels } from "./resolveProviderModels.js";
+import type { SlashMenuLeaf } from "../types";
+import { filterMenuItems } from "../filterMenuItems";
+import { resolveProviderModels } from "./resolveProviderModels";
 
 /**
  * Builds right-pane model entries for the currently selected provider.

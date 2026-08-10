@@ -1,4 +1,4 @@
-import { normalizeSearchText } from "./normalizeSearchText.js";
+import { normalizeSearchText } from "./normalizeSearchText";
 
 /**
  * Splits a search query into normalized tokens.

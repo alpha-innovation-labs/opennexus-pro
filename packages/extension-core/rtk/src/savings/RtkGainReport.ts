@@ -1,5 +1,5 @@
-import type { RtkGainPeriod } from "./RtkGainPeriod.js";
-import type { RtkGainSummary } from "./RtkGainSummary.js";
+import type { RtkGainPeriod } from "./RtkGainPeriod";
+import type { RtkGainSummary } from "./RtkGainSummary";
 
 /**
  * RTK gain JSON report shape.

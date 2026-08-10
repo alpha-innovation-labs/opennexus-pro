@@ -1,8 +1,8 @@
-import { renderObservationsMarkdown } from "@extensions/observations/tracker/renderObservationsMarkdown.js";
-import { readObservationState } from "@extensions/observations/tracker/readObservationState.js";
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir.js";
-import { listObservationArtifactGroups } from "./listObservationArtifactGroups.js";
-import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups.js";
+import { renderObservationsMarkdown } from "@extensions/observations/tracker/renderObservationsMarkdown";
+import { readObservationState } from "@extensions/observations/tracker/readObservationState";
+import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
+import { listObservationArtifactGroups } from "./listObservationArtifactGroups";
+import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups";
 
 /**
  * Reads rendered observation markdown for one session target from state JSON.

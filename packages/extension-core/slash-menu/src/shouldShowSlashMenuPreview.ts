@@ -1,4 +1,4 @@
-import type { SlashMenuLevel } from "./SlashMenuLevel.js";
+import type { SlashMenuLevel } from "./SlashMenuLevel";
 
 /**
  * Decides whether a slash-menu level should render the preview pane.

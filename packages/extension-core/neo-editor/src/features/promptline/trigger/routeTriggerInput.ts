@@ -1,5 +1,5 @@
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import type { TriggerKind } from "./types.js";
+import type { TriggerKind } from "./types";
 
 /**
  * Decides whether the active trigger modal should capture the current key.

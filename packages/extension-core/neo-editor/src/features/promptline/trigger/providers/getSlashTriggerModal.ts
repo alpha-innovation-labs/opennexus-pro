@@ -1,5 +1,5 @@
-import type { TriggerModalState } from "../types.js";
-import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal.js";
+import type { TriggerModalState } from "../types";
+import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal";
 
 /**
  * Returns the active `/` modal instance.

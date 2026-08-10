@@ -1,8 +1,8 @@
-import type { SharedModalTheme } from "../types.js";
-import { filterDuplicateBaseHotkeys } from "./filterDuplicateBaseHotkeys.js";
-import { formatModalHotkey } from "./formatModalHotkey.js";
-import { getBaseScrollHotkeys } from "./getBaseScrollHotkeys.js";
-import type { SharedModalHotkey } from "./types.js";
+import type { SharedModalTheme } from "../types";
+import { filterDuplicateBaseHotkeys } from "./filterDuplicateBaseHotkeys";
+import { formatModalHotkey } from "./formatModalHotkey";
+import { getBaseScrollHotkeys } from "./getBaseScrollHotkeys";
+import type { SharedModalHotkey } from "./types";
 
 /**
  * Creates ordered footer hotkey segments with overrides before base scroll hints.

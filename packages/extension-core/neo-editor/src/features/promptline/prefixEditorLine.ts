@@ -1,5 +1,5 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import { padToWidth } from "./padToWidth.js";
+import { padToWidth } from "./padToWidth";
 
 /**
  * Prefixes the first visible editor line with styled prompt text.

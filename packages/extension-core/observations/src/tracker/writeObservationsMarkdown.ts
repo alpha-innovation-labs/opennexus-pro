@@ -1,7 +1,7 @@
 import { withFileMutationQueue } from "@earendil-works/pi-coding-agent";
 import { writeFile } from "node:fs/promises";
-import { renderObservationsMarkdown } from "./renderObservationsMarkdown.js";
-import type { ObservationState } from "./types.js";
+import { renderObservationsMarkdown } from "./renderObservationsMarkdown";
+import type { ObservationState } from "./types";
 
 /**
  * Writes the rendered observations markdown file.

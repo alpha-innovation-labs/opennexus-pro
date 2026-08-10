@@ -1,5 +1,5 @@
-import { createModelMenuTabs } from "./createModelMenuTabs.js";
-import type { ModelMenuTab } from "./ModelMenuTab.js";
+import { createModelMenuTabs } from "./createModelMenuTabs";
+import type { ModelMenuTab } from "./ModelMenuTab";
 
 /**
  * Selects the next model-menu tab with wraparound.

@@ -1,5 +1,5 @@
 import { SessionManager, type SessionInfo } from "@earendil-works/pi-coding-agent";
-import { sortSessionsByModifiedTime } from "./sortSessionsByModifiedTime.js";
+import { sortSessionsByModifiedTime } from "./sortSessionsByModifiedTime";
 
 /**
  * Lists resumable sessions across all known project directories.

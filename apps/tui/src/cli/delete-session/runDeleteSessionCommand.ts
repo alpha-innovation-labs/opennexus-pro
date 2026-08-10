@@ -1,8 +1,8 @@
-import { deleteObservationArtifactsForSessionPath } from "../observations/deleteObservationArtifactsForSessionPath.js";
-import { deleteSessionFile } from "./deleteSessionFile.js";
-import { formatAmbiguousDeleteSessionMessage } from "./formatAmbiguousDeleteSessionMessage.js";
-import { readDeleteSessionArg } from "./readDeleteSessionArg.js";
-import { resolveDeleteSessionTarget } from "./resolveDeleteSessionTarget.js";
+import { deleteObservationArtifactsForSessionPath } from "../observations/deleteObservationArtifactsForSessionPath";
+import { deleteSessionFile } from "./deleteSessionFile";
+import { formatAmbiguousDeleteSessionMessage } from "./formatAmbiguousDeleteSessionMessage";
+import { readDeleteSessionArg } from "./readDeleteSessionArg";
+import { resolveDeleteSessionTarget } from "./resolveDeleteSessionTarget";
 
 /**
  * Runs the Nexus session deletion CLI command.

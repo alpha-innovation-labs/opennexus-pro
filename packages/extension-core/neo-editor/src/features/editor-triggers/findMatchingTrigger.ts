@@ -1,4 +1,4 @@
-import type { EditorTriggerConfig, EditorTriggerRule } from "./types.js";
+import type { EditorTriggerConfig, EditorTriggerRule } from "./types";
 
 /**
  * Finds the first configured trigger matching the current editor text.

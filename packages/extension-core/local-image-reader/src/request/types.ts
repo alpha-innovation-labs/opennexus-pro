@@ -1,5 +1,5 @@
-import type { LocalImageReaderConfig } from "../config/types.js";
-import { DEFAULT_SYSTEM_PROMPT } from "../constants.js";
+import type { LocalImageReaderConfig } from "../config/types";
+import { DEFAULT_SYSTEM_PROMPT } from "../constants";
 
 /**
  * Request body for a chat completions API call.

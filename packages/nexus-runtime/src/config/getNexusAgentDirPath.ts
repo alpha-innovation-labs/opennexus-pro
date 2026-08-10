@@ -1,6 +1,6 @@
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { expandHomePath } from "./expandHomePath.js";
+import { expandHomePath } from "./expandHomePath";
 
 /**
  * Resolves the Nexus-specific default agent directory.

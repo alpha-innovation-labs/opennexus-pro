@@ -1,4 +1,4 @@
-import type { SharedModalPane, SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
+import type { SharedModalPane, SharedModalTheme } from "@nexus/tui-kit/modal/index";
 
 export type AutoUpdateModalLinesInput = {
 	currentVersion: string;

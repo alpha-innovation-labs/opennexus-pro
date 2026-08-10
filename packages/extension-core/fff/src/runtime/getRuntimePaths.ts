@@ -1,6 +1,6 @@
 import { getAgentDir } from "@earendil-works/pi-coding-agent";
 import { join } from "node:path";
-import { createProjectKey } from "./createProjectKey.js";
+import { createProjectKey } from "./createProjectKey";
 
 /**
  * Returns project-scoped database paths for the bundled FFF runtime.

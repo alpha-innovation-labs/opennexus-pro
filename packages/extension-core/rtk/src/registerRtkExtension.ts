@@ -1,16 +1,16 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerSavingsCommand } from "./command/registerSavingsCommand.js";
-import { createRtkRuntime } from "./runtime/createRtkRuntime.js";
-import { findAvailableRtkCommand } from "./runtime/findAvailableRtkCommand.js";
-import { getRtkExecutionCwd } from "./runtime/getRtkExecutionCwd.js";
-import { installRtkForUnixLike } from "./runtime/installRtkForUnixLike.js";
-import { clearRtkRuntimeForCwd, getRtkRuntimeForCwd, setRtkRuntimeForCwd } from "./runtime/runtimeStore.js";
-import { showRtkEnvironmentPreparationModal } from "./ui/showRtkEnvironmentPreparationModal.js";
-import { createRtkBashTool } from "./tooling/createRtkBashTool.js";
-import { createRtkFindTool } from "./tooling/createRtkFindTool.js";
-import { createRtkGrepTool } from "./tooling/createRtkGrepTool.js";
-import { createRtkLsTool } from "./tooling/createRtkLsTool.js";
-import { createRtkReadTool } from "./tooling/createRtkReadTool.js";
+import { registerSavingsCommand } from "./command/registerSavingsCommand";
+import { createRtkRuntime } from "./runtime/createRtkRuntime";
+import { findAvailableRtkCommand } from "./runtime/findAvailableRtkCommand";
+import { getRtkExecutionCwd } from "./runtime/getRtkExecutionCwd";
+import { installRtkForUnixLike } from "./runtime/installRtkForUnixLike";
+import { clearRtkRuntimeForCwd, getRtkRuntimeForCwd, setRtkRuntimeForCwd } from "./runtime/runtimeStore";
+import { showRtkEnvironmentPreparationModal } from "./ui/showRtkEnvironmentPreparationModal";
+import { createRtkBashTool } from "./tooling/createRtkBashTool";
+import { createRtkFindTool } from "./tooling/createRtkFindTool";
+import { createRtkGrepTool } from "./tooling/createRtkGrepTool";
+import { createRtkLsTool } from "./tooling/createRtkLsTool";
+import { createRtkReadTool } from "./tooling/createRtkReadTool";
 
 /**
  * Registers the RTK extension surface.

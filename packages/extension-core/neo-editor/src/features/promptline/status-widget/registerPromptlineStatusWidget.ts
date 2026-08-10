@@ -1,8 +1,8 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { renderPromptlineStatusWidget } from "./renderPromptlineStatusWidget.js";
-import { setPromptlineSessionStartedAt } from "./setPromptlineSessionStartedAt.js";
-import { resetTpsTracker, resetTurnPauseAccumulator } from "./promptlineTpsTracker.js";
+import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { renderPromptlineStatusWidget } from "./renderPromptlineStatusWidget";
+import { setPromptlineSessionStartedAt } from "./setPromptlineSessionStartedAt";
+import { resetTpsTracker, resetTurnPauseAccumulator } from "./promptlineTpsTracker";
 
 /**
  * Registers the promptline metadata widget for source and release runtimes.

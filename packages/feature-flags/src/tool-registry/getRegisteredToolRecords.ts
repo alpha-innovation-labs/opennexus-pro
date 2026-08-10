@@ -1,5 +1,5 @@
-import type { ToolRegistrationRecord } from "./ToolRegistrationRecord.js";
-import { registeredToolRecords } from "./registeredToolRecords.js";
+import type { ToolRegistrationRecord } from "./ToolRegistrationRecord";
+import { registeredToolRecords } from "./registeredToolRecords";
 
 /**
  * Returns extension tool registrations recorded during startup.

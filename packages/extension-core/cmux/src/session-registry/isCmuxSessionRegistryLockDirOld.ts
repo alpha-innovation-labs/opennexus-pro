@@ -1,5 +1,5 @@
 import { stat } from "node:fs/promises";
-import { CMUX_SESSION_REGISTRY_LEGACY_LOCK_STALE_MS } from "./cmuxSessionRegistryLockConstants.js";
+import { CMUX_SESSION_REGISTRY_LEGACY_LOCK_STALE_MS } from "./cmuxSessionRegistryLockConstants";
 
 /**
  * Checks whether a metadata-less legacy lock is old enough to be abandoned.

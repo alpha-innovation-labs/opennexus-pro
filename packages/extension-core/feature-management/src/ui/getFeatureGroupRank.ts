@@ -1,4 +1,4 @@
-import type { FeatureManagementGroup } from "../model/types.js";
+import type { FeatureManagementGroup } from "../model/types";
 
 /**
  * Returns the display order rank for feature-management groups.

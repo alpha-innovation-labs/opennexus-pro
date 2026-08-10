@@ -1,5 +1,5 @@
-import { getNativeSystemToolNames } from "../tools/getNativeSystemToolNames.js";
-import type { SystemPromptOutlineChild } from "./types.js";
+import { getNativeSystemToolNames } from "../tools/getNativeSystemToolNames";
+import type { SystemPromptOutlineChild } from "./types";
 
 /**
  * Returns native system tool rows for the /SystemPrompt Tools section.

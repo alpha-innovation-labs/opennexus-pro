@@ -1,5 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import type { ManagedExtensionRow } from "../model/types.js";
+import type { ManagedExtensionRow } from "../model/types";
 
 /**
  * Computes the extension id column width used for aligned rows.

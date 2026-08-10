@@ -1,4 +1,4 @@
-import type { ResumeScope } from "./ResumeScope.js";
+import type { ResumeScope } from "./ResumeScope";
 
 /**
  * Returns the next resume source for keyboard toggles.

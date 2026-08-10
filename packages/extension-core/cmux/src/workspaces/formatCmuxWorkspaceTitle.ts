@@ -1,7 +1,7 @@
-import type { CmuxSessionRegistryEntry } from "../session-registry/types.js";
-import { formatCmuxNexusTitle } from "./formatCmuxNexusTitle.js";
-import { hasSingleRegisteredNexusSurface } from "./hasSingleRegisteredNexusSurface.js";
-import type { CmuxWorkspace } from "./types.js";
+import type { CmuxSessionRegistryEntry } from "../session-registry/types";
+import { formatCmuxNexusTitle } from "./formatCmuxNexusTitle";
+import { hasSingleRegisteredNexusSurface } from "./hasSingleRegisteredNexusSurface";
+import type { CmuxWorkspace } from "./types";
 
 /**
  * Formats a workspace title, using the Nexus icon for single-session Nexus workspaces.

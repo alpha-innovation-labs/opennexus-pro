@@ -1,5 +1,5 @@
-import { setUserMessageRenderHook } from "@nexus/pi-platform/userMessageHook.js";
-import { renderCachedUserMessage } from "./renderCachedUserMessage.js";
+import { setUserMessageRenderHook } from "@nexus/pi-platform/userMessageHook";
+import { renderCachedUserMessage } from "./renderCachedUserMessage";
 
 /**
  * Installs the custom user-message renderer.

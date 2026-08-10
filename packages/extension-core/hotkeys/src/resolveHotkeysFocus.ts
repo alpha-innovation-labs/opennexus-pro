@@ -1,5 +1,5 @@
-import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId.js";
-import type { HotkeysEntry } from "./types.js";
+import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId";
+import type { HotkeysEntry } from "./types";
 
 /**
  * Keeps focus on an editable entry in the current filtered view.

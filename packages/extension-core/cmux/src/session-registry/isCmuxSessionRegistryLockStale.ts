@@ -1,6 +1,6 @@
-import { isProcessRunning } from "./isProcessRunning.js";
-import { isCmuxSessionRegistryLockDirOld } from "./isCmuxSessionRegistryLockDirOld.js";
-import { readCmuxSessionRegistryLockMetadata } from "./readCmuxSessionRegistryLockMetadata.js";
+import { isProcessRunning } from "./isProcessRunning";
+import { isCmuxSessionRegistryLockDirOld } from "./isCmuxSessionRegistryLockDirOld";
+import { readCmuxSessionRegistryLockMetadata } from "./readCmuxSessionRegistryLockMetadata";
 
 /**
  * Detects whether a cmux registry lock can be treated as abandoned.

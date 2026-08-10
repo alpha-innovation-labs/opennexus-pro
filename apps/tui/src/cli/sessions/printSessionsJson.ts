@@ -1,6 +1,6 @@
-import { createSessionJsonRows } from "./createSessionJsonRows.js";
-import { formatSessionsJson } from "./formatSessionsJson.js";
-import { listSessions } from "./listSessions.js";
+import { createSessionJsonRows } from "./createSessionJsonRows";
+import { formatSessionsJson } from "./formatSessionsJson";
+import { listSessions } from "./listSessions";
 
 /**
  * Prints resumable sessions for one working directory to stdout as JSON.

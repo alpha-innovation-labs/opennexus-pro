@@ -1,5 +1,5 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/select/types.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/select/types";
 
 export type SystemPromptFramePane = {
 	lines: string[];

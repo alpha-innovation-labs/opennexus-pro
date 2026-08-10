@@ -1,7 +1,7 @@
-import { createPromptSectionChild } from "./createPromptSectionChild.js";
-import { createToolOutlineChildren } from "./createToolOutlineChildren.js";
-import { findPromptLineIndex } from "./findPromptLineIndex.js";
-import type { SystemPromptOutline } from "./types.js";
+import { createPromptSectionChild } from "./createPromptSectionChild";
+import { createToolOutlineChildren } from "./createToolOutlineChildren";
+import { findPromptLineIndex } from "./findPromptLineIndex";
+import type { SystemPromptOutline } from "./types";
 
 /**
  * Creates the left-pane outline for the effective system prompt.

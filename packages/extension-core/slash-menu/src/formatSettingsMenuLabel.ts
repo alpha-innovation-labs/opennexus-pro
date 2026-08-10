@@ -1,5 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
 
 export const SETTINGS_VALUE_COLUMN = 32;
 

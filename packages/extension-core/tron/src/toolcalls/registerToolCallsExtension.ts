@@ -1,7 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
+import { logExtensionEvent } from "@nexus/observability/startup-debug";
 import { withSlashMenuGroup } from '@extensions/slash-menu/withSlashMenuGroup.js';
-import { showToolCallsModal } from "./showToolCallsModal.js";
+import { showToolCallsModal } from "./showToolCallsModal";
 
 /**
  * Registers the tron tool-calls browser.

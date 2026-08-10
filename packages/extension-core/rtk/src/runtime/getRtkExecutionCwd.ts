@@ -1,4 +1,4 @@
-import { getActiveRtkCwd } from "./runtimeStore.js";
+import { getActiveRtkCwd } from "./runtimeStore";
 
 /**
  * Resolves the best cwd for an RTK tool execution.

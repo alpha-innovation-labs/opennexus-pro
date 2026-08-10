@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import type { ClipboardImage } from "./types.js";
+import type { ClipboardImage } from "./types";
 
 const MAC_OS_CLIPBOARD_IMAGE_JXA = [
   "ObjC.import('AppKit');",

@@ -1,8 +1,8 @@
-import { formatUtcDateKey } from "../savings/formatUtcDateKey.js";
-import { getRollingWindowStartDate } from "../savings/getRollingWindowStartDate.js";
-import { aggregateTokenUsagePeriods } from "./aggregateTokenUsagePeriods.js";
-import { getTokenUsageDailyDate } from "./getTokenUsageDailyDate.js";
-import type { TokenUsagePeriod } from "./TokenUsagePeriod.js";
+import { formatUtcDateKey } from "../savings/formatUtcDateKey";
+import { getRollingWindowStartDate } from "../savings/getRollingWindowStartDate";
+import { aggregateTokenUsagePeriods } from "./aggregateTokenUsagePeriods";
+import { getTokenUsageDailyDate } from "./getTokenUsageDailyDate";
+import type { TokenUsagePeriod } from "./TokenUsagePeriod";
 
 /**
  * Aggregates the latest rolling daily token usage window.

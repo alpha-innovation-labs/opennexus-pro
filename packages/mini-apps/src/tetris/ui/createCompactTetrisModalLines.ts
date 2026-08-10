@@ -1,10 +1,10 @@
-import type { TetrisGame } from "../game/types.js";
-import { padTetrisLine } from "./padTetrisLine.js";
-import { padTetrisLines } from "./padTetrisLines.js";
-import { renderTetrisBoardBox } from "./renderTetrisBoardBox.js";
-import { renderTetrisHotkeysBar } from "./renderTetrisHotkeysBar.js";
-import { renderTetrisNextBox } from "./renderTetrisNextBox.js";
-import { renderTetrisStatsLineBox } from "./renderTetrisStatsLineBox.js";
+import type { TetrisGame } from "../game/types";
+import { padTetrisLine } from "./padTetrisLine";
+import { padTetrisLines } from "./padTetrisLines";
+import { renderTetrisBoardBox } from "./renderTetrisBoardBox";
+import { renderTetrisHotkeysBar } from "./renderTetrisHotkeysBar";
+import { renderTetrisNextBox } from "./renderTetrisNextBox";
+import { renderTetrisStatsLineBox } from "./renderTetrisStatsLineBox";
 
 /**
  * Builds compact Tetris body lines that keep all critical sections visible on short screens.

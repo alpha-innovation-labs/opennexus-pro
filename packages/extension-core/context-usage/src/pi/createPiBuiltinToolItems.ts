@@ -1,7 +1,7 @@
-import { createPiToolDefinitions, type PiToolDefinition } from "@nexus/pi-platform/tools/createPiToolDefinitions.js";
-import type { ContextUsageDetailItem } from "../types.js";
-import { estimateTokensFromText } from "../estimateTokensFromText.js";
-import { getToolText } from "../getToolText.js";
+import { createPiToolDefinitions, type PiToolDefinition } from "@nexus/pi-platform/tools/createPiToolDefinitions";
+import type { ContextUsageDetailItem } from "../types";
+import { estimateTokensFromText } from "../estimateTokensFromText";
+import { getToolText } from "../getToolText";
 
 /**
  * Creates tokenized items for Pi's built-in tool prompt snippets.

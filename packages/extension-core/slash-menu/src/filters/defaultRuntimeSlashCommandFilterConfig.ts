@@ -1,4 +1,4 @@
-import type { RuntimeSlashCommandFilterConfig } from "./RuntimeSlashCommandFilterConfig.js";
+import type { RuntimeSlashCommandFilterConfig } from "./RuntimeSlashCommandFilterConfig";
 
 export const defaultRuntimeSlashCommandFilterConfig: RuntimeSlashCommandFilterConfig = {
   hiddenNamePrefixes: ["nexus-"],

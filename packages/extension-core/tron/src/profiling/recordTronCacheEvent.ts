@@ -1,4 +1,4 @@
-import { writeTronProfileEvent } from "./writeTronProfileEvent.js";
+import { writeTronProfileEvent } from "./writeTronProfileEvent";
 
 type TronCacheStats = {
   hits: number;

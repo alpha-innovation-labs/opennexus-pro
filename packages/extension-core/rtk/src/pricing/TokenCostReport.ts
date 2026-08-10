@@ -1,4 +1,4 @@
-import type { OpenRouterPricing } from "./OpenRouterPricing.js";
+import type { OpenRouterPricing } from "./OpenRouterPricing";
 
 /**
  * Token cost estimate for the selected usage and savings report.

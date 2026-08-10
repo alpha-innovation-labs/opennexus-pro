@@ -1,4 +1,4 @@
-import { formatTwoDigitTimePart } from "./formatTwoDigitTimePart.js";
+import { formatTwoDigitTimePart } from "./formatTwoDigitTimePart";
 
 /**
  * Formats elapsed working time for the TUI loader.

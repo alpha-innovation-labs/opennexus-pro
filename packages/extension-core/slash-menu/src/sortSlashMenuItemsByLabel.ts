@@ -1,4 +1,4 @@
-import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
+import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 
 /**
  * Sorts slash-menu items alphabetically by their visible label.

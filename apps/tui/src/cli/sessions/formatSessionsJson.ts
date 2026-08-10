@@ -1,4 +1,4 @@
-import type { SessionJsonRow } from "./SessionJsonRow.js";
+import type { SessionJsonRow } from "./SessionJsonRow";
 
 /**
  * Formats session rows as pretty JSON for machine-readable CLI output.

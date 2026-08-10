@@ -1,6 +1,6 @@
 import { getBuiltinModels } from "@earendil-works/pi-ai/providers/all";
 import type { Model, Api } from "@earendil-works/pi-ai";
-import type { SlashMenuLeaf } from "../types.js";
+import type { SlashMenuLeaf } from "../types";
 
 /**
  * Resolves model entries for a single provider from the full model catalog.

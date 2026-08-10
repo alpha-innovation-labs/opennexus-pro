@@ -1,6 +1,6 @@
-import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration.js";
-import { pruneCmuxSessionRegistryEntries } from "./pruneCmuxSessionRegistryEntries.js";
-import type { CmuxSessionRegistry, CmuxSessionRegistryEntry } from "./types.js";
+import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration";
+import { pruneCmuxSessionRegistryEntries } from "./pruneCmuxSessionRegistryEntries";
+import type { CmuxSessionRegistry, CmuxSessionRegistryEntry } from "./types";
 
 /**
  * Upserts one Nexus session registration into a registry object.

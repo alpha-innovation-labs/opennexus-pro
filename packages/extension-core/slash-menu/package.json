@@ -6,7 +6,6 @@
     "./*": "./src/*"
   },
   "dependencies": {
-    "@nexus/feature-flags": "workspace:*",
     "@nexus/observability": "workspace:*",
     "@nexus/pi-platform": "workspace:*",
     "@nexus/runtime": "workspace:*",

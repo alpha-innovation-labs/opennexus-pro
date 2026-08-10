@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import type { SlashMenuLeaf } from "../types.js";
-import { createAvailableModelLeaf } from "./createAvailableModelLeaf.js";
+import type { SlashMenuLeaf } from "../types";
+import { createAvailableModelLeaf } from "./createAvailableModelLeaf";
 
 /**
  * Builds the top available-model section from authenticated registry entries.

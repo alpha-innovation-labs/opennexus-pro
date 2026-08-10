@@ -1,8 +1,8 @@
-import { findRegisteredNexusSession } from "../session-registry/findRegisteredNexusSession.js";
-import type { CmuxSessionRegistryEntry } from "../session-registry/types.js";
-import { getCmuxSurfaceIdentifier } from "./getCmuxSurfaceIdentifier.js";
-import { getCmuxWorkspaceIdentifier } from "./getCmuxWorkspaceIdentifier.js";
-import type { CmuxWorkspace } from "./types.js";
+import { findRegisteredNexusSession } from "../session-registry/findRegisteredNexusSession";
+import type { CmuxSessionRegistryEntry } from "../session-registry/types";
+import { getCmuxSurfaceIdentifier } from "./getCmuxSurfaceIdentifier";
+import { getCmuxWorkspaceIdentifier } from "./getCmuxWorkspaceIdentifier";
+import type { CmuxWorkspace } from "./types";
 
 /**
  * Checks whether a workspace contains exactly one surface and it is a Nexus session.

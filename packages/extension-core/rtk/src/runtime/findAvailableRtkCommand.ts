@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { createRtkCommandCandidates } from "./createRtkCommandCandidates.js";
-import { hasRtkBinary } from "./hasRtkBinary.js";
+import { createRtkCommandCandidates } from "./createRtkCommandCandidates";
+import { hasRtkBinary } from "./hasRtkBinary";
 
 /**
  * Finds an executable RTK command, including the default installer path.

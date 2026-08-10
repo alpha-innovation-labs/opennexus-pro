@@ -1,10 +1,10 @@
-import { createLeafPreviewLines } from "./createLeafPreviewLines.js";
-import { findTopLevelItem } from "./findTopLevelItem.js";
-import { getSettingsRootLeaf } from "./getSettingsRootLeaf.js";
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import { createResourceCommandPreviewLines } from "./createResourceCommandPreviewLines.js";
-import type { SlashMenuLevel } from "./SlashMenuLevel.js";
-import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
+import { createLeafPreviewLines } from "./createLeafPreviewLines";
+import { findTopLevelItem } from "./findTopLevelItem";
+import { getSettingsRootLeaf } from "./getSettingsRootLeaf";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import { createResourceCommandPreviewLines } from "./createResourceCommandPreviewLines";
+import type { SlashMenuLevel } from "./SlashMenuLevel";
+import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 
 /**
  * Builds preview text for the currently selected slash-menu item.

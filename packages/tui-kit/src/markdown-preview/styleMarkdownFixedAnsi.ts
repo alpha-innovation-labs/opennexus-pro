@@ -1,4 +1,4 @@
-import type { MarkdownPreviewStyleToken } from "./types.js";
+import type { MarkdownPreviewStyleToken } from "./types";
 
 const reset = "\x1b[0m";
 const lineNumber = "\x1b[38;2;75;86;112m";

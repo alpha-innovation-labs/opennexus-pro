@@ -1,5 +1,5 @@
 import { Markdown } from "@earendil-works/pi-tui";
-import { getPlainResourceCommandMarkdownTheme, getResourceCommandMarkdownTheme } from "./getResourceCommandMarkdownTheme.js";
+import { getPlainResourceCommandMarkdownTheme, getResourceCommandMarkdownTheme } from "./getResourceCommandMarkdownTheme";
 
 /**
  * Renders resource command markdown using the same markdown component as Tron transcript previews.

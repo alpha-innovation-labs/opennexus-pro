@@ -1,2 +1,2 @@
-export { hasSubagentFlag } from "./hasSubagentFlag.js";
-export { runSubagentCommand } from "./runSubagentCommand.js";
+export { hasSubagentFlag } from "./hasSubagentFlag";
+export { runSubagentCommand } from "./runSubagentCommand";

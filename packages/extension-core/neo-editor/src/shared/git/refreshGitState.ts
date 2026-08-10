@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { DEFAULT_GIT_STATE, getGitRefreshInFlight, setGitRefreshInFlight, setGitState } from "./state.js";
-import { parseBranchAb } from "./parseBranchAb.js";
+import { DEFAULT_GIT_STATE, getGitRefreshInFlight, setGitRefreshInFlight, setGitState } from "./state";
+import { parseBranchAb } from "./parseBranchAb";
 
 /**
  * Refreshes the cached git state from `git status` porcelain output.

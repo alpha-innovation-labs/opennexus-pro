@@ -1,6 +1,6 @@
-import { executeCrawl4AIFetch } from "./executeCrawl4AIFetch.js";
-import { executeJinaFetch } from "./executeJinaFetch.js";
-import type { WebFetchFormat, WebFetchResult } from "./webFetchTypes.js";
+import { executeCrawl4AIFetch } from "./executeCrawl4AIFetch";
+import { executeJinaFetch } from "./executeJinaFetch";
+import type { WebFetchFormat, WebFetchResult } from "./webFetchTypes";
 
 /**
  * Fetches one URL using Crawl4AI as primary, Jina Reader as fallback.

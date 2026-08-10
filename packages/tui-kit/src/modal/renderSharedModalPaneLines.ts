@@ -1,7 +1,7 @@
-import { renderMarkdownPreviewLineNumberFiller } from "../markdown-preview/addMarkdownPreviewLineNumbers.js";
-import { renderMarkdownPreview } from "../markdown-preview/renderMarkdownPreview.js";
-import type { MarkdownPreviewStyleToken } from "../markdown-preview/types.js";
-import type { SharedModalPane, SharedModalTheme } from "./types.js";
+import { renderMarkdownPreviewLineNumberFiller } from "../markdown-preview/addMarkdownPreviewLineNumbers";
+import { renderMarkdownPreview } from "../markdown-preview/renderMarkdownPreview";
+import type { MarkdownPreviewStyleToken } from "../markdown-preview/types";
+import type { SharedModalPane, SharedModalTheme } from "./types";
 
 /** Renders pane content according to its declared content type. */
 export function renderSharedModalPaneLines(theme: SharedModalTheme, pane: SharedModalPane, width: number): string[] {

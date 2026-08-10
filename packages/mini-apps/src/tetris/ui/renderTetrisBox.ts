@@ -1,4 +1,4 @@
-import { padTetrisLine } from "./padTetrisLine.js";
+import { padTetrisLine } from "./padTetrisLine";
 
 /**
  * Renders a modal-style boxed panel for Tetris side content.

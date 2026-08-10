@@ -1,7 +1,7 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import { createModelMenuTabs } from "./createModelMenuTabs.js";
-import { formatModelMenuTab } from "./formatModelMenuTab.js";
-import type { ModelMenuTab } from "./ModelMenuTab.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import { createModelMenuTabs } from "./createModelMenuTabs";
+import { formatModelMenuTab } from "./formatModelMenuTab";
+import type { ModelMenuTab } from "./ModelMenuTab";
 
 /**
  * Renders the model-menu tab header.

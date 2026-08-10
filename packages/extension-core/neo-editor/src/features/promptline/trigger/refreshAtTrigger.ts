@@ -1,5 +1,5 @@
 import type { AutocompleteProvider } from "@earendil-works/pi-tui";
-import type { AtModal } from "../AtModal.js";
+import type { AtModal } from "../AtModal";
 
 /**
  * Refreshes the `@` modal suggestions from the active prefix.
