@@ -205,9 +205,6 @@ importers:
       '@extensions/startup-hero':
         specifier: workspace:*
         version: link:../../packages/extension-core/startup-hero
-      '@nexus/assets':
-        specifier: workspace:*
-        version: link:../../packages/assets
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../../packages/feature-flags
@@ -242,12 +239,6 @@ importers:
         specifier: ^19.2.0
         version: 19.2.8
 
-  packages/assets:
-    dependencies:
-      '@nexus/runtime':
-        specifier: workspace:*
-        version: link:../nexus-runtime
-
   packages/extension-core/ai-providers:
     dependencies:
       '@earendil-works/pi-coding-agent':
@@ -262,9 +253,6 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.83.0
         version: 0.83.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.1(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      '@nexus/assets':
-        specifier: workspace:*
-        version: link:../../assets
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
