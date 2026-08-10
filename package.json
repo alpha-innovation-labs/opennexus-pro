@@ -10,8 +10,7 @@
   },
   "scripts": {
     "generate:package-info": "node scripts/auto-update/generatePackageInfo.mjs",
-    "build:binary": "node scripts/release/buildBinaryBundle.mjs",
-    "build:release": "npm run build:binary",
+    "build": "node scripts/release/buildRelease.mjs",
     "dev": "npm run generate:package-info && tsx -- apps/tui/src/index.ts",
     "test": "npx vitest run"
   },
@@ -55,6 +54,7 @@
     "@babel/plugin-transform-unicode-sets-regex": "^8.0.1",
     "@schpet/linear-cli": "^2.3.0",
     "@types/node": "^26.1.2",
+    "@vercel/ncc": "^0.44.1",
     "esbuild": "^0.28.1",
     "patch-package": "^8.0.1",
     "tsx": "^4.23.5",
@@ -63,7 +63,9 @@
     "vitest": "^4.1.10"
   },
   "workspaces": [
+    ".",
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "packages/extension-core/*/"
   ]
 }

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx -- src/index.ts",
-    "build": "npm --prefix ../.. run build:release",
+    "build": "npm --prefix ../.. run build",
     "test": "npm --prefix ../.. test"
   },
   "dependencies": {
