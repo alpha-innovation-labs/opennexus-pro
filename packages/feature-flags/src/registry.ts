@@ -44,10 +44,6 @@ export const bundledFeatureFlags: Readonly<Record<
 		features: ["exit-message-display"],
 		category: "core",
 	},
-	"end-message-formatter": {
-		enabled: true,
-		features: ["end-message-rewriting"],
-	},
 	"pi-packages": {
 		enabled: true,
 		features: ["pi-package-management"],

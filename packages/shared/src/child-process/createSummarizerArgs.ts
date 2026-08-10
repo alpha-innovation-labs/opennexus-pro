@@ -9,8 +9,10 @@ export function createSummarizerArgs(prompt: string): string[] {
     "--no-session",
     "--no-context-files",
     "--no-tools",
-    "--disable-features",
-    "end-message-formatter",
+    "--no-skills",
+    "--no-extensions",
+    "--enable-features",
+    "ai-providers",
     "-p",
     prompt,
   ];

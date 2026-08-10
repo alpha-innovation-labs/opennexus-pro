@@ -4,7 +4,6 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook.js";
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const END_MESSAGE_FORMATTER_PATH = resolve(
@@ -21,7 +20,7 @@ const END_MESSAGE_FORMATTER_PATH = resolve(
  *
  * @param pi Pi extension API.
  */
-export function registerEndMessageFormatterExtension(pi: ExtensionAPI): void {
+export function registerEndMessageFormatterExtension(_pi: ExtensionAPI): void {
   const formatterPrompt = readFileSync(END_MESSAGE_FORMATTER_PATH, "utf-8");
   let pendingMessage: { content: unknown } | null = null;
   let pendingText: string = "";
