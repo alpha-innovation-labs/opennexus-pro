@@ -59,7 +59,43 @@ export function createGateway(
 	options: CreateGatewayOptions = {},
 ): AiGateway {
 	const name = PROVIDER_NAMES[providerId] ?? providerId;
-	const baseUrl = options.baseUrl ?? baseUrlFromPort(providerId);
+	let baseUrl = options.baseUrl ?? baseUrlFromPort(providerId);
+
+	// Append /v1 to baseUrl for providers that require it for inference.
+	// Pi uses baseUrl directly for inference requests (e.g.
+	// /chat/completions).  Without /v1, LM Studio and Ollama return 404.
+	// Crossbar's adapters all add /v1 via inferenceBaseUrl for the same
+	// reason.  Only append when the URL does not already end with /v1
+	// and the provider is one that uses the OpenAI-compatible /v1 API.
+	const OPENAI_COMPATIBLE = new Set([
+		"lm-studio",
+		"ollama",
+		"litellm",
+		"vllm",
+		"llama.cpp",
+		"localai",
+		"sglang",
+		"jan",
+		"llamafile",
+		"tensorrt-llm",
+		"lmddeploy",
+		"mlx-lm",
+		"mlx-openai-server",
+		"omlx",
+		"lemonade",
+		"docker-model-runner",
+		"koboldcpp",
+		"exllamav2",
+		"gpt4all",
+		"h2ogpt",
+		"text-generation-webui",
+		"open-webui",
+		"harbor",
+		"openllm",
+	]);
+	if (OPENAI_COMPATIBLE.has(providerId) && !baseUrl.endsWith("/v1")) {
+		baseUrl = `${baseUrl}/v1`;
+	}
 
 	return new AiGateway({
 		providerId,
