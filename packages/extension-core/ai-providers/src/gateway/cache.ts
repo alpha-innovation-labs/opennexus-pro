@@ -64,7 +64,7 @@ export async function resolveModels(
 	}
 
 	// Cache miss: fetch from live server and write back.
-	const freshModels = await fetchModelsFromGateway(baseUrl, apiKey);
+	const freshModels = await fetchModelsFromGateway(baseUrl, apiKey, providerId);
 	await writeSingleGatewayCache(cachePath, providerId, freshModels);
 	return freshModels;
 }
@@ -85,7 +85,7 @@ export async function refreshModels(
 	baseUrl: string,
 	apiKey?: string,
 ): Promise<NonNullable<ProviderConfigInput["models"]>> {
-	const models = await fetchModelsFromGateway(baseUrl, apiKey);
+	const models = await fetchModelsFromGateway(baseUrl, apiKey, providerId);
 	await writeSingleGatewayCache(getModelCachePath(), providerId, models);
 	return models;
 }

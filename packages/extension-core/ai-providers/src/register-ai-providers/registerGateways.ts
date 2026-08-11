@@ -5,8 +5,9 @@ import type { AiGateway } from "../index";
 /**
  * Registers gateways with Pi.
  *
- * Providers with cached models are registered with their cached model
- * list (instant, no network).  Providers without a cache entry are
+ * Every known gateway is registered so it appears in Pi's native
+ * `--list-models` output.  Providers with cached models are registered
+ * with their cached model list.  Providers without a cache entry are
  * registered with an empty model list — no network calls, no warnings.
  *
  * The user can run `provider refresh` to populate the cache.
@@ -23,13 +24,7 @@ export async function registerGateways(
 	}
 
 	for (const gw of gateways) {
-		// resolveModels reads from cache first; only on cache miss does it
-		// fetch from the live server.  All cached providers are registered
-		// with their models (instant).  Unreachable servers return [] and
-		// are silently skipped — no Pi warning.
 		const models = await resolveModels(gw.providerId, gw.baseUrl, gw.apiKey);
-		if (models.length > 0) {
-			gw.registerProvider(pi, models);
-		}
+		gw.registerProvider(pi, models);
 	}
 }

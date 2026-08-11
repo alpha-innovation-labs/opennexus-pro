@@ -40,21 +40,26 @@ export function registerProvider(
 		return;
 	}
 
-	pi.registerProvider(providerId, {
+	const registerOptions: Record<string, unknown> = {
 		name,
 		baseUrl,
-		apiKey: apiKey ?? "",
 		api: api ?? "openai-completions",
 		apiPath: apiPath ?? "",
 		models: modelsOverride ?? [],
-		// When Pi calls this (e.g. /list-models opens the model picker),
-		// return cached models only — no network call.  Live fetch only
-		// happens via the CLI refresh command (gw.refreshModels()).
 		refreshModels: async (_context: unknown) => {
 			const models = await getModels(providerId);
 			return models as unknown as Record<string, unknown>[];
 		},
-	} as Record<string, unknown>);
+	};
+	// Local providers (Ollama, LM Studio) do not require an API key.
+	// A dummy key is sent so Pi treats them as authenticated and
+	// includes them in `--list-models` output.
+	const key = apiKey && apiKey.trim() !== "" ? apiKey : "local";
+	registerOptions.apiKey = key;
+	(pi.registerProvider as (id: string, opts: Record<string, unknown>) => void)(
+		providerId,
+		registerOptions,
+	);
 }
 
 /**

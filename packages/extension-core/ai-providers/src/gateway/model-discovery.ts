@@ -53,13 +53,18 @@ const DEFAULT_MODEL: ModelEntry = {
  *
  * @param baseUrl — The base URL of the inference server.
  * @param apiKey — Optional API key for authentication.
+ * @param providerId — Optional provider identifier (used for Ollama).
  */
 export async function fetchModelsFromGateway(
 	baseUrl: string,
 	apiKey?: string,
+	providerId?: string,
 ): Promise<NonNullable<ProviderConfigInput["models"]>> {
 	try {
-		const url = buildModelsUrl(baseUrl);
+		const url =
+			providerId === "ollama"
+				? `${baseUrl}/api/tags`
+				: buildModelsUrl(baseUrl);
 		const res = await fetch(url, {
 			headers: authHeaders(apiKey),
 		});
@@ -67,15 +72,19 @@ export async function fetchModelsFromGateway(
 			return [];
 		}
 		const data = await res.json();
-		const catalogModels: Array<{ id: string }> = (data.data ?? []) as Array<{
-			id: string;
+		// OpenAI-compatible gateways: { data: [{ id: string }] }.
+		// Ollama: { models: [{ name: string }] }.
+		const entries = (data.data ?? data.models ?? []) as Array<{
+			id?: string;
+			name?: string;
 		}>;
 		const results: NonNullable<ProviderConfigInput["models"]> = [];
-		for (const m of catalogModels) {
-			if (isEmbeddingModel(m.id)) {
+		for (const m of entries) {
+			const identifier = m.id ?? m.name;
+			if (!identifier || isEmbeddingModel(identifier)) {
 				continue;
 			}
-			const entry = { ...DEFAULT_MODEL, id: m.id, name: m.id };
+			const entry = { ...DEFAULT_MODEL, id: identifier, name: identifier };
 			results.push(entry);
 		}
 		return results;

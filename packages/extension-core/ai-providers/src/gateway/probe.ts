@@ -54,7 +54,11 @@ export async function probeGateway(
 	providerId?: string,
 ): Promise<GatewayProbeResult> {
 	try {
-		const url = buildModelsUrl(baseUrl);
+		// Ollama does not expose /v1/models.  Probe /api/tags instead.
+		const url =
+			providerId === "ollama"
+				? `${baseUrl}/api/tags`
+				: buildModelsUrl(baseUrl);
 		const res = await fetch(url, {
 			headers: authHeaders(apiKey),
 		});
@@ -79,23 +83,26 @@ export async function probeGateway(
 			};
 		}
 
-		// Validate the response body matches the OpenAI /v1/models contract:
-		// { data: [{ object: "model", id: string, ... }] }
+		// Validate the response body.
+		// OpenAI-compatible gateways return { data: [...] }.
+		// Ollama returns { models: [{ name: string }] }.
 		const body = await res.json();
 		const dataArray = body?.data;
-		if (!Array.isArray(dataArray) || dataArray.length === 0) {
+		const ollamaArray = body?.models;
+		const modelsArray =
+			Array.isArray(dataArray) && dataArray.length > 0
+				? dataArray
+				: Array.isArray(ollamaArray) && ollamaArray.length > 0
+					? ollamaArray
+					: null;
+		if (!modelsArray) {
 			return {
 				status: "not-a-gateway",
 				reason: "Not an OpenAI-compatible server (no data array)",
 			};
 		}
-		const firstItem = dataArray[0];
-		if (firstItem?.object !== "model") {
-			return {
-				status: "not-a-gateway",
-				reason: "Not an OpenAI-compatible server (missing object: 'model')",
-			};
-		}
+		// Accept any entry — the presence of a valid response with model
+		// entries is enough to confirm the server is reachable.
 		return { status: "ok", statusCode: res.status, statusText: res.statusText };
 	} catch (err) {
 		const reason = err instanceof Error ? err.message : String(err);
