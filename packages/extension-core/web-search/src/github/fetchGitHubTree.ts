@@ -13,13 +13,22 @@ const MAX_TREE_ENTRIES = 200;
  * @param signal Optional cancellation signal.
  * @returns Markdown-ready tree listing.
  */
-export async function fetchGitHubTree(owner: string, repo: string, ref: string, prefix = "", signal?: AbortSignal): Promise<string> {
-  const data = await fetchGitHubApiJson<GitHubTreeResponse>(`repos/${owner}/${repo}/git/trees/${ref}?recursive=1`, signal);
-  const normalizedPrefix = prefix ? `${prefix.replace(/\/$/u, "")}/` : "";
-  const paths = (data.tree ?? [])
-    .flatMap((item) => item.path ? [item.path] : [])
-    .filter((path) => path.startsWith(normalizedPrefix))
-    .slice(0, MAX_TREE_ENTRIES);
-  const suffix = data.truncated ? `\n... (GitHub API tree truncated)` : "";
-  return paths.join("\n") + suffix;
+export async function fetchGitHubTree(
+	owner: string,
+	repo: string,
+	ref: string,
+	prefix = "",
+	signal?: AbortSignal,
+): Promise<string> {
+	const data = await fetchGitHubApiJson<GitHubTreeResponse>(
+		`repos/${owner}/${repo}/git/trees/${ref}?recursive=1`,
+		signal,
+	);
+	const normalizedPrefix = prefix ? `${prefix.replace(/\/$/u, "")}/` : "";
+	const paths = (data.tree ?? [])
+		.flatMap((item) => (item.path ? [item.path] : []))
+		.filter((path) => path.startsWith(normalizedPrefix))
+		.slice(0, MAX_TREE_ENTRIES);
+	const suffix = data.truncated ? `\n... (GitHub API tree truncated)` : "";
+	return paths.join("\n") + suffix;
 }

@@ -6,6 +6,8 @@ import type { FeatureFlagConfig } from "./types";
  * @param value Feature-flag value to inspect.
  * @returns True when the feature is enabled and not marked development-only.
  */
-export function isRuntimeFeatureAvailable(value: FeatureFlagConfig | undefined): boolean {
-  return value?.enabled === true && value.devOnly !== true;
+export function isRuntimeFeatureAvailable(
+	value: FeatureFlagConfig | undefined,
+): boolean {
+	return value?.enabled === true && value.devOnly !== true;
 }

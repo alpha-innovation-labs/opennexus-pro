@@ -12,8 +12,20 @@ import { getHotkeysFooterText } from "./getHotkeysFooterText";
  * @param maxScroll Maximum scroll offset.
  * @returns Footer text.
  */
-export function getHotkeysFooterStatus(pendingConflict: boolean, editingEntryId: string | undefined, statusMessage: string, filterActive: boolean, filterQuery: string, scrollOffset: number, maxScroll: number): string {
-  if (pendingConflict) return "Conflict approval required";
-  if (editingEntryId) return `Editing ${editingEntryId}: press the replacement key`;
-  return statusMessage || getHotkeysFooterText(filterActive, filterQuery, scrollOffset, maxScroll);
+export function getHotkeysFooterStatus(
+	pendingConflict: boolean,
+	editingEntryId: string | undefined,
+	statusMessage: string,
+	filterActive: boolean,
+	filterQuery: string,
+	scrollOffset: number,
+	maxScroll: number,
+): string {
+	if (pendingConflict) return "Conflict approval required";
+	if (editingEntryId)
+		return `Editing ${editingEntryId}: press the replacement key`;
+	return (
+		statusMessage ||
+		getHotkeysFooterText(filterActive, filterQuery, scrollOffset, maxScroll)
+	);
 }

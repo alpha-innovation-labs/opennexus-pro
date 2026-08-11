@@ -8,6 +8,6 @@ import { listAllSessions } from "./listAllSessions";
  * @returns A promise that resolves after printing finishes.
  */
 export async function printAllSessionsJson(): Promise<void> {
-  const sessions = await listAllSessions();
-  console.log(formatSessionsJson(createSessionJsonRows(sessions)));
+	const sessions = await listAllSessions();
+	console.log(formatSessionsJson(createSessionJsonRows(sessions)));
 }

@@ -7,6 +7,9 @@ import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
  * @param value Percent text.
  * @returns Colorized percent text.
  */
-export function colorizeSavingsPercent(theme: SharedModalTheme, value: string): string {
-  return theme.fg("success", value);
+export function colorizeSavingsPercent(
+	theme: SharedModalTheme,
+	value: string,
+): string {
+	return theme.fg("success", value);
 }

@@ -7,5 +7,5 @@ export type ThemeName = "dark" | "light";
  * @returns The next theme value.
  */
 export function getNextTheme(theme: ThemeName): ThemeName {
-  return theme === "dark" ? "light" : "dark";
+	return theme === "dark" ? "light" : "dark";
 }

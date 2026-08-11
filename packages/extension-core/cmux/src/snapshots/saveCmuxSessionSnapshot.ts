@@ -24,5 +24,8 @@ export async function saveCmuxSessionSnapshot(name: string): Promise<void> {
 		createCmuxWorkspaceShellLines(view, registrations),
 		createCmuxSavedWorkspaces(view, registrations),
 	);
-	await writeCmuxSavedSessionStore(storePath, { version: 1, sessions: [snapshot, ...store.sessions] });
+	await writeCmuxSavedSessionStore(storePath, {
+		version: 1,
+		sessions: [snapshot, ...store.sessions],
+	});
 }

@@ -12,17 +12,25 @@ import { listSessionFileMatchesInDir } from "./listSessionFileMatchesInDir";
  * @returns Resolution result for safe deletion.
  */
 export async function resolveDeleteSessionTarget(
-  sessionReference: string,
-  cwd: string,
-  sessionDir?: string,
+	sessionReference: string,
+	cwd: string,
+	sessionDir?: string,
 ): Promise<DeleteSessionResolveResult> {
-  const dirs = await listDeleteSessionSearchDirs(cwd, sessionDir);
-  const matchesByDir = await Promise.all(dirs.map((dir) => listSessionFileMatchesInDir(dir)));
-  const sessions = getUniqueDeleteSessionMatchesByPath(matchesByDir.flat());
-  const exactMatches = sessions.filter((session) => session.id === sessionReference);
-  const matches = exactMatches.length > 0 ? exactMatches : sessions.filter((session) => session.id.startsWith(sessionReference));
+	const dirs = await listDeleteSessionSearchDirs(cwd, sessionDir);
+	const matchesByDir = await Promise.all(
+		dirs.map((dir) => listSessionFileMatchesInDir(dir)),
+	);
+	const sessions = getUniqueDeleteSessionMatchesByPath(matchesByDir.flat());
+	const exactMatches = sessions.filter(
+		(session) => session.id === sessionReference,
+	);
+	const matches =
+		exactMatches.length > 0
+			? exactMatches
+			: sessions.filter((session) => session.id.startsWith(sessionReference));
 
-  if (matches.length === 0) return { type: "not_found", sessionReference };
-  if (matches.length > 1) return { type: "ambiguous", sessionReference, matches };
-  return { type: "found", session: matches[0] };
+	if (matches.length === 0) return { type: "not_found", sessionReference };
+	if (matches.length > 1)
+		return { type: "ambiguous", sessionReference, matches };
+	return { type: "found", session: matches[0] };
 }

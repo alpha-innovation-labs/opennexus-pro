@@ -10,7 +10,13 @@ import type { ModelMenuTab } from "./ModelMenuTab";
  * @param theme Active UI theme.
  * @returns Styled tab label.
  */
-export function formatModelMenuTab(tab: ModelMenuTab, selected: boolean, theme: SharedModalTheme): string {
-  const label = getModelMenuTabLabel(tab);
-  return selected ? theme.fg("accent", `● ${label}`) : theme.fg("muted", `○ ${label}`);
+export function formatModelMenuTab(
+	tab: ModelMenuTab,
+	selected: boolean,
+	theme: SharedModalTheme,
+): string {
+	const label = getModelMenuTabLabel(tab);
+	return selected
+		? theme.fg("accent", `● ${label}`)
+		: theme.fg("muted", `○ ${label}`);
 }

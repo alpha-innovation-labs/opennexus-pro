@@ -7,7 +7,9 @@ import { runCmuxCommand } from "./runCmuxCommand";
  * @param title New surface title.
  * @returns True when cmux accepted the rename request.
  */
-export async function renameCurrentCmuxSurface(title: string): Promise<boolean> {
+export async function renameCurrentCmuxSurface(
+	title: string,
+): Promise<boolean> {
 	const target = getCurrentCmuxRenameTarget();
 	if (!target.surfaceId) return false;
 

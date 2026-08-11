@@ -5,6 +5,6 @@
  * @returns Prefix or null.
  */
 export function detectAtPrefix(textBeforeCursor: string): string | null {
-  const match = textBeforeCursor.match(/(?:^|\s)(@(?:"[^"]*|[^\s]*))$/);
-  return match?.[1] ?? null;
+	const match = textBeforeCursor.match(/(?:^|\s)(@(?:"[^"]*|[^\s]*))$/);
+	return match?.[1] ?? null;
 }

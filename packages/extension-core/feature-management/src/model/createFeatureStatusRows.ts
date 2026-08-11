@@ -1,6 +1,9 @@
-import type { FeatureFlagConfig, FeatureFlagsConfig, FeatureProductCategory } from "@nexus/feature-flags/types";
+import type {
+	FeatureFlagConfig,
+	FeatureProductCategory,
+} from "@nexus/feature-flags/types";
 import { getFeatureManagementGroup } from "./getFeatureManagementGroup";
-import type { FeatureFlagSourceCategory, FeatureRuntimeStatus, FeatureStatusCategory, FeatureStatusRow } from "./types";
+import type { FeatureStatusRow } from "./types";
 
 /**
  * Sort order for group section headers.
@@ -30,11 +33,22 @@ export function createFeatureStatusRows(
 	minimalWhitelist?: readonly string[],
 ): FeatureStatusRow[] {
 	const rows = [
-		...createCategoryFeatureStatusRows("extensions", config.extensions, runtimeConfig.extensions, minimalWhitelist),
-		...createCategoryFeatureStatusRows("other", config.other ?? {}, runtimeConfig.other ?? config.other ?? {}, minimalWhitelist),
+		...createCategoryFeatureStatusRows(
+			"extensions",
+			config.extensions,
+			runtimeConfig.extensions,
+			minimalWhitelist,
+		),
+		...createCategoryFeatureStatusRows(
+			"other",
+			config.other ?? {},
+			runtimeConfig.other ?? config.other ?? {},
+			minimalWhitelist,
+		),
 	];
 	return rows.sort((a, b) => {
-		const groupDiff = (GROUP_ORDER[a.group] ?? 99) - (GROUP_ORDER[b.group] ?? 99);
+		const groupDiff =
+			(GROUP_ORDER[a.group] ?? 99) - (GROUP_ORDER[b.group] ?? 99);
 		return groupDiff !== 0 ? groupDiff : a.feature.localeCompare(b.feature);
 	});
 }
@@ -73,7 +87,9 @@ function createCategoryFeatureStatusRows(
  * @param category Optional product category from feature-flags config.
  * @returns Feature-management tab category.
  */
-function getFeatureStatusCategory(category: FeatureProductCategory | undefined): FeatureStatusCategory {
+function getFeatureStatusCategory(
+	category: FeatureProductCategory | undefined,
+): FeatureStatusCategory {
 	if (category === "mini-app") return "mini-apps";
 	if (category === "dev") return "dev";
 	if (category === "pro") return "pro";

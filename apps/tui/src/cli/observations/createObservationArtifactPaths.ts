@@ -7,9 +7,9 @@ import { getObservationStatePath } from "@extensions/observations/shared/getObse
  * @returns State path.
  */
 export function createObservationArtifactPaths(conversationId: string): {
-  statePath: string;
+	statePath: string;
 } {
-  return {
-    statePath: getObservationStatePath(conversationId),
-  };
+	return {
+		statePath: getObservationStatePath(conversationId),
+	};
 }

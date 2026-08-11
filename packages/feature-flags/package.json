@@ -1,39 +1,39 @@
 {
-  "name": "@nexus/feature-flags",
-  "version": "0.2.24",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "lint": "biome lint .",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@extensions/ai-providers": "workspace:*",
-    "@extensions/auto-update": "workspace:*",
-    "@extensions/cmux": "workspace:*",
-    "@extensions/context-usage": "workspace:*",
-    "@extensions/exit-message": "workspace:*",
-    "@extensions/feature-management": "workspace:*",
-    "@extensions/fff": "workspace:*",
-    "@extensions/herdr-agent-end-log": "workspace:*",
-    "@extensions/hotkeys": "workspace:*",
-    "@extensions/local-image-reader": "workspace:*",
-    "@extensions/neo-editor": "workspace:*",
-    "@extensions/notify": "workspace:*",
-    "@extensions/observations": "workspace:*",
-    "@extensions/pi-packages": "workspace:*",
-    "@extensions/rtk": "workspace:*",
-    "@extensions/slash-menu": "workspace:*",
-    "@extensions/startup-hero": "workspace:*",
-    "@extensions/subagents": "workspace:*",
-    "@extensions/system-prompt": "workspace:*",
-    "@extensions/tron": "workspace:*",
-    "@extensions/web-search": "workspace:*",
-    "@nexus/mini-apps": "workspace:*",
-    "@nexus/observability": "workspace:*",
-    "@nexus/runtime": "workspace:*"
-  },
-  "exports": {
-    "./*": "./dist/*"
-  }
+	"name": "@nexus/feature-flags",
+	"version": "0.2.24",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@extensions/ai-providers": "workspace:*",
+		"@extensions/auto-update": "workspace:*",
+		"@extensions/cmux": "workspace:*",
+		"@extensions/context-usage": "workspace:*",
+		"@extensions/exit-message": "workspace:*",
+		"@extensions/feature-management": "workspace:*",
+		"@extensions/fff": "workspace:*",
+		"@extensions/herdr-agent-end-log": "workspace:*",
+		"@extensions/hotkeys": "workspace:*",
+		"@extensions/local-image-reader": "workspace:*",
+		"@extensions/neo-editor": "workspace:*",
+		"@extensions/notify": "workspace:*",
+		"@extensions/observations": "workspace:*",
+		"@extensions/pi-packages": "workspace:*",
+		"@extensions/rtk": "workspace:*",
+		"@extensions/slash-menu": "workspace:*",
+		"@extensions/startup-hero": "workspace:*",
+		"@extensions/subagents": "workspace:*",
+		"@extensions/system-prompt": "workspace:*",
+		"@extensions/tron": "workspace:*",
+		"@extensions/web-search": "workspace:*",
+		"@nexus/mini-apps": "workspace:*",
+		"@nexus/observability": "workspace:*",
+		"@nexus/runtime": "workspace:*"
+	},
+	"exports": {
+		"./*": "./dist/*"
+	}
 }

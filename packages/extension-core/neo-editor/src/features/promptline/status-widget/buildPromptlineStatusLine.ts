@@ -19,13 +19,29 @@ export function buildPromptlineStatusLine(
 	theme: ExtensionContext["ui"]["theme"],
 ): string {
 	const gap = " ";
-	if (!runTime || !sessionName) return truncateToWidth(badges, width, theme.fg("dim" as never, "…"));
+	if (!runTime || !sessionName)
+		return truncateToWidth(badges, width, theme.fg("dim" as never, "…"));
 	const titleRaw = theme.fg("muted" as never, sessionName);
 	const titlePrefix = `${badges}${gap}`;
-	const titleWidth = width - visibleWidth(titlePrefix) - visibleWidth(runTime) - visibleWidth(gap);
-	if (titleWidth <= 0) return truncateToWidth(`${badges}${gap}${runTime}`, width, theme.fg("dim" as never, "…"));
-	const title = truncateToWidth(titleRaw, titleWidth, theme.fg("dim" as never, "…"));
+	const titleWidth =
+		width -
+		visibleWidth(titlePrefix) -
+		visibleWidth(runTime) -
+		visibleWidth(gap);
+	if (titleWidth <= 0)
+		return truncateToWidth(
+			`${badges}${gap}${runTime}`,
+			width,
+			theme.fg("dim" as never, "…"),
+		);
+	const title = truncateToWidth(
+		titleRaw,
+		titleWidth,
+		theme.fg("dim" as never, "…"),
+	);
 	const left = `${titlePrefix}${title}`;
-	const padding = " ".repeat(Math.max(1, width - visibleWidth(left) - visibleWidth(runTime)));
+	const padding = " ".repeat(
+		Math.max(1, width - visibleWidth(left) - visibleWidth(runTime)),
+	);
 	return `${left}${padding}${runTime}`;
 }

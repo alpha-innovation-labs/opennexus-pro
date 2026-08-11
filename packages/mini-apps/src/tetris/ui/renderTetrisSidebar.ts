@@ -8,8 +8,15 @@ import type { TetrisGame } from "../game/types";
  * @param game Current game state.
  * @returns Sidebar lines.
  */
-export function renderTetrisSidebar(theme: SharedModalTheme & { bold: (text: string) => string }, game: TetrisGame): string[] {
-	const status = game.gameOver ? "Game Over" : game.paused ? "Paused" : "Playing";
+export function renderTetrisSidebar(
+	theme: SharedModalTheme & { bold: (text: string) => string },
+	game: TetrisGame,
+): string[] {
+	const status = game.gameOver
+		? "Game Over"
+		: game.paused
+			? "Paused"
+			: "Playing";
 	return [
 		theme.fg("accent", theme.bold("Tetris")),
 		"",
@@ -19,7 +26,10 @@ export function renderTetrisSidebar(theme: SharedModalTheme & { bold: (text: str
 		`${theme.bold("Next")} ${game.nextKind}`,
 		`${theme.bold("State")} ${status}`,
 		"",
-		theme.fg("dim", "Esc hides · ←→ move · ↑ rotate · ↓ soft drop · Space hard drop"),
+		theme.fg(
+			"dim",
+			"Esc hides · ←→ move · ↑ rotate · ↓ soft drop · Space hard drop",
+		),
 		theme.fg("dim", "p pauses · r restarts"),
 	];
 }

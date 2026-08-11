@@ -9,6 +9,13 @@ import type { SharedModalTheme } from "./types";
  * @param width Inner modal width.
  * @returns Rendered modal rows.
  */
-export function renderFullWidthRows(theme: SharedModalTheme, rows: string[], width: number): string[] {
-  return rows.map((row) => `${theme.fg("borderMuted", "│")}${padModalLine(row, width)}${theme.fg("borderMuted", "│")}`);
+export function renderFullWidthRows(
+	theme: SharedModalTheme,
+	rows: string[],
+	width: number,
+): string[] {
+	return rows.map(
+		(row) =>
+			`${theme.fg("borderMuted", "│")}${padModalLine(row, width)}${theme.fg("borderMuted", "│")}`,
+	);
 }

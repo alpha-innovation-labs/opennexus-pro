@@ -7,6 +7,8 @@ import type { SavingsReport } from "./SavingsReport";
  * @param report RTK-only or combined savings report.
  * @returns RTK gain report.
  */
-export function getSavingsReportRtk(report: RtkGainReport | SavingsReport): RtkGainReport {
-  return "rtk" in report ? report.rtk : report;
+export function getSavingsReportRtk(
+	report: RtkGainReport | SavingsReport,
+): RtkGainReport {
+	return "rtk" in report ? report.rtk : report;
 }

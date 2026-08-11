@@ -1,13 +1,13 @@
 {
-  "name": "@nexus/observability",
-  "version": "0.2.24",
-  "private": true,
-  "type": "module",
-  "exports": {
-    "./*": "./dist/*"
-  },
-  "scripts": {
-    "lint": "biome lint .",
-    "typecheck": "tsc --noEmit"
-  }
+	"name": "@nexus/observability",
+	"version": "0.2.24",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./dist/*"
+	},
+	"scripts": {
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit"
+	}
 }

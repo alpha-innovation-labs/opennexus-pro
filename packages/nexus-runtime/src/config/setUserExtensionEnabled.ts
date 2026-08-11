@@ -11,11 +11,15 @@ import { writeNexusUserConfig } from "./writeNexusUserConfig";
  * @param enabled Whether the package should be enabled for this user.
  * @returns The updated user config.
  */
-export function setUserExtensionEnabled(packageSource: string, enabled: boolean): NexusUserConfig {
+export function setUserExtensionEnabled(
+	packageSource: string,
+	enabled: boolean,
+): NexusUserConfig {
 	const config = readNexusUserConfig();
-	const current = (config.extensions?.pi_packages) ?? {};
+	const current = config.extensions?.pi_packages ?? {};
 	const next = { ...current, [packageSource]: enabled };
-	const nextExtensions = Object.keys(next).length > 0 ? { pi_packages: next } : {};
+	const nextExtensions =
+		Object.keys(next).length > 0 ? { pi_packages: next } : {};
 	const nextConfig: NexusUserConfig = {
 		...config,
 		extensions: { ...config.extensions, ...nextExtensions },

@@ -6,6 +6,6 @@ import { getUserMessageTextFromMessage } from "./getUserMessageTextFromMessage";
  * @param message User message-like object.
  * @returns Signature containing timestamp and text.
  */
-export function createUserMessageSignature(message: any): string {
-  return `${message?.timestamp ?? ""}\n${getUserMessageTextFromMessage(message)}`;
+export function createUserMessageSignature(message: unknown): string {
+	return `${message?.timestamp ?? ""}\n${getUserMessageTextFromMessage(message)}`;
 }

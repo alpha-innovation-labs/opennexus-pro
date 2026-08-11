@@ -8,7 +8,10 @@ import type { TetrisGame } from "./types";
  * @param deltaColumn Horizontal movement delta.
  * @returns True when the piece moved.
  */
-export function moveTetrisPiece(game: TetrisGame, deltaColumn: number): boolean {
+export function moveTetrisPiece(
+	game: TetrisGame,
+	deltaColumn: number,
+): boolean {
 	if (game.gameOver) return false;
 	const next = { ...game.active, column: game.active.column + deltaColumn };
 	if (!canPlacePiece(game, next)) return false;

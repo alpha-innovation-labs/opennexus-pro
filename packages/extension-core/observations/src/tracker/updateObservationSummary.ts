@@ -7,7 +7,9 @@ import type { ObservationState } from "./types";
  * @param state Observation state to update.
  * @returns The same state instance with an updated summary.
  */
-export function updateObservationSummary(state: ObservationState): ObservationState {
+export function updateObservationSummary(
+	state: ObservationState,
+): ObservationState {
 	state.summary = buildObservationSummary(state);
 	return state;
 }

@@ -6,23 +6,22 @@ import { registerContextUsageExtension } from "@extensions/context-usage/registe
 import { registerExitMessageExtension } from "@extensions/exit-message/registerExitMessageExtension";
 import { registerFeatureManagementExtension } from "@extensions/feature-management/registerFeatureManagementExtension";
 import registerFffExtension from "@extensions/fff/index";
-import registerNeoEditorExtension from "@extensions/neo-editor/registerNeoEditorExtension";
+import { registerHerdrAgentEndLogExtension } from "@extensions/herdr-agent-end-log/registerHerdrAgentEndLogExtension";
 import { registerHotkeysExtension } from "@extensions/hotkeys/registerHotkeysExtension";
-import { registerSlashMenuExtension } from "@extensions/slash-menu/registerSlashMenuExtension";
-import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension";
+import registerLocalImageReaderExtension from "@extensions/local-image-reader/registerLocalImageReaderExtension";
+import registerNeoEditorExtension from "@extensions/neo-editor/registerNeoEditorExtension";
 import { registerNotifyExtension } from "@extensions/notify/registerNotifyExtension";
 import { registerObservationsExtension } from "@extensions/observations/registerObservationsExtension";
-import { registerSystemPromptExtension } from "@extensions/system-prompt/registerSystemPromptExtension";
+import { registerPiPackagesExtension } from "@extensions/pi-packages/registerPiPackagesExtension";
 import { registerRtkExtension } from "@extensions/rtk/registerRtkExtension";
+import { registerSlashMenuExtension } from "@extensions/slash-menu/registerSlashMenuExtension";
 import { registerStartupHeroExtension } from "@extensions/startup-hero/registerStartupHeroExtension";
-import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension";
-
+import { registerSubagentsExtension } from "@extensions/subagents/registerSubagentsExtension";
+import { registerSystemPromptExtension } from "@extensions/system-prompt/registerSystemPromptExtension";
 import registerTronExtension from "@extensions/tron/index";
 import { registerWebSearchExtension } from "@extensions/web-search/registerWebSearchExtension";
-import registerLocalImageReaderExtension from "@extensions/local-image-reader/registerLocalImageReaderExtension";
-import { registerSubagentsExtension } from "@extensions/subagents/registerSubagentsExtension";
-import { registerPiPackagesExtension } from "@extensions/pi-packages/registerPiPackagesExtension";
-import { registerHerdrAgentEndLogExtension } from "@extensions/herdr-agent-end-log/registerHerdrAgentEndLogExtension";
+import { registerMiniAppManagerExtension } from "@nexus/mini-apps/mini-app-manager/registerMiniAppManagerExtension";
+import { registerTetrisExtension } from "@nexus/mini-apps/tetris/registerTetrisExtension";
 
 /**
  * Creates the code-backed extension registration map.
@@ -47,7 +46,7 @@ export function createExtensionRegisterMap(): Record<
 		rtk: registerRtkExtension,
 		observations: registerObservationsExtension,
 		"neo-editor": registerNeoEditorExtension,
-		"hotkeys": registerHotkeysExtension,
+		hotkeys: registerHotkeysExtension,
 		"slash-menu": registerSlashMenuExtension,
 		"mini-app-manager": registerMiniAppManagerExtension,
 		notify: registerNotifyExtension,

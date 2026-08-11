@@ -7,5 +7,5 @@ import type { SlashMenuLeaf } from "./types";
  * @returns Preview lines.
  */
 export function createLeafPreviewLines(leaf: SlashMenuLeaf): string[] {
-  return [leaf.label, "", leaf.description];
+	return [leaf.label, "", leaf.description];
 }

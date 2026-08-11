@@ -11,5 +11,7 @@ export function getTrackedConversationId(
 	sessionFile: string | null,
 	ephemeralConversationId: string,
 ): string {
-	return sessionFile ? getPersistentConversationId(sessionFile) : ephemeralConversationId;
+	return sessionFile
+		? getPersistentConversationId(sessionFile)
+		: ephemeralConversationId;
 }

@@ -1,4 +1,4 @@
-import type { PiPackagesTab, ManagedExtensionRow } from "../model/types";
+import type { ManagedExtensionRow, PiPackagesTab } from "../model/types";
 
 /**
  * Filters extension rows by active tab and search text.
@@ -17,6 +17,11 @@ export function filterManagedExtensionRows(
 	return rows.filter((row) => {
 		if (tab !== "all" && row.kind !== tab) return false;
 		if (!normalizedQuery) return true;
-		return row.id.toLowerCase().includes(normalizedQuery) || row.features.some((feature) => feature.toLowerCase().includes(normalizedQuery));
+		return (
+			row.id.toLowerCase().includes(normalizedQuery) ||
+			row.features.some((feature) =>
+				feature.toLowerCase().includes(normalizedQuery),
+			)
+		);
 	});
 }

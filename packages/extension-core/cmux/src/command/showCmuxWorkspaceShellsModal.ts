@@ -9,7 +9,9 @@ import { showCmuxWorkspaceShellRootModal } from "./showCmuxWorkspaceShellRootMod
  *
  * @param ctx Extension command context.
  */
-export async function showCmuxWorkspaceShellsModal(ctx: ExtensionCommandContext): Promise<void> {
+export async function showCmuxWorkspaceShellsModal(
+	ctx: ExtensionCommandContext,
+): Promise<void> {
 	if (!ctx.hasUI) {
 		console.log(await loadCmuxWorkspaceShellText());
 		return;

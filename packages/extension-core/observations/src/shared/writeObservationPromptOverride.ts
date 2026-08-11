@@ -7,7 +7,9 @@ import { getObservationPromptOverridePath } from "./getObservationPromptOverride
  *
  * @param content Prompt override text; blank content clears the override.
  */
-export async function writeObservationPromptOverride(content: string): Promise<void> {
+export async function writeObservationPromptOverride(
+	content: string,
+): Promise<void> {
 	const path = getObservationPromptOverridePath();
 	const trimmed = content.trim();
 	if (!trimmed) {

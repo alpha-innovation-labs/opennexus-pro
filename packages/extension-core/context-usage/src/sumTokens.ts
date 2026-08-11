@@ -7,5 +7,5 @@ import type { ContextUsageDetailItem } from "./types";
  * @returns Total token count.
  */
 export function sumTokens(items: readonly ContextUsageDetailItem[]): number {
-  return items.reduce((total, item) => total + item.tokens, 0);
+	return items.reduce((total, item) => total + item.tokens, 0);
 }

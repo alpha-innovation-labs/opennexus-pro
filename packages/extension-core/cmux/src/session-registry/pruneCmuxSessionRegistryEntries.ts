@@ -7,6 +7,8 @@ import type { CmuxSessionRegistryEntry } from "./types";
  * @param entries Registry entries to filter.
  * @returns Live registry entries.
  */
-export function pruneCmuxSessionRegistryEntries(entries: CmuxSessionRegistryEntry[]): CmuxSessionRegistryEntry[] {
+export function pruneCmuxSessionRegistryEntries(
+	entries: CmuxSessionRegistryEntry[],
+): CmuxSessionRegistryEntry[] {
 	return entries.filter((entry) => isProcessRunning(entry.pid));
 }

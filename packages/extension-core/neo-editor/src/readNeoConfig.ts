@@ -17,7 +17,9 @@ export async function readNeoConfig(cwd: string): Promise<NeoConfig> {
 		const content = await readFile(getNeoConfigPath(cwd), "utf8");
 		const parsed = JSON.parse(content) as Partial<NeoConfig>;
 		return {
-			clearEditorOnTriggerSubmit: parsed.clearEditorOnTriggerSubmit ?? DEFAULT_NEO_CONFIG.clearEditorOnTriggerSubmit,
+			clearEditorOnTriggerSubmit:
+				parsed.clearEditorOnTriggerSubmit ??
+				DEFAULT_NEO_CONFIG.clearEditorOnTriggerSubmit,
 		};
 	} catch {
 		return { ...DEFAULT_NEO_CONFIG };

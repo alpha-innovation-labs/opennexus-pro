@@ -6,7 +6,9 @@ import compactToolWrapMarker from "./compactToolWrapMarker";
  * @param definition Tool definition to mark.
  * @returns The same definition with the compact marker attached.
  */
-export function markCompactWrappedToolDefinition<T extends object>(definition: T): T {
+export function markCompactWrappedToolDefinition<T extends object>(
+	definition: T,
+): T {
 	Object.defineProperty(definition, compactToolWrapMarker, {
 		value: true,
 		configurable: false,

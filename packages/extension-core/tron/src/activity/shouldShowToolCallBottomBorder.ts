@@ -7,5 +7,5 @@ import { toolCallBottomBorderIds } from "./state";
  * @returns True when the tool call is currently the final visible assistant activity.
  */
 export function shouldShowToolCallBottomBorder(toolCallId: string): boolean {
-  return toolCallBottomBorderIds.has(toolCallId);
+	return toolCallBottomBorderIds.has(toolCallId);
 }

@@ -9,6 +9,6 @@ import type { UserMessageMetadata } from "./metadata/types";
  * @returns Preferred width between border corners.
  */
 export function getMetadataInnerWidth(metadata?: UserMessageMetadata): number {
-  const time = formatUserMessageTime(metadata?.timestamp, metadata?.now);
-  return time ? visibleWidth(time) + 3 : 0;
+	const time = formatUserMessageTime(metadata?.timestamp, metadata?.now);
+	return time ? visibleWidth(time) + 3 : 0;
 }

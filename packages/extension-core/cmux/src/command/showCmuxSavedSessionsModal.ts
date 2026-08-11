@@ -11,19 +11,25 @@ import type { CmuxSavedSessionsAction } from "./CmuxWorkspaceShellAction";
  * @param ctx Extension command context.
  * @returns Saved-session browser action.
  */
-export async function showCmuxSavedSessionsModal(ctx: ExtensionCommandContext): Promise<CmuxSavedSessionsAction> {
+export async function showCmuxSavedSessionsModal(
+	ctx: ExtensionCommandContext,
+): Promise<CmuxSavedSessionsAction> {
 	const sessions = await listCmuxSavedSessions();
-	return ctx.ui.custom<CmuxSavedSessionsAction>((tui, theme, _keybindings, done) => new CmuxSavedSessionsModal(
-		theme,
-		sessions,
-		() => done("back"),
-		(sessionId) => {
-			void deleteCmuxSavedSession(sessionId);
-			ctx.ui.notify("Deleted cmux session snapshot", "info");
+	return ctx.ui.custom<CmuxSavedSessionsAction>(
+		(tui, theme, _keybindings, done) =>
+			new CmuxSavedSessionsModal(
+				theme,
+				sessions,
+				() => done("back"),
+				(sessionId) => {
+					void deleteCmuxSavedSession(sessionId);
+					ctx.ui.notify("Deleted cmux session snapshot", "info");
+				},
+				() => tui.requestRender(),
+			),
+		{
+			overlay: true,
+			overlayOptions: createPanelOverlayOptions(110, "90%") as never,
 		},
-		() => tui.requestRender(),
-	), {
-		overlay: true,
-		overlayOptions: createPanelOverlayOptions(110, "90%") as never,
-	});
+	);
 }

@@ -6,5 +6,5 @@ import { getRtkDefaultInstallPath } from "./getRtkDefaultInstallPath";
  * @returns RTK command candidates in priority order.
  */
 export function createRtkCommandCandidates(): string[] {
-  return ["rtk", getRtkDefaultInstallPath()];
+	return ["rtk", getRtkDefaultInstallPath()];
 }

@@ -7,9 +7,9 @@ import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
  * @returns Theme color name.
  */
 export function getContextUsageMarkerColor(marker: string): string {
-  if (marker === "⛝") return "warning";
-  if (marker === "⛶") return "success";
-  return "accent";
+	if (marker === "⛝") return "warning";
+	if (marker === "⛶") return "success";
+	return "accent";
 }
 
 /**
@@ -19,6 +19,9 @@ export function getContextUsageMarkerColor(marker: string): string {
  * @param marker Usage marker glyph.
  * @returns Colored marker.
  */
-export function colorContextUsageMarker(theme: SharedModalTheme, marker: string): string {
-  return theme.fg(getContextUsageMarkerColor(marker), marker);
+export function colorContextUsageMarker(
+	theme: SharedModalTheme,
+	marker: string,
+): string {
+	return theme.fg(getContextUsageMarkerColor(marker), marker);
 }

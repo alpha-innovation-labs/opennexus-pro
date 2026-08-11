@@ -6,6 +6,6 @@ import { findText } from "./findText";
  * @param component User-message component.
  * @returns Raw message text.
  */
-export function getRawText(component: any): string {
+export function getRawText(component: unknown): string {
 	return findText(component);
 }

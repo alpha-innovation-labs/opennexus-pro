@@ -1,10 +1,13 @@
 import { existsSync } from "node:fs";
 
 const unixPlayers = [
-	["afplay", "while true; do afplay \"$0\" || exit 0; done"],
-	["ffplay", "while true; do ffplay -nodisp -autoexit -loglevel quiet \"$0\" || exit 0; done"],
-	["mpg123", "while true; do mpg123 -q \"$0\" || exit 0; done"],
-	["mpv", "while true; do mpv --no-video --really-quiet \"$0\" || exit 0; done"],
+	["afplay", 'while true; do afplay "$0" || exit 0; done'],
+	[
+		"ffplay",
+		'while true; do ffplay -nodisp -autoexit -loglevel quiet "$0" || exit 0; done',
+	],
+	["mpg123", 'while true; do mpg123 -q "$0" || exit 0; done'],
+	["mpv", 'while true; do mpv --no-video --really-quiet "$0" || exit 0; done'],
 ] as const;
 
 /**
@@ -27,5 +30,7 @@ export function getTetrisMusicPlayerScript(): string | null {
  */
 function isCommandAvailable(command: string): boolean {
 	const pathValue = process.env.PATH ?? "";
-	return pathValue.split(":").some((entry) => existsSync(`${entry}/${command}`));
+	return pathValue
+		.split(":")
+		.some((entry) => existsSync(`${entry}/${command}`));
 }

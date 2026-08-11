@@ -6,7 +6,9 @@ import { getCmuxTitleSyncEnabled } from "./state/getCmuxTitleSyncEnabled";
  *
  * @param sessionTitle Current Nexus session title.
  */
-export async function notifyCmuxPaneCompletion(sessionTitle: string): Promise<void> {
+export async function notifyCmuxPaneCompletion(
+	sessionTitle: string,
+): Promise<void> {
 	if (!getCmuxTitleSyncEnabled()) return;
 	await notifyCurrentCmuxSurface(sessionTitle);
 }

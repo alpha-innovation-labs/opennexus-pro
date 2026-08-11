@@ -13,13 +13,13 @@ import type { ResumeScope } from "./ResumeScope";
  * @returns Cached or freshly loaded resume leaves.
  */
 export async function getCachedResumeLeaves(
-  cache: Map<ResumeScope, SlashMenuLeaf[]>,
-  ctx: ExtensionContext,
-  scope: ResumeScope,
+	cache: Map<ResumeScope, SlashMenuLeaf[]>,
+	ctx: ExtensionContext,
+	scope: ResumeScope,
 ): Promise<SlashMenuLeaf[]> {
-  const cached = cache.get(scope);
-  if (cached) return cached;
-  const leaves = createResumeLeaves(await listResumeSessions(ctx, scope));
-  cache.set(scope, leaves);
-  return leaves;
+	const cached = cache.get(scope);
+	if (cached) return cached;
+	const leaves = createResumeLeaves(await listResumeSessions(ctx, scope));
+	cache.set(scope, leaves);
+	return leaves;
 }

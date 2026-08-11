@@ -6,6 +6,13 @@
  * @param borderColor Function that colors border text.
  * @returns Empty bordered modal rows.
  */
-export function createEmptyModalRows(count: number, innerWidth: number, borderColor: (value: string) => string): string[] {
-  return Array.from({ length: Math.max(0, count) }, () => `${borderColor("│")}${" ".repeat(innerWidth)}${borderColor("│")}`);
+export function createEmptyModalRows(
+	count: number,
+	innerWidth: number,
+	borderColor: (value: string) => string,
+): string[] {
+	return Array.from(
+		{ length: Math.max(0, count) },
+		() => `${borderColor("│")}${" ".repeat(innerWidth)}${borderColor("│")}`,
+	);
 }

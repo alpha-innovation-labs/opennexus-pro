@@ -11,10 +11,16 @@ import type { EditorTriggerConfig } from "./types";
  * @param cwd Project working directory.
  * @returns Merged trigger config.
  */
-export async function readEditorTriggerConfig(cwd: string): Promise<EditorTriggerConfig> {
+export async function readEditorTriggerConfig(
+	cwd: string,
+): Promise<EditorTriggerConfig> {
 	const [globalConfig, projectConfig] = await Promise.all([
 		readEditorTriggerConfigFile(getGlobalEditorTriggerConfigPath()),
 		readEditorTriggerConfigFile(getEditorTriggerConfigPath(cwd)),
 	]);
-	return mergeEditorTriggerConfigs(getBundledEditorTriggerConfig(), globalConfig, projectConfig);
+	return mergeEditorTriggerConfigs(
+		getBundledEditorTriggerConfig(),
+		globalConfig,
+		projectConfig,
+	);
 }

@@ -10,6 +10,14 @@ import type { StartupHeroStatus, StartupHeroTheme } from "./types";
  * @param width Maximum visible width.
  * @returns Styled startup status line.
  */
-export function buildStartupHeroStatusLine(theme: StartupHeroTheme, status: StartupHeroStatus, width: number): string {
-	return truncateToWidth(buildStartupHeroStatusItems(theme, status).join("  "), width, "…");
+export function buildStartupHeroStatusLine(
+	theme: StartupHeroTheme,
+	status: StartupHeroStatus,
+	width: number,
+): string {
+	return truncateToWidth(
+		buildStartupHeroStatusItems(theme, status).join("  "),
+		width,
+		"…",
+	);
 }

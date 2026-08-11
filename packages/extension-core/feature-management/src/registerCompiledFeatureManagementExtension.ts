@@ -7,6 +7,8 @@ import { registerFeatureManagementExtensionWithConfig } from "./registerFeatureM
  *
  * @param pi Extension API.
  */
-export function registerCompiledFeatureManagementExtension(pi: ExtensionAPI): void {
+export function registerCompiledFeatureManagementExtension(
+	pi: ExtensionAPI,
+): void {
 	registerFeatureManagementExtensionWithConfig(pi);
 }

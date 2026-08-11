@@ -6,5 +6,5 @@ import type { ResourceCommandScope } from "./ResourceCommandScope";
  * @returns Scope options.
  */
 export function createResourceCommandScopeOptions(): ResourceCommandScope[] {
-  return ["all", "global", "local"];
+	return ["all", "global", "local"];
 }

@@ -1,10 +1,14 @@
 import { UserMessageComponent } from "@earendil-works/pi-coding-agent";
 
-type UserMessageRenderHook = (component: UserMessageComponent, width: number) => string[];
+type UserMessageRenderHook = (
+	component: UserMessageComponent,
+	width: number,
+) => string[];
 
-const userMessagePrototype = UserMessageComponent.prototype as UserMessageComponent & {
-  render(width: number): string[];
-};
+const userMessagePrototype =
+	UserMessageComponent.prototype as UserMessageComponent & {
+		render(width: number): string[];
+	};
 const originalRender = userMessagePrototype.render;
 let currentUserMessageRenderHook: UserMessageRenderHook | undefined;
 let userMessageHookInstalled = false;
@@ -13,17 +17,19 @@ let userMessageHookInstalled = false;
  * Installs the user-message hook bridge exactly once.
  */
 function installUserMessageHookBridge(): void {
-  if (userMessageHookInstalled) {
-    return;
-  }
+	if (userMessageHookInstalled) {
+		return;
+	}
 
-  userMessagePrototype.render = function renderWithHook(width: number): string[] {
-    if (currentUserMessageRenderHook) {
-      return currentUserMessageRenderHook(this, width);
-    }
-    return originalRender.call(this, width);
-  };
-  userMessageHookInstalled = true;
+	userMessagePrototype.render = function renderWithHook(
+		width: number,
+	): string[] {
+		if (currentUserMessageRenderHook) {
+			return currentUserMessageRenderHook(this, width);
+		}
+		return originalRender.call(this, width);
+	};
+	userMessageHookInstalled = true;
 }
 
 /**
@@ -31,7 +37,9 @@ function installUserMessageHookBridge(): void {
  *
  * @param hook Hook callback, or undefined to restore default rendering.
  */
-export function setUserMessageRenderHook(hook: UserMessageRenderHook | undefined): void {
-  installUserMessageHookBridge();
-  currentUserMessageRenderHook = hook;
+export function setUserMessageRenderHook(
+	hook: UserMessageRenderHook | undefined,
+): void {
+	installUserMessageHookBridge();
+	currentUserMessageRenderHook = hook;
 }

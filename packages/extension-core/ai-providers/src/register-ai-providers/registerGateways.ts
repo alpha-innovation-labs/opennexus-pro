@@ -15,21 +15,21 @@ import type { AiGateway } from "../index";
  * @param gateways — Array of configured AiGateway instances.
  */
 export async function registerGateways(
-  pi: ExtensionAPI,
-  gateways: AiGateway[],
+	pi: ExtensionAPI,
+	gateways: AiGateway[],
 ): Promise<void> {
-  if (typeof pi.registerProvider !== "function") {
-    return;
-  }
+	if (typeof pi.registerProvider !== "function") {
+		return;
+	}
 
-  for (const gw of gateways) {
-    // resolveModels reads from cache first; only on cache miss does it
-    // fetch from the live server.  All cached providers are registered
-    // with their models (instant).  Unreachable servers return [] and
-    // are silently skipped — no Pi warning.
-    const models = await resolveModels(gw.providerId, gw.baseUrl, gw.apiKey);
-    if (models.length > 0) {
-      gw.registerProvider(pi, models);
-    }
-  }
+	for (const gw of gateways) {
+		// resolveModels reads from cache first; only on cache miss does it
+		// fetch from the live server.  All cached providers are registered
+		// with their models (instant).  Unreachable servers return [] and
+		// are silently skipped — no Pi warning.
+		const models = await resolveModels(gw.providerId, gw.baseUrl, gw.apiKey);
+		if (models.length > 0) {
+			gw.registerProvider(pi, models);
+		}
+	}
 }

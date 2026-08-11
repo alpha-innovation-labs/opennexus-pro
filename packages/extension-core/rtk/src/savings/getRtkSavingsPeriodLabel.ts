@@ -7,7 +7,7 @@ import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey";
  * @returns Display label.
  */
 export function getRtkSavingsPeriodLabel(period: RtkSavingsPeriodKey): string {
-  if (period === "daily") return "Daily";
-  if (period === "weekly") return "Weekly";
-  return "30 days";
+	if (period === "daily") return "Daily";
+	if (period === "weekly") return "Weekly";
+	return "30 days";
 }

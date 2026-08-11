@@ -26,7 +26,13 @@ export function getTetrisRenderCells(game: TetrisGame): TetrisRenderCell[][] {
  * @param value Cell value to write.
  * @param overwrite Whether to replace existing render cells.
  */
-function applyPiece(cells: TetrisRenderCell[][], game: TetrisGame, piece: { shape: number[][]; row: number; column: number }, value: TetrisRenderCell, overwrite: boolean): void {
+function applyPiece(
+	cells: TetrisRenderCell[][],
+	game: TetrisGame,
+	piece: { shape: number[][]; row: number; column: number },
+	value: TetrisRenderCell,
+	overwrite: boolean,
+): void {
 	for (let row = 0; row < piece.shape.length; row += 1) {
 		const shapeRow = piece.shape[row];
 		if (!shapeRow) continue;

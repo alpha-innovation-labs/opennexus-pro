@@ -11,11 +11,11 @@ import { createFffAutocompleteProvider } from "./createFffAutocompleteProvider";
  * @returns Provider with optional FFF wrapping.
  */
 export async function wrapAutocompleteProviderForCwd(
-  cwd: string,
-  provider: AutocompleteProvider,
+	cwd: string,
+	provider: AutocompleteProvider,
 ): Promise<AutocompleteProvider> {
-  const enabledFeatures = await loadFeatureState();
-  if (!enabledFeatures.has("editorAutocomplete")) return provider;
-  const runtime = getRuntimeForCwd(cwd);
-  return runtime ? createFffAutocompleteProvider(provider, runtime) : provider;
+	const enabledFeatures = await loadFeatureState();
+	if (!enabledFeatures.has("editorAutocomplete")) return provider;
+	const runtime = getRuntimeForCwd(cwd);
+	return runtime ? createFffAutocompleteProvider(provider, runtime) : provider;
 }

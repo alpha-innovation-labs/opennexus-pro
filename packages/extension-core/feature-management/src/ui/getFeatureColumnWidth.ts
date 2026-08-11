@@ -8,5 +8,8 @@ import type { FeatureStatusRow } from "../model/types";
  * @returns Maximum visible feature-name width.
  */
 export function getFeatureColumnWidth(rows: FeatureStatusRow[]): number {
-	return rows.reduce((width, row) => Math.max(width, visibleWidth(row.feature)), 0);
+	return rows.reduce(
+		(width, row) => Math.max(width, visibleWidth(row.feature)),
+		0,
+	);
 }

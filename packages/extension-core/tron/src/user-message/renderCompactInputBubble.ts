@@ -1,6 +1,6 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled";
 import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled";
 import { colorBorder } from "./colorBorder";
 import { colorContent } from "./colorContent";
 import { colorPrefix } from "./colorPrefix";
@@ -17,7 +17,11 @@ import { wrapPlainText } from "./wrapPlainText";
  * @param metadata Prompt metadata shown on the bottom border.
  * @returns Rendered lines.
  */
-export function renderCompactInputBubble(text: string, width: number, metadata?: UserMessageMetadata): string[] {
+export function renderCompactInputBubble(
+	text: string,
+	width: number,
+	metadata?: UserMessageMetadata,
+): string[] {
 	const maxInnerWidth = Math.max(1, width - 2);
 	const rawLines = (text || "").replace(/\r\n/g, "\n").split("\n");
 	const contentLines = rawLines.length > 0 ? rawLines : [""];
@@ -34,7 +38,11 @@ export function renderCompactInputBubble(text: string, width: number, metadata?:
 	});
 	const innerWidth = Math.min(
 		maxInnerWidth,
-		Math.max(1, getMetadataInnerWidth(metadata), ...rendered.map((line) => visibleWidth(line.plain))),
+		Math.max(
+			1,
+			getMetadataInnerWidth(metadata),
+			...rendered.map((line) => visibleWidth(line.plain)),
+		),
 	);
 	const top = colorBorder(`╭${"─".repeat(innerWidth)}╮`);
 	const middle = rendered.map((line) => {
@@ -47,7 +55,11 @@ export function renderCompactInputBubble(text: string, width: number, metadata?:
 		for (const [index, line] of lines.entries()) {
 			const renderedWidth = visibleWidth(line);
 			if (renderedWidth > width) {
-				logExtensionEvent("user-message-input-style", "overflow", { width, lineIndex: index, renderedWidth });
+				logExtensionEvent("user-message-input-style", "overflow", {
+					width,
+					lineIndex: index,
+					renderedWidth,
+				});
 			}
 		}
 	}

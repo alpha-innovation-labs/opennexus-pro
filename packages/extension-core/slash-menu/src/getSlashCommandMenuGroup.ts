@@ -1,27 +1,27 @@
 import type { RegisteredSlashCommand } from "./types";
 
 const BUILTIN_MENU_GROUPS: Record<string, string> = {
-  clone: "Chat",
-  compact: "Chat",
-  copy: "Chat",
-  fork: "Chat",
-  name: "Chat",
-  new: "Chat",
-  resume: "Chat",
-  session: "Chat",
-  share: "Chat",
-  tree: "Chat",
-  login: "Auth",
-  logout: "Auth",
-  model: "Auth",
-  "scoped-models": "Configuration",
-  hotkeys: "Configuration",
-  reload: "Configuration",
-  settings: "Configuration",
-  changelog: "System",
-  export: "Workspace",
-  import: "Workspace",
-  quit: "System",
+	clone: "Chat",
+	compact: "Chat",
+	copy: "Chat",
+	fork: "Chat",
+	name: "Chat",
+	new: "Chat",
+	resume: "Chat",
+	session: "Chat",
+	share: "Chat",
+	tree: "Chat",
+	login: "Auth",
+	logout: "Auth",
+	model: "Auth",
+	"scoped-models": "Configuration",
+	hotkeys: "Configuration",
+	reload: "Configuration",
+	settings: "Configuration",
+	changelog: "System",
+	export: "Workspace",
+	import: "Workspace",
+	quit: "System",
 };
 
 /**
@@ -30,8 +30,10 @@ const BUILTIN_MENU_GROUPS: Record<string, string> = {
  * @param command Slash command metadata.
  * @returns Visible menu group label.
  */
-export function getSlashCommandMenuGroup(command: RegisteredSlashCommand): string {
-  if (command.menuGroup?.trim()) return command.menuGroup.trim();
-  if (command.source === "extension") return "Extensions";
-  return BUILTIN_MENU_GROUPS[command.name] ?? "System";
+export function getSlashCommandMenuGroup(
+	command: RegisteredSlashCommand,
+): string {
+	if (command.menuGroup?.trim()) return command.menuGroup.trim();
+	if (command.source === "extension") return "Extensions";
+	return BUILTIN_MENU_GROUPS[command.name] ?? "System";
 }

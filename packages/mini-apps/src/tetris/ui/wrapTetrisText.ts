@@ -8,7 +8,11 @@ import { visibleWidth } from "@earendil-works/pi-tui";
  * @param separator Separator between entries.
  * @returns Wrapped lines.
  */
-export function wrapTetrisText(parts: string[], width: number, separator = " | "): string[] {
+export function wrapTetrisText(
+	parts: string[],
+	width: number,
+	separator = " | ",
+): string[] {
 	const lines: string[] = [];
 	let current = "";
 	for (const part of parts) {

@@ -1,7 +1,7 @@
-import type { AutocompleteItem } from "@earendil-works/pi-tui";
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type { AutocompleteItem } from "@earendil-works/pi-tui";
 import { createAtModal } from "../createAtModal";
-import type { TriggerModalState, ShowOverlay } from "../types";
+import type { ShowOverlay, TriggerModalState } from "../types";
 
 /**
  * Ensures the `@` modal exists.
@@ -15,16 +15,23 @@ import type { TriggerModalState, ShowOverlay } from "../types";
  * @param showOverlay Overlay factory.
  */
 export function ensureAtTriggerModal(
-  modalState: TriggerModalState,
-  ctx: ExtensionContext,
-  uiTheme: ExtensionContext["ui"]["theme"],
-  onAutocompletePick: (item: AutocompleteItem) => void,
-  requestClose: () => void,
-  requestRender: () => void,
-  showOverlay: ShowOverlay,
+	modalState: TriggerModalState,
+	ctx: ExtensionContext,
+	uiTheme: ExtensionContext["ui"]["theme"],
+	onAutocompletePick: (item: AutocompleteItem) => void,
+	requestClose: () => void,
+	requestRender: () => void,
+	showOverlay: ShowOverlay,
 ): void {
-  if (modalState.atModal) return;
-  const created = createAtModal(ctx, uiTheme, onAutocompletePick, requestClose, requestRender, showOverlay);
-  modalState.atModal = created.modal;
-  modalState.handle = created.handle;
+	if (modalState.atModal) return;
+	const created = createAtModal(
+		ctx,
+		uiTheme,
+		onAutocompletePick,
+		requestClose,
+		requestRender,
+		showOverlay,
+	);
+	modalState.atModal = created.modal;
+	modalState.handle = created.handle;
 }

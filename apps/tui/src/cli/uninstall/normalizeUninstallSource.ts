@@ -7,5 +7,5 @@ import { normalizeInstallSource } from "../install/normalizeInstallSource";
  * @returns Normalized package-manager source.
  */
 export function normalizeUninstallSource(source: string): string {
-  return normalizeInstallSource(source);
+	return normalizeInstallSource(source);
 }

@@ -1,4 +1,7 @@
-import type { ExtensionCommandContext, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type {
+	ExtensionCommandContext,
+	ExtensionContext,
+} from "@earendil-works/pi-coding-agent";
 import { getPersistentConversationId } from "./getPersistentConversationId";
 
 /**
@@ -7,7 +10,9 @@ import { getPersistentConversationId } from "./getPersistentConversationId";
  * @param ctx Pi extension context.
  * @returns Current conversation identifier, if persisted.
  */
-export function getCurrentConversationId(ctx: ExtensionContext | ExtensionCommandContext): string | undefined {
+export function getCurrentConversationId(
+	ctx: ExtensionContext | ExtensionCommandContext,
+): string | undefined {
 	const sessionFile = ctx.sessionManager.getSessionFile();
 	return sessionFile ? getPersistentConversationId(sessionFile) : undefined;
 }

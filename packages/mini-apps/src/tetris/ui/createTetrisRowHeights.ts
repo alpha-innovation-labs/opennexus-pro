@@ -5,7 +5,10 @@
  * @param rowCount Number of Tetris rows.
  * @returns Per-row segment heights.
  */
-export function createTetrisRowHeights(totalHeight: number, rowCount: number): number[] {
+export function createTetrisRowHeights(
+	totalHeight: number,
+	rowCount: number,
+): number[] {
 	const baseHeight = Math.max(0, Math.floor(totalHeight / rowCount));
 	let remaining = Math.max(0, totalHeight - baseHeight * rowCount);
 	return Array.from({ length: rowCount }, () => {

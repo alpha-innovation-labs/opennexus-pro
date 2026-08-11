@@ -8,7 +8,10 @@ import { readCmuxSessionRegistryLockMetadata } from "./readCmuxSessionRegistryLo
  * @param owner Expected lock owner metadata.
  * @returns True when the lock metadata still matches the expected owner.
  */
-export async function isCmuxSessionRegistryLockOwnedBy(lockPath: string, owner: CmuxSessionRegistryLockMetadata): Promise<boolean> {
+export async function isCmuxSessionRegistryLockOwnedBy(
+	lockPath: string,
+	owner: CmuxSessionRegistryLockMetadata,
+): Promise<boolean> {
 	const current = await readCmuxSessionRegistryLockMetadata(lockPath);
 	return current?.pid === owner.pid && current.nonce === owner.nonce;
 }

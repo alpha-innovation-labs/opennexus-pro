@@ -7,5 +7,5 @@ import type { TriggerKind } from "./types";
  * @returns Active trigger kind.
  */
 export function getTriggerSessionKind(): TriggerKind | null {
-  return getTriggerSession()?.kind ?? null;
+	return getTriggerSession()?.kind ?? null;
 }

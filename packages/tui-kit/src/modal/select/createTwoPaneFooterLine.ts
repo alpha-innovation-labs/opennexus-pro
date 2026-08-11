@@ -1,7 +1,7 @@
 export type TwoPaneFooterOptions = {
-  bottomPrefix: string;
-  bottomTitle?: string;
-  bottomValue: string;
+	bottomPrefix: string;
+	bottomTitle?: string;
+	bottomValue: string;
 };
 
 /**
@@ -10,6 +10,10 @@ export type TwoPaneFooterOptions = {
  * @param options Footer options.
  * @returns Footer lines.
  */
-export function createTwoPaneFooterLine(options: TwoPaneFooterOptions): string[] {
-  return options.bottomTitle ? [`${options.bottomTitle} ${options.bottomPrefix}${options.bottomValue}`] : [];
+export function createTwoPaneFooterLine(
+	options: TwoPaneFooterOptions,
+): string[] {
+	return options.bottomTitle
+		? [`${options.bottomTitle} ${options.bottomPrefix}${options.bottomValue}`]
+		: [];
 }

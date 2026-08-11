@@ -1,10 +1,17 @@
-import { bundledFeatureFlags, getAllBundledExtensionIds } from "@nexus/feature-flags/registry";
+import {
+	bundledFeatureFlags,
+	getAllBundledExtensionIds,
+} from "@nexus/feature-flags/registry";
+import type { FeatureProductCategory } from "@nexus/feature-flags/types";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
-import type { FeatureFlagConfigPatch } from "./updateFeatureFlagsConfig";
-import type { FeatureProductCategory } from "@nexus/feature-flags/types";
-import type { FeatureRuntimeStatus, FeatureStatusCategory, FeatureStatusRow } from "./types";
 import { getFeatureManagementGroup } from "./getFeatureManagementGroup";
+import type {
+	FeatureRuntimeStatus,
+	FeatureStatusCategory,
+	FeatureStatusRow,
+} from "./types";
+import type { FeatureFlagConfigPatch } from "./updateFeatureFlagsConfig";
 
 /**
  * Persists a feature flag disable/enable override to config.json.
@@ -16,7 +23,10 @@ import { getFeatureManagementGroup } from "./getFeatureManagementGroup";
  * @param extensionId Extension/feature id to update.
  * @param enabled Whether the feature should be enabled (true = re-enable, false = disable).
  */
-export function persistFeatureFlagOverride(extensionId: string, enabled: boolean): void {
+export function persistFeatureFlagOverride(
+	extensionId: string,
+	enabled: boolean,
+): void {
 	const config = readNexusUserConfig();
 
 	if (!config.featureFlags) {
@@ -50,22 +60,28 @@ export function updateFeatureStatusRow(
 	row: FeatureStatusRow,
 	minimalWhitelist?: readonly string[],
 ): FeatureStatusRow[] {
-	const newStatus = patch.status === "disabled" ? false : true;
+	const newStatus = patch.status !== "disabled";
 	persistFeatureFlagOverride(extensionId, newStatus);
 
 	// Re-read config.json and rebuild ALL rows from scratch.
 	const freshConfig = readNexusUserConfig();
-	const freshOverrides: Record<string, boolean> = freshConfig.featureFlags ?? {};
+	const freshOverrides: Record<string, boolean> =
+		freshConfig.featureFlags ?? {};
 	const allIds = getAllBundledExtensionIds();
 
 	return allIds.map((id) => {
 		const entry = bundledFeatureFlags[id];
 		if (!entry) {
 			// Keep the old row if the extension was removed from the registry.
-			return row.extensionId === id ? { ...row, status: (patch.status ?? row.status) as FeatureRuntimeStatus } : row;
+			return row.extensionId === id
+				? {
+						...row,
+						status: (patch.status ?? row.status) as FeatureRuntimeStatus,
+					}
+				: row;
 		}
 		const userOverride = freshOverrides[id];
-		const enabled = userOverride === false ? false : true;
+		const enabled = userOverride !== false;
 		return {
 			category: getFeatureStatusCategory(entry.category),
 			sourceCategory: row.sourceCategory,
@@ -83,7 +99,9 @@ export function updateFeatureStatusRow(
  * @param category Optional product category from feature-flags config.
  * @returns Feature-management tab category.
  */
-function getFeatureStatusCategory(category: FeatureProductCategory | undefined): FeatureStatusCategory {
+function getFeatureStatusCategory(
+	category: FeatureProductCategory | undefined,
+): FeatureStatusCategory {
 	if (category === "mini-app") return "mini-apps";
 	if (category === "dev") return "dev";
 	if (category === "pro") return "pro";

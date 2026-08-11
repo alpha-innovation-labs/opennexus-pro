@@ -1,4 +1,7 @@
-import { SelectPreviewModal, type SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import {
+	SelectPreviewModal,
+	type SelectPreviewTheme,
+} from "@nexus/tui-kit/modal/index";
 import { createCmuxSavedSessionItems } from "../snapshots/createCmuxSavedSessionItems";
 import type { CmuxSavedSession } from "../snapshots/types";
 
@@ -17,7 +20,13 @@ export class CmuxSavedSessionsModal extends SelectPreviewModal {
 	 * @param onDelete Delete callback.
 	 * @param onRenderNeeded Render request callback.
 	 */
-	constructor(theme: SelectPreviewTheme, sessions: CmuxSavedSession[], onClose: () => void, private readonly onDelete: (sessionId: string) => void, private readonly onRenderNeeded: () => void) {
+	constructor(
+		theme: SelectPreviewTheme,
+		sessions: CmuxSavedSession[],
+		onClose: () => void,
+		private readonly onDelete: (sessionId: string) => void,
+		private readonly onRenderNeeded: () => void,
+	) {
 		super(theme, () => undefined, onClose, undefined, {
 			leftTitle: "Saved sessions",
 			rightTitle: "Workspaces / panes",
@@ -30,7 +39,9 @@ export class CmuxSavedSessionsModal extends SelectPreviewModal {
 		this.sessions = sessions;
 		this.setOnSelectionChange((item) => this.showPreview(item?.value));
 		this.setItems(createCmuxSavedSessionItems(sessions));
-		this.setFooterHintLines([theme.fg("dim", "Enter selects · d delete · Esc closes")]);
+		this.setFooterHintLines([
+			theme.fg("dim", "Enter selects · d delete · Esc closes"),
+		]);
 		this.showPreview(sessions[0]?.id);
 	}
 
@@ -53,7 +64,9 @@ export class CmuxSavedSessionsModal extends SelectPreviewModal {
 	private deleteSelectedSession(): void {
 		const selected = this.getSelectedItem();
 		if (!selected) return;
-		this.sessions = this.sessions.filter((session) => session.id !== selected.value);
+		this.sessions = this.sessions.filter(
+			(session) => session.id !== selected.value,
+		);
 		this.onDelete(selected.value);
 		this.setItems(createCmuxSavedSessionItems(this.sessions));
 		this.showPreview(this.sessions[0]?.id);

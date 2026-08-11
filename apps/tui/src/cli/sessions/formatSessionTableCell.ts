@@ -5,5 +5,8 @@
  * @returns Single-line table-safe cell value.
  */
 export function formatSessionTableCell(value: string): string {
-  return value.replace(/[\r\n\t]+/g, " ").replace(/\|/g, "¦").trim();
+	return value
+		.replace(/[\r\n\t]+/g, " ")
+		.replace(/\|/g, "¦")
+		.trim();
 }

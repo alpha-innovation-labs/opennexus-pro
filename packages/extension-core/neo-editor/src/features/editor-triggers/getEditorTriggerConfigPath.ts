@@ -8,5 +8,10 @@ import { getProjectConfigDirPath } from "@nexus/runtime/config/getProjectConfigD
  * @returns Absolute project config file path.
  */
 export function getEditorTriggerConfigPath(cwd: string): string {
-	return join(getProjectConfigDirPath(cwd), "extensions", "neo-editor", "editor-triggers.json");
+	return join(
+		getProjectConfigDirPath(cwd),
+		"extensions",
+		"neo-editor",
+		"editor-triggers.json",
+	);
 }

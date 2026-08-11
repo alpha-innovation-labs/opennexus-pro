@@ -6,6 +6,8 @@ import type { ManagedExtensionKind } from "../model/types";
  * @param kind Extension source kind.
  * @returns Human-readable group label.
  */
-export function getManagedExtensionGroupLabel(kind: ManagedExtensionKind): string {
+export function getManagedExtensionGroupLabel(
+	kind: ManagedExtensionKind,
+): string {
 	return kind === "core" ? "Core" : "Third-party";
 }

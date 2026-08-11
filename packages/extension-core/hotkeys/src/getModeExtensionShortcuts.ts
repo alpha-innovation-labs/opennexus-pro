@@ -1,11 +1,13 @@
 import type { HotkeysExtensionShortcut, HotkeysKeybindings } from "./types";
 
 type ModeWithShortcuts = {
-  session?: {
-    extensionRunner?: {
-      getShortcuts?: (resolvedKeybindings: Record<string, string | string[] | undefined>) => Map<string, HotkeysExtensionShortcut>;
-    };
-  };
+	session?: {
+		extensionRunner?: {
+			getShortcuts?: (
+				resolvedKeybindings: Record<string, string | string[] | undefined>,
+			) => Map<string, HotkeysExtensionShortcut>;
+		};
+	};
 };
 
 /**
@@ -15,8 +17,14 @@ type ModeWithShortcuts = {
  * @param keybindings Injected Pi keybinding manager.
  * @returns Filtered extension shortcuts.
  */
-export function getModeExtensionShortcuts(mode: unknown, keybindings: HotkeysKeybindings): HotkeysExtensionShortcut[] {
-  const runner = (mode as ModeWithShortcuts).session?.extensionRunner;
-  const resolved = keybindings.getEffectiveConfig?.() ?? keybindings.getResolvedBindings?.() ?? {};
-  return Array.from(runner?.getShortcuts?.(resolved).values() ?? []);
+export function getModeExtensionShortcuts(
+	mode: unknown,
+	keybindings: HotkeysKeybindings,
+): HotkeysExtensionShortcut[] {
+	const runner = (mode as ModeWithShortcuts).session?.extensionRunner;
+	const resolved =
+		keybindings.getEffectiveConfig?.() ??
+		keybindings.getResolvedBindings?.() ??
+		{};
+	return Array.from(runner?.getShortcuts?.(resolved).values() ?? []);
 }

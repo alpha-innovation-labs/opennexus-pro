@@ -1,5 +1,5 @@
-import type { FeatureFlagsConfig } from "../../registry/featureFlagsTypes";
 import type { ManagedExtensionRow } from "@extensions/pi-packages/model/types";
+import type { FeatureFlagsConfig } from "../../registry/featureFlagsTypes";
 
 /**
  * Creates mini-app manager rows from feature flags marked as mini-apps.
@@ -7,13 +7,15 @@ import type { ManagedExtensionRow } from "@extensions/pi-packages/model/types";
  * @param config Current feature flag config.
  * @returns Sorted mini-app rows for display.
  */
-export function createManagedMiniAppRows(config: FeatureFlagsConfig): ManagedExtensionRow[] {
+export function createManagedMiniAppRows(
+	config: FeatureFlagsConfig,
+): ManagedExtensionRow[] {
 	const extensionRows = Object.entries(config.extensions)
 		.filter(([, feature]) => feature.category === "mini-app")
 		.map(([id, feature]) => ({
 			id,
 			kind: "core" as const,
-			status: feature.enabled ? "enabled" as const : "disabled" as const,
+			status: feature.enabled ? ("enabled" as const) : ("disabled" as const),
 			features: feature.features,
 		}));
 	const otherRows = Object.entries(config.other ?? {})
@@ -21,8 +23,10 @@ export function createManagedMiniAppRows(config: FeatureFlagsConfig): ManagedExt
 		.map(([id, feature]) => ({
 			id,
 			kind: "core" as const,
-			status: feature.enabled ? "enabled" as const : "disabled" as const,
+			status: feature.enabled ? ("enabled" as const) : ("disabled" as const),
 			features: feature.features,
 		}));
-	return [...extensionRows, ...otherRows].sort((a, b) => a.id.localeCompare(b.id));
+	return [...extensionRows, ...otherRows].sort((a, b) =>
+		a.id.localeCompare(b.id),
+	);
 }

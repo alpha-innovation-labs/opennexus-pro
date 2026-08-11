@@ -1,7 +1,7 @@
 import type { NexusUserConfig } from "@nexus/runtime/config/types";
 import { createConfiguredPackageRows } from "../package/createConfiguredPackageRows";
-import type { ManagedExtensionRow, ConfiguredPackage } from "./types";
 import { sortManagedExtensionRows } from "./sortManagedExtensionRows";
+import type { ConfiguredPackage, ManagedExtensionRow } from "./types";
 
 /**
  * Creates Pi packages rows from configured third-party package settings only.
@@ -10,6 +10,11 @@ import { sortManagedExtensionRows } from "./sortManagedExtensionRows";
  * @param packages Configured package manager entries from Nexus settings.
  * @returns Sorted third-party package rows for display.
  */
-export function createThirdPartyManagedExtensionRows(userConfig: NexusUserConfig, packages: ConfiguredPackage[] = []): ManagedExtensionRow[] {
-	return sortManagedExtensionRows(createConfiguredPackageRows(packages, userConfig));
+export function createThirdPartyManagedExtensionRows(
+	userConfig: NexusUserConfig,
+	packages: ConfiguredPackage[] = [],
+): ManagedExtensionRow[] {
+	return sortManagedExtensionRows(
+		createConfiguredPackageRows(packages, userConfig),
+	);
 }

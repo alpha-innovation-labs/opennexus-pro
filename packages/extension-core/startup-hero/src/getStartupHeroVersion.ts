@@ -13,9 +13,13 @@ export function getStartupHeroVersion(): string {
 	if (envVersion) return envVersion;
 
 	try {
-		const binaryPackageDir = getBinaryPackageDir(import.meta.url, { execPath: process.argv0 || process.execPath });
+		const binaryPackageDir = getBinaryPackageDir(import.meta.url, {
+			execPath: process.argv0 || process.execPath,
+		});
 		const currentDirPath = dirname(fileURLToPath(import.meta.url));
-		const packageJsonPath = binaryPackageDir ? join(binaryPackageDir, "package.json") : resolve(currentDirPath, "../../../../package.json");
+		const packageJsonPath = binaryPackageDir
+			? join(binaryPackageDir, "package.json")
+			: resolve(currentDirPath, "../../../../package.json");
 		const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8"));
 		return String(packageJson.version ?? "unknown");
 	} catch {

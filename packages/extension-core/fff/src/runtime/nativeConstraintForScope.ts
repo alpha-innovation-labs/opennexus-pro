@@ -7,9 +7,13 @@ import { normalizeSlashes } from "./normalizeSlashes";
  * @param scope Resolved scope path.
  * @returns Native constraint string.
  */
-export function nativeConstraintForScope(scope: ResolvedPath | undefined): string | undefined {
-  if (!scope) return undefined;
-  const relativePath = normalizeSlashes(scope.relativePath).replace(/^\.\//, "").replace(/\/+$/, "");
-  if (!relativePath || relativePath === ".") return undefined;
-  return scope.pathType === "directory" ? `/${relativePath}/` : relativePath;
+export function nativeConstraintForScope(
+	scope: ResolvedPath | undefined,
+): string | undefined {
+	if (!scope) return undefined;
+	const relativePath = normalizeSlashes(scope.relativePath)
+		.replace(/^\.\//, "")
+		.replace(/\/+$/, "");
+	if (!relativePath || relativePath === ".") return undefined;
+	return scope.pathType === "directory" ? `/${relativePath}/` : relativePath;
 }

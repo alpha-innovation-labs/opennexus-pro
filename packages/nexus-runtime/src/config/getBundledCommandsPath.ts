@@ -6,5 +6,5 @@ import { resolveBundledAssetPath } from "../package/resolveBundledAssetPath";
  * @returns Absolute bundled command directory path.
  */
 export function getBundledCommandsPath(): string {
-  return resolveBundledAssetPath(import.meta.url, "commands", "./");
+	return resolveBundledAssetPath(import.meta.url, "commands", "./");
 }

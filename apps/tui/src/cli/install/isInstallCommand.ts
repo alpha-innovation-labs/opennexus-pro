@@ -5,5 +5,5 @@
  * @returns True when the first argument is install.
  */
 export function isInstallCommand(argv: readonly string[]): boolean {
-  return argv[0] === "install";
+	return argv[0] === "install";
 }

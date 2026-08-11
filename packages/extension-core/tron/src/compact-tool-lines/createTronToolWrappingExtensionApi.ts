@@ -1,4 +1,7 @@
-import type { ExtensionAPI, ToolDefinition } from "@earendil-works/pi-coding-agent";
+import type {
+	ExtensionAPI,
+	ToolDefinition,
+} from "@earendil-works/pi-coding-agent";
 import { createCompactToolDefinition } from "./createCompactToolDefinition";
 import { isCompactWrappedToolDefinition } from "./isCompactWrappedToolDefinition";
 
@@ -8,12 +11,16 @@ import { isCompactWrappedToolDefinition } from "./isCompactWrappedToolDefinition
  * @param pi Original extension API.
  * @returns Extension API with registerTool wrapping enabled.
  */
-export function createTronToolWrappingExtensionApi(pi: ExtensionAPI): ExtensionAPI {
+export function createTronToolWrappingExtensionApi(
+	pi: ExtensionAPI,
+): ExtensionAPI {
 	return new Proxy(pi, {
 		get(target, property, receiver) {
 			if (property === "registerTool") {
-				return (definition: ToolDefinition<any, any, any>) => {
-					const compactDefinition = isCompactWrappedToolDefinition(definition) ? definition : createCompactToolDefinition(definition);
+				return (definition: ToolDefinition<unknown, unknown, unknown>) => {
+					const compactDefinition = isCompactWrappedToolDefinition(definition)
+						? definition
+						: createCompactToolDefinition(definition);
 					return target.registerTool(compactDefinition as never);
 				};
 			}

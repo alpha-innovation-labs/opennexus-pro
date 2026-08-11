@@ -10,10 +10,10 @@
  * with a simple re-export: `export { KEYBINDINGS } from "@earendil-works/pi-coding-agent";`
  */
 
-import { TUI_KEYBINDINGS } from "@earendil-works/pi-tui";
 import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
 import { homedir } from "node:os";
+import { join } from "node:path";
+import { TUI_KEYBINDINGS } from "@earendil-works/pi-tui";
 
 /**
  * Resolves the agent directory where keybindings.json lives.
@@ -31,7 +31,10 @@ const agentDir = resolveAgentDir();
  * Loads user keybindings from keybindings.json if it exists.
  * Returns an empty object when the file is absent or invalid.
  */
-function loadUserKeybindings(): Record<string, { defaultKeys: string | string[] }> {
+function loadUserKeybindings(): Record<
+	string,
+	{ defaultKeys: string | string[] }
+> {
 	const configPath = join(agentDir, "keybindings.json");
 	if (!existsSync(configPath)) return {};
 	try {
@@ -41,7 +44,10 @@ function loadUserKeybindings(): Record<string, { defaultKeys: string | string[] 
 		for (const [key, value] of Object.entries(parsed)) {
 			if (typeof value === "string") {
 				result[key] = { defaultKeys: value };
-			} else if (Array.isArray(value) && value.every((e: unknown) => typeof e === "string")) {
+			} else if (
+				Array.isArray(value) &&
+				value.every((e: unknown) => typeof e === "string")
+			) {
 				result[key] = { defaultKeys: value as string[] };
 			}
 		}
@@ -54,7 +60,10 @@ function loadUserKeybindings(): Record<string, { defaultKeys: string | string[] 
 /**
  * Nexus-specific keybindings added on top of TUI + user config.
  */
-const NEXUS_KEYBINDINGS: Record<string, { defaultKeys: string | string[]; description: string }> = {
+const NEXUS_KEYBINDINGS: Record<
+	string,
+	{ defaultKeys: string | string[]; description: string }
+> = {
 	"app.tools.collapse": {
 		defaultKeys: "shift+ctrl+c",
 		description: "Collapse tool groups into summaries",
@@ -64,7 +73,10 @@ const NEXUS_KEYBINDINGS: Record<string, { defaultKeys: string | string[]; descri
 /**
  * Final KEYBINDINGS: TUI defaults + user config overrides + minimal PI bindings + Nexus additions.
  */
-export const KEYBINDINGS: Record<string, { defaultKeys: string | string[]; description: string }> = {
+export const KEYBINDINGS: Record<
+	string,
+	{ defaultKeys: string | string[]; description: string }
+> = {
 	...TUI_KEYBINDINGS,
 	...loadUserKeybindings(),
 	...NEXUS_KEYBINDINGS,
@@ -74,6 +86,9 @@ export const KEYBINDINGS: Record<string, { defaultKeys: string | string[]; descr
  * Returns the user's custom keybindings as a flat map of key-id → defaultKeys.
  * Useful for patches that need to read user overrides.
  */
-export function getUserKeybindings(): Record<string, { defaultKeys: string | string[] }> {
+export function getUserKeybindings(): Record<
+	string,
+	{ defaultKeys: string | string[] }
+> {
 	return loadUserKeybindings();
 }

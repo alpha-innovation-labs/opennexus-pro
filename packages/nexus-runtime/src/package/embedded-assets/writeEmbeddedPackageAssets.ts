@@ -10,13 +10,20 @@ import { getEmbeddedPackageAssets } from "./getEmbeddedPackageAssets";
  * @param rootDir Extraction root directory.
  * @returns A promise that resolves after extraction.
  */
-export async function writeEmbeddedPackageAssets(rootDir: string): Promise<void> {
-  await resetEmbeddedPackageDir(rootDir);
+export async function writeEmbeddedPackageAssets(
+	rootDir: string,
+): Promise<void> {
+	await resetEmbeddedPackageDir(rootDir);
 
-  const { embeddedPackageAssetVersion, embeddedPackageAssets } = getEmbeddedPackageAssets();
-  for (const asset of embeddedPackageAssets) {
-    await writeEmbeddedAssetFile(rootDir, asset);
-  }
+	const { embeddedPackageAssetVersion, embeddedPackageAssets } =
+		getEmbeddedPackageAssets();
+	for (const asset of embeddedPackageAssets) {
+		await writeEmbeddedAssetFile(rootDir, asset);
+	}
 
-  await writeFile(join(rootDir, ".version"), `${embeddedPackageAssetVersion}\n`, "utf8");
+	await writeFile(
+		join(rootDir, ".version"),
+		`${embeddedPackageAssetVersion}\n`,
+		"utf8",
+	);
 }

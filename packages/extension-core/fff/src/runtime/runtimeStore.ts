@@ -9,7 +9,7 @@ const runtimes = new Map<string, FffRuntime>();
  * @param runtime Runtime instance.
  */
 export function setRuntimeForCwd(cwd: string, runtime: FffRuntime): void {
-  runtimes.set(cwd, runtime);
+	runtimes.set(cwd, runtime);
 }
 
 /**
@@ -19,7 +19,7 @@ export function setRuntimeForCwd(cwd: string, runtime: FffRuntime): void {
  * @returns Matching runtime, if present.
  */
 export function getRuntimeForCwd(cwd: string): FffRuntime | undefined {
-  return runtimes.get(cwd);
+	return runtimes.get(cwd);
 }
 
 /**
@@ -28,5 +28,5 @@ export function getRuntimeForCwd(cwd: string): FffRuntime | undefined {
  * @param cwd Session cwd.
  */
 export function clearRuntimeForCwd(cwd: string): void {
-  runtimes.delete(cwd);
+	runtimes.delete(cwd);
 }

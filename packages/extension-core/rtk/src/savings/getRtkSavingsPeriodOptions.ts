@@ -6,5 +6,5 @@ import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey";
  * @returns Ordered period keys.
  */
 export function getRtkSavingsPeriodOptions(): RtkSavingsPeriodKey[] {
-  return ["daily", "weekly", "monthly"];
+	return ["daily", "weekly", "monthly"];
 }

@@ -1,4 +1,7 @@
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type {
+	ExtensionAPI,
+	ExtensionContext,
+} from "@earendil-works/pi-coding-agent";
 import { formatExitMessage } from "./formatExitMessage";
 import { setExitMessage } from "./state/setExitMessage";
 
@@ -8,6 +11,14 @@ import { setExitMessage } from "./state/setExitMessage";
  * @param pi Pi extension API.
  * @param ctx Optional extension context containing the session manager.
  */
-export function updateExitMessageFromSessionTitle(pi: ExtensionAPI, ctx?: Pick<ExtensionContext, "sessionManager">): void {
-	setExitMessage(formatExitMessage({ sessionId: ctx?.sessionManager.getSessionId(), title: pi.getSessionName() }));
+export function updateExitMessageFromSessionTitle(
+	pi: ExtensionAPI,
+	ctx?: Pick<ExtensionContext, "sessionManager">,
+): void {
+	setExitMessage(
+		formatExitMessage({
+			sessionId: ctx?.sessionManager.getSessionId(),
+			title: pi.getSessionName(),
+		}),
+	);
 }

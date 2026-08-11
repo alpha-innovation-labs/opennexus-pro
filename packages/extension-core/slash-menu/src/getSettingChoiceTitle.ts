@@ -6,6 +6,8 @@ import type { SlashMenuLeaf } from "./types";
  * @param settingLeaf Parent setting leaf.
  * @returns Choice submenu title.
  */
-export function getSettingChoiceTitle(settingLeaf: SlashMenuLeaf | undefined): string {
-  return settingLeaf ? `Settings > ${settingLeaf.label}` : "Settings";
+export function getSettingChoiceTitle(
+	settingLeaf: SlashMenuLeaf | undefined,
+): string {
+	return settingLeaf ? `Settings > ${settingLeaf.label}` : "Settings";
 }

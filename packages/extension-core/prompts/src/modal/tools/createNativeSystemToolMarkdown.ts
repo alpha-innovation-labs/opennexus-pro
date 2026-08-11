@@ -3,7 +3,15 @@ const toolParams: Record<string, readonly string[]> = {
 	bash: ["command: string", "timeout?: number"],
 	edit: ["path: string", "edits: { oldText: string; newText: string }[]"],
 	write: ["path: string", "content: string"],
-	grep: ["pattern: string", "path?: string", "glob?: string", "ignoreCase?: boolean", "literal?: boolean", "context?: number", "limit?: number"],
+	grep: [
+		"pattern: string",
+		"path?: string",
+		"glob?: string",
+		"ignoreCase?: boolean",
+		"literal?: boolean",
+		"context?: number",
+		"limit?: number",
+	],
 	find: ["pattern: string", "path?: string", "limit?: number"],
 	ls: ["path?: string", "limit?: number"],
 };
@@ -19,7 +27,9 @@ const toolDescriptions: Record<string, string> = {
 };
 
 /** Builds markdown detail for one native system tool, including accepted params. */
-export function createNativeSystemToolMarkdown(toolName: string): string | undefined {
+export function createNativeSystemToolMarkdown(
+	toolName: string,
+): string | undefined {
 	const params = toolParams[toolName];
 	if (params === undefined) return undefined;
 	return [

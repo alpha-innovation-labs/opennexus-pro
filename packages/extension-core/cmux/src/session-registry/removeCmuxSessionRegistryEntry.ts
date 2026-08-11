@@ -10,7 +10,13 @@ import type { CmuxSessionRegistry } from "./types";
  * @param surfaceId Surface identifier to remove.
  * @returns Updated registry.
  */
-export function removeCmuxSessionRegistryEntry(registry: CmuxSessionRegistry, workspaceId: string | undefined, surfaceId: string): CmuxSessionRegistry {
-	const entries = pruneCmuxSessionRegistryEntries(registry.entries).filter((entry) => !matchesCmuxSurfaceRegistration(entry, workspaceId, surfaceId));
+export function removeCmuxSessionRegistryEntry(
+	registry: CmuxSessionRegistry,
+	workspaceId: string | undefined,
+	surfaceId: string,
+): CmuxSessionRegistry {
+	const entries = pruneCmuxSessionRegistryEntries(registry.entries).filter(
+		(entry) => !matchesCmuxSurfaceRegistration(entry, workspaceId, surfaceId),
+	);
 	return { version: 1, entries };
 }

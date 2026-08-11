@@ -7,6 +7,9 @@ import { writeJsonFile } from "./writeJsonFile";
  * @param cwd Project cwd.
  * @param settings Project config object.
  */
-export async function writeProjectConfig(cwd: string, settings: Record<string, unknown>): Promise<void> {
-  await writeJsonFile(getProjectConfigPath(cwd), settings);
+export async function writeProjectConfig(
+	cwd: string,
+	settings: Record<string, unknown>,
+): Promise<void> {
+	await writeJsonFile(getProjectConfigPath(cwd), settings);
 }

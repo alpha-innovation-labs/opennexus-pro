@@ -8,6 +8,13 @@ import { getCmuxSessionRegistryLockMetadataPath } from "./getCmuxSessionRegistry
  * @param lockPath Lock directory path.
  * @param metadata Lock owner metadata.
  */
-export async function writeCmuxSessionRegistryLockMetadata(lockPath: string, metadata: CmuxSessionRegistryLockMetadata): Promise<void> {
-	await writeFile(getCmuxSessionRegistryLockMetadataPath(lockPath), `${JSON.stringify(metadata)}\n`, { encoding: "utf8", mode: 0o600 });
+export async function writeCmuxSessionRegistryLockMetadata(
+	lockPath: string,
+	metadata: CmuxSessionRegistryLockMetadata,
+): Promise<void> {
+	await writeFile(
+		getCmuxSessionRegistryLockMetadataPath(lockPath),
+		`${JSON.stringify(metadata)}\n`,
+		{ encoding: "utf8", mode: 0o600 },
+	);
 }

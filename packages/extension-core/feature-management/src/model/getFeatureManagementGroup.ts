@@ -20,7 +20,12 @@ export function getFeatureManagementGroup(
 	const knownMiniApps = new Set(["tetris"]);
 	if (knownMiniApps.has(featureId)) return "Mini apps";
 	// External Pi Packages: scoped npm (@scope/name), npm:, or pi- prefixed.
-	if (featureId.startsWith("npm:") || featureId.startsWith("pi-") || featureId.startsWith("@")) return "Pi Packages";
+	if (
+		featureId.startsWith("npm:") ||
+		featureId.startsWith("pi-") ||
+		featureId.startsWith("@")
+	)
+		return "Pi Packages";
 	// Bundled extensions: Core if whitelisted by --minimal, otherwise Nexus.
 	if (minimalWhitelist?.includes(featureId)) return "Core";
 	return "Nexus";

@@ -8,9 +8,9 @@ import { hasBaseSystemPromptArg } from "./hasBaseSystemPromptArg";
  * @returns Arguments including the bundled append-system-prompt pair.
  */
 export function addBaseSystemPromptArg(args: string[]): string[] {
-  if (hasBaseSystemPromptArg(args)) {
-    return args;
-  }
+	if (hasBaseSystemPromptArg(args)) {
+		return args;
+	}
 
-  return ["--append-system-prompt", baseSystemPrompt, ...args];
+	return ["--append-system-prompt", baseSystemPrompt, ...args];
 }

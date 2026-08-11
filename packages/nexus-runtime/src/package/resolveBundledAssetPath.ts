@@ -1,6 +1,9 @@
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { type BinaryPackageDirOptions, getBinaryPackageDir } from "./getBinaryPackageDir";
+import {
+	type BinaryPackageDirOptions,
+	getBinaryPackageDir,
+} from "./getBinaryPackageDir";
 
 /**
  * Resolves a package asset path in source mode and compiled-binary mode.
@@ -12,12 +15,12 @@ import { type BinaryPackageDirOptions, getBinaryPackageDir } from "./getBinaryPa
  * @returns Absolute asset path.
  */
 export function resolveBundledAssetPath(
-  importMetaUrl: string,
-  packageRelativePath: string,
-  sourceRelativeUrl: string,
-  options: BinaryPackageDirOptions = {},
+	importMetaUrl: string,
+	packageRelativePath: string,
+	sourceRelativeUrl: string,
+	options: BinaryPackageDirOptions = {},
 ): string {
-  const packageDir = getBinaryPackageDir(importMetaUrl, options);
-  if (packageDir) return join(packageDir, packageRelativePath);
-  return fileURLToPath(new URL(sourceRelativeUrl, importMetaUrl));
+	const packageDir = getBinaryPackageDir(importMetaUrl, options);
+	if (packageDir) return join(packageDir, packageRelativePath);
+	return fileURLToPath(new URL(sourceRelativeUrl, importMetaUrl));
 }

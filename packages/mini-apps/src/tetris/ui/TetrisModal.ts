@@ -1,6 +1,6 @@
 import type { Focusable } from "@earendil-works/pi-tui";
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
 import { SharedModal } from "@nexus/tui-kit/modal/index";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
 import { hardDropTetrisPiece } from "../game/hardDropTetrisPiece";
 import { moveTetrisPiece } from "../game/moveTetrisPiece";
 import { resetTetrisGame } from "../game/resetTetrisGame";
@@ -8,11 +8,29 @@ import { rotateTetrisPiece } from "../game/rotateTetrisPiece";
 import { softDropTetrisPiece } from "../game/softDropTetrisPiece";
 import { tickTetrisGame } from "../game/tickTetrisGame";
 import type { TetrisGame, TetrisModalOptions } from "../game/types";
-import { ensureTetrisMusicRunning, isTetrisMusicRunning, pauseTetrisMusicRuntime, stopTetrisMusicRuntime } from "../music/tetrisMusicRuntime";
-import { getTetrisMusicPreference, setTetrisMusicPreference } from "../music/tetrisMusicPreference";
-import { getTetrisSettingsPreference, setTetrisSettingsPreference } from "../settings/tetrisSettingsPreference";
+import {
+	getTetrisMusicPreference,
+	setTetrisMusicPreference,
+} from "../music/tetrisMusicPreference";
+import {
+	ensureTetrisMusicRunning,
+	isTetrisMusicRunning,
+	pauseTetrisMusicRuntime,
+	stopTetrisMusicRuntime,
+} from "../music/tetrisMusicRuntime";
+import {
+	getTetrisSettingsPreference,
+	setTetrisSettingsPreference,
+} from "../settings/tetrisSettingsPreference";
 import { createTetrisModalLines } from "./createTetrisModalLines";
-import { isTetrisDown, isTetrisEscape, isTetrisLeft, isTetrisQuit, isTetrisRight, isTetrisUp } from "./isTetrisKey";
+import {
+	isTetrisDown,
+	isTetrisEscape,
+	isTetrisLeft,
+	isTetrisQuit,
+	isTetrisRight,
+	isTetrisUp,
+} from "./isTetrisKey";
 import type { TetrisModalHost } from "./TetrisModalHost";
 
 /** Full-screen Tetris overlay controlled by keyboard input. */
@@ -38,7 +56,8 @@ export class TetrisModal extends SharedModal implements Focusable {
 		private readonly closeModal: () => void,
 		private readonly options: TetrisModalOptions = {},
 	) {
-		const initialFullScreen = options.initialFullScreen ?? getTetrisSettingsPreference().fullscreen;
+		const initialFullScreen =
+			options.initialFullScreen ?? getTetrisSettingsPreference().fullscreen;
 		super({
 			fullScreen: initialFullScreen,
 			fullScreenRows: () => tui.terminal?.rows ?? 30,
@@ -55,24 +74,41 @@ export class TetrisModal extends SharedModal implements Focusable {
 			theme,
 		});
 		this.fullScreenEnabled = initialFullScreen;
-		this.musicEnabled = options.autoStartMusic === false ? false : getTetrisMusicPreference();
+		this.musicEnabled =
+			options.autoStartMusic === false ? false : getTetrisMusicPreference();
 		this.game.paused = false;
 		if (options.autoStart !== false) this.startTimer();
 		if (this.musicEnabled) this.startMusic();
 	}
 
 	/** Returns whether the modal owns focus. */
-	get focused(): boolean { return this.focusedState; }
+	get focused(): boolean {
+		return this.focusedState;
+	}
 
 	/** Updates the modal focus state. */
-	set focused(value: boolean) { this.focusedState = value; }
+	set focused(value: boolean) {
+		this.focusedState = value;
+	}
 
 	/** Handles movement, rotation, pausing, restart, and close keys. */
 	override handleInput(data: string): void {
-		if (isTetrisEscape(data) || isTetrisQuit(data)) { this.close(); return; }
-		if (data === "p") { this.togglePause(); return; }
-		if (data === "r") { this.restart(); return; }
-		if (data === "m") { this.toggleMusic(); return; }
+		if (isTetrisEscape(data) || isTetrisQuit(data)) {
+			this.close();
+			return;
+		}
+		if (data === "p") {
+			this.togglePause();
+			return;
+		}
+		if (data === "r") {
+			this.restart();
+			return;
+		}
+		if (data === "m") {
+			this.toggleMusic();
+			return;
+		}
 		super.handleInput(data);
 		if (this.game.paused || this.game.gameOver) return;
 		if (isTetrisLeft(data) || data === "a") moveTetrisPiece(this.game, -1);
@@ -85,10 +121,26 @@ export class TetrisModal extends SharedModal implements Focusable {
 
 	/** Renders the full-screen shared modal with refreshed game lines. */
 	override render(width: number): string[] {
-		const modalWidth = this.fullScreenEnabled ? width : Math.min(width, 116, Math.max(40, Math.floor(width * 0.94)));
+		const modalWidth = this.fullScreenEnabled
+			? width
+			: Math.min(width, 116, Math.max(40, Math.floor(width * 0.94)));
 		const innerWidth = Math.max(1, modalWidth - 2);
-		const bodyHeight = this.fullScreenEnabled ? Math.max(12, (this.tui.terminal?.rows ?? 30) - 6) : Math.max(12, Math.min(28, (this.tui.terminal?.rows ?? 30) - 10));
-		this.panes = [{ id: "tetris", size: 1, lines: createTetrisModalLines(this.theme as SharedModalTheme & { bold: (text: string) => string }, this.game, innerWidth, bodyHeight, this.musicEnabled && isTetrisMusicRunning()) }];
+		const bodyHeight = this.fullScreenEnabled
+			? Math.max(12, (this.tui.terminal?.rows ?? 30) - 6)
+			: Math.max(12, Math.min(28, (this.tui.terminal?.rows ?? 30) - 10));
+		this.panes = [
+			{
+				id: "tetris",
+				size: 1,
+				lines: createTetrisModalLines(
+					this.theme as SharedModalTheme & { bold: (text: string) => string },
+					this.game,
+					innerWidth,
+					bodyHeight,
+					this.musicEnabled && isTetrisMusicRunning(),
+				),
+			},
+		];
 		return super.render(width);
 	}
 

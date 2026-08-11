@@ -6,5 +6,5 @@
  * @returns Encoded cursor.
  */
 export function encodeCursor(prefix: string, payload: unknown): string {
-  return `${prefix}${Buffer.from(JSON.stringify(payload), "utf8").toString("base64url")}`;
+	return `${prefix}${Buffer.from(JSON.stringify(payload), "utf8").toString("base64url")}`;
 }

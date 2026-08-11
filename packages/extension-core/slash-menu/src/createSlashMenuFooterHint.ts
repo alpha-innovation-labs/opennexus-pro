@@ -7,5 +7,5 @@ import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
  * @returns Footer helper text.
  */
 export function createSlashMenuFooterHint(theme: SharedModalTheme): string {
-  return theme.fg("muted", "Enter select · Esc close");
+	return theme.fg("muted", "Enter select · Esc close");
 }

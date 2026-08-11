@@ -8,7 +8,14 @@ import { findObservationStateConversationId } from "./findObservationStateConver
  * @param sessionId Session id or full observation conversation id.
  * @returns Conversation id used by observation state files.
  */
-export async function resolveObservationConversationId(sessionId: string): Promise<string> {
+export async function resolveObservationConversationId(
+	sessionId: string,
+): Promise<string> {
 	const sanitizedSessionId = sanitizeConversationId(sessionId);
-	return await findObservationStateConversationId(getObservationsDir(), sanitizedSessionId) ?? sanitizedSessionId;
+	return (
+		(await findObservationStateConversationId(
+			getObservationsDir(),
+			sanitizedSessionId,
+		)) ?? sanitizedSessionId
+	);
 }

@@ -7,5 +7,5 @@ import { registerInternalSlashSelectorCommands } from "./internal-commands/regis
  * @param pi Pi extension API.
  */
 export function registerSlashMenuExtension(pi: ExtensionAPI): void {
-  registerInternalSlashSelectorCommands(pi);
+	registerInternalSlashSelectorCommands(pi);
 }

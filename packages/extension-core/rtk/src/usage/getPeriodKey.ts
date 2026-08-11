@@ -9,7 +9,7 @@ import { getWeekKey } from "./getWeekKey";
  * @returns Period key.
  */
 export function getPeriodKey(date: Date, period: RtkSavingsPeriodKey): string {
-  if (period === "daily") return date.toISOString().slice(0, 10);
-  if (period === "weekly") return getWeekKey(date);
-  return date.toISOString().slice(0, 7);
+	if (period === "daily") return date.toISOString().slice(0, 10);
+	if (period === "weekly") return getWeekKey(date);
+	return date.toISOString().slice(0, 7);
 }

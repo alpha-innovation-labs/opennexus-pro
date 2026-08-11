@@ -7,5 +7,7 @@ import { readJsonFile } from "./readJsonFile";
  * @returns Global config object.
  */
 export async function readGlobalConfigs(): Promise<Record<string, unknown>> {
-  return (await readJsonFile<Record<string, unknown>>(getUserConfigPath())) ?? {};
+	return (
+		(await readJsonFile<Record<string, unknown>>(getUserConfigPath())) ?? {}
+	);
 }

@@ -10,19 +10,25 @@ import { restoreAssistantMessageTiming } from "./assistantMessageTimingState";
  *
  * @param entries Session entries from the active branch.
  */
-export function bootstrapAssistantMessageTimings(entries: SessionEntry[]): void {
+export function bootstrapAssistantMessageTimings(
+	entries: SessionEntry[],
+): void {
 	let latestUserTimestamp: number | undefined;
 
 	for (const entry of entries) {
 		if (entry.type !== "message") continue;
 		const message = entry.message as { role?: unknown; timestamp?: unknown };
 		if (message.role === "user") {
-			latestUserTimestamp = typeof message.timestamp === "number" ? message.timestamp : undefined;
+			latestUserTimestamp =
+				typeof message.timestamp === "number" ? message.timestamp : undefined;
 			continue;
 		}
 		if (message.role !== "assistant") continue;
 		if (typeof message.timestamp !== "number") continue;
 		if (typeof latestUserTimestamp !== "number") continue;
-		restoreAssistantMessageTiming(message.timestamp, formatCompactDuration(message.timestamp - latestUserTimestamp));
+		restoreAssistantMessageTiming(
+			message.timestamp,
+			formatCompactDuration(message.timestamp - latestUserTimestamp),
+		);
 	}
 }

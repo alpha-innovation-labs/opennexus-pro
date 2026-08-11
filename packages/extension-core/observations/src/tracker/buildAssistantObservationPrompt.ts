@@ -13,15 +13,20 @@ export function buildAssistantObservationPrompt(
 	thinking: string,
 	text: string,
 ): string {
-	const existing = existingBullets.length > 0
-		? existingBullets.map((bullet) => `- ${bullet}`).join("\n")
-		: "No existing observations yet.";
+	const existing =
+		existingBullets.length > 0
+			? existingBullets.map((bullet) => `- ${bullet}`).join("\n")
+			: "No existing observations yet.";
 	return [
 		"You maintain a bird's-eye observation log of an AI assistant's reasoning for one topic.",
 		`Active topic:\n${topicTitle}`,
 		`Existing observations:\n${existing}`,
-		thinking ? `Assistant thinking:\n${thinking}` : "Assistant thinking:\n(none)",
-		text ? `Assistant visible answer:\n${text}` : "Assistant visible answer:\n(none)",
+		thinking
+			? `Assistant thinking:\n${thinking}`
+			: "Assistant thinking:\n(none)",
+		text
+			? `Assistant visible answer:\n${text}`
+			: "Assistant visible answer:\n(none)",
 		"Output ONLY valid JSON, with no markdown fences and no commentary.",
 		"Return a JSON array of new observation strings worth adding to the current topic.",
 		"Summaries must be very high level, short, and non-duplicative.",

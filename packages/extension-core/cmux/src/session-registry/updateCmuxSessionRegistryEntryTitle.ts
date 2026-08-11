@@ -12,11 +12,23 @@ import type { CmuxSessionRegistry } from "./types";
  * @param sessionTitle Latest Nexus session title.
  * @returns Updated registry.
  */
-export function updateCmuxSessionRegistryEntryTitle(registry: CmuxSessionRegistry, workspaceId: string | undefined, surfaceId: string, sessionTitle: string): CmuxSessionRegistry {
+export function updateCmuxSessionRegistryEntryTitle(
+	registry: CmuxSessionRegistry,
+	workspaceId: string | undefined,
+	surfaceId: string,
+	sessionTitle: string,
+): CmuxSessionRegistry {
 	const normalizedTitle = normalizeCmuxSessionTitle(sessionTitle);
-	const entries = pruneCmuxSessionRegistryEntries(registry.entries).map((entry) => {
-		if (!matchesCmuxSurfaceRegistration(entry, workspaceId, surfaceId)) return entry;
-		return { ...entry, sessionTitle: normalizedTitle, updatedAt: new Date().toISOString() };
-	});
+	const entries = pruneCmuxSessionRegistryEntries(registry.entries).map(
+		(entry) => {
+			if (!matchesCmuxSurfaceRegistration(entry, workspaceId, surfaceId))
+				return entry;
+			return {
+				...entry,
+				sessionTitle: normalizedTitle,
+				updatedAt: new Date().toISOString(),
+			};
+		},
+	);
 	return { version: 1, entries };
 }

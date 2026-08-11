@@ -12,19 +12,28 @@ import type { CmuxSavedWorkspace } from "./types";
  * @param registrations Live Nexus session registrations.
  * @returns Structured workspace snapshot.
  */
-export function createCmuxSavedWorkspaces(view: CmuxWorkspaceShellView, registrations: CmuxSessionRegistryEntry[]): CmuxSavedWorkspace[] {
+export function createCmuxSavedWorkspaces(
+	view: CmuxWorkspaceShellView,
+	registrations: CmuxSessionRegistryEntry[],
+): CmuxSavedWorkspace[] {
 	return view.workspaces.map((workspace) => {
 		const workspaceId = getCmuxWorkspaceIdentifier(workspace);
 		return {
 			title: workspace.title,
-			panes: workspace.panes.flatMap((pane) => pane.surfaces.map((surface) => {
-				const registration = findRegisteredNexusSession(registrations, workspaceId, getCmuxSurfaceIdentifier(surface));
-				return {
-					title: surface.title,
-					sessionId: registration?.sessionId,
-					sessionTitle: registration?.sessionTitle,
-				};
-			})),
+			panes: workspace.panes.flatMap((pane) =>
+				pane.surfaces.map((surface) => {
+					const registration = findRegisteredNexusSession(
+						registrations,
+						workspaceId,
+						getCmuxSurfaceIdentifier(surface),
+					);
+					return {
+						title: surface.title,
+						sessionId: registration?.sessionId,
+						sessionTitle: registration?.sessionTitle,
+					};
+				}),
+			),
 		};
 	});
 }

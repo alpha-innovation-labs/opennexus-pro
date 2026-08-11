@@ -8,6 +8,6 @@ import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
  * @returns Width-constrained line.
  */
 export function padToWidth(line: string, width: number): string {
-  const truncated = truncateToWidth(line, width, "");
-  return truncated + " ".repeat(Math.max(0, width - visibleWidth(truncated)));
+	const truncated = truncateToWidth(line, width, "");
+	return truncated + " ".repeat(Math.max(0, width - visibleWidth(truncated)));
 }

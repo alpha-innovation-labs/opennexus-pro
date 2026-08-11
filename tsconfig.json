@@ -1,79 +1,129 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "dist",
-    "declaration": true,
-    "paths": {
-      "@nexus/runtime/*": ["./packages/nexus-runtime/src/*"],
-      "@nexus/runtime": ["./packages/nexus-runtime/src/index.ts"],
-      "@nexus/feature-flags/*": ["./packages/feature-flags/src/*"],
-      "@nexus/feature-flags": ["./packages/feature-flags/src/index.ts"],
-      "@nexus/herdr/*": ["./packages/herdr/src/*"],
-      "@nexus/herdr": ["./packages/herdr/src/index.ts"],
-      "@nexus/mini-apps/*": ["./packages/mini-apps/src/*"],
-      "@nexus/mini-apps": ["./packages/mini-apps/src/index.ts"],
-      "@nexus/observability/*": ["./packages/observability/src/*"],
-      "@nexus/observability": ["./packages/observability/src/index.ts"],
-      "@nexus/pi-platform/*": ["./packages/pi-platform/src/*"],
-      "@nexus/pi-platform": ["./packages/pi-platform/src/index.ts"],
-      "@nexus/tui-kit/*": ["./packages/tui-kit/src/*"],
-      "@nexus/tui-kit": ["./packages/tui-kit/src/index.ts"],
-      "@extensions/ai-providers/*": ["./packages/extension-core/ai-providers/src/*"],
-      "@extensions/ai-providers": ["./packages/extension-core/ai-providers/src/index.ts"],
-      "@extensions/auto-update/*": ["./packages/extension-core/auto-update/src/*"],
-      "@extensions/auto-update": ["./packages/extension-core/auto-update/src/index.ts"],
-      "@extensions/cmux/*": ["./packages/extension-core/cmux/src/*"],
-      "@extensions/cmux": ["./packages/extension-core/cmux/src/index.ts"],
-      "@extensions/context-usage/*": ["./packages/extension-core/context-usage/src/*"],
-      "@extensions/context-usage": ["./packages/extension-core/context-usage/src/index.ts"],
-      "@extensions/exit-message/*": ["./packages/extension-core/exit-message/src/*"],
-      "@extensions/exit-message": ["./packages/extension-core/exit-message/src/index.ts"],
-      "@extensions/feature-management/*": ["./packages/extension-core/feature-management/src/*"],
-      "@extensions/feature-management": ["./packages/extension-core/feature-management/src/index.ts"],
-      "@extensions/fff/*": ["./packages/extension-core/fff/src/*"],
-      "@extensions/fff": ["./packages/extension-core/fff/src/index.ts"],
-      "@extensions/herdr-agent-end-log/*": ["./packages/extension-core/herdr-agent-end-log/src/*"],
-      "@extensions/herdr-agent-end-log": ["./packages/extension-core/herdr-agent-end-log/src/index.ts"],
-      "@extensions/hotkeys/*": ["./packages/extension-core/hotkeys/src/*"],
-      "@extensions/hotkeys": ["./packages/extension-core/hotkeys/src/index.ts"],
-      "@extensions/local-image-reader/*": ["./packages/extension-core/local-image-reader/src/*"],
-      "@extensions/local-image-reader": ["./packages/extension-core/local-image-reader/src/index.ts"],
-      "@extensions/neo-editor/*": ["./packages/extension-core/neo-editor/src/*"],
-      "@extensions/neo-editor": ["./packages/extension-core/neo-editor/src/index.ts"],
-      "@extensions/notify/*": ["./packages/extension-core/notify/src/*"],
-      "@extensions/notify": ["./packages/extension-core/notify/src/index.ts"],
-      "@extensions/observations/*": ["./packages/extension-core/observations/src/*"],
-      "@extensions/observations": ["./packages/extension-core/observations/src/index.ts"],
-      "@extensions/pi-packages/*": ["./packages/extension-core/pi-packages/src/*"],
-      "@extensions/pi-packages": ["./packages/extension-core/pi-packages/src/index.ts"],
-      "@extensions/prompts/*": ["./packages/extension-core/prompts/src/*"],
-      "@extensions/prompts": ["./packages/extension-core/prompts/src/index.ts"],
-      "@extensions/rtk/*": ["./packages/extension-core/rtk/src/*"],
-      "@extensions/rtk": ["./packages/extension-core/rtk/src/index.ts"],
-      "@extensions/runtime/*": ["./packages/extension-core/runtime/src/*"],
-      "@extensions/runtime": ["./packages/extension-core/runtime/src/index.ts"],
-      "@extensions/slash-menu/*": ["./packages/extension-core/slash-menu/src/*"],
-      "@extensions/slash-menu": ["./packages/extension-core/slash-menu/src/index.ts"],
-      "@extensions/startup-hero/*": ["./packages/extension-core/startup-hero/src/*"],
-      "@extensions/startup-hero": ["./packages/extension-core/startup-hero/src/index.ts"],
-      "@extensions/subagents/*": ["./packages/extension-core/subagents/src/*"],
-      "@extensions/subagents": ["./packages/extension-core/subagents/src/index.ts"],
-      "@extensions/system-prompt/*": ["./packages/extension-core/system-prompt/src/*"],
-      "@extensions/system-prompt": ["./packages/extension-core/system-prompt/src/index.ts"],
-      "@extensions/tron/*": ["./packages/extension-core/tron/src/*"],
-      "@extensions/tron": ["./packages/extension-core/tron/src/index.ts"],
-      "@extensions/web-search/*": ["./packages/extension-core/web-search/src/*"],
-      "@extensions/web-search": ["./packages/extension-core/web-search/src/index.ts"]
-    }
-  },
-  "exclude": [
-    "src/**/*.test.ts",
-    "apps/**/*.test.ts",
-    "packages/**/*.test.ts"
-  ],
-  "include": [
-    "apps/**/*.ts",
-    "packages/**/*.ts",
-    "test/**/*.ts"
-  ]
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "dist",
+		"declaration": true,
+		"paths": {
+			"@nexus/runtime/*": ["./packages/nexus-runtime/src/*"],
+			"@nexus/runtime": ["./packages/nexus-runtime/src/index.ts"],
+			"@nexus/feature-flags/*": ["./packages/feature-flags/src/*"],
+			"@nexus/feature-flags": ["./packages/feature-flags/src/index.ts"],
+			"@nexus/herdr/*": ["./packages/herdr/src/*"],
+			"@nexus/herdr": ["./packages/herdr/src/index.ts"],
+			"@nexus/mini-apps/*": ["./packages/mini-apps/src/*"],
+			"@nexus/mini-apps": ["./packages/mini-apps/src/index.ts"],
+			"@nexus/observability/*": ["./packages/observability/src/*"],
+			"@nexus/observability": ["./packages/observability/src/index.ts"],
+			"@nexus/pi-platform/*": ["./packages/pi-platform/src/*"],
+			"@nexus/pi-platform": ["./packages/pi-platform/src/index.ts"],
+			"@nexus/tui-kit/*": ["./packages/tui-kit/src/*"],
+			"@nexus/tui-kit": ["./packages/tui-kit/src/index.ts"],
+			"@extensions/ai-providers/*": [
+				"./packages/extension-core/ai-providers/src/*"
+			],
+			"@extensions/ai-providers": [
+				"./packages/extension-core/ai-providers/src/index.ts"
+			],
+			"@extensions/auto-update/*": [
+				"./packages/extension-core/auto-update/src/*"
+			],
+			"@extensions/auto-update": [
+				"./packages/extension-core/auto-update/src/index.ts"
+			],
+			"@extensions/cmux/*": ["./packages/extension-core/cmux/src/*"],
+			"@extensions/cmux": ["./packages/extension-core/cmux/src/index.ts"],
+			"@extensions/context-usage/*": [
+				"./packages/extension-core/context-usage/src/*"
+			],
+			"@extensions/context-usage": [
+				"./packages/extension-core/context-usage/src/index.ts"
+			],
+			"@extensions/exit-message/*": [
+				"./packages/extension-core/exit-message/src/*"
+			],
+			"@extensions/exit-message": [
+				"./packages/extension-core/exit-message/src/index.ts"
+			],
+			"@extensions/feature-management/*": [
+				"./packages/extension-core/feature-management/src/*"
+			],
+			"@extensions/feature-management": [
+				"./packages/extension-core/feature-management/src/index.ts"
+			],
+			"@extensions/fff/*": ["./packages/extension-core/fff/src/*"],
+			"@extensions/fff": ["./packages/extension-core/fff/src/index.ts"],
+			"@extensions/herdr-agent-end-log/*": [
+				"./packages/extension-core/herdr-agent-end-log/src/*"
+			],
+			"@extensions/herdr-agent-end-log": [
+				"./packages/extension-core/herdr-agent-end-log/src/index.ts"
+			],
+			"@extensions/hotkeys/*": ["./packages/extension-core/hotkeys/src/*"],
+			"@extensions/hotkeys": ["./packages/extension-core/hotkeys/src/index.ts"],
+			"@extensions/local-image-reader/*": [
+				"./packages/extension-core/local-image-reader/src/*"
+			],
+			"@extensions/local-image-reader": [
+				"./packages/extension-core/local-image-reader/src/index.ts"
+			],
+			"@extensions/neo-editor/*": [
+				"./packages/extension-core/neo-editor/src/*"
+			],
+			"@extensions/neo-editor": [
+				"./packages/extension-core/neo-editor/src/index.ts"
+			],
+			"@extensions/notify/*": ["./packages/extension-core/notify/src/*"],
+			"@extensions/notify": ["./packages/extension-core/notify/src/index.ts"],
+			"@extensions/observations/*": [
+				"./packages/extension-core/observations/src/*"
+			],
+			"@extensions/observations": [
+				"./packages/extension-core/observations/src/index.ts"
+			],
+			"@extensions/pi-packages/*": [
+				"./packages/extension-core/pi-packages/src/*"
+			],
+			"@extensions/pi-packages": [
+				"./packages/extension-core/pi-packages/src/index.ts"
+			],
+			"@extensions/prompts/*": ["./packages/extension-core/prompts/src/*"],
+			"@extensions/prompts": ["./packages/extension-core/prompts/src/index.ts"],
+			"@extensions/rtk/*": ["./packages/extension-core/rtk/src/*"],
+			"@extensions/rtk": ["./packages/extension-core/rtk/src/index.ts"],
+			"@extensions/runtime/*": ["./packages/extension-core/runtime/src/*"],
+			"@extensions/runtime": ["./packages/extension-core/runtime/src/index.ts"],
+			"@extensions/slash-menu/*": [
+				"./packages/extension-core/slash-menu/src/*"
+			],
+			"@extensions/slash-menu": [
+				"./packages/extension-core/slash-menu/src/index.ts"
+			],
+			"@extensions/startup-hero/*": [
+				"./packages/extension-core/startup-hero/src/*"
+			],
+			"@extensions/startup-hero": [
+				"./packages/extension-core/startup-hero/src/index.ts"
+			],
+			"@extensions/subagents/*": ["./packages/extension-core/subagents/src/*"],
+			"@extensions/subagents": [
+				"./packages/extension-core/subagents/src/index.ts"
+			],
+			"@extensions/system-prompt/*": [
+				"./packages/extension-core/system-prompt/src/*"
+			],
+			"@extensions/system-prompt": [
+				"./packages/extension-core/system-prompt/src/index.ts"
+			],
+			"@extensions/tron/*": ["./packages/extension-core/tron/src/*"],
+			"@extensions/tron": ["./packages/extension-core/tron/src/index.ts"],
+			"@extensions/web-search/*": [
+				"./packages/extension-core/web-search/src/*"
+			],
+			"@extensions/web-search": [
+				"./packages/extension-core/web-search/src/index.ts"
+			]
+		}
+	},
+	"exclude": ["src/**/*.test.ts", "apps/**/*.test.ts", "packages/**/*.test.ts"],
+	"include": ["apps/**/*.ts", "packages/**/*.ts", "test/**/*.ts"]
 }

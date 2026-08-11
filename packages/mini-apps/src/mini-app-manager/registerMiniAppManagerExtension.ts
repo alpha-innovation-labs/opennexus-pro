@@ -8,10 +8,16 @@ import { showMiniAppsModal } from "./command/showMiniAppsModal";
  * @param pi Extension API.
  */
 export function registerMiniAppManagerExtension(pi: ExtensionAPI): void {
-	pi.registerCommand("mini-apps", withSlashMenuGroup({
-		description: "Show installed mini-apps",
-		handler: async (_args, ctx) => {
-			await showMiniAppsModal(ctx);
-		},
-	}, "Mini-Apps"));
+	pi.registerCommand(
+		"mini-apps",
+		withSlashMenuGroup(
+			{
+				description: "Show installed mini-apps",
+				handler: async (_args, ctx) => {
+					await showMiniAppsModal(ctx);
+				},
+			},
+			"Mini-Apps",
+		),
+	);
 }

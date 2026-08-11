@@ -7,6 +7,9 @@ import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
  * @param width Divider width.
  * @returns Divider line.
  */
-export function createTetrisDividerLine(theme: SharedModalTheme, width: number): string {
+export function createTetrisDividerLine(
+	theme: SharedModalTheme,
+	width: number,
+): string {
 	return theme.fg("borderMuted", "─".repeat(Math.max(1, width)));
 }

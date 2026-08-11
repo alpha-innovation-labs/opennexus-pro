@@ -1,8 +1,8 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
+import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon";
 import { hasToolCallFrameState } from "../activity/hasToolCallFrameState";
 import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder";
 import { shouldShowToolCallTopBorder } from "../activity/shouldShowToolCallTopBorder";
-import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon";
 import { measureTronRender } from "../profiling/measureTronRender";
 import { iconForToolName } from "./iconForToolName";
 
@@ -14,7 +14,7 @@ export class FailedToolCallResult {
 		private readonly toolCallId: string,
 		private readonly toolName: string,
 		private readonly errorText: string,
-		private readonly theme: any,
+		private readonly theme: unknown,
 	) {}
 
 	/**
@@ -24,26 +24,48 @@ export class FailedToolCallResult {
 	 * @returns Rendered lines.
 	 */
 	render(width: number): string[] {
-		return measureTronRender("failed-tool-call-result", () => {
-			const innerWidth = Math.max(1, width - 2);
-			const icon = iconForToolName(this.toolName);
-			const prefix = `${icon} ${this.toolName}`;
-			const maxErrorWidth = Math.max(0, innerWidth - visibleWidth(prefix) - 1);
-			const cleanError = this.errorText.replace(/\s+/g, " ").trim();
-			const shownError = maxErrorWidth > 0 ? truncateToWidth(cleanError, maxErrorWidth, "…") : "";
-			const contentWidth = visibleWidth(prefix) + (shownError ? 1 + visibleWidth(shownError) : 0);
-			const pad = " ".repeat(Math.max(0, innerWidth - contentWidth));
-			const hasFrameState = hasToolCallFrameState(this.toolCallId);
-			const lines: string[] = [];
-			if (hasFrameState ? shouldShowToolCallTopBorder(this.toolCallId) : true) {
-				lines.push(this.theme.fg("borderMuted", `┌${"─".repeat(innerWidth)}┐`));
-			}
-			lines.push(`${this.theme.fg("borderMuted", "│")}${colorToolCallIcon(icon)} ${this.theme.fg("text", this.theme.bold(this.toolName))}${shownError ? ` ${this.theme.fg("error", shownError)}` : ""}${pad}${this.theme.fg("borderMuted", "│")}`);
-			if (hasFrameState ? shouldShowToolCallBottomBorder(this.toolCallId) : true) {
-				lines.push(this.theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`));
-			}
-			return lines;
-		}, { width, toolName: this.toolName, errorLength: this.errorText.length });
+		return measureTronRender(
+			"failed-tool-call-result",
+			() => {
+				const innerWidth = Math.max(1, width - 2);
+				const icon = iconForToolName(this.toolName);
+				const prefix = `${icon} ${this.toolName}`;
+				const maxErrorWidth = Math.max(
+					0,
+					innerWidth - visibleWidth(prefix) - 1,
+				);
+				const cleanError = this.errorText.replace(/\s+/g, " ").trim();
+				const shownError =
+					maxErrorWidth > 0
+						? truncateToWidth(cleanError, maxErrorWidth, "…")
+						: "";
+				const contentWidth =
+					visibleWidth(prefix) +
+					(shownError ? 1 + visibleWidth(shownError) : 0);
+				const pad = " ".repeat(Math.max(0, innerWidth - contentWidth));
+				const hasFrameState = hasToolCallFrameState(this.toolCallId);
+				const lines: string[] = [];
+				if (
+					hasFrameState ? shouldShowToolCallTopBorder(this.toolCallId) : true
+				) {
+					lines.push(
+						this.theme.fg("borderMuted", `┌${"─".repeat(innerWidth)}┐`),
+					);
+				}
+				lines.push(
+					`${this.theme.fg("borderMuted", "│")}${colorToolCallIcon(icon)} ${this.theme.fg("text", this.theme.bold(this.toolName))}${shownError ? ` ${this.theme.fg("error", shownError)}` : ""}${pad}${this.theme.fg("borderMuted", "│")}`,
+				);
+				if (
+					hasFrameState ? shouldShowToolCallBottomBorder(this.toolCallId) : true
+				) {
+					lines.push(
+						this.theme.fg("borderMuted", `└${"─".repeat(innerWidth)}┘`),
+					);
+				}
+				return lines;
+			},
+			{ width, toolName: this.toolName, errorLength: this.errorText.length },
+		);
 	}
 
 	/**

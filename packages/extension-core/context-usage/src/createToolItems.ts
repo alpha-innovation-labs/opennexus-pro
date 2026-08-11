@@ -1,7 +1,7 @@
-import type { ContextUsageDetailItem } from "./types";
 import { estimateTokensFromText } from "./estimateTokensFromText";
 import { getToolText } from "./getToolText";
 import { isMcpToolName } from "./isMcpToolName";
+import type { ContextUsageDetailItem } from "./types";
 
 /**
  * Creates tokenized tool detail items from system prompt options.
@@ -10,8 +10,14 @@ import { isMcpToolName } from "./isMcpToolName";
  * @param mcpOnly Whether to include only MCP tools.
  * @returns Tool detail items in prompt order.
  */
-export function createToolItems(snippets: Record<string, string> | undefined, mcpOnly: boolean): ContextUsageDetailItem[] {
-  return Object.entries(snippets ?? {})
-    .filter(([name]) => isMcpToolName(name) === mcpOnly)
-    .map(([name, snippet]) => ({ label: name, tokens: estimateTokensFromText(getToolText(name, snippet)) }));
+export function createToolItems(
+	snippets: Record<string, string> | undefined,
+	mcpOnly: boolean,
+): ContextUsageDetailItem[] {
+	return Object.entries(snippets ?? {})
+		.filter(([name]) => isMcpToolName(name) === mcpOnly)
+		.map(([name, snippet]) => ({
+			label: name,
+			tokens: estimateTokensFromText(getToolText(name, snippet)),
+		}));
 }

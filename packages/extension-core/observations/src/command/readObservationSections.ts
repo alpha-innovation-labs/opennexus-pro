@@ -16,8 +16,16 @@ export async function readObservationSections(
 	conversationId: string,
 	cwd: string,
 	sessionFile: string | null,
-): Promise<{ items: AutocompleteItem[]; detailsByValue: Map<string, string[]> }> {
-	const state = await readObservationState(statePath, conversationId, cwd, sessionFile);
+): Promise<{
+	items: AutocompleteItem[];
+	detailsByValue: Map<string, string[]>;
+}> {
+	const state = await readObservationState(
+		statePath,
+		conversationId,
+		cwd,
+		sessionFile,
+	);
 	const items: AutocompleteItem[] = state.topics.map((topic) => ({
 		label: Array.isArray(topic.title) ? topic.title.join(", ") : topic.title,
 		value: String(topic.index),
@@ -29,18 +37,14 @@ export async function readObservationSections(
 				`${formatObservationTimestamp(topic.startedAt)}: ${topic.title}`,
 				"",
 				"User messages",
-				...(
-					topic.userMessages.length > 0
-						? topic.userMessages.map((message) => `- ${message}`)
-						: ["- No user messages recorded."]
-				),
+				...(topic.userMessages.length > 0
+					? topic.userMessages.map((message) => `- ${message}`)
+					: ["- No user messages recorded."]),
 				"",
 				"Assistant thinking",
-				...(
-					topic.assistantBullets.length > 0
-						? topic.assistantBullets.map((bullet) => `- ${bullet}`)
-						: ["- No assistant observations yet."]
-				),
+				...(topic.assistantBullets.length > 0
+					? topic.assistantBullets.map((bullet) => `- ${bullet}`)
+					: ["- No assistant observations yet."]),
 			],
 		]),
 	);

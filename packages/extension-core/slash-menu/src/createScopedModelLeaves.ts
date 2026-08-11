@@ -1,5 +1,5 @@
-import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
+import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import type { SlashMenuLeaf } from "./types";
 
 /**
@@ -8,16 +8,20 @@ import type { SlashMenuLeaf } from "./types";
  * @param ctx Extension context.
  * @returns Scoped-model leaves.
  */
-export function createScopedModelLeaves(ctx: ExtensionContext): SlashMenuLeaf[] {
-  const enabled = new Set(SettingsManager.create(ctx.cwd).getEnabledModels() ?? []);
-  return ctx.modelRegistry.getAvailable().map((model) => {
-    const value = `${model.provider}/${model.id}`;
-    return {
-      kind: "model",
-      label: `${enabled.size === 0 || enabled.has(value) ? "✓" : "○"} ${model.id}`,
-      description: "",
-      groupLabel: model.provider,
-      value,
-    };
-  });
+export function createScopedModelLeaves(
+	ctx: ExtensionContext,
+): SlashMenuLeaf[] {
+	const enabled = new Set(
+		SettingsManager.create(ctx.cwd).getEnabledModels() ?? [],
+	);
+	return ctx.modelRegistry.getAvailable().map((model) => {
+		const value = `${model.provider}/${model.id}`;
+		return {
+			kind: "model",
+			label: `${enabled.size === 0 || enabled.has(value) ? "✓" : "○"} ${model.id}`,
+			description: "",
+			groupLabel: model.provider,
+			value,
+		};
+	});
 }

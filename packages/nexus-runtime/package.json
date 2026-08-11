@@ -1,14 +1,14 @@
 {
-  "name": "@nexus/runtime",
-  "version": "0.2.24",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "lint": "biome lint .",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {},
-  "exports": {
-    "./*": "./dist/*"
-  }
+	"name": "@nexus/runtime",
+	"version": "0.2.24",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {},
+	"exports": {
+		"./*": "./dist/*"
+	}
 }

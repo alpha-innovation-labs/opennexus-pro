@@ -9,11 +9,21 @@ import { writeEditorTriggerConfig } from "./writeEditorTriggerConfig";
  * @param cwd Project working directory.
  * @param text Exact text that should auto-submit.
  */
-export async function ensureSubmitTrigger(cwd: string, text: string): Promise<void> {
+export async function ensureSubmitTrigger(
+	cwd: string,
+	text: string,
+): Promise<void> {
 	const config = await readEditorTriggerConfig(cwd);
-	const exists = config.rules.some((rule) => rule.action?.type === "submit" && (rule.match?.mode ?? "exact") === "exact" && rule.match?.text === text);
+	const exists = config.rules.some(
+		(rule) =>
+			rule.action?.type === "submit" &&
+			(rule.match?.mode ?? "exact") === "exact" &&
+			rule.match?.text === text,
+	);
 	if (exists) return;
-	const writableConfig = await readEditorTriggerConfigFile(getGlobalEditorTriggerConfigPath());
+	const writableConfig = await readEditorTriggerConfigFile(
+		getGlobalEditorTriggerConfigPath(),
+	);
 	writableConfig.rules.push({
 		match: { text, mode: "exact" },
 		action: { type: "submit" },

@@ -11,10 +11,10 @@ import { toSessionTranscriptEntries } from "./toSessionTranscriptEntries";
  * @returns Rendered transcript lines.
  */
 export function readResumeTranscriptLines(
-  theme: ExtensionCommandContext["ui"]["theme"],
-  width: number,
-  sessionPath: string,
+	theme: ExtensionCommandContext["ui"]["theme"],
+	width: number,
+	sessionPath: string,
 ): string[] {
-  const transcript = toSessionTranscriptEntries(sessionPath);
-  return renderTranscriptLines(theme, width, { transcript });
+	const transcript = toSessionTranscriptEntries(sessionPath);
+	return renderTranscriptLines(theme, width, { transcript });
 }

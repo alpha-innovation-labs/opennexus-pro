@@ -1,23 +1,28 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { getAllBundledExtensionIds, bundledFeatureFlags } from "@nexus/feature-flags/registry";
-import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
-import { createFeatureStatusRows } from "../model/createFeatureStatusRows";
-import { FeatureManagementModal } from "../ui/FeatureManagementModal";
-import { updateFeatureStatusRow } from "../model/persistFeatureFlagOverride";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import { createNexusPackageManager } from "@extensions/pi-packages/package/createNexusPackageManager";
 import { normalizeNpmPackageName } from "@extensions/pi-packages/package/normalizeNpmPackageName";
-import { getFeatureManagementGroup } from "../model/getFeatureManagementGroup";
-import type { FeatureStatusRow } from "../model/types";
+import {
+	bundledFeatureFlags,
+	getAllBundledExtensionIds,
+} from "@nexus/feature-flags/registry";
+import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import { MINIMAL_EXTENSION_WHITELIST } from "@nexus/runtime/shared/minimal";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createFeatureStatusRows } from "../model/createFeatureStatusRows";
+import { getFeatureManagementGroup } from "../model/getFeatureManagementGroup";
+import { updateFeatureStatusRow } from "../model/persistFeatureFlagOverride";
+import type { FeatureStatusRow } from "../model/types";
+import { FeatureManagementModal } from "../ui/FeatureManagementModal";
 
 /**
  * Opens the feature management modal.
  *
  * @param ctx Extension command context.
  */
-export async function showFeaturesModal(ctx: ExtensionCommandContext): Promise<void> {
+export async function showFeaturesModal(
+	ctx: ExtensionCommandContext,
+): Promise<void> {
 	if (!ctx.hasUI) {
 		ctx.ui.notify("/features requires an interactive UI session.", "warning");
 		return;
@@ -25,18 +30,28 @@ export async function showFeaturesModal(ctx: ExtensionCommandContext): Promise<v
 
 	// Build initial snapshot: all extensions from registry, default enabled.
 	const allIds = getAllBundledExtensionIds();
-	const staticConfig: Record<string, { enabled: boolean; features: string[] }> = {};
+	const staticConfig: Record<string, { enabled: boolean; features: string[] }> =
+		{};
 	for (const id of allIds) {
-		staticConfig[id] = { enabled: true, features: bundledFeatureFlags[id]?.features ?? [] };
+		staticConfig[id] = {
+			enabled: true,
+			features: bundledFeatureFlags[id]?.features ?? [],
+		};
 	}
 
 	// Read user overrides so the modal reflects the real enabled/disabled state.
 	const userConfig = readNexusUserConfig();
 	const userOverrides: Record<string, boolean> = userConfig.featureFlags ?? {};
-	const runtimeConfig: Record<string, { enabled: boolean; features: string[] }> = {};
+	const runtimeConfig: Record<
+		string,
+		{ enabled: boolean; features: string[] }
+	> = {};
 	for (const id of allIds) {
 		runtimeConfig[id] = {
-			enabled: isRuntimeExtensionFeatureEnabled(id, userOverrides[id] === false ? false : true),
+			enabled: isRuntimeExtensionFeatureEnabled(
+				id,
+				userOverrides[id] !== false,
+			),
 			features: bundledFeatureFlags[id]?.features ?? [],
 		};
 	}
@@ -53,14 +68,18 @@ export async function showFeaturesModal(ctx: ExtensionCommandContext): Promise<v
 	const piPackageRows = piPackages.map((entry) => {
 		const name = normalizeNpmPackageName(entry.source);
 		const piPackagesMap = userConfig.extensions?.pi_packages ?? {};
-		const enabled = piPackagesMap[entry.source] !== false && piPackagesMap[name] !== false;
+		const enabled =
+			piPackagesMap[entry.source] !== false && piPackagesMap[name] !== false;
 		return {
 			category: "core" as const,
 			sourceCategory: "other" as const,
 			extensionId: entry.source,
 			feature: name,
 			status: enabled ? "enabled" : "disabled",
-			group: getFeatureManagementGroup(entry.source, MINIMAL_EXTENSION_WHITELIST),
+			group: getFeatureManagementGroup(
+				entry.source,
+				MINIMAL_EXTENSION_WHITELIST,
+			),
 		} satisfies FeatureStatusRow;
 	});
 
@@ -76,7 +95,12 @@ export async function showFeaturesModal(ctx: ExtensionCommandContext): Promise<v
 				rows,
 				done,
 				(extensionId, patch, row) => {
-					return updateFeatureStatusRow(extensionId, patch, row, MINIMAL_EXTENSION_WHITELIST);
+					return updateFeatureStatusRow(
+						extensionId,
+						patch,
+						row,
+						MINIMAL_EXTENSION_WHITELIST,
+					);
 				},
 			),
 		{

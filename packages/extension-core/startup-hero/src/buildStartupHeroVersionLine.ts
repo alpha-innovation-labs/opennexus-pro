@@ -16,6 +16,8 @@ export function buildStartupHeroVersionLine(
 	width: number,
 	startupDurationBadge?: string,
 ): string {
-	const text = startupDurationBadge ? `v${version} ${startupDurationBadge}` : `v${version}`;
+	const text = startupDurationBadge
+		? `v${version} ${startupDurationBadge}`
+		: `v${version}`;
 	return theme.fg("thinkingText", truncateToWidth(text, width, "…"));
 }

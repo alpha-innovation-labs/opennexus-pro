@@ -1,8 +1,8 @@
-import type { RtkGainPeriod } from "./RtkGainPeriod";
-import type { RtkGainReport } from "./RtkGainReport";
 import { isRecord } from "./isRecord";
 import { isRtkGainPeriod } from "./isRtkGainPeriod";
 import { isRtkGainSummary } from "./isRtkGainSummary";
+import type { RtkGainPeriod } from "./RtkGainPeriod";
+import type { RtkGainReport } from "./RtkGainReport";
 
 /**
  * Parses the `rtk gain --format json` output used by Nexus savings.
@@ -11,17 +11,17 @@ import { isRtkGainSummary } from "./isRtkGainSummary";
  * @returns Parsed RTK gain report.
  */
 export function parseRtkGainJson(jsonText: string): RtkGainReport {
-  const parsed = JSON.parse(jsonText) as unknown;
-  if (!isRecord(parsed) || !isRtkGainSummary(parsed.summary)) {
-    throw new Error("RTK gain JSON did not include a valid summary.");
-  }
+	const parsed = JSON.parse(jsonText) as unknown;
+	if (!isRecord(parsed) || !isRtkGainSummary(parsed.summary)) {
+		throw new Error("RTK gain JSON did not include a valid summary.");
+	}
 
-  return {
-    daily: parseOptionalPeriods(parsed.daily),
-    monthly: parseOptionalPeriods(parsed.monthly),
-    summary: parsed.summary,
-    weekly: parseOptionalPeriods(parsed.weekly),
-  };
+	return {
+		daily: parseOptionalPeriods(parsed.daily),
+		monthly: parseOptionalPeriods(parsed.monthly),
+		summary: parsed.summary,
+		weekly: parseOptionalPeriods(parsed.weekly),
+	};
 }
 
 /**
@@ -31,9 +31,9 @@ export function parseRtkGainJson(jsonText: string): RtkGainReport {
  * @returns Valid period rows, or undefined when absent.
  */
 function parseOptionalPeriods(value: unknown): RtkGainPeriod[] | undefined {
-  if (value === undefined) return undefined;
-  if (!Array.isArray(value) || !value.every(isRtkGainPeriod)) {
-    throw new Error("RTK gain JSON included invalid period rows.");
-  }
-  return value;
+	if (value === undefined) return undefined;
+	if (!Array.isArray(value) || !value.every(isRtkGainPeriod)) {
+		throw new Error("RTK gain JSON included invalid period rows.");
+	}
+	return value;
 }

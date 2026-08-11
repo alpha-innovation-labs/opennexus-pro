@@ -8,16 +8,21 @@ import { readThemes } from "@nexus/runtime/config/readThemes";
  *
  * @returns { themes, currentTheme } Sorted theme names and the active theme.
  */
-export async function listThemes(): Promise<{ themes: string[]; currentTheme: string }> {
-  const names = await readThemes(process.cwd());
+export async function listThemes(): Promise<{
+	themes: string[];
+	currentTheme: string;
+}> {
+	const names = await readThemes(process.cwd());
 
-  const settings = SettingsManager.create(process.cwd());
-  const storedTheme = settings.getTheme();
-  // Validate: Pi may have a stale theme name in settings.json that no longer exists.
-  const currentTheme = names.includes(storedTheme || "") ? (storedTheme ?? "nexus-black") : "nexus-black";
+	const settings = SettingsManager.create(process.cwd());
+	const storedTheme = settings.getTheme();
+	// Validate: Pi may have a stale theme name in settings.json that no longer exists.
+	const currentTheme = names.includes(storedTheme || "")
+		? (storedTheme ?? "nexus-black")
+		: "nexus-black";
 
-  return {
-    themes: names,
-    currentTheme,
-  };
+	return {
+		themes: names,
+		currentTheme,
+	};
 }

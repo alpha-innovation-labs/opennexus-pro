@@ -7,9 +7,19 @@ import { runCmuxCommand } from "./runCmuxCommand";
  * @param title New workspace title.
  * @returns True when cmux accepted the rename request.
  */
-export async function renameCurrentCmuxWorkspace(title: string): Promise<boolean> {
+export async function renameCurrentCmuxWorkspace(
+	title: string,
+): Promise<boolean> {
 	const target = getCurrentCmuxRenameTarget();
 	if (!target.workspaceId) return false;
 
-	return runCmuxCommand(["workspace-action", "--action", "rename", "--workspace", target.workspaceId, "--title", title]);
+	return runCmuxCommand([
+		"workspace-action",
+		"--action",
+		"rename",
+		"--workspace",
+		target.workspaceId,
+		"--title",
+		title,
+	]);
 }

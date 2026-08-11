@@ -9,7 +9,11 @@ import type { CmuxSavedSession, CmuxSavedWorkspace } from "./types";
  * @param workspaces Structured workspaces with session ids.
  * @returns Saved cmux session snapshot.
  */
-export function createCmuxSavedSession(name: string, lines: string[], workspaces?: CmuxSavedWorkspace[]): CmuxSavedSession {
+export function createCmuxSavedSession(
+	name: string,
+	lines: string[],
+	workspaces?: CmuxSavedWorkspace[],
+): CmuxSavedSession {
 	return {
 		id: createCmuxSavedSessionId(),
 		name,

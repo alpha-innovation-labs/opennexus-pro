@@ -10,7 +10,11 @@ import type { CmuxWorkspace } from "./types";
  * @param registrations Live Nexus session registrations.
  * @returns Display title for the workspace row.
  */
-export function formatCmuxWorkspaceTitle(workspace: CmuxWorkspace, registrations: CmuxSessionRegistryEntry[]): string {
-	if (!hasSingleRegisteredNexusSurface(workspace, registrations)) return workspace.title;
+export function formatCmuxWorkspaceTitle(
+	workspace: CmuxWorkspace,
+	registrations: CmuxSessionRegistryEntry[],
+): string {
+	if (!hasSingleRegisteredNexusSurface(workspace, registrations))
+		return workspace.title;
 	return formatCmuxNexusTitle(workspace.title.replace(/^π\s*/, ""));
 }

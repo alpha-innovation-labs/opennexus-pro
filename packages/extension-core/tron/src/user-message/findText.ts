@@ -4,7 +4,7 @@
  * @param node Render tree node.
  * @returns First discovered text value.
  */
-export function findText(node: any): string {
+export function findText(node: unknown): string {
 	if (!node) return "";
 	if (typeof node.text === "string") return node.text;
 	if (!Array.isArray(node.children)) return "";

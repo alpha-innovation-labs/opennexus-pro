@@ -37,7 +37,11 @@ export async function runCmuxJsonCommand<T>(args: string[]): Promise<T> {
 		child.once("close", (code) => {
 			clearTimeout(timeout);
 			if (code !== 0) {
-				reject(new Error(stderr.trim() || `cmux exited with code ${code ?? "unknown"}`));
+				reject(
+					new Error(
+						stderr.trim() || `cmux exited with code ${code ?? "unknown"}`,
+					),
+				);
 				return;
 			}
 			try {

@@ -7,6 +7,11 @@ import { readJsonFile } from "./readJsonFile";
  * @param cwd Project cwd.
  * @returns Project config object.
  */
-export async function readProjectConfig(cwd: string): Promise<Record<string, unknown>> {
-  return (await readJsonFile<Record<string, unknown>>(getProjectConfigPath(cwd))) ?? {};
+export async function readProjectConfig(
+	cwd: string,
+): Promise<Record<string, unknown>> {
+	return (
+		(await readJsonFile<Record<string, unknown>>(getProjectConfigPath(cwd))) ??
+		{}
+	);
 }

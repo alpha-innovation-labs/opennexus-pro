@@ -36,7 +36,8 @@ export function clearActiveAssistantTurnTiming(): void {
  * @param timestamp Start timestamp.
  */
 export function startAssistantMessageTiming(timestamp: number): void {
-	if (typeof currentTurnStartedAt !== "number") currentTurnStartedAt = timestamp;
+	if (typeof currentTurnStartedAt !== "number")
+		currentTurnStartedAt = timestamp;
 	currentAssistantStartedAt = timestamp;
 }
 
@@ -46,9 +47,13 @@ export function startAssistantMessageTiming(timestamp: number): void {
  * @param messageTimestamp Final assistant message timestamp.
  * @param durationLabel Compact duration label.
  */
-export function finishAssistantMessageTiming(messageTimestamp: number, durationLabel: string): void {
+export function finishAssistantMessageTiming(
+	messageTimestamp: number,
+	durationLabel: string,
+): void {
 	TIMING_BY_TIMESTAMP.set(messageTimestamp, durationLabel);
-	if (typeof currentAssistantStartedAt === "number") STARTED_AT_BY_TIMESTAMP.set(messageTimestamp, currentAssistantStartedAt);
+	if (typeof currentAssistantStartedAt === "number")
+		STARTED_AT_BY_TIMESTAMP.set(messageTimestamp, currentAssistantStartedAt);
 	currentAssistantStartedAt = undefined;
 }
 
@@ -58,7 +63,10 @@ export function finishAssistantMessageTiming(messageTimestamp: number, durationL
  * @param messageTimestamp Final assistant message timestamp.
  * @param durationLabel Compact duration label.
  */
-export function restoreAssistantMessageTiming(messageTimestamp: number, durationLabel: string): void {
+export function restoreAssistantMessageTiming(
+	messageTimestamp: number,
+	durationLabel: string,
+): void {
 	TIMING_BY_TIMESTAMP.set(messageTimestamp, durationLabel);
 }
 
@@ -86,7 +94,9 @@ export function getCurrentAssistantStartedAt(): number | undefined {
  * @param messageTimestamp Assistant message timestamp.
  * @returns Stored duration label.
  */
-export function getAssistantMessageTiming(messageTimestamp: number): string | undefined {
+export function getAssistantMessageTiming(
+	messageTimestamp: number,
+): string | undefined {
 	return TIMING_BY_TIMESTAMP.get(messageTimestamp);
 }
 
@@ -96,6 +106,8 @@ export function getAssistantMessageTiming(messageTimestamp: number): string | un
  * @param messageTimestamp Assistant message timestamp.
  * @returns Stored start timestamp.
  */
-export function getAssistantMessageStartedAt(messageTimestamp: number): number | undefined {
+export function getAssistantMessageStartedAt(
+	messageTimestamp: number,
+): number | undefined {
 	return STARTED_AT_BY_TIMESTAMP.get(messageTimestamp);
 }

@@ -1,7 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { logExtensionEvent } from "@nexus/observability/startup-debug";
 import { resetAssistantActivityGrouping } from "../activity/resetAssistantActivityGrouping";
 import { resetThinkingToolBridge } from "../activity/resetThinkingToolBridge";
-import { logExtensionEvent } from "@nexus/observability/startup-debug";
 import { registerCompactBuiltInTool } from "./registerCompactBuiltInTool";
 
 /**
@@ -9,7 +9,9 @@ import { registerCompactBuiltInTool } from "./registerCompactBuiltInTool";
  *
  * @param pi Extension API.
  */
-export default function registerCompactToolLinesExtension(pi: ExtensionAPI): void {
+export default function registerCompactToolLinesExtension(
+	pi: ExtensionAPI,
+): void {
 	logExtensionEvent("compact-tool-lines", "init");
 	pi.on("session_start", (event, ctx) => {
 		logExtensionEvent("compact-tool-lines", "session_start", {
@@ -31,5 +33,8 @@ export default function registerCompactToolLinesExtension(pi: ExtensionAPI): voi
 	registerCompactBuiltInTool(pi, "find");
 	registerCompactBuiltInTool(pi, "grep");
 	registerCompactBuiltInTool(pi, "ls");
-	logExtensionEvent("compact-tool-lines", "tools_registered_for_extension_instance");
+	logExtensionEvent(
+		"compact-tool-lines",
+		"tools_registered_for_extension_instance",
+	);
 }

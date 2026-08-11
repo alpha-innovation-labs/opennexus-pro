@@ -5,5 +5,5 @@
  * @returns YYYY-MM-DD date key.
  */
 export function formatUtcDateKey(date: Date): string {
-  return date.toISOString().slice(0, 10);
+	return date.toISOString().slice(0, 10);
 }

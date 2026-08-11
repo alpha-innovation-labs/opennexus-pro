@@ -8,8 +8,10 @@ import type { PromptlineConfig } from "./types";
  * @param cwd Project working directory.
  * @returns Fresh promptline config.
  */
-export async function refreshPromptlineConfig(cwd: string): Promise<PromptlineConfig> {
-  const config = await readPromptlineConfig(cwd);
-  setPromptlineConfig(config);
-  return config;
+export async function refreshPromptlineConfig(
+	cwd: string,
+): Promise<PromptlineConfig> {
+	const config = await readPromptlineConfig(cwd);
+	setPromptlineConfig(config);
+	return config;
 }

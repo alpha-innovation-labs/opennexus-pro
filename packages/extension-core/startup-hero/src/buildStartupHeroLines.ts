@@ -27,7 +27,8 @@ export function buildStartupHeroLines(
 ): string[] {
 	const statusLines = buildStartupHeroStatusLines(theme, status, width);
 	const agentLabel = process.env[NEXUS_AGENT_LABEL_ENV_VAR]?.trim();
-	const devBadge = agentLabel === "Nexus dev" ? theme.fg("muted", "  dev") : undefined;
+	const devBadge =
+		agentLabel === "Nexus dev" ? theme.fg("muted", "  dev") : undefined;
 	return [
 		...buildStartupHeroLogoLines(theme),
 		...(devBadge ? [devBadge] : []),

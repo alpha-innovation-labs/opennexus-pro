@@ -8,5 +8,5 @@ import { getProjectConfigDirName } from "./getProjectConfigDirName";
  * @returns Absolute project config directory path.
  */
 export function getProjectConfigDirPath(cwd: string): string {
-  return resolve(cwd, getProjectConfigDirName());
+	return resolve(cwd, getProjectConfigDirName());
 }

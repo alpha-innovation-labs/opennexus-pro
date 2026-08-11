@@ -7,6 +7,9 @@ import { formatCompactDuration } from "../duration/formatCompactDuration";
  * @param now Current timestamp in milliseconds.
  * @returns Working message with compact elapsed duration.
  */
-export function formatWorkingPromptMessage(startedAt: number, now: number): string {
+export function formatWorkingPromptMessage(
+	startedAt: number,
+	now: number,
+): string {
 	return `Working... (⏱ ${formatCompactDuration(Math.max(0, now - startedAt))})`;
 }

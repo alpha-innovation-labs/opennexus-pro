@@ -9,5 +9,7 @@ export type NexusAppDefaults = Record<string, unknown>;
  * @returns Parsed app-default settings.
  */
 export function readBundledDefaultSettings(): NexusAppDefaults {
-  return JSON.parse(readFileSync(getBundledDefaultSettingsPath(), "utf8")) as NexusAppDefaults;
+	return JSON.parse(
+		readFileSync(getBundledDefaultSettingsPath(), "utf8"),
+	) as NexusAppDefaults;
 }

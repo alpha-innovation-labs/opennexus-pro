@@ -8,5 +8,5 @@ import { getProjectConfigDirPath } from "./getProjectConfigDirPath";
  * @returns Absolute project config file path (.nexus/config.json).
  */
 export function getProjectConfigPath(cwd: string): string {
-  return join(getProjectConfigDirPath(cwd), "config.json");
+	return join(getProjectConfigDirPath(cwd), "config.json");
 }

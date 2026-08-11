@@ -7,5 +7,5 @@ import { getUserConfigDirPath } from "./getUserConfigDirPath";
  * @returns Absolute user themes directory path.
  */
 export function getUserThemesPath(): string {
-  return join(getUserConfigDirPath(), "themes");
+	return join(getUserConfigDirPath(), "themes");
 }

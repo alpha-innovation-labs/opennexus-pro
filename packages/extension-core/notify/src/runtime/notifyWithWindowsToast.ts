@@ -13,5 +13,9 @@ export function notifyWithWindowsToast(
 	body: string,
 	execFileFn: typeof execFile = execFile,
 ): void {
-	execFileFn("powershell.exe", ["-NoProfile", "-Command", buildWindowsToastScript(title, body)]);
+	execFileFn("powershell.exe", [
+		"-NoProfile",
+		"-Command",
+		buildWindowsToastScript(title, body),
+	]);
 }

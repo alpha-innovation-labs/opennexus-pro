@@ -6,5 +6,7 @@ import { fileURLToPath } from "node:url";
  * @returns Absolute tsx binary path.
  */
 export function getTsxRuntimeBinaryPath(): string {
-	return fileURLToPath(new URL("../../../../node_modules/.bin/tsx", import.meta.url));
+	return fileURLToPath(
+		new URL("../../../../node_modules/.bin/tsx", import.meta.url),
+	);
 }

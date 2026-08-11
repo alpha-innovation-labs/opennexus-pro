@@ -5,5 +5,5 @@
  * @returns Provider-free model id.
  */
 export function stripProviderPrefix(modelId: string): string {
-  return modelId.replace(/^[^/]+\//, "");
+	return modelId.replace(/^[^/]+\//, "");
 }

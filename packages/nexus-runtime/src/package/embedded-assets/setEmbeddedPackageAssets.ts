@@ -1,4 +1,7 @@
-import { embeddedPackageAssetsGlobalKey, type EmbeddedPackageAssetsGlobal } from "./embeddedPackageAssetsGlobal";
+import {
+	type EmbeddedPackageAssetsGlobal,
+	embeddedPackageAssetsGlobalKey,
+} from "./embeddedPackageAssetsGlobal";
 import type { EmbeddedPackageAssetsModule } from "./types";
 
 /**
@@ -6,6 +9,9 @@ import type { EmbeddedPackageAssetsModule } from "./types";
  *
  * @param assets Embedded package asset data generated during release build.
  */
-export function setEmbeddedPackageAssets(assets: EmbeddedPackageAssetsModule): void {
-  (globalThis as EmbeddedPackageAssetsGlobal)[embeddedPackageAssetsGlobalKey] = assets;
+export function setEmbeddedPackageAssets(
+	assets: EmbeddedPackageAssetsModule,
+): void {
+	(globalThis as EmbeddedPackageAssetsGlobal)[embeddedPackageAssetsGlobalKey] =
+		assets;
 }

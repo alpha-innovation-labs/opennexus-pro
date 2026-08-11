@@ -8,15 +8,19 @@ import type { RegisteredSlashCommand } from "./types";
  * @param getCommands Runtime command reader.
  * @returns Commands normalized for the Nexus slash menu.
  */
-export function getDynamicSlashCommands(getCommands: ExtensionAPI["getCommands"]): RegisteredSlashCommand[] {
-  const commands = getCommands().map((command) => ({
-    name: command.name,
-    description: command.description,
-    source: command.source,
-    sourceInfo: command.sourceInfo,
-  }));
-  return [
-    ...filterVisibleRuntimeSlashCommands(commands.filter((command) => command.source === "extension")),
-    ...commands.filter((command) => command.source !== "extension"),
-  ];
+export function getDynamicSlashCommands(
+	getCommands: ExtensionAPI["getCommands"],
+): RegisteredSlashCommand[] {
+	const commands = getCommands().map((command) => ({
+		name: command.name,
+		description: command.description,
+		source: command.source,
+		sourceInfo: command.sourceInfo,
+	}));
+	return [
+		...filterVisibleRuntimeSlashCommands(
+			commands.filter((command) => command.source === "extension"),
+		),
+		...commands.filter((command) => command.source !== "extension"),
+	];
 }

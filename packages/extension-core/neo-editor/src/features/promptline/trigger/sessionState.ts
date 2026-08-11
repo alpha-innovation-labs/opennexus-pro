@@ -9,7 +9,7 @@ let activeTriggerSession: TriggerState | null = null;
  * @param prefix Initial trigger prefix.
  */
 export function startTriggerSession(kind: TriggerKind, prefix: string): void {
-  activeTriggerSession = { kind, prefix };
+	activeTriggerSession = { kind, prefix };
 }
 
 /**
@@ -18,7 +18,7 @@ export function startTriggerSession(kind: TriggerKind, prefix: string): void {
  * @returns Active trigger session.
  */
 export function getTriggerSession(): TriggerState | null {
-  return activeTriggerSession;
+	return activeTriggerSession;
 }
 
 /**
@@ -27,13 +27,13 @@ export function getTriggerSession(): TriggerState | null {
  * @param prefix Latest trigger prefix.
  */
 export function updateTriggerSessionPrefix(prefix: string): void {
-  if (!activeTriggerSession) return;
-  activeTriggerSession = { ...activeTriggerSession, prefix };
+	if (!activeTriggerSession) return;
+	activeTriggerSession = { ...activeTriggerSession, prefix };
 }
 
 /**
  * Clears any active trigger session.
  */
 export function clearTriggerSession(): void {
-  activeTriggerSession = null;
+	activeTriggerSession = null;
 }

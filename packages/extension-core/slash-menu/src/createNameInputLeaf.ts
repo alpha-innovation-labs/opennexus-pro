@@ -7,10 +7,10 @@ import type { SlashMenuLeaf } from "./types";
  * @returns Session-name input leaf.
  */
 export function createNameInputLeaf(value: string): SlashMenuLeaf {
-  return {
-    kind: "entry",
-    label: value || "(empty)",
-    description: "Edit session display name",
-    value: "name-input",
-  };
+	return {
+		kind: "entry",
+		label: value || "(empty)",
+		description: "Edit session display name",
+		value: "name-input",
+	};
 }

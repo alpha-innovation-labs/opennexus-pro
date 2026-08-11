@@ -10,7 +10,11 @@ import { startupProfileLogPath } from "./startupProfileLogPath";
  * @param event Event name.
  * @param data Optional structured payload.
  */
-export function logStartupProfileEvent(scope: string, event: string, data?: Record<string, unknown>): void {
+export function logStartupProfileEvent(
+	scope: string,
+	event: string,
+	data?: Record<string, unknown>,
+): void {
 	if (!isStartupProfileEnabled()) return;
 	try {
 		const line = {

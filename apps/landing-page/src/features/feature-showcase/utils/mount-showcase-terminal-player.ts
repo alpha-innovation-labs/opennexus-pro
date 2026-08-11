@@ -1,7 +1,7 @@
 import { createShowcasePlayerOptions } from "./create-showcase-player-options";
 
 type AsciinemaPlayerInstance = {
-  readonly dispose?: () => void;
+	readonly dispose?: () => void;
 };
 
 /**
@@ -11,9 +11,16 @@ type AsciinemaPlayerInstance = {
  * @param castSrc Recording source URL.
  * @returns The mounted player instance.
  */
-export function mountShowcaseTerminalPlayer(target: HTMLElement, castSrc: string): AsciinemaPlayerInstance | null {
-  if (!window.AsciinemaPlayer) return null;
+export function mountShowcaseTerminalPlayer(
+	target: HTMLElement,
+	castSrc: string,
+): AsciinemaPlayerInstance | null {
+	if (!window.AsciinemaPlayer) return null;
 
-  target.replaceChildren();
-  return window.AsciinemaPlayer.create(castSrc, target, createShowcasePlayerOptions()) as AsciinemaPlayerInstance;
+	target.replaceChildren();
+	return window.AsciinemaPlayer.create(
+		castSrc,
+		target,
+		createShowcasePlayerOptions(),
+	) as AsciinemaPlayerInstance;
 }

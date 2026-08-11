@@ -1,4 +1,4 @@
-import { clsx, type ClassValue } from "clsx";
+import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 /**
@@ -8,5 +8,5 @@ import { twMerge } from "tailwind-merge";
  * @returns A Tailwind-safe class string.
  */
 export function cn(...values: ClassValue[]): string {
-  return twMerge(clsx(values));
+	return twMerge(clsx(values));
 }

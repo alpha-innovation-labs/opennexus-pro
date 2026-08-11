@@ -14,6 +14,10 @@ export function mergeEditorTriggerConfigs(
 	projectConfig: EditorTriggerConfig,
 ): EditorTriggerConfig {
 	return {
-		rules: [...bundledConfig.rules, ...globalConfig.rules, ...projectConfig.rules],
+		rules: [
+			...bundledConfig.rules,
+			...globalConfig.rules,
+			...projectConfig.rules,
+		],
 	};
 }

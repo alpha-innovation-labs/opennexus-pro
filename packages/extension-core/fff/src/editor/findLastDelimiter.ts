@@ -7,8 +7,8 @@ const PATH_DELIMITERS = new Set([" ", "\t", '"', "'", "="]);
  * @returns Delimiter index or -1.
  */
 export function findLastDelimiter(text: string): number {
-  for (let index = text.length - 1; index >= 0; index -= 1) {
-    if (PATH_DELIMITERS.has(text[index] ?? "")) return index;
-  }
-  return -1;
+	for (let index = text.length - 1; index >= 0; index -= 1) {
+		if (PATH_DELIMITERS.has(text[index] ?? "")) return index;
+	}
+	return -1;
 }

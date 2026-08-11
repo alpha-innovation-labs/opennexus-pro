@@ -6,15 +6,23 @@ import type { SlashMenuLeaf } from "./types";
  * @param entries Session entries.
  * @returns Fork leaves.
  */
-export function createForkLeaves(entries: Array<{ id: string; type: string; message?: { role?: string; content?: unknown } }>): SlashMenuLeaf[] {
-  return entries
-    .filter((entry) => entry.type === "message" && entry.message?.role === "user")
-    .map((entry, index) => ({
-      kind: "entry",
-      label: `#${index + 1} ${summarizeContent(entry.message?.content)}`,
-      description: "",
-      value: entry.id,
-    }));
+export function createForkLeaves(
+	entries: Array<{
+		id: string;
+		type: string;
+		message?: { role?: string; content?: unknown };
+	}>,
+): SlashMenuLeaf[] {
+	return entries
+		.filter(
+			(entry) => entry.type === "message" && entry.message?.role === "user",
+		)
+		.map((entry, index) => ({
+			kind: "entry",
+			label: `#${index + 1} ${summarizeContent(entry.message?.content)}`,
+			description: "",
+			value: entry.id,
+		}));
 }
 
 /**
@@ -24,10 +32,19 @@ export function createForkLeaves(entries: Array<{ id: string; type: string; mess
  * @returns One-line summary.
  */
 function summarizeContent(content: unknown): string {
-  if (typeof content === "string") return content.slice(0, 160);
-  if (!Array.isArray(content)) return "User message";
-  return content
-    .map((block) => (typeof block === "object" && block && "type" in block && (block as { type?: string }).type === "text" ? (block as { text?: string }).text ?? "" : ""))
-    .join(" ")
-    .slice(0, 160) || "User message";
+	if (typeof content === "string") return content.slice(0, 160);
+	if (!Array.isArray(content)) return "User message";
+	return (
+		content
+			.map((block) =>
+				typeof block === "object" &&
+				block &&
+				"type" in block &&
+				(block as { type?: string }).type === "text"
+					? ((block as { text?: string }).text ?? "")
+					: "",
+			)
+			.join(" ")
+			.slice(0, 160) || "User message"
+	);
 }

@@ -6,13 +6,18 @@ import { countContentLines } from "./countContentLines";
  * @param args Edit tool arguments.
  * @returns Added and removed line totals.
  */
-export function countChangedLines(args: { edits?: Array<{ oldText?: string; newText?: string }>; oldText?: string; newText?: string }): {
+export function countChangedLines(args: {
+	edits?: Array<{ oldText?: string; newText?: string }>;
+	oldText?: string;
+	newText?: string;
+}): {
 	added: number;
 	removed: number;
 } {
-	const edits = Array.isArray(args.edits) && args.edits.length > 0
-		? args.edits
-		: [{ oldText: args.oldText, newText: args.newText }];
+	const edits =
+		Array.isArray(args.edits) && args.edits.length > 0
+			? args.edits
+			: [{ oldText: args.oldText, newText: args.newText }];
 
 	return edits.reduce(
 		(totals, edit) => ({

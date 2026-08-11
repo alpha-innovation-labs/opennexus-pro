@@ -1,5 +1,5 @@
-import type { SlashMenuLevel } from "./SlashMenuLevel";
 import { getResourceMenuIcon } from "./getResourceMenuIcon";
+import type { SlashMenuLevel } from "./SlashMenuLevel";
 import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 
 const TOP_LEVEL_ICONS: Record<string, string> = {
@@ -43,7 +43,10 @@ const TOP_LEVEL_ICONS: Record<string, string> = {
  * @param level Current slash-menu level.
  * @returns Single visible icon for the item.
  */
-export function getSlashMenuItemIcon(item: SlashMenuLeaf | SlashMenuSection, level: SlashMenuLevel): string {
+export function getSlashMenuItemIcon(
+	item: SlashMenuLeaf | SlashMenuSection,
+	level: SlashMenuLevel,
+): string {
 	if (level === "setting-choice") return "";
 	if (level === "name-input") return "✎";
 	if (level === "model" || level === "scoped-models") return "•";
@@ -53,12 +56,16 @@ export function getSlashMenuItemIcon(item: SlashMenuLeaf | SlashMenuSection, lev
 	if (level === "resume") return "↩";
 	if (level === "prompts" || level === "skills") return getResourceMenuIcon();
 	// Handle fused skill leaves at the top level.
-	if (level === "top" && item.value.startsWith("skill:")) return getResourceMenuIcon();
+	if (level === "top" && item.value.startsWith("skill:"))
+		return getResourceMenuIcon();
 	if (level === "tools") return "⚒";
 	if (level === "settings") {
 		if ((item as SlashMenuLeaf).kind === "theme") return "◐";
 		if ((item as SlashMenuLeaf).kind === "toggle") return "◉";
 		return "▸";
 	}
-	return TOP_LEVEL_ICONS[item.value] ?? (["Extensions", "Mini-Apps"].includes(item.groupLabel ?? "") ? "✦" : "›");
+	return (
+		TOP_LEVEL_ICONS[item.value] ??
+		(["Extensions", "Mini-Apps"].includes(item.groupLabel ?? "") ? "✦" : "›")
+	);
 }

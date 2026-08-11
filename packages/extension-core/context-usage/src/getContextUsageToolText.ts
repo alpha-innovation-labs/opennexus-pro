@@ -9,6 +9,10 @@ import { formatContextUsage } from "./formatContextUsage";
  * @param ctx Tool execution context.
  * @returns Formatted context usage text.
  */
-export async function getContextUsageToolText(ctx: ExtensionContext): Promise<string> {
-  return formatContextUsage(await createContextUsageReport(createRuntimeSnapshot(ctx)));
+export async function getContextUsageToolText(
+	ctx: ExtensionContext,
+): Promise<string> {
+	return formatContextUsage(
+		await createContextUsageReport(createRuntimeSnapshot(ctx)),
+	);
 }

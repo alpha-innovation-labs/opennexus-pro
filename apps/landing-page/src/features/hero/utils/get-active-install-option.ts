@@ -7,6 +7,9 @@ import type { InstallOption } from "../types/install-option";
  * @param activeId Selected option id.
  * @returns The selected install option when available.
  */
-export function getActiveInstallOption(options: readonly InstallOption[], activeId: string): InstallOption | undefined {
-  return options.find((option) => option.id === activeId) ?? options[0];
+export function getActiveInstallOption(
+	options: readonly InstallOption[],
+	activeId: string,
+): InstallOption | undefined {
+	return options.find((option) => option.id === activeId) ?? options[0];
 }

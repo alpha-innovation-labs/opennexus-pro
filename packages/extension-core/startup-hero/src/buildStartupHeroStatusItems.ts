@@ -7,7 +7,10 @@ import type { StartupHeroStatus, StartupHeroTheme } from "./types";
  * @param status Startup status summary.
  * @returns Colored status item segments.
  */
-export function buildStartupHeroStatusItems(theme: StartupHeroTheme, status: StartupHeroStatus): string[] {
+export function buildStartupHeroStatusItems(
+	theme: StartupHeroTheme,
+	status: StartupHeroStatus,
+): string[] {
 	const skillActive = status.activeSkillCount > 0;
 	const skillStatusIcon = skillActive ? "✓" : "✗";
 	const agentsStatusIcon = status.agentsMdLoaded ? "✓" : "✗";
@@ -15,7 +18,8 @@ export function buildStartupHeroStatusItems(theme: StartupHeroTheme, status: Sta
 	const miniAppStatusIcon = status.enabledMiniAppCount > 0 ? "✓" : "✗";
 	const skillColor = skillActive ? "syntaxType" : "error";
 	const agentsColor = status.agentsMdLoaded ? "syntaxType" : "error";
-	const extensionColor = status.enabledExtensionCount > 0 ? "syntaxType" : "error";
+	const extensionColor =
+		status.enabledExtensionCount > 0 ? "syntaxType" : "error";
 	const miniAppColor = status.enabledMiniAppCount > 0 ? "syntaxType" : "error";
 	return [
 		`󰧑 Skills (${status.activeSkillCount}) ${theme.fg(skillColor, skillStatusIcon)}`,

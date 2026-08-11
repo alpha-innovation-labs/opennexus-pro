@@ -5,5 +5,5 @@
  * @returns Single-line session name.
  */
 export function sanitizeSessionNameInput(value: string): string {
-  return value.replace(/[\r\n]+/g, " ").trim();
+	return value.replace(/[\r\n]+/g, " ").trim();
 }

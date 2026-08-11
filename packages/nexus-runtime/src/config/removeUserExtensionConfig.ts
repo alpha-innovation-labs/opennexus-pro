@@ -10,7 +10,8 @@ import { writeNexusUserConfig } from "./writeNexusUserConfig";
  */
 export function removeUserExtensionConfig(packageSource: string): boolean {
 	const config = readNexusUserConfig();
-	if (!(config.extensions?.pi_packages?.[packageSource] !== undefined)) return false;
+	if (!(config.extensions?.pi_packages?.[packageSource] !== undefined))
+		return false;
 
 	const pi_packages = { ...config.extensions.pi_packages };
 	delete pi_packages[packageSource];

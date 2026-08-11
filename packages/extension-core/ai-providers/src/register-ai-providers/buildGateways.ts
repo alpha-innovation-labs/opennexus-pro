@@ -16,5 +16,5 @@ import { getGateways as _getGateways } from "../gateway/getGateways";
  * @returns Array of configured AiGateway instances.
  */
 export async function buildGateways(configuredProviders: ProvidersConfig) {
-  return _getGateways(configuredProviders);
+	return _getGateways(configuredProviders);
 }

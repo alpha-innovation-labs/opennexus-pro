@@ -6,7 +6,12 @@
  * @param args Tool arguments.
  * @param startedAt Start timestamp in milliseconds.
  */
-export function noteCollapsedToolExecutionStart(toolCallId: string, toolName: string, args: Record<string, unknown>, startedAt = Date.now()): void {
+export function noteCollapsedToolExecutionStart(
+	toolCallId: string,
+	toolName: string,
+	args: Record<string, unknown>,
+	startedAt = Date.now(),
+): void {
 	void toolCallId;
 	void toolName;
 	void args;

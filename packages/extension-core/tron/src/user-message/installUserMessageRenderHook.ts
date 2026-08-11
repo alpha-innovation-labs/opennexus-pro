@@ -5,5 +5,7 @@ import { renderCachedUserMessage } from "./renderCachedUserMessage";
  * Installs the custom user-message renderer.
  */
 export function installUserMessageRenderHook(): void {
-  setUserMessageRenderHook((component: any, width: number): string[] => renderCachedUserMessage(component, width));
+	setUserMessageRenderHook((component: unknown, width: number): string[] =>
+		renderCachedUserMessage(component, width),
+	);
 }

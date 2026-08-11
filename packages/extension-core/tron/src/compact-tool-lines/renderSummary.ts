@@ -1,5 +1,5 @@
-import { SingleLineToolCall } from "./SingleLineToolCall";
 import { renderEditChangeStats } from "./renderEditChangeStats";
+import { SingleLineToolCall } from "./SingleLineToolCall";
 import type { SummaryText } from "./SummaryText";
 import { truncateSingleLine } from "./truncateSingleLine";
 import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart";
@@ -18,7 +18,7 @@ export function renderSummary(
 	toolCallId: string,
 	toolName: string,
 	summary: SummaryText,
-	theme: any,
+	theme: unknown,
 	hasAttachedResult: boolean,
 ): SingleLineToolCall {
 	const normalizedSummary = {
@@ -32,5 +32,11 @@ export function renderSummary(
 		? renderEditChangeStats(normalizedSummary, theme)
 		: normalizedSummary;
 
-	return new SingleLineToolCall(toolCallId, toolName, themedSummary, theme, hasAttachedResult);
+	return new SingleLineToolCall(
+		toolCallId,
+		toolName,
+		themedSummary,
+		theme,
+		hasAttachedResult,
+	);
 }

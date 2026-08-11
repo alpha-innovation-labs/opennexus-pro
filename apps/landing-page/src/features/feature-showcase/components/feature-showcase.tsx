@@ -8,10 +8,13 @@ import { ShowcaseStory } from "./showcase-story";
  * @returns The feature showcase section.
  */
 export function FeatureShowcase() {
-  return (
-    <section className="feature-showcase mx-auto bg-neutral-50 pb-20 dark:bg-black" id="features">
-      <ShowcaseNav groups={showcaseGroups} />
-      <ShowcaseStory groups={showcaseGroups} />
-    </section>
-  );
+	return (
+		<section
+			className="feature-showcase mx-auto bg-neutral-50 pb-20 dark:bg-black"
+			id="features"
+		>
+			<ShowcaseNav groups={showcaseGroups} />
+			<ShowcaseStory groups={showcaseGroups} />
+		</section>
+	);
 }

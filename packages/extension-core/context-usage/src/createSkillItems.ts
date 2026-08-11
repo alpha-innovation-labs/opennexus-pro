@@ -1,7 +1,6 @@
 import type { BuildSystemPromptOptions } from "@earendil-works/pi-coding-agent";
-import type { ContextUsageDetailItem } from "./types";
 import { estimateTokensFromText } from "./estimateTokensFromText";
-
+import type { ContextUsageDetailItem } from "./types";
 
 /**
  * Creates tokenized skill items exactly as Pi lists them in the system prompt.
@@ -9,13 +8,17 @@ import { estimateTokensFromText } from "./estimateTokensFromText";
  * @param options Latest system prompt options.
  * @returns Skill detail items.
  */
-export async function createSkillItems(options: BuildSystemPromptOptions | undefined): Promise<ContextUsageDetailItem[]> {
-  return (options?.skills ?? [])
-    .filter((skill) => !skill.disableModelInvocation)
-    .map((skill) => ({
-      label: skill.name,
-      tokens: estimateTokensFromText(formatPromptSkillEntry(skill.name, skill.description, skill.filePath)),
-    }));
+export async function createSkillItems(
+	options: BuildSystemPromptOptions | undefined,
+): Promise<ContextUsageDetailItem[]> {
+	return (options?.skills ?? [])
+		.filter((skill) => !skill.disableModelInvocation)
+		.map((skill) => ({
+			label: skill.name,
+			tokens: estimateTokensFromText(
+				formatPromptSkillEntry(skill.name, skill.description, skill.filePath),
+			),
+		}));
 }
 
 /**
@@ -26,8 +29,18 @@ export async function createSkillItems(options: BuildSystemPromptOptions | undef
  * @param filePath Skill file path.
  * @returns Prompt skill entry text.
  */
-function formatPromptSkillEntry(name: string, description: string, filePath: string): string {
-  return [`  <skill>`, `    <name>${escapeXml(name)}</name>`, `    <description>${escapeXml(description)}</description>`, `    <location>${escapeXml(filePath)}</location>`, `  </skill>`].join("\n");
+function formatPromptSkillEntry(
+	name: string,
+	description: string,
+	filePath: string,
+): string {
+	return [
+		`  <skill>`,
+		`    <name>${escapeXml(name)}</name>`,
+		`    <description>${escapeXml(description)}</description>`,
+		`    <location>${escapeXml(filePath)}</location>`,
+		`  </skill>`,
+	].join("\n");
 }
 
 /**
@@ -37,5 +50,10 @@ function formatPromptSkillEntry(name: string, description: string, filePath: str
  * @returns XML-safe value.
  */
 function escapeXml(value: string): string {
-  return value.replace(/&/gu, "&amp;").replace(/</gu, "&lt;").replace(/>/gu, "&gt;").replace(/"/gu, "&quot;").replace(/'/gu, "&apos;");
+	return value
+		.replace(/&/gu, "&amp;")
+		.replace(/</gu, "&lt;")
+		.replace(/>/gu, "&gt;")
+		.replace(/"/gu, "&quot;")
+		.replace(/'/gu, "&apos;");
 }

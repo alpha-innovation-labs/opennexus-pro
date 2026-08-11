@@ -5,5 +5,7 @@
  * @returns True when --delete-session is present.
  */
 export function hasDeleteSessionFlag(argv: readonly string[]): boolean {
-  return argv.some((arg) => arg === "--delete-session" || arg.startsWith("--delete-session="));
+	return argv.some(
+		(arg) => arg === "--delete-session" || arg.startsWith("--delete-session="),
+	);
 }

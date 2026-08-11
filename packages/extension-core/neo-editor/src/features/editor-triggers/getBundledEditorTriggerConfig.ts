@@ -6,16 +6,16 @@ import type { EditorTriggerConfig } from "./types";
  * @returns Built-in editor trigger config.
  */
 export function getBundledEditorTriggerConfig(): EditorTriggerConfig {
-  return {
-    rules: [
-      {
-        match: { text: "/sessions", mode: "exact" },
-        action: { type: "submit" },
-      },
-      {
-        match: { text: "/reload", mode: "exact" },
-        action: { type: "submit" },
-      },
-    ],
-  };
+	return {
+		rules: [
+			{
+				match: { text: "/sessions", mode: "exact" },
+				action: { type: "submit" },
+			},
+			{
+				match: { text: "/reload", mode: "exact" },
+				action: { type: "submit" },
+			},
+		],
+	};
 }

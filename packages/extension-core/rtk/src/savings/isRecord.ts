@@ -5,5 +5,5 @@
  * @returns True when the value can be read as a record.
  */
 export function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null;
+	return typeof value === "object" && value !== null;
 }

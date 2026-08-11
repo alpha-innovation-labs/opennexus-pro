@@ -5,5 +5,5 @@
  * @returns Date label such as "4/13/2026".
  */
 export function formatDate(date: Date): string {
-  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+	return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 }

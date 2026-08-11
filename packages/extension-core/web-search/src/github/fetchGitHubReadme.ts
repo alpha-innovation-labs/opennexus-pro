@@ -1,6 +1,12 @@
 import { fetchRawGitHubFile } from "./fetchRawGitHubFile";
 
-const README_CANDIDATES = ["README.md", "readme.md", "README", "README.txt", "README.rst"];
+const README_CANDIDATES = [
+	"README.md",
+	"readme.md",
+	"README",
+	"README.txt",
+	"README.rst",
+];
 
 /**
  * Fetches the first recognizable README from a GitHub repository.
@@ -11,10 +17,18 @@ const README_CANDIDATES = ["README.md", "readme.md", "README", "README.txt", "RE
  * @param signal Optional cancellation signal.
  * @returns README text, or null when unavailable.
  */
-export async function fetchGitHubReadme(owner: string, repo: string, ref: string, signal?: AbortSignal): Promise<string | null> {
-  for (const path of README_CANDIDATES) {
-    const content = await fetchRawGitHubFile(owner, repo, ref, path, signal);
-    if (content) return content.length > 8192 ? `${content.slice(0, 8192)}\n\n[README truncated at 8K chars]` : content;
-  }
-  return null;
+export async function fetchGitHubReadme(
+	owner: string,
+	repo: string,
+	ref: string,
+	signal?: AbortSignal,
+): Promise<string | null> {
+	for (const path of README_CANDIDATES) {
+		const content = await fetchRawGitHubFile(owner, repo, ref, path, signal);
+		if (content)
+			return content.length > 8192
+				? `${content.slice(0, 8192)}\n\n[README truncated at 8K chars]`
+				: content;
+	}
+	return null;
 }

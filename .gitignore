@@ -22,3 +22,4 @@ test.fish
 .DS_Store
 apps/landing-page/out/
 apps/landing-page/.next/
+apps/landing-page/public/asciinema/asciinema-player.min.js

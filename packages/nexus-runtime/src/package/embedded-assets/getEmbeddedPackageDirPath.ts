@@ -7,5 +7,5 @@ import { getNexusAgentDirPath } from "../../config/getNexusAgentDirPath";
  * @returns Absolute extracted package directory.
  */
 export function getEmbeddedPackageDirPath(): string {
-  return join(getNexusAgentDirPath(), ".package");
+	return join(getNexusAgentDirPath(), ".package");
 }

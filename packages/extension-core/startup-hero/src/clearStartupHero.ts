@@ -7,5 +7,7 @@ import { startupHeroWidgetKey } from "./startupHeroWidgetKey";
  * @param ctx Pi extension context.
  */
 export function clearStartupHero(ctx: ExtensionContext): void {
-	ctx.ui.setWidget(startupHeroWidgetKey, undefined, { placement: "aboveEditor" });
+	ctx.ui.setWidget(startupHeroWidgetKey, undefined, {
+		placement: "aboveEditor",
+	});
 }

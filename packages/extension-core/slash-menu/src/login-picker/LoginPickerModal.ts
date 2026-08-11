@@ -1,20 +1,19 @@
-import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type { Api, Model } from "@earendil-works/pi-ai";
+import {
+	type BuiltinProvider,
+	builtinProviders,
+	getBuiltinModels,
+} from "@earendil-works/pi-ai/providers/all";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
-import { getBuiltinModels, builtinProviders, type BuiltinProvider } from "@earendil-works/pi-ai/providers/all";
-import type { Model, Api } from "@earendil-works/pi-ai";
-import type { SlashMenuLeaf } from "../types";
-import { createLoadingLeaf } from "../createLoadingLeaf";
-import { filterMenuItems } from "../filterMenuItems";
-import { toAutocompleteItems } from "../toAutocompleteItems";
 import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
 import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/select/types";
-import { createLoginProviderList } from "./createLoginProviderList";
+import { toAutocompleteItems } from "../toAutocompleteItems";
+import type { SlashMenuLeaf } from "../types";
 import { createLoginModelList } from "./createLoginModelList";
+import { createLoginProviderList } from "./createLoginProviderList";
 import { filterLoginItems } from "./filterLoginItems";
-import { resolveProviderModels } from "./resolveProviderModels";
 import { toggleProviderEnabled } from "./toggleProviderEnabled";
 
 const SLASH_MENU_LEFT_PANE_RATIO = 0.42;
@@ -26,163 +25,162 @@ const SLASH_MENU_LEFT_PANE_RATIO = 0.42;
  * persist to config.json under the `providers` key.
  */
 export class LoginPickerModal extends SelectPreviewModal {
-  private selectedProviderId: string | null = null;
-  private query = "";
-  private providerStates: Record<string, { enabled: boolean }> = {};
-  private allProviders: SlashMenuLeaf[] = [];
-  private allModelsByProvider = new Map<string, SlashMenuLeaf[]>();
-  private catalogLoaded = false;
-  private catalog: Array<{ provider: { id: string; name: string }; models: Model<Api>[] }> = [];
+	private selectedProviderId: string | null = null;
+	private query = "";
+	private providerStates: Record<string, { enabled: boolean }> = {};
+	private allProviders: SlashMenuLeaf[] = [];
+	private allModelsByProvider = new Map<string, SlashMenuLeaf[]>();
+	private catalog: Array<{
+		provider: { id: string; name: string };
+		models: Model<Api>[];
+	}> = [];
 
-  constructor(
-    uiTheme: SelectPreviewTheme,
-    public readonly requestClose: () => void,
-    public readonly requestRender: () => void,
-    public readonly onCommandPicked: (commandText: string) => void,
-    public readonly notify: (message: string, type: string) => void,
-  ) {
-    super(
-      uiTheme,
-      () => undefined,
-      requestClose,
-      undefined,
-      {
-        leftTitle: "Providers",
-        rightTitle: "Models",
-        bottomTitle: "Search",
-        bottomPrefix: "> /",
-        leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO,
-        fullScreen: true,
-      },
-    );
-    this.init();
-  }
+	constructor(
+		uiTheme: SelectPreviewTheme,
+		public readonly requestClose: () => void,
+		public readonly requestRender: () => void,
+		public readonly onCommandPicked: (commandText: string) => void,
+		public readonly notify: (message: string, type: string) => void,
+	) {
+		super(uiTheme, () => undefined, requestClose, undefined, {
+			leftTitle: "Providers",
+			rightTitle: "Models",
+			bottomTitle: "Search",
+			bottomPrefix: "> /",
+			leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO,
+			fullScreen: true,
+		});
+		this.init();
+	}
 
-  /**
-   * Initializes the modal: loads provider states, fetches the model catalog,
-   * and renders the initial left-pane provider list.
-   */
-  public async init(): Promise<void> {
-    const config = readNexusUserConfig();
-    this.providerStates = config.providers ?? {};
-    this.catalog = builtinProviders().map((provider) => ({
-      provider,
-      models: getBuiltinModels(provider.id as BuiltinProvider),
-    }));
-    this.allProviders = createLoginProviderList(this.providerStates);
-    // Build the model map for all providers.
-    for (const provider of this.catalog) {
-      const models = createLoginModelList(provider.provider.id, "");
-      this.allModelsByProvider.set(provider.provider.id, models);
-    }
-    this.renderLeftPane();
-    this.requestRender();
-  }
+	/**
+	 * Initializes the modal: loads provider states, fetches the model catalog,
+	 * and renders the initial left-pane provider list.
+	 */
+	public async init(): Promise<void> {
+		const config = readNexusUserConfig();
+		this.providerStates = config.providers ?? {};
+		this.catalog = builtinProviders().map((provider) => ({
+			provider,
+			models: getBuiltinModels(provider.id as BuiltinProvider),
+		}));
+		this.allProviders = createLoginProviderList(this.providerStates);
+		// Build the model map for all providers.
+		for (const provider of this.catalog) {
+			const models = createLoginModelList(provider.provider.id, "");
+			this.allModelsByProvider.set(provider.provider.id, models);
+		}
+		this.renderLeftPane();
+		this.requestRender();
+	}
 
-  /**
-   * Renders the left-pane provider list with current filter state.
-   */
-  public renderLeftPane(): void {
-    const { filteredProviders, filteredModelsByProvider } = filterLoginItems(
-      this.allProviders,
-      this.allModelsByProvider,
-      this.query,
-    );
-    const items = toAutocompleteItems(filteredProviders);
-    this.setItems(items);
-    this.setTitles("Providers", this.selectedProviderId ?
-      this.selectedProviderId : "Models");
-    // Set right pane content
-    if (this.selectedProviderId) {
-      const models = filteredModelsByProvider.get(this.selectedProviderId) ?? [];
-      if (models.length > 0) {
-        this.setRightLines(models.map((m) => m.label));
-      } else {
-        this.setRightLines([`No models for ${this.selectedProviderId}`]);
-      }
-    } else {
-      this.setRightLines(["Select a provider"]);
-    }
-    this.requestRender();
-  }
+	/**
+	 * Renders the left-pane provider list with current filter state.
+	 */
+	public renderLeftPane(): void {
+		const { filteredProviders, filteredModelsByProvider } = filterLoginItems(
+			this.allProviders,
+			this.allModelsByProvider,
+			this.query,
+		);
+		const items = toAutocompleteItems(filteredProviders);
+		this.setItems(items);
+		this.setTitles(
+			"Providers",
+			this.selectedProviderId ? this.selectedProviderId : "Models",
+		);
+		// Set right pane content
+		if (this.selectedProviderId) {
+			const models =
+				filteredModelsByProvider.get(this.selectedProviderId) ?? [];
+			if (models.length > 0) {
+				this.setRightLines(models.map((m) => m.label));
+			} else {
+				this.setRightLines([`No models for ${this.selectedProviderId}`]);
+			}
+		} else {
+			this.setRightLines(["Select a provider"]);
+		}
+		this.requestRender();
+	}
 
-  /**
-   * Handles keyboard input for the login picker.
-   */
-  override handleInput(data: string): void {
-    // Tab switches focus between left and right panes
-    if (matchesKey(data, Key.tab)) {
-      if (this.isRightPaneFocused()) {
-        this.activePane = "left";
-      } else {
-        this.focusRightPane();
-      }
-      this.requestRender();
-      return;
-    }
-    // Escape closes the modal
-    if (matchesKey(data, Key.escape)) {
-      this.saveProviderStates();
-      this.requestClose();
-      return;
-    }
-    // Delegate to parent for left-pane navigation
-    if (!this.isRightPaneFocused()) {
-      super.handleInput(data);
-      return;
-    }
-    // Right pane: Escape or Tab goes back to left
-    if (matchesKey(data, Key.escape) || matchesKey(data, Key.tab)) {
-      this.activePane = "left";
-      this.requestRender();
-      return;
-    }
-    // Right pane: delegate scrolling
-    super.handleInput(data);
-  }
+	/**
+	 * Handles keyboard input for the login picker.
+	 */
+	override handleInput(data: string): void {
+		// Tab switches focus between left and right panes
+		if (matchesKey(data, Key.tab)) {
+			if (this.isRightPaneFocused()) {
+				this.activePane = "left";
+			} else {
+				this.focusRightPane();
+			}
+			this.requestRender();
+			return;
+		}
+		// Escape closes the modal
+		if (matchesKey(data, Key.escape)) {
+			this.saveProviderStates();
+			this.requestClose();
+			return;
+		}
+		// Delegate to parent for left-pane navigation
+		if (!this.isRightPaneFocused()) {
+			super.handleInput(data);
+			return;
+		}
+		// Right pane: Escape or Tab goes back to left
+		if (matchesKey(data, Key.escape) || matchesKey(data, Key.tab)) {
+			this.activePane = "left";
+			this.requestRender();
+			return;
+		}
+		// Right pane: delegate scrolling
+		super.handleInput(data);
+	}
 
-  /**
-   * Returns the currently selected login item.
-   */
-  public getSelectedItem(): ReturnType<SelectPreviewModal["getSelectedItem"]> {
-    return super.getSelectedItem();
-  }
+	/**
+	 * Returns the currently selected login item.
+	 */
+	public getSelectedItem(): ReturnType<SelectPreviewModal["getSelectedItem"]> {
+		return super.getSelectedItem();
+	}
 
-  /**
-   * Handles a login picker item pick.
-   */
-  public handlePick(item: { value: string }): void {
-    const isProvider = this.allProviders.some((p) => p.value === item.value);
-    if (isProvider) {
-      // Toggle provider enabled state
-      const { states, nextEnabled } = toggleProviderEnabled(item.value);
-      this.providerStates = states;
-      // Rebuild provider list with updated states
-      this.allProviders = createLoginProviderList(this.providerStates);
-      // Select this provider and update right pane
-      this.selectedProviderId = item.value;
-      this.renderLeftPane();
-      return;
-    }
-    // Model selection: dispatch /nexus-model-select
-    this.onCommandPicked(`/nexus-model-select ${item.value}`);
-    this.saveProviderStates();
-    this.requestClose();
-  }
+	/**
+	 * Handles a login picker item pick.
+	 */
+	public handlePick(item: { value: string }): void {
+		const isProvider = this.allProviders.some((p) => p.value === item.value);
+		if (isProvider) {
+			// Toggle provider enabled state
+			const { states } = toggleProviderEnabled(item.value);
+			this.providerStates = states;
+			// Rebuild provider list with updated states
+			this.allProviders = createLoginProviderList(this.providerStates);
+			// Select this provider and update right pane
+			this.selectedProviderId = item.value;
+			this.renderLeftPane();
+			return;
+		}
+		// Model selection: dispatch /nexus-model-select
+		this.onCommandPicked(`/nexus-model-select ${item.value}`);
+		this.saveProviderStates();
+		this.requestClose();
+	}
 
-  /**
-   * Updates the search query and re-filters both panes.
-   */
-  updateQuery(newQuery: string): void {
-    this.query = newQuery;
-    this.renderLeftPane();
-  }
+	/**
+	 * Updates the search query and re-filters both panes.
+	 */
+	updateQuery(newQuery: string): void {
+		this.query = newQuery;
+		this.renderLeftPane();
+	}
 
-  /**
-   * Saves provider states to config.json, merging with existing config.
-   */
-  private saveProviderStates(): void {
-    const config = readNexusUserConfig();
-    writeNexusUserConfig({ ...config, providers: this.providerStates });
-  }
+	/**
+	 * Saves provider states to config.json, merging with existing config.
+	 */
+	private saveProviderStates(): void {
+		const config = readNexusUserConfig();
+		writeNexusUserConfig({ ...config, providers: this.providerStates });
+	}
 }

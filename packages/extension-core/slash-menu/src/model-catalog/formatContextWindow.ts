@@ -5,6 +5,6 @@
  * @returns Locale-free grouped token count.
  */
 export function formatContextWindow(contextWindow: number): string {
-  if (!Number.isFinite(contextWindow) || contextWindow <= 0) return "0";
-  return Math.trunc(contextWindow).toLocaleString("en-US");
+	if (!Number.isFinite(contextWindow) || contextWindow <= 0) return "0";
+	return Math.trunc(contextWindow).toLocaleString("en-US");
 }

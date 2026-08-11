@@ -6,7 +6,9 @@ import { resetAssistantActivityGrouping } from "./activity/resetAssistantActivit
  *
  * @param entries Session entries from the active branch.
  */
-export function bootstrapAssistantActivityGrouping(entries: SessionEntry[]): void {
+export function bootstrapAssistantActivityGrouping(
+	entries: SessionEntry[],
+): void {
 	void entries;
 	resetAssistantActivityGrouping();
 }

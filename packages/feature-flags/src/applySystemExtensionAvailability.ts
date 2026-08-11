@@ -10,15 +10,17 @@ import type { ExtensionFeatureFlag } from "./types";
  * @param flags Extension feature flags to apply system checks to.
  * @returns Flags with system-level availability applied.
  */
-export function applySystemExtensionAvailability(flags: ExtensionFeatureFlag[]): ExtensionFeatureFlag[] {
-  const cmuxAvailable = isCmuxCommandAvailable();
+export function applySystemExtensionAvailability(
+	flags: ExtensionFeatureFlag[],
+): ExtensionFeatureFlag[] {
+	const cmuxAvailable = isCmuxCommandAvailable();
 
-  return flags.map((flag) => {
-    const isCmux = flag.id === "cmux";
-    const available = isCmux ? cmuxAvailable : true;
-    return {
-      ...flag,
-      enabled: flag.enabled && available,
-    };
-  });
+	return flags.map((flag) => {
+		const isCmux = flag.id === "cmux";
+		const available = isCmux ? cmuxAvailable : true;
+		return {
+			...flag,
+			enabled: flag.enabled && available,
+		};
+	});
 }

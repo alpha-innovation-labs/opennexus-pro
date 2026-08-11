@@ -10,7 +10,13 @@ import { renderTetrisBox } from "./renderTetrisBox";
  * @param height Panel height.
  * @returns Boxed hotkey panel lines.
  */
-export function renderTetrisHotkeysBox(theme: SharedModalTheme & { bold: (text: string) => string }, width: number, height: number): string[] {
-	const lines = getTetrisHotkeyRows().map(([key, label]) => `${theme.fg("accent", key.padEnd(6))} ${label}`);
+export function renderTetrisHotkeysBox(
+	theme: SharedModalTheme & { bold: (text: string) => string },
+	width: number,
+	height: number,
+): string[] {
+	const lines = getTetrisHotkeyRows().map(
+		([key, label]) => `${theme.fg("accent", key.padEnd(6))} ${label}`,
+	);
 	return renderTetrisBox(theme, "Hotkeys", lines, width, height);
 }

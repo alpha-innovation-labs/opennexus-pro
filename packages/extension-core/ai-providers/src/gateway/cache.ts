@@ -11,15 +11,15 @@
  * - `writeSingleGatewayCache()` — writes models to cache
  */
 import {
-  getModelCachePath,
-  readProviderStateCache,
-  writeProviderStateCache,
-  type ProviderStateCache,
+	getModelCachePath,
+	type ProviderStateCache,
+	readProviderStateCache,
+	writeProviderStateCache,
 } from "../cache/index";
 import { fetchModelsFromGateway } from "./model-discovery";
 
 type ProviderConfigInput = {
-  models?: Array<Record<string, unknown>>;
+	models?: Array<Record<string, unknown>>;
 };
 
 /**
@@ -30,12 +30,12 @@ type ProviderConfigInput = {
  * @param providerId — The gateway's provider identifier.
  */
 export async function getModels(
-  providerId: string,
+	providerId: string,
 ): Promise<NonNullable<ProviderConfigInput["models"]>> {
-  const cachePath = getModelCachePath();
-  const cache: ProviderStateCache = await readProviderStateCache(cachePath);
-  const cached = cache[providerId];
-  return cached ?? [];
+	const cachePath = getModelCachePath();
+	const cache: ProviderStateCache = await readProviderStateCache(cachePath);
+	const cached = cache[providerId];
+	return cached ?? [];
 }
 
 /**
@@ -50,23 +50,23 @@ export async function getModels(
  * @param apiKey — Optional API key for authentication.
  */
 export async function resolveModels(
-  providerId: string,
-  baseUrl: string,
-  apiKey?: string,
+	providerId: string,
+	baseUrl: string,
+	apiKey?: string,
 ): Promise<NonNullable<ProviderConfigInput["models"]>> {
-  const cachePath = getModelCachePath();
-  const cache: ProviderStateCache = await readProviderStateCache(cachePath);
-  const cached = cache[providerId];
+	const cachePath = getModelCachePath();
+	const cache: ProviderStateCache = await readProviderStateCache(cachePath);
+	const cached = cache[providerId];
 
-  // Cache hit: return cached models (may be empty).
-  if (cached) {
-    return cached;
-  }
+	// Cache hit: return cached models (may be empty).
+	if (cached) {
+		return cached;
+	}
 
-  // Cache miss: fetch from live server and write back.
-  const freshModels = await fetchModelsFromGateway(baseUrl, apiKey);
-  await writeSingleGatewayCache(cachePath, providerId, freshModels);
-  return freshModels;
+	// Cache miss: fetch from live server and write back.
+	const freshModels = await fetchModelsFromGateway(baseUrl, apiKey);
+	await writeSingleGatewayCache(cachePath, providerId, freshModels);
+	return freshModels;
 }
 
 /**
@@ -81,13 +81,13 @@ export async function resolveModels(
  * @param apiKey — Optional API key for authentication.
  */
 export async function refreshModels(
-  providerId: string,
-  baseUrl: string,
-  apiKey?: string,
+	providerId: string,
+	baseUrl: string,
+	apiKey?: string,
 ): Promise<NonNullable<ProviderConfigInput["models"]>> {
-  const models = await fetchModelsFromGateway(baseUrl, apiKey);
-  await writeSingleGatewayCache(getModelCachePath(), providerId, models);
-  return models;
+	const models = await fetchModelsFromGateway(baseUrl, apiKey);
+	await writeSingleGatewayCache(getModelCachePath(), providerId, models);
+	return models;
 }
 
 /**
@@ -103,11 +103,11 @@ export async function refreshModels(
  * @param models — The model list to persist.
  */
 async function writeSingleGatewayCache(
-  cachePath: string,
-  providerId: string,
-  models: NonNullable<ProviderConfigInput["models"]>,
+	cachePath: string,
+	providerId: string,
+	models: NonNullable<ProviderConfigInput["models"]>,
 ): Promise<void> {
-  const cache: ProviderStateCache = await readProviderStateCache(cachePath);
-  cache[providerId] = models;
-  await writeProviderStateCache(cachePath, cache);
+	const cache: ProviderStateCache = await readProviderStateCache(cachePath);
+	cache[providerId] = models;
+	await writeProviderStateCache(cachePath, cache);
 }

@@ -8,11 +8,19 @@ import { showFeaturesModal } from "./command/showFeaturesModal";
  *
  * @param pi Extension API.
  */
-export function registerFeatureManagementExtensionWithConfig(pi: ExtensionAPI): void {
-	pi.registerCommand("features", withSlashMenuGroup({
-		description: "Show feature flags and release channels",
-		handler: async (_args, ctx) => {
-			await showFeaturesModal(ctx);
-		},
-	}, "Extensions"));
+export function registerFeatureManagementExtensionWithConfig(
+	pi: ExtensionAPI,
+): void {
+	pi.registerCommand(
+		"features",
+		withSlashMenuGroup(
+			{
+				description: "Show feature flags and release channels",
+				handler: async (_args, ctx) => {
+					await showFeaturesModal(ctx);
+				},
+			},
+			"Extensions",
+		),
+	);
 }

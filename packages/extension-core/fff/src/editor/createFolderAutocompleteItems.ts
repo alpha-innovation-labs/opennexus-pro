@@ -9,10 +9,15 @@ import { toAutocompleteItem } from "./toAutocompleteItem";
  * @returns Folder autocomplete items.
  */
 export function createFolderAutocompleteItems(
-  folderPaths: string[],
-  isQuotedPrefix: boolean,
+	folderPaths: string[],
+	isQuotedPrefix: boolean,
 ): AutocompleteItem[] {
-  return folderPaths.map((folderPath) =>
-    toAutocompleteItem(folderPath, `${folderPath}/`, `${folderPath}/ · folder`, isQuotedPrefix),
-  );
+	return folderPaths.map((folderPath) =>
+		toAutocompleteItem(
+			folderPath,
+			`${folderPath}/`,
+			`${folderPath}/ · folder`,
+			isQuotedPrefix,
+		),
+	);
 }

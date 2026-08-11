@@ -8,9 +8,14 @@ import type { ObservationArtifactGroup } from "./types";
  * @returns Matching groups.
  */
 export function selectObservationArtifactGroups(
-  groups: readonly ObservationArtifactGroup[],
-  target: string,
+	groups: readonly ObservationArtifactGroup[],
+	target: string,
 ): ObservationArtifactGroup[] {
-  if (target === "all") return [...groups];
-  return groups.filter((group) => group.conversationId === target || group.sessionId === target || group.sessionId.startsWith(target));
+	if (target === "all") return [...groups];
+	return groups.filter(
+		(group) =>
+			group.conversationId === target ||
+			group.sessionId === target ||
+			group.sessionId.startsWith(target),
+	);
 }

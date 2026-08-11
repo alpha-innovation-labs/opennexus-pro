@@ -9,11 +9,14 @@ const workingStartedAt = new WeakMap<PatchableLoader, number>();
  * @param now Current timestamp in milliseconds.
  * @returns Start timestamp in milliseconds.
  */
-export function getWorkingLoaderStartedAt(loader: PatchableLoader, now: number): number {
-  const existing = workingStartedAt.get(loader);
-  if (existing !== undefined) return existing;
-  workingStartedAt.set(loader, now);
-  return now;
+export function getWorkingLoaderStartedAt(
+	loader: PatchableLoader,
+	now: number,
+): number {
+	const existing = workingStartedAt.get(loader);
+	if (existing !== undefined) return existing;
+	workingStartedAt.set(loader, now);
+	return now;
 }
 
 /**
@@ -22,5 +25,5 @@ export function getWorkingLoaderStartedAt(loader: PatchableLoader, now: number):
  * @param loader Loader instance.
  */
 export function clearWorkingLoaderStartedAt(loader: PatchableLoader): void {
-  workingStartedAt.delete(loader);
+	workingStartedAt.delete(loader);
 }

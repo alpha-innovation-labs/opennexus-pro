@@ -8,8 +8,15 @@ import { createAvailableModelLeaf } from "./createAvailableModelLeaf";
  * @param ctx Extension context with the live model registry.
  * @returns Sorted available-model slash-menu leaves.
  */
-export function createAvailableModelLeaves(ctx: ExtensionContext): SlashMenuLeaf[] {
-  return ctx.modelRegistry.getAvailable()
-    .map((model) => createAvailableModelLeaf(model as never, ctx))
-    .sort((left, right) => (left.groupLabel?.localeCompare(right.groupLabel ?? "") || left.label.localeCompare(right.label)));
+export function createAvailableModelLeaves(
+	ctx: ExtensionContext,
+): SlashMenuLeaf[] {
+	return ctx.modelRegistry
+		.getAvailable()
+		.map((model) => createAvailableModelLeaf(model as never, ctx))
+		.sort(
+			(left, right) =>
+				left.groupLabel?.localeCompare(right.groupLabel ?? "") ||
+				left.label.localeCompare(right.label),
+		);
 }

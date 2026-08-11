@@ -11,14 +11,18 @@ import { createRawGitHubUrl } from "./createRawGitHubUrl";
  * @returns File text, or null when not found.
  */
 export async function fetchRawGitHubFile(
-  owner: string,
-  repo: string,
-  ref: string,
-  path: string,
-  signal?: AbortSignal,
+	owner: string,
+	repo: string,
+	ref: string,
+	path: string,
+	signal?: AbortSignal,
 ): Promise<string | null> {
-  const response = await fetch(createRawGitHubUrl(owner, repo, ref, path), { signal, headers: { "User-Agent": "nexus" } });
-  if (response.status === 404) return null;
-  if (!response.ok) throw new Error(`GitHub raw ${response.status}: ${response.statusText}`);
-  return response.text();
+	const response = await fetch(createRawGitHubUrl(owner, repo, ref, path), {
+		signal,
+		headers: { "User-Agent": "nexus" },
+	});
+	if (response.status === 404) return null;
+	if (!response.ok)
+		throw new Error(`GitHub raw ${response.status}: ${response.statusText}`);
+	return response.text();
 }

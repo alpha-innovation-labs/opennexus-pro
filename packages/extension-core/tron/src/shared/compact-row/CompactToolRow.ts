@@ -14,7 +14,10 @@ export class CompactToolRow {
 			renderedInlineStats?: string;
 			options?: string;
 			renderedOptions?: string;
-			theme: { fg(color: string, text: string): string; bold(text: string): string };
+			theme: {
+				fg(color: string, text: string): string;
+				bold(text: string): string;
+			};
 			showTopBorder?: boolean;
 			showBottomBorder?: boolean;
 		},
@@ -26,7 +29,19 @@ export class CompactToolRow {
 	 * @returns Styled row lines.
 	 */
 	render(): string[] {
-		const { width, icon, label, main, inlineStats, renderedInlineStats, options, renderedOptions, theme, showTopBorder = false, showBottomBorder = false } = this.params;
+		const {
+			width,
+			icon,
+			label,
+			main,
+			inlineStats,
+			renderedInlineStats,
+			options,
+			renderedOptions,
+			theme,
+			showTopBorder = false,
+			showBottomBorder = false,
+		} = this.params;
 		const innerWidth = Math.max(1, width - 2);
 		const lines: string[] = [];
 		if (showTopBorder) {

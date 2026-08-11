@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { clearExitMessage } from "./state/clearExitMessage";
 import { hasRealSessionMessages } from "./hasRealSessionMessages";
+import { clearExitMessage } from "./state/clearExitMessage";
 import { updateExitMessageFromSessionTitle } from "./updateExitMessageFromSessionTitle";
 
 /**

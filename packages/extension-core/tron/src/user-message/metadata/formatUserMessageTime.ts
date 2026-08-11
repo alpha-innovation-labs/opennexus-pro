@@ -10,9 +10,12 @@ import { toDate } from "./toDate";
  * @param now Current time reference.
  * @returns Time-only label for recent messages, otherwise time and date.
  */
-export function formatUserMessageTime(timestamp: Date | number | string | undefined, now = new Date()): string {
-  const date = toDate(timestamp);
-  if (!date) return "";
-  const time = formatClockTime(date);
-  return isWithinPastDay(date, now) ? time : `${time} · ${formatDate(date)}`;
+export function formatUserMessageTime(
+	timestamp: Date | number | string | undefined,
+	now = new Date(),
+): string {
+	const date = toDate(timestamp);
+	if (!date) return "";
+	const time = formatClockTime(date);
+	return isWithinPastDay(date, now) ? time : `${time} · ${formatDate(date)}`;
 }

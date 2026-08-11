@@ -12,9 +12,16 @@ export const TOP_LEVEL_DESCRIPTION_COLUMN = 28;
  * @param icon Leading row icon.
  * @returns Formatted row label.
  */
-export function formatTopLevelMenuLabel(label: string, description: string | undefined, theme: SelectPreviewTheme, icon = ""): string {
-  const labelText = icon ? `${icon} ${label}` : label;
-  const visibleLabelWidth = visibleWidth(labelText);
-  const spacing = " ".repeat(Math.max(2, TOP_LEVEL_DESCRIPTION_COLUMN - visibleLabelWidth));
-  return `${labelText}${spacing}${theme.fg("muted", description ?? "")}`;
+export function formatTopLevelMenuLabel(
+	label: string,
+	description: string | undefined,
+	theme: SelectPreviewTheme,
+	icon = "",
+): string {
+	const labelText = icon ? `${icon} ${label}` : label;
+	const visibleLabelWidth = visibleWidth(labelText);
+	const spacing = " ".repeat(
+		Math.max(2, TOP_LEVEL_DESCRIPTION_COLUMN - visibleLabelWidth),
+	);
+	return `${labelText}${spacing}${theme.fg("muted", description ?? "")}`;
 }

@@ -8,5 +8,5 @@ import { getProjectConfigDirPath } from "./getProjectConfigDirPath";
  * @returns Absolute project themes directory path.
  */
 export function getProjectThemesPath(cwd: string): string {
-  return join(getProjectConfigDirPath(cwd), "themes");
+	return join(getProjectConfigDirPath(cwd), "themes");
 }

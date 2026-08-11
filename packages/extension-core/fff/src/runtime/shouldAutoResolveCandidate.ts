@@ -9,11 +9,11 @@ import { scoreTotal } from "./scoreTotal";
  * @returns True when auto-resolution is safe.
  */
 export function shouldAutoResolveCandidate(
-  top: FffFileCandidate | undefined,
-  next: FffFileCandidate | undefined,
+	top: FffFileCandidate | undefined,
+	next: FffFileCandidate | undefined,
 ): boolean {
-  if (!top) return false;
-  if (top.score?.exactMatch || top.score?.matchType === "exact") return true;
-  if (!next) return true;
-  return scoreTotal(top.score) > scoreTotal(next.score) * 2;
+	if (!top) return false;
+	if (top.score?.exactMatch || top.score?.matchType === "exact") return true;
+	if (!next) return true;
+	return scoreTotal(top.score) > scoreTotal(next.score) * 2;
 }

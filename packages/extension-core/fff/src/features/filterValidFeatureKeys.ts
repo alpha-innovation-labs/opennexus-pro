@@ -8,6 +8,9 @@ import { getAllFeatureKeys } from "./getAllFeatureKeys";
  * @returns Valid feature keys only.
  */
 export function filterValidFeatureKeys(values: unknown[]): FffFeatureKey[] {
-  const valid = new Set(getAllFeatureKeys());
-  return values.filter((value): value is FffFeatureKey => typeof value === "string" && valid.has(value as FffFeatureKey));
+	const valid = new Set(getAllFeatureKeys());
+	return values.filter(
+		(value): value is FffFeatureKey =>
+			typeof value === "string" && valid.has(value as FffFeatureKey),
+	);
 }

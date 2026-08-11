@@ -8,8 +8,8 @@
  * @returns True when the first real CLI argument is "subagent".
  */
 export function hasSubagentFlag(argv: readonly string[]): boolean {
-  const realArgs = argv.filter((a) => a !== "--");
-  const scriptPath = "apps/tui/src/index.ts";
-  const cliArgs = realArgs[0] === scriptPath ? realArgs.slice(1) : realArgs;
-  return cliArgs[0] === "subagent";
+	const realArgs = argv.filter((a) => a !== "--");
+	const scriptPath = "apps/tui/src/index.ts";
+	const cliArgs = realArgs[0] === scriptPath ? realArgs.slice(1) : realArgs;
+	return cliArgs[0] === "subagent";
 }

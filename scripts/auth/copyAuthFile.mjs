@@ -8,7 +8,7 @@ import { chmod, copyFile, stat } from "node:fs/promises";
  * @returns {Promise<void>}
  */
 export async function copyAuthFile(sourcePath, targetPath) {
-  await copyFile(sourcePath, targetPath);
-  const sourceStat = await stat(sourcePath);
-  await chmod(targetPath, sourceStat.mode);
+	await copyFile(sourcePath, targetPath);
+	const sourceStat = await stat(sourcePath);
+	await chmod(targetPath, sourceStat.mode);
 }

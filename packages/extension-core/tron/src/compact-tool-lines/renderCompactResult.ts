@@ -11,7 +11,12 @@ import { getResultText } from "./getResultText";
  * @param theme UI theme.
  * @returns Compact result component.
  */
-export function renderCompactResult(toolCallId: string, result: any, expanded: boolean, theme: any): CompactToolResult | Text {
+export function renderCompactResult(
+	toolCallId: string,
+	result: unknown,
+	expanded: boolean,
+	theme: unknown,
+): CompactToolResult | Text {
 	const text = getResultText(result);
 	if (!text) return new Text("", 0, 0);
 	return new CompactToolResult(toolCallId, result, expanded, theme);

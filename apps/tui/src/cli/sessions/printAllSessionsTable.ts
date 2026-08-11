@@ -9,6 +9,10 @@ import { readSessionTableTerminalWidth } from "./readSessionTableTerminalWidth";
  * @returns A promise that resolves after printing finishes.
  */
 export async function printAllSessionsTable(): Promise<void> {
-  const sessions = await listAllSessions();
-  console.log(formatSessionsTable(buildSessionTableRows(sessions), { terminalWidth: readSessionTableTerminalWidth() }));
+	const sessions = await listAllSessions();
+	console.log(
+		formatSessionsTable(buildSessionTableRows(sessions), {
+			terminalWidth: readSessionTableTerminalWidth(),
+		}),
+	);
 }

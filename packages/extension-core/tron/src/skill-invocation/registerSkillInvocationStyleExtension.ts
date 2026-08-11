@@ -7,7 +7,9 @@ import { installSkillInvocationMessageRenderHook } from "./installSkillInvocatio
  *
  * @param _pi Extension API.
  */
-export default function registerSkillInvocationStyleExtension(_pi: ExtensionAPI): void {
-  logExtensionEvent("skill-invocation-style", "init");
-  installSkillInvocationMessageRenderHook();
+export default function registerSkillInvocationStyleExtension(
+	_pi: ExtensionAPI,
+): void {
+	logExtensionEvent("skill-invocation-style", "init");
+	installSkillInvocationMessageRenderHook();
 }

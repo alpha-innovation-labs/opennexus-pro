@@ -1,6 +1,9 @@
-import { formatCompactDuration } from "../duration/formatCompactDuration";
+import {
+	collapsedToolGroupLeaderByToolCallId,
+	collapsedToolGroupStatsByLeader,
+} from "../collapsedToolGroupState";
 import { iconForToolName } from "../compact-tool-lines/iconForToolName";
-import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "../collapsedToolGroupState";
+import { formatCompactDuration } from "../duration/formatCompactDuration";
 
 /**
  * Reads the summary data for one collapsed tool group.
@@ -19,15 +22,23 @@ export function getCollapsedToolGroupSummary(toolCallId: string): {
 	durationLabel?: string;
 	assistantTimestamp?: number;
 } {
-	const leaderToolCallId = collapsedToolGroupLeaderByToolCallId.get(toolCallId) ?? toolCallId;
+	const leaderToolCallId =
+		collapsedToolGroupLeaderByToolCallId.get(toolCallId) ?? toolCallId;
 	const stats = collapsedToolGroupStatsByLeader.get(leaderToolCallId);
 	const toolNames = [...(stats?.toolNames.values() ?? [])];
 	const uniqueToolNames = [...new Set(toolNames)];
-	const icon = uniqueToolNames.length === 1 ? iconForToolName(uniqueToolNames[0] as string) : iconForToolName("tools");
+	const icon =
+		uniqueToolNames.length === 1
+			? iconForToolName(uniqueToolNames[0] as string)
+			: iconForToolName("tools");
 	const toolCallCount = stats?.toolCallIds.length ?? 1;
-	const durationLabel = typeof stats?.thinkingStartedAt === "number" && typeof stats.nextThinkingStartedAt === "number"
-		? formatCompactDuration(Math.max(0, stats.nextThinkingStartedAt - stats.thinkingStartedAt))
-		: undefined;
+	const durationLabel =
+		typeof stats?.thinkingStartedAt === "number" &&
+		typeof stats.nextThinkingStartedAt === "number"
+			? formatCompactDuration(
+					Math.max(0, stats.nextThinkingStartedAt - stats.thinkingStartedAt),
+				)
+			: undefined;
 
 	return {
 		leaderToolCallId,
@@ -35,7 +46,8 @@ export function getCollapsedToolGroupSummary(toolCallId: string): {
 		addedLineCount: stats?.addedLineCount ?? 0,
 		removedLineCount: stats?.removedLineCount ?? 0,
 		summaryText: stats?.summaryText ?? "Thinking…",
-		fullThinkingText: stats?.fullThinkingText ?? stats?.summaryText ?? "Thinking…",
+		fullThinkingText:
+			stats?.fullThinkingText ?? stats?.summaryText ?? "Thinking…",
 		toolCallCount,
 		durationLabel,
 		assistantTimestamp: stats?.lastAssistantTimestamp,

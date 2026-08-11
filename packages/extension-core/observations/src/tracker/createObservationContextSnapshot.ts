@@ -11,9 +11,13 @@ export interface ObservationContextSnapshot {
  * @param ctx Live Pi extension context.
  * @returns Immutable context fields safe to reuse in queued observation tasks.
  */
-export function createObservationContextSnapshot(ctx: ExtensionContext): ObservationContextSnapshot {
+export function createObservationContextSnapshot(
+	ctx: ExtensionContext,
+): ObservationContextSnapshot {
 	return {
 		cwd: ctx.cwd,
-		model: ctx.model ? { provider: ctx.model.provider, id: ctx.model.id } : undefined,
+		model: ctx.model
+			? { provider: ctx.model.provider, id: ctx.model.id }
+			: undefined,
 	};
 }

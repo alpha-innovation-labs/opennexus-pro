@@ -7,7 +7,9 @@ import type { WorkingPromptTimer } from "./types";
  *
  * @param pi Pi extension API.
  */
-export default function registerWorkingPromptTimerExtension(pi: ExtensionAPI): void {
+export default function registerWorkingPromptTimerExtension(
+	pi: ExtensionAPI,
+): void {
 	let timer: WorkingPromptTimer | undefined;
 
 	const stopTimer = (): void => {

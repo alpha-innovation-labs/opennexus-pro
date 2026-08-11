@@ -6,6 +6,10 @@ import type { HotkeysEntry, HotkeysGroup } from "./types";
  * @param titles Ordered group titles.
  * @returns Group map seeded with empty groups.
  */
-export function createHotkeysGroupMap(titles: string[]): Map<string, HotkeysGroup> {
-  return new Map(titles.map((title) => [title, { title, shortcuts: [] as HotkeysEntry[] }]));
+export function createHotkeysGroupMap(
+	titles: string[],
+): Map<string, HotkeysGroup> {
+	return new Map(
+		titles.map((title) => [title, { title, shortcuts: [] as HotkeysEntry[] }]),
+	);
 }

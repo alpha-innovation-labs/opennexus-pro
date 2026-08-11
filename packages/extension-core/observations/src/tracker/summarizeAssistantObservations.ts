@@ -25,7 +25,12 @@ export async function summarizeAssistantObservations(
 	const output = await runObservationSummarizer(
 		pi,
 		ctx,
-		buildAssistantObservationPrompt(topicTitle, existingBullets, thinking, text),
+		buildAssistantObservationPrompt(
+			topicTitle,
+			existingBullets,
+			thinking,
+			text,
+		),
 	);
 	return parseAssistantObservationOutput(output);
 }

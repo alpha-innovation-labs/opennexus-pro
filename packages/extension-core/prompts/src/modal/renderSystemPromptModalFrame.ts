@@ -50,12 +50,27 @@ export function renderSystemPromptModalFrame(
  * @param panes Left and right pane rows.
  * @returns Framed body rows.
  */
-function renderSystemPromptPaneRows(theme: SelectPreviewTheme, panes: readonly [SystemPromptFramePane, SystemPromptFramePane]): string[] {
+function renderSystemPromptPaneRows(
+	theme: SelectPreviewTheme,
+	panes: readonly [SystemPromptFramePane, SystemPromptFramePane],
+): string[] {
 	const rowCount = Math.max(panes[0].lines.length, panes[1].lines.length);
 	return Array.from({ length: rowCount }, (_value, index) => {
-		const left = padSystemPromptCell(panes[0].lines[index] ?? "", panes[0].width);
-		const right = padSystemPromptCell(panes[1].lines[index] ?? "", panes[1].width);
-		return theme.fg("borderMuted", "│") + left + theme.fg("borderMuted", "│") + right + theme.fg("borderMuted", "│");
+		const left = padSystemPromptCell(
+			panes[0].lines[index] ?? "",
+			panes[0].width,
+		);
+		const right = padSystemPromptCell(
+			panes[1].lines[index] ?? "",
+			panes[1].width,
+		);
+		return (
+			theme.fg("borderMuted", "│") +
+			left +
+			theme.fg("borderMuted", "│") +
+			right +
+			theme.fg("borderMuted", "│")
+		);
 	});
 }
 
@@ -67,8 +82,16 @@ function renderSystemPromptPaneRows(theme: SelectPreviewTheme, panes: readonly [
  * @param width Inner modal width.
  * @returns Framed full-width row.
  */
-function renderSystemPromptFullRow(theme: SelectPreviewTheme, content: string, width: number): string {
-	return theme.fg("borderMuted", "│") + padSystemPromptCell(content, width) + theme.fg("borderMuted", "│");
+function renderSystemPromptFullRow(
+	theme: SelectPreviewTheme,
+	content: string,
+	width: number,
+): string {
+	return (
+		theme.fg("borderMuted", "│") +
+		padSystemPromptCell(content, width) +
+		theme.fg("borderMuted", "│")
+	);
 }
 
 /**
@@ -81,7 +104,13 @@ function renderSystemPromptFullRow(theme: SelectPreviewTheme, content: string, w
  * @param width Inner modal width.
  * @returns Styled border row.
  */
-function renderSystemPromptBorder(theme: SelectPreviewTheme, left: string, fill: string, right: string, width: number): string {
+function renderSystemPromptBorder(
+	theme: SelectPreviewTheme,
+	left: string,
+	fill: string,
+	right: string,
+	width: number,
+): string {
 	return theme.fg("borderMuted", `${left}${fill.repeat(width)}${right}`);
 }
 
@@ -95,8 +124,17 @@ function renderSystemPromptBorder(theme: SelectPreviewTheme, left: string, fill:
  * @param panes Pane widths.
  * @returns Styled pane border row.
  */
-function renderSystemPromptPaneBorder(theme: SelectPreviewTheme, left: string, separator: string, right: string, panes: readonly [SystemPromptFramePane, SystemPromptFramePane]): string {
-	return theme.fg("borderMuted", `${left}${"─".repeat(panes[0].width)}${separator}${"─".repeat(panes[1].width)}${right}`);
+function renderSystemPromptPaneBorder(
+	theme: SelectPreviewTheme,
+	left: string,
+	separator: string,
+	right: string,
+	panes: readonly [SystemPromptFramePane, SystemPromptFramePane],
+): string {
+	return theme.fg(
+		"borderMuted",
+		`${left}${"─".repeat(panes[0].width)}${separator}${"─".repeat(panes[1].width)}${right}`,
+	);
 }
 
 /**
@@ -107,8 +145,17 @@ function renderSystemPromptPaneBorder(theme: SelectPreviewTheme, left: string, s
  * @param width Inner modal width.
  * @returns Framed footer row.
  */
-function renderSystemPromptFooter(theme: SelectPreviewTheme, hotkeys: readonly SystemPromptFrameHotkey[], width: number): string {
-	const content = hotkeys.map((hotkey) => `${theme.fg("accent", hotkey.key)} ${theme.fg("dim", hotkey.label)}`).join(theme.fg("dim", " · "));
+function renderSystemPromptFooter(
+	theme: SelectPreviewTheme,
+	hotkeys: readonly SystemPromptFrameHotkey[],
+	width: number,
+): string {
+	const content = hotkeys
+		.map(
+			(hotkey) =>
+				`${theme.fg("accent", hotkey.key)} ${theme.fg("dim", hotkey.label)}`,
+		)
+		.join(theme.fg("dim", " · "));
 	return renderSystemPromptFullRow(theme, content, width);
 }
 

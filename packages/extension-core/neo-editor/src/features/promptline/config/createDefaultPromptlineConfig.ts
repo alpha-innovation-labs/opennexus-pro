@@ -6,8 +6,8 @@ import type { PromptlineConfig } from "./types";
  * @returns Empty trigger config plus default Neo settings.
  */
 export function createDefaultPromptlineConfig(): PromptlineConfig {
-  return {
-    triggerConfig: { rules: [] },
-    neoConfig: { clearEditorOnTriggerSubmit: true },
-  };
+	return {
+		triggerConfig: { rules: [] },
+		neoConfig: { clearEditorOnTriggerSubmit: true },
+	};
 }

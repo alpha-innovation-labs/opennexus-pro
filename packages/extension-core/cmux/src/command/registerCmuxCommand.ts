@@ -8,10 +8,16 @@ import { showCmuxWorkspaceShellsModal } from "./showCmuxWorkspaceShellsModal";
  * @param pi Pi extension API.
  */
 export function registerCmuxCommand(pi: ExtensionAPI): void {
-	pi.registerCommand("cmux", withSlashMenuGroup({
-		description: "Show cmux workspaces and Nexus session ids",
-		handler: async (_args, ctx) => {
-			await showCmuxWorkspaceShellsModal(ctx);
-		},
-	}, "Extensions"));
+	pi.registerCommand(
+		"cmux",
+		withSlashMenuGroup(
+			{
+				description: "Show cmux workspaces and Nexus session ids",
+				handler: async (_args, ctx) => {
+					await showCmuxWorkspaceShellsModal(ctx);
+				},
+			},
+			"Extensions",
+		),
+	);
 }

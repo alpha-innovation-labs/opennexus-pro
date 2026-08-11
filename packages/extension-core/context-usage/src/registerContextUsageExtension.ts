@@ -1,7 +1,5 @@
-import { Type } from "@earendil-works/pi-ai";
-import { defineTool, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
-import { getContextUsageToolText } from "./getContextUsageToolText";
 import { setLatestSystemPromptOptions } from "./contextUsageState";
 import { showContextUsageCommand } from "./showContextUsageCommand";
 
@@ -11,16 +9,22 @@ import { showContextUsageCommand } from "./showContextUsageCommand";
  * @param pi Pi extension API.
  */
 export function registerContextUsageExtension(pi: ExtensionAPI): void {
-  pi.on("before_agent_start", (event) => {
-    setLatestSystemPromptOptions(event.systemPromptOptions);
-  });
+	pi.on("before_agent_start", (event) => {
+		setLatestSystemPromptOptions(event.systemPromptOptions);
+	});
 
-  pi.registerCommand("context", withSlashMenuGroup({
-    description: "Show current context-window usage",
-    handler: async (_args, ctx) => {
-      await showContextUsageCommand(ctx);
-    },
-  }, "Extensions"));
+	pi.registerCommand(
+		"context",
+		withSlashMenuGroup(
+			{
+				description: "Show current context-window usage",
+				handler: async (_args, ctx) => {
+					await showContextUsageCommand(ctx);
+				},
+			},
+			"Extensions",
+		),
+	);
 
-  // context_usage tool removed
+	// context_usage tool removed
 }

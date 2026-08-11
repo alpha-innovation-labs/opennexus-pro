@@ -1,6 +1,8 @@
+import {
+	DefaultPackageManager,
+	SettingsManager,
+} from "@earendil-works/pi-coding-agent";
 import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
-import { DefaultPackageManager } from "@earendil-works/pi-coding-agent";
-import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import { normalizeNpmPackageName } from "./normalizeNpmPackageName";
 /** Package manager patched to also read from extensions.pi_packages. */
@@ -15,11 +17,18 @@ export type NexusPackageManagerRuntime = {
  * @param cwd Current command working directory.
  * @returns Package manager runtime backed by Nexus settings.
  */
-export function createNexusPackageManager(cwd: string): NexusPackageManagerRuntime {
+export function createNexusPackageManager(
+	cwd: string,
+): NexusPackageManagerRuntime {
 	const settingsManager = SettingsManager.create(cwd, getNexusAgentDirPath());
-	const packageManager = new DefaultPackageManager({ cwd, agentDir: getNexusAgentDirPath(), settingsManager });
+	const packageManager = new DefaultPackageManager({
+		cwd,
+		agentDir: getNexusAgentDirPath(),
+		settingsManager,
+	});
 	// Patch listConfiguredPackages to also read from extensions.pi_packages.
-	const originalListConfiguredPackages = packageManager.listConfiguredPackages.bind(packageManager);
+	const originalListConfiguredPackages =
+		packageManager.listConfiguredPackages.bind(packageManager);
 	packageManager.listConfiguredPackages = () => {
 		const configuredPackages = originalListConfiguredPackages();
 		const userConfig = readNexusUserConfig();
@@ -29,7 +38,11 @@ export function createNexusPackageManager(cwd: string): NexusPackageManagerRunti
 				// Avoid duplicating sources already in the packages array.
 				// Normalize the config key so "pi-chrome" matches "npm:pi-chrome".
 				const normalizedSource = normalizeNpmPackageName(source);
-				if (!configuredPackages.find((p) => normalizeNpmPackageName(p.source) === normalizedSource)) {
+				if (
+					!configuredPackages.find(
+						(p) => normalizeNpmPackageName(p.source) === normalizedSource,
+					)
+				) {
 					configuredPackages.push({
 						source,
 						scope: "user" as const,

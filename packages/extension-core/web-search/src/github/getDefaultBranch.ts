@@ -9,7 +9,14 @@ import type { GitHubApiRepo } from "./githubTypes";
  * @param signal Optional cancellation signal.
  * @returns Default branch name.
  */
-export async function getDefaultBranch(owner: string, repo: string, signal?: AbortSignal): Promise<string> {
-  const data = await fetchGitHubApiJson<GitHubApiRepo>(`repos/${owner}/${repo}`, signal);
-  return data.default_branch || "main";
+export async function getDefaultBranch(
+	owner: string,
+	repo: string,
+	signal?: AbortSignal,
+): Promise<string> {
+	const data = await fetchGitHubApiJson<GitHubApiRepo>(
+		`repos/${owner}/${repo}`,
+		signal,
+	);
+	return data.default_branch || "main";
 }

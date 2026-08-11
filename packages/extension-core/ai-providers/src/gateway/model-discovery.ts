@@ -5,10 +5,10 @@
  * and returns every remaining model with sensible defaults for
  * reasoning, cost, contextWindow, and maxTokens.  No catalog lookup.
  */
-import { buildModelsUrl, authHeaders } from "./probe";
+import { authHeaders, buildModelsUrl } from "./probe";
 
 type ProviderConfigInput = {
-  models?: Array<Record<string, unknown>>;
+	models?: Array<Record<string, unknown>>;
 };
 
 /**
@@ -17,15 +17,15 @@ type ProviderConfigInput = {
  * Matches IDs containing: embed, text-embedding, clip, bge, mxbai, nomic-embed.
  */
 export function isEmbeddingModel(id: string): boolean {
-  const lower = id.toLowerCase();
-  return (
-    lower.includes("embed") ||
-    lower.includes("text-embedding") ||
-    lower.includes("clip") ||
-    lower.includes("bge") ||
-    lower.includes("mxbai") ||
-    lower.includes("nomic-embed")
-  );
+	const lower = id.toLowerCase();
+	return (
+		lower.includes("embed") ||
+		lower.includes("text-embedding") ||
+		lower.includes("clip") ||
+		lower.includes("bge") ||
+		lower.includes("mxbai") ||
+		lower.includes("nomic-embed")
+	);
 }
 
 /**
@@ -34,13 +34,13 @@ export function isEmbeddingModel(id: string): boolean {
 type ModelEntry = Record<string, unknown>;
 
 const DEFAULT_MODEL: ModelEntry = {
-  id: "",
-  name: "",
-  reasoning: false,
-  input: ["text"] as const,
-  cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-  contextWindow: 128000,
-  maxTokens: 8192,
+	id: "",
+	name: "",
+	reasoning: false,
+	input: ["text"] as const,
+	cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+	contextWindow: 128000,
+	maxTokens: 8192,
 };
 
 /**
@@ -55,29 +55,31 @@ const DEFAULT_MODEL: ModelEntry = {
  * @param apiKey — Optional API key for authentication.
  */
 export async function fetchModelsFromGateway(
-  baseUrl: string,
-  apiKey?: string,
+	baseUrl: string,
+	apiKey?: string,
 ): Promise<NonNullable<ProviderConfigInput["models"]>> {
-  try {
-    const url = buildModelsUrl(baseUrl);
-    const res = await fetch(url, {
-      headers: authHeaders(apiKey),
-    });
-    if (!res.ok) {
-      return [];
-    }
-    const data = await res.json();
-    const catalogModels: Array<{ id: string }> = (data.data ?? []) as Array<{ id: string }>;
-    const results: NonNullable<ProviderConfigInput["models"]> = [];
-    for (const m of catalogModels) {
-      if (isEmbeddingModel(m.id)) {
-        continue;
-      }
-      const entry = { ...DEFAULT_MODEL, id: m.id, name: m.id };
-      results.push(entry);
-    }
-    return results;
-  } catch {
-    return [];
-  }
+	try {
+		const url = buildModelsUrl(baseUrl);
+		const res = await fetch(url, {
+			headers: authHeaders(apiKey),
+		});
+		if (!res.ok) {
+			return [];
+		}
+		const data = await res.json();
+		const catalogModels: Array<{ id: string }> = (data.data ?? []) as Array<{
+			id: string;
+		}>;
+		const results: NonNullable<ProviderConfigInput["models"]> = [];
+		for (const m of catalogModels) {
+			if (isEmbeddingModel(m.id)) {
+				continue;
+			}
+			const entry = { ...DEFAULT_MODEL, id: m.id, name: m.id };
+			results.push(entry);
+		}
+		return results;
+	} catch {
+		return [];
+	}
 }

@@ -1,13 +1,25 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { clearRegisteredToolRecords, createExtensionFeatureFlags, getEnabledExtensionFeatureFlags, registerEnabledExtensions, setRuntimeExtensionFeatureFlags } from "@nexus/feature-flags/index";
 import { clearHotkeysCommandHook } from "@extensions/hotkeys/clearHotkeysCommandHook";
-import { clearRegisteredSlashCommands, registerSlashCommand } from "@extensions/slash-menu/registerSlashCommand";
-import { recordRegisteredShortcut } from "@nexus/tui-kit/shortcuts/recordRegisteredShortcut";
+import {
+	clearRegisteredSlashCommands,
+	registerSlashCommand,
+} from "@extensions/slash-menu/registerSlashCommand";
 import { createTronToolWrappingExtensionApi } from "@extensions/tron/compact-tool-lines/createTronToolWrappingExtensionApi";
+import {
+	clearRegisteredToolRecords,
+	createExtensionFeatureFlags,
+	getEnabledExtensionFeatureFlags,
+	setRuntimeExtensionFeatureFlags,
+} from "@nexus/feature-flags/index";
+import { recordRegisteredShortcut } from "@nexus/tui-kit/shortcuts/recordRegisteredShortcut";
 
 // Re-export for backwards compatibility — consumers that reference
 // these from @extensions still work.
-export { createExtensionFeatureFlags, createExtensionFeatureFlagReport, getEnabledExtensionFeatureFlags } from "@nexus/feature-flags/index";
+export {
+	createExtensionFeatureFlagReport,
+	createExtensionFeatureFlags,
+	getEnabledExtensionFeatureFlags,
+} from "@nexus/feature-flags/index";
 
 /**
  * Central extension entrypoint.
@@ -44,29 +56,49 @@ export default async function registerBundledExtensions(
 		return flag;
 	});
 
-	const isTronEnabled = cliFlags.some((flag) => flag.id === "tron" && flag.enabled);
-	const isSlashMenuEnabled = cliFlags.some((flag) => flag.id === "slash-menu" && flag.enabled);
-	if (!cliFlags.some((flag) => flag.id === "hotkeys" && flag.enabled)) clearHotkeysCommandHook();
+	const isTronEnabled = cliFlags.some(
+		(flag) => flag.id === "tron" && flag.enabled,
+	);
+	const isSlashMenuEnabled = cliFlags.some(
+		(flag) => flag.id === "slash-menu" && flag.enabled,
+	);
+	if (!cliFlags.some((flag) => flag.id === "hotkeys" && flag.enabled))
+		clearHotkeysCommandHook();
 	if (!isSlashMenuEnabled) clearRegisteredSlashCommands();
-	const toolAwarePi = isTronEnabled ? createTronToolWrappingExtensionApi(pi) : pi;
+	const toolAwarePi = isTronEnabled
+		? createTronToolWrappingExtensionApi(pi)
+		: pi;
 	const slashAwarePi = new Proxy(toolAwarePi, {
 		get(target, property, receiver) {
 			if (property === "registerCommand") {
 				return (name: string, definition: Record<string, unknown>) => {
-					if (isSlashMenuEnabled) registerSlashCommand({
-						name,
-						description: typeof definition.description === "string" ? definition.description : undefined,
-						source: "extension",
-						menuGroup: typeof definition.menuGroup === "string" ? definition.menuGroup : undefined,
-						handler: typeof definition.handler === "function" ? definition.handler as never : undefined,
-					});
+					if (isSlashMenuEnabled)
+						registerSlashCommand({
+							name,
+							description:
+								typeof definition.description === "string"
+									? definition.description
+									: undefined,
+							source: "extension",
+							menuGroup:
+								typeof definition.menuGroup === "string"
+									? definition.menuGroup
+									: undefined,
+							handler:
+								typeof definition.handler === "function"
+									? (definition.handler as never)
+									: undefined,
+						});
 					return target.registerCommand(name, definition as never);
 				};
 			}
 			if (property === "registerShortcut") {
 				return (shortcut: string, definition: Record<string, unknown>) => {
 					recordRegisteredShortcut(shortcut, definition);
-					return target.registerShortcut(shortcut as never, definition as never);
+					return target.registerShortcut(
+						shortcut as never,
+						definition as never,
+					);
 				};
 			}
 			return Reflect.get(target, property, receiver);
@@ -81,6 +113,12 @@ export default async function registerBundledExtensions(
 	const filteredFlags = skipExtensions
 		? enabledFlags.filter((flag) => !skipExtensions.includes(flag.id))
 		: enabledFlags;
-	const { createExtensionRegistrationTask } = await import("@nexus/feature-flags/createExtensionRegistrationTask");
-	await Promise.all(filteredFlags.map((flag) => createExtensionRegistrationTask(slashAwarePi, flag)));
+	const { createExtensionRegistrationTask } = await import(
+		"@nexus/feature-flags/createExtensionRegistrationTask"
+	);
+	await Promise.all(
+		filteredFlags.map((flag) =>
+			createExtensionRegistrationTask(slashAwarePi, flag),
+		),
+	);
 }

@@ -5,5 +5,5 @@
  * @returns True when --sessions-all is present.
  */
 export function hasSessionsAllFlag(argv: readonly string[]): boolean {
-  return argv.includes("--sessions-all");
+	return argv.includes("--sessions-all");
 }

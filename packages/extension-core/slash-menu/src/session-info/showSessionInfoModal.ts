@@ -8,9 +8,15 @@ import { SessionInfoModal } from "./SessionInfoModal";
  *
  * @param ctx Extension context.
  */
-export async function showSessionInfoModal(ctx: ExtensionContext): Promise<void> {
-  await ctx.ui.custom<void>((_tui, theme, _keybindings, done) => new SessionInfoModal(theme, createSessionInfoRows(ctx), done), {
-    overlay: true,
-    overlayOptions: createPanelOverlayOptions(72),
-  });
+export async function showSessionInfoModal(
+	ctx: ExtensionContext,
+): Promise<void> {
+	await ctx.ui.custom<void>(
+		(_tui, theme, _keybindings, done) =>
+			new SessionInfoModal(theme, createSessionInfoRows(ctx), done),
+		{
+			overlay: true,
+			overlayOptions: createPanelOverlayOptions(72),
+		},
+	);
 }

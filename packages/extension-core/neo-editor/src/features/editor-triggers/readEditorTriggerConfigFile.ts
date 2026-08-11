@@ -7,7 +7,9 @@ import type { EditorTriggerConfig } from "./types";
  * @param path Absolute config file path.
  * @returns Parsed config or an empty default config.
  */
-export async function readEditorTriggerConfigFile(path: string): Promise<EditorTriggerConfig> {
+export async function readEditorTriggerConfigFile(
+	path: string,
+): Promise<EditorTriggerConfig> {
 	try {
 		const content = await readFile(path, "utf8");
 		const parsed = JSON.parse(content) as Partial<EditorTriggerConfig>;

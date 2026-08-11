@@ -11,7 +11,13 @@ export class CmuxWorkspaceShellsModal extends SharedModal {
 	 * @param lines Workspace shell display lines.
 	 * @param onClose Close callback.
 	 */
-	constructor(theme: SharedModalTheme, lines: string[], onClose: () => void, private readonly onSave: () => void, private readonly onLoad: () => void) {
+	constructor(
+		theme: SharedModalTheme,
+		lines: string[],
+		onClose: () => void,
+		private readonly onSave: () => void,
+		private readonly onLoad: () => void,
+	) {
 		super({
 			footerLines: [theme.fg("dim", "s save · l load")],
 			headerLines: [theme.fg("accent", "cmux workspaces")],

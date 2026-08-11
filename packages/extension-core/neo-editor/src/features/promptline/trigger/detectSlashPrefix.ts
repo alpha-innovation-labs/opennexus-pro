@@ -5,5 +5,5 @@
  * @returns Prefix or null.
  */
 export function detectSlashPrefix(textBeforeCursor: string): string | null {
-  return textBeforeCursor.startsWith("/") ? textBeforeCursor : null;
+	return textBeforeCursor.startsWith("/") ? textBeforeCursor : null;
 }

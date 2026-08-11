@@ -5,10 +5,10 @@
  * imports from "@test/shared" continues to work unchanged.
  */
 
-export {
-  closeHerdrWorkspace,
-  prepareHerdr,
-  promptHerdrAgent,
-  startHerdrAgent,
-} from "@nexus/herdr";
 export type { PreparedHerdr, PrepareHerdrOptions } from "@nexus/herdr";
+export {
+	closeHerdrWorkspace,
+	prepareHerdr,
+	promptHerdrAgent,
+	startHerdrAgent,
+} from "@nexus/herdr";

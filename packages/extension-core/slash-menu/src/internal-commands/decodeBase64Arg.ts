@@ -5,5 +5,5 @@
  * @returns Decoded text.
  */
 export function decodeBase64Arg(value: string): string {
-  return Buffer.from(value, "base64").toString("utf8");
+	return Buffer.from(value, "base64").toString("utf8");
 }

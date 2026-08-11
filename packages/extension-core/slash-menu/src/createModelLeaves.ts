@@ -10,6 +10,9 @@ import type { SlashMenuLeaf } from "./types";
  * @param tab Active model-menu tab.
  * @returns Model leaves.
  */
-export function createModelLeaves(ctx: ExtensionContext, tab: ModelMenuTab = "models"): SlashMenuLeaf[] {
-  return createModelMenuLeaves(ctx, tab);
+export function createModelLeaves(
+	ctx: ExtensionContext,
+	tab: ModelMenuTab = "models",
+): SlashMenuLeaf[] {
+	return createModelMenuLeaves(ctx, tab);
 }

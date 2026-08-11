@@ -2,7 +2,12 @@ import { existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const sourceAssetPath = join(dirname(fileURLToPath(import.meta.url)), "..", "assets", "za-rus.mp3");
+const sourceAssetPath = join(
+	dirname(fileURLToPath(import.meta.url)),
+	"..",
+	"assets",
+	"za-rus.mp3",
+);
 const releaseAssetPath = join("runtime", "mini-apps", "tetris", "za-rus.mp3");
 
 /**

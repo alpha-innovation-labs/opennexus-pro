@@ -6,9 +6,11 @@ import type { ResourceCommandScope } from "./ResourceCommandScope";
  * @param key Pressed key.
  * @returns Matching scope, if the key is a scope selector.
  */
-export function selectResourceCommandScopeByKey(key: string): ResourceCommandScope | undefined {
-  if (key === "1") return "all";
-  if (key === "2") return "global";
-  if (key === "3") return "local";
-  return undefined;
+export function selectResourceCommandScopeByKey(
+	key: string,
+): ResourceCommandScope | undefined {
+	if (key === "1") return "all";
+	if (key === "2") return "global";
+	if (key === "3") return "local";
+	return undefined;
 }

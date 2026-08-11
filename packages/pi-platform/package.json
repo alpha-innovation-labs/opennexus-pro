@@ -1,16 +1,16 @@
 {
-  "name": "@nexus/pi-platform",
-  "version": "0.2.24",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "lint": "biome lint .",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "strip-ansi": "^6.0.1"
-  },
-  "exports": {
-    "./*": "./dist/*.js"
-  }
+	"name": "@nexus/pi-platform",
+	"version": "0.2.24",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"strip-ansi": "^6.0.1"
+	},
+	"exports": {
+		"./*": "./dist/*.js"
+	}
 }

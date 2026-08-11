@@ -1,4 +1,7 @@
-import { collapsedToolGroupLeaderByToolCallId, collapsedToolGroupStatsByLeader } from "./collapsedToolGroupState";
+import {
+	collapsedToolGroupLeaderByToolCallId,
+	collapsedToolGroupStatsByLeader,
+} from "./collapsedToolGroupState";
 import { getToolLineChangeStats } from "./getToolLineChangeStats";
 import { syncCollapsedToolGroup } from "./syncCollapsedToolGroup";
 
@@ -9,11 +12,17 @@ import { syncCollapsedToolGroup } from "./syncCollapsedToolGroup";
  * @param toolName Tool name.
  * @param args Tool arguments.
  */
-export function rememberCollapsedToolCall(toolCallId: string, toolName: string, args: Record<string, unknown>): void {
+export function rememberCollapsedToolCall(
+	toolCallId: string,
+	toolName: string,
+	args: Record<string, unknown>,
+): void {
 	if (!toolCallId) return;
-	if (!collapsedToolGroupLeaderByToolCallId.has(toolCallId)) syncCollapsedToolGroup([toolCallId]);
+	if (!collapsedToolGroupLeaderByToolCallId.has(toolCallId))
+		syncCollapsedToolGroup([toolCallId]);
 
-	const leaderToolCallId = collapsedToolGroupLeaderByToolCallId.get(toolCallId) ?? toolCallId;
+	const leaderToolCallId =
+		collapsedToolGroupLeaderByToolCallId.get(toolCallId) ?? toolCallId;
 	const stats = collapsedToolGroupStatsByLeader.get(leaderToolCallId);
 	if (!stats) return;
 

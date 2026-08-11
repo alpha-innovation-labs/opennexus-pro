@@ -7,6 +7,10 @@ import { getConversationIdFromSessionPath } from "./getConversationIdFromSession
  * @param sessionPath Persisted session JSONL path.
  * @returns Number of deleted groups.
  */
-export async function deleteObservationArtifactsForSessionPath(sessionPath: string): Promise<number> {
-  return deleteKnownObservationArtifactsForConversationId(getConversationIdFromSessionPath(sessionPath));
+export async function deleteObservationArtifactsForSessionPath(
+	sessionPath: string,
+): Promise<number> {
+	return deleteKnownObservationArtifactsForConversationId(
+		getConversationIdFromSessionPath(sessionPath),
+	);
 }

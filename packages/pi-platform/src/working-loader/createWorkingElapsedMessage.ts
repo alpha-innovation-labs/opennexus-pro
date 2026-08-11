@@ -7,6 +7,9 @@ import { formatWorkingElapsed } from "./formatWorkingElapsed";
  * @param elapsedMs Elapsed milliseconds.
  * @returns Message with stopwatch and elapsed time.
  */
-export function createWorkingElapsedMessage(message: string, elapsedMs: number): string {
-  return `⏱ ${formatWorkingElapsed(elapsedMs)} ${message}`;
+export function createWorkingElapsedMessage(
+	message: string,
+	elapsedMs: number,
+): string {
+	return `⏱ ${formatWorkingElapsed(elapsedMs)} ${message}`;
 }

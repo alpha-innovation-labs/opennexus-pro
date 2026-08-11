@@ -11,28 +11,35 @@ import type { CmuxWorkspaceShellAction } from "./CmuxWorkspaceShellAction";
  * @param ctx Extension command context.
  * @returns Selected workspace shell action.
  */
-export async function showCmuxWorkspaceShellRootModal(ctx: ExtensionCommandContext): Promise<CmuxWorkspaceShellAction | undefined> {
-	return ctx.ui.custom<CmuxWorkspaceShellAction | undefined>((tui, theme, _keybindings, done) => {
-		const cachedLines = getCachedCmuxWorkspaceShellLines();
-		const modal = new CmuxWorkspaceShellsModal(
-			theme,
-			cachedLines ?? [theme.fg("dim", "Loading workspaces…")],
-			() => done(undefined),
-			() => done("save"),
-			() => done("load"),
-		);
-		void refreshCmuxWorkspaceShellLinesCache(Boolean(cachedLines))
-			.then((lines) => {
-				modal.setLines(lines);
-				tui.requestRender();
-			})
-			.catch((error) => {
-				modal.setLines([`Failed to load cmux workspaces: ${error instanceof Error ? error.message : String(error)}`]);
-				tui.requestRender();
-			});
-		return modal;
-	}, {
-		overlay: true,
-		overlayOptions: createPanelOverlayOptions(96, "85%") as never,
-	});
+export async function showCmuxWorkspaceShellRootModal(
+	ctx: ExtensionCommandContext,
+): Promise<CmuxWorkspaceShellAction | undefined> {
+	return ctx.ui.custom<CmuxWorkspaceShellAction | undefined>(
+		(tui, theme, _keybindings, done) => {
+			const cachedLines = getCachedCmuxWorkspaceShellLines();
+			const modal = new CmuxWorkspaceShellsModal(
+				theme,
+				cachedLines ?? [theme.fg("dim", "Loading workspaces…")],
+				() => done(undefined),
+				() => done("save"),
+				() => done("load"),
+			);
+			void refreshCmuxWorkspaceShellLinesCache(Boolean(cachedLines))
+				.then((lines) => {
+					modal.setLines(lines);
+					tui.requestRender();
+				})
+				.catch((error) => {
+					modal.setLines([
+						`Failed to load cmux workspaces: ${error instanceof Error ? error.message : String(error)}`,
+					]);
+					tui.requestRender();
+				});
+			return modal;
+		},
+		{
+			overlay: true,
+			overlayOptions: createPanelOverlayOptions(96, "85%") as never,
+		},
+	);
 }

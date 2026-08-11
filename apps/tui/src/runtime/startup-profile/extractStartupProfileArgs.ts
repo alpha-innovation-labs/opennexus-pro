@@ -6,7 +6,10 @@ import { STARTUP_PROFILE_ARG } from "@nexus/observability/startup-profile/consta
  * @param argv Raw process arguments.
  * @returns Cleaned args plus startup-profile enablement.
  */
-export function extractStartupProfileArgs(argv: string[]): { args: string[]; startupProfileEnabled: boolean } {
+export function extractStartupProfileArgs(argv: string[]): {
+	args: string[];
+	startupProfileEnabled: boolean;
+} {
 	let startupProfileEnabled = false;
 	const args = argv.filter((value) => {
 		if (value !== STARTUP_PROFILE_ARG) return true;

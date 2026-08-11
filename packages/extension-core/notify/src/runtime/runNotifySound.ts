@@ -6,7 +6,10 @@ import { spawn } from "node:child_process";
  * @param command Shell command to run.
  * @param spawnFn Spawn dependency.
  */
-export function runNotifySound(command: string | undefined, spawnFn: typeof spawn = spawn): void {
+export function runNotifySound(
+	command: string | undefined,
+	spawnFn: typeof spawn = spawn,
+): void {
 	if (!command) return;
 	try {
 		const child = spawnFn(command, {

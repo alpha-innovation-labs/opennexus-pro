@@ -1,6 +1,9 @@
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type {
+	ExtensionAPI,
+	ExtensionContext,
+} from "@earendil-works/pi-coding-agent";
 import { createSlashModal } from "../createSlashModal";
-import type { TriggerModalState, ShowOverlay } from "../types";
+import type { ShowOverlay, TriggerModalState } from "../types";
 
 /**
  * Ensures the `/` modal exists.
@@ -18,20 +21,31 @@ import type { TriggerModalState, ShowOverlay } from "../types";
  * @param showOverlay Overlay factory.
  */
 export function ensureSlashTriggerModal(
-  modalState: TriggerModalState,
-  ctx: ExtensionContext,
-  requestClose: () => void,
-  requestRender: () => void,
-  setText: (value: string) => void,
-  getThinkingLevel: () => string,
-  setThinkingLevel: (value: string) => void,
-  getCommands: ExtensionAPI["getCommands"],
-  getAllTools: ExtensionAPI["getAllTools"],
-  submitText: (value: string) => void,
-  showOverlay: ShowOverlay,
+	modalState: TriggerModalState,
+	ctx: ExtensionContext,
+	requestClose: () => void,
+	requestRender: () => void,
+	setText: (value: string) => void,
+	getThinkingLevel: () => string,
+	setThinkingLevel: (value: string) => void,
+	getCommands: ExtensionAPI["getCommands"],
+	getAllTools: ExtensionAPI["getAllTools"],
+	submitText: (value: string) => void,
+	showOverlay: ShowOverlay,
 ): void {
-  if (modalState.slashModal) return;
-  const created = createSlashModal(ctx, requestClose, requestRender, setText, getThinkingLevel, setThinkingLevel, submitText, showOverlay, getCommands, getAllTools);
-  modalState.slashModal = created.modal;
-  modalState.handle = created.handle;
+	if (modalState.slashModal) return;
+	const created = createSlashModal(
+		ctx,
+		requestClose,
+		requestRender,
+		setText,
+		getThinkingLevel,
+		setThinkingLevel,
+		submitText,
+		showOverlay,
+		getCommands,
+		getAllTools,
+	);
+	modalState.slashModal = created.modal;
+	modalState.handle = created.handle;
 }

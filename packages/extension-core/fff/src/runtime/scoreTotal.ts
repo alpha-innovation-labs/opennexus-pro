@@ -7,5 +7,5 @@ import type { Score } from "@ff-labs/fff-node";
  * @returns Score total.
  */
 export function scoreTotal(score: Score | undefined): number {
-  return score?.total ?? Number.NEGATIVE_INFINITY;
+	return score?.total ?? Number.NEGATIVE_INFINITY;
 }

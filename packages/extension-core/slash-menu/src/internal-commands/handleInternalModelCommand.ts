@@ -1,5 +1,8 @@
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import { getPromptlineRenderRequest, setPromptlineModelOverride } from "@extensions/neo-editor/features/promptline/state";
+import {
+	getPromptlineRenderRequest,
+	setPromptlineModelOverride,
+} from "@extensions/neo-editor/features/promptline/state";
 import { ensureEnabledModelIncludesSelection } from "../model/ensureEnabledModelIncludesSelection";
 import type { InternalSlashHandler } from "./types";
 
@@ -10,28 +13,35 @@ import type { InternalSlashHandler } from "./types";
  * @param ctx Command context.
  * @param pi Extension API.
  */
-export const handleInternalModelCommand: InternalSlashHandler = async (args, ctx, pi) => {
-  const reference = args.trim();
-  if (!reference) {
-    ctx.ui.notify("Missing model reference.", "error");
-    return;
-  }
-  const [provider, ...rest] = reference.split("/");
-  const id = rest.join("/");
-  const model = ctx.modelRegistry.find(provider, id);
-  if (!model) {
-    ctx.ui.notify(`Unknown model: ${reference}`, "error");
-    return;
-  }
-  setPromptlineModelOverride(model as never);
-  const changed = await pi.setModel(model);
-  if (!changed) {
-    setPromptlineModelOverride(undefined);
-    ctx.ui.notify(`No configured auth for ${reference}`, "error");
-    return;
-  }
-  getPromptlineRenderRequest()?.(true);
-  const settings = SettingsManager.create(ctx.cwd);
-  const nextEnabledModels = ensureEnabledModelIncludesSelection(settings.getEnabledModels(), reference);
-  if (nextEnabledModels) settings.setEnabledModels(nextEnabledModels);
+export const handleInternalModelCommand: InternalSlashHandler = async (
+	args,
+	ctx,
+	pi,
+) => {
+	const reference = args.trim();
+	if (!reference) {
+		ctx.ui.notify("Missing model reference.", "error");
+		return;
+	}
+	const [provider, ...rest] = reference.split("/");
+	const id = rest.join("/");
+	const model = ctx.modelRegistry.find(provider, id);
+	if (!model) {
+		ctx.ui.notify(`Unknown model: ${reference}`, "error");
+		return;
+	}
+	setPromptlineModelOverride(model as never);
+	const changed = await pi.setModel(model);
+	if (!changed) {
+		setPromptlineModelOverride(undefined);
+		ctx.ui.notify(`No configured auth for ${reference}`, "error");
+		return;
+	}
+	getPromptlineRenderRequest()?.(true);
+	const settings = SettingsManager.create(ctx.cwd);
+	const nextEnabledModels = ensureEnabledModelIncludesSelection(
+		settings.getEnabledModels(),
+		reference,
+	);
+	if (nextEnabledModels) settings.setEnabledModels(nextEnabledModels);
 };

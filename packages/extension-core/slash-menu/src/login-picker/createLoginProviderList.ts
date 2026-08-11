@@ -12,17 +12,17 @@ import type { SlashMenuLeaf } from "../types";
  * @returns Provider leaves for the left pane.
  */
 export function createLoginProviderList(
-  providerStates: Record<string, { enabled: boolean }>,
+	providerStates: Record<string, { enabled: boolean }>,
 ): SlashMenuLeaf[] {
-  const providers = builtinProviders();
-  return providers.map((provider) => {
-    const enabled = providerStates[provider.id]?.enabled ?? false;
-    return {
-      kind: "provider" as const,
-      label: provider.name,
-      description: enabled ? "Enabled" : "Disabled",
-      value: provider.id,
-      enabled,
-    } as SlashMenuLeaf & { enabled: boolean };
-  });
+	const providers = builtinProviders();
+	return providers.map((provider) => {
+		const enabled = providerStates[provider.id]?.enabled ?? false;
+		return {
+			kind: "provider" as const,
+			label: provider.name,
+			description: enabled ? "Enabled" : "Disabled",
+			value: provider.id,
+			enabled,
+		} as SlashMenuLeaf & { enabled: boolean };
+	});
 }

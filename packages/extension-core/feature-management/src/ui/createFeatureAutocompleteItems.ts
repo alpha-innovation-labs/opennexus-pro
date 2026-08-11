@@ -15,7 +15,9 @@ import { sortFeatureStatusRows } from "./sortFeatureStatusRows";
  */
 export function createFeatureAutocompleteItems(
 	rows: FeatureStatusRow[],
-	theme: { fg(color: string, value: string): string } = { fg: (_color, value) => value },
+	theme: { fg(color: string, value: string): string } = {
+		fg: (_color, value) => value,
+	},
 ): AutocompleteItem[] {
 	const sortedRows = sortFeatureStatusRows(rows);
 	const featureColumnWidth = getFeatureColumnWidth(sortedRows);

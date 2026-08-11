@@ -7,7 +7,9 @@ import type { CompositeLineAt, TuiWithInlineImageOverlayPatch } from "./types";
  * @param originalCompositeLineAt Original Pi TUI line compositor.
  * @returns Patched compositor that lets overlays replace image-backed rows.
  */
-export function compositeOverlayOverImageLine(originalCompositeLineAt: CompositeLineAt): CompositeLineAt {
+export function compositeOverlayOverImageLine(
+	originalCompositeLineAt: CompositeLineAt,
+): CompositeLineAt {
 	return function compositeLineAtWithImageOverlay(
 		this: TuiWithInlineImageOverlayPatch,
 		baseLine: string,
@@ -17,6 +19,13 @@ export function compositeOverlayOverImageLine(originalCompositeLineAt: Composite
 		totalWidth: number,
 	): string {
 		const compositableBaseLine = isImageLine(baseLine) ? "" : baseLine;
-		return originalCompositeLineAt.call(this, compositableBaseLine, overlayLine, startCol, overlayWidth, totalWidth);
+		return originalCompositeLineAt.call(
+			this,
+			compositableBaseLine,
+			overlayLine,
+			startCol,
+			overlayWidth,
+			totalWidth,
+		);
 	};
 }

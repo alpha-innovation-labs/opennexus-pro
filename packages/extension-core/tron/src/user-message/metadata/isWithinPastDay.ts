@@ -8,6 +8,6 @@ const DAY_IN_MS = 24 * 60 * 60 * 1000;
  * @returns True when timestamp is not older than 24 hours.
  */
 export function isWithinPastDay(timestamp: Date, now: Date): boolean {
-  const age = now.getTime() - timestamp.getTime();
-  return age >= 0 && age <= DAY_IN_MS;
+	const age = now.getTime() - timestamp.getTime();
+	return age >= 0 && age <= DAY_IN_MS;
 }

@@ -13,7 +13,11 @@ export function registerCmuxExtension(pi: ExtensionAPI): void {
 	setCmuxTitleSyncEnabled(true);
 	registerCmuxCommand(pi);
 	pi.on("session_start", async (_event, ctx) => {
-		await registerCurrentNexusSession(ctx.sessionManager.getSessionId(), ctx.sessionManager.getSessionFile(), pi.getSessionName() ?? ctx.sessionManager.getSessionName?.());
+		await registerCurrentNexusSession(
+			ctx.sessionManager.getSessionId(),
+			ctx.sessionManager.getSessionFile(),
+			pi.getSessionName() ?? ctx.sessionManager.getSessionName?.(),
+		);
 	});
 	pi.on("agent_end", async () => {
 		await notifyCmuxPaneCompletion(pi.getSessionName() ?? "");

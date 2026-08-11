@@ -13,7 +13,9 @@ export function createTetrisGame(): TetrisGame {
 	return {
 		width,
 		height,
-		board: Array.from({ length: height }, () => Array.from<TetrisCell>({ length: width }).fill("")),
+		board: Array.from({ length: height }, () =>
+			Array.from<TetrisCell>({ length: width }).fill(""),
+		),
 		active: createTetrisPiece(firstKind, width),
 		nextKind: TETRIS_SEQUENCE[1] as Exclude<TetrisCell, "">,
 		pieceIndex: 1,

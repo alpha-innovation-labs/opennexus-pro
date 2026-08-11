@@ -13,14 +13,14 @@ const MODEL_CATALOG_LABEL_WIDTH = 34;
  * @returns Slash-menu leaf for the catalog section.
  */
 export function createModelCatalogLeaf(model: Model<Api>): SlashMenuLeaf {
-  const reference = createProviderQualifiedModelLabel(model);
-  return {
-    kind: "model",
-    label: model.name,
-    description: formatModelCatalogMetricsColumns(model),
-    groupLabel: model.provider,
-    groupHeaderDescription: getModelCatalogColumnHeaderText(),
-    value: `catalog:${reference}`,
-    fixedLabelWidth: MODEL_CATALOG_LABEL_WIDTH,
-  };
+	const reference = createProviderQualifiedModelLabel(model);
+	return {
+		kind: "model",
+		label: model.name,
+		description: formatModelCatalogMetricsColumns(model),
+		groupLabel: model.provider,
+		groupHeaderDescription: getModelCatalogColumnHeaderText(),
+		value: `catalog:${reference}`,
+		fixedLabelWidth: MODEL_CATALOG_LABEL_WIDTH,
+	};
 }

@@ -9,9 +9,10 @@
  *
  * @returns Absolute path to the cache file.
  */
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
+
 import { join } from "node:path";
+import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
 
 export function getModelCachePath(): string {
-  return join(getNexusAgentDirPath(), "cache", "available_models.json");
+	return join(getNexusAgentDirPath(), "cache", "available_models.json");
 }

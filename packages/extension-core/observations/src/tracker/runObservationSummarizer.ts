@@ -10,7 +10,7 @@ import { runChild } from "@nexus/runtime/shared/child-process/runChild";
  * @returns Raw summarizer output.
  */
 export async function runObservationSummarizer(
-	pi: ExtensionAPI,
+	_pi: ExtensionAPI,
 	ctx: { cwd: string },
 	prompt: string,
 ): Promise<string> {

@@ -6,5 +6,5 @@ import type { ModelMenuTab } from "./ModelMenuTab";
  * @returns Model-menu tab ids.
  */
 export function createModelMenuTabs(): ModelMenuTab[] {
-  return ["models", "all-models"];
+	return ["models", "all-models"];
 }

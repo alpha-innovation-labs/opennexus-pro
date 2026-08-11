@@ -10,15 +10,15 @@ import { resolvePiAuthSourcePath } from "./resolvePiAuthSourcePath.mjs";
  * @returns {Promise<void>}
  */
 export async function importAuth() {
-  const sourcePath = resolvePiAuthSourcePath();
-  const targetPath = resolveNexusAuthTargetPath();
+	const sourcePath = resolvePiAuthSourcePath();
+	const targetPath = resolveNexusAuthTargetPath();
 
-  await access(sourcePath);
-  await ensureParentDir(targetPath);
-  await copyAuthFile(sourcePath, targetPath);
+	await access(sourcePath);
+	await ensureParentDir(targetPath);
+	await copyAuthFile(sourcePath, targetPath);
 
-  console.log(`Imported auth.json from ${sourcePath}`);
-  console.log(`Copied auth.json to ${targetPath}`);
+	console.log(`Imported auth.json from ${sourcePath}`);
+	console.log(`Copied auth.json to ${targetPath}`);
 }
 
 await importAuth();

@@ -11,10 +11,16 @@ import type { NexusSystemPromptOptions } from "./types";
  * @param includeSkills Whether skills are allowed for the prompt mode.
  * @returns Complete prompt text.
  */
-export function appendPromptTail(prompt: string, options: NexusSystemPromptOptions, includeSkills: boolean): string {
+export function appendPromptTail(
+	prompt: string,
+	options: NexusSystemPromptOptions,
+	includeSkills: boolean,
+): string {
 	let next = appendAgentsSection(prompt, options.contextFiles ?? []);
 	if (includeSkills && (options.skills?.length ?? 0) > 0) {
-		next += formatSkillsForPrompt((options.skills ?? []) as Parameters<typeof formatSkillsForPrompt>[0]);
+		next += formatSkillsForPrompt(
+			(options.skills ?? []) as Parameters<typeof formatSkillsForPrompt>[0],
+		);
 	}
 	next += `\nCurrent date: ${formatCurrentDate()}`;
 	next += `\nCurrent working directory: ${options.cwd.replace(/\\/g, "/")}`;

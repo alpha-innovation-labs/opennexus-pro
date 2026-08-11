@@ -7,5 +7,5 @@ import { toolCallFrameSyncedIds } from "./state";
  * @returns True when the tool call has explicit top or bottom border state.
  */
 export function hasToolCallFrameState(toolCallId: string): boolean {
-  return toolCallFrameSyncedIds.has(toolCallId);
+	return toolCallFrameSyncedIds.has(toolCallId);
 }

@@ -10,18 +10,21 @@ import { getDefaultDeleteSessionDir } from "./getDefaultDeleteSessionDir";
  * @param sessionDir Optional custom session directory.
  * @returns Unique directories to inspect by filename only.
  */
-export async function listDeleteSessionSearchDirs(cwd: string, sessionDir?: string): Promise<string[]> {
-  const dirs = new Set<string>([sessionDir ?? getDefaultDeleteSessionDir(cwd)]);
-  const sessionsRoot = join(getAgentDir(), "sessions");
+export async function listDeleteSessionSearchDirs(
+	cwd: string,
+	sessionDir?: string,
+): Promise<string[]> {
+	const dirs = new Set<string>([sessionDir ?? getDefaultDeleteSessionDir(cwd)]);
+	const sessionsRoot = join(getAgentDir(), "sessions");
 
-  try {
-    const entries = await readdir(sessionsRoot, { withFileTypes: true });
-    for (const entry of entries) {
-      if (entry.isDirectory()) dirs.add(join(sessionsRoot, entry.name));
-    }
-  } catch {
-    // Missing or unreadable global sessions root means only the local/custom directory can be searched.
-  }
+	try {
+		const entries = await readdir(sessionsRoot, { withFileTypes: true });
+		for (const entry of entries) {
+			if (entry.isDirectory()) dirs.add(join(sessionsRoot, entry.name));
+		}
+	} catch {
+		// Missing or unreadable global sessions root means only the local/custom directory can be searched.
+	}
 
-  return [...dirs];
+	return [...dirs];
 }

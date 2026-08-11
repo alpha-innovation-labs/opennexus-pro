@@ -5,5 +5,9 @@
  * @returns True when the URL points inside a Bun compiled binary.
  */
 export function hasBunBinaryMarker(importMetaUrl: string): boolean {
-  return importMetaUrl.includes("$bunfs") || importMetaUrl.includes("~BUN") || importMetaUrl.includes("%7EBUN");
+	return (
+		importMetaUrl.includes("$bunfs") ||
+		importMetaUrl.includes("~BUN") ||
+		importMetaUrl.includes("%7EBUN")
+	);
 }

@@ -8,15 +8,18 @@ import { sendTextToAgent } from "@nexus/herdr";
  * @param text      The text to send.
  * @returns Process exit code.
  */
-export async function runSubagentSendCommand(agentName: string, text: string): Promise<number> {
-  try {
-    console.error(`Sending to agent ${agentName}: ${text}`);
-    sendTextToAgent(agentName, text);
-    console.error("Sent.");
-    return 0;
-  } catch (err) {
-    const message = (err as Error).message ?? `send failed: status=1`;
-    console.error(message);
-    return 1;
-  }
+export async function runSubagentSendCommand(
+	agentName: string,
+	text: string,
+): Promise<number> {
+	try {
+		console.error(`Sending to agent ${agentName}: ${text}`);
+		sendTextToAgent(agentName, text);
+		console.error("Sent.");
+		return 0;
+	} catch (err) {
+		const message = (err as Error).message ?? `send failed: status=1`;
+		console.error(message);
+		return 1;
+	}
 }

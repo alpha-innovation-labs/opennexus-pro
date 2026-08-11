@@ -1,4 +1,4 @@
 export type RuntimeSlashCommandFilterConfig = {
-  hiddenNamePrefixes: readonly string[];
-  hiddenNames: readonly string[];
+	hiddenNamePrefixes: readonly string[];
+	hiddenNames: readonly string[];
 };

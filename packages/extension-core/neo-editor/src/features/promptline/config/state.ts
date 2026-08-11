@@ -8,7 +8,7 @@ let promptlineConfig: PromptlineConfig | undefined;
  * @param value Promptline config to cache.
  */
 export function setPromptlineConfig(value: PromptlineConfig | undefined): void {
-  promptlineConfig = value;
+	promptlineConfig = value;
 }
 
 /**
@@ -17,5 +17,5 @@ export function setPromptlineConfig(value: PromptlineConfig | undefined): void {
  * @returns Cached promptline config.
  */
 export function getPromptlineConfigState(): PromptlineConfig | undefined {
-  return promptlineConfig;
+	return promptlineConfig;
 }

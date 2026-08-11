@@ -7,5 +7,5 @@ import { hasBunBinaryMarker } from "./hasBunBinaryMarker";
  * @returns True when Bun virtual filesystem markers are present.
  */
 export function isBundledBinary(importMetaUrl: string): boolean {
-  return Boolean(process.versions.bun) && hasBunBinaryMarker(importMetaUrl);
+	return Boolean(process.versions.bun) && hasBunBinaryMarker(importMetaUrl);
 }

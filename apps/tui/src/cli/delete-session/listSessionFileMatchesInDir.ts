@@ -9,19 +9,21 @@ import { getSessionIdFromSessionFileName } from "./getSessionIdFromSessionFileNa
  * @param dir Session directory to inspect.
  * @returns Filename-derived session matches.
  */
-export async function listSessionFileMatchesInDir(dir: string): Promise<DeleteSessionMatch[]> {
-  let entries: string[];
-  try {
-    entries = await readdir(dir);
-  } catch {
-    return [];
-  }
+export async function listSessionFileMatchesInDir(
+	dir: string,
+): Promise<DeleteSessionMatch[]> {
+	let entries: string[];
+	try {
+		entries = await readdir(dir);
+	} catch {
+		return [];
+	}
 
-  const matches: DeleteSessionMatch[] = [];
-  for (const entry of entries) {
-    const id = getSessionIdFromSessionFileName(entry);
-    if (!id) continue;
-    matches.push({ id, path: join(dir, entry) });
-  }
-  return matches;
+	const matches: DeleteSessionMatch[] = [];
+	for (const entry of entries) {
+		const id = getSessionIdFromSessionFileName(entry);
+		if (!id) continue;
+		matches.push({ id, path: join(dir, entry) });
+	}
+	return matches;
 }

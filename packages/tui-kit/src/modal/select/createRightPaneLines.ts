@@ -1,6 +1,6 @@
 export type RightPaneLinesResult = {
-  lines: string[];
-  rightScrollOffset: number;
+	lines: string[];
+	rightScrollOffset: number;
 };
 
 /**
@@ -11,11 +11,15 @@ export type RightPaneLinesResult = {
  * @param rightScrollOffset Current scroll offset.
  * @returns Visible lines and clamped offset.
  */
-export function createRightPaneLines(rightLines: string[], height: number, rightScrollOffset: number): RightPaneLinesResult {
-  const maxOffset = Math.max(0, rightLines.length - height);
-  const clampedOffset = Math.max(0, Math.min(maxOffset, rightScrollOffset));
-  return {
-    lines: rightLines.slice(clampedOffset, clampedOffset + height),
-    rightScrollOffset: clampedOffset,
-  };
+export function createRightPaneLines(
+	rightLines: string[],
+	height: number,
+	rightScrollOffset: number,
+): RightPaneLinesResult {
+	const maxOffset = Math.max(0, rightLines.length - height);
+	const clampedOffset = Math.max(0, Math.min(maxOffset, rightScrollOffset));
+	return {
+		lines: rightLines.slice(clampedOffset, clampedOffset + height),
+		rightScrollOffset: clampedOffset,
+	};
 }

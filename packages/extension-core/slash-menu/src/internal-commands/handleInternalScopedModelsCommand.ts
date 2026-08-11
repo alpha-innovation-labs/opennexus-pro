@@ -8,11 +8,17 @@ import type { InternalSlashHandler } from "./types";
  * @param args Command arguments.
  * @param ctx Command context.
  */
-export const handleInternalScopedModelsCommand: InternalSlashHandler = async (args, ctx) => {
-  const encoded = args.trim();
-  const settings = SettingsManager.create(ctx.cwd);
-  const raw = encoded ? decodeBase64Arg(encoded) : "";
-  const values = raw ? raw.split("\n").filter(Boolean) : [];
-  settings.setEnabledModels(values.length === 0 ? undefined : values);
-  ctx.ui.notify(values.length === 0 ? "Scoped models cleared" : "Scoped models saved", "info");
+export const handleInternalScopedModelsCommand: InternalSlashHandler = async (
+	args,
+	ctx,
+) => {
+	const encoded = args.trim();
+	const settings = SettingsManager.create(ctx.cwd);
+	const raw = encoded ? decodeBase64Arg(encoded) : "";
+	const values = raw ? raw.split("\n").filter(Boolean) : [];
+	settings.setEnabledModels(values.length === 0 ? undefined : values);
+	ctx.ui.notify(
+		values.length === 0 ? "Scoped models cleared" : "Scoped models saved",
+		"info",
+	);
 };

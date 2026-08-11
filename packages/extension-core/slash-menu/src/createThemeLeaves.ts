@@ -9,14 +9,14 @@ import type { SlashMenuLeaf } from "./types";
  * @returns Theme leaf entries.
  */
 export async function createThemeLeaves(cwd: string): Promise<SlashMenuLeaf[]> {
-  const settings = SettingsManager.create(cwd);
-  const activeTheme = settings.getTheme() || "dark";
-  const themeNames = await readThemes(cwd);
-  return themeNames.map((name) => ({
-    kind: "theme",
-    label: name,
-    description: name === activeTheme ? "Current theme." : "Set theme.",
-    value: name,
-    currentValue: name,
-  }));
+	const settings = SettingsManager.create(cwd);
+	const activeTheme = settings.getTheme() || "dark";
+	const themeNames = await readThemes(cwd);
+	return themeNames.map((name) => ({
+		kind: "theme",
+		label: name,
+		description: name === activeTheme ? "Current theme." : "Set theme.",
+		value: name,
+		currentValue: name,
+	}));
 }

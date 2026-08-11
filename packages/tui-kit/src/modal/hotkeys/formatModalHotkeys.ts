@@ -9,6 +9,11 @@ import type { SharedModalHotkey } from "./types";
  * @param hotkeys Hotkey hints to format.
  * @returns Single display string for the hotkey group.
  */
-export function formatModalHotkeys(theme: SharedModalTheme, hotkeys: readonly SharedModalHotkey[]): string {
-  return hotkeys.map((hotkey) => formatModalHotkey(theme, hotkey)).join(theme.fg("dim", " · "));
+export function formatModalHotkeys(
+	theme: SharedModalTheme,
+	hotkeys: readonly SharedModalHotkey[],
+): string {
+	return hotkeys
+		.map((hotkey) => formatModalHotkey(theme, hotkey))
+		.join(theme.fg("dim", " · "));
 }

@@ -15,7 +15,10 @@ export async function editSystemPrompt(
 	state: SystemPromptState,
 	prompt: string,
 ): Promise<void> {
-	const updated = await ctx.ui.editor("Edit User Prompt", extractAppendSection(prompt));
+	const updated = await ctx.ui.editor(
+		"Edit User Prompt",
+		extractAppendSection(prompt),
+	);
 	if (updated === undefined) return;
 
 	state.setOverride(replaceAppendSection(prompt, updated));

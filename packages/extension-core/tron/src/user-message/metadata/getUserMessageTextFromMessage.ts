@@ -4,13 +4,13 @@
  * @param message Agent message-like object.
  * @returns Concatenated user text content.
  */
-export function getUserMessageTextFromMessage(message: any): string {
-  if (message?.role !== "user") return "";
-  const content = message.content;
-  if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "";
-  return content
-    .filter((part) => part?.type === "text" && typeof part.text === "string")
-    .map((part) => part.text)
-    .join("");
+export function getUserMessageTextFromMessage(message: unknown): string {
+	if (message?.role !== "user") return "";
+	const content = message.content;
+	if (typeof content === "string") return content;
+	if (!Array.isArray(content)) return "";
+	return content
+		.filter((part) => part?.type === "text" && typeof part.text === "string")
+		.map((part) => part.text)
+		.join("");
 }

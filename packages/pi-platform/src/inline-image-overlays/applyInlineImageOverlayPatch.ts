@@ -11,8 +11,11 @@ let inlineImageOverlayPatchApplied = false;
 export function applyInlineImageOverlayPatch(): void {
 	if (inlineImageOverlayPatchApplied) return;
 
-	const prototype = TuiBase.prototype as unknown as TuiWithInlineImageOverlayPatch;
-	prototype.compositeLineAt = compositeOverlayOverImageLine(prototype.compositeLineAt);
+	const prototype =
+		TuiBase.prototype as unknown as TuiWithInlineImageOverlayPatch;
+	prototype.compositeLineAt = compositeOverlayOverImageLine(
+		prototype.compositeLineAt,
+	);
 	prototype.doRender = renderWithInlineImageCleanup(prototype.doRender);
 
 	inlineImageOverlayPatchApplied = true;

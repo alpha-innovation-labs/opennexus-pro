@@ -7,5 +7,5 @@ import { basename } from "node:path";
  * @returns Observation conversation id.
  */
 export function getConversationIdFromSessionPath(sessionPath: string): string {
-  return basename(sessionPath).replace(/\.jsonl$/, "");
+	return basename(sessionPath).replace(/\.jsonl$/, "");
 }

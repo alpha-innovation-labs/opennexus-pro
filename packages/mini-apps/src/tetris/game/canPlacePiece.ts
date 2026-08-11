@@ -7,7 +7,10 @@ import type { TetrisActivePiece, TetrisGame } from "./types";
  * @param piece Piece placement to test.
  * @returns True when the piece is inside bounds and does not collide.
  */
-export function canPlacePiece(game: TetrisGame, piece: TetrisActivePiece): boolean {
+export function canPlacePiece(
+	game: TetrisGame,
+	piece: TetrisActivePiece,
+): boolean {
 	for (let row = 0; row < piece.shape.length; row += 1) {
 		const shapeRow = piece.shape[row];
 		if (!shapeRow) continue;
@@ -15,7 +18,13 @@ export function canPlacePiece(game: TetrisGame, piece: TetrisActivePiece): boole
 			if (!shapeRow[column]) continue;
 			const boardRow = piece.row + row;
 			const boardColumn = piece.column + column;
-			if (boardColumn < 0 || boardColumn >= game.width || boardRow < 0 || boardRow >= game.height) return false;
+			if (
+				boardColumn < 0 ||
+				boardColumn >= game.width ||
+				boardRow < 0 ||
+				boardRow >= game.height
+			)
+				return false;
 			const boardRowArr = game.board[boardRow];
 			if (boardRowArr?.[boardColumn]) return false;
 		}

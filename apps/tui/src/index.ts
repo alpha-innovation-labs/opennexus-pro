@@ -8,9 +8,9 @@ import { APP_NAME } from "@nexus/pi-platform/config";
 // Setting process.title here ensures the innermost process (node) reports
 // the correct name regardless of the process chain.
 if (process.env.NEXUS_DEV_MODE === "1") {
-  process.title = "mastracode";
+	process.title = "mastracode";
 } else {
-  process.title = APP_NAME;
+	process.title = APP_NAME;
 }
 
 import { runCliWithApp } from "./cli/runCliWithApp";
@@ -20,10 +20,10 @@ import { runApp } from "./runtime/runApp";
  * Boots the Nexus executable (dev or release).
  */
 async function main() {
-  process.exitCode = await runCliWithApp(process.argv.slice(2), { runApp });
+	process.exitCode = await runCliWithApp(process.argv.slice(2), { runApp });
 }
 
 main().catch((error) => {
-  console.error(error);
-  process.exit(1);
+	console.error(error);
+	process.exit(1);
 });

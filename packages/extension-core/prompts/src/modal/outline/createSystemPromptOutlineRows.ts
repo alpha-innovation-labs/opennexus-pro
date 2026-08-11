@@ -1,5 +1,8 @@
 import { createSystemPromptOutline } from "./createSystemPromptOutline";
-import type { SystemPromptOutlineChild, SystemPromptOutlineSection } from "./types";
+import type {
+	SystemPromptOutlineChild,
+	SystemPromptOutlineSection,
+} from "./types";
 
 export type SystemPromptOutlineRow = {
 	label: string;
@@ -17,10 +20,18 @@ export type SystemPromptOutlineRow = {
  * @param prompt Effective system prompt text.
  * @returns Outline rows in display order.
  */
-export function createSystemPromptOutlineRows(prompt: string): SystemPromptOutlineRow[] {
+export function createSystemPromptOutlineRows(
+	prompt: string,
+): SystemPromptOutlineRow[] {
 	const outline = createSystemPromptOutline(prompt);
 	return outline.sections.flatMap((section) => [
-		{ label: section.label, lineIndex: section.lineIndex, level: 0 as const, selectable: false, section },
+		{
+			label: section.label,
+			lineIndex: section.lineIndex,
+			level: 0 as const,
+			selectable: false,
+			section,
+		},
 		...section.children.map((child, index) => ({
 			label: child.label,
 			lineIndex: child.lineIndex,

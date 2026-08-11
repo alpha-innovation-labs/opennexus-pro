@@ -9,6 +9,6 @@ import { normalizeSlashes } from "./normalizeSlashes";
  * @returns Relative path.
  */
 export function relativeFromBase(basePath: string, targetPath: string): string {
-  const relativePath = normalizeSlashes(relative(basePath, targetPath));
-  return relativePath || ".";
+	const relativePath = normalizeSlashes(relative(basePath, targetPath));
+	return relativePath || ".";
 }

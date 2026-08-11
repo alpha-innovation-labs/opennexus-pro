@@ -1,5 +1,5 @@
-import type { TetrisGame } from "../game/types";
 import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { TetrisGame } from "../game/types";
 import { renderTetrisBox } from "./renderTetrisBox";
 
 /**
@@ -11,7 +11,12 @@ import { renderTetrisBox } from "./renderTetrisBox";
  * @param color Value color.
  * @returns Rendered stat row.
  */
-function statRow(theme: SharedModalTheme & { bold: (text: string) => string }, label: string, value: string | number, color: string): string {
+function statRow(
+	theme: SharedModalTheme & { bold: (text: string) => string },
+	label: string,
+	value: string | number,
+	color: string,
+): string {
 	return `${theme.fg("dim", label.padEnd(7))} ${theme.fg(color, String(value))}`;
 }
 
@@ -25,13 +30,39 @@ function statRow(theme: SharedModalTheme & { bold: (text: string) => string }, l
  * @param musicPlaying Whether music is currently active.
  * @returns Boxed stats panel lines.
  */
-export function renderTetrisStatsBox(theme: SharedModalTheme & { bold: (text: string) => string }, game: TetrisGame, width: number, height: number, musicPlaying: boolean): string[] {
-	const status = game.gameOver ? "Game Over" : game.paused ? "Paused" : "Playing";
-	return renderTetrisBox(theme, "Score", [
-		statRow(theme, "Score", game.score, "accent"),
-		statRow(theme, "Lines", game.lines, "syntaxType"),
-		statRow(theme, "Level", game.level, "warning"),
-		statRow(theme, "State", status, game.gameOver ? "error" : game.paused ? "warning" : "success"),
-		statRow(theme, "Music", musicPlaying ? "On" : "Off", musicPlaying ? "syntaxType" : "error"),
-	], width, height);
+export function renderTetrisStatsBox(
+	theme: SharedModalTheme & { bold: (text: string) => string },
+	game: TetrisGame,
+	width: number,
+	height: number,
+	musicPlaying: boolean,
+): string[] {
+	const status = game.gameOver
+		? "Game Over"
+		: game.paused
+			? "Paused"
+			: "Playing";
+	return renderTetrisBox(
+		theme,
+		"Score",
+		[
+			statRow(theme, "Score", game.score, "accent"),
+			statRow(theme, "Lines", game.lines, "syntaxType"),
+			statRow(theme, "Level", game.level, "warning"),
+			statRow(
+				theme,
+				"State",
+				status,
+				game.gameOver ? "error" : game.paused ? "warning" : "success",
+			),
+			statRow(
+				theme,
+				"Music",
+				musicPlaying ? "On" : "Off",
+				musicPlaying ? "syntaxType" : "error",
+			),
+		],
+		width,
+		height,
+	);
 }

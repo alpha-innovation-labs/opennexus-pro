@@ -7,7 +7,9 @@ import type { UserMessageMetadata } from "./types";
  * @param metadata Metadata that affects rendered bubble labels.
  * @returns Stable cache key segment.
  */
-export function getUserMessageMetadataCacheKey(metadata: UserMessageMetadata | undefined): string {
-  if (!metadata) return "";
-  return formatUserMessageTime(metadata.timestamp, metadata.now);
+export function getUserMessageMetadataCacheKey(
+	metadata: UserMessageMetadata | undefined,
+): string {
+	if (!metadata) return "";
+	return formatUserMessageTime(metadata.timestamp, metadata.now);
 }

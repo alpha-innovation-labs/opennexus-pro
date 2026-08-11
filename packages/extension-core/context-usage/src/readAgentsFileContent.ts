@@ -7,5 +7,5 @@ import { readTextFile } from "./readTextFile";
  * @returns File content when readable, otherwise undefined.
  */
 export function readAgentsFileContent(path: string): string | undefined {
-  return readTextFile(path);
+	return readTextFile(path);
 }

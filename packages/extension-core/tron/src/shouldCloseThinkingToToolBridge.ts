@@ -7,5 +7,5 @@ import { bridgedToolCallClosingIds } from "./activity/state";
  * @returns Whether this tool call should render the closing border.
  */
 export function shouldCloseThinkingToToolBridge(toolCallId: string): boolean {
-  return bridgedToolCallClosingIds.has(toolCallId);
+	return bridgedToolCallClosingIds.has(toolCallId);
 }

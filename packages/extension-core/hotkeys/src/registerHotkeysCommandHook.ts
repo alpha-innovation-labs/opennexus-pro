@@ -9,17 +9,35 @@ import { HotkeysModal } from "./HotkeysModal";
  * Registers the Nexus hotkeys renderer for Pi's built-in /hotkeys command.
  */
 export function registerHotkeysCommandHook(): void {
-  setHotkeysCommandHook((mode) => {
-    if (!isRuntimeExtensionFeatureEnabled("hotkeys")) {
-      setHotkeysCommandHook(undefined);
-      return;
-    }
-    const ui = (mode as { createExtensionUIContext?: () => { custom: <T>(factory: (...args: never[]) => unknown, options?: unknown) => Promise<T> } }).createExtensionUIContext?.();
-    const modeKeybindings = getModeKeybindings(mode);
-    if (!ui || !modeKeybindings) return;
-    void ui.custom<void>((_tui, theme, keybindings, done) => new HotkeysModal(theme, keybindings as never, getModeExtensionShortcuts(mode, modeKeybindings), done), {
-      overlay: true,
-      overlayOptions: createPanelOverlayOptions(92, "100%"),
-    });
-  });
+	setHotkeysCommandHook((mode) => {
+		if (!isRuntimeExtensionFeatureEnabled("hotkeys")) {
+			setHotkeysCommandHook(undefined);
+			return;
+		}
+		const ui = (
+			mode as {
+				createExtensionUIContext?: () => {
+					custom: <T>(
+						factory: (...args: never[]) => unknown,
+						options?: unknown,
+					) => Promise<T>;
+				};
+			}
+		).createExtensionUIContext?.();
+		const modeKeybindings = getModeKeybindings(mode);
+		if (!ui || !modeKeybindings) return;
+		void ui.custom<void>(
+			(_tui, theme, keybindings, done) =>
+				new HotkeysModal(
+					theme,
+					keybindings as never,
+					getModeExtensionShortcuts(mode, modeKeybindings),
+					done,
+				),
+			{
+				overlay: true,
+				overlayOptions: createPanelOverlayOptions(92, "100%"),
+			},
+		);
+	});
 }

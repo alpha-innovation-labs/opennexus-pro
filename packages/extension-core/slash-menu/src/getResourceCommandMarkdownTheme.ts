@@ -2,20 +2,20 @@ import { getMarkdownTheme } from "@earendil-works/pi-coding-agent";
 import type { MarkdownTheme } from "@earendil-works/pi-tui";
 
 const plainTheme: MarkdownTheme = {
-  heading: (text) => text,
-  link: (text) => text,
-  linkUrl: (text) => text,
-  code: (text) => text,
-  codeBlock: (text) => text,
-  codeBlockBorder: (text) => text,
-  quote: (text) => text,
-  quoteBorder: (text) => text,
-  hr: (text) => text,
-  listBullet: (text) => text,
-  bold: (text) => text,
-  italic: (text) => text,
-  strikethrough: (text) => text,
-  underline: (text) => text,
+	heading: (text) => text,
+	link: (text) => text,
+	linkUrl: (text) => text,
+	code: (text) => text,
+	codeBlock: (text) => text,
+	codeBlockBorder: (text) => text,
+	quote: (text) => text,
+	quoteBorder: (text) => text,
+	hr: (text) => text,
+	listBullet: (text) => text,
+	bold: (text) => text,
+	italic: (text) => text,
+	strikethrough: (text) => text,
+	underline: (text) => text,
 };
 
 /**
@@ -24,11 +24,11 @@ const plainTheme: MarkdownTheme = {
  * @returns Markdown theme.
  */
 export function getResourceCommandMarkdownTheme(): MarkdownTheme {
-  try {
-    return getMarkdownTheme();
-  } catch {
-    return plainTheme;
-  }
+	try {
+		return getMarkdownTheme();
+	} catch {
+		return plainTheme;
+	}
 }
 
 /**
@@ -37,5 +37,5 @@ export function getResourceCommandMarkdownTheme(): MarkdownTheme {
  * @returns Plain markdown theme.
  */
 export function getPlainResourceCommandMarkdownTheme(): MarkdownTheme {
-  return plainTheme;
+	return plainTheme;
 }

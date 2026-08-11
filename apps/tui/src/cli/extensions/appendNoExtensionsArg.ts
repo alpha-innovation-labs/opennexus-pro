@@ -7,9 +7,9 @@ import { hasNoExtensionsFlag } from "./hasNoExtensionsFlag";
  * @returns Args guaranteed to contain a no-extensions flag.
  */
 export function appendNoExtensionsArg(argv: string[]): string[] {
-  if (hasNoExtensionsFlag(argv)) {
-    return [...argv];
-  }
+	if (hasNoExtensionsFlag(argv)) {
+		return [...argv];
+	}
 
-  return ["--no-extensions", ...argv];
+	return ["--no-extensions", ...argv];
 }

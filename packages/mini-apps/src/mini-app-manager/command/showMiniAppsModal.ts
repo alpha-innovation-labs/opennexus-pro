@@ -1,9 +1,12 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { getAllBundledMiniAppIds } from "../../registry/bundledMiniAppIds";
-import type { FeatureFlagConfig, FeatureFlagsConfig } from "../../registry/featureFlagsTypes";
-import { PiPackagesModal } from "@extensions/pi-packages/ui/PiPackagesModal";
 import { updateManagedExtensionRows } from "@extensions/pi-packages/model/updateManagedExtensionRows";
+import { PiPackagesModal } from "@extensions/pi-packages/ui/PiPackagesModal";
 import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { getAllBundledMiniAppIds } from "../../registry/bundledMiniAppIds";
+import type {
+	FeatureFlagConfig,
+	FeatureFlagsConfig,
+} from "../../registry/featureFlagsTypes";
 import { createManagedMiniAppRows } from "../model/createManagedMiniAppRows";
 
 /**
@@ -14,7 +17,9 @@ import { createManagedMiniAppRows } from "../model/createManagedMiniAppRows";
  *
  * @param ctx Extension command context.
  */
-export async function showMiniAppsModal(ctx: ExtensionCommandContext): Promise<void> {
+export async function showMiniAppsModal(
+	ctx: ExtensionCommandContext,
+): Promise<void> {
 	if (!ctx.hasUI) {
 		ctx.ui.notify("/mini-apps requires an interactive UI session.", "warning");
 		return;
@@ -30,12 +35,17 @@ export async function showMiniAppsModal(ctx: ExtensionCommandContext): Promise<v
 	 * @returns Updated rows.
 	 */
 	function updateMiniApp(miniAppId: string, enabled: boolean) {
-		rows = updateManagedExtensionRows(rows, miniAppId, enabled ? "enabled" : "disabled");
+		rows = updateManagedExtensionRows(
+			rows,
+			miniAppId,
+			enabled ? "enabled" : "disabled",
+		);
 		return rows;
 	}
 
 	await ctx.ui.custom<undefined>(
-		(_tui, theme, _keybindings, done) => new PiPackagesModal(theme, rows, done, updateMiniApp, "Mini-Apps", "all"),
+		(_tui, theme, _keybindings, done) =>
+			new PiPackagesModal(theme, rows, done, updateMiniApp, "Mini-Apps", "all"),
 		{
 			overlay: true,
 			overlayOptions: createPanelOverlayOptions(80, "85%") as never,

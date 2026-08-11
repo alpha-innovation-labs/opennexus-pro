@@ -7,7 +7,10 @@ import { hasResumeCliFlag } from "./hasResumeCliFlag";
  * @param argv Process argument vector.
  * @returns True when the startup hero should be rendered.
  */
-export function shouldShowStartupHero(reason: string, argv: readonly string[]): boolean {
+export function shouldShowStartupHero(
+	reason: string,
+	argv: readonly string[],
+): boolean {
 	if (reason === "startup") return !hasResumeCliFlag(argv);
 	return reason === "new" || reason === "fork";
 }

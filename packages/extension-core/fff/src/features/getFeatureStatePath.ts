@@ -1,5 +1,5 @@
-import { getAgentDir } from "@earendil-works/pi-coding-agent";
 import { join } from "node:path";
+import { getAgentDir } from "@earendil-works/pi-coding-agent";
 
 /**
  * Returns the persisted feature-state path for the bundled FFF extension.
@@ -7,5 +7,5 @@ import { join } from "node:path";
  * @returns Absolute feature-state file path.
  */
 export function getFeatureStatePath(): string {
-  return join(getAgentDir(), "extensions", "fff.json");
+	return join(getAgentDir(), "extensions", "fff.json");
 }

@@ -1,18 +1,18 @@
 {
-  "name": "@extensions/observations",
-  "version": "0.2.24",
-  "type": "module",
-  "exports": {
-    "./*": "./src/*"
-  },
-  "dependencies": {
-    "@nexus/observability": "workspace:*",
-    "@nexus/runtime": "workspace:*",
-    "@nexus/tui-kit": "workspace:*",
-    "@extensions/prompts": "workspace:*"
-  },
-  "scripts": {
-    "lint": "biome lint .",
-    "typecheck": "tsc --noEmit"
-  }
+	"name": "@extensions/observations",
+	"version": "0.2.24",
+	"type": "module",
+	"exports": {
+		"./*": "./src/*"
+	},
+	"dependencies": {
+		"@nexus/observability": "workspace:*",
+		"@nexus/runtime": "workspace:*",
+		"@nexus/tui-kit": "workspace:*",
+		"@extensions/prompts": "workspace:*"
+	},
+	"scripts": {
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit"
+	}
 }

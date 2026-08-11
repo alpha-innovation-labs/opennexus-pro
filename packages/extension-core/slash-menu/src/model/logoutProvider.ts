@@ -1,6 +1,12 @@
+import type {
+	ExtensionCommandContext,
+	ExtensionContext,
+} from "@earendil-works/pi-coding-agent";
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import type { ExtensionCommandContext, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { removeProviderFromEnabledModels, type EnabledModelSettings } from "./removeProviderFromEnabledModels";
+import {
+	type EnabledModelSettings,
+	removeProviderFromEnabledModels,
+} from "./removeProviderFromEnabledModels";
 
 /**
  * Removes stored auth for a provider and refreshes model availability.
@@ -16,7 +22,7 @@ export function logoutProvider(
 ): void {
 	// Use ModelRegistry API instead of authStorage (which does not exist).
 	const status = ctx.modelRegistry.getProviderAuthStatus(providerId);
-	if (status && status.configured) {
+	if (status?.configured) {
 		ctx.modelRegistry.unregisterProvider(providerId);
 	}
 	removeProviderFromEnabledModels(settings, providerId);

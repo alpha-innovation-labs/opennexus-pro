@@ -8,5 +8,5 @@ import { visibleWidth } from "@earendil-works/pi-tui";
  * @returns Padded string.
  */
 export function padVisible(value: string, width: number): string {
-  return value + " ".repeat(Math.max(0, width - visibleWidth(value)));
+	return value + " ".repeat(Math.max(0, width - visibleWidth(value)));
 }

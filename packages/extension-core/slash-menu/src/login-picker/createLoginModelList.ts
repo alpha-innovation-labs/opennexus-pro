@@ -1,6 +1,9 @@
-import { getBuiltinModels, builtinProviders, type BuiltinProvider } from "@earendil-works/pi-ai/providers/all";
+import {
+	type BuiltinProvider,
+	builtinProviders,
+	getBuiltinModels,
+} from "@earendil-works/pi-ai/providers/all";
 import type { SlashMenuLeaf } from "../types";
-import { filterMenuItems } from "../filterMenuItems";
 import { resolveProviderModels } from "./resolveProviderModels";
 
 /**
@@ -15,13 +18,13 @@ import { resolveProviderModels } from "./resolveProviderModels";
  * @returns Model leaves for the right pane.
  */
 export function createLoginModelList(
-  providerId: string | null,
-  query: string,
+	providerId: string | null,
+	query: string,
 ): SlashMenuLeaf[] {
-  if (!providerId) return [];
-  const catalog = builtinProviders().map((provider) => ({
-    provider,
-    models: getBuiltinModels(provider.id as BuiltinProvider),
-  }));
-  return resolveProviderModels(providerId, catalog, query);
+	if (!providerId) return [];
+	const catalog = builtinProviders().map((provider) => ({
+		provider,
+		models: getBuiltinModels(provider.id as BuiltinProvider),
+	}));
+	return resolveProviderModels(providerId, catalog, query);
 }

@@ -10,5 +10,5 @@ import { registerFffExtension } from "./registerFffExtension";
  * @param pi Pi extension API.
  */
 export default function registerFffBundle(pi: ExtensionAPI): void {
-  registerFffExtension(pi);
+	registerFffExtension(pi);
 }

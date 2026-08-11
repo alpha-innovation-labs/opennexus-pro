@@ -8,5 +8,8 @@ export type PiPackagesCallbacks = {
 	onInstallPackage?: (source: string) => Promise<ManagedExtensionRow[]>;
 	onRemovePackage?: (source: string) => Promise<ManagedExtensionRow[]>;
 	onUpdatePackage?: (source: string) => Promise<ManagedExtensionRow[]>;
-	onSearchPackages?: (query: string, rows: ManagedExtensionRow[]) => Promise<ManagedExtensionRow[]>;
+	onSearchPackages?: (
+		query: string,
+		rows: ManagedExtensionRow[],
+	) => Promise<ManagedExtensionRow[]>;
 };

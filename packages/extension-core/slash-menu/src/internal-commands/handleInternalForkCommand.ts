@@ -7,17 +7,22 @@ import type { InternalSlashHandler } from "./types";
  * @param args Command arguments.
  * @param ctx Command context.
  */
-export const handleInternalForkCommand: InternalSlashHandler = async (args, ctx) => {
-  const entryId = args.trim();
-  if (!entryId) {
-    ctx.ui.notify("Missing fork entry.", "error");
-    return;
-  }
-  const selectedText = extractForkSelectedText(ctx.sessionManager.getEntry(entryId));
-  await ctx.fork(entryId, {
-    async withSession(ctx) {
-      ctx.ui.setEditorText(selectedText);
-      ctx.ui.notify("Forked to new session", "info");
-    },
-  });
+export const handleInternalForkCommand: InternalSlashHandler = async (
+	args,
+	ctx,
+) => {
+	const entryId = args.trim();
+	if (!entryId) {
+		ctx.ui.notify("Missing fork entry.", "error");
+		return;
+	}
+	const selectedText = extractForkSelectedText(
+		ctx.sessionManager.getEntry(entryId),
+	);
+	await ctx.fork(entryId, {
+		async withSession(ctx) {
+			ctx.ui.setEditorText(selectedText);
+			ctx.ui.notify("Forked to new session", "info");
+		},
+	});
 };

@@ -7,7 +7,9 @@ import type { SlashMenuLeaf } from "./types";
  * @param ctx Extension context.
  * @returns Stored auth provider leaves for logout/removal.
  */
-export function createLogoutProviderLeaves(ctx: ExtensionContext): SlashMenuLeaf[] {
+export function createLogoutProviderLeaves(
+	ctx: ExtensionContext,
+): SlashMenuLeaf[] {
 	const registry = ctx.modelRegistry;
 	if (!registry) return [];
 	const providerIds = registry.getRegisteredProviderIds();
@@ -16,7 +18,7 @@ export function createLogoutProviderLeaves(ctx: ExtensionContext): SlashMenuLeaf
 	const leaves: SlashMenuLeaf[] = [];
 	for (const providerId of providerIds) {
 		const status = registry.getProviderAuthStatus(providerId);
-		if (!status || !status.configured) {
+		if (!status?.configured) {
 			continue;
 		}
 		const displayName = registry.getProviderDisplayName(providerId);

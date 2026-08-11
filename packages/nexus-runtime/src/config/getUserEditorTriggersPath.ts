@@ -7,5 +7,5 @@ import { getUserConfigDirPath } from "./getUserConfigDirPath";
  * @returns Absolute user editor triggers file path.
  */
 export function getUserEditorTriggersPath(): string {
-  return join(getUserConfigDirPath(), "editor-triggers.json");
+	return join(getUserConfigDirPath(), "editor-triggers.json");
 }

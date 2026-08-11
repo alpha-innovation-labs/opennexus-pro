@@ -7,6 +7,8 @@ import { join } from "node:path";
  * @returns {string} Absolute Nexus auth.json path.
  */
 export function resolveNexusAuthTargetPath() {
-  const agentDir = process.env.NEXUS_CODING_AGENT_DIR?.trim() || join(homedir(), ".local", "share", "nexus", "agent");
-  return join(agentDir, "auth.json");
+	const agentDir =
+		process.env.NEXUS_CODING_AGENT_DIR?.trim() ||
+		join(homedir(), ".local", "share", "nexus", "agent");
+	return join(agentDir, "auth.json");
 }

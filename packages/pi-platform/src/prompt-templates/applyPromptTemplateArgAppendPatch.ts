@@ -165,12 +165,16 @@ export function alreadyAppendedWithSentinel(expanded: string): boolean {
 export async function applyPromptTemplateArgAppendPatch(): Promise<void> {
 	if (__nexusPromptTemplatePatched__) return;
 
-	const { AgentSession: AgentSessionClass } = await import("@earendil-works/pi-coding-agent");
+	const { AgentSession: AgentSessionClass } = await import(
+		"@earendil-works/pi-coding-agent"
+	);
 	const AgentSession = AgentSessionClass as {
 		prototype: { prompt: (...args: unknown[]) => unknown };
 	};
 
-	const originalPrompt = (AgentSession.prototype.prompt as (...args: unknown[]) => unknown).bind(AgentSession.prototype);
+	const originalPrompt = (
+		AgentSession.prototype.prompt as (...args: unknown[]) => unknown
+	).bind(AgentSession.prototype);
 
 	AgentSession.prototype.prompt = async function (
 		this: { promptTemplates?: Array<{ name: string; content: string }> },
@@ -178,10 +182,15 @@ export async function applyPromptTemplateArgAppendPatch(): Promise<void> {
 	): Promise<unknown> {
 		let text = args[0] as string;
 		const options = args[1] as Record<string, unknown> | undefined;
-		const expandPromptTemplates = (options?.expandPromptTemplates as boolean) ?? true;
+		const expandPromptTemplates =
+			(options?.expandPromptTemplates as boolean) ?? true;
 
 		// Only patch when prompt template expansion is enabled and text starts with "/"
-		if (expandPromptTemplates && typeof text === "string" && text.startsWith("/")) {
+		if (
+			expandPromptTemplates &&
+			typeof text === "string" &&
+			text.startsWith("/")
+		) {
 			const match = text.match(/^\/([^\s]+)(?:\s+([\s\S]*))?$/);
 			if (match) {
 				const templateName = match[1];
@@ -189,10 +198,16 @@ export async function applyPromptTemplateArgAppendPatch(): Promise<void> {
 
 				// Scope: only fire for known user commands, not internal routing.
 				if (!KNOWN_USER_COMMANDS.has(templateName)) {
-					return (originalPrompt as (...args: unknown[]) => unknown).call(this, text, options);
+					return (originalPrompt as (...args: unknown[]) => unknown).call(
+						this,
+						text,
+						options,
+					);
 				}
 
-				const templates = (this.promptTemplates as Array<{ name: string; content: string }>) ?? [];
+				const templates =
+					(this.promptTemplates as Array<{ name: string; content: string }>) ??
+					[];
 				const template = templates.find((t) => t.name === templateName);
 
 				if (template) {
@@ -210,15 +225,20 @@ export async function applyPromptTemplateArgAppendPatch(): Promise<void> {
 							// pass through (the sentinel is only for the guard, never
 							// visible to the AI model or the user).
 							text = text.slice(0, -SENTINEL.length);
-							return (originalPrompt as (...args: unknown[]) => unknown).call(this, text, options);
+							return (originalPrompt as (...args: unknown[]) => unknown).call(
+								this,
+								text,
+								options,
+							);
 						}
 						// Use parsed args (quotes stripped) instead of raw `argsString`
 						// for consistent output between modal and CLI paths.
 						const MAX_ARGS_LENGTH = 1_000_000; // 1MB
 						const truncatedArgs = templateArgs.join(" ");
-						const safeArgs = truncatedArgs.length > MAX_ARGS_LENGTH
-							? `${truncatedArgs.slice(0, MAX_ARGS_LENGTH)}...[truncated]`
-							: truncatedArgs;
+						const safeArgs =
+							truncatedArgs.length > MAX_ARGS_LENGTH
+								? `${truncatedArgs.slice(0, MAX_ARGS_LENGTH)}...[truncated]`
+								: truncatedArgs;
 						// The sentinel is NOT appended here — it would leak to the AI
 						// model. The guard works because the modal path appends the
 						// sentinel to the text, and the CLI path checks for it.
@@ -230,7 +250,11 @@ export async function applyPromptTemplateArgAppendPatch(): Promise<void> {
 			}
 		}
 
-		return (originalPrompt as (...args: unknown[]) => unknown).call(this, text, options);
+		return (originalPrompt as (...args: unknown[]) => unknown).call(
+			this,
+			text,
+			options,
+		);
 	};
 
 	__nexusPromptTemplatePatched__ = true;

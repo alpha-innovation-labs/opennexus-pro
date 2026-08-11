@@ -8,5 +8,5 @@ import { runCliWithApp } from "./runCliWithApp";
  * @returns Process exit code.
  */
 export async function runCli(argv: string[]): Promise<number> {
-  return runCliWithApp(argv, { runApp });
+	return runCliWithApp(argv, { runApp });
 }

@@ -11,9 +11,9 @@ import registerUserMessageInputStyleExtension from "./user-message/registerUserM
  * @param pi Pi extension API.
  */
 export default function index(pi: ExtensionAPI): void {
-  registerUserMessageInputStyleExtension(pi);
-  registerSkillInvocationStyleExtension(pi);
-  registerAssistantThinkingStyleExtension(pi);
-  registerCompactToolLinesExtension(pi);
-  registerToolCallsExtension(pi);
+	registerUserMessageInputStyleExtension(pi);
+	registerSkillInvocationStyleExtension(pi);
+	registerAssistantThinkingStyleExtension(pi);
+	registerCompactToolLinesExtension(pi);
+	registerToolCallsExtension(pi);
 }

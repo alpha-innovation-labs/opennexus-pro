@@ -6,6 +6,11 @@ import { collapsedSummaryNeighbors } from "../collapsedSummaryState";
  * @param toolCallId Leader tool call id.
  * @returns Neighbor ownership flags.
  */
-export function getCollapsedSummaryNeighbors(toolCallId: string): { isFirst: boolean; isLast: boolean } {
-	return collapsedSummaryNeighbors.get(toolCallId) ?? { isFirst: true, isLast: true };
+export function getCollapsedSummaryNeighbors(toolCallId: string): {
+	isFirst: boolean;
+	isLast: boolean;
+} {
+	return (
+		collapsedSummaryNeighbors.get(toolCallId) ?? { isFirst: true, isLast: true }
+	);
 }

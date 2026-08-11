@@ -12,9 +12,16 @@ export const SETTINGS_VALUE_COLUMN = 32;
  * @param icon Leading row icon.
  * @returns Formatted settings row label.
  */
-export function formatSettingsMenuLabel(label: string, value: string | undefined, theme: SelectPreviewTheme, icon = ""): string {
-  const labelText = icon ? `${icon} ${label}` : label;
-  const visibleLabelWidth = visibleWidth(labelText);
-  const spacing = " ".repeat(Math.max(2, SETTINGS_VALUE_COLUMN - visibleLabelWidth));
-  return `${labelText}${spacing}${theme.fg("muted", value ?? "")}`;
+export function formatSettingsMenuLabel(
+	label: string,
+	value: string | undefined,
+	theme: SelectPreviewTheme,
+	icon = "",
+): string {
+	const labelText = icon ? `${icon} ${label}` : label;
+	const visibleLabelWidth = visibleWidth(labelText);
+	const spacing = " ".repeat(
+		Math.max(2, SETTINGS_VALUE_COLUMN - visibleLabelWidth),
+	);
+	return `${labelText}${spacing}${theme.fg("muted", value ?? "")}`;
 }

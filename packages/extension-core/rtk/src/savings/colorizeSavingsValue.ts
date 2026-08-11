@@ -7,6 +7,9 @@ import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
  * @param value Value to colorize.
  * @returns Colorized value.
  */
-export function colorizeSavingsValue(theme: SharedModalTheme, value: string): string {
-  return theme.fg("accent", value);
+export function colorizeSavingsValue(
+	theme: SharedModalTheme,
+	value: string,
+): string {
+	return theme.fg("accent", value);
 }

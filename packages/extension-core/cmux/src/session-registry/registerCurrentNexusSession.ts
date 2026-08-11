@@ -14,7 +14,11 @@ import { writeCmuxSessionRegistry } from "./writeCmuxSessionRegistry";
  * @param sessionFile Nexus session file path.
  * @param sessionTitle Nexus session title.
  */
-export async function registerCurrentNexusSession(sessionId: string, sessionFile?: string, sessionTitle?: string): Promise<void> {
+export async function registerCurrentNexusSession(
+	sessionId: string,
+	sessionFile?: string,
+	sessionTitle?: string,
+): Promise<void> {
 	const target = getCurrentCmuxRenameTarget();
 	const surfaceId = target.surfaceId;
 	if (!surfaceId) return;

@@ -7,7 +7,12 @@ import { collapsedToolGroupLeaderByToolCallId } from "./collapsedToolGroupState"
  * @param toolCallId Tool call id.
  * @returns True when the row should not render.
  */
-export function shouldHideToolCallForCollapsedGroup(toolCallId: string): boolean {
+export function shouldHideToolCallForCollapsedGroup(
+	toolCallId: string,
+): boolean {
 	if (!isToolGroupCollapseEnabled()) return false;
-	return (collapsedToolGroupLeaderByToolCallId.get(toolCallId) ?? toolCallId) !== toolCallId;
+	return (
+		(collapsedToolGroupLeaderByToolCallId.get(toolCallId) ?? toolCallId) !==
+		toolCallId
+	);
 }

@@ -8,7 +8,13 @@ import type { CmuxSessionRegistry } from "./types";
  * @param registryPath Registry file path.
  * @param registry Registry contents.
  */
-export async function writeCmuxSessionRegistry(registryPath: string, registry: CmuxSessionRegistry): Promise<void> {
+export async function writeCmuxSessionRegistry(
+	registryPath: string,
+	registry: CmuxSessionRegistry,
+): Promise<void> {
 	await mkdir(dirname(registryPath), { recursive: true });
-	await writeFile(registryPath, `${JSON.stringify(registry, null, 2)}\n`, { encoding: "utf8", mode: 0o600 });
+	await writeFile(registryPath, `${JSON.stringify(registry, null, 2)}\n`, {
+		encoding: "utf8",
+		mode: 0o600,
+	});
 }

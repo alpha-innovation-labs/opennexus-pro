@@ -9,10 +9,10 @@ import { expandHomePath } from "./expandHomePath";
  * @returns Expanded package directory override when configured.
  */
 export function getConfiguredPackageDir(
-  env: NodeJS.ProcessEnv = process.env,
-  homeDir: string = homedir(),
+	env: NodeJS.ProcessEnv = process.env,
+	homeDir: string = homedir(),
 ): string | null {
-  const configuredPath = env.PI_PACKAGE_DIR;
-  if (!configuredPath) return null;
-  return expandHomePath(configuredPath, homeDir);
+	const configuredPath = env.PI_PACKAGE_DIR;
+	if (!configuredPath) return null;
+	return expandHomePath(configuredPath, homeDir);
 }

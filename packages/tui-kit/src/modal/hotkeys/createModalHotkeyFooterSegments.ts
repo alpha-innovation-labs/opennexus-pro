@@ -12,8 +12,14 @@ import type { SharedModalHotkey } from "./types";
  * @param showBaseHotkeys Whether base body-scroll hotkeys should be shown.
  * @returns Rendered hotkey footer segments.
  */
-export function createModalHotkeyFooterSegments(theme: SharedModalTheme, overrideHotkeys: readonly SharedModalHotkey[], showBaseHotkeys: boolean): string[] {
-  const baseHotkeys = showBaseHotkeys ? filterDuplicateBaseHotkeys(getBaseScrollHotkeys(), overrideHotkeys) : [];
-  const hotkeys = [...overrideHotkeys, ...baseHotkeys];
-  return hotkeys.map((hotkey) => formatModalHotkey(theme, hotkey));
+export function createModalHotkeyFooterSegments(
+	theme: SharedModalTheme,
+	overrideHotkeys: readonly SharedModalHotkey[],
+	showBaseHotkeys: boolean,
+): string[] {
+	const baseHotkeys = showBaseHotkeys
+		? filterDuplicateBaseHotkeys(getBaseScrollHotkeys(), overrideHotkeys)
+		: [];
+	const hotkeys = [...overrideHotkeys, ...baseHotkeys];
+	return hotkeys.map((hotkey) => formatModalHotkey(theme, hotkey));
 }

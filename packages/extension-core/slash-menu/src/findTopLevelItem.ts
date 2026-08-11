@@ -7,5 +7,5 @@ import { createTopLevelItems } from "./createTopLevelItems";
  * @returns Matching item, if found.
  */
 export function findTopLevelItem(value: string) {
-  return createTopLevelItems().find((item) => item.value === value);
+	return createTopLevelItems().find((item) => item.value === value);
 }

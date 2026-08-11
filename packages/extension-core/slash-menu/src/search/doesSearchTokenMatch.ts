@@ -6,5 +6,5 @@
  * @returns True when the token is present in candidate text.
  */
 export function doesSearchTokenMatch(text: string, token: string): boolean {
-  return text.includes(token);
+	return text.includes(token);
 }

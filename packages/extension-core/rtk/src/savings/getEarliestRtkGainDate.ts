@@ -8,12 +8,12 @@ import type { RtkGainReport } from "./RtkGainReport";
  * @returns Earliest UTC date, or epoch when unavailable.
  */
 export function getEarliestRtkGainDate(report: RtkGainReport): Date {
-  const keys = [report.daily, report.weekly, report.monthly]
-    .flatMap((periods) => periods ?? [])
-    .map(getPeriodStartKey)
-    .filter((key): key is string => Boolean(key))
-    .sort();
-  return new Date(`${keys[0] ?? "1970-01-01"}T00:00:00.000Z`);
+	const keys = [report.daily, report.weekly, report.monthly]
+		.flatMap((periods) => periods ?? [])
+		.map(getPeriodStartKey)
+		.filter((key): key is string => Boolean(key))
+		.sort();
+	return new Date(`${keys[0] ?? "1970-01-01"}T00:00:00.000Z`);
 }
 
 /**
@@ -23,5 +23,5 @@ export function getEarliestRtkGainDate(report: RtkGainReport): Date {
  * @returns Start key.
  */
 function getPeriodStartKey(period: RtkGainPeriod): string | undefined {
-  return period.date ?? period.week_start ?? period.month;
+	return period.date ?? period.week_start ?? period.month;
 }

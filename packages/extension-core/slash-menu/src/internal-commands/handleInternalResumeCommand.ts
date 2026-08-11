@@ -7,11 +7,14 @@ import type { InternalSlashHandler } from "./types";
  * @param args Command arguments.
  * @param ctx Command context.
  */
-export const handleInternalResumeCommand: InternalSlashHandler = async (args, ctx) => {
-  const sessionPath = decodeBase64Arg(args.trim());
-  await ctx.switchSession(sessionPath, {
-    async withSession(ctx) {
-      ctx.ui.notify("Resumed session", "info");
-    },
-  });
+export const handleInternalResumeCommand: InternalSlashHandler = async (
+	args,
+	ctx,
+) => {
+	const sessionPath = decodeBase64Arg(args.trim());
+	await ctx.switchSession(sessionPath, {
+		async withSession(ctx) {
+			ctx.ui.notify("Resumed session", "info");
+		},
+	});
 };

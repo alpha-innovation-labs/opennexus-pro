@@ -5,9 +5,9 @@
  * @returns True when the token can be treated as a direct session reference.
  */
 export function looksLikeSessionReference(value: string): boolean {
-  if (value.includes("/") || value.includes("\\") || value.endsWith(".jsonl")) {
-    return true;
-  }
+	if (value.includes("/") || value.includes("\\") || value.endsWith(".jsonl")) {
+		return true;
+	}
 
-  return /^[0-9a-f-]{8,}$/i.test(value);
+	return /^[0-9a-f-]{8,}$/i.test(value);
 }

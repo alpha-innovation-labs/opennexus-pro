@@ -14,10 +14,19 @@ import { startupHeroWidgetKey } from "./startupHeroWidgetKey";
 export function showStartupHero(ctx: ExtensionContext): void {
 	const version = getStartupHeroVersion();
 	const status = getStartupHeroStatus(ctx.getSystemPrompt());
-	const startupDurationBadge = shouldShowStartupDurationBadge(import.meta.url) ? getStartupDurationBadge() : undefined;
+	const startupDurationBadge = shouldShowStartupDurationBadge(import.meta.url)
+		? getStartupDurationBadge()
+		: undefined;
 	ctx.ui.setWidget(
 		startupHeroWidgetKey,
-		(tui, theme) => createStartupHeroWidget(tui, theme, version, status, startupDurationBadge),
+		(tui, theme) =>
+			createStartupHeroWidget(
+				tui,
+				theme,
+				version,
+				status,
+				startupDurationBadge,
+			),
 		{ placement: "aboveEditor" },
 	);
 }

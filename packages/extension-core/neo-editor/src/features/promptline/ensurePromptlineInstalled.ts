@@ -1,6 +1,9 @@
 import { logExtensionEvent } from "@nexus/observability/startup-debug";
 import { installPromptline } from "./installPromptline";
-import { getPromptlineInstalledForSession, setPromptlineInstalledForSession } from "./state";
+import {
+	getPromptlineInstalledForSession,
+	setPromptlineInstalledForSession,
+} from "./state";
 import type { PromptlineContext, PromptlineDeps } from "./types";
 
 /**
@@ -9,12 +12,15 @@ import type { PromptlineContext, PromptlineDeps } from "./types";
  * @param ctx Extension context.
  * @param deps Promptline dependencies.
  */
-export function ensurePromptlineInstalled(ctx: PromptlineContext, deps: PromptlineDeps): void {
-  const sessionFile = ctx.sessionManager.getSessionFile() ?? "__ephemeral__";
-  if (getPromptlineInstalledForSession() === sessionFile) return;
-  setPromptlineInstalledForSession(sessionFile);
-  logExtensionEvent("neo-editor", "ensurePromptlineInstalled", {
-    sessionFile: ctx.sessionManager.getSessionFile() ?? null,
-  });
-  installPromptline(ctx, deps);
+export function ensurePromptlineInstalled(
+	ctx: PromptlineContext,
+	deps: PromptlineDeps,
+): void {
+	const sessionFile = ctx.sessionManager.getSessionFile() ?? "__ephemeral__";
+	if (getPromptlineInstalledForSession() === sessionFile) return;
+	setPromptlineInstalledForSession(sessionFile);
+	logExtensionEvent("neo-editor", "ensurePromptlineInstalled", {
+		sessionFile: ctx.sessionManager.getSessionFile() ?? null,
+	});
+	installPromptline(ctx, deps);
 }

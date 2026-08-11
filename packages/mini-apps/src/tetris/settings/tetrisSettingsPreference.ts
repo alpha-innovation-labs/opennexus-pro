@@ -18,7 +18,9 @@ export function getTetrisSettingsPreference(): TetrisSettings {
  *
  * @param settings Partial Tetris settings.
  */
-export function setTetrisSettingsPreference(settings: Partial<TetrisSettings>): void {
+export function setTetrisSettingsPreference(
+	settings: Partial<TetrisSettings>,
+): void {
 	cachedSettings = { ...getTetrisSettingsPreference(), ...settings };
 	writeTetrisSettings(settings);
 }

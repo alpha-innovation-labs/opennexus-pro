@@ -7,5 +7,5 @@ import type { SessionJsonRow } from "./SessionJsonRow";
  * @returns Pretty-printed JSON array.
  */
 export function formatSessionsJson(rows: readonly SessionJsonRow[]): string {
-  return JSON.stringify(rows, undefined, 2);
+	return JSON.stringify(rows, undefined, 2);
 }

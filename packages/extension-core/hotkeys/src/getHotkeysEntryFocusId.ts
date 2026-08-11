@@ -7,5 +7,5 @@ import type { HotkeysEntry } from "./types";
  * @returns Stable focus id.
  */
 export function getHotkeysEntryFocusId(entry: HotkeysEntry): string {
-  return entry.keybindingId ?? `${entry.label}\u0000${entry.keys}`;
+	return entry.keybindingId ?? `${entry.label}\u0000${entry.keys}`;
 }

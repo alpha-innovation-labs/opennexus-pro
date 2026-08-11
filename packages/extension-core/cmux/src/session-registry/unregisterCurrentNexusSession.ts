@@ -15,7 +15,11 @@ export async function unregisterCurrentNexusSession(): Promise<void> {
 	const registryPath = getCmuxSessionRegistryPath();
 	await withCmuxSessionRegistryLock(registryPath, async () => {
 		const registry = await readCmuxSessionRegistry(registryPath);
-		const updated = removeCmuxSessionRegistryEntry(registry, target.workspaceId, surfaceId);
+		const updated = removeCmuxSessionRegistryEntry(
+			registry,
+			target.workspaceId,
+			surfaceId,
+		);
 		await writeCmuxSessionRegistry(registryPath, updated);
 	});
 }

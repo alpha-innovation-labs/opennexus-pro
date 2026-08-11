@@ -7,9 +7,9 @@ import { hasMinimalFlag } from "./hasMinimalFlag";
  * @returns Args guaranteed to contain a minimal flag.
  */
 export function appendMinimalArg(argv: string[]): string[] {
-  if (hasMinimalFlag(argv)) {
-    return [...argv];
-  }
+	if (hasMinimalFlag(argv)) {
+		return [...argv];
+	}
 
-  return ["--minimal", ...argv];
+	return ["--minimal", ...argv];
 }

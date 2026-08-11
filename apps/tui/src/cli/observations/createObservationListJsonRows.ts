@@ -8,7 +8,9 @@ import type { ObservationArtifactGroup, ObservationListJsonRow } from "./types";
  * @returns JSON-safe rows.
  */
 export async function createObservationListJsonRows(
-  groups: readonly ObservationArtifactGroup[],
+	groups: readonly ObservationArtifactGroup[],
 ): Promise<ObservationListJsonRow[]> {
-  return Promise.all(groups.map((group) => createObservationListJsonRow(group)));
+	return Promise.all(
+		groups.map((group) => createObservationListJsonRow(group)),
+	);
 }

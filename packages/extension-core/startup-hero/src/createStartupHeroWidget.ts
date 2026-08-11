@@ -41,7 +41,14 @@ export function createStartupHeroWidget(
 			].join("\u001f");
 			if (cachedKey === key) return cachedLines;
 			cachedKey = key;
-			cachedLines = buildCenteredStartupHeroLines(theme, tui.terminal.rows, width, version, status, startupDurationBadge);
+			cachedLines = buildCenteredStartupHeroLines(
+				theme,
+				tui.terminal.rows,
+				width,
+				version,
+				status,
+				startupDurationBadge,
+			);
 			return cachedLines;
 		},
 		/** Invalidates cached rendering state. */

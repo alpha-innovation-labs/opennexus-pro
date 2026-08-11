@@ -14,26 +14,26 @@ import type { WebFetchFormat, WebFetchResult } from "./webFetchTypes";
  * @returns Fetched and rendered result.
  */
 export async function executeWebFetch(
-  url: string,
-  _format: WebFetchFormat = "markdown",
-  _timeout?: number,
-  signal?: AbortSignal,
-  crawl4aiUrl?: string,
-  jinaApiKey?: string,
+	url: string,
+	_format: WebFetchFormat = "markdown",
+	_timeout?: number,
+	signal?: AbortSignal,
+	crawl4aiUrl?: string,
+	jinaApiKey?: string,
 ): Promise<WebFetchResult> {
-  // 1. Try Crawl4AI if URL is configured
-  if (crawl4aiUrl) {
-    const crawlResult = await executeCrawl4AIFetch(url, crawl4aiUrl, signal);
-    if (crawlResult) return crawlResult;
-  }
+	// 1. Try Crawl4AI if URL is configured
+	if (crawl4aiUrl) {
+		const crawlResult = await executeCrawl4AIFetch(url, crawl4aiUrl, signal);
+		if (crawlResult) return crawlResult;
+	}
 
-  // 2. Fallback to Jina Reader
-  const jinaResult = await executeJinaFetch(url, jinaApiKey, signal);
-  if (jinaResult) return jinaResult;
+	// 2. Fallback to Jina Reader
+	const jinaResult = await executeJinaFetch(url, jinaApiKey, signal);
+	if (jinaResult) return jinaResult;
 
-  // 3. Both backends unavailable — throw so the user knows to configure one.
-  throw new Error(
-    "No fetch backend configured. Set CRAWL4AI_URL and/or JINA_API_KEY, " +
-      "or configure crawl4ai and jina sections in your Nexus config file.",
-  );
+	// 3. Both backends unavailable — throw so the user knows to configure one.
+	throw new Error(
+		"No fetch backend configured. Set CRAWL4AI_URL and/or JINA_API_KEY, " +
+			"or configure crawl4ai and jina sections in your Nexus config file.",
+	);
 }

@@ -7,5 +7,5 @@ import { formatTokenCount } from "./formatTokenCount";
  * @returns Human-readable token count.
  */
 export function formatMaybeTokenCount(tokens: number | null): string {
-  return tokens === null ? "unknown" : formatTokenCount(tokens);
+	return tokens === null ? "unknown" : formatTokenCount(tokens);
 }

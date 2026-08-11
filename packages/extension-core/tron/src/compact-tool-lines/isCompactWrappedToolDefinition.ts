@@ -7,5 +7,9 @@ import compactToolWrapMarker from "./compactToolWrapMarker";
  * @returns True when the definition is already compact-wrapped.
  */
 export function isCompactWrappedToolDefinition(definition: unknown): boolean {
-	return Boolean((definition as Record<PropertyKey, unknown> | undefined)?.[compactToolWrapMarker]);
+	return Boolean(
+		(definition as Record<PropertyKey, unknown> | undefined)?.[
+			compactToolWrapMarker
+		],
+	);
 }

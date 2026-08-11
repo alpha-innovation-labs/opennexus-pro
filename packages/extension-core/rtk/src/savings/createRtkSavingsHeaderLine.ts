@@ -12,13 +12,13 @@ import { renderRtkSavingsPeriodTabs } from "./renderRtkSavingsPeriodTabs";
  * @returns Header line.
  */
 export function createRtkSavingsHeaderLine(
-  theme: SharedModalTheme,
-  selectedPeriod: RtkSavingsPeriodKey,
-  width: number,
+	theme: SharedModalTheme,
+	selectedPeriod: RtkSavingsPeriodKey,
+	width: number,
 ): string {
-  const title = theme.fg("accent", "Token Savings");
-  const tabs = renderRtkSavingsPeriodTabs(selectedPeriod, theme);
-  const gap = width - visibleWidth(title) - visibleWidth(tabs);
-  if (gap >= 1) return `${title}${" ".repeat(gap)}${tabs}`;
-  return truncateToWidth(`${title} ${tabs}`, width);
+	const title = theme.fg("accent", "Token Savings");
+	const tabs = renderRtkSavingsPeriodTabs(selectedPeriod, theme);
+	const gap = width - visibleWidth(title) - visibleWidth(tabs);
+	if (gap >= 1) return `${title}${" ".repeat(gap)}${tabs}`;
+	return truncateToWidth(`${title} ${tabs}`, width);
 }

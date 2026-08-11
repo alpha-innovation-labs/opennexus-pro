@@ -32,8 +32,8 @@ export type PiPackagesTab = "all" | "third-party";
  * Internal package entry from the package manager.
  */
 export type ConfiguredPackage = {
-  source: string;
-  scope: "user" | "project";
-  installedPath?: string;
-  filtered: boolean;
+	source: string;
+	scope: "user" | "project";
+	installedPath?: string;
+	filtered: boolean;
 };

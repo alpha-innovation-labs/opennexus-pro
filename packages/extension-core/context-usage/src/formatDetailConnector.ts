@@ -6,5 +6,5 @@
  * @returns Connected tree connector.
  */
 export function formatDetailConnector(index: number, total: number): string {
-  return index === total - 1 ? "└─" : "├─";
+	return index === total - 1 ? "└─" : "├─";
 }

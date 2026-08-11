@@ -8,12 +8,12 @@ import { pathExists } from "./pathExists";
  * @returns Project root.
  */
 export async function resolveProjectRoot(cwd: string): Promise<string> {
-  const start = resolve(cwd);
-  let current = start;
-  while (true) {
-    if (await pathExists(resolve(current, ".git"))) return current;
-    const parent = dirname(current);
-    if (parent === current) return start;
-    current = parent;
-  }
+	const start = resolve(cwd);
+	let current = start;
+	while (true) {
+		if (await pathExists(resolve(current, ".git"))) return current;
+		const parent = dirname(current);
+		if (parent === current) return start;
+		current = parent;
+	}
 }

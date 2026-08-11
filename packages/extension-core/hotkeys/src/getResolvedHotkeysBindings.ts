@@ -6,6 +6,12 @@ import type { HotkeysKeybindings } from "./types";
  * @param keybindings Pi keybinding manager.
  * @returns Resolved keybinding map.
  */
-export function getResolvedHotkeysBindings(keybindings: HotkeysKeybindings): Record<string, string | string[] | undefined> {
-  return keybindings.getResolvedBindings?.() ?? keybindings.getEffectiveConfig?.() ?? {};
+export function getResolvedHotkeysBindings(
+	keybindings: HotkeysKeybindings,
+): Record<string, string | string[] | undefined> {
+	return (
+		keybindings.getResolvedBindings?.() ??
+		keybindings.getEffectiveConfig?.() ??
+		{}
+	);
 }

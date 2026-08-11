@@ -12,13 +12,20 @@ import type { TokenCostReport } from "./TokenCostReport";
  * @returns Cost estimate.
  */
 export function createTokenCostReport(
-  usage: TokenUsagePeriod,
-  rtk: RtkGainPeriod,
-  pricing: OpenRouterPricing,
+	usage: TokenUsagePeriod,
+	rtk: RtkGainPeriod,
+	pricing: OpenRouterPricing,
 ): TokenCostReport {
-  const inputCost = usage.input * pricing.input;
-  const outputCost = usage.output * pricing.output;
-  const cachedCost = usage.cacheRead * pricing.cachedInput;
-  const savedCost = rtk.saved_tokens * pricing.input;
-  return { cachedCost, inputCost, outputCost, pricing, savedCost, totalCost: inputCost + outputCost + cachedCost };
+	const inputCost = usage.input * pricing.input;
+	const outputCost = usage.output * pricing.output;
+	const cachedCost = usage.cacheRead * pricing.cachedInput;
+	const savedCost = rtk.saved_tokens * pricing.input;
+	return {
+		cachedCost,
+		inputCost,
+		outputCost,
+		pricing,
+		savedCost,
+		totalCost: inputCost + outputCost + cachedCost,
+	};
 }

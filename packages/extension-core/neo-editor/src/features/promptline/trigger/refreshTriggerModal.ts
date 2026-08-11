@@ -1,6 +1,12 @@
+import type {
+	ExtensionAPI,
+	ExtensionContext,
+} from "@earendil-works/pi-coding-agent";
+import type {
+	AutocompleteItem,
+	AutocompleteProvider,
+} from "@earendil-works/pi-tui";
 import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
-import type { AutocompleteItem, AutocompleteProvider } from "@earendil-works/pi-tui";
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { closeTriggerModal } from "./closeTriggerModal";
 import { getTriggerProvider } from "./getTriggerProvider";
 import type { ShowOverlay, TriggerModalState, TriggerState } from "./types";
@@ -28,51 +34,54 @@ import type { ShowOverlay, TriggerModalState, TriggerState } from "./types";
  * @returns Active `@` prefix when available.
  */
 export async function refreshTriggerModal(
-  triggerState: TriggerState | null,
-  modalState: TriggerModalState,
-  ctx: ExtensionContext,
-  uiTheme: ExtensionContext["ui"]["theme"],
-  autocompleteProvider: AutocompleteProvider | undefined,
-  getThinkingLevel: () => string,
-  setThinkingLevel: (value: string) => void,
-  getCommands: ExtensionAPI["getCommands"],
-  getAllTools: ExtensionAPI["getAllTools"],
-  lines: string[],
-  cursorLine: number,
-  cursorCol: number,
-  requestRender: () => void,
-  setText: (value: string) => void,
-  submitText: (value: string) => void,
-  onAutocompletePick: (item: AutocompleteItem) => void,
-  showOverlay: ShowOverlay,
+	triggerState: TriggerState | null,
+	modalState: TriggerModalState,
+	ctx: ExtensionContext,
+	uiTheme: ExtensionContext["ui"]["theme"],
+	autocompleteProvider: AutocompleteProvider | undefined,
+	getThinkingLevel: () => string,
+	setThinkingLevel: (value: string) => void,
+	getCommands: ExtensionAPI["getCommands"],
+	getAllTools: ExtensionAPI["getAllTools"],
+	lines: string[],
+	cursorLine: number,
+	cursorCol: number,
+	requestRender: () => void,
+	setText: (value: string) => void,
+	submitText: (value: string) => void,
+	onAutocompletePick: (item: AutocompleteItem) => void,
+	showOverlay: ShowOverlay,
 ): Promise<{ autocompletePrefix?: string }> {
-  if (!triggerState) {
-    closeTriggerModal(modalState, requestRender);
-    return {};
-  }
+	if (!triggerState) {
+		closeTriggerModal(modalState, requestRender);
+		return {};
+	}
 
-  if (triggerState.kind === "slash" && !isRuntimeExtensionFeatureEnabled("slash-menu")) {
-    closeTriggerModal(modalState, requestRender);
-    return {};
-  }
+	if (
+		triggerState.kind === "slash" &&
+		!isRuntimeExtensionFeatureEnabled("slash-menu")
+	) {
+		closeTriggerModal(modalState, requestRender);
+		return {};
+	}
 
-  return getTriggerProvider(triggerState.kind).refresh({
-    triggerState,
-    modalState,
-    ctx,
-    uiTheme,
-    autocompleteProvider,
-    getThinkingLevel,
-    setThinkingLevel,
-    getCommands,
-    getAllTools,
-    lines,
-    cursorLine,
-    cursorCol,
-    requestRender,
-    setText,
-    submitText,
-    onAutocompletePick,
-    showOverlay,
-  });
+	return getTriggerProvider(triggerState.kind).refresh({
+		triggerState,
+		modalState,
+		ctx,
+		uiTheme,
+		autocompleteProvider,
+		getThinkingLevel,
+		setThinkingLevel,
+		getCommands,
+		getAllTools,
+		lines,
+		cursorLine,
+		cursorCol,
+		requestRender,
+		setText,
+		submitText,
+		onAutocompletePick,
+		showOverlay,
+	});
 }

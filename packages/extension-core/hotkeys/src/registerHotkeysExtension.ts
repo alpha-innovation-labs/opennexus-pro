@@ -7,5 +7,5 @@ import { registerHotkeysCommandHook } from "./registerHotkeysCommandHook";
  * @param _pi Pi extension API.
  */
 export function registerHotkeysExtension(_pi: ExtensionAPI): void {
-  registerHotkeysCommandHook();
+	registerHotkeysCommandHook();
 }

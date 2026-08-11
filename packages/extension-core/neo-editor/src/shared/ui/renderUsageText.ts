@@ -19,14 +19,16 @@ export function renderUsageText(
 		const match = slot.match(/^(○|◔|◑|◕|●)\s+(--|\d+%)$/);
 		if (!match) return uiTheme.fg("dim", slot);
 		const [, icon, value] = match;
-		const numeric = value === "--" ? undefined : Number.parseInt(value.replace("%", ""), 10);
-		const color = typeof numeric !== "number" || !Number.isFinite(numeric)
-			? TEAL
-			: numeric >= 66.67
-				? RED
-				: numeric >= 33.33
-					? ORANGE
-					: TEAL;
+		const numeric =
+			value === "--" ? undefined : Number.parseInt(value.replace("%", ""), 10);
+		const color =
+			typeof numeric !== "number" || !Number.isFinite(numeric)
+				? TEAL
+				: numeric >= 66.67
+					? RED
+					: numeric >= 33.33
+						? ORANGE
+						: TEAL;
 		return `${color}${icon} ${value}${RESET}`;
 	});
 	return renderedSlots.join(uiTheme.fg("dim", " | "));

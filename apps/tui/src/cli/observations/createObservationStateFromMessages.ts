@@ -1,5 +1,8 @@
 import { buildObservationMessageExcerpt } from "@extensions/observations/tracker/buildObservationMessageExcerpt";
-import type { ObservationState, StoredObservationMessage } from "@extensions/observations/tracker/types";
+import type {
+	ObservationState,
+	StoredObservationMessage,
+} from "@extensions/observations/tracker/types";
 import { recreateObservationTopics } from "./recreateObservationTopics";
 import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopic";
 
@@ -13,15 +16,23 @@ import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopi
  * @returns Structured observation state.
  */
 export async function createObservationStateFromMessages(
-  conversationId: string,
-  cwd: string,
-  sessionFile: string,
-  messages: readonly StoredObservationMessage[],
+	conversationId: string,
+	cwd: string,
+	sessionFile: string,
+	messages: readonly StoredObservationMessage[],
 ): Promise<ObservationState> {
-  const state: ObservationState = { conversationId, cwd, sessionFile, updatedAt: Date.now(), messageCount: messages.length, summary: "", topics: [] };
-  const recreatedTopics = await recreateObservationTopics(cwd, messages);
-  appendRecreatedTopics(state, messages, recreatedTopics);
-  return state;
+	const state: ObservationState = {
+		conversationId,
+		cwd,
+		sessionFile,
+		updatedAt: Date.now(),
+		messageCount: messages.length,
+		summary: "",
+		topics: [],
+	};
+	const recreatedTopics = await recreateObservationTopics(cwd, messages);
+	appendRecreatedTopics(state, messages, recreatedTopics);
+	return state;
 }
 
 /**
@@ -32,25 +43,27 @@ export async function createObservationStateFromMessages(
  * @param recreatedTopics LLM-derived topic observations.
  */
 function appendRecreatedTopics(
-  state: ObservationState,
-  messages: readonly StoredObservationMessage[],
-  recreatedTopics: readonly RecreatedObservationTopic[],
+	state: ObservationState,
+	messages: readonly StoredObservationMessage[],
+	recreatedTopics: readonly RecreatedObservationTopic[],
 ): void {
-  const userMessages = messages.filter((message) => message.role === "user");
-  for (const topic of recreatedTopics) {
-    const topicMessages = userMessages.filter((message) => topic.sourceMessageIndexes.includes(message.index));
-    const firstMessage = topicMessages[0];
-    if (!firstMessage) continue;
-    state.topics.push({
-      index: state.topics.length + 1,
-      title: topic.title,
-      startedAt: firstMessage.timestamp,
-      sourceMessageIndex: firstMessage.index,
-      userMessageIndexes: topicMessages.map((message) => message.index),
-      userMessages: resolveUserMessageExcerpts(topic, topicMessages),
-      assistantBullets: topic.assistantBullets,
-    });
-  }
+	const userMessages = messages.filter((message) => message.role === "user");
+	for (const topic of recreatedTopics) {
+		const topicMessages = userMessages.filter((message) =>
+			topic.sourceMessageIndexes.includes(message.index),
+		);
+		const firstMessage = topicMessages[0];
+		if (!firstMessage) continue;
+		state.topics.push({
+			index: state.topics.length + 1,
+			title: topic.title,
+			startedAt: firstMessage.timestamp,
+			sourceMessageIndex: firstMessage.index,
+			userMessageIndexes: topicMessages.map((message) => message.index),
+			userMessages: resolveUserMessageExcerpts(topic, topicMessages),
+			assistantBullets: topic.assistantBullets,
+		});
+	}
 }
 
 /**
@@ -60,7 +73,13 @@ function appendRecreatedTopics(
  * @param topicMessages Source user messages.
  * @returns User-message excerpts.
  */
-function resolveUserMessageExcerpts(topic: RecreatedObservationTopic, topicMessages: readonly StoredObservationMessage[]): string[] {
-  if (topic.userMessages && topic.userMessages.length > 0) return topic.userMessages;
-  return topicMessages.map((message) => buildObservationMessageExcerpt(message.text));
+function resolveUserMessageExcerpts(
+	topic: RecreatedObservationTopic,
+	topicMessages: readonly StoredObservationMessage[],
+): string[] {
+	if (topic.userMessages && topic.userMessages.length > 0)
+		return topic.userMessages;
+	return topicMessages.map((message) =>
+		buildObservationMessageExcerpt(message.text),
+	);
 }

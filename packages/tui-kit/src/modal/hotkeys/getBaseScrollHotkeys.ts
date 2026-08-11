@@ -6,9 +6,9 @@ import type { SharedModalHotkey } from "./types";
  * @returns Default shared modal scroll hotkey hints.
  */
 export function getBaseScrollHotkeys(): SharedModalHotkey[] {
-  return [
-    { key: "j/k", label: "scroll" },
-    { key: "gg/G", label: "top/bottom" },
-    { key: "Ctrl+D/U", label: "half page" },
-  ];
+	return [
+		{ key: "j/k", label: "scroll" },
+		{ key: "gg/G", label: "top/bottom" },
+		{ key: "Ctrl+D/U", label: "half page" },
+	];
 }

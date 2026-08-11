@@ -13,18 +13,18 @@ import type { TriggerState } from "./types";
  * @returns Trigger session state to start, or null.
  */
 export function resolveTriggerSessionStart(
-  data: string,
-  textBeforeCursor: string,
-  editorText: string,
+	data: string,
+	textBeforeCursor: string,
+	editorText: string,
 ): TriggerState | null {
-  if (data === "/") {
-    return editorText.length === 0 ? { kind: "slash", prefix: "/" } : null;
-  }
+	if (data === "/") {
+		return editorText.length === 0 ? { kind: "slash", prefix: "/" } : null;
+	}
 
-  if (data !== "@") {
-    return null;
-  }
+	if (data !== "@") {
+		return null;
+	}
 
-  const nextState = getTriggerState(`${textBeforeCursor}@`);
-  return nextState?.kind === "at" ? nextState : null;
+	const nextState = getTriggerState(`${textBeforeCursor}@`);
+	return nextState?.kind === "at" ? nextState : null;
 }

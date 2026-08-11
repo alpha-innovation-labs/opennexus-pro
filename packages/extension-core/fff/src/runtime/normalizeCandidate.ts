@@ -8,6 +8,9 @@ import type { FffFileCandidate } from "../shared/types";
  * @param score Engine score.
  * @returns Local candidate.
  */
-export function normalizeCandidate(item: FileItem, score: Score | undefined): FffFileCandidate {
-  return { item, score };
+export function normalizeCandidate(
+	item: FileItem,
+	score: Score | undefined,
+): FffFileCandidate {
+	return { item, score };
 }

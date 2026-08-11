@@ -16,7 +16,11 @@ export type FeatureStatusCategory = "core" | "dev" | "pro" | "mini-apps";
 /**
  * Feature-management group displayed as a section header.
  */
-export type FeatureManagementGroup = "Core" | "Nexus" | "Pi Packages" | "Mini apps";
+export type FeatureManagementGroup =
+	| "Core"
+	| "Nexus"
+	| "Pi Packages"
+	| "Mini apps";
 
 /**
  * Source config bucket that owns a feature flag entry.

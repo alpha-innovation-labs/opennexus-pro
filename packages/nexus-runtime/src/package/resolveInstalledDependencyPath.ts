@@ -10,13 +10,17 @@ import { fileURLToPath } from "node:url";
  * @returns Absolute dependency entry path.
  */
 export function resolveInstalledDependencyPath(
-  importMetaUrl: string,
-  dependencyRelativePath: string,
-  sourceRelativeUrl: string,
+	importMetaUrl: string,
+	dependencyRelativePath: string,
+	sourceRelativeUrl: string,
 ): string {
-  if (process.env.PI_PACKAGE_DIR) {
-    return join(process.env.PI_PACKAGE_DIR, "node_modules", dependencyRelativePath);
-  }
+	if (process.env.PI_PACKAGE_DIR) {
+		return join(
+			process.env.PI_PACKAGE_DIR,
+			"node_modules",
+			dependencyRelativePath,
+		);
+	}
 
-  return fileURLToPath(new URL(sourceRelativeUrl, importMetaUrl));
+	return fileURLToPath(new URL(sourceRelativeUrl, importMetaUrl));
 }

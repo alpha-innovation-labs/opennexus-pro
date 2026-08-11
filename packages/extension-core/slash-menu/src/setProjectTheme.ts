@@ -7,8 +7,11 @@ import { writeProjectConfig } from "./writeProjectConfig";
  * @param cwd Project cwd.
  * @param themeName Theme name.
  */
-export async function setProjectTheme(cwd: string, themeName: string): Promise<void> {
-  const projectConfig = await readProjectConfig(cwd);
-  (projectConfig as { theme?: string }).theme = themeName;
-  await writeProjectConfig(cwd, projectConfig);
+export async function setProjectTheme(
+	cwd: string,
+	themeName: string,
+): Promise<void> {
+	const projectConfig = await readProjectConfig(cwd);
+	(projectConfig as { theme?: string }).theme = themeName;
+	await writeProjectConfig(cwd, projectConfig);
 }

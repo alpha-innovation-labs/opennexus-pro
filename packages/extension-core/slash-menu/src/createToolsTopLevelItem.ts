@@ -6,10 +6,10 @@ import type { SlashMenuSection } from "./types";
  * @returns Tools section item.
  */
 export function createToolsTopLevelItem(): SlashMenuSection {
-  return {
-    label: "tools",
-    description: "Show available tools.",
-    groupLabel: "Resources",
-    value: "tools",
-  };
+	return {
+		label: "tools",
+		description: "Show available tools.",
+		groupLabel: "Resources",
+		value: "tools",
+	};
 }

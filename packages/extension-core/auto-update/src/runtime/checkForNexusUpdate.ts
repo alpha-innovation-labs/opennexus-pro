@@ -1,4 +1,7 @@
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type {
+	ExtensionAPI,
+	ExtensionContext,
+} from "@earendil-works/pi-coding-agent";
 import { isNewerVersion } from "../model/isNewerVersion";
 import { fetchLatestNpmVersion } from "../registry/fetchLatestNpmVersion";
 import { showAutoUpdateModal } from "../ui/showAutoUpdateModal";
@@ -31,7 +34,10 @@ export function isNetworkError(error: unknown): boolean {
  * @param pi Extension API used for installing an approved update.
  * @param ctx Extension context used for UI and notifications.
  */
-export async function checkForNexusUpdate(pi: ExtensionAPI, ctx: ExtensionContext): Promise<void> {
+export async function checkForNexusUpdate(
+	pi: ExtensionAPI,
+	ctx: ExtensionContext,
+): Promise<void> {
 	const current = currentPackageInfo();
 	if (!ctx.hasUI || current.version === "unknown") return;
 	try {

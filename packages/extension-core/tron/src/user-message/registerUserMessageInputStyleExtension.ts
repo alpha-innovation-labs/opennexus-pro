@@ -9,7 +9,9 @@ import { restoreUserMessageRenderer } from "./restoreUserMessageRenderer";
  *
  * @param _pi Extension API.
  */
-export default function registerUserMessageInputStyleExtension(_pi: ExtensionAPI): void {
+export default function registerUserMessageInputStyleExtension(
+	_pi: ExtensionAPI,
+): void {
 	logExtensionEvent("user-message-input-style", "init");
 	restoreUserMessageRenderer();
 	installUserMessageRenderHook();

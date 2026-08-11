@@ -7,5 +7,13 @@ import type { TokenUsagePeriod } from "./TokenUsagePeriod";
  * @returns Empty token usage period.
  */
 export function createTokenUsagePeriod(key: string): TokenUsagePeriod {
-  return { cacheRead: 0, cacheWrite: 0, input: 0, key, modelTokens: {}, output: 0, total: 0 };
+	return {
+		cacheRead: 0,
+		cacheWrite: 0,
+		input: 0,
+		key,
+		modelTokens: {},
+		output: 0,
+		total: 0,
+	};
 }

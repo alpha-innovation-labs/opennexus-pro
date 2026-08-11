@@ -1,6 +1,6 @@
 export type EnabledModelSettings = {
-  getEnabledModels: () => string[] | undefined;
-  setEnabledModels: (patterns: string[] | undefined) => void;
+	getEnabledModels: () => string[] | undefined;
+	setEnabledModels: (patterns: string[] | undefined) => void;
 };
 
 /**
@@ -10,14 +10,20 @@ export type EnabledModelSettings = {
  * @param providerId Provider id that was logged out.
  * @returns The persisted enabled models after cleanup.
  */
-export function removeProviderFromEnabledModels(settings: EnabledModelSettings, providerId: string): string[] | undefined {
-  const enabledModels = settings.getEnabledModels();
-  if (!enabledModels) return undefined;
-  const nextEnabledModels = enabledModels.filter((pattern) => !isProviderModelPattern(pattern, providerId));
-  if (nextEnabledModels.length === enabledModels.length) return enabledModels;
-  const persistedModels = nextEnabledModels.length > 0 ? nextEnabledModels : undefined;
-  settings.setEnabledModels(persistedModels);
-  return persistedModels;
+export function removeProviderFromEnabledModels(
+	settings: EnabledModelSettings,
+	providerId: string,
+): string[] | undefined {
+	const enabledModels = settings.getEnabledModels();
+	if (!enabledModels) return undefined;
+	const nextEnabledModels = enabledModels.filter(
+		(pattern) => !isProviderModelPattern(pattern, providerId),
+	);
+	if (nextEnabledModels.length === enabledModels.length) return enabledModels;
+	const persistedModels =
+		nextEnabledModels.length > 0 ? nextEnabledModels : undefined;
+	settings.setEnabledModels(persistedModels);
+	return persistedModels;
 }
 
 /**
@@ -28,5 +34,5 @@ export function removeProviderFromEnabledModels(settings: EnabledModelSettings, 
  * @returns True when the pattern starts with the provider namespace.
  */
 function isProviderModelPattern(pattern: string, providerId: string): boolean {
-  return pattern.trim().startsWith(`${providerId}/`);
+	return pattern.trim().startsWith(`${providerId}/`);
 }

@@ -5,5 +5,5 @@
  * @returns Formatted currency string.
  */
 export function formatDollar(value: number): string {
-  return `$${value.toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
+	return `$${value.toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 })}`;
 }

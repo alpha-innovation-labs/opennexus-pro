@@ -12,8 +12,17 @@ import { renderTetrisHelpLine } from "./renderTetrisHelpLine";
  * @param musicPlaying Whether music is currently playing.
  * @returns Side-panel lines.
  */
-export function renderTetrisSidePanel(theme: SharedModalTheme & { bold: (text: string) => string }, game: TetrisGame, width: number, musicPlaying: boolean): string[] {
-	const status = game.gameOver ? "Game Over" : game.paused ? "Paused" : "Playing";
+export function renderTetrisSidePanel(
+	theme: SharedModalTheme & { bold: (text: string) => string },
+	game: TetrisGame,
+	width: number,
+	musicPlaying: boolean,
+): string[] {
+	const status = game.gameOver
+		? "Game Over"
+		: game.paused
+			? "Paused"
+			: "Playing";
 	const music = musicPlaying ? "On" : "Off";
 	return [
 		theme.fg("accent", theme.bold("Stats")),

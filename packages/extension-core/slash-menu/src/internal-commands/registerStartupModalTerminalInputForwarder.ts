@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 
 export type StartupInputModal = {
-  handleInput(data: string): void;
+	handleInput(data: string): void;
 };
 
 /**
@@ -13,13 +13,13 @@ export type StartupInputModal = {
  * @returns Cleanup function that unregisters the terminal input listener.
  */
 export function registerStartupModalTerminalInputForwarder(
-  ctx: ExtensionContext,
-  modal: StartupInputModal,
-  requestRender: () => void,
+	ctx: ExtensionContext,
+	modal: StartupInputModal,
+	requestRender: () => void,
 ): () => void {
-  return ctx.ui.onTerminalInput((data) => {
-    modal.handleInput(data);
-    requestRender();
-    return { consume: true };
-  });
+	return ctx.ui.onTerminalInput((data) => {
+		modal.handleInput(data);
+		requestRender();
+		return { consume: true };
+	});
 }

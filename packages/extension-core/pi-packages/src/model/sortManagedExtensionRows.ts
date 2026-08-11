@@ -11,6 +11,12 @@ const kindRank: Record<ManagedExtensionRow["kind"], number> = {
  * @param rows Extension rows to sort.
  * @returns New row array with contiguous source groups.
  */
-export function sortManagedExtensionRows(rows: ManagedExtensionRow[]): ManagedExtensionRow[] {
-	return [...rows].sort((left, right) => kindRank[left.kind] - kindRank[right.kind] || left.id.localeCompare(right.id));
+export function sortManagedExtensionRows(
+	rows: ManagedExtensionRow[],
+): ManagedExtensionRow[] {
+	return [...rows].sort(
+		(left, right) =>
+			kindRank[left.kind] - kindRank[right.kind] ||
+			left.id.localeCompare(right.id),
+	);
 }

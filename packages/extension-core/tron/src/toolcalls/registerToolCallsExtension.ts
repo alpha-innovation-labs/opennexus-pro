@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup.js";
 import { logExtensionEvent } from "@nexus/observability/startup-debug";
-import { withSlashMenuGroup } from '@extensions/slash-menu/withSlashMenuGroup.js';
 import { showToolCallsModal } from "./showToolCallsModal";
 
 /**
@@ -10,10 +10,16 @@ import { showToolCallsModal } from "./showToolCallsModal";
  */
 export default function registerToolCallsExtension(pi: ExtensionAPI): void {
 	logExtensionEvent("last-tool-calls-modal", "init");
-	pi.registerCommand("toolcalls", withSlashMenuGroup({
-		description: "Show all tool calls from the current branch",
-		handler: async (_args, ctx) => {
-			await showToolCallsModal(ctx as never);
-		},
-	}, "Extensions"));
+	pi.registerCommand(
+		"toolcalls",
+		withSlashMenuGroup(
+			{
+				description: "Show all tool calls from the current branch",
+				handler: async (_args, ctx) => {
+					await showToolCallsModal(ctx as never);
+				},
+			},
+			"Extensions",
+		),
+	);
 }

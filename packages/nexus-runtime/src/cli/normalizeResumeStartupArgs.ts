@@ -11,20 +11,20 @@ export const resumeLaunchEnvVar = "NEXUS_RESUME_LAUNCH";
  * @returns Args normalized for Nexus resume behavior.
  */
 export function normalizeResumeStartupArgs(args: string[]): string[] {
-  const request = parseResumeCliRequest(args);
+	const request = parseResumeCliRequest(args);
 
-  if (request.mode === "direct") {
-    process.env[resumeLaunchEnvVar] = "1";
-    return rewriteDirectResumeArgs(args, request);
-  }
+	if (request.mode === "direct") {
+		process.env[resumeLaunchEnvVar] = "1";
+		return rewriteDirectResumeArgs(args, request);
+	}
 
-  if (request.mode === "picker") {
-    process.env[resumeLaunchEnvVar] = "1";
-    process.env[startupResumeEnvVar] = "1";
-    return args.filter((_, index) => index !== request.flagIndex);
-  }
+	if (request.mode === "picker") {
+		process.env[resumeLaunchEnvVar] = "1";
+		process.env[startupResumeEnvVar] = "1";
+		return args.filter((_, index) => index !== request.flagIndex);
+	}
 
-  return [...args];
+	return [...args];
 }
 
 /**
@@ -33,8 +33,10 @@ export function normalizeResumeStartupArgs(args: string[]): string[] {
  * @param env Environment values.
  * @returns True when startup should open the custom resume modal.
  */
-export function shouldPrimeStartupResumeModal(env: NodeJS.ProcessEnv = process.env): boolean {
-  return env[startupResumeEnvVar] === "1";
+export function shouldPrimeStartupResumeModal(
+	env: NodeJS.ProcessEnv = process.env,
+): boolean {
+	return env[startupResumeEnvVar] === "1";
 }
 
 /**
@@ -44,5 +46,5 @@ export function shouldPrimeStartupResumeModal(env: NodeJS.ProcessEnv = process.e
  * @returns True when the current launch is resume-related.
  */
 export function isResumeLaunch(env: NodeJS.ProcessEnv = process.env): boolean {
-  return env[resumeLaunchEnvVar] === "1";
+	return env[resumeLaunchEnvVar] === "1";
 }

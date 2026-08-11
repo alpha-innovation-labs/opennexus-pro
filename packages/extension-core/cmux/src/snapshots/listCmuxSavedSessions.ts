@@ -9,5 +9,7 @@ import type { CmuxSavedSession } from "./types";
  */
 export async function listCmuxSavedSessions(): Promise<CmuxSavedSession[]> {
 	const store = await readCmuxSavedSessionStore(getCmuxSavedSessionsPath());
-	return [...store.sessions].sort((left, right) => right.createdAt.localeCompare(left.createdAt));
+	return [...store.sessions].sort((left, right) =>
+		right.createdAt.localeCompare(left.createdAt),
+	);
 }

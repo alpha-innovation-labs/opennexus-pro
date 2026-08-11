@@ -9,10 +9,13 @@ const EFFICIENCY_BAR_WIDTH = 24;
  * @param percent Savings percentage.
  * @returns Rendered efficiency meter.
  */
-export function createEfficiencyMeter(theme: SharedModalTheme, percent: number): string {
-  const clampedPercent = Math.max(0, Math.min(100, percent));
-  const filledCells = Math.round((clampedPercent / 100) * EFFICIENCY_BAR_WIDTH);
-  const filled = theme.fg("success", "█".repeat(filledCells));
-  const empty = theme.fg("dim", "░".repeat(EFFICIENCY_BAR_WIDTH - filledCells));
-  return `[${filled}${empty}]`;
+export function createEfficiencyMeter(
+	theme: SharedModalTheme,
+	percent: number,
+): string {
+	const clampedPercent = Math.max(0, Math.min(100, percent));
+	const filledCells = Math.round((clampedPercent / 100) * EFFICIENCY_BAR_WIDTH);
+	const filled = theme.fg("success", "█".repeat(filledCells));
+	const empty = theme.fg("dim", "░".repeat(EFFICIENCY_BAR_WIDTH - filledCells));
+	return `[${filled}${empty}]`;
 }

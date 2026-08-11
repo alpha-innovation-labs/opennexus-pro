@@ -21,6 +21,10 @@ export function formatFeatureManagementRow(
 ): string {
 	return [
 		padFeatureColumn(row.feature, featureColumnWidth),
-		formatActiveFeatureValue(colorFeatureStatus(row.status, theme), STATUS_COLUMN_WIDTH, true),
+		formatActiveFeatureValue(
+			colorFeatureStatus(row.status, theme),
+			STATUS_COLUMN_WIDTH,
+			true,
+		),
 	].join("  ");
 }

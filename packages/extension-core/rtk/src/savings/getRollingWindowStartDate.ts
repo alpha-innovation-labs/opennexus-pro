@@ -8,5 +8,5 @@ const DAY_MS = 24 * 60 * 60 * 1000;
  * @returns Inclusive UTC start date.
  */
 export function getRollingWindowStartDate(endDate: Date, days: number): Date {
-  return new Date(endDate.getTime() - Math.max(days - 1, 0) * DAY_MS);
+	return new Date(endDate.getTime() - Math.max(days - 1, 0) * DAY_MS);
 }

@@ -9,13 +9,13 @@ import { writeEmbeddedPackageAssets } from "./writeEmbeddedPackageAssets";
  * @returns Absolute extracted package directory.
  */
 export async function ensureEmbeddedPackageDir(): Promise<string> {
-  const packageDir = getEmbeddedPackageDirPath();
-  const { embeddedPackageAssetVersion } = getEmbeddedPackageAssets();
-  const currentVersion = await readEmbeddedPackageVersion(packageDir);
+	const packageDir = getEmbeddedPackageDirPath();
+	const { embeddedPackageAssetVersion } = getEmbeddedPackageAssets();
+	const currentVersion = await readEmbeddedPackageVersion(packageDir);
 
-  if (currentVersion !== embeddedPackageAssetVersion) {
-    await writeEmbeddedPackageAssets(packageDir);
-  }
+	if (currentVersion !== embeddedPackageAssetVersion) {
+		await writeEmbeddedPackageAssets(packageDir);
+	}
 
-  return packageDir;
+	return packageDir;
 }

@@ -9,11 +9,20 @@ import { setCmuxWorkspaceShellLinesCache } from "./setCmuxWorkspaceShellLinesCac
  * @param force Whether to bypass cache freshness checks.
  * @returns Fresh or cached workspace shell lines.
  */
-export async function refreshCmuxWorkspaceShellLinesCache(force = false): Promise<string[]> {
-	if (!force && cmuxWorkspaceShellLinesCache.lines && isCmuxWorkspaceShellLinesCacheFresh(cmuxWorkspaceShellLinesCache.refreshedAt)) {
+export async function refreshCmuxWorkspaceShellLinesCache(
+	force = false,
+): Promise<string[]> {
+	if (
+		!force &&
+		cmuxWorkspaceShellLinesCache.lines &&
+		isCmuxWorkspaceShellLinesCacheFresh(
+			cmuxWorkspaceShellLinesCache.refreshedAt,
+		)
+	) {
 		return cmuxWorkspaceShellLinesCache.lines;
 	}
-	if (cmuxWorkspaceShellLinesCache.pending) return cmuxWorkspaceShellLinesCache.pending;
+	if (cmuxWorkspaceShellLinesCache.pending)
+		return cmuxWorkspaceShellLinesCache.pending;
 	cmuxWorkspaceShellLinesCache.pending = loadFreshCmuxWorkspaceShellLines()
 		.then((lines) => {
 			setCmuxWorkspaceShellLinesCache(lines);

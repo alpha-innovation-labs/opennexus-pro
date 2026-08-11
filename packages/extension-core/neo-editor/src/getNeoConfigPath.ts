@@ -8,5 +8,10 @@ import { getProjectConfigDirPath } from "@nexus/runtime/config/getProjectConfigD
  * @returns Absolute Neo config path.
  */
 export function getNeoConfigPath(cwd: string): string {
-	return join(getProjectConfigDirPath(cwd), "extensions", "neo-editor", "config.json");
+	return join(
+		getProjectConfigDirPath(cwd),
+		"extensions",
+		"neo-editor",
+		"config.json",
+	);
 }

@@ -7,7 +7,9 @@ import { runCmuxCommand } from "./runCmuxCommand";
  * @param sessionTitle Current Nexus session title.
  * @returns True when cmux accepted the notification request.
  */
-export async function notifyCurrentCmuxSurface(sessionTitle: string): Promise<boolean> {
+export async function notifyCurrentCmuxSurface(
+	sessionTitle: string,
+): Promise<boolean> {
 	const target = getCurrentCmuxRenameTarget();
 	if (!target.surfaceId) return false;
 

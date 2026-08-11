@@ -18,8 +18,10 @@ import { installAssistantThinkingStyle } from "./installAssistantThinkingStyle";
  *
  * @param pi Extension API.
  */
-export default function registerAssistantThinkingStyleExtension(pi: ExtensionAPI): void {
-	setAssistantMessageUpdateHook(undefined as any);
+export default function registerAssistantThinkingStyleExtension(
+	pi: ExtensionAPI,
+): void {
+	setAssistantMessageUpdateHook(undefined as unknown);
 	installAssistantThinkingStyle();
 	pi.on("session_start", async (_event, ctx) => {
 		resetAssistantMessageTimings();
@@ -35,8 +37,14 @@ export default function registerAssistantThinkingStyleExtension(pi: ExtensionAPI
 			return;
 		}
 		if (event.message.role !== "assistant") return;
-		const startedAt = getCurrentAssistantTurnStartedAt() ?? getCurrentAssistantStartedAt() ?? Date.now();
-		finishAssistantMessageTiming(event.message.timestamp ?? Date.now(), formatCompactDuration(Date.now() - startedAt));
+		const startedAt =
+			getCurrentAssistantTurnStartedAt() ??
+			getCurrentAssistantStartedAt() ??
+			Date.now();
+		finishAssistantMessageTiming(
+			event.message.timestamp ?? Date.now(),
+			formatCompactDuration(Date.now() - startedAt),
+		);
 	});
 	pi.on("agent_end", async () => {
 		clearActiveAssistantTurnTiming();

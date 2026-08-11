@@ -6,7 +6,9 @@ import type { FeatureStatusRow } from "../model/types";
  * @param row Selected feature row.
  * @returns Human-readable feature details.
  */
-export function buildFeatureDetailLines(row: FeatureStatusRow | null): string[] {
+export function buildFeatureDetailLines(
+	row: FeatureStatusRow | null,
+): string[] {
 	if (!row) return ["No feature selected"];
 
 	return [

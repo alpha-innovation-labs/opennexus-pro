@@ -10,8 +10,11 @@ import type { ModelMenuTab } from "./ModelMenuTab";
  * @param theme Active UI theme.
  * @returns Styled tab header.
  */
-export function renderModelMenuTabs(selectedTab: ModelMenuTab, theme: SharedModalTheme): string {
-  return createModelMenuTabs()
-    .map((tab) => formatModelMenuTab(tab, tab === selectedTab, theme))
-    .join(theme.fg("dim", " | "));
+export function renderModelMenuTabs(
+	selectedTab: ModelMenuTab,
+	theme: SharedModalTheme,
+): string {
+	return createModelMenuTabs()
+		.map((tab) => formatModelMenuTab(tab, tab === selectedTab, theme))
+		.join(theme.fg("dim", " | "));
 }

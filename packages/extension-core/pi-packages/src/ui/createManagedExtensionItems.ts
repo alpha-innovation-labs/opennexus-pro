@@ -18,7 +18,11 @@ export function createManagedExtensionItems(
 	const extensionColumnWidth = getManagedExtensionColumnWidth(rows);
 	return rows.map((row) => ({
 		groupLabel: getManagedExtensionGroupLabel(row.kind),
-		label: formatManagedExtensionRow(row, extensionColumnWidth, theme).trimEnd(),
+		label: formatManagedExtensionRow(
+			row,
+			extensionColumnWidth,
+			theme,
+		).trimEnd(),
 		value: row.id,
 		preserveLabelWhitespace: true,
 	}));

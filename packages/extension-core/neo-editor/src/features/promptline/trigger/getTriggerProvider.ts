@@ -1,10 +1,10 @@
-import type { TriggerKind, TriggerProvider } from "./types";
 import { atTriggerProvider } from "./providers/atTriggerProvider";
 import { slashTriggerProvider } from "./providers/slashTriggerProvider";
+import type { TriggerKind, TriggerProvider } from "./types";
 
 const triggerProviders: Record<TriggerKind, TriggerProvider> = {
-  at: atTriggerProvider,
-  slash: slashTriggerProvider,
+	at: atTriggerProvider,
+	slash: slashTriggerProvider,
 };
 
 /**
@@ -14,5 +14,5 @@ const triggerProviders: Record<TriggerKind, TriggerProvider> = {
  * @returns Trigger provider.
  */
 export function getTriggerProvider(kind: TriggerKind): TriggerProvider {
-  return triggerProviders[kind];
+	return triggerProviders[kind];
 }

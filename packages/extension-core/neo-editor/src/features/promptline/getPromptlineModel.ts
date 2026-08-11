@@ -7,6 +7,8 @@ import { getPromptlineModelOverride } from "./state";
  * @param ctx Active extension context.
  * @returns Override model from immediate selection, or context model.
  */
-export function getPromptlineModel(ctx: ExtensionContext): ExtensionContext["model"] {
+export function getPromptlineModel(
+	ctx: ExtensionContext,
+): ExtensionContext["model"] {
 	return getPromptlineModelOverride() ?? ctx.model;
 }

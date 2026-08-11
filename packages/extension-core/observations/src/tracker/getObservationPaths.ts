@@ -20,7 +20,10 @@ export function getObservationPaths(
 	statePath: string;
 } {
 	const sessionFile = ctx.sessionManager.getSessionFile();
-	const conversationId = getTrackedConversationId(sessionFile ?? null, ephemeralConversationId);
+	const conversationId = getTrackedConversationId(
+		sessionFile ?? null,
+		ephemeralConversationId,
+	);
 	return {
 		conversationId,
 		sessionFile: sessionFile ?? null,

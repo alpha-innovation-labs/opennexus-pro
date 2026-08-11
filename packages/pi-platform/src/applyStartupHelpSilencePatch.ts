@@ -33,37 +33,43 @@ export async function applyStartupHelpSilencePatch(): Promise<void> {
 		import("@earendil-works/pi-coding-agent"),
 		import("@earendil-works/pi-coding-agent"),
 	]);
-	const InteractiveMode = interactiveModule.InteractiveMode as unknown as InteractiveModeClass;
-	const SettingsManager = settingsModule.SettingsManager as SettingsManagerClass;
+	const InteractiveMode =
+		interactiveModule.InteractiveMode as unknown as InteractiveModeClass;
+	const SettingsManager =
+		settingsModule.SettingsManager as SettingsManagerClass;
 	if (InteractiveMode.__nexusStartupHelpSilenced__) return;
 
-	SettingsManager.prototype.getQuietStartup = function getQuietStartupForNexusStartupHelp(): boolean {
-		return true;
-	};
+	SettingsManager.prototype.getQuietStartup =
+		function getQuietStartupForNexusStartupHelp(): boolean {
+			return true;
+		};
 	SettingsManager.__nexusStartupHelpSilenced__ = true;
 
 	const originalInitialize = InteractiveMode.prototype.initialize;
-	InteractiveMode.prototype.initialize = async function initializeWithoutPiStartupHelp(this: InteractiveModeInstance): Promise<void> {
-		const settingsManager = this.settingsManager;
-		const originalGetQuietStartup = settingsManager?.getQuietStartup;
-		const originalVerbose = this.options?.verbose;
-		if (settingsManager && originalGetQuietStartup) {
-			settingsManager.getQuietStartup = () => true;
-		}
-		if (this.options) {
-			this.options.verbose = false;
-		}
-		try {
-			await originalInitialize.call(this);
-		} finally {
+	InteractiveMode.prototype.initialize =
+		async function initializeWithoutPiStartupHelp(
+			this: InteractiveModeInstance,
+		): Promise<void> {
+			const settingsManager = this.settingsManager;
+			const originalGetQuietStartup = settingsManager?.getQuietStartup;
+			const originalVerbose = this.options?.verbose;
 			if (settingsManager && originalGetQuietStartup) {
-				settingsManager.getQuietStartup = originalGetQuietStartup;
+				settingsManager.getQuietStartup = () => true;
 			}
 			if (this.options) {
-				this.options.verbose = originalVerbose;
+				this.options.verbose = false;
 			}
-		}
-	};
+			try {
+				await originalInitialize.call(this);
+			} finally {
+				if (settingsManager && originalGetQuietStartup) {
+					settingsManager.getQuietStartup = originalGetQuietStartup;
+				}
+				if (this.options) {
+					this.options.verbose = originalVerbose;
+				}
+			}
+		};
 
 	InteractiveMode.__nexusStartupHelpSilenced__ = true;
 }

@@ -1,33 +1,33 @@
 {
-  "name": "@apps/app-tui",
-  "version": "0.2.29",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "npm --prefix ../.. run build",
-    "test": "npm --prefix ../.. test"
-  },
-  "dependencies": {
-    "@nexus/herdr": "workspace:*",
-    "@extensions/observations": "workspace:*",
-    "@extensions/pi-packages": "workspace:*",
-    "@extensions/ai-providers": "workspace:*",
-    "@extensions/runtime": "workspace:*",
-    "@extensions/exit-message": "workspace:*",
-    "@extensions/startup-hero": "workspace:*",
-    "@nexus/mini-apps": "workspace:*",
-    "@nexus/observability": "workspace:*",
-    "@nexus/pi-platform": "workspace:*",
-    "@nexus/runtime": "workspace:*",
-    "@clack/prompts": "^1.7.0",
-    "console-table-printer": "^2.16.1",
-    "ink": "^7.1.0",
-    "ink-big-text": "^2.0.0",
-    "ink-gradient": "^4.0.1",
-    "react": "^19.2.0"
-  },
-  "exports": {
-    "./*.js": "./src/*.ts",
-    "./*": "./src/*"
-  }
+	"name": "@apps/app-tui",
+	"version": "0.2.29",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "npm --prefix ../.. run build",
+		"test": "npm --prefix ../.. test"
+	},
+	"dependencies": {
+		"@nexus/herdr": "workspace:*",
+		"@extensions/observations": "workspace:*",
+		"@extensions/pi-packages": "workspace:*",
+		"@extensions/ai-providers": "workspace:*",
+		"@extensions/runtime": "workspace:*",
+		"@extensions/exit-message": "workspace:*",
+		"@extensions/startup-hero": "workspace:*",
+		"@nexus/mini-apps": "workspace:*",
+		"@nexus/observability": "workspace:*",
+		"@nexus/pi-platform": "workspace:*",
+		"@nexus/runtime": "workspace:*",
+		"@clack/prompts": "^1.7.0",
+		"console-table-printer": "^2.16.1",
+		"ink": "^7.1.0",
+		"ink-big-text": "^2.0.0",
+		"ink-gradient": "^4.0.1",
+		"react": "^19.2.0"
+	},
+	"exports": {
+		"./*.js": "./src/*.ts",
+		"./*": "./src/*"
+	}
 }

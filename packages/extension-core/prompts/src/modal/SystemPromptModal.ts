@@ -13,10 +13,10 @@ import { getSystemPromptViewportHeight } from "./getSystemPromptViewportHeight";
 import { openSystemPromptExternalEditor } from "./openSystemPromptExternalEditor";
 import { createSystemPromptOutlineRows } from "./outline/createSystemPromptOutlineRows";
 import { renderSystemPromptOutlineRows } from "./outline/renderSystemPromptOutlineRows";
+import { renderSystemPromptModalFrame } from "./renderSystemPromptModalFrame";
 import { padPaneLinesToHeight } from "./scroll/padPaneLinesToHeight";
 import { renderPaneScrollbar } from "./scroll/renderPaneScrollbar";
 import { createNativeSystemToolMarkdown } from "./tools/createNativeSystemToolMarkdown";
-import { renderSystemPromptModalFrame } from "./renderSystemPromptModalFrame";
 import type { SystemPromptModalAction } from "./types";
 
 /**
@@ -57,13 +57,34 @@ export class SystemPromptModal {
 	 * @param data Raw terminal input.
 	 */
 	handleInput(data: string): void {
-		if (matchesKey(data, Key.tab)) { this.toggleFocusedPane(); return; }
-		if (data === "h") { this.focusPane("left"); return; }
-		if (data === "l") { this.focusPane("right"); return; }
-		if (data === "j" || matchesKey(data, Key.down)) { this.moveFocusedPane(1); return; }
-		if (data === "k" || matchesKey(data, Key.up)) { this.moveFocusedPane(-1); return; }
-		if (data === "g") { this.handleGoPrefix(); return; }
-		if (data === "G") { this.scrollRightToBottom(); return; }
+		if (matchesKey(data, Key.tab)) {
+			this.toggleFocusedPane();
+			return;
+		}
+		if (data === "h") {
+			this.focusPane("left");
+			return;
+		}
+		if (data === "l") {
+			this.focusPane("right");
+			return;
+		}
+		if (data === "j" || matchesKey(data, Key.down)) {
+			this.moveFocusedPane(1);
+			return;
+		}
+		if (data === "k" || matchesKey(data, Key.up)) {
+			this.moveFocusedPane(-1);
+			return;
+		}
+		if (data === "g") {
+			this.handleGoPrefix();
+			return;
+		}
+		if (data === "G") {
+			this.scrollRightToBottom();
+			return;
+		}
 		this.pendingGoToTop = false;
 
 		if (matchesKey(data, Key.ctrl("g"))) {
@@ -99,9 +120,21 @@ export class SystemPromptModal {
 		const rightWidth = Math.max(1, innerWidth - leftWidth - 1);
 		this.currentInnerWidth = rightWidth;
 		const outlineRows = createSystemPromptOutlineRows(this.prompt);
-		this.selectedOutlineIndex = this.clampToSelectableOutlineIndex(outlineRows, this.selectedOutlineIndex);
+		this.selectedOutlineIndex = this.clampToSelectableOutlineIndex(
+			outlineRows,
+			this.selectedOutlineIndex,
+		);
 		const selectedContent = this.getSelectedContent(outlineRows);
-		const allLines = renderSharedModalPaneLines(this.uiTheme, { id: "system-prompt", lines: selectedContent.split("\n"), contentType: "markdown", size: 4 }, rightWidth);
+		const allLines = renderSharedModalPaneLines(
+			this.uiTheme,
+			{
+				id: "system-prompt",
+				lines: selectedContent.split("\n"),
+				contentType: "markdown",
+				size: 4,
+			},
+			rightWidth,
+		);
 		const viewportHeight = getSystemPromptViewportHeight(this.getRowCount());
 		this.rightScrollOffset = clampSystemPromptScrollOffset(
 			this.rightScrollOffset,
@@ -117,8 +150,12 @@ export class SystemPromptModal {
 			this.rightScrollOffset,
 			this.rightScrollOffset + viewportHeight,
 		);
-		const outlineLines = renderSystemPromptOutlineRows(outlineRows, this.selectedOutlineIndex, this.activePane === "left", this.uiTheme)
-			.slice(this.leftScrollOffset, this.leftScrollOffset + viewportHeight);
+		const outlineLines = renderSystemPromptOutlineRows(
+			outlineRows,
+			this.selectedOutlineIndex,
+			this.activePane === "left",
+			this.uiTheme,
+		).slice(this.leftScrollOffset, this.leftScrollOffset + viewportHeight);
 		const paddedOutline = padPaneLinesToHeight(outlineLines, viewportHeight);
 		const paddedContent = padPaneLinesToHeight(visibleLines, viewportHeight);
 
@@ -127,10 +164,33 @@ export class SystemPromptModal {
 			width,
 			this.uiTheme.fg("accent", "● System Prompt"),
 			[
-				{ lines: this.activePane === "left" ? renderPaneScrollbar(paddedOutline, leftWidth, this.leftScrollOffset, outlineRows.length, this.uiTheme) : paddedOutline, width: leftWidth },
-				{ lines: renderPaneScrollbar(paddedContent, rightWidth, this.rightScrollOffset, Math.max(allLines.length, paddedContent.length + 1), this.uiTheme), width: rightWidth },
+				{
+					lines:
+						this.activePane === "left"
+							? renderPaneScrollbar(
+									paddedOutline,
+									leftWidth,
+									this.leftScrollOffset,
+									outlineRows.length,
+									this.uiTheme,
+								)
+							: paddedOutline,
+					width: leftWidth,
+				},
+				{
+					lines: renderPaneScrollbar(
+						paddedContent,
+						rightWidth,
+						this.rightScrollOffset,
+						Math.max(allLines.length, paddedContent.length + 1),
+						this.uiTheme,
+					),
+					width: rightWidth,
+				},
 			],
-			createSystemPromptFooterHotkeys(this.getSelectedEditableSection(outlineRows) !== undefined),
+			createSystemPromptFooterHotkeys(
+				this.getSelectedEditableSection(outlineRows) !== undefined,
+			),
 		);
 	}
 
@@ -140,10 +200,19 @@ export class SystemPromptModal {
 	private openEditableSectionEditor(): void {
 		const section = this.getSelectedEditableSection();
 		if (section === undefined || !this.tui) return;
-		const current = section === "append" ? extractAppendSection(this.prompt) : extractAgentsSection(this.prompt);
+		const current =
+			section === "append"
+				? extractAppendSection(this.prompt)
+				: extractAgentsSection(this.prompt);
 		const updated = openSystemPromptExternalEditor(this.tui, current);
 		if (updated === undefined) return;
-		this.done({ type: "update", prompt: section === "append" ? replaceAppendSection(this.prompt, updated) : replaceAgentsSection(this.prompt, updated) });
+		this.done({
+			type: "update",
+			prompt:
+				section === "append"
+					? replaceAppendSection(this.prompt, updated)
+					: replaceAgentsSection(this.prompt, updated),
+		});
 	}
 
 	/**
@@ -167,7 +236,10 @@ export class SystemPromptModal {
 		this.pendingGoToTop = false;
 		if (this.activePane === "left") {
 			const rows = createSystemPromptOutlineRows(this.prompt);
-			this.selectedOutlineIndex = this.findNextSelectableOutlineIndex(rows, delta);
+			this.selectedOutlineIndex = this.findNextSelectableOutlineIndex(
+				rows,
+				delta,
+			);
 			this.rightScrollOffset = 0;
 			this.syncLeftSelectionIntoView(rows.length);
 			this.onRenderNeeded();
@@ -211,7 +283,10 @@ export class SystemPromptModal {
 	}
 
 	/** Finds the next selectable outline row in the requested direction. */
-	private findNextSelectableOutlineIndex(rows: ReturnType<typeof createSystemPromptOutlineRows>, delta: number): number {
+	private findNextSelectableOutlineIndex(
+		rows: ReturnType<typeof createSystemPromptOutlineRows>,
+		delta: number,
+	): number {
 		let index = this.selectedOutlineIndex;
 		while (index + delta >= 0 && index + delta < rows.length) {
 			index += delta;
@@ -221,7 +296,10 @@ export class SystemPromptModal {
 	}
 
 	/** Clamps a selected outline row to a selectable row. */
-	private clampToSelectableOutlineIndex(rows: ReturnType<typeof createSystemPromptOutlineRows>, index: number): number {
+	private clampToSelectableOutlineIndex(
+		rows: ReturnType<typeof createSystemPromptOutlineRows>,
+		index: number,
+	): number {
 		if (rows[index]?.selectable) return index;
 		const next = rows.findIndex((row) => row.selectable);
 		return next >= 0 ? next : 0;
@@ -230,9 +308,15 @@ export class SystemPromptModal {
 	/** Keeps the selected outline row visible in the left pane. */
 	private syncLeftSelectionIntoView(rowCount: number): void {
 		const viewportHeight = this.getViewportHeight();
-		if (this.selectedOutlineIndex < this.leftScrollOffset) this.leftScrollOffset = this.selectedOutlineIndex;
-		if (this.selectedOutlineIndex >= this.leftScrollOffset + viewportHeight) this.leftScrollOffset = this.selectedOutlineIndex - viewportHeight + 1;
-		this.leftScrollOffset = clampSystemPromptScrollOffset(this.leftScrollOffset, rowCount, viewportHeight);
+		if (this.selectedOutlineIndex < this.leftScrollOffset)
+			this.leftScrollOffset = this.selectedOutlineIndex;
+		if (this.selectedOutlineIndex >= this.leftScrollOffset + viewportHeight)
+			this.leftScrollOffset = this.selectedOutlineIndex - viewportHeight + 1;
+		this.leftScrollOffset = clampSystemPromptScrollOffset(
+			this.leftScrollOffset,
+			rowCount,
+			viewportHeight,
+		);
 	}
 
 	/**
@@ -243,7 +327,16 @@ export class SystemPromptModal {
 	private getLineCount(): number {
 		const rows = createSystemPromptOutlineRows(this.prompt);
 		const selectedContent = this.getSelectedContent(rows);
-		return renderSharedModalPaneLines(this.uiTheme, { id: "system-prompt", lines: selectedContent.split("\n"), contentType: "markdown", size: 4 }, this.currentInnerWidth).length;
+		return renderSharedModalPaneLines(
+			this.uiTheme,
+			{
+				id: "system-prompt",
+				lines: selectedContent.split("\n"),
+				contentType: "markdown",
+				size: 4,
+			},
+			this.currentInnerWidth,
+		).length;
 	}
 
 	/**
@@ -259,7 +352,9 @@ export class SystemPromptModal {
 	invalidate(): void {}
 
 	/** Returns the editable user-prompt section selected in the outline. */
-	private getSelectedEditableSection(rows = createSystemPromptOutlineRows(this.prompt)): "append" | "agents" | undefined {
+	private getSelectedEditableSection(
+		rows = createSystemPromptOutlineRows(this.prompt),
+	): "append" | "agents" | undefined {
 		const row = rows[this.selectedOutlineIndex];
 		if (row?.section.label !== "User Prompt") return undefined;
 		if (row.child?.label === "Content") return "append";
@@ -267,13 +362,24 @@ export class SystemPromptModal {
 		return undefined;
 	}
 
-
 	/** Returns selected right-pane content, including native tool parameter docs. */
-	private getSelectedContent(rows: ReturnType<typeof createSystemPromptOutlineRows>): string {
+	private getSelectedContent(
+		rows: ReturnType<typeof createSystemPromptOutlineRows>,
+	): string {
 		const selectedRow = rows[this.selectedOutlineIndex];
-		if (selectedRow?.section.label === "Tools" && selectedRow.child !== undefined) {
-			return createNativeSystemToolMarkdown(selectedRow.child.label) ?? selectedRow.child.label;
+		if (
+			selectedRow?.section.label === "Tools" &&
+			selectedRow.child !== undefined
+		) {
+			return (
+				createNativeSystemToolMarkdown(selectedRow.child.label) ??
+				selectedRow.child.label
+			);
 		}
-		return getSelectedSystemPromptContent(this.prompt, rows, this.selectedOutlineIndex);
+		return getSelectedSystemPromptContent(
+			this.prompt,
+			rows,
+			this.selectedOutlineIndex,
+		);
 	}
 }

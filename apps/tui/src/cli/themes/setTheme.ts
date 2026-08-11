@@ -9,15 +9,15 @@ import { readThemes } from "@nexus/runtime/config/readThemes";
  * @returns 0 on success, 1 on error.
  */
 export async function setTheme(themeName: string): Promise<number> {
-  const names = await readThemes(process.cwd());
-  if (!names.includes(themeName)) {
-    console.error(`Error: unknown theme "${themeName}"`);
-    console.error(`Available themes: ${names.join(", ")}`);
-    return 1;
-  }
+	const names = await readThemes(process.cwd());
+	if (!names.includes(themeName)) {
+		console.error(`Error: unknown theme "${themeName}"`);
+		console.error(`Available themes: ${names.join(", ")}`);
+		return 1;
+	}
 
-  const settings = SettingsManager.create(process.cwd());
-  settings.setTheme(themeName);
-  console.log(`Theme set to "${themeName}"`);
-  return 0;
+	const settings = SettingsManager.create(process.cwd());
+	settings.setTheme(themeName);
+	console.log(`Theme set to "${themeName}"`);
+	return 0;
 }

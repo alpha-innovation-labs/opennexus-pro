@@ -6,11 +6,16 @@ import type { ExtensionFeatureFlag } from "./types";
  * @param flags Full extension registry.
  * @returns Multiline extension feature report.
  */
-export function createExtensionFeatureFlagReport(flags: ExtensionFeatureFlag[]): string {
-  return flags
-    .map((flag) => {
-      const status = flag.enabled ? "enabled" : "disabled";
-      return [`- ${flag.id}: ${status}`, ...flag.features.map((feature) => `  - ${feature}`)].join("\n");
-    })
-    .join("\n");
+export function createExtensionFeatureFlagReport(
+	flags: ExtensionFeatureFlag[],
+): string {
+	return flags
+		.map((flag) => {
+			const status = flag.enabled ? "enabled" : "disabled";
+			return [
+				`- ${flag.id}: ${status}`,
+				...flag.features.map((feature) => `  - ${feature}`),
+			].join("\n");
+		})
+		.join("\n");
 }

@@ -8,24 +8,40 @@ import { Key, matchesKey } from "@earendil-works/pi-tui";
  * @param sequences Fallback escape sequences emitted by terminals.
  * @returns True when the payload matches the key.
  */
-export function isTetrisKey(data: string, key: string, sequences: string[]): boolean {
+export function isTetrisKey(
+	data: string,
+	key: string,
+	sequences: string[],
+): boolean {
 	return matchesKey(data, key as never) || sequences.includes(data);
 }
 
 /** Matches Escape close input. */
-export function isTetrisEscape(data: string): boolean { return isTetrisKey(data, Key.escape, ["\x1b"]); }
+export function isTetrisEscape(data: string): boolean {
+	return isTetrisKey(data, Key.escape, ["\x1b"]);
+}
 
 /** Matches Ctrl+C close input. */
-export function isTetrisQuit(data: string): boolean { return isTetrisKey(data, Key.ctrl("c"), ["\x03"]); }
+export function isTetrisQuit(data: string): boolean {
+	return isTetrisKey(data, Key.ctrl("c"), ["\x03"]);
+}
 
 /** Matches left movement input. */
-export function isTetrisLeft(data: string): boolean { return isTetrisKey(data, Key.left, ["\x1b[D", "\x1bOD"]); }
+export function isTetrisLeft(data: string): boolean {
+	return isTetrisKey(data, Key.left, ["\x1b[D", "\x1bOD"]);
+}
 
 /** Matches right movement input. */
-export function isTetrisRight(data: string): boolean { return isTetrisKey(data, Key.right, ["\x1b[C", "\x1bOC"]); }
+export function isTetrisRight(data: string): boolean {
+	return isTetrisKey(data, Key.right, ["\x1b[C", "\x1bOC"]);
+}
 
 /** Matches rotation input. */
-export function isTetrisUp(data: string): boolean { return isTetrisKey(data, Key.up, ["\x1b[A", "\x1bOA"]); }
+export function isTetrisUp(data: string): boolean {
+	return isTetrisKey(data, Key.up, ["\x1b[A", "\x1bOA"]);
+}
 
 /** Matches soft-drop input. */
-export function isTetrisDown(data: string): boolean { return isTetrisKey(data, Key.down, ["\x1b[B", "\x1bOB"]); }
+export function isTetrisDown(data: string): boolean {
+	return isTetrisKey(data, Key.down, ["\x1b[B", "\x1bOB"]);
+}

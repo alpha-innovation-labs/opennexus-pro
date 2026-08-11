@@ -1,9 +1,15 @@
-
-
 /**
  * Nexus/Pi package source persisted in settings.
  */
-export type NexusPackageSource = string | { source: string; extensions?: string[]; skills?: string[]; prompts?: string[]; themes?: string[] };
+export type NexusPackageSource =
+	| string
+	| {
+			source: string;
+			extensions?: string[];
+			skills?: string[];
+			prompts?: string[];
+			themes?: string[];
+	  };
 
 /**
  * Configuration for the local-image-reader extension.
@@ -50,4 +56,4 @@ export type NexusUserConfig = {
 	featureFlags?: Record<string, UserFeatureFlagOverride>;
 	/** Per-provider enable/disable overlay. Key is the provider name. */
 	providers?: Record<string, { enabled: boolean }>;
-}
+};

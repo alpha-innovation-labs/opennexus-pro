@@ -9,6 +9,9 @@ import type { SharedModalHotkey } from "./types";
  * @param hotkey Hotkey hint to format.
  * @returns Rendered hotkey segment.
  */
-export function formatModalHotkey(theme: SharedModalTheme, hotkey: SharedModalHotkey): string {
-  return `${theme.fg(getModalHotkeyColor(), hotkey.key)} ${theme.fg("dim", hotkey.label)}`;
+export function formatModalHotkey(
+	theme: SharedModalTheme,
+	hotkey: SharedModalHotkey,
+): string {
+	return `${theme.fg(getModalHotkeyColor(), hotkey.key)} ${theme.fg("dim", hotkey.label)}`;
 }

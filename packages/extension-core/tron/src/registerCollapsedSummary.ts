@@ -1,4 +1,7 @@
-import { collapsedSummaryNeighbors, collapsedSummaryOrder } from "./collapsedSummaryState";
+import {
+	collapsedSummaryNeighbors,
+	collapsedSummaryOrder,
+} from "./collapsedSummaryState";
 
 /**
  * Registers one collapsed summary row in render order.

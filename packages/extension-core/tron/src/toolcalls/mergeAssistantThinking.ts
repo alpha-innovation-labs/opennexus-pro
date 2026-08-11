@@ -5,7 +5,10 @@
  * @param current Thinking from the current assistant message.
  * @returns Combined thinking text.
  */
-export function mergeAssistantThinking(carried: string, current: string): string {
+export function mergeAssistantThinking(
+	carried: string,
+	current: string,
+): string {
 	if (!carried) return current;
 	if (!current) return carried;
 	if (carried === current) return current;

@@ -6,6 +6,10 @@ import type { SlashMenuLeaf, SlashMenuSection } from "./types";
  * @param items Menu items to sort.
  * @returns Sorted copy of the menu items.
  */
-export function sortSlashMenuItemsByLabel<T extends SlashMenuLeaf | SlashMenuSection>(items: T[]): T[] {
-  return [...items].sort((left, right) => left.label.localeCompare(right.label, undefined, { sensitivity: "base" }));
+export function sortSlashMenuItemsByLabel<
+	T extends SlashMenuLeaf | SlashMenuSection,
+>(items: T[]): T[] {
+	return [...items].sort((left, right) =>
+		left.label.localeCompare(right.label, undefined, { sensitivity: "base" }),
+	);
 }

@@ -1,5 +1,5 @@
-import stripAnsi from "strip-ansi";
 import { visibleWidth } from "@earendil-works/pi-tui";
+import stripAnsi from "strip-ansi";
 import { truncateAnsiToWidth } from "./truncateAnsiToWidth";
 
 /**
@@ -10,7 +10,7 @@ import { truncateAnsiToWidth } from "./truncateAnsiToWidth";
  * @returns Width-padded line.
  */
 export function padModalLine(value: string, width: number): string {
-  const truncated = truncateAnsiToWidth(value, width);
-  const visible = visibleWidth(stripAnsi(truncated));
-  return `${truncated}${" ".repeat(Math.max(0, width - visible))}`;
+	const truncated = truncateAnsiToWidth(value, width);
+	const visible = visibleWidth(stripAnsi(truncated));
+	return `${truncated}${" ".repeat(Math.max(0, width - visible))}`;
 }

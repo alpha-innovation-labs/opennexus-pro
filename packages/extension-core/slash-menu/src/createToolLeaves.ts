@@ -11,21 +11,24 @@ type ToolInfo = ReturnType<ExtensionAPI["getAllTools"]>[number];
  * @param supplementalLeaves Tool leaves from built-in definitions.
  * @returns Tool list leaves sorted by tool name.
  */
-export function createToolLeaves(tools: ToolInfo[], supplementalLeaves: SlashMenuLeaf[] = []): SlashMenuLeaf[] {
-  const leaves = [
-    ...supplementalLeaves,
-    ...tools.map((tool) => ({
-      kind: "entry" as const,
-      label: tool.name,
-      description: normalizeToolDescription(tool.description),
-      groupLabel: formatToolGroupLabel(tool.sourceInfo),
-      sourcePath: tool.sourceInfo.path,
-      sourceScope: tool.sourceInfo.scope,
-      value: tool.name,
-    })),
-  ];
+export function createToolLeaves(
+	tools: ToolInfo[],
+	supplementalLeaves: SlashMenuLeaf[] = [],
+): SlashMenuLeaf[] {
+	const leaves = [
+		...supplementalLeaves,
+		...tools.map((tool) => ({
+			kind: "entry" as const,
+			label: tool.name,
+			description: normalizeToolDescription(tool.description),
+			groupLabel: formatToolGroupLabel(tool.sourceInfo),
+			sourcePath: tool.sourceInfo.path,
+			sourceScope: tool.sourceInfo.scope,
+			value: tool.name,
+		})),
+	];
 
-  return dedupeToolLeaves(leaves).sort(compareToolLeaves);
+	return dedupeToolLeaves(leaves).sort(compareToolLeaves);
 }
 
 /**
@@ -35,11 +38,11 @@ export function createToolLeaves(tools: ToolInfo[], supplementalLeaves: SlashMen
  * @returns Deduplicated tool leaves.
  */
 function dedupeToolLeaves(leaves: SlashMenuLeaf[]): SlashMenuLeaf[] {
-  const deduped = new Map<string, SlashMenuLeaf>();
-  for (const leaf of leaves) {
-    if (!deduped.has(leaf.label)) deduped.set(leaf.label, leaf);
-  }
-  return [...deduped.values()];
+	const deduped = new Map<string, SlashMenuLeaf>();
+	for (const leaf of leaves) {
+		if (!deduped.has(leaf.label)) deduped.set(leaf.label, leaf);
+	}
+	return [...deduped.values()];
 }
 
 /**
@@ -50,9 +53,13 @@ function dedupeToolLeaves(leaves: SlashMenuLeaf[]): SlashMenuLeaf[] {
  * @returns Sort comparison result.
  */
 function compareToolLeaves(left: SlashMenuLeaf, right: SlashMenuLeaf): number {
-  return getToolGroupRank(left.groupLabel) - getToolGroupRank(right.groupLabel)
-    || (left.groupLabel ?? "").localeCompare(right.groupLabel ?? "", undefined, { sensitivity: "base" })
-    || left.label.localeCompare(right.label, undefined, { sensitivity: "base" });
+	return (
+		getToolGroupRank(left.groupLabel) - getToolGroupRank(right.groupLabel) ||
+		(left.groupLabel ?? "").localeCompare(right.groupLabel ?? "", undefined, {
+			sensitivity: "base",
+		}) ||
+		left.label.localeCompare(right.label, undefined, { sensitivity: "base" })
+	);
 }
 
 /**
@@ -62,7 +69,7 @@ function compareToolLeaves(left: SlashMenuLeaf, right: SlashMenuLeaf): number {
  * @returns Numeric group rank.
  */
 function getToolGroupRank(groupLabel: string | undefined): number {
-  return groupLabel === "Core" ? 0 : 1;
+	return groupLabel === "Core" ? 0 : 1;
 }
 
 /**
@@ -72,6 +79,6 @@ function getToolGroupRank(groupLabel: string | undefined): number {
  * @returns Single-line description text.
  */
 function normalizeToolDescription(description: string): string {
-  const normalized = description.trim().replace(/\s+/gu, " ");
-  return normalized.length > 0 ? normalized : "No description";
+	const normalized = description.trim().replace(/\s+/gu, " ");
+	return normalized.length > 0 ? normalized : "No description";
 }

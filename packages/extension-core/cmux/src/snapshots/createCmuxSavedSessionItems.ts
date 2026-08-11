@@ -8,7 +8,9 @@ import type { CmuxSavedSession } from "./types";
  * @param sessions Saved cmux sessions.
  * @returns Selectable saved-session items.
  */
-export function createCmuxSavedSessionItems(sessions: CmuxSavedSession[]): AutocompleteItem[] {
+export function createCmuxSavedSessionItems(
+	sessions: CmuxSavedSession[],
+): AutocompleteItem[] {
 	return sessions.map((session) => ({
 		value: session.id,
 		label: session.name,

@@ -11,7 +11,10 @@ import type { ExtensionFeatureFlag } from "./types";
  * @param flag Extension feature flag to register.
  * @returns Promise that resolves when registration completion logging is done.
  */
-export async function createExtensionRegistrationTask(pi: ExtensionAPI, flag: ExtensionFeatureFlag): Promise<void> {
+export async function createExtensionRegistrationTask(
+	pi: ExtensionAPI,
+	flag: ExtensionFeatureFlag,
+): Promise<void> {
 	const startedAt = performance.now();
 	logStartupProfileEvent(flag.id, "register:start");
 	const extensionApi = createProfiledExtensionApi(pi, flag.id);

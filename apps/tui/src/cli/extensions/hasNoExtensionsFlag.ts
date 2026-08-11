@@ -7,5 +7,5 @@ const NO_EXTENSIONS_FLAGS = new Set(["--no-extensions", "-ne"]);
  * @returns True when the no-extensions flag is present.
  */
 export function hasNoExtensionsFlag(argv: string[]): boolean {
-  return argv.some((arg) => NO_EXTENSIONS_FLAGS.has(arg));
+	return argv.some((arg) => NO_EXTENSIONS_FLAGS.has(arg));
 }

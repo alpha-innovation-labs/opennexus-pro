@@ -6,7 +6,9 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
  * @param getSessionName Pi session name getter.
  * @returns Trimmed session name, or undefined when no name exists.
  */
-export function getVisiblePromptlineSessionName(getSessionName: ExtensionAPI["getSessionName"]): string | undefined {
+export function getVisiblePromptlineSessionName(
+	getSessionName: ExtensionAPI["getSessionName"],
+): string | undefined {
 	const sessionName = getSessionName()?.trim();
 	return sessionName ? sessionName : undefined;
 }

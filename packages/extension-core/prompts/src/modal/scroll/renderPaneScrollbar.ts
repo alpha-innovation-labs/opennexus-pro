@@ -1,7 +1,7 @@
-import stripAnsi from "strip-ansi";
 import { visibleWidth } from "@earendil-works/pi-tui";
 import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
 import { truncateAnsiToWidth } from "@nexus/tui-kit/modal/truncateAnsiToWidth";
+import stripAnsi from "strip-ansi";
 
 /**
  * Adds an inline scrollbar thumb to a pane's visible rows.
@@ -13,12 +13,31 @@ import { truncateAnsiToWidth } from "@nexus/tui-kit/modal/truncateAnsiToWidth";
  * @param theme Modal theme.
  * @returns Pane lines with a right-edge scrollbar thumb when scrollable.
  */
-export function renderPaneScrollbar(lines: readonly string[], width: number, scrollOffset: number, totalRows: number, theme: SelectPreviewTheme): string[] {
+export function renderPaneScrollbar(
+	lines: readonly string[],
+	width: number,
+	scrollOffset: number,
+	totalRows: number,
+	theme: SelectPreviewTheme,
+): string[] {
 	if (totalRows <= lines.length || lines.length === 0) return [...lines];
-	const thumbHeight = Math.max(1, Math.floor((lines.length / totalRows) * lines.length));
+	const thumbHeight = Math.max(
+		1,
+		Math.floor((lines.length / totalRows) * lines.length),
+	);
 	const maxScrollOffset = Math.max(1, totalRows - lines.length);
-	const thumbTop = Math.round((scrollOffset / maxScrollOffset) * Math.max(0, lines.length - thumbHeight));
-	return lines.map((line, index) => replaceLineEnd(line, width, index >= thumbTop && index < thumbTop + thumbHeight ? theme.fg("border", "┃") : " "));
+	const thumbTop = Math.round(
+		(scrollOffset / maxScrollOffset) * Math.max(0, lines.length - thumbHeight),
+	);
+	return lines.map((line, index) =>
+		replaceLineEnd(
+			line,
+			width,
+			index >= thumbTop && index < thumbTop + thumbHeight
+				? theme.fg("border", "┃")
+				: " ",
+		),
+	);
 }
 
 /**

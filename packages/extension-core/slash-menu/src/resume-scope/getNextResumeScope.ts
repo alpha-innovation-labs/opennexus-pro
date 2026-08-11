@@ -7,5 +7,5 @@ import type { ResumeScope } from "./ResumeScope";
  * @returns Next resume source.
  */
 export function getNextResumeScope(scope: ResumeScope): ResumeScope {
-  return scope === "all" ? "current" : "all";
+	return scope === "all" ? "current" : "all";
 }

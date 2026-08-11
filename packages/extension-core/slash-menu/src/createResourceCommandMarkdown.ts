@@ -7,8 +7,12 @@ import type { SlashMenuLeaf, SlashMenuSection } from "./types";
  * @param item Resource command item.
  * @returns Markdown preview content.
  */
-export function createResourceCommandMarkdown(item: SlashMenuLeaf | SlashMenuSection): string {
-  const source = readResourceCommandMarkdown((item as { sourcePath?: string }).sourcePath);
-  if (source !== undefined) return source;
-  return `# ${item.label}\n\nSource file unavailable.`;
+export function createResourceCommandMarkdown(
+	item: SlashMenuLeaf | SlashMenuSection,
+): string {
+	const source = readResourceCommandMarkdown(
+		(item as { sourcePath?: string }).sourcePath,
+	);
+	if (source !== undefined) return source;
+	return `# ${item.label}\n\nSource file unavailable.`;
 }

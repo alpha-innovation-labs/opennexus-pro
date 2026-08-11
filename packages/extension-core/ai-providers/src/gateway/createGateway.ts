@@ -1,4 +1,3 @@
-import { DEFAULT_PORTS } from "../constants/default-ports";
 import { AiGateway } from "../index";
 import { baseUrlFromPort } from "./types";
 
@@ -9,39 +8,39 @@ import { baseUrlFromPort } from "./types";
  * name without duplicating port configuration.
  */
 const PROVIDER_NAMES: Record<string, string> = {
-  vllm: "vLLM",
-  ollama: "Ollama",
-  "llama.cpp": "llama.cpp",
-  localai: "LocalAI",
-  sglang: "SGLang",
-  jan: "Jan AI",
-  llamafile: "llamafile",
-  "tensorrt-llm": "TensorRT-LLM",
-  lmddeploy: "LMDeploy",
-  "mlx-lm": "MLX-LM",
-  "mlx-openai-server": "mlx-openai-server",
-  omlx: "oMLX",
-  lemonade: "Lemonade",
-  "docker-model-runner": "Docker Model Runner",
-  koboldcpp: "KoboldCpp",
-  exllamav2: "exllamav2",
-  gpt4all: "GPT4All",
-  h2ogpt: "h2oGPT",
-  "text-generation-webui": "text-generation-webui",
-  "open-webui": "open-webui",
-  litellm: "LiteLLM",
-  harbor: "Harbor",
-  openllm: "OpenLLM",
-  "lm-studio": "LM Studio",
+	vllm: "vLLM",
+	ollama: "Ollama",
+	"llama.cpp": "llama.cpp",
+	localai: "LocalAI",
+	sglang: "SGLang",
+	jan: "Jan AI",
+	llamafile: "llamafile",
+	"tensorrt-llm": "TensorRT-LLM",
+	lmddeploy: "LMDeploy",
+	"mlx-lm": "MLX-LM",
+	"mlx-openai-server": "mlx-openai-server",
+	omlx: "oMLX",
+	lemonade: "Lemonade",
+	"docker-model-runner": "Docker Model Runner",
+	koboldcpp: "KoboldCpp",
+	exllamav2: "exllamav2",
+	gpt4all: "GPT4All",
+	h2ogpt: "h2oGPT",
+	"text-generation-webui": "text-generation-webui",
+	"open-webui": "open-webui",
+	litellm: "LiteLLM",
+	harbor: "Harbor",
+	openllm: "OpenLLM",
+	"lm-studio": "LM Studio",
 };
 
 /**
  * Options accepted by `createGateway`. */
 export interface CreateGatewayOptions {
-  /** Optional override for the default URL. */
-  baseUrl?: string;
-  /** Optional API key (defaults to `""`). */
-  apiKey?: string;
+	/** Optional override for the default URL. */
+	baseUrl?: string;
+	/** Optional API key (defaults to `""`). */
+	apiKey?: string;
 }
 
 /**
@@ -56,16 +55,16 @@ export interface CreateGatewayOptions {
  * @throws If `providerId` is unknown (no default port registered).
  */
 export function createGateway(
-  providerId: string,
-  options: CreateGatewayOptions = {},
+	providerId: string,
+	options: CreateGatewayOptions = {},
 ): AiGateway {
-  const name = PROVIDER_NAMES[providerId] ?? providerId;
-  const baseUrl = options.baseUrl ?? baseUrlFromPort(providerId);
+	const name = PROVIDER_NAMES[providerId] ?? providerId;
+	const baseUrl = options.baseUrl ?? baseUrlFromPort(providerId);
 
-  return new AiGateway({
-    providerId,
-    name,
-    baseUrl,
-    apiKey: options.apiKey,
-  });
+	return new AiGateway({
+		providerId,
+		name,
+		baseUrl,
+		apiKey: options.apiKey,
+	});
 }

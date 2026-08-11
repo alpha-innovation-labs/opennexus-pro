@@ -7,12 +7,15 @@ import type { InternalSlashHandler } from "./types";
  * @param args Command arguments.
  * @param ctx Command context.
  */
-export const handleInternalLogoutCommand: InternalSlashHandler = async (args, ctx) => {
-  const providerId = args.trim();
-  if (!providerId) {
-    ctx.ui.notify("Missing provider.", "error");
-    return;
-  }
-  logoutProvider(ctx, providerId);
-  ctx.ui.notify(`Logged out of ${providerId}`, "info");
+export const handleInternalLogoutCommand: InternalSlashHandler = async (
+	args,
+	ctx,
+) => {
+	const providerId = args.trim();
+	if (!providerId) {
+		ctx.ui.notify("Missing provider.", "error");
+		return;
+	}
+	logoutProvider(ctx, providerId);
+	ctx.ui.notify(`Logged out of ${providerId}`, "info");
 };

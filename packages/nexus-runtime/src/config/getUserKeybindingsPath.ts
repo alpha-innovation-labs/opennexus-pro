@@ -7,5 +7,5 @@ import { getUserConfigDirPath } from "./getUserConfigDirPath";
  * @returns Absolute user keybindings file path.
  */
 export function getUserKeybindingsPath(): string {
-  return join(getUserConfigDirPath(), "keybindings.json");
+	return join(getUserConfigDirPath(), "keybindings.json");
 }

@@ -1,15 +1,18 @@
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type {
+	ExtensionAPI,
+	ExtensionContext,
+} from "@earendil-works/pi-coding-agent";
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled";
 import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled";
 import { getPromptlineModel } from "../getPromptlineModel";
 import { getPromptlineFrameWidth } from "../layout/getPromptlineFrameWidth";
 import { hasConversationMessages } from "../layout/hasConversationMessages";
 import { padPromptlineFrameToWidth } from "../layout/padPromptlineFrameToWidth";
 import { buildPromptlineStatusLine } from "./buildPromptlineStatusLine";
+import { createPromptlineBadge } from "./createPromptlineBadge";
 import { getPromptlineSessionRunTimeLabel } from "./getPromptlineSessionRunTimeLabel";
 import { getPromptlineStatusTitle } from "./getPromptlineStatusTitle";
-import { createPromptlineBadge } from "./createPromptlineBadge";
 
 const PROVIDER_BADGE_BG = "\x1b[48;2;120;30;30m";
 const MODEL_BADGE_BG = "\x1b[48;2;180;45;45m";
@@ -43,12 +46,31 @@ export function createPromptlineStatusWidget(
 			const hasMessages = hasConversationMessages(ctx);
 			const frameWidth = getPromptlineFrameWidth(width, hasMessages);
 			const title = getPromptlineStatusTitle(getSessionName, ctx);
-			const runTime = hasMessages && title ? ctx.ui.theme.fg("muted" as never, getPromptlineSessionRunTimeLabel()) : undefined;
+			const runTime =
+				hasMessages && title
+					? ctx.ui.theme.fg(
+							"muted" as never,
+							getPromptlineSessionRunTimeLabel(),
+						)
+					: undefined;
 
-			const key = [width, frameWidth, modelId, thinking, title ?? "", runTime ?? ""].join("\u001f");
+			const key = [
+				width,
+				frameWidth,
+				modelId,
+				thinking,
+				title ?? "",
+				runTime ?? "",
+			].join("\u001f");
 			if (cachedKey === key) return cachedLines;
 			const badges = `${createPromptlineBadge(provider, PROVIDER_BADGE_BG)}${createPromptlineBadge(modelId, MODEL_BADGE_BG)}${createPromptlineBadge(thinking, THINKING_BADGE_BG)}`;
-			const line = buildPromptlineStatusLine(badges, runTime, title, frameWidth, ctx.ui.theme);
+			const line = buildPromptlineStatusLine(
+				badges,
+				runTime,
+				title,
+				frameWidth,
+				ctx.ui.theme,
+			);
 			if (isStartupProfileEnabled()) {
 				const renderedWidth = visibleWidth(line);
 				if (renderedWidth > frameWidth) {

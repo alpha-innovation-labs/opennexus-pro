@@ -11,8 +11,17 @@ import type { CmuxWorkspace } from "./types";
  * @param registrations Live Nexus session registrations.
  * @returns True when the only workspace surface is a registered Nexus session.
  */
-export function hasSingleRegisteredNexusSurface(workspace: CmuxWorkspace, registrations: CmuxSessionRegistryEntry[]): boolean {
+export function hasSingleRegisteredNexusSurface(
+	workspace: CmuxWorkspace,
+	registrations: CmuxSessionRegistryEntry[],
+): boolean {
 	const surfaces = workspace.panes.flatMap((pane) => pane.surfaces);
 	if (surfaces.length !== 1) return false;
-	return findRegisteredNexusSession(registrations, getCmuxWorkspaceIdentifier(workspace), getCmuxSurfaceIdentifier(surfaces[0])) !== undefined;
+	return (
+		findRegisteredNexusSession(
+			registrations,
+			getCmuxWorkspaceIdentifier(workspace),
+			getCmuxSurfaceIdentifier(surfaces[0]),
+		) !== undefined
+	);
 }

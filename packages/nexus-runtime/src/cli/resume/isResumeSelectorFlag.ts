@@ -5,5 +5,5 @@
  * @returns True when the token is a resume selector flag.
  */
 export function isResumeSelectorFlag(value: string): boolean {
-  return value === "--resume" || value === "-r";
+	return value === "--resume" || value === "-r";
 }

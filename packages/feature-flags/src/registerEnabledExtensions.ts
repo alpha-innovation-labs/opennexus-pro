@@ -21,5 +21,7 @@ export async function registerEnabledExtensions(
 	const filteredFlags = skipExtensions
 		? enabledFlags.filter((flag) => !skipExtensions.includes(flag.id))
 		: enabledFlags;
-	await Promise.all(filteredFlags.map((flag) => createExtensionRegistrationTask(pi, flag)));
+	await Promise.all(
+		filteredFlags.map((flag) => createExtensionRegistrationTask(pi, flag)),
+	);
 }

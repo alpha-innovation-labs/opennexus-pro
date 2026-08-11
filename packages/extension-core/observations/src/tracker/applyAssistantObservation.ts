@@ -19,7 +19,9 @@ export async function applyAssistantObservation(
 ): Promise<ObservationState> {
 	const topic = state.topics.at(-1);
 	if (!topic) return state;
-	const topicTitle = Array.isArray(topic.title) ? topic.title.join(", ") : topic.title;
+	const topicTitle = Array.isArray(topic.title)
+		? topic.title.join(", ")
+		: topic.title;
 	const nextBullets = await summarizeAssistantObservations(
 		pi,
 		ctx,
@@ -29,7 +31,8 @@ export async function applyAssistantObservation(
 		assistantMessage.text,
 	);
 	for (const bullet of nextBullets) {
-		if (!topic.assistantBullets.includes(bullet)) topic.assistantBullets.push(bullet);
+		if (!topic.assistantBullets.includes(bullet))
+			topic.assistantBullets.push(bullet);
 	}
 	return state;
 }

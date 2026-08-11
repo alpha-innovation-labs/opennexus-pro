@@ -5,5 +5,10 @@
  * @returns True when the value exposes a promise-like then callback.
  */
 export function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
-	return typeof value === "object" && value !== null && "then" in value && typeof value.then === "function";
+	return (
+		typeof value === "object" &&
+		value !== null &&
+		"then" in value &&
+		typeof value.then === "function"
+	);
 }

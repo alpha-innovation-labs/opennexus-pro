@@ -11,8 +11,10 @@ let usageRenderUnsubscribe: (() => void) | undefined;
  *
  * @param callback Render callback.
  */
-export function setPromptlineRenderRequest(callback: ((force?: boolean) => void) | undefined): void {
-  requestPromptlineRender = callback;
+export function setPromptlineRenderRequest(
+	callback: ((force?: boolean) => void) | undefined,
+): void {
+	requestPromptlineRender = callback;
 }
 
 /**
@@ -20,8 +22,10 @@ export function setPromptlineRenderRequest(callback: ((force?: boolean) => void)
  *
  * @returns Render callback.
  */
-export function getPromptlineRenderRequest(): ((force?: boolean) => void) | undefined {
-  return requestPromptlineRender;
+export function getPromptlineRenderRequest():
+	| ((force?: boolean) => void)
+	| undefined {
+	return requestPromptlineRender;
 }
 
 /**
@@ -29,8 +33,10 @@ export function getPromptlineRenderRequest(): ((force?: boolean) => void) | unde
  *
  * @param model Model to render, or undefined to use the context model.
  */
-export function setPromptlineModelOverride(model: ExtensionContext["model"] | undefined): void {
-  promptlineModelOverride = model;
+export function setPromptlineModelOverride(
+	model: ExtensionContext["model"] | undefined,
+): void {
+	promptlineModelOverride = model;
 }
 
 /**
@@ -38,8 +44,10 @@ export function setPromptlineModelOverride(model: ExtensionContext["model"] | un
  *
  * @returns Promptline model override.
  */
-export function getPromptlineModelOverride(): ExtensionContext["model"] | undefined {
-  return promptlineModelOverride;
+export function getPromptlineModelOverride():
+	| ExtensionContext["model"]
+	| undefined {
+	return promptlineModelOverride;
 }
 
 /**
@@ -47,8 +55,10 @@ export function getPromptlineModelOverride(): ExtensionContext["model"] | undefi
  *
  * @param sessionFile Session file path.
  */
-export function setPromptlineInstalledForSession(sessionFile: string | null): void {
-  promptlineInstalledForSession = sessionFile;
+export function setPromptlineInstalledForSession(
+	sessionFile: string | null,
+): void {
+	promptlineInstalledForSession = sessionFile;
 }
 
 /**
@@ -57,7 +67,7 @@ export function setPromptlineInstalledForSession(sessionFile: string | null): vo
  * @returns Session file key.
  */
 export function getPromptlineInstalledForSession(): string | null {
-  return promptlineInstalledForSession;
+	return promptlineInstalledForSession;
 }
 
 /**
@@ -65,8 +75,10 @@ export function getPromptlineInstalledForSession(): string | null {
  *
  * @param callback Refresh callback.
  */
-export function setRefreshRequestCallback(callback: (() => void) | undefined): void {
-  refreshRequestCallback = callback;
+export function setRefreshRequestCallback(
+	callback: (() => void) | undefined,
+): void {
+	refreshRequestCallback = callback;
 }
 
 /**
@@ -75,7 +87,7 @@ export function setRefreshRequestCallback(callback: (() => void) | undefined): v
  * @returns Refresh callback.
  */
 export function getRefreshRequestCallback(): (() => void) | undefined {
-  return refreshRequestCallback;
+	return refreshRequestCallback;
 }
 
 /**
@@ -83,8 +95,10 @@ export function getRefreshRequestCallback(): (() => void) | undefined {
  *
  * @param unsubscribe Unsubscribe callback.
  */
-export function setUsageRenderUnsubscribe(unsubscribe: (() => void) | undefined): void {
-  usageRenderUnsubscribe = unsubscribe;
+export function setUsageRenderUnsubscribe(
+	unsubscribe: (() => void) | undefined,
+): void {
+	usageRenderUnsubscribe = unsubscribe;
 }
 
 /**
@@ -93,5 +107,5 @@ export function setUsageRenderUnsubscribe(unsubscribe: (() => void) | undefined)
  * @returns Unsubscribe callback.
  */
 export function getUsageRenderUnsubscribe(): (() => void) | undefined {
-  return usageRenderUnsubscribe;
+	return usageRenderUnsubscribe;
 }

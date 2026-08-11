@@ -1,6 +1,9 @@
 import { FooterComponent } from "@earendil-works/pi-coding-agent";
 
-type FooterWithPatch = { __nexusModelChangeDisplayPatched__?: boolean; render(width: number): string[] };
+type FooterWithPatch = {
+	__nexusModelChangeDisplayPatched__?: boolean;
+	render(width: number): string[];
+};
 
 /**
  * Hides Pi's built-in model footer so Neo owns the below-editor model line.

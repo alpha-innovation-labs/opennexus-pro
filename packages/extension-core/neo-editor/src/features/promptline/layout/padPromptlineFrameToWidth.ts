@@ -8,7 +8,13 @@ import { getPromptlineFrameLeftPadding } from "./getPromptlineFrameLeftPadding";
  * @param frameWidth Promptline frame width before outer padding.
  * @returns Promptline frame lines with left padding applied.
  */
-export function padPromptlineFrameToWidth(lines: string[], terminalWidth: number, frameWidth: number): string[] {
-	const leftPadding = " ".repeat(getPromptlineFrameLeftPadding(terminalWidth, frameWidth));
+export function padPromptlineFrameToWidth(
+	lines: string[],
+	terminalWidth: number,
+	frameWidth: number,
+): string[] {
+	const leftPadding = " ".repeat(
+		getPromptlineFrameLeftPadding(terminalWidth, frameWidth),
+	);
 	return lines.map((line) => `${leftPadding}${line}`);
 }

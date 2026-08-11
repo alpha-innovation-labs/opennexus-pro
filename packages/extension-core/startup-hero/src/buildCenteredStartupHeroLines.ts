@@ -30,9 +30,28 @@ export function buildCenteredStartupHeroLines(
 	const logoWidth = Math.max(0, ...logoLines.map((line) => visibleWidth(line)));
 	if (logoWidth > terminalColumns) return [];
 
-	const heroLines = centerStartupHeroLines(buildStartupHeroLines(theme, version, status, terminalColumns, startupDurationBadge), terminalColumns);
+	const heroLines = centerStartupHeroLines(
+		buildStartupHeroLines(
+			theme,
+			version,
+			status,
+			terminalColumns,
+			startupDurationBadge,
+		),
+		terminalColumns,
+	);
 	const emptyFullWidthLine = " ".repeat(terminalColumns);
-	const bottomPaddingLines = Array.from({ length: STARTUP_HERO_BOTTOM_PADDING_LINES }, () => emptyFullWidthLine);
-	const topPaddingLineCount = calculateStartupHeroTopPadding(terminalRows, heroLines.length + bottomPaddingLines.length);
-	return [...Array.from({ length: topPaddingLineCount }, () => emptyFullWidthLine), ...heroLines, ...bottomPaddingLines];
+	const bottomPaddingLines = Array.from(
+		{ length: STARTUP_HERO_BOTTOM_PADDING_LINES },
+		() => emptyFullWidthLine,
+	);
+	const topPaddingLineCount = calculateStartupHeroTopPadding(
+		terminalRows,
+		heroLines.length + bottomPaddingLines.length,
+	);
+	return [
+		...Array.from({ length: topPaddingLineCount }, () => emptyFullWidthLine),
+		...heroLines,
+		...bottomPaddingLines,
+	];
 }

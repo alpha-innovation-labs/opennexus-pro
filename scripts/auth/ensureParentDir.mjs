@@ -8,5 +8,5 @@ import { dirname } from "node:path";
  * @returns {Promise<void>}
  */
 export async function ensureParentDir(filePath) {
-  await mkdir(dirname(filePath), { recursive: true });
+	await mkdir(dirname(filePath), { recursive: true });
 }

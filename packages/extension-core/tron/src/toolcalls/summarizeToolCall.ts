@@ -1,5 +1,5 @@
-import type { ToolCallInfo } from "./types";
 import { toolIcon } from "./toolIcon";
+import type { ToolCallInfo } from "./types";
 
 /**
  * Builds the left-pane label for one tool call.

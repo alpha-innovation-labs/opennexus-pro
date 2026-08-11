@@ -11,16 +11,19 @@ import { padToWidth } from "./padToWidth";
  * @returns Prefixed line.
  */
 export function prefixEditorLine(
-  line: string,
-  width: number,
-  prefix: string,
-  colorize: (text: string) => string,
+	line: string,
+	width: number,
+	prefix: string,
+	colorize: (text: string) => string,
 ): string {
-  const leadingSpacesMatch = line.match(/^ */);
-  const leadingSpaces = leadingSpacesMatch?.[0] ?? "";
-  const rest = line.slice(leadingSpaces.length);
-  const coloredPrefix = colorize(prefix);
-  const available = Math.max(0, width - visibleWidth(leadingSpaces) - visibleWidth(prefix));
-  const content = truncateToWidth(rest, available, "");
-  return padToWidth(leadingSpaces + coloredPrefix + content, width);
+	const leadingSpacesMatch = line.match(/^ */);
+	const leadingSpaces = leadingSpacesMatch?.[0] ?? "";
+	const rest = line.slice(leadingSpaces.length);
+	const coloredPrefix = colorize(prefix);
+	const available = Math.max(
+		0,
+		width - visibleWidth(leadingSpaces) - visibleWidth(prefix),
+	);
+	const content = truncateToWidth(rest, available, "");
+	return padToWidth(leadingSpaces + coloredPrefix + content, width);
 }

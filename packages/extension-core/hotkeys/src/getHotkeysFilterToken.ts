@@ -9,5 +9,9 @@ import { getSpecialKeyFilterToken } from "./getSpecialKeyFilterToken";
  * @returns Filter token for key search, when recognized.
  */
 export function getHotkeysFilterToken(data: string): string | undefined {
-  return getSpecialKeyFilterToken(data) ?? getControlKeyFilterToken(data) ?? getPrintableKeyFilterToken(data);
+	return (
+		getSpecialKeyFilterToken(data) ??
+		getControlKeyFilterToken(data) ??
+		getPrintableKeyFilterToken(data)
+	);
 }

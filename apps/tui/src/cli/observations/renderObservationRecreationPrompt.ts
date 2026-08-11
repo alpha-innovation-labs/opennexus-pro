@@ -1,6 +1,6 @@
 import {
-  DEFAULT_OBSERVATION_RECREATION_PROMPT_TEMPLATE,
-  OBSERVATION_RECREATION_MESSAGES_PLACEHOLDER,
+	DEFAULT_OBSERVATION_RECREATION_PROMPT_TEMPLATE,
+	OBSERVATION_RECREATION_MESSAGES_PLACEHOLDER,
 } from "@extensions/observations/shared/defaultObservationRecreationPromptTemplate";
 
 /**
@@ -10,9 +10,17 @@ import {
  * @param template Optional prompt template override.
  * @returns Full prompt sent to the LLM.
  */
-export function renderObservationRecreationPrompt(messageHistory: string, template = DEFAULT_OBSERVATION_RECREATION_PROMPT_TEMPLATE): string {
-  if (template.includes(OBSERVATION_RECREATION_MESSAGES_PLACEHOLDER)) {
-    return template.replaceAll(OBSERVATION_RECREATION_MESSAGES_PLACEHOLDER, messageHistory);
-  }
-  return [template.trim(), "Conversation messages:", messageHistory].join("\n\n");
+export function renderObservationRecreationPrompt(
+	messageHistory: string,
+	template = DEFAULT_OBSERVATION_RECREATION_PROMPT_TEMPLATE,
+): string {
+	if (template.includes(OBSERVATION_RECREATION_MESSAGES_PLACEHOLDER)) {
+		return template.replaceAll(
+			OBSERVATION_RECREATION_MESSAGES_PLACEHOLDER,
+			messageHistory,
+		);
+	}
+	return [template.trim(), "Conversation messages:", messageHistory].join(
+		"\n\n",
+	);
 }

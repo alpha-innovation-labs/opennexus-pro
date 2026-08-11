@@ -1,9 +1,9 @@
 import { closeTriggerModal } from "../closeTriggerModal";
 import { refreshSlashTrigger } from "../refreshSlashTrigger";
 import { removeTriggerPrefixFromLines } from "../removeTriggerPrefixFromLines";
+import type { TriggerProviderRefreshArgs } from "../types";
 import { ensureSlashTriggerModal } from "./ensureSlashTriggerModal";
 import { getSlashTriggerModal } from "./getSlashTriggerModal";
-import type { TriggerProviderRefreshArgs } from "../types";
 
 /**
  * Refreshes the `/` trigger provider.
@@ -12,31 +12,38 @@ import type { TriggerProviderRefreshArgs } from "../types";
  * @returns Empty trigger refresh result.
  */
 export async function refreshSlashTriggerProvider(
-  args: TriggerProviderRefreshArgs,
+	args: TriggerProviderRefreshArgs,
 ): Promise<{ autocompletePrefix?: string }> {
-  ensureSlashTriggerModal(
-    args.modalState,
-    args.ctx,
-    () => {
-      args.setText(removeTriggerPrefixFromLines(args.lines, args.cursorLine, args.cursorCol, args.triggerState.prefix));
-      closeTriggerModal(args.modalState, args.requestRender);
-    },
-    args.requestRender,
-    args.setText,
-    args.getThinkingLevel,
-    args.setThinkingLevel,
-    args.getCommands,
-    args.getAllTools,
-    args.submitText,
-    args.showOverlay,
-  );
+	ensureSlashTriggerModal(
+		args.modalState,
+		args.ctx,
+		() => {
+			args.setText(
+				removeTriggerPrefixFromLines(
+					args.lines,
+					args.cursorLine,
+					args.cursorCol,
+					args.triggerState.prefix,
+				),
+			);
+			closeTriggerModal(args.modalState, args.requestRender);
+		},
+		args.requestRender,
+		args.setText,
+		args.getThinkingLevel,
+		args.setThinkingLevel,
+		args.getCommands,
+		args.getAllTools,
+		args.submitText,
+		args.showOverlay,
+	);
 
-  const modal = getSlashTriggerModal(args.modalState);
-  if (!modal) {
-    closeTriggerModal(args.modalState, args.requestRender);
-    return {};
-  }
+	const modal = getSlashTriggerModal(args.modalState);
+	if (!modal) {
+		closeTriggerModal(args.modalState, args.requestRender);
+		return {};
+	}
 
-  await refreshSlashTrigger(modal, args.triggerState.prefix);
-  return {};
+	await refreshSlashTrigger(modal, args.triggerState.prefix);
+	return {};
 }

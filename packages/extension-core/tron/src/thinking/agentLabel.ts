@@ -11,5 +11,8 @@ const AGENT_LABEL_ENV_VAR = "NEXUS_AGENT_LABEL";
  * @returns Visible assistant label.
  */
 export function getAgentLabel(): string {
-	return process.env[AGENT_LABEL_ENV_VAR]?.trim() || APP_NAME.charAt(0).toUpperCase() + APP_NAME.slice(1);
+	return (
+		process.env[AGENT_LABEL_ENV_VAR]?.trim() ||
+		APP_NAME.charAt(0).toUpperCase() + APP_NAME.slice(1)
+	);
 }

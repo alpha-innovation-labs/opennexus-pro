@@ -10,12 +10,14 @@ import { getModelCatalogMetricColumnSpecs } from "./getModelCatalogMetricColumnS
  * @returns Context and per-million-token cost columns.
  */
 export function formatModelCatalogMetricsColumns(model: Model<Api>): string {
-  const columns = getModelCatalogMetricColumnSpecs();
-  return [
-    formatContextWindow(model.contextWindow),
-    formatModelCost(model.cost.input),
-    formatModelCost(model.cost.output),
-    formatModelCost(model.cost.cacheRead),
-    formatModelCost(model.cost.cacheWrite),
-  ].map((value, index) => value.padEnd(columns[index]!.width)).join("  ");
+	const columns = getModelCatalogMetricColumnSpecs();
+	return [
+		formatContextWindow(model.contextWindow),
+		formatModelCost(model.cost.input),
+		formatModelCost(model.cost.output),
+		formatModelCost(model.cost.cacheRead),
+		formatModelCost(model.cost.cacheWrite),
+	]
+		.map((value, index) => value.padEnd(columns[index]?.width))
+		.join("  ");
 }

@@ -7,5 +7,5 @@ import { getRegisteredSlashCommands } from "./registerSlashCommand";
  * @returns Registered command, if found.
  */
 export function findRegisteredCommand(name: string) {
-  return getRegisteredSlashCommands().find((command) => command.name === name);
+	return getRegisteredSlashCommands().find((command) => command.name === name);
 }

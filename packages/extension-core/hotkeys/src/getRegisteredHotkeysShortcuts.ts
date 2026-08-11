@@ -7,5 +7,5 @@ import type { HotkeysExtensionShortcut } from "./types";
  * @returns Registered extension shortcuts.
  */
 export function getRegisteredHotkeysShortcuts(): HotkeysExtensionShortcut[] {
-  return getRegisteredShortcuts();
+	return getRegisteredShortcuts();
 }

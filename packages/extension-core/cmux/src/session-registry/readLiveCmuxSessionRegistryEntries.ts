@@ -8,7 +8,9 @@ import type { CmuxSessionRegistryEntry } from "./types";
  *
  * @returns Registry entries with running owner processes.
  */
-export async function readLiveCmuxSessionRegistryEntries(): Promise<CmuxSessionRegistryEntry[]> {
+export async function readLiveCmuxSessionRegistryEntries(): Promise<
+	CmuxSessionRegistryEntry[]
+> {
 	const registry = await readCmuxSessionRegistry(getCmuxSessionRegistryPath());
 	return pruneCmuxSessionRegistryEntries(registry.entries);
 }

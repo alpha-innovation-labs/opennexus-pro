@@ -11,7 +11,9 @@ export function normalizeBullets(text: string): string[] {
 		.split("\n")
 		.map((line) => line.trim())
 		.filter(Boolean)
-		.map((line) => (line.startsWith("-") ? line : `- ${line.replace(/^\d+[.)]\s+/, "")}`))
+		.map((line) =>
+			line.startsWith("-") ? line : `- ${line.replace(/^\d+[.)]\s+/, "")}`,
+		)
 		.map((line) => `- ${stripMarkdownBullet(line)}`)
 		.filter((line) => stripMarkdownBullet(line).length > 0);
 }

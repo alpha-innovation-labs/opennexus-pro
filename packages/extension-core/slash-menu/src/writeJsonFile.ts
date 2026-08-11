@@ -7,7 +7,10 @@ import { dirname } from "node:path";
  * @param path File path.
  * @param value JSON value.
  */
-export async function writeJsonFile(path: string, value: unknown): Promise<void> {
-  await mkdir(dirname(path), { recursive: true });
-  await writeFile(path, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+export async function writeJsonFile(
+	path: string,
+	value: unknown,
+): Promise<void> {
+	await mkdir(dirname(path), { recursive: true });
+	await writeFile(path, `${JSON.stringify(value, null, 2)}\n`, "utf8");
 }

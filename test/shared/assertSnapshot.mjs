@@ -1,5 +1,8 @@
 import { loadSnapshot } from "../../scripts/testing/snapshots/loadSnapshot.mjs";
-import { writeSnapshot, compareSnapshot } from "../../scripts/testing/snapshots/writeSnapshot.mjs";
+import {
+	compareSnapshot,
+	writeSnapshot,
+} from "../../scripts/testing/snapshots/writeSnapshot.mjs";
 
 /**
  * Runs a snapshot-asserted test: compares the current result against
@@ -24,26 +27,35 @@ import { writeSnapshot, compareSnapshot } from "../../scripts/testing/snapshots/
  * @param {Array<{name: string, pass: boolean}>} options.checks - Assertion checks.
  * @param {boolean} [options.approve=false] - If true, write a new snapshot instead of comparing.
  */
-export async function assertSnapshot({ projectRoot, group, testName, output, checks, approve = false }) {
-  const snapshotName = `${group} > ${testName}`;
-  const current = { output, checks };
+export async function assertSnapshot({
+	projectRoot,
+	group,
+	testName,
+	output,
+	checks,
+	approve = false,
+}) {
+	const snapshotName = `${group} > ${testName}`;
+	const current = { output, checks };
 
-  if (approve) {
-    await writeSnapshot(projectRoot, group, testName, current);
-    console.log(`  → Snapshot written: ${snapshotName}`);
-    return;
-  }
+	if (approve) {
+		await writeSnapshot(projectRoot, group, testName, current);
+		console.log(`  → Snapshot written: ${snapshotName}`);
+		return;
+	}
 
-  const approved = await loadSnapshot(projectRoot, group, testName);
+	const approved = await loadSnapshot(projectRoot, group, testName);
 
-  if (!approved) {
-    // No approved snapshot exists — write one and report.
-    await writeSnapshot(projectRoot, group, testName, current);
-    console.log(`  → No approved snapshot found. Written new snapshot: ${snapshotName}`);
-    console.log(`  → Re-run without --approve to validate against it.`);
-    return;
-  }
+	if (!approved) {
+		// No approved snapshot exists — write one and report.
+		await writeSnapshot(projectRoot, group, testName, current);
+		console.log(
+			`  → No approved snapshot found. Written new snapshot: ${snapshotName}`,
+		);
+		console.log(`  → Re-run without --approve to validate against it.`);
+		return;
+	}
 
-  compareSnapshot(current, approved);
-  console.log(`  ✓ Snapshot matches approved: ${snapshotName}`);
+	compareSnapshot(current, approved);
+	console.log(`  ✓ Snapshot matches approved: ${snapshotName}`);
 }

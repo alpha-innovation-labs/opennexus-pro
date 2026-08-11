@@ -6,5 +6,5 @@ import { unlink } from "node:fs/promises";
  * @param sessionPath Absolute or relative path to the session JSONL file.
  */
 export async function deleteSessionFile(sessionPath: string): Promise<void> {
-  await unlink(sessionPath);
+	await unlink(sessionPath);
 }

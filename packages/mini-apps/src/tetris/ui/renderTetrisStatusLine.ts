@@ -1,5 +1,5 @@
-import type { TetrisGame } from "../game/types";
 import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { TetrisGame } from "../game/types";
 
 /**
  * Renders the single-line Tetris score and state header.
@@ -8,8 +8,15 @@ import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
  * @param game Current game state.
  * @returns One status line.
  */
-export function renderTetrisStatusLine(theme: SharedModalTheme & { bold: (text: string) => string }, game: TetrisGame): string {
-	const status = game.gameOver ? "Game Over" : game.paused ? "Paused" : "Playing";
+export function renderTetrisStatusLine(
+	theme: SharedModalTheme & { bold: (text: string) => string },
+	game: TetrisGame,
+): string {
+	const status = game.gameOver
+		? "Game Over"
+		: game.paused
+			? "Paused"
+			: "Playing";
 	return [
 		`${theme.bold("Score")} ${game.score}`,
 		`${theme.bold("Lines")} ${game.lines}`,

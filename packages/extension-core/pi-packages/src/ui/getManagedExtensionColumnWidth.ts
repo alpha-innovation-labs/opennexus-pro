@@ -7,6 +7,8 @@ import type { ManagedExtensionRow } from "../model/types";
  * @param rows Extension rows to render.
  * @returns Maximum visible extension id width.
  */
-export function getManagedExtensionColumnWidth(rows: ManagedExtensionRow[]): number {
+export function getManagedExtensionColumnWidth(
+	rows: ManagedExtensionRow[],
+): number {
 	return rows.reduce((width, row) => Math.max(width, visibleWidth(row.id)), 0);
 }

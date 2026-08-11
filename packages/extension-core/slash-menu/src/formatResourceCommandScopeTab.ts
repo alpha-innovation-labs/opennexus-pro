@@ -9,7 +9,18 @@ import type { ResourceCommandScope } from "./ResourceCommandScope";
  * @param theme Active UI theme.
  * @returns Rendered tab.
  */
-export function formatResourceCommandScopeTab(scope: ResourceCommandScope, selected: boolean, theme: SharedModalTheme): string {
-  const label = scope === "all" ? "All [1]" : scope === "global" ? "Global [2]" : "Local [3]";
-  return selected ? theme.fg("accent", `● ${label}`) : theme.fg("muted", `○ ${label}`);
+export function formatResourceCommandScopeTab(
+	scope: ResourceCommandScope,
+	selected: boolean,
+	theme: SharedModalTheme,
+): string {
+	const label =
+		scope === "all"
+			? "All [1]"
+			: scope === "global"
+				? "Global [2]"
+				: "Local [3]";
+	return selected
+		? theme.fg("accent", `● ${label}`)
+		: theme.fg("muted", `○ ${label}`);
 }

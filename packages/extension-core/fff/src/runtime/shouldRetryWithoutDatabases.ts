@@ -7,5 +7,5 @@ import type { Result } from "@ff-labs/fff-node";
  * @returns True when the LMDB reader limit was reached.
  */
 export function shouldRetryWithoutDatabases(created: Result<unknown>): boolean {
-  return !created.ok && created.error.includes("MDB_READERS_FULL");
+	return !created.ok && created.error.includes("MDB_READERS_FULL");
 }

@@ -4,5 +4,5 @@
  * @returns Theme color token for purple hotkeys.
  */
 export function getModalHotkeyColor(): string {
-  return "accent";
+	return "accent";
 }

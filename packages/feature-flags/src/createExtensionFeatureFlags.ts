@@ -1,7 +1,7 @@
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import { applySystemExtensionAvailability } from "./applySystemExtensionAvailability";
 import { createExtensionRegisterMap } from "./createExtensionRegisterMap";
 import { bundledFeatureFlags, getAllBundledExtensionIds } from "./registry";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import type { ExtensionFeatureFlag } from "./types";
 
 /**
@@ -28,7 +28,7 @@ export function createExtensionFeatureFlags(): ExtensionFeatureFlag[] {
 
 		// Apply user override (disable-only).
 		const userOverride = userOverrides[id];
-		const enabled = userOverride === false ? false : true;
+		const enabled = userOverride !== false;
 
 		return {
 			id,

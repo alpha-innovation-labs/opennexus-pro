@@ -1,5 +1,5 @@
-import { readEditorTriggerConfig } from "../../editor-triggers/readEditorTriggerConfig";
 import { readNeoConfig } from "../../../readNeoConfig";
+import { readEditorTriggerConfig } from "../../editor-triggers/readEditorTriggerConfig";
 import type { PromptlineConfig } from "./types";
 
 /**
@@ -8,14 +8,16 @@ import type { PromptlineConfig } from "./types";
  * @param cwd Project working directory.
  * @returns Promptline config loaded for the session.
  */
-export async function readPromptlineConfig(cwd: string): Promise<PromptlineConfig> {
-  const [triggerConfig, neoConfig] = await Promise.all([
-    readEditorTriggerConfig(cwd),
-    readNeoConfig(cwd),
-  ]);
+export async function readPromptlineConfig(
+	cwd: string,
+): Promise<PromptlineConfig> {
+	const [triggerConfig, neoConfig] = await Promise.all([
+		readEditorTriggerConfig(cwd),
+		readNeoConfig(cwd),
+	]);
 
-  return {
-    triggerConfig,
-    neoConfig,
-  };
+	return {
+		triggerConfig,
+		neoConfig,
+	};
 }

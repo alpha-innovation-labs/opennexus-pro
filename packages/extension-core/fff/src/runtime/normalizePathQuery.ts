@@ -9,7 +9,9 @@ import { stripWrappedQuotes } from "./stripWrappedQuotes";
  * @returns Normalized query.
  */
 export function normalizePathQuery(value: string): string {
-  let normalized = value.trim();
-  if (normalized.startsWith("@")) normalized = normalized.slice(1);
-  return normalizeSlashes(expandHomePath(stripWrappedQuotes(normalized.trim())));
+	let normalized = value.trim();
+	if (normalized.startsWith("@")) normalized = normalized.slice(1);
+	return normalizeSlashes(
+		expandHomePath(stripWrappedQuotes(normalized.trim())),
+	);
 }

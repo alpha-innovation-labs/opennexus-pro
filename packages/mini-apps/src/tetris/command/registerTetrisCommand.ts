@@ -8,10 +8,16 @@ import { showTetrisModal } from "./showTetrisModal";
  * @param pi Pi extension API.
  */
 export function registerTetrisCommand(pi: ExtensionAPI): void {
-	pi.registerCommand("tetris", withSlashMenuGroup({
-		description: "Open the Tetris mini app",
-		handler: async (_args, ctx) => {
-			await showTetrisModal(ctx);
-		},
-	}, "Mini-Apps"));
+	pi.registerCommand(
+		"tetris",
+		withSlashMenuGroup(
+			{
+				description: "Open the Tetris mini app",
+				handler: async (_args, ctx) => {
+					await showTetrisModal(ctx);
+				},
+			},
+			"Mini-Apps",
+		),
+	);
 }

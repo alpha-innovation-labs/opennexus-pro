@@ -10,36 +10,62 @@ import { markCompactWrappedToolDefinition } from "./markCompactWrappedToolDefini
  * @param definition Tool definition to wrap.
  * @returns Compact-rendered tool definition.
  */
-export function createCompactToolDefinition(definition: ToolDefinition<any, any, any>): ToolDefinition<any, any, any> {
+export function createCompactToolDefinition(
+	definition: ToolDefinition<unknown, unknown, unknown>,
+): ToolDefinition<unknown, unknown, unknown> {
 	const wrapped = {
 		...definition,
 		renderShell: "self" as const,
-		renderCall(args: unknown, theme: any, context: any) {
+		renderCall(args: unknown, theme: unknown, context: unknown) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
 			if (context.isError) return new Container();
 			const { renderer } = renderTranscriptEntry(
-				{ role: "tool", toolCallId: context.toolCallId, toolName: definition.name, args: args as Record<string, unknown>, text: "" },
+				{
+					role: "tool",
+					toolCallId: context.toolCallId,
+					toolName: definition.name,
+					args: args as Record<string, unknown>,
+					text: "",
+				},
 				{ theme, expanded: context.expanded },
 			);
 			return renderer;
 		},
-		renderResult(result: any, state: any, theme: any, context: any) {
+		renderResult(
+			result: unknown,
+			state: unknown,
+			theme: unknown,
+			context: unknown,
+		) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
 			const { renderer } = renderTranscriptEntry(
-				{ role: "toolResult", toolCallId: context.toolCallId, toolName: definition.name, result, text: "" },
+				{
+					role: "toolResult",
+					toolCallId: context.toolCallId,
+					toolName: definition.name,
+					result,
+					text: "",
+				},
 				{
 					theme,
 					expanded: state.expanded,
 					resultChildRenderer: definition.renderResult
 						? {
-							render: (innerWidth: number) => definition.renderResult!(result, state, theme, context).render(innerWidth),
-							invalidate: () => { definition.renderResult!(result, state, theme, context).invalidate?.(); },
-						}
+								render: (innerWidth: number) =>
+									definition
+										.renderResult?.(result, state, theme, context)
+										.render(innerWidth),
+								invalidate: () => {
+									definition
+										.renderResult?.(result, state, theme, context)
+										.invalidate?.();
+								},
+							}
 						: undefined,
 				},
 			);
 			return renderer;
 		},
-	} as ToolDefinition<any, any, any>;
+	} as ToolDefinition<unknown, unknown, unknown>;
 	return markCompactWrappedToolDefinition(wrapped);
 }

@@ -8,6 +8,10 @@ import { padFeatureColumn } from "./padFeatureColumn";
  * @param active Whether this value's menu item is focused.
  * @returns Padded value with a focus marker column.
  */
-export function formatActiveFeatureValue(value: string, width: number, active: boolean): string {
+export function formatActiveFeatureValue(
+	value: string,
+	width: number,
+	active: boolean,
+): string {
 	return `${active ? "›" : " "} ${padFeatureColumn(value, width)}`;
 }

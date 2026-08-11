@@ -9,7 +9,13 @@ import { setTransportPreference } from "./state";
  * @param cwd Project cwd.
  */
 export async function refreshTransportPreference(cwd: string): Promise<void> {
-  const globalSettings: { transport?: string } = await readJson(getUserConfigPath());
-  const projectConfig: { transport?: string } = await readJson(getProjectConfigPath(cwd));
-  setTransportPreference(projectConfig?.transport ?? globalSettings?.transport ?? "sse");
+	const globalSettings: { transport?: string } = await readJson(
+		getUserConfigPath(),
+	);
+	const projectConfig: { transport?: string } = await readJson(
+		getProjectConfigPath(cwd),
+	);
+	setTransportPreference(
+		projectConfig?.transport ?? globalSettings?.transport ?? "sse",
+	);
 }

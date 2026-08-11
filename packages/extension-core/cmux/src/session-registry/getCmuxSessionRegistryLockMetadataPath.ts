@@ -7,6 +7,8 @@ import { CMUX_SESSION_REGISTRY_LOCK_METADATA_FILE } from "./cmuxSessionRegistryL
  * @param lockPath Lock directory path.
  * @returns Lock metadata file path.
  */
-export function getCmuxSessionRegistryLockMetadataPath(lockPath: string): string {
+export function getCmuxSessionRegistryLockMetadataPath(
+	lockPath: string,
+): string {
 	return join(lockPath, CMUX_SESSION_REGISTRY_LOCK_METADATA_FILE);
 }

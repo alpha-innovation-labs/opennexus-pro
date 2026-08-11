@@ -7,5 +7,5 @@ import { normalizeSearchText } from "./normalizeSearchText";
  * @returns Lowercase alphanumeric search text.
  */
 export function compactSearchText(text: string): string {
-  return normalizeSearchText(text).replace(/\s+/gu, "");
+	return normalizeSearchText(text).replace(/\s+/gu, "");
 }

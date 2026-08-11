@@ -9,7 +9,9 @@ export interface AgentsSectionRange {
  * @param prompt Effective system prompt text.
  * @returns Character range for AGENTS.md, or undefined when absent.
  */
-export function findAgentsSectionRange(prompt: string): AgentsSectionRange | undefined {
+export function findAgentsSectionRange(
+	prompt: string,
+): AgentsSectionRange | undefined {
 	const start = prompt.indexOf("# AGENTS.md");
 	if (start < 0) return undefined;
 	const skills = prompt.indexOf("\n<available_skills>", start);

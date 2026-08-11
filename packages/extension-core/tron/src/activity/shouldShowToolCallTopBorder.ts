@@ -7,5 +7,5 @@ import { toolCallTopBorderIds } from "./state";
  * @returns True when the tool call starts the visible assistant activity block.
  */
 export function shouldShowToolCallTopBorder(toolCallId: string): boolean {
-  return toolCallTopBorderIds.has(toolCallId);
+	return toolCallTopBorderIds.has(toolCallId);
 }

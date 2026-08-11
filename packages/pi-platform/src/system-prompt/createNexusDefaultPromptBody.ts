@@ -8,7 +8,9 @@ import type { NexusSystemPromptOptions } from "./types";
  * @param options System prompt options from AgentSession.
  * @returns Base prompt body before user/context/skills tail sections.
  */
-export function createNexusDefaultPromptBody(options: NexusSystemPromptOptions): string {
+export function createNexusDefaultPromptBody(
+	options: NexusSystemPromptOptions,
+): string {
 	return `You are an expert coding assistant operating inside pi, a coding agent harness. You help users by reading files, executing commands, editing code, and writing new files.
 
 Available tools:

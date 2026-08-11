@@ -7,5 +7,10 @@ import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockM
  * @returns Lock owner metadata.
  */
 export function createCmuxSessionRegistryLockMetadata(): CmuxSessionRegistryLockMetadata {
-	return { version: 1, pid: process.pid, createdAt: new Date().toISOString(), nonce: randomUUID() };
+	return {
+		version: 1,
+		pid: process.pid,
+		createdAt: new Date().toISOString(),
+		nonce: randomUUID(),
+	};
 }

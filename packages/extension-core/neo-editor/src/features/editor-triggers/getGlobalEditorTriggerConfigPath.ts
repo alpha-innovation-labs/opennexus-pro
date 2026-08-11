@@ -6,5 +6,5 @@ import { getUserEditorTriggersPath } from "@nexus/runtime/config/getUserEditorTr
  * @returns Absolute global config file path.
  */
 export function getGlobalEditorTriggerConfigPath(): string {
-  return getUserEditorTriggersPath();
+	return getUserEditorTriggersPath();
 }

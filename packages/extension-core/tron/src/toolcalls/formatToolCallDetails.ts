@@ -14,7 +14,8 @@ export function formatToolCallDetails(toolCall: ToolCallInfo): string[] {
 	lines.push(`${toolCall.toolName}`);
 	lines.push(`call id: ${toolCall.toolCallId}`);
 	lines.push(`assistant message: #${toolCall.assistantIndex}`);
-	if (toolCall.assistantPreview) lines.push(`context: ${toolCall.assistantPreview}`);
+	if (toolCall.assistantPreview)
+		lines.push(`context: ${toolCall.assistantPreview}`);
 	if (toolCall.assistantThinking) {
 		lines.push("Thinking");
 		lines.push(...toPlainTextLines(toolCall.assistantThinking));

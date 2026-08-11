@@ -7,9 +7,9 @@ import { getActiveRtkCwd } from "./runtimeStore";
  * @returns Session cwd, active RTK cwd, or process cwd.
  */
 export function getRtkExecutionCwd(ctx?: { cwd?: string }): string {
-  if (typeof ctx?.cwd === "string" && ctx.cwd.length > 0) {
-    return ctx.cwd;
-  }
+	if (typeof ctx?.cwd === "string" && ctx.cwd.length > 0) {
+		return ctx.cwd;
+	}
 
-  return getActiveRtkCwd() ?? process.cwd();
+	return getActiveRtkCwd() ?? process.cwd();
 }

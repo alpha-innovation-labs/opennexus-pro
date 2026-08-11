@@ -5,5 +5,7 @@
  * @returns True when the observations flag is present.
  */
 export function hasObservationsFlag(argv: string[]): boolean {
-	return argv.some((arg) => arg === "--observations" || arg.startsWith("--observations="));
+	return argv.some(
+		(arg) => arg === "--observations" || arg.startsWith("--observations="),
+	);
 }

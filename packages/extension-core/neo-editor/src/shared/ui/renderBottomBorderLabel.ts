@@ -18,7 +18,18 @@ export function renderBottomBorderLabel(
 	if (width <= 0) return "";
 	const rightSuffix = " ─";
 	const rawLabel = label ? ` ${label}` : "";
-	const truncatedLabel = truncateToWidth(rawLabel, Math.max(0, width - visibleWidth(rightSuffix)), uiTheme.fg("dim", "…"));
-	const fillerWidth = Math.max(0, width - visibleWidth(truncatedLabel) - visibleWidth(rightSuffix));
-	return borderColor("─".repeat(fillerWidth)) + truncatedLabel + borderColor(rightSuffix);
+	const truncatedLabel = truncateToWidth(
+		rawLabel,
+		Math.max(0, width - visibleWidth(rightSuffix)),
+		uiTheme.fg("dim", "…"),
+	);
+	const fillerWidth = Math.max(
+		0,
+		width - visibleWidth(truncatedLabel) - visibleWidth(rightSuffix),
+	);
+	return (
+		borderColor("─".repeat(fillerWidth)) +
+		truncatedLabel +
+		borderColor(rightSuffix)
+	);
 }

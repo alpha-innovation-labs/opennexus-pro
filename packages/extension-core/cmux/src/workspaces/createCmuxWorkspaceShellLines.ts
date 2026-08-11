@@ -9,6 +9,9 @@ import type { CmuxWorkspaceShellView } from "./types";
  * @param registrations Live Nexus session registrations.
  * @returns Lines for the cmux workspace shell modal.
  */
-export function createCmuxWorkspaceShellLines(view: CmuxWorkspaceShellView, registrations: CmuxSessionRegistryEntry[]): string[] {
+export function createCmuxWorkspaceShellLines(
+	view: CmuxWorkspaceShellView,
+	registrations: CmuxSessionRegistryEntry[],
+): string[] {
 	return formatCmuxWorkspaceShells(view, registrations).split("\n").slice(1);
 }

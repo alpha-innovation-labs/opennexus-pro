@@ -5,5 +5,5 @@
  * @returns True when the first argument is "provider".
  */
 export function hasProvidersFlag(argv: readonly string[]): boolean {
-  return argv[0] === "provider";
+	return argv[0] === "provider";
 }

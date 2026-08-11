@@ -17,7 +17,8 @@ export function createWorkingPromptTimer(
 	now = (): number => Date.now(),
 ): WorkingPromptTimer {
 	const render = (): void => {
-		if (ctx.hasUI) ctx.ui.setWorkingMessage(formatWorkingPromptMessage(startedAt, now()));
+		if (ctx.hasUI)
+			ctx.ui.setWorkingMessage(formatWorkingPromptMessage(startedAt, now()));
 	};
 
 	render();

@@ -2,7 +2,9 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 
 const packageJsonPath = resolve("package.json");
-const outputPath = resolve("packages/extension-core/src/auto-update/runtime/packageInfo.generated.ts");
+const outputPath = resolve(
+	"packages/extension-core/src/auto-update/runtime/packageInfo.generated.ts",
+);
 
 /**
  * Generates hardcoded package metadata from the root package.json.
@@ -11,8 +13,10 @@ const outputPath = resolve("packages/extension-core/src/auto-update/runtime/pack
  */
 async function generatePackageInfo() {
 	const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"));
-	const name = typeof packageJson.name === "string" ? packageJson.name : "opennexus";
-	const version = typeof packageJson.version === "string" ? packageJson.version : "unknown";
+	const name =
+		typeof packageJson.name === "string" ? packageJson.name : "opennexus";
+	const version =
+		typeof packageJson.version === "string" ? packageJson.version : "unknown";
 	const source = [
 		"/**",
 		" * Package metadata generated from the root package.json.",

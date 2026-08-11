@@ -8,7 +8,11 @@ import { visibleWidth } from "@earendil-works/pi-tui";
  * @param ellipsis Ellipsis marker.
  * @returns Start-truncated text.
  */
-export function truncateFromStart(text: string, maxWidth: number, ellipsis = "…"): string {
+export function truncateFromStart(
+	text: string,
+	maxWidth: number,
+	ellipsis = "…",
+): string {
 	if (maxWidth <= 0) return "";
 	if (visibleWidth(text) <= maxWidth) return text;
 	if (visibleWidth(ellipsis) >= maxWidth) return ellipsis;

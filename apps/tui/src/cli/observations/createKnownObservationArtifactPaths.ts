@@ -7,12 +7,14 @@ import { getObservationsDir } from "@extensions/observations/shared/getObservati
  * @param conversationId Session-derived observation conversation id.
  * @returns Current and legacy observation artifact paths.
  */
-export function createKnownObservationArtifactPaths(conversationId: string): string[] {
-  const observationsDir = getObservationsDir();
-  return [
-    join(observationsDir, `${conversationId}.json`),
-    join(observationsDir, `${conversationId}.messages.json`),
-    join(observationsDir, `${conversationId}.state.json`),
-    join(observationsDir, `${conversationId}.observations.md`),
-  ];
+export function createKnownObservationArtifactPaths(
+	conversationId: string,
+): string[] {
+	const observationsDir = getObservationsDir();
+	return [
+		join(observationsDir, `${conversationId}.json`),
+		join(observationsDir, `${conversationId}.messages.json`),
+		join(observationsDir, `${conversationId}.state.json`),
+		join(observationsDir, `${conversationId}.observations.md`),
+	];
 }

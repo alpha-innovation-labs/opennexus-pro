@@ -7,7 +7,10 @@ import type { SystemPromptOutlineChild } from "./types";
  * @param lineIndex Source prompt line index.
  * @returns Outline child, or undefined when missing.
  */
-export function createPromptSectionChild(label: string, lineIndex: number): SystemPromptOutlineChild | undefined {
+export function createPromptSectionChild(
+	label: string,
+	lineIndex: number,
+): SystemPromptOutlineChild | undefined {
 	if (lineIndex < 0) return undefined;
 	return { label, lineIndex };
 }

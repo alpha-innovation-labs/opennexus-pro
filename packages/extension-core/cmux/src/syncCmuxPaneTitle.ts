@@ -1,7 +1,7 @@
-import { getCmuxTitleSyncEnabled } from "./state/getCmuxTitleSyncEnabled";
 import { renameCurrentCmuxSurface } from "./runtime/renameCurrentCmuxSurface";
 import { renameCurrentCmuxWorkspace } from "./runtime/renameCurrentCmuxWorkspace";
 import { updateCurrentNexusSessionTitle } from "./session-registry/updateCurrentNexusSessionTitle";
+import { getCmuxTitleSyncEnabled } from "./state/getCmuxTitleSyncEnabled";
 import { formatCmuxNexusTitle } from "./workspaces/formatCmuxNexusTitle";
 
 /**

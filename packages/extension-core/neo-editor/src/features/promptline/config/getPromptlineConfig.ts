@@ -8,5 +8,5 @@ import type { PromptlineConfig } from "./types";
  * @returns Active promptline config.
  */
 export function getPromptlineConfig(): PromptlineConfig {
-  return getPromptlineConfigState() ?? createDefaultPromptlineConfig();
+	return getPromptlineConfigState() ?? createDefaultPromptlineConfig();
 }

@@ -8,7 +8,11 @@ import { startupProfileLogPath } from "./startup-profile/startupProfileLogPath";
  * @param event Event name.
  * @param data Optional structured event payload.
  */
-export function logExtensionEvent(extension: string, event: string, data?: Record<string, unknown>): void {
+export function logExtensionEvent(
+	extension: string,
+	event: string,
+	data?: Record<string, unknown>,
+): void {
 	logStartupProfileEvent(extension, event, data);
 }
 

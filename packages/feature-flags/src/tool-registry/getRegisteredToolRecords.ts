@@ -1,5 +1,5 @@
-import type { ToolRegistrationRecord } from "./ToolRegistrationRecord";
 import { registeredToolRecords } from "./registeredToolRecords";
+import type { ToolRegistrationRecord } from "./ToolRegistrationRecord";
 
 /**
  * Returns extension tool registrations recorded during startup.
@@ -7,5 +7,5 @@ import { registeredToolRecords } from "./registeredToolRecords";
  * @returns Recorded tool registrations.
  */
 export function getRegisteredToolRecords(): ToolRegistrationRecord[] {
-  return [...registeredToolRecords.values()];
+	return [...registeredToolRecords.values()];
 }
