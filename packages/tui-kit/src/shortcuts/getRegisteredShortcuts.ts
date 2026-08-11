@@ -1,5 +1,5 @@
-import { registeredShortcuts } from "./state.js";
-import type { RegisteredShortcut } from "./types.js";
+import { registeredShortcuts } from "./state";
+import type { RegisteredShortcut } from "./types";
 
 /**
  * Returns shortcuts registered through the extension API proxy.
@@ -7,5 +7,5 @@ import type { RegisteredShortcut } from "./types.js";
  * @returns Registered extension shortcuts.
  */
 export function getRegisteredShortcuts(): RegisteredShortcut[] {
-  return [...registeredShortcuts];
+	return [...registeredShortcuts];
 }

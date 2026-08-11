@@ -1,8 +1,8 @@
 import type { Api, Model } from "@earendil-works/pi-ai";
-import type { SlashMenuLeaf } from "../types.js";
-import { createProviderQualifiedModelLabel } from "./createProviderQualifiedModelLabel.js";
-import { formatModelCatalogMetricsColumns } from "./formatModelCatalogMetricsColumns.js";
-import { getModelCatalogColumnHeaderText } from "./getModelCatalogColumnHeaderText.js";
+import type { SlashMenuLeaf } from "../types";
+import { createProviderQualifiedModelLabel } from "./createProviderQualifiedModelLabel";
+import { formatModelCatalogMetricsColumns } from "./formatModelCatalogMetricsColumns";
+import { getModelCatalogColumnHeaderText } from "./getModelCatalogColumnHeaderText";
 
 const MODEL_CATALOG_LABEL_WIDTH = 34;
 
@@ -13,14 +13,14 @@ const MODEL_CATALOG_LABEL_WIDTH = 34;
  * @returns Slash-menu leaf for the catalog section.
  */
 export function createModelCatalogLeaf(model: Model<Api>): SlashMenuLeaf {
-  const reference = createProviderQualifiedModelLabel(model);
-  return {
-    kind: "model",
-    label: model.name,
-    description: formatModelCatalogMetricsColumns(model),
-    groupLabel: model.provider,
-    groupHeaderDescription: getModelCatalogColumnHeaderText(),
-    value: `catalog:${reference}`,
-    fixedLabelWidth: MODEL_CATALOG_LABEL_WIDTH,
-  };
+	const reference = createProviderQualifiedModelLabel(model);
+	return {
+		kind: "model",
+		label: model.name,
+		description: formatModelCatalogMetricsColumns(model),
+		groupLabel: model.provider,
+		groupHeaderDescription: getModelCatalogColumnHeaderText(),
+		value: `catalog:${reference}`,
+		fixedLabelWidth: MODEL_CATALOG_LABEL_WIDTH,
+	};
 }

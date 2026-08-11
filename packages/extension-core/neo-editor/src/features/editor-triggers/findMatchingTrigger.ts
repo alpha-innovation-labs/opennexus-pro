@@ -1,4 +1,4 @@
-import type { EditorTriggerConfig, EditorTriggerRule } from "./types.js";
+import type { EditorTriggerConfig, EditorTriggerRule } from "./types";
 
 /**
  * Finds the first configured trigger matching the current editor text.
@@ -7,7 +7,10 @@ import type { EditorTriggerConfig, EditorTriggerRule } from "./types.js";
  * @param text Current editor text.
  * @returns First matching rule, if any.
  */
-export function findMatchingTrigger(config: EditorTriggerConfig, text: string): EditorTriggerRule | undefined {
+export function findMatchingTrigger(
+	config: EditorTriggerConfig,
+	text: string,
+): EditorTriggerRule | undefined {
 	return config.rules.find((rule) => {
 		const mode = rule.match.mode ?? "exact";
 		if (mode === "startsWith") return text.startsWith(rule.match.text);

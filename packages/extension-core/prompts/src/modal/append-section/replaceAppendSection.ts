@@ -1,4 +1,4 @@
-import { findAppendSectionRange } from "./findAppendSectionRange.js";
+import { findAppendSectionRange } from "./findAppendSectionRange";
 
 /**
  * Replaces only the appendSection inside a full system prompt.
@@ -7,7 +7,10 @@ import { findAppendSectionRange } from "./findAppendSectionRange.js";
  * @param appendSection Updated appendSection text.
  * @returns Full prompt with appendSection replaced.
  */
-export function replaceAppendSection(prompt: string, appendSection: string): string {
+export function replaceAppendSection(
+	prompt: string,
+	appendSection: string,
+): string {
 	const range = findAppendSectionRange(prompt);
 	if (!range) return appendSection;
 	const prefix = prompt.slice(0, range.start);

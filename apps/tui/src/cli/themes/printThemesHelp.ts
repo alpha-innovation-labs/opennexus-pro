@@ -2,7 +2,7 @@
  * Prints the themes subcommand help menu to stdout.
  */
 export function printThemesHelp(): void {
-  console.log(`Usage: nexus themes [subcommand]
+	console.log(`Usage: nexus themes [subcommand]
 
 List or set the active project theme.
 

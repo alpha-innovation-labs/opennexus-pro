@@ -1,4 +1,4 @@
-import type { TranscriptEntry } from "./types.ts";
+import type { TranscriptEntry } from "./types";
 
 /**
  * Returns whether one transcript join should keep a blank separator line.
@@ -7,7 +7,10 @@ import type { TranscriptEntry } from "./types.ts";
  * @param nextEntry Next transcript entry.
  * @returns True when the join should keep a spacer.
  */
-export function shouldInsertTranscriptSpacer(entry: TranscriptEntry, nextEntry?: TranscriptEntry): boolean {
-  if (entry.role === "tool" && nextEntry?.role === "tool") return false;
-  return entry.role !== "thinking" && nextEntry?.role !== "thinking";
+export function shouldInsertTranscriptSpacer(
+	entry: TranscriptEntry,
+	nextEntry?: TranscriptEntry,
+): boolean {
+	if (entry.role === "tool" && nextEntry?.role === "tool") return false;
+	return entry.role !== "thinking" && nextEntry?.role !== "thinking";
 }

@@ -7,6 +7,9 @@ import { visibleWidth } from "@earendil-works/pi-tui";
  * @param width Target visible column width.
  * @returns Padded extension id.
  */
-export function padManagedExtensionColumn(extensionId: string, width: number): string {
+export function padManagedExtensionColumn(
+	extensionId: string,
+	width: number,
+): string {
 	return `${extensionId}${" ".repeat(Math.max(0, width - visibleWidth(extensionId)))}`;
 }

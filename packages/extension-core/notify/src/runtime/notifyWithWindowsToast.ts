@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { buildWindowsToastScript } from "./buildWindowsToastScript.js";
+import { buildWindowsToastScript } from "./buildWindowsToastScript";
 
 /**
  * Sends a Windows toast notification.
@@ -13,5 +13,9 @@ export function notifyWithWindowsToast(
 	body: string,
 	execFileFn: typeof execFile = execFile,
 ): void {
-	execFileFn("powershell.exe", ["-NoProfile", "-Command", buildWindowsToastScript(title, body)]);
+	execFileFn("powershell.exe", [
+		"-NoProfile",
+		"-Command",
+		buildWindowsToastScript(title, body),
+	]);
 }

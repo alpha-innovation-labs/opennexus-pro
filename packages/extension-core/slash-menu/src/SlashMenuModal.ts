@@ -1,67 +1,82 @@
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { parseCommandArgs, SENTINEL } from
-  "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch.js";
+import type {
+	ExtensionAPI,
+	ExtensionContext,
+} from "@earendil-works/pi-coding-agent";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { getRegisteredHotkeysShortcuts } from "@extensions/hotkeys/getRegisteredHotkeysShortcuts.js";
-import { HotkeysModal } from "@extensions/hotkeys/HotkeysModal.js";
-import { applySlashMenuLeaf } from "./applySlashMenuLeaf.js";
-import { applySlashMenuSettingValue } from "./applySlashMenuSettingValue.js";
-import { calculateModelMenuWidth } from "./calculateModelMenuWidth.js";
-import { calculateSettingsMenuWidth } from "./calculateSettingsMenuWidth.js";
-import { calculateSinglePaneMenuWidth } from "./calculateSinglePaneMenuWidth.js";
-import { calculateTopLevelMenuWidth } from "./calculateTopLevelMenuWidth.js";
-import { createActiveLeaves } from "./createActiveLeaves.js";
-import { createLoadingLeaf } from "./createLoadingLeaf.js";
-import { createNameInputLeaf } from "./createNameInputLeaf.js";
-import { createModelLeaves } from "./createModelLeaves.js";
-import { createScopedModelLeaves } from "./createScopedModelLeaves.js";
-import { getDynamicSlashCommands } from "./getDynamicSlashCommands.js";
-import { createSettingChoiceLeaves } from "./createSettingChoiceLeaves.js";
-import { createSlashMenuPreviewLines } from "./createSlashMenuPreviewLines.js";
-import { createThinkingSettingLeaf } from "./createThinkingSettingLeaf.js";
-import { createTopLevelItems } from "./createTopLevelItems.js";
-import { createCommandLeaves } from "./createCommandLeaves.js";
-import { createToolsTopLevelItem } from "./createToolsTopLevelItem.js";
-import { createThinkingTopLevelItem } from "./createThinkingTopLevelItem.js";
-import { LoginPickerModal } from "./login-picker/LoginPickerModal.js";
-import { createTopLevelPromptCommandLeaves } from "./createTopLevelPromptCommandLeaves.js";
-import { groupAndSortTopLevelItems } from "./groupAndSortTopLevelItems.js";
-import { createDynamicCommandItems, extractSkillName, isFusedSkillValue } from "./createDynamicCommandItems.js";
-import { encodeSlashMenuValue } from "./encodeSlashMenuValue.js";
-import { createResumeScopeHeaderTitle } from "./resume-scope/createResumeScopeHeaderTitle.js";
-import { getCachedResumeLeaves } from "./resume-scope/getCachedResumeLeaves.js";
-import { getNextResumeScope } from "./resume-scope/getNextResumeScope.js";
-import type { ResumeScope } from "./resume-scope/ResumeScope.js";
-import { filterMenuItems } from "./filterMenuItems.js";
-import { formatSettingsMenuLabel } from "./formatSettingsMenuLabel.js";
-import { formatTopLevelMenuLabel } from "./formatTopLevelMenuLabel.js";
-import { getSettingChoiceTitle } from "./getSettingChoiceTitle.js";
-import { getSlashMenuItemIcon } from "./getSlashMenuItemIcon.js";
-import { getSlashMenuLevelTitle } from "./getSlashMenuLevelTitle.js";
-import type { ResourceCommandScope } from "./ResourceCommandScope.js";
-import { renderResourceCommandScopeTabs } from "./renderResourceCommandScopeTabs.js";
-import { selectResourceCommandScopeByKey } from "./selectResourceCommandScopeByKey.js";
-import { createResourceCommandFooterHint } from "./createResourceCommandFooterHint.js";
-import { formatResourceCommandLabel } from "./formatResourceCommandLabel.js";
-import { handleSlashMenuInput } from "./handleSlashMenuInput.js";
-import { showSessionInfoModal } from "./session-info/showSessionInfoModal.js";
-import { handleTopLevelMenuEnter } from "./handleTopLevelMenuEnter.js";
-import { isSlashTextInput } from "./isSlashTextInput.js";
-import { sanitizeSessionNameInput } from "./sanitizeSessionNameInput.js";
-import { shouldShowSlashMenuPreview } from "./shouldShowSlashMenuPreview.js";
-import { logoutProvider } from "./model/logoutProvider.js";
-import { getNextModelMenuTab } from "./model-catalog/getNextModelMenuTab.js";
-import type { ModelMenuTab } from "./model-catalog/ModelMenuTab.js";
-import { renderModelMenuTabs } from "./model-catalog/renderModelMenuTabs.js";
-import { resolveModelCatalogCommandValue } from
-  "./model-catalog/resolveModelCatalogCommandValue.js";
-import { resolveRequestedSlashMenuLevel } from "./resolveRequestedSlashMenuLevel.js";
-import type { SlashMenuLevel } from "./SlashMenuLevel.js";
-import { toAutocompleteItems } from "./toAutocompleteItems.js";
-import type { RegisteredSlashCommand, SlashMenuLeaf, SlashMenuSection } from "./types.js";
-import { updateResumePreview, type ResumePreviewState } from "./updateResumePreview.js";
+import { getRegisteredHotkeysShortcuts } from "@extensions/hotkeys/getRegisteredHotkeysShortcuts";
+import { HotkeysModal } from "@extensions/hotkeys/HotkeysModal";
+import {
+	parseCommandArgs,
+	SENTINEL,
+} from "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
+import { applySlashMenuLeaf } from "./applySlashMenuLeaf";
+import { applySlashMenuSettingValue } from "./applySlashMenuSettingValue";
+import { calculateModelMenuWidth } from "./calculateModelMenuWidth";
+import { calculateSettingsMenuWidth } from "./calculateSettingsMenuWidth";
+import { calculateSinglePaneMenuWidth } from "./calculateSinglePaneMenuWidth";
+import { calculateTopLevelMenuWidth } from "./calculateTopLevelMenuWidth";
+import { createActiveLeaves } from "./createActiveLeaves";
+import { createCommandLeaves } from "./createCommandLeaves";
+import {
+	createDynamicCommandItems,
+	extractSkillName,
+	isFusedSkillValue,
+} from "./createDynamicCommandItems";
+import { createLoadingLeaf } from "./createLoadingLeaf";
+import { createModelLeaves } from "./createModelLeaves";
+import { createNameInputLeaf } from "./createNameInputLeaf";
+import { createResourceCommandFooterHint } from "./createResourceCommandFooterHint";
+import { createScopedModelLeaves } from "./createScopedModelLeaves";
+import { createSettingChoiceLeaves } from "./createSettingChoiceLeaves";
+import { createSlashMenuPreviewLines } from "./createSlashMenuPreviewLines";
+import { createThinkingSettingLeaf } from "./createThinkingSettingLeaf";
+import { createThinkingTopLevelItem } from "./createThinkingTopLevelItem";
+import { createToolsTopLevelItem } from "./createToolsTopLevelItem";
+import { createTopLevelItems } from "./createTopLevelItems";
+import { createTopLevelPromptCommandLeaves } from "./createTopLevelPromptCommandLeaves";
+import { encodeSlashMenuValue } from "./encodeSlashMenuValue";
+import { filterMenuItems } from "./filterMenuItems";
+import { formatResourceCommandLabel } from "./formatResourceCommandLabel";
+import { formatSettingsMenuLabel } from "./formatSettingsMenuLabel";
+import { formatTopLevelMenuLabel } from "./formatTopLevelMenuLabel";
+import { getDynamicSlashCommands } from "./getDynamicSlashCommands";
+import { getSettingChoiceTitle } from "./getSettingChoiceTitle";
+import { getSlashMenuItemIcon } from "./getSlashMenuItemIcon";
+import { getSlashMenuLevelTitle } from "./getSlashMenuLevelTitle";
+import { groupAndSortTopLevelItems } from "./groupAndSortTopLevelItems";
+import { handleSlashMenuInput } from "./handleSlashMenuInput";
+import { handleTopLevelMenuEnter } from "./handleTopLevelMenuEnter";
+import { isSlashTextInput } from "./isSlashTextInput";
+import { LoginPickerModal } from "./login-picker/LoginPickerModal";
+import { logoutProvider } from "./model/logoutProvider";
+import { getNextModelMenuTab } from "./model-catalog/getNextModelMenuTab";
+import type { ModelMenuTab } from "./model-catalog/ModelMenuTab";
+import { renderModelMenuTabs } from "./model-catalog/renderModelMenuTabs";
+import { resolveModelCatalogCommandValue } from "./model-catalog/resolveModelCatalogCommandValue";
+import type { ResourceCommandScope } from "./ResourceCommandScope";
+import { renderResourceCommandScopeTabs } from "./renderResourceCommandScopeTabs";
+import { resolveRequestedSlashMenuLevel } from "./resolveRequestedSlashMenuLevel";
+import { createResumeScopeHeaderTitle } from "./resume-scope/createResumeScopeHeaderTitle";
+import { getCachedResumeLeaves } from "./resume-scope/getCachedResumeLeaves";
+import { getNextResumeScope } from "./resume-scope/getNextResumeScope";
+import type { ResumeScope } from "./resume-scope/ResumeScope";
+import type { SlashMenuLevel } from "./SlashMenuLevel";
+import { sanitizeSessionNameInput } from "./sanitizeSessionNameInput";
+import { selectResourceCommandScopeByKey } from "./selectResourceCommandScopeByKey";
+import { showSessionInfoModal } from "./session-info/showSessionInfoModal";
+import { shouldShowSlashMenuPreview } from "./shouldShowSlashMenuPreview";
+import { toAutocompleteItems } from "./toAutocompleteItems";
+import type {
+	RegisteredSlashCommand,
+	SlashMenuLeaf,
+	SlashMenuSection,
+} from "./types";
+import {
+	type ResumePreviewState,
+	updateResumePreview,
+} from "./updateResumePreview";
 
 const SLASH_MENU_LEFT_PANE_RATIO = 0.42;
 
@@ -69,342 +84,406 @@ const SLASH_MENU_LEFT_PANE_RATIO = 0.42;
  * Two-pane slash navigator with nested Nexus-owned selector flows.
  */
 export class SlashMenuModal extends SelectPreviewModal {
-  private level: SlashMenuLevel = "top";
-  private query = "";
-  private topItems = createTopLevelItems();
-  private activeLeaves: SlashMenuLeaf[] = [];
-  private nameInput = "";
-  private pendingSettingLeaf?: SlashMenuLeaf;
-  private scopedSelection = new Set<string>();
-  private searchActive = false;
-  private selectedPreviewItem?: SlashMenuLeaf | SlashMenuSection;
-  private readonly previousLevels: SlashMenuLevel[] = [];
-  private readonly resumePreviewState: ResumePreviewState = { previewRequestId: 0 };
-  private readonly previewCache = new Map<string, string[]>();
-  private readonly resumeLeavesCache = new Map<ResumeScope, SlashMenuLeaf[]>();
-  private resumeScope: ResumeScope = "current";
-  private resourceScope: ResourceCommandScope = "all";
-  private modelMenuTab: ModelMenuTab = "models";
-  private loginPicker?: LoginPickerModal;
+	private level: SlashMenuLevel = "top";
+	private query = "";
+	private searchActive = false;
+	private topItems = createTopLevelItems();
+	private activeLeaves: SlashMenuLeaf[] = [];
+	private nameInput = "";
+	private pendingSettingLeaf?: SlashMenuLeaf;
+	private scopedSelection = new Set<string>();
+	private selectedPreviewItem?: SlashMenuLeaf | SlashMenuSection;
+	private readonly previousLevels: SlashMenuLevel[] = [];
+	private readonly resumePreviewState: ResumePreviewState = {
+		previewRequestId: 0,
+	};
+	private readonly previewCache = new Map<string, string[]>();
+	private readonly resumeLeavesCache = new Map<ResumeScope, SlashMenuLeaf[]>();
+	private resumeScope: ResumeScope = "current";
+	private resourceScope: ResourceCommandScope = "all";
+	private modelMenuTab: ModelMenuTab = "models";
+	private loginPicker?: LoginPickerModal;
 
-  constructor(
-    private readonly ctx: ExtensionContext,
-    private readonly getThinkingLevel: () => string,
-    private readonly setThinkingLevel: (value: string) => void,
-    private readonly requestClose: () => void,
-    private readonly requestRender: () => void,
-    private readonly onCommandPicked: (commandText: string) => void,
-    private readonly getCommands: ExtensionAPI["getCommands"] = () => [],
-    private readonly ensureModelMenuReady: () => Promise<void> = async () => undefined,
-    private readonly onCommandPrefill: (commandText: string) => void = onCommandPicked,
-    private readonly getAllTools: ExtensionAPI["getAllTools"] = () => [],
-  ) {
-    super(ctx.ui.theme, () => undefined, requestClose, undefined, {
-      leftTitle: "Menu",
-      rightTitle: "Preview", bottomTitle: "Search", bottomPrefix: "> /", leftPaneRatio:
-        SLASH_MENU_LEFT_PANE_RATIO, itemMaxLines: (item) => (item as { resumeRow?: boolean }).resumeRow ?
-          2 : 1
-    });
-    this.setOnPick(() => void this.handleEnter());
-    this.loginPicker = new LoginPickerModal(
-      ctx.ui.theme,
-      () => void this.handleLoginPickerClose(),
-      () => this.requestRender(),
-      (commandText) => {
-        this.loginPicker?.requestClose();
-        this.onCommandPicked(commandText);
-      },
-      (message, type) => this.ctx.ui.notify(message, type),
-    );
-  }
+	constructor(
+		private readonly ctx: ExtensionContext,
+		private readonly getThinkingLevel: () => string,
+		private readonly setThinkingLevel: (value: string) => void,
+		private readonly requestClose: () => void,
+		private readonly requestRender: () => void,
+		private readonly onCommandPicked: (commandText: string) => void,
+		private readonly getCommands: ExtensionAPI["getCommands"] = () => [],
+		private readonly ensureModelMenuReady: () => Promise<void> = async () =>
+			undefined,
+		private readonly onCommandPrefill: (
+			commandText: string,
+		) => void = onCommandPicked,
+		private readonly getAllTools: ExtensionAPI["getAllTools"] = () => [],
+	) {
+		super(ctx.ui.theme, () => undefined, requestClose, undefined, {
+			leftTitle: "Menu",
+			rightTitle: "Preview",
+			bottomTitle: "Search",
+			bottomPrefix: "> /",
+			leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO,
+			itemMaxLines: (item) =>
+				(item as { resumeRow?: boolean }).resumeRow ? 2 : 1,
+		});
+		this.setOnPick(() => void this.handleEnter());
+		this.loginPicker = new LoginPickerModal(
+			ctx.ui.theme,
+			() => void this.handleLoginPickerClose(),
+			() => this.requestRender(),
+			(commandText) => {
+				this.loginPicker?.requestClose();
+				this.onCommandPicked(commandText);
+			},
+			(message, type) =>
+				this.ctx.ui.notify(message, type as "error" | "info" | "warning"),
+		);
+	}
 
-  /**
-   * Seeds the visible slash query.
-   *
-   * @param query Current slash query.
-   */
-  setQuery(query: string): void {
-    this.query = query;
-    this.searchActive = query.length > 0;
-    this.setBottom("Search", query, "> /");
-    if (this.level === "login-picker") {
-      this.loginPicker?.updateQuery(query);
-    }
-  }
+	/**
+	 * Seeds the visible slash query.
+	 *
+	 * @param query Current slash query.
+	 */
+	setQuery(query: string): void {
+		this.query = query;
+		this.searchActive = query.length > 0;
+		this.setBottom("Search", query, "> /");
+		if (this.level === "login-picker") {
+			this.loginPicker?.updateQuery(query);
+		}
+	}
 
-  /**
-   * Refreshes the visible list for the current menu level.
-   */
-  async refresh(selectedValue?: string): Promise<void> {
-    this.setFullScreenMode(true);
-    this.setPaneVisibility(true, shouldShowSlashMenuPreview(this.level));
-    this.setModalWidthPolicy(80, undefined, 0.9);
-    if (this.level === "top") {
-      this.topItems = this.getTopLevelItemsWithFusedSkills();
-      const menuWidth = calculateTopLevelMenuWidth(this.topItems);
-      this.setModalWidthPolicy(menuWidth, menuWidth, 0.9);
-      this.renderItems(filterMenuItems(this.topItems, this.query), "Menu");
-      if (selectedValue) this.selectValue(selectedValue);
-      this.requestRender();
-      return;
-    }
-    this.activeLeaves = (await this.createVisibleLeaves()) ?? [];
-    if (this.level === "settings") {
-      const settingsWidth = calculateSettingsMenuWidth(this.activeLeaves);
-      this.setModalWidthPolicy(settingsWidth, settingsWidth, 0.9);
-    }
-    if (this.level === "model") {
-      const modelWidth = calculateModelMenuWidth(this.activeLeaves);
-      this.setModalWidthPolicy(modelWidth, modelWidth, 0.9);
-    }
-    if (!shouldShowSlashMenuPreview(this.level) && this.level !== "settings" && this.level !==
-      "model" && this.level !== "tools" && this.level !== "login-picker") {
-      const menuWidth = calculateSinglePaneMenuWidth(this.activeLeaves, this.level);
-      this.setModalWidthPolicy(menuWidth, menuWidth, 0.9);
-    }
-    // Delegate login-picker rendering to LoginPickerModal.
-    if (this.level === "login-picker") {
-      this.loginPicker?.renderLeftPane();
-      return;
-    }
-    this.renderItems(filterMenuItems(this.activeLeaves, this.query), this.level ===
-      "setting-choice" ? getSettingChoiceTitle(this.pendingSettingLeaf) :
-      getSlashMenuLevelTitle(this.level));
-    if (selectedValue) this.selectValue(selectedValue);
-    this.requestRender();
-  }
+	/**
+	 * Refreshes the visible list for the current menu level.
+	 */
+	async refresh(selectedValue?: string): Promise<void> {
+		this.setFullScreenMode(true);
+		this.setPaneVisibility(true, shouldShowSlashMenuPreview(this.level));
+		this.setModalWidthPolicy(80, undefined, 0.9);
+		if (this.level === "top") {
+			this.topItems = this.getTopLevelItemsWithFusedSkills();
+			const menuWidth = calculateTopLevelMenuWidth(this.topItems);
+			this.setModalWidthPolicy(menuWidth, menuWidth, 0.9);
+			this.renderItems(filterMenuItems(this.topItems, this.query), "Menu");
+			if (selectedValue) this.selectValue(selectedValue);
+			this.requestRender();
+			return;
+		}
+		this.activeLeaves = (await this.createVisibleLeaves()) ?? [];
+		if (this.level === "settings") {
+			const settingsWidth = calculateSettingsMenuWidth(this.activeLeaves);
+			this.setModalWidthPolicy(settingsWidth, settingsWidth, 0.9);
+		}
+		if (this.level === "model") {
+			const modelWidth = calculateModelMenuWidth(this.activeLeaves);
+			this.setModalWidthPolicy(modelWidth, modelWidth, 0.9);
+		}
+		if (
+			!shouldShowSlashMenuPreview(this.level) &&
+			this.level !== "settings" &&
+			this.level !== "model" &&
+			this.level !== "tools" &&
+			this.level !== "login-picker"
+		) {
+			const menuWidth = calculateSinglePaneMenuWidth(
+				this.activeLeaves,
+				this.level,
+			);
+			this.setModalWidthPolicy(menuWidth, menuWidth, 0.9);
+		}
+		// Delegate login-picker rendering to LoginPickerModal.
+		if (this.level === "login-picker") {
+			this.loginPicker?.renderLeftPane();
+			return;
+		}
+		this.renderItems(
+			filterMenuItems(this.activeLeaves, this.query),
+			this.level === "setting-choice"
+				? getSettingChoiceTitle(this.pendingSettingLeaf)
+				: getSlashMenuLevelTitle(this.level),
+		);
+		if (selectedValue) this.selectValue(selectedValue);
+		this.requestRender();
+	}
 
-  override handleInput(data: string): void {
-    if (this.level === "name-input") {
-      this.handleNameInput(data);
-      return;
-    }
-    if (this.handleModelMenuTabInput(data)) return;
-    if (this.handleResourceScopeInput(data)) return;
-    if (this.handleResourcePreviewFocusInput(data)) return;
-    if (this.handleResourcePreviewInput(data)) return;
-    if (this.handleResumeScopeInput(data)) return;
-    if (this.handleLoginPickerInput(data)) return;
-    handleSlashMenuInput({
-      data,
-      level: this.level,
-      query: this.query,
-      scopedSelection: this.scopedSelection,
-      setQuery: (query) => { this.query = query; },
-      setBottom: (title, value, prefix) => this.setBottom(title, value, prefix),
-      refresh: () => { void this.refresh(); },
-      handleEscape: () => { void this.handleEscape(); },
-      delegateInput: () => super.handleInput(data),
-      onCommandPicked: this.onCommandPicked,
-    });
-  }
+	override handleInput(data: string): void {
+		if (this.level === "name-input") {
+			this.handleNameInput(data);
+			return;
+		}
+		if (this.handleModelMenuTabInput(data)) return;
+		if (this.handleResourceScopeInput(data)) return;
+		if (this.handleResourcePreviewFocusInput(data)) return;
+		if (this.handleResourcePreviewInput(data)) return;
+		if (this.handleResumeScopeInput(data)) return;
+		if (this.handleLoginPickerInput(data)) return;
+		handleSlashMenuInput({
+			data,
+			level: this.level,
+			query: this.query,
+			scopedSelection: this.scopedSelection,
+			setQuery: (query) => {
+				this.query = query;
+			},
+			setBottom: (title, value, prefix) => this.setBottom(title, value, prefix),
+			refresh: () => {
+				void this.refresh();
+			},
+			handleEscape: () => {
+				void this.handleEscape();
+			},
+			delegateInput: () => super.handleInput(data),
+			onCommandPicked: this.onCommandPicked,
+		});
+	}
 
-  /**
-   * Switches model-menu tabs with Tab and Shift-Tab.
-   *
-   * @param data Raw keyboard input.
-   * @returns True when handled.
-   */
-  private handleModelMenuTabInput(data: string): boolean {
-    if (this.level !== "model") return false;
-    if (matchesKey(data, Key.tab)) this.modelMenuTab = getNextModelMenuTab(this.modelMenuTab,
-      1);
-    else if (matchesKey(data, Key.shift("tab"))) this.modelMenuTab =
-      getNextModelMenuTab(this.modelMenuTab, -1);
-    else return false;
-    void this.refresh();
-    return true;
-  }
+	/**
+	 * Switches model-menu tabs with Tab and Shift-Tab.
+	 *
+	 * @param data Raw keyboard input.
+	 * @returns True when handled.
+	 */
+	private handleModelMenuTabInput(data: string): boolean {
+		if (this.level !== "model") return false;
+		if (matchesKey(data, Key.tab))
+			this.modelMenuTab = getNextModelMenuTab(this.modelMenuTab, 1);
+		else if (matchesKey(data, Key.shift("tab")))
+			this.modelMenuTab = getNextModelMenuTab(this.modelMenuTab, -1);
+		else return false;
+		void this.refresh();
+		return true;
+	}
 
-  /**
-   * Delegates keyboard input to the LoginPickerModal.
-   *
-   * @param data Raw keyboard input.
-   * @returns True when handled.
-   */
-  private handleLoginPickerInput(data: string): boolean {
-    if (this.level !== "login-picker") return false;
-    this.loginPicker?.handleInput(data);
-    return true;
-  }
+	/**
+	 * Delegates keyboard input to the LoginPickerModal.
+	 *
+	 * @param data Raw keyboard input.
+	 * @returns True when handled.
+	 */
+	private handleLoginPickerInput(data: string): boolean {
+		if (this.level !== "login-picker") return false;
+		this.loginPicker?.handleInput(data);
+		return true;
+	}
 
-  /**
-   * Closes the login picker and returns to the previous slash-menu level.
-   */
-  private handleLoginPickerClose(): void {
-    void this.handleEscape();
-  }
+	/**
+	 * Closes the login picker and returns to the previous slash-menu level.
+	 */
+	private handleLoginPickerClose(): void {
+		void this.handleEscape();
+	}
 
-  /**
-   * Moves focus to the resource command markdown preview pane.
-   *
-   * @param data Raw keyboard input.
-   * @returns True when handled.
-   */
-  private handleResourcePreviewFocusInput(data: string): boolean {
-    if ((this.level !== "prompts" && this.level !== "skills") || !matchesKey(data, Key.tab) ||
-      this.isRightPaneFocused()) return false;
-    this.focusRightPane();
-    this.requestRender();
-    return true;
-  }
+	/**
+	 * Moves focus to the resource command markdown preview pane.
+	 *
+	 * @param data Raw keyboard input.
+	 * @returns True when handled.
+	 */
+	private handleResourcePreviewFocusInput(data: string): boolean {
+		if (
+			(this.level !== "prompts" && this.level !== "skills") ||
+			!matchesKey(data, Key.tab) ||
+			this.isRightPaneFocused()
+		)
+			return false;
+		this.focusRightPane();
+		this.requestRender();
+		return true;
+	}
 
-  /**
-   * Toggles resource command scope filters.
-   *
-   * @param data Raw keyboard input.
-   * @returns True when handled.
-   */
-  private handleResourceScopeInput(data: string): boolean {
-    if (this.level !== "prompts" && this.level !== "skills") return false;
-    const scope = selectResourceCommandScopeByKey(data);
-    if (!scope) return false;
-    this.resourceScope = scope;
-    this.query = "";
-    this.setBottom("Search", "", "> /");
-    void this.refresh();
-    return true;
-  }
+	/**
+	 * Toggles resource command scope filters.
+	 *
+	 * @param data Raw keyboard input.
+	 * @returns True when handled.
+	 */
+	private handleResourceScopeInput(data: string): boolean {
+		if (this.level !== "prompts" && this.level !== "skills") return false;
+		const scope = selectResourceCommandScopeByKey(data);
+		if (!scope) return false;
+		this.resourceScope = scope;
+		this.query = "";
+		this.setBottom("Search", "", "> /");
+		void this.refresh();
+		return true;
+	}
 
-  /**
-   * Routes input to a focused resource preview pane.
-   *
-   * @param data Raw keyboard input.
-   * @returns True when handled.
-   */
-  private handleResourcePreviewInput(data: string): boolean {
-    if ((this.level !== "prompts" && this.level !== "skills") || !this.isRightPaneFocused())
-      return false;
-    super.handleInput(data);
-    this.requestRender();
-    return true;
-  }
+	/**
+	 * Routes input to a focused resource preview pane.
+	 *
+	 * @param data Raw keyboard input.
+	 * @returns True when handled.
+	 */
+	private handleResourcePreviewInput(data: string): boolean {
+		if (
+			(this.level !== "prompts" && this.level !== "skills") ||
+			!this.isRightPaneFocused()
+		)
+			return false;
+		super.handleInput(data);
+		this.requestRender();
+		return true;
+	}
 
-  /**
-   * Creates leaves for the current menu level, reusing cached resume leaves during search.
-   *
-   * @returns Current level leaves.
-   */
-  private async createVisibleLeaves(): Promise<SlashMenuLeaf[]> {
-    if (this.level === "setting-choice" && this.pendingSettingLeaf) {
-      return createSettingChoiceLeaves(this.pendingSettingLeaf);
-    }
-    if (this.level === "name-input") return [createNameInputLeaf(this.nameInput)];
-    if (this.level === "resume") return getCachedResumeLeaves(this.resumeLeavesCache, this.ctx,
-      this.resumeScope);
-    if (this.level === "model") return createModelLeaves(this.ctx, this.modelMenuTab);
-    return createActiveLeaves(this.ctx, this.level, this.getThinkingLevel, this.resumeScope,
-      this.getDynamicCommands(), this.resourceScope, this.getAvailableTools());
-  }
+	/**
+	 * Creates leaves for the current menu level, reusing cached resume leaves during search.
+	 *
+	 * @returns Current level leaves.
+	 */
+	private async createVisibleLeaves(): Promise<SlashMenuLeaf[]> {
+		if (this.level === "setting-choice" && this.pendingSettingLeaf) {
+			return createSettingChoiceLeaves(this.pendingSettingLeaf);
+		}
+		if (this.level === "name-input")
+			return [createNameInputLeaf(this.nameInput)];
+		if (this.level === "resume")
+			return getCachedResumeLeaves(
+				this.resumeLeavesCache,
+				this.ctx,
+				this.resumeScope,
+			);
+		if (this.level === "model")
+			return createModelLeaves(this.ctx, this.modelMenuTab);
+		return createActiveLeaves(
+			this.ctx,
+			this.level,
+			this.getThinkingLevel,
+			this.resumeScope,
+			this.getDynamicCommands(),
+			this.resourceScope,
+			this.getAvailableTools(),
+		);
+	}
 
-  /**
-   * Reads live dynamic slash commands for prompt and skill menus.
-   *
-   * @returns Normalized dynamic slash commands.
-   */
-  private getDynamicCommands(): RegisteredSlashCommand[] {
-    return getDynamicSlashCommands(this.getCommands);
-  }
+	/**
+	 * Reads live dynamic slash commands for prompt and skill menus.
+	 *
+	 * @returns Normalized dynamic slash commands.
+	 */
+	private getDynamicCommands(): RegisteredSlashCommand[] {
+		return getDynamicSlashCommands(this.getCommands);
+	}
 
-  /**
-   * Builds top-level items with fused skill leaves.
-   *
-   * When the query matches or prefixes "skills", skill leaves are injected
-   * at the top level with `skill:<name>` values, replacing the "skills" section
-   * in the filtered results.
-   *
-   * @returns Top-level items with fused skill leaves.
-   */
-  private getTopLevelItemsWithFusedSkills(): Array<SlashMenuLeaf | SlashMenuSection> {
-    const dynamicCommands = this.getDynamicCommands();
-    const commandLeaves = createCommandLeaves(dynamicCommands);
-    const toolsSection = createToolsTopLevelItem();
-    const settingsSection: SlashMenuSection = {
-      label: "settings",
-      description: "Toggle settings and open nested configuration.",
-      groupLabel: "Configuration",
-      value: "settings",
-    };
-    const items = [
-      ...commandLeaves,
-      createThinkingTopLevelItem(),
-      ...this.getDynamicCommandItems(dynamicCommands),
-      toolsSection,
-      ...createTopLevelPromptCommandLeaves(dynamicCommands),
-      settingsSection,
-    ];
-    return groupAndSortTopLevelItems(items);
-  }
+	/**
+	 * Builds top-level items with fused skill leaves.
+	 *
+	 * When the query matches or prefixes "skills", skill leaves are injected
+	 * at the top level with `skill:<name>` values, replacing the "skills" section
+	 * in the filtered results.
+	 *
+	 * @returns Top-level items with fused skill leaves.
+	 */
+	private getTopLevelItemsWithFusedSkills(): Array<
+		SlashMenuLeaf | SlashMenuSection
+	> {
+		const dynamicCommands = this.getDynamicCommands();
+		const commandLeaves = createCommandLeaves(dynamicCommands);
+		const toolsSection = createToolsTopLevelItem();
+		const settingsSection: SlashMenuSection = {
+			label: "settings",
+			description: "Toggle settings and open nested configuration.",
+			groupLabel: "Configuration",
+			value: "settings",
+		};
+		const items = [
+			...commandLeaves,
+			createThinkingTopLevelItem(),
+			...this.getDynamicCommandItems(dynamicCommands),
+			toolsSection,
+			...createTopLevelPromptCommandLeaves(dynamicCommands),
+			settingsSection,
+		];
+		return groupAndSortTopLevelItems(items);
+	}
 
-  /**
-   * Returns dynamic command items, optionally including fused skill leaves.
-   *
-   * When the query is empty, only the "skills" navigation section is included
-   * so individual skill leaves stay hidden until the user searches. When the
-   * query is non-empty, all fused skill leaves are included so
-   * `filterMenuItems()` can match them by name.
-   *
-   * @param commands Live slash commands.
-   * @returns Dynamic command items.
-   */
-  private getDynamicCommandItems(commands: RegisteredSlashCommand[]): Array<SlashMenuSection | SlashMenuLeaf> {
-    const dynamicItems = createDynamicCommandItems(commands);
-    const query = this.query.toLowerCase().trim();
-    // When the query is empty, strip fused skill leaves so only the
-    // "skills" navigation section is visible.
-    if (query.length === 0) {
-      return dynamicItems.filter(
-        (item) => !isFusedSkillValue((item as SlashMenuLeaf).value),
-      );
-    }
-    return dynamicItems;
-  }
+	/**
+	 * Returns dynamic command items, optionally including fused skill leaves.
+	 *
+	 * When the query is empty, only the "skills" navigation section is included
+	 * so individual skill leaves stay hidden until the user searches. When the
+	 * query is non-empty, all fused skill leaves are included so
+	 * `filterMenuItems()` can match them by name.
+	 *
+	 * @param commands Live slash commands.
+	 * @returns Dynamic command items.
+	 */
+	private getDynamicCommandItems(
+		commands: RegisteredSlashCommand[],
+	): Array<SlashMenuSection | SlashMenuLeaf> {
+		const dynamicItems = createDynamicCommandItems(commands);
+		const query = this.query.toLowerCase().trim();
+		// When the query is empty, strip fused skill leaves so only the
+		// "skills" navigation section is visible.
+		if (query.length === 0) {
+			return dynamicItems.filter(
+				(item) => !isFusedSkillValue((item as SlashMenuLeaf).value),
+			);
+		}
+		return dynamicItems;
+	}
 
-  /**
-   * Checks whether the current query targets fused skill items.
-   *
-   * @returns True when the query matches "skills" or a skill name prefix.
-   */
-  private isQueryTargetingSkills(): boolean {
-    const q = this.query.toLowerCase().trim();
-    return q === "skills" || q.startsWith("skill") || q.startsWith("ski") || q.startsWith("sk");
-  }
+	/**
+	 * Reads live available tools for the Tools resource menu.
+	 *
+	 * @returns Tool metadata from the active runtime.
+	 */
+	private getAvailableTools(): ReturnType<ExtensionAPI["getAllTools"]> {
+		return this.getAllTools();
+	}
 
-  /**
-   * Reads live available tools for the Tools resource menu.
-   *
-   * @returns Tool metadata from the active runtime.
-   */
-  private getAvailableTools(): ReturnType<ExtensionAPI["getAllTools"]> {
-    return this.getAllTools();
-  }
+	private renderItems(
+		items: Array<SlashMenuLeaf | SlashMenuSection>,
+		leftTitle: string,
+	): void {
+		if (this.level === "resume")
+			this.setTitles(createResumeScopeHeaderTitle(this.resumeScope), "");
+		else if (this.level === "model")
+			this.setTitles(
+				renderModelMenuTabs(this.modelMenuTab, this.ctx.ui.theme),
+				"",
+			);
+		else
+			this.setTitles(
+				leftTitle,
+				this.level === "prompts" || this.level === "skills"
+					? renderResourceCommandScopeTabs(
+							this.resourceScope,
+							this.ctx.ui.theme,
+						)
+					: "Preview",
+			);
+		this.setHeaderFocusMarkers(
+			this.level !== "prompts" &&
+				this.level !== "skills" &&
+				this.level !== "model",
+		);
+		this.setItems(
+			toAutocompleteItems(items.map((item) => this.formatVisibleItem(item))),
+		);
+		this.selectedPreviewItem = items[0];
+		this.resumePreviewState.renderedPreviewKey = undefined;
+		this.resumePreviewState.renderedPreviewWidth = undefined;
+		this.setRightLines(
+			this.selectedPreviewItem
+				? this.previewForItem(this.selectedPreviewItem)
+				: ["No matching items."],
+		);
+		this.setOnSelectionChange((item) => {
+			const selected = items.find((entry) => entry.value === item?.value);
+			this.selectedPreviewItem = selected;
+			this.resumePreviewState.renderedPreviewKey = undefined;
+			this.resumePreviewState.renderedPreviewWidth = undefined;
+			this.setRightLines(
+				selected ? this.previewForItem(selected) : ["No matching items."],
+			);
+			this.requestRender();
+		});
+	}
 
-  private renderItems(items: Array<SlashMenuLeaf | SlashMenuSection>, leftTitle: string): void {
-    if (this.level === "resume") this.setTitles(createResumeScopeHeaderTitle(this.resumeScope),
-      "");
-    else if (this.level === "model") this.setTitles(renderModelMenuTabs(this.modelMenuTab,
-      this.ctx.ui.theme), "");
-    else this.setTitles(leftTitle, this.level === "prompts" || this.level === "skills" ?
-      renderResourceCommandScopeTabs(this.resourceScope, this.ctx.ui.theme) : "Preview");
-    this.setHeaderFocusMarkers(this.level !== "prompts" && this.level !== "skills" && this.level
-      !== "model");
-    this.setItems(toAutocompleteItems(items.map((item) => this.formatVisibleItem(item))));
-    this.selectedPreviewItem = items[0];
-    this.resumePreviewState.renderedPreviewKey = undefined;
-    this.resumePreviewState.renderedPreviewWidth = undefined;
-    this.setRightLines(this.selectedPreviewItem ? this.previewForItem(this.selectedPreviewItem)
-      : ["No matching items."]);
-    this.setOnSelectionChange((item) => {
-      const selected = items.find((entry) => entry.value === item?.value);
-      this.selectedPreviewItem = selected;
-      this.resumePreviewState.renderedPreviewKey = undefined;
-      this.resumePreviewState.renderedPreviewWidth = undefined;
-      this.setRightLines(selected ? this.previewForItem(selected) : ["No matching items."]);
-      this.requestRender();
-    });
-  }
-
-  /**
+	/**
    * Extracts trailing arguments from the current query after the matched command name.
    *
    * For `/deep-research hello world` with command `deep-research`, returns `hello world`.
@@ -414,363 +493,447 @@ path).
    * @param commandName The selected command name (item.value).
    * @returns Remaining argument text, or empty string when none.
    */
-  private extractSlashArgs(commandName: string): string {
-    const prefix = `/${commandName}`;
-    if (!this.query.startsWith(prefix)) return "";
-    const afterCommand = this.query.slice(prefix.length);
-    if (!afterCommand.startsWith(" ")) return "";
-    const argsString = afterCommand.slice(1);
-    const args = parseCommandArgs(argsString);
-    return args.join(" ");
-  }
+	private extractSlashArgs(commandName: string): string {
+		const prefix = `/${commandName}`;
+		if (!this.query.startsWith(prefix)) return "";
+		const afterCommand = this.query.slice(prefix.length);
+		if (!afterCommand.startsWith(" ")) return "";
+		const argsString = afterCommand.slice(1);
+		const args = parseCommandArgs(argsString);
+		return args.join(" ");
+	}
 
-  private async handleEnter(): Promise<void> {
-    const item = this.getSelectedItem();
-    if (!item) return;
-    if (this.level === "top") {
-      if (item.value === "hotkeys") return this.openHotkeysPanel();
-      if (item.value === "name") return this.openSessionNameInput();
-      if (item.value === "session") return this.openSessionInfoPanel();
-      if (item.value === "thinking") {
-        this.openSettingChoice(createThinkingSettingLeaf(this.getThinkingLevel(), this.ctx.model));
-        return;
-      }
-      const selectedTopItem = this.topItems.find((entry) => entry.value === item.value);
-      if (selectedTopItem?.groupLabel === "Custom Commands") {
-        this.onCommandPrefill(`/${item.value} `);
-        return;
-      }
-      await handleTopLevelMenuEnter(this.ctx, item.value, (level) => this.openLevel(level),
-        this.onCommandPicked);
-      return;
-    }
-    if (this.level === "settings") {
-      if (item.value === "theme") return this.openLevel("theme");
-      const leaf = this.activeLeaves.find((entry) => entry.value === item.value);
-      if (!leaf) return;
-      if ((leaf.options?.length ?? 0) > 0) return this.openSettingChoice(leaf);
-      const status = await applySlashMenuLeaf(this.ctx, leaf, this.setThinkingLevel);
-      if (status) this.ctx.ui.notify(status, "info");
-      await this.refresh(item.value);
-      return;
-    }
-    if (this.level === "setting-choice") return this.applySettingChoice(item.value);
-    if (this.level === "theme") {
-      await this.applyLeafByValue(item.value);
-      this.onCommandPicked("/reload");
-      return;
-    }
-    if (this.level === "model") {
-      if (item.value === "__loading__") return;
-      this.onCommandPicked(`/nexus-model-select ${resolveModelCatalogCommandValue(item.value)}`);
-      return;
-    }
-    if (this.level === "scoped-models") {
-      if (this.scopedSelection.has(item.value)) this.scopedSelection.delete(item.value); else
-        this.scopedSelection.add(item.value);
-      await this.refresh(item.value);
-      return;
-    }
-    if (this.level === "fork") return void this.onCommandPicked(`/nexus-fork-select ${item.value}`);
-    if (this.level === "resume") return void this.onCommandPicked(`/nexus-resume-select ${encodeSlashMenuValue(item.value)}`);
-    if (this.level === "prompts") {
-      const args = this.extractSlashArgs(item.value);
-      return void this.onCommandPrefill(
-        args ? `/${item.value} ${args.trim()}${SENTINEL}` : `/${item.value}`,
-      );
-    }
-    if (this.level === "skills") {
-      const args = this.extractSlashArgs(item.value);
-      return void this.onCommandPicked(
-        args ? `/${item.value} ${args.trim()}${SENTINEL}` : `/${item.value}`,
-      );
-    }
-    if (isFusedSkillValue(item.value)) {
-      const skillName = extractSkillName(item.value);
-      return void this.onCommandPicked(`/${skillName}`);
-    }
-    if (this.level === "tools") return;
-    if (this.level === "logout") return void this.logoutSelectedProvider(item.value);
-    if (this.level === "login-picker") {
-      const loginItem = this.loginPicker?.getSelectedItem();
-      if (!loginItem) return;
-      this.loginPicker?.handlePick(loginItem);
-      return;
-    }
-  }
+	private async handleEnter(): Promise<void> {
+		const item = this.getSelectedItem();
+		if (!item) return;
+		if (this.level === "top") {
+			if (item.value === "hotkeys") return this.openHotkeysPanel();
+			if (item.value === "name") return this.openSessionNameInput();
+			if (item.value === "session") return this.openSessionInfoPanel();
+			if (item.value === "thinking") {
+				this.openSettingChoice(
+					createThinkingSettingLeaf(this.getThinkingLevel(), this.ctx.model),
+				);
+				return;
+			}
+			const selectedTopItem = this.topItems.find(
+				(entry) => entry.value === item.value,
+			);
+			if (selectedTopItem?.groupLabel === "Custom Commands") {
+				this.onCommandPrefill(`/${item.value} `);
+				return;
+			}
+			await handleTopLevelMenuEnter(
+				this.ctx,
+				item.value,
+				(level) => this.openLevel(level),
+				this.onCommandPicked,
+			);
+			return;
+		}
+		if (this.level === "settings") {
+			if (item.value === "theme") return this.openLevel("theme");
+			const leaf = this.activeLeaves.find(
+				(entry) => entry.value === item.value,
+			);
+			if (!leaf) return;
+			if ((leaf.options?.length ?? 0) > 0) return this.openSettingChoice(leaf);
+			const status = await applySlashMenuLeaf(
+				this.ctx,
+				leaf,
+				this.setThinkingLevel,
+			);
+			if (status) this.ctx.ui.notify(status, "info");
+			await this.refresh(item.value);
+			return;
+		}
+		if (this.level === "setting-choice")
+			return this.applySettingChoice(item.value);
+		if (this.level === "theme") {
+			await this.applyLeafByValue(item.value);
+			this.onCommandPicked("/reload");
+			return;
+		}
+		if (this.level === "model") {
+			if (item.value === "__loading__") return;
+			this.onCommandPicked(
+				`/nexus-model-select ${resolveModelCatalogCommandValue(item.value)}`,
+			);
+			return;
+		}
+		if (this.level === "scoped-models") {
+			if (this.scopedSelection.has(item.value))
+				this.scopedSelection.delete(item.value);
+			else this.scopedSelection.add(item.value);
+			await this.refresh(item.value);
+			return;
+		}
+		if (this.level === "fork")
+			return void this.onCommandPicked(`/nexus-fork-select ${item.value}`);
+		if (this.level === "resume")
+			return void this.onCommandPicked(
+				`/nexus-resume-select ${encodeSlashMenuValue(item.value)}`,
+			);
+		if (this.level === "prompts") {
+			const args = this.extractSlashArgs(item.value);
+			return void this.onCommandPrefill(
+				args ? `/${item.value} ${args.trim()}${SENTINEL}` : `/${item.value}`,
+			);
+		}
+		if (this.level === "skills") {
+			const args = this.extractSlashArgs(item.value);
+			return void this.onCommandPicked(
+				args ? `/${item.value} ${args.trim()}${SENTINEL}` : `/${item.value}`,
+			);
+		}
+		if (isFusedSkillValue(item.value)) {
+			const skillName = extractSkillName(item.value);
+			return void this.onCommandPicked(`/${skillName}`);
+		}
+		if (this.level === "tools") return;
+		if (this.level === "logout")
+			return void this.logoutSelectedProvider(item.value);
+		if (this.level === "login-picker") {
+			const loginItem = this.loginPicker?.getSelectedItem();
+			if (!loginItem) return;
+			this.loginPicker?.handlePick(loginItem);
+			return;
+		}
+	}
 
+	/**
+	 * Opens one slash submenu level.
+	 *
+	 * @param level Target slash menu level.
+	 */
+	async openLevel(level: SlashMenuLevel): Promise<void> {
+		this.previousLevels.push(this.level);
+		// Route "login" to "login-picker".
+		const rawLevel = level as string;
+		if (rawLevel === "login") {
+			level = "login-picker";
+		}
+		// Handle login-picker: delegate to LoginPickerModal.
+		if (level === "login-picker") {
+			this.level = level;
+			this.query = "";
+			this.searchActive = false;
+			this.setBottom("Search", "", "> /");
+			this.loginPicker?.init();
+			await this.refresh();
+			return;
+		}
+		if (level === "model") {
+			this.level = "model";
+			this.modelMenuTab = "models";
+			this.query = "";
+			this.searchActive = false;
+			this.setBottom("Search", "", "> /");
+			this.renderItems([createLoadingLeaf("Loading Cursor models…")], "Models");
+			this.requestRender();
+			await this.ensureModelMenuReady();
+			this.ctx.modelRegistry.refresh();
+			this.level = resolveRequestedSlashMenuLevel(this.ctx, level);
+			await this.refresh();
+			return;
+		}
+		this.level = resolveRequestedSlashMenuLevel(this.ctx, level);
+		this.query = "";
+		this.searchActive = false;
+		if (this.level === "scoped-models") {
+			const leaves = createScopedModelLeaves(this.ctx);
+			this.scopedSelection = new Set(
+				leaves
+					.filter((leaf) => leaf.label.startsWith("✓"))
+					.map((leaf) => leaf.value),
+			);
+		}
+		if (this.level === "resume") {
+			this.resumeScope = "current";
+			this.resumeLeavesCache.clear();
+		}
+		if (this.level === "prompts" || this.level === "skills")
+			this.resourceScope = "all";
+		this.setBottom("Search", "", "> /");
+		await this.refresh();
+	}
 
-  /**
-   * Opens one slash submenu level.
-   *
-   * @param level Target slash menu level.
-   */
-  async openLevel(level: SlashMenuLevel): Promise<void> {
-    this.previousLevels.push(this.level);
-    // Route "login" to "login-picker".
-    if (level === "login") {
-      level = "login-picker";
-    }
-    // Handle login-picker: delegate to LoginPickerModal.
-    if (level === "login-picker") {
-      this.level = level;
-      this.query = "";
-      this.searchActive = false;
-      this.setBottom("Search", "", "> /");
-      this.loginPicker?.init();
-      await this.refresh();
-      return;
-    }
-    if (level === "model") {
-      this.level = "model";
-      this.modelMenuTab = "models";
-      this.query = "";
-      this.searchActive = false;
-      this.setBottom("Search", "", "> /");
-      this.renderItems([createLoadingLeaf("Loading Cursor models…")], "Models");
-      this.requestRender();
-      await this.ensureModelMenuReady();
-      this.ctx.modelRegistry.refresh();
-      this.level = resolveRequestedSlashMenuLevel(this.ctx, level);
-      await this.refresh();
-      return;
-    }
-    this.level = resolveRequestedSlashMenuLevel(this.ctx, level);
-    this.query = "";
-    this.searchActive = false;
-    if (this.level === "scoped-models") {
-      const leaves = createScopedModelLeaves(this.ctx);
-      this.scopedSelection = new Set(leaves.filter((leaf) =>
-        leaf.label.startsWith("✓")).map((leaf) => leaf.value));
-    }
-    if (this.level === "resume") {
-      this.resumeScope = "current";
-      this.resumeLeavesCache.clear();
-    }
-    if (this.level === "prompts" || this.level === "skills") this.resourceScope = "all";
-    this.setBottom("Search", "", "> /");
-    await this.refresh();
-  }
+	/**
+	 * Logs out one provider while keeping the slash menu open.
+	 *
+	 * @param providerId Provider id to remove from auth storage.
+	 */
+	private async logoutSelectedProvider(providerId: string): Promise<void> {
+		logoutProvider(this.ctx, providerId);
+		this.ctx.ui.notify(`Logged out of ${providerId}`, "info");
+		await this.refresh();
+	}
 
-  /**
-   * Logs out one provider while keeping the slash menu open.
-   *
-   * @param providerId Provider id to remove from auth storage.
-   */
-  private async logoutSelectedProvider(providerId: string): Promise<void> {
-    logoutProvider(this.ctx, providerId);
-    this.ctx.ui.notify(`Logged out of ${providerId}`, "info");
-    await this.refresh();
-  }
+	private async applyLeafByValue(value: string): Promise<void> {
+		const leaf = this.activeLeaves.find((entry) => entry.value === value);
+		if (!leaf) return;
+		const status = await applySlashMenuLeaf(
+			this.ctx,
+			leaf,
+			this.setThinkingLevel,
+		);
+		if (status) this.ctx.ui.notify(status, "info");
+		await this.refresh(value);
+	}
 
-  private async applyLeafByValue(value: string): Promise<void> {
-    const leaf = this.activeLeaves.find((entry) => entry.value === value);
-    if (!leaf) return;
-    const status = await applySlashMenuLeaf(this.ctx, leaf, this.setThinkingLevel);
-    if (status) this.ctx.ui.notify(status, "info");
-    await this.refresh(value);
-  }
+	private async openHotkeysPanel(): Promise<void> {
+		this.requestClose();
+		await this.ctx.ui.custom<void>(
+			(_tui, theme, keybindings, done) =>
+				new HotkeysModal(
+					theme,
+					keybindings as never,
+					getRegisteredHotkeysShortcuts(),
+					done,
+				),
+			{
+				overlay: true,
+				overlayOptions: createPanelOverlayOptions(92, "100%") as never,
+			},
+		);
+	}
 
-  private async openHotkeysPanel(): Promise<void> {
-    this.requestClose();
-    await this.ctx.ui.custom<void>((_tui, theme, keybindings, done) => new HotkeysModal(theme,
-      keybindings as never, getRegisteredHotkeysShortcuts(), done), {
-      overlay: true,
-      overlayOptions: createPanelOverlayOptions(92, "100%") as never,
-    });
-  }
+	private async openSessionNameInput(): Promise<void> {
+		this.previousLevels.push(this.level);
+		this.level = "name-input";
+		this.query = "";
+		this.searchActive = false;
+		this.nameInput =
+			(
+				this.ctx.sessionManager as {
+					getSessionName?: () => string | undefined;
+				}
+			).getSessionName?.() ?? "";
+		this.setBottom("Name", this.nameInput, "> ");
+		await this.refresh();
+	}
 
-  private async openSessionNameInput(): Promise<void> {
-    this.previousLevels.push(this.level);
-    this.level = "name-input";
-    this.query = "";
-    this.searchActive = false;
-    this.nameInput = (this.ctx.sessionManager as {
-      getSessionName?: () => string | undefined
-    }).getSessionName?.() ?? "";
-    this.setBottom("Name", this.nameInput, "> ");
-    await this.refresh();
-  }
+	private handleNameInput(data: string): void {
+		if (matchesKey(data, Key.escape)) {
+			void this.handleEscape();
+			return;
+		}
+		if (matchesKey(data, Key.enter)) {
+			this.onCommandPicked(`/name ${sanitizeSessionNameInput(this.nameInput)}`);
+			return;
+		}
+		if (data === "\u007f" || matchesKey(data, Key.backspace)) {
+			this.nameInput = this.nameInput.slice(0, -1);
+			this.setBottom("Name", this.nameInput, "> ");
+			void this.refresh();
+			return;
+		}
+		if (!isSlashTextInput(data) && data !== " ") return;
+		this.nameInput = `${this.nameInput}${data}`;
+		this.setBottom("Name", this.nameInput, "> ");
+		void this.refresh();
+	}
 
-  private handleNameInput(data: string): void {
-    if (matchesKey(data, Key.escape)) {
-      void this.handleEscape();
-      return;
-    }
-    if (matchesKey(data, Key.enter)) {
-      this.onCommandPicked(`/name ${sanitizeSessionNameInput(this.nameInput)}`);
-      return;
-    }
-    if (data === "\u007f" || matchesKey(data, Key.backspace)) {
-      this.nameInput = this.nameInput.slice(0, -1);
-      this.setBottom("Name", this.nameInput, "> ");
-      void this.refresh();
-      return;
-    }
-    if (!isSlashTextInput(data) && data !== " ") return;
-    this.nameInput = `${this.nameInput}${data}`;
-    this.setBottom("Name", this.nameInput, "> ");
-    void this.refresh();
-  }
+	/**
+	 * Opens the Nexus-owned current session info panel.
+	 */
+	private async openSessionInfoPanel(): Promise<void> {
+		this.requestClose();
+		await showSessionInfoModal(this.ctx);
+	}
 
-  /**
-   * Opens the Nexus-owned current session info panel.
-   */
-  private async openSessionInfoPanel(): Promise<void> {
-    this.requestClose();
-    await showSessionInfoModal(this.ctx);
-  }
+	/**
+	 * Handles resume-source switching shortcuts.
+	 *
+	 * @param data Raw keyboard input.
+	 * @returns True when the key switched resume source.
+	 */
+	private handleResumeScopeInput(data: string): boolean {
+		if (this.level !== "resume") return false;
+		if (data === "\t") {
+			void this.setResumeScope(getNextResumeScope(this.resumeScope));
+			return true;
+		}
+		if (matchesKey(data, Key.left)) {
+			void this.setResumeScope("current");
+			return true;
+		}
+		if (matchesKey(data, Key.right)) {
+			void this.setResumeScope("all");
+			return true;
+		}
+		return false;
+	}
 
-  /**
-   * Handles resume-source switching shortcuts.
-   *
-   * @param data Raw keyboard input.
-   * @returns True when the key switched resume source.
-   */
-  private handleResumeScopeInput(data: string): boolean {
-    if (this.level !== "resume") return false;
-    if (data === "\t") {
-      void this.setResumeScope(getNextResumeScope(this.resumeScope));
-      return true;
-    }
-    if (matchesKey(data, Key.left)) {
-      void this.setResumeScope("current");
-      return true;
-    }
-    if (matchesKey(data, Key.right)) {
-      void this.setResumeScope("all");
-      return true;
-    }
-    return false;
-  }
+	/**
+	 * Sets the resume source and refreshes the resume menu.
+	 *
+	 * @param scope Source to display.
+	 */
+	private async setResumeScope(scope: ResumeScope): Promise<void> {
+		if (this.resumeScope === scope) return;
+		this.resumeScope = scope;
+		this.query = "";
+		this.searchActive = false;
+		this.setBottom("Search", "", "> /");
+		await this.refresh();
+	}
 
-  /**
-   * Sets the resume source and refreshes the resume menu.
-   *
-   * @param scope Source to display.
-   */
-  private async setResumeScope(scope: ResumeScope): Promise<void> {
-    if (this.resumeScope === scope) return;
-    this.resumeScope = scope;
-    this.query = "";
-    this.searchActive = false;
-    this.setBottom("Search", "", "> /");
-    await this.refresh();
-  }
+	private async openSettingChoice(leaf: SlashMenuLeaf): Promise<void> {
+		this.pendingSettingLeaf = leaf;
+		await this.openLevel("setting-choice");
+		if (leaf.currentValue) this.selectValue(leaf.currentValue);
+	}
 
-  private async openSettingChoice(leaf: SlashMenuLeaf): Promise<void> {
-    this.pendingSettingLeaf = leaf;
-    await this.openLevel("setting-choice");
-    if (leaf.currentValue) this.selectValue(leaf.currentValue);
-  }
+	private async applySettingChoice(value: string): Promise<void> {
+		if (!this.pendingSettingLeaf) return;
+		const settingValue = this.pendingSettingLeaf.value;
+		const status = applySlashMenuSettingValue(
+			this.ctx,
+			this.pendingSettingLeaf,
+			value,
+			this.setThinkingLevel,
+		);
+		if (status) this.ctx.ui.notify(status, "info");
+		this.level = this.previousLevels.pop() ?? "settings";
+		this.query = "";
+		this.searchActive = false;
+		this.setBottom("Search", "", "> /");
+		await this.refresh(settingValue);
+	}
 
-  private async applySettingChoice(value: string): Promise<void> {
-    if (!this.pendingSettingLeaf) return;
-    const settingValue = this.pendingSettingLeaf.value;
-    const status = applySlashMenuSettingValue(this.ctx, this.pendingSettingLeaf, value,
-      this.setThinkingLevel);
-    if (status) this.ctx.ui.notify(status, "info");
-    this.level = this.previousLevels.pop() ?? "settings";
-    this.query = "";
-    this.searchActive = false;
-    this.setBottom("Search", "", "> /");
-    await this.refresh(settingValue);
-  }
+	private async handleEscape(): Promise<void> {
+		if (this.level === "top") {
+			this.requestClose();
+			return;
+		}
+		this.level = this.previousLevels.pop() ?? "top";
+		this.query = "";
+		this.searchActive = false;
+		this.setBottom("Search", "", "> /");
+		await this.refresh();
+	}
 
-  private async handleEscape(): Promise<void> {
-    if (this.level === "top") {
-      this.requestClose();
-      return;
-    }
-    this.level = this.previousLevels.pop() ?? "top";
-    this.query = "";
-    this.searchActive = false;
-    this.setBottom("Search", "", "> /");
-    await this.refresh();
-  }
+	override render(width: number): string[] {
+		if (this.level === "login-picker") {
+			return this.loginPicker?.render(width) ?? super.render(width);
+		}
+		this.setFooterHintLines(this.createFooterHintLines());
+		const item = this.selectedPreviewItem;
+		if (this.level === "resume" && item) {
+			updateResumePreview({
+				width,
+				ctx: this.ctx,
+				item,
+				state: this.resumePreviewState,
+				previewCache: this.previewCache,
+				isRightPaneFocused: () => this.isRightPaneFocused(),
+				leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO,
+				setRightLines: (lines) => this.setRightLines(lines),
+				requestRender: this.requestRender,
+				isStillSelected: (previewItem) =>
+					this.selectedPreviewItem?.value === previewItem.value,
+			});
+		}
+		return super.render(width);
+	}
 
-  override render(width: number): string[] {
-    if (this.level === "login-picker") {
-      return this.loginPicker?.render(width) ?? super.render(width);
-    }
-    this.setFooterHintLines(this.createFooterHintLines());
-    const item = this.selectedPreviewItem;
-    if (this.level === "resume" && item) {
-      updateResumePreview({
-        width,
-        ctx: this.ctx,
-        item,
-        state: this.resumePreviewState,
-        previewCache: this.previewCache,
-        isRightPaneFocused: () => this.isRightPaneFocused(),
-        leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO,
-        setRightLines: (lines) => this.setRightLines(lines),
-        requestRender: this.requestRender,
-        isStillSelected: (previewItem) => this.selectedPreviewItem?.value === previewItem.value,
-      });
-    }
-    return super.render(width);
-  }
+	/**
+	 * Creates helper footer lines for the current menu state.
+	 *
+	 * @returns Helper footer lines.
+	 */
+	private createFooterHintLines(): string[] {
+		if (this.level === "prompts" || this.level === "skills") {
+			return [
+				createResourceCommandFooterHint(
+					this.ctx.ui.theme,
+					this.isRightPaneFocused(),
+				),
+			];
+		}
+		return [];
+	}
 
-  /**
-   * Creates helper footer lines for the current menu state.
-   *
-   * @returns Helper footer lines.
-   */
-  private createFooterHintLines(): string[] {
-    if (this.level === "prompts" || this.level === "skills") return
-    [createResourceCommandFooterHint(this.ctx.ui.theme, this.isRightPaneFocused())];
-    return [];
-  }
+	private previewForItem(item: SlashMenuLeaf | SlashMenuSection): string[] {
+		return createSlashMenuPreviewLines(this.level, item, this.ctx.ui.theme);
+	}
 
-  private previewForItem(item: SlashMenuLeaf | SlashMenuSection): string[] {
-    return createSlashMenuPreviewLines(this.level, item, this.ctx.ui.theme);
-  }
-
-  private formatVisibleItem(item: SlashMenuLeaf | SlashMenuSection): SlashMenuLeaf |
-    SlashMenuSection {
-    const icon = getSlashMenuItemIcon(item, this.level);
-    if (this.level === "top") {
-      // Format fused skill leaves with the same icon format as the skills submenu.
-      if (isFusedSkillValue(item.value)) {
-        return {
-          ...item,
-          label: formatResourceCommandLabel(icon, item as SlashMenuLeaf),
-          description: "",
-          wrapToFit: true,
-        };
-      }
-      return {
-        ...item, label: formatTopLevelMenuLabel(item.label,
-          item.description, this.ctx.ui.theme, icon), description: "", preserveLabelWhitespace: true
-      };
-    }
-    if (this.level === "settings") return {
-      ...item, label: formatSettingsMenuLabel(item.label,
-        (item as SlashMenuLeaf).currentValue, this.ctx.ui.theme, icon), description: "",
-      preserveLabelWhitespace: true
-    };
-    if (this.level === "setting-choice") return { ...item, description: "" };
-    if (this.level === "resume") return {
-      ...item, label: `${item.label}\n${item.description}`,
-      description: "", preserveLabelWhitespace: true, resumeRow: true, wrapPreservedLabel: true
-    };
-    if (this.level === "model") return { ...item, label: `${icon} ${item.label}` };
-    if (this.level === "login" || this.level === "login-providers" ||
-      this.level === "logout" ||
-      this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return {
-        ...item, label: `${icon} ${item.label}`, description: ""
-      };
-    if (this.level === "prompts" || this.level === "skills") return {
-      ...item, label:
-        formatResourceCommandLabel(icon, item as SlashMenuLeaf), description: "", wrapToFit: this.level
-          === "skills"
-    };
-    if (this.level === "tools") return {
-      ...item, label: `${icon} ${item.label}`,
-      fixedLabelWidth: 24
-    };
-    return { ...item, label: `${icon} ${item.label}` };
-  }
-
+	private formatVisibleItem(
+		item: SlashMenuLeaf | SlashMenuSection,
+	): SlashMenuLeaf | SlashMenuSection {
+		const icon = getSlashMenuItemIcon(item, this.level);
+		if (this.level === "top") {
+			// Format fused skill leaves with the same icon format as the skills submenu.
+			if (isFusedSkillValue(item.value)) {
+				return {
+					...item,
+					label: formatResourceCommandLabel(icon, item as SlashMenuLeaf),
+					description: "",
+					wrapToFit: true,
+				};
+			}
+			return {
+				...item,
+				label: formatTopLevelMenuLabel(
+					item.label,
+					item.description,
+					this.ctx.ui.theme,
+					icon,
+				),
+				description: "",
+				preserveLabelWhitespace: true,
+			};
+		}
+		if (this.level === "settings")
+			return {
+				...item,
+				label: formatSettingsMenuLabel(
+					item.label,
+					(item as SlashMenuLeaf).currentValue,
+					this.ctx.ui.theme,
+					icon,
+				),
+				description: "",
+				preserveLabelWhitespace: true,
+			};
+		if (this.level === "setting-choice") return { ...item, description: "" };
+		if (this.level === "resume")
+			return {
+				...item,
+				label: `${item.label}\n${item.description}`,
+				description: "",
+				preserveLabelWhitespace: true,
+				resumeRow: true,
+				wrapPreservedLabel: true,
+			};
+		if (this.level === "model")
+			return { ...item, label: `${icon} ${item.label}` };
+		if (
+			this.level === "login-picker" ||
+			this.level === "logout" ||
+			this.level === "theme" ||
+			this.level === "scoped-models" ||
+			this.level === "name-input"
+		)
+			return {
+				...item,
+				label: `${icon} ${item.label}`,
+				description: "",
+			};
+		if (this.level === "prompts" || this.level === "skills")
+			return {
+				...item,
+				label: formatResourceCommandLabel(icon, item as SlashMenuLeaf),
+				description: "",
+				wrapToFit: this.level === "skills",
+			};
+		if (this.level === "tools")
+			return {
+				...item,
+				label: `${icon} ${item.label}`,
+				fixedLabelWidth: 24,
+			};
+		return { ...item, label: `${icon} ${item.label}` };
+	}
 }

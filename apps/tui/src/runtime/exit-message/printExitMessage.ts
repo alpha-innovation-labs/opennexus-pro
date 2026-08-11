@@ -1,5 +1,5 @@
-import { clearExitMessage } from "@extensions/exit-message/state/clearExitMessage.js";
-import { getExitMessage } from "@extensions/exit-message/state/getExitMessage.js";
+import { clearExitMessage } from "@extensions/exit-message/state/clearExitMessage";
+import { getExitMessage } from "@extensions/exit-message/state/getExitMessage";
 
 /**
  * Prints the queued exit message after the TUI has shut down.
@@ -7,7 +7,9 @@ import { getExitMessage } from "@extensions/exit-message/state/getExitMessage.js
  * @param write Output writer.
  * @returns True when a message was printed.
  */
-export function printExitMessage(write: (text: string) => unknown = (text) => process.stdout.write(text)): boolean {
+export function printExitMessage(
+	write: (text: string) => unknown = (text) => process.stdout.write(text),
+): boolean {
 	const exitMessage = getExitMessage();
 	clearExitMessage();
 	if (!exitMessage) return false;

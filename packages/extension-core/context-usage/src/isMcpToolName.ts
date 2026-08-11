@@ -5,5 +5,5 @@
  * @returns True when the tool is an MCP tool.
  */
 export function isMcpToolName(name: string): boolean {
-  return name.startsWith("mcp__");
+	return name.startsWith("mcp__");
 }

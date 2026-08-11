@@ -1,8 +1,8 @@
-import { runCmuxJsonCommand } from "../runtime/runCmuxJsonCommand.js";
-import { normalizeCmuxBoolean } from "./normalizeCmuxBoolean.js";
-import { normalizeCmuxIndex } from "./normalizeCmuxIndex.js";
-import { normalizeCmuxString } from "./normalizeCmuxString.js";
-import type { CmuxPane } from "./types.js";
+import { runCmuxJsonCommand } from "../runtime/runCmuxJsonCommand";
+import { normalizeCmuxBoolean } from "./normalizeCmuxBoolean";
+import { normalizeCmuxIndex } from "./normalizeCmuxIndex";
+import { normalizeCmuxString } from "./normalizeCmuxString";
+import type { CmuxPane } from "./types";
 
 type CmuxPanesOutput = {
 	panes?: unknown[];
@@ -15,15 +15,21 @@ type CmuxPanesOutput = {
  * @returns Panes in the workspace.
  */
 export async function listCmuxPanes(workspaceRef: string): Promise<CmuxPane[]> {
-	const output = await runCmuxJsonCommand<CmuxPanesOutput>(["list-panes", "--workspace", workspaceRef]);
-	return (output.panes ?? []).map((pane) => {
-		const value = pane as Record<string, unknown>;
-		return {
-			id: normalizeCmuxString(value.id) || undefined,
-			ref: normalizeCmuxString(value.ref),
-			focused: normalizeCmuxBoolean(value.focused),
-			index: normalizeCmuxIndex(value.index),
-			surfaces: [],
-		};
-	}).filter((pane) => pane.ref.length > 0);
+	const output = await runCmuxJsonCommand<CmuxPanesOutput>([
+		"list-panes",
+		"--workspace",
+		workspaceRef,
+	]);
+	return (output.panes ?? [])
+		.map((pane) => {
+			const value = pane as Record<string, unknown>;
+			return {
+				id: normalizeCmuxString(value.id) || undefined,
+				ref: normalizeCmuxString(value.ref),
+				focused: normalizeCmuxBoolean(value.focused),
+				index: normalizeCmuxIndex(value.index),
+				surfaces: [],
+			};
+		})
+		.filter((pane) => pane.ref.length > 0);
 }

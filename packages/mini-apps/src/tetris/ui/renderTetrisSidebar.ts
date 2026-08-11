@@ -1,4 +1,5 @@
-import type { TetrisGame } from "../game/types.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { TetrisGame } from "../game/types";
 
 /**
  * Renders score and control text beside the board.
@@ -7,8 +8,15 @@ import type { TetrisGame } from "../game/types.js";
  * @param game Current game state.
  * @returns Sidebar lines.
  */
-export function renderTetrisSidebar(theme: any, game: TetrisGame): string[] {
-	const status = game.gameOver ? "Game Over" : game.paused ? "Paused" : "Playing";
+export function renderTetrisSidebar(
+	theme: SharedModalTheme & { bold: (text: string) => string },
+	game: TetrisGame,
+): string[] {
+	const status = game.gameOver
+		? "Game Over"
+		: game.paused
+			? "Paused"
+			: "Playing";
 	return [
 		theme.fg("accent", theme.bold("Tetris")),
 		"",
@@ -18,7 +26,10 @@ export function renderTetrisSidebar(theme: any, game: TetrisGame): string[] {
 		`${theme.bold("Next")} ${game.nextKind}`,
 		`${theme.bold("State")} ${status}`,
 		"",
-		theme.fg("dim", "Esc hides · ←→ move · ↑ rotate · ↓ soft drop · Space hard drop"),
+		theme.fg(
+			"dim",
+			"Esc hides · ←→ move · ↑ rotate · ↓ soft drop · Space hard drop",
+		),
 		theme.fg("dim", "p pauses · r restarts"),
 	];
 }

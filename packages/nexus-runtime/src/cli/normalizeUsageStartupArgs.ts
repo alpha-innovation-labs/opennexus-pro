@@ -7,9 +7,9 @@ export const startupUsageEnvVar = "NEXUS_STARTUP_USAGE_MODAL";
  * @returns Args without the usage startup flag.
  */
 export function normalizeUsageStartupArgs(args: string[]): string[] {
-  if (!args.includes("--usage")) return [...args];
-  process.env[startupUsageEnvVar] = "1";
-  return args.filter((arg) => arg !== "--usage");
+	if (!args.includes("--usage")) return [...args];
+	process.env[startupUsageEnvVar] = "1";
+	return args.filter((arg) => arg !== "--usage");
 }
 
 /**
@@ -18,6 +18,8 @@ export function normalizeUsageStartupArgs(args: string[]): string[] {
  * @param env Environment values.
  * @returns True when usage modal should open on startup.
  */
-export function shouldPrimeStartupUsageModal(env: NodeJS.ProcessEnv = process.env): boolean {
-  return env[startupUsageEnvVar] === "1";
+export function shouldPrimeStartupUsageModal(
+	env: NodeJS.ProcessEnv = process.env,
+): boolean {
+	return env[startupUsageEnvVar] === "1";
 }

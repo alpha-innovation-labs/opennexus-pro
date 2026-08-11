@@ -1,5 +1,5 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import { padToWidth } from "./padToWidth.js";
+import { padToWidth } from "./padToWidth";
 
 /**
  * Applies the Neo prefix treatment to the first visible editor content line.
@@ -20,7 +20,10 @@ export function prefixEditorLine(
 	const leadingSpaces = leadingSpacesMatch?.[0] ?? "";
 	const rest = line.slice(leadingSpaces.length);
 	const coloredPrefix = colorize(prefix);
-	const available = Math.max(0, width - visibleWidth(leadingSpaces) - visibleWidth(prefix));
+	const available = Math.max(
+		0,
+		width - visibleWidth(leadingSpaces) - visibleWidth(prefix),
+	);
 	const content = truncateToWidth(rest, available, "");
 	return padToWidth(leadingSpaces + coloredPrefix + content, width);
 }

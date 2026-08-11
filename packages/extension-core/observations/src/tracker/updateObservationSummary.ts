@@ -1,5 +1,5 @@
-import { buildObservationSummary } from "./buildObservationSummary.js";
-import type { ObservationState } from "./types.js";
+import { buildObservationSummary } from "./buildObservationSummary";
+import type { ObservationState } from "./types";
 
 /**
  * Refreshes the persisted session-wide observation summary.
@@ -7,7 +7,9 @@ import type { ObservationState } from "./types.js";
  * @param state Observation state to update.
  * @returns The same state instance with an updated summary.
  */
-export function updateObservationSummary(state: ObservationState): ObservationState {
+export function updateObservationSummary(
+	state: ObservationState,
+): ObservationState {
 	state.summary = buildObservationSummary(state);
 	return state;
 }

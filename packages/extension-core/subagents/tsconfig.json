@@ -1,0 +1,22 @@
+{
+	"extends": "../../../tsconfig.base.json",
+	"compilerOptions": {
+		"paths": {
+			"@nexus/herdr/*": [
+				"../../herdr/src/*"
+			],
+			"@nexus/herdr": [
+				"../../herdr/src/index.ts"
+			],
+			"@nexus/runtime/*": [
+				"../../nexus-runtime/src/*"
+			],
+			"@nexus/runtime": [
+				"../../nexus-runtime/src/index.ts"
+			]
+		}
+	},
+	"include": [
+		"src/**/*.ts"
+	]
+}

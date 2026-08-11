@@ -1,4 +1,4 @@
-import { getRegisteredSlashCommands } from "./registerSlashCommand.js";
+import { getRegisteredSlashCommands } from "./registerSlashCommand";
 
 /**
  * Finds one registered slash command by name.
@@ -7,5 +7,5 @@ import { getRegisteredSlashCommands } from "./registerSlashCommand.js";
  * @returns Registered command, if found.
  */
 export function findRegisteredCommand(name: string) {
-  return getRegisteredSlashCommands().find((command) => command.name === name);
+	return getRegisteredSlashCommands().find((command) => command.name === name);
 }

@@ -1,4 +1,4 @@
-import { isEditorBorderLine } from "../../shared/ui/isEditorBorderLine.js";
+import { isEditorBorderLine } from "../../shared/ui/isEditorBorderLine";
 
 /**
  * Extracts content rows from the base editor chrome render.
@@ -7,17 +7,17 @@ import { isEditorBorderLine } from "../../shared/ui/isEditorBorderLine.js";
  * @returns Inner editor content lines.
  */
 export function extractEditorContentLines(lines: string[]): string[] {
-  const result: string[] = [];
-  let seenTop = false;
-  for (const line of lines) {
-    if (isEditorBorderLine(line)) {
-      if (!seenTop) {
-        seenTop = true;
-        continue;
-      }
-      break;
-    }
-    if (seenTop) result.push(line);
-  }
-  return result;
+	const result: string[] = [];
+	let seenTop = false;
+	for (const line of lines) {
+		if (isEditorBorderLine(line)) {
+			if (!seenTop) {
+				seenTop = true;
+				continue;
+			}
+			break;
+		}
+		if (seenTop) result.push(line);
+	}
+	return result;
 }

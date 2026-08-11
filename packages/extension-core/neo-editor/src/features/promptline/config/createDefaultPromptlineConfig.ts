@@ -1,4 +1,4 @@
-import type { PromptlineConfig } from "./types.js";
+import type { PromptlineConfig } from "./types";
 
 /**
  * Creates the default in-memory promptline config.
@@ -6,8 +6,8 @@ import type { PromptlineConfig } from "./types.js";
  * @returns Empty trigger config plus default Neo settings.
  */
 export function createDefaultPromptlineConfig(): PromptlineConfig {
-  return {
-    triggerConfig: { rules: [] },
-    neoConfig: { clearEditorOnTriggerSubmit: true },
-  };
+	return {
+		triggerConfig: { rules: [] },
+		neoConfig: { clearEditorOnTriggerSubmit: true },
+	};
 }

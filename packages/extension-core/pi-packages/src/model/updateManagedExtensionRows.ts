@@ -1,4 +1,4 @@
-import type { ManagedExtensionRow, ManagedExtensionStatus } from "./types.js";
+import type { ManagedExtensionRow, ManagedExtensionStatus } from "./types";
 
 /**
  * Updates one managed extension row status.

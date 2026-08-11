@@ -1,6 +1,6 @@
-import { arrangeHotkeysGroups } from "./arrangeHotkeysGroups.js";
-import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId.js";
-import type { HotkeysGroup } from "./types.js";
+import { arrangeHotkeysGroups } from "./arrangeHotkeysGroups";
+import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId";
+import type { HotkeysGroup } from "./types";
 
 /**
  * Arranges hotkey panes so the pane containing focus is always rendered left.
@@ -9,8 +9,15 @@ import type { HotkeysGroup } from "./types.js";
  * @param focusedEntryId Focused entry id.
  * @returns Left and right columns with focused pane first.
  */
-export function arrangeFocusedHotkeysGroups(groups: HotkeysGroup[], focusedEntryId?: string): [HotkeysGroup[], HotkeysGroup[]] {
-  const [left, right] = arrangeHotkeysGroups(groups);
-  const rightHasFocus = right.some((group) => group.shortcuts.some((entry) => getHotkeysEntryFocusId(entry) === focusedEntryId));
-  return rightHasFocus ? [right, left] : [left, right];
+export function arrangeFocusedHotkeysGroups(
+	groups: HotkeysGroup[],
+	focusedEntryId?: string,
+): [HotkeysGroup[], HotkeysGroup[]] {
+	const [left, right] = arrangeHotkeysGroups(groups);
+	const rightHasFocus = right.some((group) =>
+		group.shortcuts.some(
+			(entry) => getHotkeysEntryFocusId(entry) === focusedEntryId,
+		),
+	);
+	return rightHasFocus ? [right, left] : [left, right];
 }

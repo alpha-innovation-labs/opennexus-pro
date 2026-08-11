@@ -1,5 +1,5 @@
 import type { TUI } from "@earendil-works/pi-tui";
-import { openSystemPromptExternalEditor } from "@extensions/prompts/modal/openSystemPromptExternalEditor.js";
+import { openSystemPromptExternalEditor } from "@extensions/prompts/modal/openSystemPromptExternalEditor";
 
 /**
  * Opens the observation prompt in the configured external editor.
@@ -8,6 +8,9 @@ import { openSystemPromptExternalEditor } from "@extensions/prompts/modal/openSy
  * @param prompt Current prompt content.
  * @returns Updated prompt when saved successfully.
  */
-export function openObservationPromptExternalEditor(tui: TUI, prompt: string): string | undefined {
+export function openObservationPromptExternalEditor(
+	tui: TUI,
+	prompt: string,
+): string | undefined {
 	return openSystemPromptExternalEditor(tui, prompt);
 }

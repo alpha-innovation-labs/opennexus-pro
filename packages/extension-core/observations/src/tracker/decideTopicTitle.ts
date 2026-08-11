@@ -1,8 +1,8 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { buildTopicDecisionPrompt } from "./buildTopicDecisionPrompt.js";
-import { parseTopicDecisionOutput } from "./parseTopicDecisionOutput.js";
-import { runObservationSummarizer } from "./runObservationSummarizer.js";
-import type { ObservationTopic } from "./types.js";
+import { buildTopicDecisionPrompt } from "./buildTopicDecisionPrompt";
+import { parseTopicDecisionOutput } from "./parseTopicDecisionOutput";
+import { runObservationSummarizer } from "./runObservationSummarizer";
+import type { ObservationTopic } from "./types";
 
 /**
  * Decides whether the latest user message starts a new topic.

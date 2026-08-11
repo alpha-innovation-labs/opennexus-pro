@@ -1,4 +1,4 @@
-import type { FeatureStatusRow } from "../model/types.js";
+import type { FeatureStatusRow } from "../model/types";
 
 /**
  * Builds the right-pane detail lines for a selected feature row.
@@ -6,7 +6,9 @@ import type { FeatureStatusRow } from "../model/types.js";
  * @param row Selected feature row.
  * @returns Human-readable feature details.
  */
-export function buildFeatureDetailLines(row: FeatureStatusRow | null): string[] {
+export function buildFeatureDetailLines(
+	row: FeatureStatusRow | null,
+): string[] {
 	if (!row) return ["No feature selected"];
 
 	return [

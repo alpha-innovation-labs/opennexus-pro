@@ -5,5 +5,5 @@
  * @returns True when the input is a trigger character.
  */
 export function isTriggerTextStart(data: string): data is "@" | "/" {
-  return data === "@" || data === "/";
+	return data === "@" || data === "/";
 }

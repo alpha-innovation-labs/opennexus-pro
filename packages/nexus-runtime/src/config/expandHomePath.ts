@@ -7,13 +7,13 @@ import { homedir } from "node:os";
  * @returns Expanded absolute-like path.
  */
 export function expandHomePath(value: string): string {
-  if (value === "~") {
-    return homedir();
-  }
+	if (value === "~") {
+		return homedir();
+	}
 
-  if (value.startsWith("~/")) {
-    return `${homedir()}${value.slice(1)}`;
-  }
+	if (value.startsWith("~/")) {
+		return `${homedir()}${value.slice(1)}`;
+	}
 
-  return value;
+	return value;
 }

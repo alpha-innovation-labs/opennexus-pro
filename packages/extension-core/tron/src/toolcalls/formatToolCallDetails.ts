@@ -1,7 +1,7 @@
-import { previewContent } from "./previewContent.js";
-import { toJsonLines } from "./toJsonLines.js";
-import { toPlainTextLines } from "./toPlainTextLines.js";
-import type { ToolCallInfo } from "./types.js";
+import { previewContent } from "./previewContent";
+import { toJsonLines } from "./toJsonLines";
+import { toPlainTextLines } from "./toPlainTextLines";
+import type { ToolCallInfo } from "./types";
 
 /**
  * Formats fallback detail lines for one tool call.
@@ -14,7 +14,8 @@ export function formatToolCallDetails(toolCall: ToolCallInfo): string[] {
 	lines.push(`${toolCall.toolName}`);
 	lines.push(`call id: ${toolCall.toolCallId}`);
 	lines.push(`assistant message: #${toolCall.assistantIndex}`);
-	if (toolCall.assistantPreview) lines.push(`context: ${toolCall.assistantPreview}`);
+	if (toolCall.assistantPreview)
+		lines.push(`context: ${toolCall.assistantPreview}`);
 	if (toolCall.assistantThinking) {
 		lines.push("Thinking");
 		lines.push(...toPlainTextLines(toolCall.assistantThinking));

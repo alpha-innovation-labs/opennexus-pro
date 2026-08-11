@@ -1,5 +1,5 @@
 import type { SessionInfo } from "@earendil-works/pi-coding-agent";
-import { getObservationRecreateSessionTargetIds } from "./getObservationRecreateSessionTargetIds.js";
+import { getObservationRecreateSessionTargetIds } from "./getObservationRecreateSessionTargetIds";
 
 /**
  * Checks whether a session matches an observations recreate target.
@@ -9,7 +9,13 @@ import { getObservationRecreateSessionTargetIds } from "./getObservationRecreate
  * @param exact Whether the match must be exact instead of prefix-based.
  * @returns True when the session matches the requested target.
  */
-export function matchesObservationRecreateSessionTarget(session: SessionInfo, target: string, exact: boolean): boolean {
+export function matchesObservationRecreateSessionTarget(
+	session: SessionInfo,
+	target: string,
+	exact: boolean,
+): boolean {
 	const targetIds = getObservationRecreateSessionTargetIds(session);
-	return exact ? targetIds.includes(target) : targetIds.some((targetId) => targetId.startsWith(target));
+	return exact
+		? targetIds.includes(target)
+		: targetIds.some((targetId) => targetId.startsWith(target));
 }

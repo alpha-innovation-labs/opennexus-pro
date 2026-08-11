@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { getProjectConfigDirPath } from "./getProjectConfigDirPath.js";
+import { getProjectConfigDirPath } from "./getProjectConfigDirPath";
 
 /**
  * Resolves the Nexus project themes directory path.
@@ -8,5 +8,5 @@ import { getProjectConfigDirPath } from "./getProjectConfigDirPath.js";
  * @returns Absolute project themes directory path.
  */
 export function getProjectThemesPath(cwd: string): string {
-  return join(getProjectConfigDirPath(cwd), "themes");
+	return join(getProjectConfigDirPath(cwd), "themes");
 }

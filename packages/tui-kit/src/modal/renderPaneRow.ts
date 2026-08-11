@@ -1,5 +1,5 @@
-import { padModalLine } from "./padModalLine.js";
-import type { SharedModalTheme } from "./types.js";
+import { padModalLine } from "./padModalLine";
+import type { SharedModalTheme } from "./types";
 
 /**
  * Renders one row across all modal panes.
@@ -9,7 +9,13 @@ import type { SharedModalTheme } from "./types.js";
  * @param widths Width for each pane.
  * @returns Rendered pane row.
  */
-export function renderPaneRow(theme: SharedModalTheme, paneLines: string[], widths: number[]): string {
-  const cells = paneLines.map((line, index) => padModalLine(line, widths[index] ?? 1));
-  return `${theme.fg("borderMuted", "│")}${cells.join(theme.fg("borderMuted", "│"))}${theme.fg("borderMuted", "│")}`;
+export function renderPaneRow(
+	theme: SharedModalTheme,
+	paneLines: string[],
+	widths: number[],
+): string {
+	const cells = paneLines.map((line, index) =>
+		padModalLine(line, widths[index] ?? 1),
+	);
+	return `${theme.fg("borderMuted", "│")}${cells.join(theme.fg("borderMuted", "│"))}${theme.fg("borderMuted", "│")}`;
 }

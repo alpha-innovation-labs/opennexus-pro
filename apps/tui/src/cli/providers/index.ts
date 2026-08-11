@@ -1,6 +1,6 @@
-export { hasProvidersFlag } from "./hasProvidersFlag.js";
-export { parseProvidersCommand } from "./parseProvidersCommand.js";
-export { printProvidersHelp } from "./printProvidersHelp.js";
-export { runProvidersCommand } from "./runProvidersCommand.js";
-export { getAllProviderIds } from "./getAllProviderIds.js";
-export { handleConfigureCommand } from "./handleConfigureCommand.js";
+export { getAllProviderIds } from "./getAllProviderIds";
+export { handleConfigureCommand } from "./handleConfigureCommand";
+export { hasProvidersFlag } from "./hasProvidersFlag";
+export { parseProvidersCommand } from "./parseProvidersCommand";
+export { printProvidersHelp } from "./printProvidersHelp";
+export { runProvidersCommand } from "./runProvidersCommand";

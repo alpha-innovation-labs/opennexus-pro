@@ -1,5 +1,5 @@
-import { getTriggerState } from "./getTriggerState.js";
-import type { TriggerState } from "./types.js";
+import { getTriggerState } from "./getTriggerState";
+import type { TriggerState } from "./types";
 
 /**
  * Resolves whether one typed character should start a new trigger session.
@@ -13,18 +13,18 @@ import type { TriggerState } from "./types.js";
  * @returns Trigger session state to start, or null.
  */
 export function resolveTriggerSessionStart(
-  data: string,
-  textBeforeCursor: string,
-  editorText: string,
+	data: string,
+	textBeforeCursor: string,
+	editorText: string,
 ): TriggerState | null {
-  if (data === "/") {
-    return editorText.length === 0 ? { kind: "slash", prefix: "/" } : null;
-  }
+	if (data === "/") {
+		return editorText.length === 0 ? { kind: "slash", prefix: "/" } : null;
+	}
 
-  if (data !== "@") {
-    return null;
-  }
+	if (data !== "@") {
+		return null;
+	}
 
-  const nextState = getTriggerState(`${textBeforeCursor}@`);
-  return nextState?.kind === "at" ? nextState : null;
+	const nextState = getTriggerState(`${textBeforeCursor}@`);
+	return nextState?.kind === "at" ? nextState : null;
 }

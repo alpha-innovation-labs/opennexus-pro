@@ -4,5 +4,5 @@
  * @returns Divider line.
  */
 export function formatSavingsDividerLine(): string {
-  return "─".repeat(48);
+	return "─".repeat(48);
 }

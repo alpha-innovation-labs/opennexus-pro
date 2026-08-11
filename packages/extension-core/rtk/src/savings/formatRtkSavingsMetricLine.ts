@@ -7,6 +7,9 @@ const RTK_SAVINGS_LABEL_WIDTH = 17;
  * @param value Rendered metric value.
  * @returns Aligned modal row.
  */
-export function formatRtkSavingsMetricLine(label: string, value: string): string {
-  return `${label.padEnd(RTK_SAVINGS_LABEL_WIDTH)} ${value}`;
+export function formatRtkSavingsMetricLine(
+	label: string,
+	value: string,
+): string {
+	return `${label.padEnd(RTK_SAVINGS_LABEL_WIDTH)} ${value}`;
 }

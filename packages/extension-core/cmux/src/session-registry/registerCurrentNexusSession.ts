@@ -1,11 +1,11 @@
-import { getCurrentCmuxRenameTarget } from "../runtime/getCurrentCmuxRenameTarget.js";
-import { createNexusResumeCommand } from "./createNexusResumeCommand.js";
-import { getCmuxSessionRegistryPath } from "./getCmuxSessionRegistryPath.js";
-import { normalizeCmuxSessionTitle } from "./normalizeCmuxSessionTitle.js";
-import { readCmuxSessionRegistry } from "./readCmuxSessionRegistry.js";
-import { upsertCmuxSessionRegistryEntry } from "./upsertCmuxSessionRegistryEntry.js";
-import { withCmuxSessionRegistryLock } from "./withCmuxSessionRegistryLock.js";
-import { writeCmuxSessionRegistry } from "./writeCmuxSessionRegistry.js";
+import { getCurrentCmuxRenameTarget } from "../runtime/getCurrentCmuxRenameTarget";
+import { createNexusResumeCommand } from "./createNexusResumeCommand";
+import { getCmuxSessionRegistryPath } from "./getCmuxSessionRegistryPath";
+import { normalizeCmuxSessionTitle } from "./normalizeCmuxSessionTitle";
+import { readCmuxSessionRegistry } from "./readCmuxSessionRegistry";
+import { upsertCmuxSessionRegistryEntry } from "./upsertCmuxSessionRegistryEntry";
+import { withCmuxSessionRegistryLock } from "./withCmuxSessionRegistryLock";
+import { writeCmuxSessionRegistry } from "./writeCmuxSessionRegistry";
 
 /**
  * Registers the current Nexus session for the active cmux surface.
@@ -14,7 +14,11 @@ import { writeCmuxSessionRegistry } from "./writeCmuxSessionRegistry.js";
  * @param sessionFile Nexus session file path.
  * @param sessionTitle Nexus session title.
  */
-export async function registerCurrentNexusSession(sessionId: string, sessionFile?: string, sessionTitle?: string): Promise<void> {
+export async function registerCurrentNexusSession(
+	sessionId: string,
+	sessionFile?: string,
+	sessionTitle?: string,
+): Promise<void> {
 	const target = getCurrentCmuxRenameTarget();
 	const surfaceId = target.surfaceId;
 	if (!surfaceId) return;

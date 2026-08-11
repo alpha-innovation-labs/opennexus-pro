@@ -1,9 +1,12 @@
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { isNewerVersion } from "../model/isNewerVersion.js";
-import { fetchLatestNpmVersion } from "../registry/fetchLatestNpmVersion.js";
-import { showAutoUpdateModal } from "../ui/showAutoUpdateModal.js";
-import { currentPackageInfo } from "./currentPackageInfo.js";
-import { installNexusUpdate } from "./installNexusUpdate.js";
+import type {
+	ExtensionAPI,
+	ExtensionContext,
+} from "@earendil-works/pi-coding-agent";
+import { isNewerVersion } from "../model/isNewerVersion";
+import { fetchLatestNpmVersion } from "../registry/fetchLatestNpmVersion";
+import { showAutoUpdateModal } from "../ui/showAutoUpdateModal";
+import { currentPackageInfo } from "./currentPackageInfo";
+import { installNexusUpdate } from "./installNexusUpdate";
 
 /**
  * Returns true when the error looks like a network or offline failure.
@@ -31,7 +34,10 @@ export function isNetworkError(error: unknown): boolean {
  * @param pi Extension API used for installing an approved update.
  * @param ctx Extension context used for UI and notifications.
  */
-export async function checkForNexusUpdate(pi: ExtensionAPI, ctx: ExtensionContext): Promise<void> {
+export async function checkForNexusUpdate(
+	pi: ExtensionAPI,
+	ctx: ExtensionContext,
+): Promise<void> {
 	const current = currentPackageInfo();
 	if (!ctx.hasUI || current.version === "unknown") return;
 	try {

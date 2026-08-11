@@ -1,5 +1,5 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { toAutocompleteItem } from "./toAutocompleteItem.js";
+import { toAutocompleteItem } from "./toAutocompleteItem";
 
 /**
  * Converts folder paths into autocomplete items.
@@ -9,10 +9,15 @@ import { toAutocompleteItem } from "./toAutocompleteItem.js";
  * @returns Folder autocomplete items.
  */
 export function createFolderAutocompleteItems(
-  folderPaths: string[],
-  isQuotedPrefix: boolean,
+	folderPaths: string[],
+	isQuotedPrefix: boolean,
 ): AutocompleteItem[] {
-  return folderPaths.map((folderPath) =>
-    toAutocompleteItem(folderPath, `${folderPath}/`, `${folderPath}/ · folder`, isQuotedPrefix),
-  );
+	return folderPaths.map((folderPath) =>
+		toAutocompleteItem(
+			folderPath,
+			`${folderPath}/`,
+			`${folderPath}/ · folder`,
+			isQuotedPrefix,
+		),
+	);
 }

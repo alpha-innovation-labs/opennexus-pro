@@ -1,4 +1,4 @@
-import type { FeatureRuntimeStatus } from "../model/types.js";
+import type { FeatureRuntimeStatus } from "../model/types";
 
 /**
  * Colors a runtime status using the same Tron success/error palette slots.

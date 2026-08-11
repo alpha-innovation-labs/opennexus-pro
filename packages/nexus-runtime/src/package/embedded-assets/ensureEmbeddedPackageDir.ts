@@ -1,7 +1,7 @@
-import { getEmbeddedPackageAssets } from "./getEmbeddedPackageAssets.js";
-import { getEmbeddedPackageDirPath } from "./getEmbeddedPackageDirPath.js";
-import { readEmbeddedPackageVersion } from "./readEmbeddedPackageVersion.js";
-import { writeEmbeddedPackageAssets } from "./writeEmbeddedPackageAssets.js";
+import { getEmbeddedPackageAssets } from "./getEmbeddedPackageAssets";
+import { getEmbeddedPackageDirPath } from "./getEmbeddedPackageDirPath";
+import { readEmbeddedPackageVersion } from "./readEmbeddedPackageVersion";
+import { writeEmbeddedPackageAssets } from "./writeEmbeddedPackageAssets";
 
 /**
  * Ensures the binary-only package assets are extracted under the agent dir.
@@ -9,13 +9,13 @@ import { writeEmbeddedPackageAssets } from "./writeEmbeddedPackageAssets.js";
  * @returns Absolute extracted package directory.
  */
 export async function ensureEmbeddedPackageDir(): Promise<string> {
-  const packageDir = getEmbeddedPackageDirPath();
-  const { embeddedPackageAssetVersion } = getEmbeddedPackageAssets();
-  const currentVersion = await readEmbeddedPackageVersion(packageDir);
+	const packageDir = getEmbeddedPackageDirPath();
+	const { embeddedPackageAssetVersion } = getEmbeddedPackageAssets();
+	const currentVersion = await readEmbeddedPackageVersion(packageDir);
 
-  if (currentVersion !== embeddedPackageAssetVersion) {
-    await writeEmbeddedPackageAssets(packageDir);
-  }
+	if (currentVersion !== embeddedPackageAssetVersion) {
+		await writeEmbeddedPackageAssets(packageDir);
+	}
 
-  return packageDir;
+	return packageDir;
 }

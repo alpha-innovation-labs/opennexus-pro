@@ -1,4 +1,4 @@
-import { normalizeSearchText } from "./normalizeSearchText.js";
+import { normalizeSearchText } from "./normalizeSearchText";
 
 /**
  * Splits a search query into normalized tokens.
@@ -7,6 +7,6 @@ import { normalizeSearchText } from "./normalizeSearchText.js";
  * @returns Non-empty normalized search tokens.
  */
 export function createSearchTokens(query: string): string[] {
-  const normalizedQuery = normalizeSearchText(query);
-  return normalizedQuery ? normalizedQuery.split(/\s+/u) : [];
+	const normalizedQuery = normalizeSearchText(query);
+	return normalizedQuery ? normalizedQuery.split(/\s+/u) : [];
 }

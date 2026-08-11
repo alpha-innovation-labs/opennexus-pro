@@ -10,16 +10,16 @@ import type { AutocompleteItem } from "@earendil-works/pi-tui";
  * @returns Autocomplete item.
  */
 export function toAutocompleteItem(
-  relativePath: string,
-  label: string,
-  description: string,
-  isQuotedPrefix: boolean,
+	relativePath: string,
+	label: string,
+	description: string,
+	isQuotedPrefix: boolean,
 ): AutocompleteItem {
-  const path = relativePath.replace(/\\/g, "/");
-  const needsQuotes = isQuotedPrefix || path.includes(" ");
-  return {
-    value: needsQuotes ? `@"${path}"` : `@${path}`,
-    label,
-    description,
-  };
+	const path = relativePath.replace(/\\/g, "/");
+	const needsQuotes = isQuotedPrefix || path.includes(" ");
+	return {
+		value: needsQuotes ? `@"${path}"` : `@${path}`,
+		label,
+		description,
+	};
 }

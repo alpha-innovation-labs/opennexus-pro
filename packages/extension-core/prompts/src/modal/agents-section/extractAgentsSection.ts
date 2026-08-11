@@ -1,4 +1,4 @@
-import { findAgentsSectionRange } from "./findAgentsSectionRange.js";
+import { findAgentsSectionRange } from "./findAgentsSectionRange";
 
 /**
  * Extracts the editable AGENTS.md section from a full system prompt.

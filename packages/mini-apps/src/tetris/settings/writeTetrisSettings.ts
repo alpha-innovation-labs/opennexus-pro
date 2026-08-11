@@ -1,6 +1,6 @@
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
-import type { TetrisSettings } from "./readTetrisSettings.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
+import type { TetrisSettings } from "./readTetrisSettings";
 
 /**
  * Writes partial Tetris settings under ~/.config/nexus/config.json.

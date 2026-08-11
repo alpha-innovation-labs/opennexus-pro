@@ -1,5 +1,5 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import type { FeatureStatusRow } from "../model/types.js";
+import type { FeatureStatusRow } from "../model/types";
 
 /**
  * Resolves the feature row attached to a selected modal item.

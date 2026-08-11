@@ -1,4 +1,4 @@
-import type { ObservationListJsonRow } from "./types.js";
+import type { ObservationListJsonRow } from "./types";
 
 /**
  * Formats observation rows as pretty JSON.
@@ -6,6 +6,8 @@ import type { ObservationListJsonRow } from "./types.js";
  * @param rows Observation rows.
  * @returns JSON string.
  */
-export function formatObservationListJson(rows: readonly ObservationListJsonRow[]): string {
-  return JSON.stringify(rows, null, 2);
+export function formatObservationListJson(
+	rows: readonly ObservationListJsonRow[],
+): string {
+	return JSON.stringify(rows, null, 2);
 }

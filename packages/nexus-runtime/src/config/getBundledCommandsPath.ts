@@ -1,4 +1,4 @@
-import { resolveBundledAssetPath } from "../package/resolveBundledAssetPath.js";
+import { resolveBundledAssetPath } from "../package/resolveBundledAssetPath";
 
 /**
  * Resolves the bundled Nexus prompt-template directory path.
@@ -6,5 +6,5 @@ import { resolveBundledAssetPath } from "../package/resolveBundledAssetPath.js";
  * @returns Absolute bundled command directory path.
  */
 export function getBundledCommandsPath(): string {
-  return resolveBundledAssetPath(import.meta.url, "commands", "./");
+	return resolveBundledAssetPath(import.meta.url, "commands", "./");
 }

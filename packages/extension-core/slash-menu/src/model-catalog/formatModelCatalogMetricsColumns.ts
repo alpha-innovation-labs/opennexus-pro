@@ -1,7 +1,7 @@
 import type { Api, Model } from "@earendil-works/pi-ai";
-import { formatContextWindow } from "./formatContextWindow.js";
-import { formatModelCost } from "./formatModelCost.js";
-import { getModelCatalogMetricColumnSpecs } from "./getModelCatalogMetricColumnSpecs.js";
+import { formatContextWindow } from "./formatContextWindow";
+import { formatModelCost } from "./formatModelCost";
+import { getModelCatalogMetricColumnSpecs } from "./getModelCatalogMetricColumnSpecs";
 
 /**
  * Formats the numeric catalog columns for one model row.
@@ -10,12 +10,14 @@ import { getModelCatalogMetricColumnSpecs } from "./getModelCatalogMetricColumnS
  * @returns Context and per-million-token cost columns.
  */
 export function formatModelCatalogMetricsColumns(model: Model<Api>): string {
-  const columns = getModelCatalogMetricColumnSpecs();
-  return [
-    formatContextWindow(model.contextWindow),
-    formatModelCost(model.cost.input),
-    formatModelCost(model.cost.output),
-    formatModelCost(model.cost.cacheRead),
-    formatModelCost(model.cost.cacheWrite),
-  ].map((value, index) => value.padEnd(columns[index]!.width)).join("  ");
+	const columns = getModelCatalogMetricColumnSpecs();
+	return [
+		formatContextWindow(model.contextWindow),
+		formatModelCost(model.cost.input),
+		formatModelCost(model.cost.output),
+		formatModelCost(model.cost.cacheRead),
+		formatModelCost(model.cost.cacheWrite),
+	]
+		.map((value, index) => value.padEnd(columns[index]?.width))
+		.join("  ");
 }

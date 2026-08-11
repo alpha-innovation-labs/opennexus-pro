@@ -1,4 +1,4 @@
-import { findText } from "./findText.ts";
+import { findText } from "./findText";
 
 /**
  * Extracts the raw text from a user-message component.
@@ -6,6 +6,6 @@ import { findText } from "./findText.ts";
  * @param component User-message component.
  * @returns Raw message text.
  */
-export function getRawText(component: any): string {
-	return findText(component);
+export function getRawText(component: unknown): string {
+	return findText(component as { text?: string; children?: unknown[] });
 }

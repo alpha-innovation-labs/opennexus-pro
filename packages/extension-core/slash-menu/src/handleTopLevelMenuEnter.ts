@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createForkLeaves } from "./createForkLeaves.js";
-import { createLogoutProviderLeaves } from "./createLogoutProviderLeaves.js";
-import type { SlashMenuLevel } from "./SlashMenuLevel.js";
+import { createForkLeaves } from "./createForkLeaves";
+import { createLogoutProviderLeaves } from "./createLogoutProviderLeaves";
+import type { SlashMenuLevel } from "./SlashMenuLevel";
 
 /**
  * Handles an enter key selection from the top-level slash menu.
@@ -12,34 +12,34 @@ import type { SlashMenuLevel } from "./SlashMenuLevel.js";
  * @param onCommandPicked Command submit callback.
  */
 export async function handleTopLevelMenuEnter(
-  ctx: ExtensionContext,
-  value: string,
-  openLevel: (level: SlashMenuLevel) => Promise<void>,
-  onCommandPicked: (commandText: string) => void,
+	ctx: ExtensionContext,
+	value: string,
+	openLevel: (level: SlashMenuLevel) => Promise<void>,
+	onCommandPicked: (commandText: string) => void,
 ): Promise<void> {
-  if (value === "settings") return openLevel("settings");
-  if (value === "model") return openLevel("model");
-  if (value === "scoped-models") return openLevel("scoped-models");
-  if (value === "fork") {
-    const leaves = createForkLeaves(ctx.sessionManager.getEntries() as never);
-    if (leaves.length === 0) {
-      ctx.ui.notify("No messages to fork from", "info");
-      return;
-    }
-    return openLevel("fork");
-  }
-  if (value === "resume") return openLevel("resume");
-  if (value === "prompts") return openLevel("prompts");
-  if (value === "skills") return openLevel("skills");
-  if (value === "tools") return openLevel("tools");
-  if (value === "login") return openLevel("login");
-  if (value === "logout") {
-    const leaves = createLogoutProviderLeaves(ctx);
-    if (leaves.length === 0) {
-      ctx.ui.notify("No providers logged in.", "info");
-      return;
-    }
-    return openLevel("logout");
-  }
-  onCommandPicked(`/${value}`);
+	if (value === "settings") return openLevel("settings");
+	if (value === "model") return openLevel("model");
+	if (value === "scoped-models") return openLevel("scoped-models");
+	if (value === "fork") {
+		const leaves = createForkLeaves(ctx.sessionManager.getEntries() as never);
+		if (leaves.length === 0) {
+			ctx.ui.notify("No messages to fork from", "info");
+			return;
+		}
+		return openLevel("fork");
+	}
+	if (value === "resume") return openLevel("resume");
+	if (value === "prompts") return openLevel("prompts");
+	if (value === "skills") return openLevel("skills");
+	if (value === "tools") return openLevel("tools");
+	if (value === "login") return openLevel("login-picker");
+	if (value === "logout") {
+		const leaves = createLogoutProviderLeaves(ctx);
+		if (leaves.length === 0) {
+			ctx.ui.notify("No providers logged in.", "info");
+			return;
+		}
+		return openLevel("logout");
+	}
+	onCommandPicked(`/${value}`);
 }

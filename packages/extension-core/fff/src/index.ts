@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerFffExtension } from "./registerFffExtension.js";
+import { registerFffExtension } from "./registerFffExtension";
 
 /**
  * Registers the bundled FFF extension surface.
@@ -10,5 +10,5 @@ import { registerFffExtension } from "./registerFffExtension.js";
  * @param pi Pi extension API.
  */
 export default function registerFffBundle(pi: ExtensionAPI): void {
-  registerFffExtension(pi);
+	registerFffExtension(pi);
 }

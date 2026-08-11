@@ -1,4 +1,4 @@
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 
 /** Tetris settings persisted under Nexus mini-app config. */
 export type TetrisSettings = {
@@ -14,7 +14,11 @@ export type TetrisSettings = {
 export function readTetrisSettings(): TetrisSettings {
 	const settings = readNexusUserConfig().miniApps?.tetris;
 	return {
-		fullscreen: typeof settings?.fullscreen === "boolean" ? settings.fullscreen : false,
-		musicEnabled: typeof settings?.musicEnabled === "boolean" ? settings.musicEnabled : true,
+		fullscreen:
+			typeof settings?.fullscreen === "boolean" ? settings.fullscreen : false,
+		musicEnabled:
+			typeof settings?.musicEnabled === "boolean"
+				? settings.musicEnabled
+				: true,
 	};
 }

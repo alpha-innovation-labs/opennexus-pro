@@ -1,4 +1,4 @@
 export type UserMessageMetadata = {
-  timestamp?: Date | number | string;
-  now?: Date;
+	timestamp?: Date | number | string;
+	now?: Date;
 };

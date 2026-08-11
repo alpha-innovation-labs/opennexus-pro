@@ -1,5 +1,5 @@
-import { padModalLine } from "./padModalLine.js";
-import type { SharedModalTheme } from "./types.js";
+import { padModalLine } from "./padModalLine";
+import type { SharedModalTheme } from "./types";
 
 /**
  * Renders full-width header or footer rows inside the modal frame.
@@ -9,6 +9,13 @@ import type { SharedModalTheme } from "./types.js";
  * @param width Inner modal width.
  * @returns Rendered modal rows.
  */
-export function renderFullWidthRows(theme: SharedModalTheme, rows: string[], width: number): string[] {
-  return rows.map((row) => `${theme.fg("borderMuted", "│")}${padModalLine(row, width)}${theme.fg("borderMuted", "│")}`);
+export function renderFullWidthRows(
+	theme: SharedModalTheme,
+	rows: string[],
+	width: number,
+): string[] {
+	return rows.map(
+		(row) =>
+			`${theme.fg("borderMuted", "│")}${padModalLine(row, width)}${theme.fg("borderMuted", "│")}`,
+	);
 }

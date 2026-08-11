@@ -1,4 +1,4 @@
-import { createNexusUsageText } from "./createNexusUsageText.js";
+import { createNexusUsageText } from "./createNexusUsageText";
 
 /**
  * Prints the Nexus-owned top-level CLI help text.

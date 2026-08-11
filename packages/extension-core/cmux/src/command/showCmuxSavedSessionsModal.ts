@@ -1,9 +1,9 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { deleteCmuxSavedSession } from "../snapshots/deleteCmuxSavedSession.js";
-import { listCmuxSavedSessions } from "../snapshots/listCmuxSavedSessions.js";
-import { CmuxSavedSessionsModal } from "../ui/CmuxSavedSessionsModal.js";
-import type { CmuxSavedSessionsAction } from "./CmuxWorkspaceShellAction.js";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { deleteCmuxSavedSession } from "../snapshots/deleteCmuxSavedSession";
+import { listCmuxSavedSessions } from "../snapshots/listCmuxSavedSessions";
+import { CmuxSavedSessionsModal } from "../ui/CmuxSavedSessionsModal";
+import type { CmuxSavedSessionsAction } from "./CmuxWorkspaceShellAction";
 
 /**
  * Opens the saved cmux sessions browser.
@@ -11,19 +11,25 @@ import type { CmuxSavedSessionsAction } from "./CmuxWorkspaceShellAction.js";
  * @param ctx Extension command context.
  * @returns Saved-session browser action.
  */
-export async function showCmuxSavedSessionsModal(ctx: ExtensionCommandContext): Promise<CmuxSavedSessionsAction> {
+export async function showCmuxSavedSessionsModal(
+	ctx: ExtensionCommandContext,
+): Promise<CmuxSavedSessionsAction> {
 	const sessions = await listCmuxSavedSessions();
-	return ctx.ui.custom<CmuxSavedSessionsAction>((tui, theme, _keybindings, done) => new CmuxSavedSessionsModal(
-		theme,
-		sessions,
-		() => done("back"),
-		(sessionId) => {
-			void deleteCmuxSavedSession(sessionId);
-			ctx.ui.notify("Deleted cmux session snapshot", "info");
+	return ctx.ui.custom<CmuxSavedSessionsAction>(
+		(tui, theme, _keybindings, done) =>
+			new CmuxSavedSessionsModal(
+				theme,
+				sessions,
+				() => done("back"),
+				(sessionId) => {
+					void deleteCmuxSavedSession(sessionId);
+					ctx.ui.notify("Deleted cmux session snapshot", "info");
+				},
+				() => tui.requestRender(),
+			),
+		{
+			overlay: true,
+			overlayOptions: createPanelOverlayOptions(110, "90%") as never,
 		},
-		() => tui.requestRender(),
-	), {
-		overlay: true,
-		overlayOptions: createPanelOverlayOptions(110, "90%") as never,
-	});
+	);
 }

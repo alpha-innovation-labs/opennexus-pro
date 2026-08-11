@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { getProjectConfigDirName } from "./getProjectConfigDirName.js";
+import { getProjectConfigDirName } from "./getProjectConfigDirName";
 
 /**
  * Resolves the Nexus project config directory path.
@@ -8,5 +8,5 @@ import { getProjectConfigDirName } from "./getProjectConfigDirName.js";
  * @returns Absolute project config directory path.
  */
 export function getProjectConfigDirPath(cwd: string): string {
-  return resolve(cwd, getProjectConfigDirName());
+	return resolve(cwd, getProjectConfigDirName());
 }

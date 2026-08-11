@@ -5,7 +5,10 @@
  * @param env Environment variables.
  * @returns Sequence wrapped for tmux when active.
  */
-export function wrapForTmux(sequence: string, env: NodeJS.ProcessEnv = process.env): string {
+export function wrapForTmux(
+	sequence: string,
+	env: NodeJS.ProcessEnv = process.env,
+): string {
 	if (!env.TMUX) return sequence;
 	const escaped = sequence.split("\x1b").join("\x1b\x1b");
 	return `\x1bPtmux;${escaped}\x1b\\`;

@@ -7,9 +7,12 @@ import stripAnsi from "strip-ansi";
  * @returns Lines without a trailing closing border when present.
  */
 export function trimTrailingTranscriptBorder(lines: string[]): string[] {
-  const lastLine = stripAnsi(lines.at(-1) ?? "").trimStart();
-  if ((lastLine.startsWith("╰") && lastLine.endsWith("╯")) || (lastLine.startsWith("└") && lastLine.endsWith("┘"))) {
-    return lines.slice(0, -1);
-  }
-  return lines;
+	const lastLine = stripAnsi(lines.at(-1) ?? "").trimStart();
+	if (
+		(lastLine.startsWith("╰") && lastLine.endsWith("╯")) ||
+		(lastLine.startsWith("└") && lastLine.endsWith("┘"))
+	) {
+		return lines.slice(0, -1);
+	}
+	return lines;
 }

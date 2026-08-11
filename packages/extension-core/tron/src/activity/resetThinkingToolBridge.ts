@@ -1,4 +1,11 @@
-import { bridgedToolCallClosingIds, bridgedToolCallIds, toolActivityFrameCursor, toolCallBottomBorderIds, toolCallFrameSyncedIds, toolCallTopBorderIds } from "./state.ts";
+import {
+	bridgedToolCallClosingIds,
+	bridgedToolCallIds,
+	toolActivityFrameCursor,
+	toolCallBottomBorderIds,
+	toolCallFrameSyncedIds,
+	toolCallTopBorderIds,
+} from "./state";
 
 /**
  * Clears all cached thinking-to-tool bridge state.

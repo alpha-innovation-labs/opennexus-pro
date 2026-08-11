@@ -1,4 +1,4 @@
-import { formatWorkingElapsed } from "./formatWorkingElapsed.js";
+import { formatWorkingElapsed } from "./formatWorkingElapsed";
 
 /**
  * Adds an elapsed-time prefix to a working loader message.
@@ -7,6 +7,9 @@ import { formatWorkingElapsed } from "./formatWorkingElapsed.js";
  * @param elapsedMs Elapsed milliseconds.
  * @returns Message with stopwatch and elapsed time.
  */
-export function createWorkingElapsedMessage(message: string, elapsedMs: number): string {
-  return `⏱ ${formatWorkingElapsed(elapsedMs)} ${message}`;
+export function createWorkingElapsedMessage(
+	message: string,
+	elapsedMs: number,
+): string {
+	return `⏱ ${formatWorkingElapsed(elapsedMs)} ${message}`;
 }

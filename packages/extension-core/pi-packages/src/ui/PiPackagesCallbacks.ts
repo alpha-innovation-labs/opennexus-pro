@@ -1,4 +1,4 @@
-import type { ManagedExtensionRow } from "../model/types.js";
+import type { ManagedExtensionRow } from "../model/types";
 
 /**
  * Side-effect callbacks used by the Pi packages modal.
@@ -8,5 +8,8 @@ export type PiPackagesCallbacks = {
 	onInstallPackage?: (source: string) => Promise<ManagedExtensionRow[]>;
 	onRemovePackage?: (source: string) => Promise<ManagedExtensionRow[]>;
 	onUpdatePackage?: (source: string) => Promise<ManagedExtensionRow[]>;
-	onSearchPackages?: (query: string, rows: ManagedExtensionRow[]) => Promise<ManagedExtensionRow[]>;
+	onSearchPackages?: (
+		query: string,
+		rows: ManagedExtensionRow[],
+	) => Promise<ManagedExtensionRow[]>;
 };

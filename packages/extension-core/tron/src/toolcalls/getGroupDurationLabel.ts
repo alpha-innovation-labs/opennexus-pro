@@ -1,4 +1,4 @@
-import { formatCompactDuration } from "../duration/formatCompactDuration.js";
+import { formatCompactDuration } from "../duration/formatCompactDuration";
 
 /**
  * Builds the duration label for one user-prompt group.
@@ -7,7 +7,15 @@ import { formatCompactDuration } from "../duration/formatCompactDuration.js";
  * @param finishedAt Last assistant timestamp.
  * @returns Compact duration label wrapped in parentheses.
  */
-export function getGroupDurationLabel(startedAt?: number, finishedAt?: number): string | undefined {
-	if (typeof startedAt !== "number" || typeof finishedAt !== "number" || finishedAt < startedAt) return undefined;
+export function getGroupDurationLabel(
+	startedAt?: number,
+	finishedAt?: number,
+): string | undefined {
+	if (
+		typeof startedAt !== "number" ||
+		typeof finishedAt !== "number" ||
+		finishedAt < startedAt
+	)
+		return undefined;
 	return `(${formatCompactDuration(finishedAt - startedAt)})`;
 }

@@ -1,4 +1,4 @@
-import type { SlashMenuLeaf } from "./types.js";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Formats a resource command list label with local/global scope indicator.
@@ -7,9 +7,17 @@ import type { SlashMenuLeaf } from "./types.js";
  * @param item Resource command leaf.
  * @returns Formatted label.
  */
-export function formatResourceCommandLabel(icon: string, item: SlashMenuLeaf): string {
-  const scope = item.sourceScope === "project" ? "" : item.sourceScope === "user" ? "" : "?";
-  return `${icon} ${scope} ${stripResourceCommandLabelPrefix(item)}`;
+export function formatResourceCommandLabel(
+	icon: string,
+	item: SlashMenuLeaf,
+): string {
+	const scope =
+		item.sourceScope === "project"
+			? ""
+			: item.sourceScope === "user"
+				? ""
+				: "?";
+	return `${icon} ${scope} ${stripResourceCommandLabelPrefix(item)}`;
 }
 
 /**
@@ -19,6 +27,7 @@ export function formatResourceCommandLabel(icon: string, item: SlashMenuLeaf): s
  * @returns Display label without the skill namespace when applicable.
  */
 function stripResourceCommandLabelPrefix(item: SlashMenuLeaf): string {
-  if (item.value.startsWith("skill:") && item.label.startsWith("skill:")) return item.label.slice("skill:".length);
-  return item.label;
+	if (item.value.startsWith("skill:") && item.label.startsWith("skill:"))
+		return item.label.slice("skill:".length);
+	return item.label;
 }

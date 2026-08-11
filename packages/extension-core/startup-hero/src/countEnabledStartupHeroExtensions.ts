@@ -1,5 +1,5 @@
-import { getAllBundledExtensionIds } from "@nexus/feature-flags/registry.js";
-import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState.js";
+import { getAllBundledExtensionIds } from "@nexus/feature-flags/registry";
+import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
 
 /**
  * Counts enabled extension-category features from the hardcoded registry.

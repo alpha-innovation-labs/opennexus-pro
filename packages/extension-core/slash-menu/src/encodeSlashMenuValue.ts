@@ -5,5 +5,5 @@
  * @returns Base64 encoded value.
  */
 export function encodeSlashMenuValue(value: string): string {
-  return Buffer.from(value, "utf8").toString("base64");
+	return Buffer.from(value, "utf8").toString("base64");
 }

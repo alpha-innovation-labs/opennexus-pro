@@ -1,7 +1,7 @@
-import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath.js";
-import { getUserConfigPath } from "@nexus/runtime/config/getUserConfigPath.js";
-import { readJson } from "./readJson.js";
-import { setTransportPreference } from "./state.js";
+import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath";
+import { getUserConfigPath } from "@nexus/runtime/config/getUserConfigPath";
+import { readJson } from "./readJson";
+import { setTransportPreference } from "./state";
 
 /**
  * Refreshes the cached transport preference from global and project settings.
@@ -9,7 +9,19 @@ import { setTransportPreference } from "./state.js";
  * @param cwd Project cwd.
  */
 export async function refreshTransportPreference(cwd: string): Promise<void> {
-  const globalSettings = await readJson(getUserConfigPath());
-  const projectConfig = await readJson(getProjectConfigPath(cwd));
-  setTransportPreference(projectConfig?.transport ?? globalSettings?.transport ?? "sse");
+	const globalSettings: unknown = await readJson(
+		getUserConfigPath(),
+	);
+	const projectConfig: unknown = await readJson(
+		getProjectConfigPath(cwd),
+	);
+	const transport =
+		(typeof projectConfig === "object" && projectConfig != null
+			? (projectConfig as { transport?: string }).transport
+			: undefined) ??
+		(typeof globalSettings === "object" && globalSettings != null
+			? (globalSettings as { transport?: string }).transport
+			: undefined) ??
+		"sse";
+	setTransportPreference(transport);
 }

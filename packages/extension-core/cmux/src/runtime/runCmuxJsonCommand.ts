@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { getCmuxExecutablePath } from "./getCmuxExecutablePath.js";
+import { getCmuxExecutablePath } from "./getCmuxExecutablePath";
 
 const CMUX_COMMAND_TIMEOUT_MS = 5000;
 
@@ -37,7 +37,11 @@ export async function runCmuxJsonCommand<T>(args: string[]): Promise<T> {
 		child.once("close", (code) => {
 			clearTimeout(timeout);
 			if (code !== 0) {
-				reject(new Error(stderr.trim() || `cmux exited with code ${code ?? "unknown"}`));
+				reject(
+					new Error(
+						stderr.trim() || `cmux exited with code ${code ?? "unknown"}`,
+					),
+				);
 				return;
 			}
 			try {

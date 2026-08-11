@@ -1,3 +1,3 @@
-import type { RegisteredShortcut } from "./types.js";
+import type { RegisteredShortcut } from "./types";
 
 export const registeredShortcuts: RegisteredShortcut[] = [];

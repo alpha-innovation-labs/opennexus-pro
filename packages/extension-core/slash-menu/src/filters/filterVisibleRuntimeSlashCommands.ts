@@ -1,7 +1,7 @@
-import type { RegisteredSlashCommand } from "../types.js";
-import { defaultRuntimeSlashCommandFilterConfig } from "./defaultRuntimeSlashCommandFilterConfig.js";
-import type { RuntimeSlashCommandFilterConfig } from "./RuntimeSlashCommandFilterConfig.js";
-import { isHiddenRuntimeSlashCommand } from "./isHiddenRuntimeSlashCommand.js";
+import type { RegisteredSlashCommand } from "../types";
+import { defaultRuntimeSlashCommandFilterConfig } from "./defaultRuntimeSlashCommandFilterConfig";
+import { isHiddenRuntimeSlashCommand } from "./isHiddenRuntimeSlashCommand";
+import type { RuntimeSlashCommandFilterConfig } from "./RuntimeSlashCommandFilterConfig";
 
 /**
  * Filters runtime extension commands to those visible in the Nexus slash menu.
@@ -11,8 +11,12 @@ import { isHiddenRuntimeSlashCommand } from "./isHiddenRuntimeSlashCommand.js";
  * @returns Visible runtime extension slash commands.
  */
 export function filterVisibleRuntimeSlashCommands(
-  commands: RegisteredSlashCommand[],
-  config: RuntimeSlashCommandFilterConfig = defaultRuntimeSlashCommandFilterConfig,
+	commands: RegisteredSlashCommand[],
+	config: RuntimeSlashCommandFilterConfig = defaultRuntimeSlashCommandFilterConfig,
 ): RegisteredSlashCommand[] {
-  return commands.filter((command) => command.source === "extension" && !isHiddenRuntimeSlashCommand(command.name, config));
+	return commands.filter(
+		(command) =>
+			command.source === "extension" &&
+			!isHiddenRuntimeSlashCommand(command.name, config),
+	);
 }

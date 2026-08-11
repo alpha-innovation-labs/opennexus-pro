@@ -5,7 +5,12 @@
  * @returns Positive terminal row count.
  */
 export function getModalWindowRows(fallbackRows: number): number {
-  const stdoutRows = process.stdout.rows;
-  if (typeof stdoutRows === "number" && Number.isFinite(stdoutRows) && stdoutRows > 0) return Math.floor(stdoutRows);
-  return Math.max(1, Math.floor(fallbackRows));
+	const stdoutRows = process.stdout.rows;
+	if (
+		typeof stdoutRows === "number" &&
+		Number.isFinite(stdoutRows) &&
+		stdoutRows > 0
+	)
+		return Math.floor(stdoutRows);
+	return Math.max(1, Math.floor(fallbackRows));
 }

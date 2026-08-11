@@ -1,7 +1,7 @@
-import type { LocalImageReaderConfig } from "./types.js";
-import { validateSettingsEntry } from "./validators.js";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
+import type { LocalImageReaderConfig } from "./types";
+import { validateSettingsEntry } from "./validators";
 
 /**
  * Load the local-image-reader sub-entry from the Nexus user config file.
@@ -11,13 +11,13 @@ import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig
  * @returns Validated config, or null if not found.
  */
 export function loadFromUserConfig(): LocalImageReaderConfig | null {
-  const config = readNexusUserConfig();
-  const entry = config.localImageReader;
-  if (entry === undefined) {
-    return null;
-  }
-  const validated = validateSettingsEntry(entry);
-  return validated;
+	const config = readNexusUserConfig();
+	const entry = config.localImageReader;
+	if (entry === undefined) {
+		return null;
+	}
+	const validated = validateSettingsEntry(entry);
+	return validated;
 }
 
 /**
@@ -29,9 +29,9 @@ export function loadFromUserConfig(): LocalImageReaderConfig | null {
  * @param config - The validated LocalImageReaderConfig to persist.
  */
 export function persistUserConfig(config: LocalImageReaderConfig): void {
-  const existing = readNexusUserConfig();
-  existing.localImageReader = config;
-  writeNexusUserConfig(existing);
+	const existing = readNexusUserConfig();
+	existing.localImageReader = config;
+	writeNexusUserConfig(existing);
 }
 
 /**
@@ -46,13 +46,13 @@ export function persistUserConfig(config: LocalImageReaderConfig): void {
  * @throws If no valid configuration is found.
  */
 export function resolveConfig(): LocalImageReaderConfig {
-  const config = loadFromUserConfig();
-  if (config) {
-    return config;
-  }
+	const config = loadFromUserConfig();
+	if (config) {
+		return config;
+	}
 
-  throw new Error(
-    "No local-image-reader configuration found.\n\n" +
-      'Add a "localImageReader" entry to your Nexus user config with url and apiKey.',
-  );
+	throw new Error(
+		"No local-image-reader configuration found.\n\n" +
+			'Add a "localImageReader" entry to your Nexus user config with url and apiKey.',
+	);
 }

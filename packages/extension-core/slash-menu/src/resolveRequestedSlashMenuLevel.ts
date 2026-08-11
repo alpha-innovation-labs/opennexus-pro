@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import type { SlashMenuLevel } from "./SlashMenuLevel.js";
+import type { SlashMenuLevel } from "./SlashMenuLevel";
 
 /**
  * Redirects model selection to login-picker when no authenticated models are available.
@@ -8,8 +8,13 @@ import type { SlashMenuLevel } from "./SlashMenuLevel.js";
  * @param requestedLevel Requested slash-menu level.
  * @returns The level that should be opened.
  */
-export function resolveRequestedSlashMenuLevel(ctx: ExtensionContext, requestedLevel: SlashMenuLevel): SlashMenuLevel {
-  if (requestedLevel !== "model") return requestedLevel;
-  if (!ctx.modelRegistry) return requestedLevel;
-  return ctx.modelRegistry.getAvailable().length === 0 ? "login-picker" : "model";
+export function resolveRequestedSlashMenuLevel(
+	ctx: ExtensionContext,
+	requestedLevel: SlashMenuLevel,
+): SlashMenuLevel {
+	if (requestedLevel !== "model") return requestedLevel;
+	if (!ctx.modelRegistry) return requestedLevel;
+	return ctx.modelRegistry.getAvailable().length === 0
+		? "login-picker"
+		: "model";
 }

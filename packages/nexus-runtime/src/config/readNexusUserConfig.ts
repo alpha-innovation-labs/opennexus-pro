@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
-import { getUserConfigPath } from "./getUserConfigPath.js";
-import type { NexusUserConfig } from "./types.js";
+import { getUserConfigPath } from "./getUserConfigPath";
+import type { NexusUserConfig } from "./types";
 
 /**
  * Reads the Nexus user config from disk.

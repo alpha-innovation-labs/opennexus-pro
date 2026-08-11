@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { ClipboardImage } from "./types.js";
+import type { ClipboardImage } from "./types";
 
 /**
  * Writes clipboard image bytes to a temporary PNG file.
@@ -11,7 +11,7 @@ import type { ClipboardImage } from "./types.js";
  * @returns Temporary image path.
  */
 export function writeClipboardImageTempFile(image: ClipboardImage): string {
-  const filePath = join(tmpdir(), `pi-clipboard-${randomUUID()}.png`);
-  writeFileSync(filePath, Buffer.from(image.bytes));
-  return filePath;
+	const filePath = join(tmpdir(), `pi-clipboard-${randomUUID()}.png`);
+	writeFileSync(filePath, Buffer.from(image.bytes));
+	return filePath;
 }

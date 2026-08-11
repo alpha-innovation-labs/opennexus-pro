@@ -1,6 +1,6 @@
-import { getCurrentNexusLaunchSpec } from "@nexus/runtime/cli/getCurrentNexusLaunchSpec.js";
-import type { NexusLaunchSpec } from "@nexus/runtime/cli/types.js";
-import { getNexusCliWrapperPath } from "./getNexusCliWrapperPath.js";
+import { getCurrentNexusLaunchSpec } from "@nexus/runtime/cli/getCurrentNexusLaunchSpec";
+import type { NexusLaunchSpec } from "@nexus/runtime/cli/types";
+import { getNexusCliWrapperPath } from "./getNexusCliWrapperPath";
 
 /**
  * Creates a Nexus launch spec suitable for cmux restoration.

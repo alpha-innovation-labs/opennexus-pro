@@ -1,11 +1,13 @@
 {
-  "name": "@nexus/observability",
-  "version": "0.2.24",
-  "private": true,
-  "type": "module",
-  "exports": {
-    "./*.js": "./src/*.ts",
-    "./*": "./src/*"
-  },
-  "scripts": {}
+	"name": "@nexus/observability",
+	"version": "0.2.24",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./dist/*"
+	},
+	"scripts": {
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit"
+	}
 }

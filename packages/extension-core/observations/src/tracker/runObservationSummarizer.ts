@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { runChild } from "@nexus/runtime/shared/child-process/runChild.js";
+import { runChild } from "@nexus/runtime/shared/child-process/runChild";
 
 /**
  * Runs a lightweight Nexus summarizer prompt and returns its stdout.
@@ -10,7 +10,7 @@ import { runChild } from "@nexus/runtime/shared/child-process/runChild.js";
  * @returns Raw summarizer output.
  */
 export async function runObservationSummarizer(
-	pi: ExtensionAPI,
+	_pi: ExtensionAPI,
 	ctx: { cwd: string },
 	prompt: string,
 ): Promise<string> {

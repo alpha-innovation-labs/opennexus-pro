@@ -1,4 +1,4 @@
-import type { ModelMenuTab } from "./ModelMenuTab.js";
+import type { ModelMenuTab } from "./ModelMenuTab";
 
 /**
  * Returns the ordered slash model-menu tabs.
@@ -6,5 +6,5 @@ import type { ModelMenuTab } from "./ModelMenuTab.js";
  * @returns Model-menu tab ids.
  */
 export function createModelMenuTabs(): ModelMenuTab[] {
-  return ["models", "all-models"];
+	return ["models", "all-models"];
 }

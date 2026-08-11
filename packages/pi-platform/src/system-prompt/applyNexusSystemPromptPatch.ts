@@ -1,10 +1,13 @@
-import { buildNexusSystemPrompt } from "./buildNexusSystemPrompt.js";
-import type { NexusSystemPromptOptions } from "./types.js";
+import { buildNexusSystemPrompt } from "./buildNexusSystemPrompt";
+import type { NexusSystemPromptOptions } from "./types";
 
 type AgentSessionClass = {
 	__nexusSystemPromptPatched__?: boolean;
 	prototype: {
-		_rebuildSystemPrompt: (this: AgentSessionInstance, toolNames: string[]) => string;
+		_rebuildSystemPrompt: (
+			this: AgentSessionInstance,
+			toolNames: string[],
+		) => string;
 	};
 };
 
@@ -17,12 +20,19 @@ type AgentSessionInstance = {
  */
 export async function applyNexusSystemPromptPatch(): Promise<void> {
 	const agentSessionModule = await import("@earendil-works/pi-coding-agent");
-	const AgentSession = agentSessionModule.AgentSession as unknown as AgentSessionClass;
+	const AgentSession =
+		agentSessionModule.AgentSession as unknown as AgentSessionClass;
 	if (AgentSession.__nexusSystemPromptPatched__) return;
 	const originalRebuild = AgentSession.prototype._rebuildSystemPrompt;
-	AgentSession.prototype._rebuildSystemPrompt = function rebuildNexusSystemPrompt(this: AgentSessionInstance, toolNames: string[]): string {
-		originalRebuild.call(this, toolNames);
-		return buildNexusSystemPrompt(this._baseSystemPromptOptions!);
-	};
+	AgentSession.prototype._rebuildSystemPrompt =
+		function rebuildNexusSystemPrompt(
+			this: AgentSessionInstance,
+			toolNames: string[],
+		): string {
+			originalRebuild.call(this, toolNames);
+			return buildNexusSystemPrompt(
+				this._baseSystemPromptOptions ?? { cwd: process.cwd() },
+			);
+		};
 	AgentSession.__nexusSystemPromptPatched__ = true;
 }

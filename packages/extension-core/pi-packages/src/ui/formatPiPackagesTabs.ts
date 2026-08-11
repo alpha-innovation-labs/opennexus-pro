@@ -1,4 +1,4 @@
-import type { PiPackagesTab } from "../model/types.js";
+import type { PiPackagesTab } from "../model/types";
 
 const labels: Record<PiPackagesTab, string> = {
 	all: "All",
@@ -12,8 +12,15 @@ const labels: Record<PiPackagesTab, string> = {
  * @param theme Active UI theme.
  * @returns Renderable tab label.
  */
-export function formatPiPackagesTabs(activeTab: PiPackagesTab, theme: { fg(color: string, value: string): string }): string {
+export function formatPiPackagesTabs(
+	activeTab: PiPackagesTab,
+	theme: { fg(color: string, value: string): string },
+): string {
 	return (Object.keys(labels) as PiPackagesTab[])
-		.map((tab) => tab === activeTab ? theme.fg("accent", `● ${labels[tab]}`) : theme.fg("muted", `○ ${labels[tab]}`))
+		.map((tab) =>
+			tab === activeTab
+				? theme.fg("accent", `● ${labels[tab]}`)
+				: theme.fg("muted", `○ ${labels[tab]}`),
+		)
 		.join(theme.fg("dim", " | "));
 }

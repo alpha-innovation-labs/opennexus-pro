@@ -7,5 +7,5 @@
  * @returns True when the first argument is "pi-packages".
  */
 export function isPiPackagesCommand(argv: readonly string[]): boolean {
-  return argv[0] === "pi-packages";
+	return argv[0] === "pi-packages";
 }

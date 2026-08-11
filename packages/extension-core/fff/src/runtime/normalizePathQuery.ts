@@ -1,6 +1,6 @@
-import { expandHomePath } from "./expandHomePath.js";
-import { normalizeSlashes } from "./normalizeSlashes.js";
-import { stripWrappedQuotes } from "./stripWrappedQuotes.js";
+import { expandHomePath } from "./expandHomePath";
+import { normalizeSlashes } from "./normalizeSlashes";
+import { stripWrappedQuotes } from "./stripWrappedQuotes";
 
 /**
  * Normalizes fuzzy file path input for FFF lookup.
@@ -9,7 +9,9 @@ import { stripWrappedQuotes } from "./stripWrappedQuotes.js";
  * @returns Normalized query.
  */
 export function normalizePathQuery(value: string): string {
-  let normalized = value.trim();
-  if (normalized.startsWith("@")) normalized = normalized.slice(1);
-  return normalizeSlashes(expandHomePath(stripWrappedQuotes(normalized.trim())));
+	let normalized = value.trim();
+	if (normalized.startsWith("@")) normalized = normalized.slice(1);
+	return normalizeSlashes(
+		expandHomePath(stripWrappedQuotes(normalized.trim())),
+	);
 }

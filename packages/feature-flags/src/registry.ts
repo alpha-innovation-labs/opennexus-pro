@@ -1,4 +1,4 @@
-import type { FeatureProductCategory } from "./types.js";
+import type { FeatureProductCategory } from "./types";
 
 /**
  * Canonical registry of all bundled extensions and mini-apps.
@@ -11,14 +11,16 @@ import type { FeatureProductCategory } from "./types.js";
  * The `features` and `category` fields are read-only — users cannot add or
  * modify them through config.
  */
-export const bundledFeatureFlags: Readonly<Record<
-	string,
-	{
-		enabled: true;
-		features: string[];
-		category?: FeatureProductCategory;
-	}
->> = {
+export const bundledFeatureFlags: Readonly<
+	Record<
+		string,
+		{
+			enabled: true;
+			features: string[];
+			category?: FeatureProductCategory;
+		}
+	>
+> = {
 	"ai-providers": {
 		enabled: true,
 		features: ["ai-provider-management"],
@@ -126,12 +128,20 @@ export const bundledFeatureFlags: Readonly<Record<
 	},
 	subagents: {
 		enabled: true,
-		features: ["subagent-start", "subagent-prompt", "subagent-read", "subagent-send", "subagent-send-keys"],
+		features: [
+			"subagent-start",
+			"subagent-prompt",
+			"subagent-read",
+			"subagent-send",
+			"subagent-send-keys",
+		],
 		category: "extension",
 	},
 	herdrAgentEndLog: {
 		enabled: true,
-		features: ["writes last assistant message content to ~/.local/share/nexus/agent/state.json per Herdr pane on agent_end"],
+		features: [
+			"writes last assistant message content to ~/.local/share/nexus/agent/state.json per Herdr pane on agent_end",
+		],
 		category: "extension",
 	},
 };

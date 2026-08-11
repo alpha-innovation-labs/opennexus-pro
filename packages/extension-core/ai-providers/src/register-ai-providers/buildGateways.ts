@@ -1,5 +1,5 @@
-import type { ProvidersConfig } from "../config/types.js";
-import { getGateways as _getGateways } from "../gateway/getGateways.js";
+import type { ProvidersConfig } from "../config/types";
+import { getGateways as _getGateways } from "../gateway/getGateways";
 
 /**
  * Builds configured gateway instances from user config (or falls back
@@ -16,5 +16,5 @@ import { getGateways as _getGateways } from "../gateway/getGateways.js";
  * @returns Array of configured AiGateway instances.
  */
 export async function buildGateways(configuredProviders: ProvidersConfig) {
-  return _getGateways(configuredProviders);
+	return _getGateways(configuredProviders);
 }

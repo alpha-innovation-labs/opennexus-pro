@@ -1,5 +1,5 @@
-import { getAllProviderIds } from "./getAllProviderIds.js";
-import { toggleProviderEnabled } from "@extensions/ai-providers/config/toggleProviderEnabled.js";
+import { toggleProviderEnabled } from "@extensions/ai-providers/config/toggleProviderEnabled";
+import { getAllProviderIds } from "./getAllProviderIds";
 
 /**
  * Handles the "disable" subcommand: disables a provider.
@@ -10,14 +10,14 @@ import { toggleProviderEnabled } from "@extensions/ai-providers/config/togglePro
  * @returns Exit code.
  */
 export function handleDisableCommand(providerId: string): number {
-  const knownIds = getAllProviderIds();
-  if (!knownIds.includes(providerId)) {
-    console.error(`Unknown provider: ${providerId}`);
-    console.error(`Known providers: ${knownIds.join(", ")}`);
-    return 1;
-  }
+	const knownIds = getAllProviderIds();
+	if (!knownIds.includes(providerId)) {
+		console.error(`Unknown provider: ${providerId}`);
+		console.error(`Known providers: ${knownIds.join(", ")}`);
+		return 1;
+	}
 
-  toggleProviderEnabled(providerId, false);
-  console.log(`Provider '${providerId}' disabled.`);
-  return 0;
+	toggleProviderEnabled(providerId, false);
+	console.log(`Provider '${providerId}' disabled.`);
+	return 0;
 }

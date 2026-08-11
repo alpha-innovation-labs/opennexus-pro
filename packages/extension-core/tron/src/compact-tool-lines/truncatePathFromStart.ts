@@ -1,4 +1,4 @@
-import { truncateFromStart } from "./truncateFromStart.ts";
+import { truncateFromStart } from "./truncateFromStart";
 
 /**
  * Truncates a path from the start and keeps the tail visible.

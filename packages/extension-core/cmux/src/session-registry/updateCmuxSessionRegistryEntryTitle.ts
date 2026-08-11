@@ -1,7 +1,7 @@
-import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration.js";
-import { normalizeCmuxSessionTitle } from "./normalizeCmuxSessionTitle.js";
-import { pruneCmuxSessionRegistryEntries } from "./pruneCmuxSessionRegistryEntries.js";
-import type { CmuxSessionRegistry } from "./types.js";
+import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration";
+import { normalizeCmuxSessionTitle } from "./normalizeCmuxSessionTitle";
+import { pruneCmuxSessionRegistryEntries } from "./pruneCmuxSessionRegistryEntries";
+import type { CmuxSessionRegistry } from "./types";
 
 /**
  * Updates the stored Nexus session title for one cmux surface registration.
@@ -12,11 +12,23 @@ import type { CmuxSessionRegistry } from "./types.js";
  * @param sessionTitle Latest Nexus session title.
  * @returns Updated registry.
  */
-export function updateCmuxSessionRegistryEntryTitle(registry: CmuxSessionRegistry, workspaceId: string | undefined, surfaceId: string, sessionTitle: string): CmuxSessionRegistry {
+export function updateCmuxSessionRegistryEntryTitle(
+	registry: CmuxSessionRegistry,
+	workspaceId: string | undefined,
+	surfaceId: string,
+	sessionTitle: string,
+): CmuxSessionRegistry {
 	const normalizedTitle = normalizeCmuxSessionTitle(sessionTitle);
-	const entries = pruneCmuxSessionRegistryEntries(registry.entries).map((entry) => {
-		if (!matchesCmuxSurfaceRegistration(entry, workspaceId, surfaceId)) return entry;
-		return { ...entry, sessionTitle: normalizedTitle, updatedAt: new Date().toISOString() };
-	});
+	const entries = pruneCmuxSessionRegistryEntries(registry.entries).map(
+		(entry) => {
+			if (!matchesCmuxSurfaceRegistration(entry, workspaceId, surfaceId))
+				return entry;
+			return {
+				...entry,
+				sessionTitle: normalizedTitle,
+				updatedAt: new Date().toISOString(),
+			};
+		},
+	);
 	return { version: 1, entries };
 }

@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerFeatureManagementExtensionWithConfig } from "./registerFeatureManagementExtensionWithConfig.js";
+import { registerFeatureManagementExtensionWithConfig } from "./registerFeatureManagementExtensionWithConfig";
 
 /**
  * Registers the feature management extension using the hardcoded registry.
@@ -7,6 +7,8 @@ import { registerFeatureManagementExtensionWithConfig } from "./registerFeatureM
  *
  * @param pi Extension API.
  */
-export function registerCompiledFeatureManagementExtension(pi: ExtensionAPI): void {
+export function registerCompiledFeatureManagementExtension(
+	pi: ExtensionAPI,
+): void {
 	registerFeatureManagementExtensionWithConfig(pi);
 }

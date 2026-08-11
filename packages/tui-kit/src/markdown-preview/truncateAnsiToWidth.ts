@@ -1,1 +1,1 @@
-export { truncateAnsiToWidth } from "../modal/truncateAnsiToWidth.js";
+export { truncateAnsiToWidth } from "../modal/truncateAnsiToWidth";

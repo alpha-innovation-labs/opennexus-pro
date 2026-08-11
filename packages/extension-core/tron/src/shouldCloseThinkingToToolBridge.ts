@@ -1,4 +1,4 @@
-import { bridgedToolCallClosingIds } from "./activity/state.ts";
+import { bridgedToolCallClosingIds } from "./activity/state";
 
 /**
  * Returns whether one tool call should close a prior thinking-to-tool shared box.
@@ -7,5 +7,5 @@ import { bridgedToolCallClosingIds } from "./activity/state.ts";
  * @returns Whether this tool call should render the closing border.
  */
 export function shouldCloseThinkingToToolBridge(toolCallId: string): boolean {
-  return bridgedToolCallClosingIds.has(toolCallId);
+	return bridgedToolCallClosingIds.has(toolCallId);
 }

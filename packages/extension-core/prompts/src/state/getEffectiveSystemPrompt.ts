@@ -1,4 +1,4 @@
-import type { SystemPromptState } from "./types.js";
+import type { SystemPromptState } from "./types";
 
 /**
  * Resolves the prompt shown to the user from override state and the runtime default.

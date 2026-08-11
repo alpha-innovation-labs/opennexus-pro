@@ -1,4 +1,4 @@
-import { recordTronRenderTiming } from "./recordTronRenderTiming.js";
+import { recordTronRenderTiming } from "./recordTronRenderTiming";
 
 /**
  * Measures one Tron render operation and records aggregate timing.
@@ -8,9 +8,18 @@ import { recordTronRenderTiming } from "./recordTronRenderTiming.js";
  * @param data Extra diagnostic data.
  * @returns Render callback result.
  */
-export function measureTronRender<T extends string[]>(name: string, render: () => T, data: Record<string, unknown> = {}): T {
-  const startedAt = performance.now();
-  const lines = render();
-  recordTronRenderTiming(name, performance.now() - startedAt, lines.length, data);
-  return lines;
+export function measureTronRender<T extends string[]>(
+	name: string,
+	render: () => T,
+	data: Record<string, unknown> = {},
+): T {
+	const startedAt = performance.now();
+	const lines = render();
+	recordTronRenderTiming(
+		name,
+		performance.now() - startedAt,
+		lines.length,
+		data,
+	);
+	return lines;
 }

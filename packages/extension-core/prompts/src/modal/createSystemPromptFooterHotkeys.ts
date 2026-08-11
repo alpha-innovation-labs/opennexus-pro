@@ -1,4 +1,4 @@
-import type { SharedModalOptions } from "@nexus/tui-kit/modal/index.js";
+import type { SharedModalOptions } from "@nexus/tui-kit/modal/index";
 
 /**
  * Builds /SystemPrompt footer hotkeys without advertising hidden arrow-key support.
@@ -6,7 +6,9 @@ import type { SharedModalOptions } from "@nexus/tui-kit/modal/index.js";
  * @param canEdit Whether the editable user prompt content is selected.
  * @returns Footer hotkeys for the current selection.
  */
-export function createSystemPromptFooterHotkeys(canEdit: boolean): NonNullable<SharedModalOptions["footerHotkeys"]> {
+export function createSystemPromptFooterHotkeys(
+	canEdit: boolean,
+): NonNullable<SharedModalOptions["footerHotkeys"]> {
 	return [
 		{ key: "Tab/h/l", label: "focus" },
 		{ key: "j/k", label: "move/scroll" },

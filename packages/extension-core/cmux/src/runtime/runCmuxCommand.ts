@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { getCmuxExecutablePath } from "./getCmuxExecutablePath.js";
+import { getCmuxExecutablePath } from "./getCmuxExecutablePath";
 
 /**
  * Executes a cmux CLI command.

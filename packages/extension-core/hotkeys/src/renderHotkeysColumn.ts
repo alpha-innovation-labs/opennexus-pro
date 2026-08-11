@@ -1,6 +1,6 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
-import { renderHotkeysPanel } from "./renderHotkeysPanel.js";
-import type { HotkeysGroup } from "./types.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import { renderHotkeysPanel } from "./renderHotkeysPanel";
+import type { HotkeysGroup } from "./types";
 
 /**
  * Renders one column of hotkeys groups.
@@ -10,9 +10,21 @@ import type { HotkeysGroup } from "./types.js";
  * @param width Column width.
  * @returns Rendered column lines.
  */
-export function renderHotkeysColumn(uiTheme: SelectPreviewTheme, groups: HotkeysGroup[], width: number, focusedKeybindingId?: string, editingKeybindingId?: string): string[] {
-  return groups.flatMap((group, index) => [
-    ...(index === 0 ? [] : [""]),
-    ...renderHotkeysPanel(uiTheme, group, width, focusedKeybindingId, editingKeybindingId),
-  ]);
+export function renderHotkeysColumn(
+	uiTheme: SelectPreviewTheme,
+	groups: HotkeysGroup[],
+	width: number,
+	focusedKeybindingId?: string,
+	editingKeybindingId?: string,
+): string[] {
+	return groups.flatMap((group, index) => [
+		...(index === 0 ? [] : [""]),
+		...renderHotkeysPanel(
+			uiTheme,
+			group,
+			width,
+			focusedKeybindingId,
+			editingKeybindingId,
+		),
+	]);
 }

@@ -5,5 +5,5 @@
  * @returns True when --version or -v is present.
  */
 export function hasVersionFlag(argv: string[]): boolean {
-  return argv.includes("--version") || argv.includes("-v");
+	return argv.includes("--version") || argv.includes("-v");
 }

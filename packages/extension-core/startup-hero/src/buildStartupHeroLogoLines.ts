@@ -4,7 +4,9 @@
  * @param theme UI theme formatter.
  * @returns Styled startup hero lines.
  */
-export function buildStartupHeroLogoLines(theme: { fg(name: string, value: string): string }): string[] {
+export function buildStartupHeroLogoLines(theme: {
+	fg(name: string, value: string): string;
+}): string[] {
 	const lines = [
 		"███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗",
 		"████╗  ██║██╔════╝╚██╗██╔╝██║   ██║██╔════╝",

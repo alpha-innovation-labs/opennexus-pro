@@ -1,17 +1,25 @@
-export { SHARED_MODAL_FOOTER_BORDER } from "./SHARED_MODAL_FOOTER_BORDER.js";
-export { SharedModal } from "./SharedModal.js";
-export { SelectPreviewModal } from "./select/SelectPreviewModal.js";
-export { computeTwoPaneWidths } from "./select/computeTwoPaneWidths.js";
-export { sanitizePlainText } from "./select/sanitizePlainText.js";
-export { centerModalLine } from "./centerModalLine.js";
-export { computeModalWidth } from "./computeModalWidth.js";
-export { computePaneWidths } from "./computePaneWidths.js";
-export { padModalLine } from "./padModalLine.js";
-export { renderFullWidthRows } from "./renderFullWidthRows.js";
-export { renderModalBorder } from "./renderModalBorder.js";
-export { renderModalPanes } from "./renderModalPanes.js";
-export { renderPaneRow } from "./renderPaneRow.js";
-export { renderSharedModalPaneLines } from "./renderSharedModalPaneLines.js";
-export type { SharedModalHotkey } from "./hotkeys/types.js";
-export type { SharedModalOptions, SharedModalPane, SharedModalTheme } from "./types.js";
-export type { SelectPreviewItemStyleFns, SelectPreviewModalOptions, SelectPreviewTheme } from "./select/types.js";
+export { centerModalLine } from "./centerModalLine";
+export { computeModalWidth } from "./computeModalWidth";
+export { computePaneWidths } from "./computePaneWidths";
+export type { SharedModalHotkey } from "./hotkeys/types";
+export { padModalLine } from "./padModalLine";
+export { renderFullWidthRows } from "./renderFullWidthRows";
+export { renderModalBorder } from "./renderModalBorder";
+export { renderModalPanes } from "./renderModalPanes";
+export { renderPaneRow } from "./renderPaneRow";
+export { renderSharedModalPaneLines } from "./renderSharedModalPaneLines";
+export { SHARED_MODAL_FOOTER_BORDER } from "./SHARED_MODAL_FOOTER_BORDER";
+export { SharedModal } from "./SharedModal";
+export { computeTwoPaneWidths } from "./select/computeTwoPaneWidths";
+export { SelectPreviewModal } from "./select/SelectPreviewModal";
+export { sanitizePlainText } from "./select/sanitizePlainText";
+export type {
+	SelectPreviewItemStyleFns,
+	SelectPreviewModalOptions,
+	SelectPreviewTheme,
+} from "./select/types";
+export type {
+	SharedModalOptions,
+	SharedModalPane,
+	SharedModalTheme,
+} from "./types";

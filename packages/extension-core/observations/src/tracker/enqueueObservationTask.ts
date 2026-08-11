@@ -12,7 +12,10 @@ export function enqueueObservationTask(
 ): void {
 	const previous = queues.get(conversationId) ?? Promise.resolve();
 	const next = previous.catch(() => undefined).then(task);
-	queues.set(conversationId, next.finally(() => {
-		if (queues.get(conversationId) === next) queues.delete(conversationId);
-	}));
+	queues.set(
+		conversationId,
+		next.finally(() => {
+			if (queues.get(conversationId) === next) queues.delete(conversationId);
+		}),
+	);
 }

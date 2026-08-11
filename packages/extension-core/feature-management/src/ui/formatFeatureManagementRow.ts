@@ -1,7 +1,7 @@
-import type { FeatureStatusRow } from "../model/types.js";
-import { colorFeatureStatus } from "./colorFeatureStatus.js";
-import { formatActiveFeatureValue } from "./formatActiveFeatureValue.js";
-import { padFeatureColumn } from "./padFeatureColumn.js";
+import type { FeatureStatusRow } from "../model/types";
+import { colorFeatureStatus } from "./colorFeatureStatus";
+import { formatActiveFeatureValue } from "./formatActiveFeatureValue";
+import { padFeatureColumn } from "./padFeatureColumn";
 
 const STATUS_COLUMN_WIDTH = "disabled".length;
 
@@ -21,6 +21,10 @@ export function formatFeatureManagementRow(
 ): string {
 	return [
 		padFeatureColumn(row.feature, featureColumnWidth),
-		formatActiveFeatureValue(colorFeatureStatus(row.status, theme), STATUS_COLUMN_WIDTH, true),
+		formatActiveFeatureValue(
+			colorFeatureStatus(row.status, theme),
+			STATUS_COLUMN_WIDTH,
+			true,
+		),
 	].join("  ");
 }

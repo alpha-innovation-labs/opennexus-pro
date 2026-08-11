@@ -7,8 +7,10 @@ let latestSystemPromptOptions: BuildSystemPromptOptions | undefined;
  *
  * @param options Live system prompt options.
  */
-export function setLatestSystemPromptOptions(options: BuildSystemPromptOptions): void {
-  latestSystemPromptOptions = options;
+export function setLatestSystemPromptOptions(
+	options: BuildSystemPromptOptions,
+): void {
+	latestSystemPromptOptions = options;
 }
 
 /**
@@ -16,6 +18,8 @@ export function setLatestSystemPromptOptions(options: BuildSystemPromptOptions):
  *
  * @returns Last observed system prompt options.
  */
-export function getLatestSystemPromptOptions(): BuildSystemPromptOptions | undefined {
-  return latestSystemPromptOptions;
+export function getLatestSystemPromptOptions():
+	| BuildSystemPromptOptions
+	| undefined {
+	return latestSystemPromptOptions;
 }

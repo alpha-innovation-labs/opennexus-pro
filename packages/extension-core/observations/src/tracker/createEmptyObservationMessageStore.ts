@@ -1,4 +1,4 @@
-import type { ObservationMessageStore } from "./types.js";
+import type { ObservationMessageStore } from "./types";
 
 /**
  * Creates an empty raw observation message store.

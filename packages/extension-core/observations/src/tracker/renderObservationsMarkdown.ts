@@ -1,5 +1,5 @@
-import type { ObservationState } from "./types.js";
-import { formatObservationTimestamp } from "./formatObservationTimestamp.js";
+import { formatObservationTimestamp } from "./formatObservationTimestamp";
+import type { ObservationState } from "./types";
 
 /**
  * Renders the structured observations state into markdown.
@@ -15,7 +15,9 @@ export function renderObservationsMarkdown(state: ObservationState): string {
 		return lines.join("\n");
 	}
 	for (const topic of state.topics) {
-		lines.push(`- ${formatObservationTimestamp(topic.startedAt)}: ${topic.title}`);
+		lines.push(
+			`- ${formatObservationTimestamp(topic.startedAt)}: ${topic.title}`,
+		);
 		lines.push("  - User messages");
 		if (topic.userMessages.length === 0) {
 			lines.push("    - No user messages recorded.");

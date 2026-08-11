@@ -1,6 +1,7 @@
 import { Text } from "@earendil-works/pi-tui";
-import { CompactToolResult } from "./CompactToolResult.ts";
-import { getResultText } from "./getResultText.ts";
+import type { AgentToolResult } from "@earendil-works/pi-coding-agent";
+import { CompactToolResult } from "./CompactToolResult";
+import { getResultText } from "./getResultText";
 
 /**
  * Creates the fallback compact result renderer.
@@ -11,8 +12,13 @@ import { getResultText } from "./getResultText.ts";
  * @param theme UI theme.
  * @returns Compact result component.
  */
-export function renderCompactResult(toolCallId: string, result: any, expanded: boolean, theme: any): CompactToolResult | Text {
+export function renderCompactResult(
+	toolCallId: string,
+	result: AgentToolResult<any> | undefined,
+	expanded: boolean,
+	theme: { fg(color: string, text: string): string },
+): CompactToolResult | Text {
 	const text = getResultText(result);
 	if (!text) return new Text("", 0, 0);
-	return new CompactToolResult(toolCallId, result, expanded, theme);
+	return new CompactToolResult(toolCallId, result!, expanded, theme);
 }

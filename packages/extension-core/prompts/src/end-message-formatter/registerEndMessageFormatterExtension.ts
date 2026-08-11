@@ -1,14 +1,19 @@
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { runChild } from "@nexus/runtime/shared/child-process/runChild.js";
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook.js";
+import type {
+	AssistantMessageComponent,
+	ExtensionAPI,
+	ExtensionContext,
+} from "@earendil-works/pi-coding-agent";
+import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook";
+import { runChild } from "@nexus/runtime/shared/child-process/runChild";
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const END_MESSAGE_FORMATTER_PATH = resolve(
-  __dirname,
-  "end-message-formatter.md",
+	__dirname,
+	"end-message-formatter.md",
 );
 
 /**
@@ -20,96 +25,134 @@ const END_MESSAGE_FORMATTER_PATH = resolve(
  *
  * @param pi Pi extension API.
  */
-export function registerEndMessageFormatterExtension(_pi: ExtensionAPI): void {
-  const formatterPrompt = readFileSync(END_MESSAGE_FORMATTER_PATH, "utf-8");
-  let pendingMessage: { content: unknown } | null = null;
-  let pendingText: string = "";
-  let firstUserMessage: string | undefined = undefined;
+export function registerEndMessageFormatterExtension(pi: ExtensionAPI): void {
+	const formatterPrompt = readFileSync(END_MESSAGE_FORMATTER_PATH, "utf-8");
+	let _pendingMessage: { content: unknown } | null = null;
+	let _pendingText: string = "";
+	let firstUserMessage: string | undefined;
 
-  /**
-   * Collects text chunks as they stream in.
-   */
-  function onStreamUpdate(_component: unknown, message: { content?: Array<{ type: string; text?: string }> }): void {
-    const textParts = (message.content ?? [])
-      .filter((part) => part.type === "text" && typeof part.text === "string")
-      .map((part) => part.text);
-    pendingText = textParts.join("\n\n");
-    pendingMessage = message as { content: unknown };
-  }
+	/**
+	 * Extracts the full text content from an assistant message.
+	 */
+	function extractAssistantText(content: unknown): string {
+		if (typeof content === "string") return content;
+		if (Array.isArray(content)) {
+			return content
+				.filter(
+					(part) => typeof part === "object" && part !== null && "type" in part,
+				)
+				.map((part) => {
+					const typed = part as { type: string; text?: string };
+					if (typed.type === "text" && typeof typed.text === "string")
+						return typed.text;
+					return "";
+				})
+				.join("\n\n");
+		}
+		return "";
+	}
 
-  /**
-   * Installs (or reinstalls) the streaming hook.
-   */
-  function installHook(): void {
-    setAssistantMessageUpdateHook(onStreamUpdate);
-  }
+	/**
+	 * Collects text chunks as they stream in.
+	 */
+	function onStreamUpdate(
+		component: AssistantMessageComponent,
+		_message: unknown,
+	): void {
+		const content = (component as { message?: { content?: unknown } }).message
+			?.content;
+		const textParts = Array.isArray(content)
+			? content
+					.filter(
+						(part) =>
+							typeof part === "object" &&
+							part !== null &&
+							"type" in part &&
+							(part as { type: string }).type === "text" &&
+							typeof (part as { text?: string }).text === "string",
+					)
+					.map((part) => (part as { text?: string }).text)
+			: typeof content === "string"
+				? [content]
+				: [];
+		_pendingText = textParts.join("\n\n");
+		_pendingMessage = { content };
+	}
 
-  /**
-   * Called when a turn ends. Formats all assistant messages in the turn.
-   */
-  async function onTurnEnd(_event: unknown, ctx: Pick<ExtensionContext, "sessionManager" | "cwd">): Promise<void> {
-    const branch = ctx.sessionManager.getBranch();
-    const assistantMessages: Array<{ message: { content: unknown }; content: string }> = [];
+	/**
+	 * Installs (or reinstalls) the streaming hook.
+	 */
+	function installHook(): void {
+		setAssistantMessageUpdateHook(onStreamUpdate);
+	}
 
-    for (const entry of branch) {
-      if (entry.type !== "message") continue;
-      if (entry.message?.role !== "assistant") continue;
-      const raw = typeof entry.message.content === "string"
-        ? entry.message.content
-        : (entry.message.content ?? [])
-          .filter((part) => part.type === "text" && typeof part.text === "string")
-          .map((part) => part.text)
-          .join("\n\n");
-      if (raw && !raw.startsWith("[END_MESSAGE_FORMATTER_RAN]")) {
-        assistantMessages.push({ message: entry.message as { content: unknown }, content: raw });
-      }
-    }
+	/**
+	 * Called when a turn ends. Formats all assistant messages in the turn.
+	 */
+	async function onTurnEnd(
+		_event: unknown,
+		ctx: Pick<ExtensionContext, "sessionManager" | "cwd">,
+	): Promise<void> {
+		const branch = ctx.sessionManager.getBranch();
+		const assistantMessages: Array<{
+			message: { content: unknown };
+			content: string;
+		}> = [];
 
-    // Extract first user message once per turn.
-    firstUserMessage = undefined;
-    for (const entry of branch) {
-      if (entry.type === "message" && entry.message?.role === "user") {
-        const content = entry.message.content;
-        if (typeof content === "string") {
-          firstUserMessage = content;
-          break;
-        }
-        if (Array.isArray(content)) {
-          const text = content
-            .filter((part) => part.type === "text" && typeof part.text === "string")
-            .map((part) => part.text)
-            .join("\n\n");
-          if (text) { firstUserMessage = text; break; }
-        }
-      }
-    }
+		for (const entry of branch) {
+			if (entry.type !== "message") continue;
+			if (entry.message?.role !== "assistant") continue;
+			const raw = extractAssistantText(entry.message.content);
+			if (raw && !raw.startsWith("[END_MESSAGE_FORMATTER_RAN]")) {
+				assistantMessages.push({
+					message: entry.message as { content: unknown },
+					content: raw,
+				});
+			}
+		}
 
-    const userSection = firstUserMessage ? `User's first message:\n${firstUserMessage}\n\n` : "";
+		// Extract first user message once per turn.
+		firstUserMessage = undefined;
+		for (const entry of branch) {
+			if (entry.type === "message" && entry.message?.role === "user") {
+				const extracted = extractAssistantText(entry.message.content);
+				if (extracted) {
+					firstUserMessage = extracted;
+					break;
+				}
+			}
+		}
 
-    for (const { message, content } of assistantMessages) {
-      const combinedPrompt = `${formatterPrompt}\n\n---\n\n${userSection}${content}`;
+		const userSection = firstUserMessage
+			? `User's first message:\n${firstUserMessage}\n\n`
+			: "";
 
-      console.log("=== PROMPT SENT TO LLM ===");
-      console.log(combinedPrompt);
-      console.log("=== END PROMPT ===");
+		for (const { message, content } of assistantMessages) {
+			const combinedPrompt = `${formatterPrompt}\n\n---\n\n${userSection}${content}`;
 
-      const output = await runChild(ctx.cwd, combinedPrompt);
-      const formatted = output || `Error: end-message formatter failed to produce output.\n\nOriginal message:\n${content}`;
+			console.log("=== PROMPT SENT TO LLM ===");
+			console.log(combinedPrompt);
+			console.log("=== END PROMPT ===");
 
-      if (typeof message.content === "string") {
-        message.content = formatted;
-      } else {
-        message.content = [{ type: "text", text: formatted }];
-      }
-    }
+			const output = await runChild(ctx.cwd, combinedPrompt);
+			const formatted =
+				output ||
+				`Error: end-message formatter failed to produce output.\n\nOriginal message:\n${content}`;
 
-    // Reinstall hook to pick up the next turn's streaming updates.
-    installHook();
-  }
+			const extracted = extractAssistantText(message.content);
+			message.content =
+				typeof extracted === "string"
+					? formatted
+					: [{ type: "text", text: formatted }];
+		}
 
-  // Install the streaming hook immediately.
-  installHook();
+		// Reinstall hook to pick up the next turn's streaming updates.
+		installHook();
+	}
 
-  // Listen for turn_end to format completed messages.
-  pi.on("turn_end", onTurnEnd);
+	// Install the streaming hook immediately.
+	installHook();
+
+	// Listen for turn_end to format completed messages.
+	pi.on("turn_end", onTurnEnd);
 }

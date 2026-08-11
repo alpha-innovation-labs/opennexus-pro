@@ -8,7 +8,7 @@ import { resolve } from "node:path";
  * @returns Expanded path query.
  */
 export function expandHomePath(value: string): string {
-  if (value === "~") return homedir();
-  if (value.startsWith("~/")) return resolve(homedir(), value.slice(2));
-  return value;
+	if (value === "~") return homedir();
+	if (value.startsWith("~/")) return resolve(homedir(), value.slice(2));
+	return value;
 }

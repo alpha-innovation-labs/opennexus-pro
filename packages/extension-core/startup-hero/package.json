@@ -1,13 +1,17 @@
 {
-  "name": "@extensions/startup-hero",
-  "version": "0.2.24",
-  "type": "module",
-  "exports": {
-    "./*": "./src/*"
-  },
-  "dependencies": {
-    "@earendil-works/pi-coding-agent": "^0.83.0",
-    "@nexus/observability": "workspace:*",
-    "@nexus/runtime": "workspace:*"
-  }
+	"name": "@extensions/startup-hero",
+	"version": "0.2.24",
+	"type": "module",
+	"exports": {
+		"./*": "./src/*"
+	},
+	"dependencies": {
+		"@earendil-works/pi-coding-agent": "^0.84.1",
+		"@nexus/observability": "workspace:*",
+		"@nexus/runtime": "workspace:*"
+	},
+	"scripts": {
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit"
+	}
 }

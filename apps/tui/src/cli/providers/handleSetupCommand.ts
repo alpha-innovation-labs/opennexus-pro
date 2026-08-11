@@ -1,6 +1,6 @@
-import { DEFAULT_PORTS } from "@extensions/ai-providers/constants/default-ports.js";
-import { getAllProviderIds } from "./getAllProviderIds.js";
-import { writeProviderConfig } from "@extensions/ai-providers/config/writeProviderConfig.js";
+import { writeProviderConfig } from "@extensions/ai-providers/config/writeProviderConfig";
+import { DEFAULT_PORTS } from "@extensions/ai-providers/constants/default-ports";
+import { getAllProviderIds } from "./getAllProviderIds";
 
 /**
  * Handles the "setup" subcommand: configures a provider with host, port, and optional API key.
@@ -14,30 +14,35 @@ import { writeProviderConfig } from "@extensions/ai-providers/config/writeProvid
  * @returns Exit code.
  */
 export function handleSetupCommand(
-  providerId: string,
-  port?: number,
-  apiKey?: string,
+	providerId: string,
+	port?: number,
+	apiKey?: string,
 ): number {
-  const knownIds = getAllProviderIds();
-  if (!knownIds.includes(providerId)) {
-    console.error(`Unknown provider: ${providerId}`);
-    console.error(`Known providers: ${knownIds.join(", ")}`);
-    return 1;
-  }
+	const knownIds = getAllProviderIds();
+	if (!knownIds.includes(providerId)) {
+		console.error(`Unknown provider: ${providerId}`);
+		console.error(`Known providers: ${knownIds.join(", ")}`);
+		return 1;
+	}
 
-  const defaultPort = port ?? (DEFAULT_PORTS[providerId] ?? 0);
-  if (!defaultPort) {
-    console.error(`Provider ${providerId} has no default port. Specify one.`);
-    return 1;
-  }
+	const defaultPort = port ?? DEFAULT_PORTS[providerId] ?? 0;
+	if (!defaultPort) {
+		console.error(`Provider ${providerId} has no default port. Specify one.`);
+		return 1;
+	}
 
-  const host = "localhost";
-  const config = { host, port: defaultPort };
-  if (apiKey) {
-    (config as unknown as Record<string, unknown>).api_key = apiKey;
-  }
+	const host = "localhost";
+	const config = { host, port: defaultPort };
+	if (apiKey) {
+		(config as unknown as Record<string, unknown>).api_key = apiKey;
+	}
 
-  writeProviderConfig(providerId, config as { host: string; port: number; api_key?: string });
-  console.log(`Provider '${providerId}' configured at http://${host}:${defaultPort}.`);
-  return 0;
+	writeProviderConfig(
+		providerId,
+		config as { host: string; port: number; api_key?: string },
+	);
+	console.log(
+		`Provider '${providerId}' configured at http://${host}:${defaultPort}.`,
+	);
+	return 0;
 }

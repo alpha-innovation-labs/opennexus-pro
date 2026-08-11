@@ -1,4 +1,4 @@
-import { stripAnsi } from "./stripAnsi.js";
+import { stripAnsi } from "./stripAnsi";
 
 /**
  * Returns whether the rendered editor line is one of the stock borders.

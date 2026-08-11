@@ -1,4 +1,4 @@
-import type { SlashMenuLevel } from "./SlashMenuLevel.js";
+import type { SlashMenuLevel } from "./SlashMenuLevel";
 
 /**
  * Formats the visible title for one slash-menu level.
@@ -7,9 +7,9 @@ import type { SlashMenuLevel } from "./SlashMenuLevel.js";
  * @returns Human-readable level title.
  */
 export function getSlashMenuLevelTitle(level: SlashMenuLevel): string {
-  if (level === "prompts") return "Custom Commands";
-  if (level === "scoped-models") return "Scoped Models";
-  if (level === "setting-choice") return "Settings";
-  if (level === "name-input") return "Name";
-  return level.charAt(0).toUpperCase() + level.slice(1);
+	if (level === "prompts") return "Custom Commands";
+	if (level === "scoped-models") return "Scoped Models";
+	if (level === "setting-choice") return "Settings";
+	if (level === "name-input") return "Name";
+	return level.charAt(0).toUpperCase() + level.slice(1);
 }

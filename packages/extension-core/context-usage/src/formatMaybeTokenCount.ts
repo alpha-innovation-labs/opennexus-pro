@@ -1,4 +1,4 @@
-import { formatTokenCount } from "./formatTokenCount.js";
+import { formatTokenCount } from "./formatTokenCount";
 
 /**
  * Formats a nullable token count.
@@ -7,5 +7,5 @@ import { formatTokenCount } from "./formatTokenCount.js";
  * @returns Human-readable token count.
  */
 export function formatMaybeTokenCount(tokens: number | null): string {
-  return tokens === null ? "unknown" : formatTokenCount(tokens);
+	return tokens === null ? "unknown" : formatTokenCount(tokens);
 }

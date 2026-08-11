@@ -7,9 +7,12 @@ import { clamp } from "./clamp";
  * @param viewportHeight Current viewport height used to keep scroll timing proportional.
  * @returns A value from 0 at section entry to 1 once the terminal is settled left.
  */
-export function getShowcaseStoryProgress(rect: DOMRect, viewportHeight: number): number {
-  const animationStartLine = viewportHeight * 0.055;
-  const animationDistance = viewportHeight * 0.095;
+export function getShowcaseStoryProgress(
+	rect: DOMRect,
+	viewportHeight: number,
+): number {
+	const animationStartLine = viewportHeight * 0.055;
+	const animationDistance = viewportHeight * 0.095;
 
-  return clamp((animationStartLine - rect.top) / animationDistance, 0, 1);
+	return clamp((animationStartLine - rect.top) / animationDistance, 0, 1);
 }

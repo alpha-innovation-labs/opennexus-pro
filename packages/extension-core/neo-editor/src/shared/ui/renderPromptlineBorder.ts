@@ -22,9 +22,32 @@ export function renderPromptlineBorder(
 	if (width <= fixedWidth) return borderColor("─".repeat(width));
 
 	const maxRightWidth = Math.max(0, width - fixedWidth);
-	const rightContent = truncateToWidth(promptline.right, maxRightWidth, uiTheme.fg("dim", "…"));
-	const maxLeftWidth = Math.max(0, width - fixedWidth - visibleWidth(rightContent));
-	const leftContent = maxLeftWidth > 0 ? truncateToWidth(promptline.left, maxLeftWidth, uiTheme.fg("dim", "…")) : "";
-	const fillerWidth = Math.max(0, width - visibleWidth(leftPrefix) - visibleWidth(leftContent) - visibleWidth(rightContent) - visibleWidth(rightSuffix));
-	return borderColor(leftPrefix) + leftContent + borderColor("─".repeat(fillerWidth)) + rightContent + borderColor(rightSuffix);
+	const rightContent = truncateToWidth(
+		promptline.right,
+		maxRightWidth,
+		uiTheme.fg("dim", "…"),
+	);
+	const maxLeftWidth = Math.max(
+		0,
+		width - fixedWidth - visibleWidth(rightContent),
+	);
+	const leftContent =
+		maxLeftWidth > 0
+			? truncateToWidth(promptline.left, maxLeftWidth, uiTheme.fg("dim", "…"))
+			: "";
+	const fillerWidth = Math.max(
+		0,
+		width -
+			visibleWidth(leftPrefix) -
+			visibleWidth(leftContent) -
+			visibleWidth(rightContent) -
+			visibleWidth(rightSuffix),
+	);
+	return (
+		borderColor(leftPrefix) +
+		leftContent +
+		borderColor("─".repeat(fillerWidth)) +
+		rightContent +
+		borderColor(rightSuffix)
+	);
 }

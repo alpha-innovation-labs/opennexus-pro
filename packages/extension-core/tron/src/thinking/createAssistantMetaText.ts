@@ -1,5 +1,5 @@
 import { Text } from "@earendil-works/pi-tui";
-import { getAgentLabel } from "./agentLabel.ts";
+import { getAgentLabel } from "./agentLabel";
 
 /**
  * Creates the assistant metadata footer text.

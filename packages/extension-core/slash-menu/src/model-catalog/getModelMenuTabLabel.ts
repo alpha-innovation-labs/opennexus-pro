@@ -1,4 +1,4 @@
-import type { ModelMenuTab } from "./ModelMenuTab.js";
+import type { ModelMenuTab } from "./ModelMenuTab";
 
 /**
  * Gets the display label for one model-menu tab.
@@ -7,5 +7,5 @@ import type { ModelMenuTab } from "./ModelMenuTab.js";
  * @returns Human-facing tab label.
  */
 export function getModelMenuTabLabel(tab: ModelMenuTab): string {
-  return tab === "models" ? "Models" : "All models";
+	return tab === "models" ? "Models" : "All models";
 }

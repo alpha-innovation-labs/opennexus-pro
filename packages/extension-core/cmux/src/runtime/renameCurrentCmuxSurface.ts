@@ -1,5 +1,5 @@
-import { getCurrentCmuxRenameTarget } from "./getCurrentCmuxRenameTarget.js";
-import { runCmuxCommand } from "./runCmuxCommand.js";
+import { getCurrentCmuxRenameTarget } from "./getCurrentCmuxRenameTarget";
+import { runCmuxCommand } from "./runCmuxCommand";
 
 /**
  * Renames the current cmux surface title.
@@ -7,7 +7,9 @@ import { runCmuxCommand } from "./runCmuxCommand.js";
  * @param title New surface title.
  * @returns True when cmux accepted the rename request.
  */
-export async function renameCurrentCmuxSurface(title: string): Promise<boolean> {
+export async function renameCurrentCmuxSurface(
+	title: string,
+): Promise<boolean> {
 	const target = getCurrentCmuxRenameTarget();
 	if (!target.surfaceId) return false;
 

@@ -1,6 +1,6 @@
-import { createSummarizerArgs } from "./createSummarizerArgs.js";
-import { getCurrentNexusLaunchSpec } from "../../cli/getCurrentNexusLaunchSpec.js";
-import { runBundledChildProcess } from "./runBundledChildProcess.js";
+import { getCurrentNexusLaunchSpec } from "../../cli/getCurrentNexusLaunchSpec";
+import { createSummarizerArgs } from "./createSummarizerArgs";
+import { runBundledChildProcess } from "./runBundledChildProcess";
 
 /**
  * Runs a generic child process with the given prompt and returns stdout.
@@ -14,15 +14,17 @@ import { runBundledChildProcess } from "./runBundledChildProcess.js";
  * @returns Raw child process output.
  */
 export async function runChild(cwd: string, prompt: string): Promise<string> {
-  const args = createSummarizerArgs(prompt);
-  const launchSpec = getCurrentNexusLaunchSpec(args);
-  const { command, args: launchArgs } = launchSpec;
-  const { stdout, stderr, code } = await runBundledChildProcess({
-    command,
-    args: launchArgs,
-    cwd,
-  });
-  if (code !== 0) throw new Error(`Child process exited with code ${code}: ${stderr.trim()}`);
-  if (stderr.trim()) throw new Error(`Child process produced stderr: ${stderr.trim()}`);
-  return stdout;
+	const args = createSummarizerArgs(prompt);
+	const launchSpec = getCurrentNexusLaunchSpec(args);
+	const { command, args: launchArgs } = launchSpec;
+	const { stdout, stderr, code } = await runBundledChildProcess({
+		command,
+		args: launchArgs,
+		cwd,
+	});
+	if (code !== 0)
+		throw new Error(`Child process exited with code ${code}: ${stderr.trim()}`);
+	if (stderr.trim())
+		throw new Error(`Child process produced stderr: ${stderr.trim()}`);
+	return stdout;
 }

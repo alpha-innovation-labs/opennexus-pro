@@ -1,7 +1,7 @@
-import { readBundledDefaultSettings } from "@nexus/runtime/config/readBundledDefaultSettings.js";
-import { mergeSettings } from "@nexus/runtime/config/mergeSettings.js";
-import { readGlobalConfigs } from "./readGlobalConfigs.js";
-import { readProjectConfig } from "./readProjectConfig.js";
+import { mergeSettings } from "@nexus/runtime/config/mergeSettings";
+import { readBundledDefaultSettings } from "@nexus/runtime/config/readBundledDefaultSettings";
+import { readGlobalConfigs } from "./readGlobalConfigs";
+import { readProjectConfig } from "./readProjectConfig";
 
 /**
  * Reads bundled, global, and project config with normal override order.
@@ -9,9 +9,11 @@ import { readProjectConfig } from "./readProjectConfig.js";
  * @param cwd Project cwd.
  * @returns Merged config object.
  */
-export async function readMergedConfigs(cwd: string): Promise<Record<string, unknown>> {
-  const defaults = readBundledDefaultSettings();
-  const globalConfig = await readGlobalConfigs();
-  const projectConfig = await readProjectConfig(cwd);
-  return mergeSettings(mergeSettings(defaults, globalConfig), projectConfig);
+export async function readMergedConfigs(
+	cwd: string,
+): Promise<Record<string, unknown>> {
+	const defaults = readBundledDefaultSettings();
+	const globalConfig = await readGlobalConfigs();
+	const projectConfig = await readProjectConfig(cwd);
+	return mergeSettings(mergeSettings(defaults, globalConfig), projectConfig);
 }

@@ -1,7 +1,11 @@
-import { filterHotkeysGroups } from "./filterHotkeysGroups.js";
-import { getEditableHotkeysEntries } from "./getEditableHotkeysEntries.js";
-import { getHotkeysGroups } from "./getHotkeysGroups.js";
-import type { HotkeysEntry, HotkeysExtensionShortcut, HotkeysKeybindings } from "./types.js";
+import { filterHotkeysGroups } from "./filterHotkeysGroups";
+import { getEditableHotkeysEntries } from "./getEditableHotkeysEntries";
+import { getHotkeysGroups } from "./getHotkeysGroups";
+import type {
+	HotkeysEntry,
+	HotkeysExtensionShortcut,
+	HotkeysKeybindings,
+} from "./types";
 
 /**
  * Returns editable entries from the currently filtered hotkeys view.
@@ -11,6 +15,15 @@ import type { HotkeysEntry, HotkeysExtensionShortcut, HotkeysKeybindings } from 
  * @param filterQuery Current filter query.
  * @returns Editable entries in display order.
  */
-export function getHotkeysEditableEntries(keybindings: HotkeysKeybindings, extensionShortcuts: HotkeysExtensionShortcut[], filterQuery: string): HotkeysEntry[] {
-  return getEditableHotkeysEntries(filterHotkeysGroups(getHotkeysGroups(keybindings, extensionShortcuts), filterQuery));
+export function getHotkeysEditableEntries(
+	keybindings: HotkeysKeybindings,
+	extensionShortcuts: HotkeysExtensionShortcut[],
+	filterQuery: string,
+): HotkeysEntry[] {
+	return getEditableHotkeysEntries(
+		filterHotkeysGroups(
+			getHotkeysGroups(keybindings, extensionShortcuts),
+			filterQuery,
+		),
+	);
 }

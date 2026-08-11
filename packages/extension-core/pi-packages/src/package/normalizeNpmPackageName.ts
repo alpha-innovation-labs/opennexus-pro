@@ -8,8 +8,12 @@ export function normalizeNpmPackageName(source: string): string {
 	const withoutPrefix = source.startsWith("npm:") ? source.slice(4) : source;
 	if (withoutPrefix.startsWith("@")) {
 		const versionMarker = withoutPrefix.indexOf("@", 1);
-		return versionMarker === -1 ? withoutPrefix : withoutPrefix.slice(0, versionMarker);
+		return versionMarker === -1
+			? withoutPrefix
+			: withoutPrefix.slice(0, versionMarker);
 	}
 	const versionMarker = withoutPrefix.indexOf("@");
-	return versionMarker === -1 ? withoutPrefix : withoutPrefix.slice(0, versionMarker);
+	return versionMarker === -1
+		? withoutPrefix
+		: withoutPrefix.slice(0, versionMarker);
 }

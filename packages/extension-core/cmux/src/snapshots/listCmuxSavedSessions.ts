@@ -1,6 +1,6 @@
-import { getCmuxSavedSessionsPath } from "./getCmuxSavedSessionsPath.js";
-import { readCmuxSavedSessionStore } from "./readCmuxSavedSessionStore.js";
-import type { CmuxSavedSession } from "./types.js";
+import { getCmuxSavedSessionsPath } from "./getCmuxSavedSessionsPath";
+import { readCmuxSavedSessionStore } from "./readCmuxSavedSessionStore";
+import type { CmuxSavedSession } from "./types";
 
 /**
  * Lists saved cmux session snapshots.
@@ -9,5 +9,7 @@ import type { CmuxSavedSession } from "./types.js";
  */
 export async function listCmuxSavedSessions(): Promise<CmuxSavedSession[]> {
 	const store = await readCmuxSavedSessionStore(getCmuxSavedSessionsPath());
-	return [...store.sessions].sort((left, right) => right.createdAt.localeCompare(left.createdAt));
+	return [...store.sessions].sort((left, right) =>
+		right.createdAt.localeCompare(left.createdAt),
+	);
 }

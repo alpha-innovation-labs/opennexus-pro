@@ -8,7 +8,11 @@ import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
  * @param maxLines Maximum line count.
  * @returns Wrapped lines.
  */
-export function wrapTextLines(text: string, width: number, maxLines: number): string[] {
+export function wrapTextLines(
+	text: string,
+	width: number,
+	maxLines: number,
+): string[] {
 	const normalized = text.replace(/\s+/g, " ").trim();
 	if (!normalized) return [""];
 	const words = normalized.split(" ");
@@ -40,7 +44,11 @@ export function wrapTextLines(text: string, width: number, maxLines: number): st
 	if (lines.length === 0) return [truncateToWidth(normalized, width, "…")];
 	const consumed = lines.join(" ");
 	if (normalized.length > consumed.length) {
-		lines[lines.length - 1] = truncateToWidth(lines[lines.length - 1] || "", width, "…");
+		lines[lines.length - 1] = truncateToWidth(
+			lines[lines.length - 1] || "",
+			width,
+			"…",
+		);
 	}
 	return lines.slice(0, maxLines);
 }

@@ -1,5 +1,5 @@
-import type { PiPackagesTab } from "../model/types.js";
-import { formatPiPackagesTabs } from "./formatPiPackagesTabs.js";
+import type { PiPackagesTab } from "../model/types";
+import { formatPiPackagesTabs } from "./formatPiPackagesTabs";
 
 /**
  * Creates the Pi packages header with right-aligned tabs.

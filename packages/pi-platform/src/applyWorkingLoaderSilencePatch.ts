@@ -6,24 +6,26 @@ let workingLoaderSilencePatchApplied = false;
  * Hides Pi's default interactive "Working..." loader while leaving other loaders intact.
  */
 export function applyWorkingLoaderSilencePatch(): void {
-  if (workingLoaderSilencePatchApplied) {
-    return;
-  }
+	if (workingLoaderSilencePatchApplied) {
+		return;
+	}
 
-  const prototype = Loader.prototype as unknown as {
-    message?: string;
-    render(width: number): string[];
-  };
-  const originalRender = prototype.render;
+	const prototype = Loader.prototype as unknown as {
+		message?: string;
+		render(width: number): string[];
+	};
+	const originalRender = prototype.render;
 
-  prototype.render = function renderWithoutDefaultWorkingLoader(width: number): string[] {
-    const message = this.message ?? "";
-    if (message.startsWith("Working...")) {
-      return [];
-    }
+	prototype.render = function renderWithoutDefaultWorkingLoader(
+		width: number,
+	): string[] {
+		const message = this.message ?? "";
+		if (message.startsWith("Working...")) {
+			return [];
+		}
 
-    return originalRender.call(this, width);
-  };
+		return originalRender.call(this, width);
+	};
 
-  workingLoaderSilencePatchApplied = true;
+	workingLoaderSilencePatchApplied = true;
 }

@@ -2,7 +2,7 @@
  * Prints usage help for the provider CLI command.
  */
 export function printProvidersHelp(): void {
-  console.log(`Usage: nexus provider <subcommand> [options]
+	console.log(`Usage: nexus provider <subcommand> [options]
 
 Subcommands:
   list                  List all known providers with configured status

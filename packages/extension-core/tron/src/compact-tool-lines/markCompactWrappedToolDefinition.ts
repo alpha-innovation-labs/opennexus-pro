@@ -1,4 +1,4 @@
-import compactToolWrapMarker from "./compactToolWrapMarker.js";
+import compactToolWrapMarker from "./compactToolWrapMarker";
 
 /**
  * Marks a tool definition as already using Tron compact wrapping.
@@ -6,7 +6,9 @@ import compactToolWrapMarker from "./compactToolWrapMarker.js";
  * @param definition Tool definition to mark.
  * @returns The same definition with the compact marker attached.
  */
-export function markCompactWrappedToolDefinition<T extends object>(definition: T): T {
+export function markCompactWrappedToolDefinition<T>(
+	definition: T,
+): T {
 	Object.defineProperty(definition, compactToolWrapMarker, {
 		value: true,
 		configurable: false,

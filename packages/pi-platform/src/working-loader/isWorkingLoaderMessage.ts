@@ -5,5 +5,5 @@
  * @returns True when the message is the default working indicator.
  */
 export function isWorkingLoaderMessage(message: string): boolean {
-  return message.startsWith("Working...");
+	return message.startsWith("Working...");
 }

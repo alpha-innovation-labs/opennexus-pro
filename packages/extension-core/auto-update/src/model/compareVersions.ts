@@ -1,4 +1,4 @@
-import { parseVersionParts } from "./parseVersionParts.js";
+import { parseVersionParts } from "./parseVersionParts";
 
 /**
  * Compares two semantic version strings numerically.

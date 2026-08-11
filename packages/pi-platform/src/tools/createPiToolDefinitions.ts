@@ -35,7 +35,9 @@ export interface PiToolDefinition {
  * @param cwd Current working directory passed to Pi tool definition factories.
  * @returns Built-in Pi tool definitions keyed by tool name.
  */
-export function createPiToolDefinitions(cwd: string): Record<string, PiToolDefinition> {
+export function createPiToolDefinitions(
+	cwd: string,
+): Record<string, PiToolDefinition> {
 	return {
 		read: createReadToolDefinition(cwd),
 		bash: createBashToolDefinition(cwd),

@@ -1,8 +1,8 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { readProviderConfig } from "../config/index.js";
-import { unregisterBuiltInProviders } from "./unregisterBuiltInProviders.js";
-import { buildGateways } from "./buildGateways.js";
-import { registerGateways } from "./registerGateways.js";
+import { readProviderConfig } from "../config/index";
+import { buildGateways } from "./buildGateways";
+import { registerGateways } from "./registerGateways";
+import { unregisterBuiltInProviders } from "./unregisterBuiltInProviders";
 
 /**
  * Unregisters all providers that Pi registers natively, and registers
@@ -18,11 +18,13 @@ import { registerGateways } from "./registerGateways.js";
  * @param pi — Pi extension API.
  * @returns A promise that resolves when providers are unregistered.
  */
-export async function registerAiProvidersExtension(pi: ExtensionAPI): Promise<void> {
-  unregisterBuiltInProviders(pi);
+export async function registerAiProvidersExtension(
+	pi: ExtensionAPI,
+): Promise<void> {
+	unregisterBuiltInProviders(pi);
 
-  const providerConfig = readProviderConfig();
-  const gateways = await buildGateways(providerConfig);
+	const providerConfig = readProviderConfig();
+	const gateways = await buildGateways(providerConfig);
 
-  await registerGateways(pi, gateways);
+	await registerGateways(pi, gateways);
 }

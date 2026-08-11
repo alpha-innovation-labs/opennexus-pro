@@ -1,4 +1,4 @@
-import type { SlashMenuLeaf } from "./types.js";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Builds right-pane preview text for one leaf entry.
@@ -7,5 +7,5 @@ import type { SlashMenuLeaf } from "./types.js";
  * @returns Preview lines.
  */
 export function createLeafPreviewLines(leaf: SlashMenuLeaf): string[] {
-  return [leaf.label, "", leaf.description];
+	return [leaf.label, "", leaf.description];
 }

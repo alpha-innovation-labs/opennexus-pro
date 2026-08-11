@@ -1,4 +1,4 @@
-import type { ResourceCommandScope } from "./ResourceCommandScope.js";
+import type { ResourceCommandScope } from "./ResourceCommandScope";
 
 /**
  * Creates resource command scope options in header display order.
@@ -6,5 +6,5 @@ import type { ResourceCommandScope } from "./ResourceCommandScope.js";
  * @returns Scope options.
  */
 export function createResourceCommandScopeOptions(): ResourceCommandScope[] {
-  return ["all", "global", "local"];
+	return ["all", "global", "local"];
 }

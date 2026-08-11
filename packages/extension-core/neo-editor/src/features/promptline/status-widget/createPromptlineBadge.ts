@@ -8,6 +8,9 @@ const RESET = "\x1b[0m";
  * @param background Background ANSI code.
  * @returns Styled badge string.
  */
-export function createPromptlineBadge(text: string, background: string): string {
+export function createPromptlineBadge(
+	text: string,
+	background: string,
+): string {
 	return `${background}${BADGE_FG} ${text} ${RESET}`;
 }

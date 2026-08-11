@@ -1,5 +1,5 @@
-import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath.js";
-import { readJsonFile } from "./readJsonFile.js";
+import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath";
+import { readJsonFile } from "./readJsonFile";
 
 /**
  * Reads project Nexus config.
@@ -7,6 +7,11 @@ import { readJsonFile } from "./readJsonFile.js";
  * @param cwd Project cwd.
  * @returns Project config object.
  */
-export async function readProjectConfig(cwd: string): Promise<Record<string, unknown>> {
-  return (await readJsonFile<Record<string, unknown>>(getProjectConfigPath(cwd))) ?? {};
+export async function readProjectConfig(
+	cwd: string,
+): Promise<Record<string, unknown>> {
+	return (
+		(await readJsonFile<Record<string, unknown>>(getProjectConfigPath(cwd))) ??
+		{}
+	);
 }

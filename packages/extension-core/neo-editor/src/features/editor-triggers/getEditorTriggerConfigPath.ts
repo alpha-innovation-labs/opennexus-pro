@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { getProjectConfigDirPath } from "@nexus/runtime/config/getProjectConfigDirPath.js";
+import { getProjectConfigDirPath } from "@nexus/runtime/config/getProjectConfigDirPath";
 
 /**
  * Returns the project editor-trigger config file path.
@@ -8,5 +8,10 @@ import { getProjectConfigDirPath } from "@nexus/runtime/config/getProjectConfigD
  * @returns Absolute project config file path.
  */
 export function getEditorTriggerConfigPath(cwd: string): string {
-	return join(getProjectConfigDirPath(cwd), "extensions", "neo-editor", "editor-triggers.json");
+	return join(
+		getProjectConfigDirPath(cwd),
+		"extensions",
+		"neo-editor",
+		"editor-triggers.json",
+	);
 }

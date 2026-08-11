@@ -1,8 +1,9 @@
-import { SingleLineToolCall } from "./SingleLineToolCall.ts";
-import { renderEditChangeStats } from "./renderEditChangeStats.ts";
-import type { SummaryText } from "./SummaryText.ts";
-import { truncateSingleLine } from "./truncateSingleLine.ts";
-import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart.ts";
+import type { Theme } from "@earendil-works/pi-coding-agent";
+import { renderEditChangeStats } from "./renderEditChangeStats";
+import { SingleLineToolCall } from "./SingleLineToolCall";
+import type { SummaryText } from "./SummaryText";
+import { truncateSingleLine } from "./truncateSingleLine";
+import { truncateSingleLineFromStart } from "./truncateSingleLineFromStart";
 
 /**
  * Creates a compact tool-call renderer from summary text.
@@ -18,7 +19,7 @@ export function renderSummary(
 	toolCallId: string,
 	toolName: string,
 	summary: SummaryText,
-	theme: any,
+	theme: Theme,
 	hasAttachedResult: boolean,
 ): SingleLineToolCall {
 	const normalizedSummary = {
@@ -32,5 +33,11 @@ export function renderSummary(
 		? renderEditChangeStats(normalizedSummary, theme)
 		: normalizedSummary;
 
-	return new SingleLineToolCall(toolCallId, toolName, themedSummary, theme, hasAttachedResult);
+	return new SingleLineToolCall(
+		toolCallId,
+		toolName,
+		themedSummary,
+		theme,
+		hasAttachedResult,
+	);
 }

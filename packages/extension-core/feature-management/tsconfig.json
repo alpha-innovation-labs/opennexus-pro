@@ -1,0 +1,40 @@
+{
+	"extends": "../../../tsconfig.base.json",
+	"compilerOptions": {
+		"paths": {
+			"@nexus/runtime/*": [
+				"../../nexus-runtime/src/*"
+			],
+			"@nexus/runtime": [
+				"../../nexus-runtime/src/index.ts"
+			],
+			"@nexus/tui-kit/*": [
+				"../../tui-kit/src/*"
+			],
+			"@nexus/tui-kit": [
+				"../../tui-kit/src/index.ts"
+			],
+			"@nexus/feature-flags/*": [
+				"../../feature-flags/src/*"
+			],
+			"@nexus/feature-flags": [
+				"../../feature-flags/src/index.ts"
+			],
+			"@extensions/pi-packages/*": [
+				"../pi-packages/src/*"
+			],
+			"@extensions/pi-packages": [
+				"../pi-packages/src/index.ts"
+			],
+			"@extensions/slash-menu/*": [
+				"../slash-menu/src/*"
+			],
+			"@extensions/slash-menu": [
+				"../slash-menu/src/index.ts"
+			]
+		}
+	},
+	"include": [
+		"src/**/*.ts"
+	]
+}

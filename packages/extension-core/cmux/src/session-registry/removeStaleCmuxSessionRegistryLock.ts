@@ -1,7 +1,7 @@
 import { mkdir, rm, rmdir } from "node:fs/promises";
-import { isCmuxSessionRegistryLockDirOld } from "./isCmuxSessionRegistryLockDirOld.js";
-import { isCmuxSessionRegistryLockStale } from "./isCmuxSessionRegistryLockStale.js";
-import { readCmuxSessionRegistryLockMetadata } from "./readCmuxSessionRegistryLockMetadata.js";
+import { isCmuxSessionRegistryLockDirOld } from "./isCmuxSessionRegistryLockDirOld";
+import { isCmuxSessionRegistryLockStale } from "./isCmuxSessionRegistryLockStale";
+import { readCmuxSessionRegistryLockMetadata } from "./readCmuxSessionRegistryLockMetadata";
 
 /**
  * Removes an abandoned cmux registry lock after a guarded stale recheck.
@@ -9,7 +9,9 @@ import { readCmuxSessionRegistryLockMetadata } from "./readCmuxSessionRegistryLo
  * @param lockPath Lock directory path.
  * @returns True when a stale lock was removed.
  */
-export async function removeStaleCmuxSessionRegistryLock(lockPath: string): Promise<boolean> {
+export async function removeStaleCmuxSessionRegistryLock(
+	lockPath: string,
+): Promise<boolean> {
 	const breakerPath = `${lockPath}.breaker`;
 	try {
 		await mkdir(breakerPath);
@@ -29,7 +31,12 @@ export async function removeStaleCmuxSessionRegistryLock(lockPath: string): Prom
 		await rmdir(lockPath);
 		return true;
 	} catch (error) {
-		if (["ENOENT", "ENOTEMPTY", "EEXIST"].includes((error as NodeJS.ErrnoException).code ?? "")) return false;
+		if (
+			["ENOENT", "ENOTEMPTY", "EEXIST"].includes(
+				(error as NodeJS.ErrnoException).code ?? "",
+			)
+		)
+			return false;
 		throw error;
 	} finally {
 		await rmdir(breakerPath).catch(() => undefined);

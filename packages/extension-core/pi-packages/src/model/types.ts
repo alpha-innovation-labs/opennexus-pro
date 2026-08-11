@@ -27,3 +27,13 @@ export type ManagedExtensionRow = {
  * Visible tab in the Pi packages modal.
  */
 export type PiPackagesTab = "all" | "third-party";
+
+/**
+ * Internal package entry from the package manager.
+ */
+export type ConfiguredPackage = {
+	source: string;
+	scope: "user" | "project";
+	installedPath?: string;
+	filtered: boolean;
+};

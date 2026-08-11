@@ -1,4 +1,4 @@
-import { getModelCatalogMetricColumnSpecs } from "./getModelCatalogMetricColumnSpecs.js";
+import { getModelCatalogMetricColumnSpecs } from "./getModelCatalogMetricColumnSpecs";
 
 /**
  * Gets the All models metric column header text.
@@ -6,7 +6,7 @@ import { getModelCatalogMetricColumnSpecs } from "./getModelCatalogMetricColumnS
  * @returns Catalog column header text.
  */
 export function getModelCatalogColumnHeaderText(): string {
-  return getModelCatalogMetricColumnSpecs()
-    .map((column) => column.label.padEnd(column.width))
-    .join("  ");
+	return getModelCatalogMetricColumnSpecs()
+		.map((column) => column.label.padEnd(column.width))
+		.join("  ");
 }

@@ -1,5 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import type { FeatureStatusRow } from "../model/types.js";
+import type { FeatureStatusRow } from "../model/types";
 
 /**
  * Calculates the display width needed for the feature-name column.
@@ -8,5 +8,8 @@ import type { FeatureStatusRow } from "../model/types.js";
  * @returns Maximum visible feature-name width.
  */
 export function getFeatureColumnWidth(rows: FeatureStatusRow[]): number {
-	return rows.reduce((width, row) => Math.max(width, visibleWidth(row.feature)), 0);
+	return rows.reduce(
+		(width, row) => Math.max(width, visibleWidth(row.feature)),
+		0,
+	);
 }

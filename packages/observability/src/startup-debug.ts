@@ -1,5 +1,5 @@
-import { logStartupProfileEvent } from "./startup-profile/logStartupProfileEvent.js";
-import { startupProfileLogPath } from "./startup-profile/startupProfileLogPath.js";
+import { logStartupProfileEvent } from "./startup-profile/logStartupProfileEvent";
+import { startupProfileLogPath } from "./startup-profile/startupProfileLogPath";
 
 /**
  * Appends one extension lifecycle event to the startup debug log.
@@ -8,7 +8,11 @@ import { startupProfileLogPath } from "./startup-profile/startupProfileLogPath.j
  * @param event Event name.
  * @param data Optional structured event payload.
  */
-export function logExtensionEvent(extension: string, event: string, data?: Record<string, unknown>): void {
+export function logExtensionEvent(
+	extension: string,
+	event: string,
+	data?: Record<string, unknown>,
+): void {
 	logStartupProfileEvent(extension, event, data);
 }
 

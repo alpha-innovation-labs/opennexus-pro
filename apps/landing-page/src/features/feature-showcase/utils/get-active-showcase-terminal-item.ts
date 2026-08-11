@@ -7,6 +7,9 @@ import type { ShowcaseTerminalItem } from "../types/showcase-terminal-item";
  * @param activeId Active example id.
  * @returns Matching terminal item or the first item.
  */
-export function getActiveShowcaseTerminalItem(items: readonly ShowcaseTerminalItem[], activeId: string): ShowcaseTerminalItem | undefined {
-  return items.find((item) => item.example.id === activeId) ?? items[0];
+export function getActiveShowcaseTerminalItem(
+	items: readonly ShowcaseTerminalItem[],
+	activeId: string,
+): ShowcaseTerminalItem | undefined {
+	return items.find((item) => item.example.id === activeId) ?? items[0];
 }

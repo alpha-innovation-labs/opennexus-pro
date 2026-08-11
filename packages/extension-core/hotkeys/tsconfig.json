@@ -1,0 +1,58 @@
+{
+	"extends": "../../../tsconfig.base.json",
+	"compilerOptions": {
+		"paths": {
+			"@nexus/feature-flags/runtimeExtensionFeatureState": [
+				"../../feature-flags/src/runtimeExtensionFeatureState.ts"
+			],
+			"@nexus/feature-flags/*": [
+				"../../feature-flags/src/*"
+			],
+			"@nexus/feature-flags": [
+				"../../feature-flags/src/index.ts"
+			],
+			"@nexus/pi-platform/hotkeysCommandHook": [
+				"../../pi-platform/src/hotkeysCommandHook.ts"
+			],
+			"@nexus/pi-platform/*": [
+				"../../pi-platform/src/*"
+			],
+			"@nexus/pi-platform": [
+				"../../pi-platform/src/index.ts"
+			],
+			"@nexus/runtime/*": [
+				"../../nexus-runtime/src/*"
+			],
+			"@nexus/runtime": [
+				"../../nexus-runtime/src/index.ts"
+			],
+			"@nexus/tui-kit/modal/createPanelOverlayOptions": [
+				"../../tui-kit/src/modal/createPanelOverlayOptions.ts"
+			],
+			"@nexus/tui-kit/modal/index": [
+				"../../tui-kit/src/modal/index.ts"
+			],
+			"@nexus/tui-kit/modal/*": [
+				"../../tui-kit/src/modal/*"
+			],
+			"@nexus/tui-kit/shortcuts/index": [
+				"../../tui-kit/src/shortcuts/index.ts"
+			],
+			"@nexus/tui-kit/shortcuts/*": [
+				"../../tui-kit/src/shortcuts/*"
+			],
+			"@nexus/tui-kit/shortcuts": [
+				"../../tui-kit/src/shortcuts/index.ts"
+			],
+			"@nexus/tui-kit/*": [
+				"../../tui-kit/src/*"
+			],
+			"@nexus/tui-kit": [
+				"../../tui-kit/src/index.ts"
+			]
+		}
+	},
+	"include": [
+		"src/**/*.ts"
+	]
+}

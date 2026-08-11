@@ -7,6 +7,11 @@
  * @param path File path inside the repository.
  * @returns Raw GitHub content URL.
  */
-export function createRawGitHubUrl(owner: string, repo: string, ref: string, path: string): string {
-  return `https://raw.githubusercontent.com/${owner}/${repo}/${ref}/${path}`;
+export function createRawGitHubUrl(
+	owner: string,
+	repo: string,
+	ref: string,
+	path: string,
+): string {
+	return `https://raw.githubusercontent.com/${owner}/${repo}/${ref}/${path}`;
 }

@@ -1,6 +1,6 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import { getModelMenuTabLabel } from "./getModelMenuTabLabel.js";
-import type { ModelMenuTab } from "./ModelMenuTab.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import { getModelMenuTabLabel } from "./getModelMenuTabLabel";
+import type { ModelMenuTab } from "./ModelMenuTab";
 
 /**
  * Formats one model-menu tab marker.
@@ -10,7 +10,13 @@ import type { ModelMenuTab } from "./ModelMenuTab.js";
  * @param theme Active UI theme.
  * @returns Styled tab label.
  */
-export function formatModelMenuTab(tab: ModelMenuTab, selected: boolean, theme: SharedModalTheme): string {
-  const label = getModelMenuTabLabel(tab);
-  return selected ? theme.fg("accent", `● ${label}`) : theme.fg("muted", `○ ${label}`);
+export function formatModelMenuTab(
+	tab: ModelMenuTab,
+	selected: boolean,
+	theme: SharedModalTheme,
+): string {
+	const label = getModelMenuTabLabel(tab);
+	return selected
+		? theme.fg("accent", `● ${label}`)
+		: theme.fg("muted", `○ ${label}`);
 }

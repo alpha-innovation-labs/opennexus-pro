@@ -5,5 +5,5 @@
  * @returns Stable request key.
  */
 export function createRequestKey(request: Record<string, unknown>): string {
-  return JSON.stringify(request);
+	return JSON.stringify(request);
 }

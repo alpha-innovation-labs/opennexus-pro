@@ -1,10 +1,10 @@
-import type { SharedModalHotkey } from "@nexus/tui-kit/modal/index.js";
-import { createHotkeysFilterFooterHotkeys } from "./createHotkeysFilterFooterHotkeys.js";
-import { createHotkeysFooterHotkeys } from "./createHotkeysFooterHotkeys.js";
+import type { SharedModalHotkey } from "@nexus/tui-kit/modal/index";
+import { createHotkeysFilterFooterHotkeys } from "./createHotkeysFilterFooterHotkeys";
+import { createHotkeysFooterHotkeys } from "./createHotkeysFooterHotkeys";
 
 export type HotkeysModalFooterState = {
-  footerHotkeys: SharedModalHotkey[];
-  footerLines: string[];
+	footerHotkeys: SharedModalHotkey[];
+	footerLines: string[];
 };
 
 /**
@@ -20,17 +20,29 @@ export type HotkeysModalFooterState = {
  * @returns Structured footer hotkeys and text lines.
  */
 export function createHotkeysModalFooterState(
-  pendingConflict: boolean,
-  editingEntryId: string | undefined,
-  statusMessage: string,
-  filterActive: boolean,
-  filterQuery: string,
-  scrollOffset: number,
-  maxScroll: number,
+	pendingConflict: boolean,
+	editingEntryId: string | undefined,
+	statusMessage: string,
+	filterActive: boolean,
+	filterQuery: string,
+	scrollOffset: number,
+	maxScroll: number,
 ): HotkeysModalFooterState {
-  if (pendingConflict) return { footerHotkeys: [], footerLines: ["Conflict approval required"] };
-  if (editingEntryId) return { footerHotkeys: [], footerLines: [`Editing ${editingEntryId}: press the replacement key`] };
-  if (statusMessage) return { footerHotkeys: [], footerLines: [statusMessage] };
-  if (filterActive) return { footerHotkeys: createHotkeysFilterFooterHotkeys(), footerLines: [`Filter: ${filterQuery || "type keys or labels"}`] };
-  return { footerHotkeys: createHotkeysFooterHotkeys(scrollOffset, maxScroll), footerLines: [] };
+	if (pendingConflict)
+		return { footerHotkeys: [], footerLines: ["Conflict approval required"] };
+	if (editingEntryId)
+		return {
+			footerHotkeys: [],
+			footerLines: [`Editing ${editingEntryId}: press the replacement key`],
+		};
+	if (statusMessage) return { footerHotkeys: [], footerLines: [statusMessage] };
+	if (filterActive)
+		return {
+			footerHotkeys: createHotkeysFilterFooterHotkeys(),
+			footerLines: [`Filter: ${filterQuery || "type keys or labels"}`],
+		};
+	return {
+		footerHotkeys: createHotkeysFooterHotkeys(scrollOffset, maxScroll),
+		footerLines: [],
+	};
 }

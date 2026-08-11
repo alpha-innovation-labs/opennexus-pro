@@ -1,9 +1,9 @@
-import { readObservationState } from "@extensions/observations/tracker/readObservationState.js";
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir.js";
-import { formatObservationTopicList } from "./formatObservationTopicList.js";
-import { listObservationArtifactGroups } from "./listObservationArtifactGroups.js";
-import { resolveObservationConversationId } from "./resolveObservationConversationId.js";
-import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups.js";
+import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
+import { readObservationState } from "@extensions/observations/tracker/readObservationState";
+import { formatObservationTopicList } from "./formatObservationTopicList";
+import { listObservationArtifactGroups } from "./listObservationArtifactGroups";
+import { resolveObservationConversationId } from "./resolveObservationConversationId";
+import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups";
 
 /**
  * Prints persisted observations for a session id to stdout.
@@ -11,10 +11,21 @@ import { selectObservationArtifactGroups } from "./selectObservationArtifactGrou
  * @param sessionId Persisted session identifier.
  * @param cwd Current working directory used for state fallback metadata.
  */
-export async function printObservationsList(sessionId: string, cwd: string): Promise<void> {
+export async function printObservationsList(
+	sessionId: string,
+	cwd: string,
+): Promise<void> {
 	const conversationId = await resolveObservationConversationId(sessionId);
-	const groups = selectObservationArtifactGroups(await listObservationArtifactGroups(getObservationsDir()), conversationId);
+	const groups = selectObservationArtifactGroups(
+		await listObservationArtifactGroups(getObservationsDir()),
+		conversationId,
+	);
 	const statePath = groups[0]?.statePath ?? groups[0]?.legacyStatePath;
-	const state = await readObservationState(statePath ?? "", conversationId, cwd, null);
+	const state = await readObservationState(
+		statePath ?? "",
+		conversationId,
+		cwd,
+		null,
+	);
 	console.log(formatObservationTopicList(state));
 }

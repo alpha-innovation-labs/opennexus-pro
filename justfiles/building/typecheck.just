@@ -1,8 +1,7 @@
-# ============================================================================
-# Typecheck Commands
-# ============================================================================
+# Run TypeScript typecheck across the entire codebase via Turbo.
+# Usage: just typecheck [FILTER]
+# Example: just typecheck @extensions/ai-provider
 
-# Run full TypeScript typecheck across the entire codebase.
-typecheck:
-	@echo "\033[1;36mRunning TypeScript typecheck...\033[0m"
-	@npx tsc --noEmit
+[positional-arguments]
+typecheck *ARGS:
+    @if [ $# -gt 0 ]; then npx turbo --filter="$1" typecheck --output-logs=errors-only "${@:2}"; else npx turbo typecheck --output-logs=errors-only; fi

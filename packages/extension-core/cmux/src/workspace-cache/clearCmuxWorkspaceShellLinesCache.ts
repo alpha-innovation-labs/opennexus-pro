@@ -1,4 +1,4 @@
-import { cmuxWorkspaceShellLinesCache } from "./cmuxWorkspaceShellLinesCache.js";
+import { cmuxWorkspaceShellLinesCache } from "./cmuxWorkspaceShellLinesCache";
 
 /**
  * Clears cached cmux workspace shell lines.

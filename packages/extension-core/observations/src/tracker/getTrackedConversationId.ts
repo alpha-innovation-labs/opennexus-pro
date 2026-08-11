@@ -1,4 +1,4 @@
-import { getPersistentConversationId } from "../shared/getPersistentConversationId.js";
+import { getPersistentConversationId } from "../shared/getPersistentConversationId";
 
 /**
  * Resolves the active conversation identifier.
@@ -11,5 +11,7 @@ export function getTrackedConversationId(
 	sessionFile: string | null,
 	ephemeralConversationId: string,
 ): string {
-	return sessionFile ? getPersistentConversationId(sessionFile) : ephemeralConversationId;
+	return sessionFile
+		? getPersistentConversationId(sessionFile)
+		: ephemeralConversationId;
 }

@@ -1,18 +1,18 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { logExtensionEvent } from "@nexus/observability/startup-debug.js";
-import { applyAssistantObservation } from "./applyAssistantObservation.js";
-import { applyUserObservation } from "./applyUserObservation.js";
-import { createEphemeralConversationId } from "./createEphemeralConversationId.js";
-import { createObservationContextSnapshot } from "./createObservationContextSnapshot.js";
-import { createStoredObservationMessage } from "./createStoredObservationMessage.js";
-import { enqueueObservationTask } from "./enqueueObservationTask.js";
-import { ensureObservationsDir } from "./ensureObservationsDir.js";
-import { extractAssistantSummaryInput } from "./extractAssistantSummaryInput.js";
-import { extractUserText } from "./extractUserText.js";
-import { getObservationPaths } from "./getObservationPaths.js";
-import { getStoredObservationState } from "./getStoredObservationState.js";
-import { updateSessionTitleFromObservationState } from "./updateSessionTitleFromObservationState.js";
-import { writeObservationState } from "./writeObservationState.js";
+import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { applyAssistantObservation } from "./applyAssistantObservation";
+import { applyUserObservation } from "./applyUserObservation";
+import { createEphemeralConversationId } from "./createEphemeralConversationId";
+import { createObservationContextSnapshot } from "./createObservationContextSnapshot";
+import { createStoredObservationMessage } from "./createStoredObservationMessage";
+import { enqueueObservationTask } from "./enqueueObservationTask";
+import { ensureObservationsDir } from "./ensureObservationsDir";
+import { extractAssistantSummaryInput } from "./extractAssistantSummaryInput";
+import { extractUserText } from "./extractUserText";
+import { getObservationPaths } from "./getObservationPaths";
+import { getStoredObservationState } from "./getStoredObservationState";
+import { updateSessionTitleFromObservationState } from "./updateSessionTitleFromObservationState";
+import { writeObservationState } from "./writeObservationState";
 
 /**
  * Registers the observations tracking flow.
@@ -29,10 +29,19 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 			reason: event.reason,
 			sessionFile: ctx.sessionManager.getSessionFile() ?? null,
 		});
-		if (!ctx.sessionManager.getSessionFile()) ephemeralConversationId = createEphemeralConversationId();
-		const { conversationId, statePath, dir, sessionFile } = getObservationPaths(ctx, ephemeralConversationId);
+		if (!ctx.sessionManager.getSessionFile())
+			ephemeralConversationId = createEphemeralConversationId();
+		const { conversationId, statePath, dir, sessionFile } = getObservationPaths(
+			ctx,
+			ephemeralConversationId,
+		);
 		await ensureObservationsDir(dir);
-		const state = await getStoredObservationState(statePath, conversationId, ctx.cwd, sessionFile);
+		const state = await getStoredObservationState(
+			statePath,
+			conversationId,
+			ctx.cwd,
+			sessionFile,
+		);
 		await writeObservationState(statePath, state);
 		await updateSessionTitleFromObservationState(pi, state);
 	});
@@ -45,7 +54,12 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 			const text = extractUserText(event.message);
 			if (!text) return;
 			enqueueObservationTask(queues, paths.conversationId, async () => {
-				const state = await getStoredObservationState(paths.statePath, paths.conversationId, contextSnapshot.cwd, paths.sessionFile);
+				const state = await getStoredObservationState(
+					paths.statePath,
+					paths.conversationId,
+					contextSnapshot.cwd,
+					paths.sessionFile,
+				);
 				const stored = createStoredObservationMessage(state, {
 					timestamp: event.message.timestamp ?? Date.now(),
 					role: "user",
@@ -61,7 +75,12 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 		const summaryInput = extractAssistantSummaryInput(event.message);
 		if (!summaryInput.text && !summaryInput.thinking) return;
 		enqueueObservationTask(queues, paths.conversationId, async () => {
-			const state = await getStoredObservationState(paths.statePath, paths.conversationId, contextSnapshot.cwd, paths.sessionFile);
+			const state = await getStoredObservationState(
+				paths.statePath,
+				paths.conversationId,
+				contextSnapshot.cwd,
+				paths.sessionFile,
+			);
 			const stored = createStoredObservationMessage(state, {
 				timestamp: event.message.timestamp ?? Date.now(),
 				role: "assistant",
@@ -75,8 +94,16 @@ export function registerObservationTracker(pi: ExtensionAPI): void {
 	});
 	pi.on("turn_end", async (_event, ctx) => {
 		if (!ctx.hasUI) return;
-		const { conversationId, statePath, sessionFile } = getObservationPaths(ctx, ephemeralConversationId);
-		const state = await getStoredObservationState(statePath, conversationId, ctx.cwd, sessionFile);
+		const { conversationId, statePath, sessionFile } = getObservationPaths(
+			ctx,
+			ephemeralConversationId,
+		);
+		const state = await getStoredObservationState(
+			statePath,
+			conversationId,
+			ctx.cwd,
+			sessionFile,
+		);
 		await updateSessionTitleFromObservationState(pi, state);
 	});
 	pi.on("session_shutdown", async (_event, ctx) => {

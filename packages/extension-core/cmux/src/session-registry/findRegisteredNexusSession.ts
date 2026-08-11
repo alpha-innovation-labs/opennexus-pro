@@ -1,5 +1,5 @@
-import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration.js";
-import type { CmuxSessionRegistryEntry } from "./types.js";
+import { matchesCmuxSurfaceRegistration } from "./matchesCmuxSurfaceRegistration";
+import type { CmuxSessionRegistryEntry } from "./types";
 
 /**
  * Finds the Nexus session registered for a cmux surface.
@@ -9,6 +9,12 @@ import type { CmuxSessionRegistryEntry } from "./types.js";
  * @param surfaceId Surface identifier from cmux.
  * @returns Matching Nexus registry entry, when present.
  */
-export function findRegisteredNexusSession(entries: CmuxSessionRegistryEntry[], workspaceId: string | undefined, surfaceId: string): CmuxSessionRegistryEntry | undefined {
-	return entries.find((entry) => matchesCmuxSurfaceRegistration(entry, workspaceId, surfaceId));
+export function findRegisteredNexusSession(
+	entries: CmuxSessionRegistryEntry[],
+	workspaceId: string | undefined,
+	surfaceId: string,
+): CmuxSessionRegistryEntry | undefined {
+	return entries.find((entry) =>
+		matchesCmuxSurfaceRegistration(entry, workspaceId, surfaceId),
+	);
 }

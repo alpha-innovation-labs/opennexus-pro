@@ -8,5 +8,7 @@ const NEXUS_CMUX_ICON = "󰀘";
  */
 export function formatCmuxNexusTitle(title: string): string {
 	const normalized = title.replace(/\s+/g, " ").trim();
-	return normalized.startsWith(NEXUS_CMUX_ICON) ? normalized : `${NEXUS_CMUX_ICON}  ${normalized}`;
+	return normalized.startsWith(NEXUS_CMUX_ICON)
+		? normalized
+		: `${NEXUS_CMUX_ICON}  ${normalized}`;
 }

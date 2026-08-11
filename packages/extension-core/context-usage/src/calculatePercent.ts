@@ -5,7 +5,10 @@
  * @param contextWindow Context window size.
  * @returns Percentage of the context window.
  */
-export function calculatePercent(tokens: number, contextWindow: number): number {
-  if (contextWindow <= 0) return 0;
-  return (tokens / contextWindow) * 100;
+export function calculatePercent(
+	tokens: number,
+	contextWindow: number,
+): number {
+	if (contextWindow <= 0) return 0;
+	return (tokens / contextWindow) * 100;
 }

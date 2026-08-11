@@ -5,5 +5,5 @@
  * @returns True when argv starts with the observations command.
  */
 export function isObservationsCommand(argv: readonly string[]): boolean {
-  return argv[0] === "observations";
+	return argv[0] === "observations";
 }

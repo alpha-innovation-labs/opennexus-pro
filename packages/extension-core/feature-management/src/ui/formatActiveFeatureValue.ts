@@ -1,4 +1,4 @@
-import { padFeatureColumn } from "./padFeatureColumn.js";
+import { padFeatureColumn } from "./padFeatureColumn";
 
 /**
  * Formats one focused or unfocused feature-management value column.
@@ -8,6 +8,10 @@ import { padFeatureColumn } from "./padFeatureColumn.js";
  * @param active Whether this value's menu item is focused.
  * @returns Padded value with a focus marker column.
  */
-export function formatActiveFeatureValue(value: string, width: number, active: boolean): string {
+export function formatActiveFeatureValue(
+	value: string,
+	width: number,
+	active: boolean,
+): string {
 	return `${active ? "›" : " "} ${padFeatureColumn(value, width)}`;
 }

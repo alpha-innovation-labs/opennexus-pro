@@ -1,5 +1,5 @@
-import { readProjectConfig } from "./readProjectConfig.js";
-import { writeProjectConfig } from "./writeProjectConfig.js";
+import { readProjectConfig } from "./readProjectConfig";
+import { writeProjectConfig } from "./writeProjectConfig";
 
 /**
  * Persists the selected project theme.
@@ -7,8 +7,11 @@ import { writeProjectConfig } from "./writeProjectConfig.js";
  * @param cwd Project cwd.
  * @param themeName Theme name.
  */
-export async function setProjectTheme(cwd: string, themeName: string): Promise<void> {
-  const projectConfig = await readProjectConfig(cwd);
-  (projectConfig as { theme?: string }).theme = themeName;
-  await writeProjectConfig(cwd, projectConfig);
+export async function setProjectTheme(
+	cwd: string,
+	themeName: string,
+): Promise<void> {
+	const projectConfig = await readProjectConfig(cwd);
+	(projectConfig as { theme?: string }).theme = themeName;
+	await writeProjectConfig(cwd, projectConfig);
 }

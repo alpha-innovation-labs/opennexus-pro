@@ -1,7 +1,7 @@
 export type ShowcaseStorySectionMarker = {
-  readonly id: string;
-  readonly line: number;
-  readonly isVisible: boolean;
+	readonly id: string;
+	readonly line: number;
+	readonly isVisible: boolean;
 };
 
 /**
@@ -12,14 +12,18 @@ export type ShowcaseStorySectionMarker = {
  * @param fallbackId Fallback id when no marker is active.
  * @returns The active showcase example id.
  */
-export function resolveActiveShowcaseStoryId(markers: readonly ShowcaseStorySectionMarker[], activationLine: number, fallbackId: string): string {
-  let activeId = fallbackId;
-  let firstVisibleId = "";
+export function resolveActiveShowcaseStoryId(
+	markers: readonly ShowcaseStorySectionMarker[],
+	activationLine: number,
+	fallbackId: string,
+): string {
+	let activeId = fallbackId;
+	let firstVisibleId = "";
 
-  for (const marker of markers) {
-    if (marker.isVisible && !firstVisibleId) firstVisibleId = marker.id;
-    if (marker.line <= activationLine) activeId = marker.id;
-  }
+	for (const marker of markers) {
+		if (marker.isVisible && !firstVisibleId) firstVisibleId = marker.id;
+		if (marker.line <= activationLine) activeId = marker.id;
+	}
 
-  return activeId || firstVisibleId || fallbackId;
+	return activeId || firstVisibleId || fallbackId;
 }

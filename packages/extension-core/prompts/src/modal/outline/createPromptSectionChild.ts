@@ -1,4 +1,4 @@
-import type { SystemPromptOutlineChild } from "./types.js";
+import type { SystemPromptOutlineChild } from "./types";
 
 /**
  * Creates an outline child when its source line exists.
@@ -7,7 +7,10 @@ import type { SystemPromptOutlineChild } from "./types.js";
  * @param lineIndex Source prompt line index.
  * @returns Outline child, or undefined when missing.
  */
-export function createPromptSectionChild(label: string, lineIndex: number): SystemPromptOutlineChild | undefined {
+export function createPromptSectionChild(
+	label: string,
+	lineIndex: number,
+): SystemPromptOutlineChild | undefined {
 	if (lineIndex < 0) return undefined;
 	return { label, lineIndex };
 }

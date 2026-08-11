@@ -1,10 +1,10 @@
-import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId.js";
-import type { HotkeysEntry } from "./types.js";
+import { getHotkeysEntryFocusId } from "./getHotkeysEntryFocusId";
+import type { HotkeysEntry } from "./types";
 
 export type HotkeysEditStart = {
-  editingEntryId?: string;
-  focusedEntryId?: string;
-  statusMessage: string;
+	editingEntryId?: string;
+	focusedEntryId?: string;
+	statusMessage: string;
 };
 
 /**
@@ -14,8 +14,19 @@ export type HotkeysEditStart = {
  * @param focusedEntryId Current focused keybinding id.
  * @returns Edit state update for the selected entry.
  */
-export function getHotkeysEditStart(entries: HotkeysEntry[], focusedEntryId: string | undefined): HotkeysEditStart {
-  const entry = entries.find((candidate) => getHotkeysEntryFocusId(candidate) === focusedEntryId) ?? entries[0];
-  if (!entry?.keybindingId) return { statusMessage: "No editable keybinding selected" };
-  return { editingEntryId: entry.keybindingId, focusedEntryId: entry.keybindingId, statusMessage: `Press a key to bind ${entry.label}` };
+export function getHotkeysEditStart(
+	entries: HotkeysEntry[],
+	focusedEntryId: string | undefined,
+): HotkeysEditStart {
+	const entry =
+		entries.find(
+			(candidate) => getHotkeysEntryFocusId(candidate) === focusedEntryId,
+		) ?? entries[0];
+	if (!entry?.keybindingId)
+		return { statusMessage: "No editable keybinding selected" };
+	return {
+		editingEntryId: entry.keybindingId,
+		focusedEntryId: entry.keybindingId,
+		statusMessage: `Press a key to bind ${entry.label}`,
+	};
 }

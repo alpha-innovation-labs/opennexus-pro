@@ -1,6 +1,6 @@
-import { createSessionJsonRows } from "./createSessionJsonRows.js";
-import { formatSessionsJson } from "./formatSessionsJson.js";
-import { listSessions } from "./listSessions.js";
+import { createSessionJsonRows } from "./createSessionJsonRows";
+import { formatSessionsJson } from "./formatSessionsJson";
+import { listSessions } from "./listSessions";
 
 /**
  * Prints resumable sessions for one working directory to stdout as JSON.
@@ -9,7 +9,10 @@ import { listSessions } from "./listSessions.js";
  * @param sessionDir Optional session directory override.
  * @returns A promise that resolves after printing finishes.
  */
-export async function printSessionsJson(cwd: string, sessionDir?: string): Promise<void> {
-  const sessions = await listSessions(cwd, sessionDir);
-  console.log(formatSessionsJson(createSessionJsonRows(sessions)));
+export async function printSessionsJson(
+	cwd: string,
+	sessionDir?: string,
+): Promise<void> {
+	const sessions = await listSessions(cwd, sessionDir);
+	console.log(formatSessionsJson(createSessionJsonRows(sessions)));
 }

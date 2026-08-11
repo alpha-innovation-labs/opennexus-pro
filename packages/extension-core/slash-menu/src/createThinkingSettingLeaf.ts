@@ -1,6 +1,6 @@
-import { getSupportedThinkingLevels } from "@earendil-works/pi-ai";
 import type { Api, Model } from "@earendil-works/pi-ai";
-import type { SlashMenuLeaf } from "./types.js";
+import { getSupportedThinkingLevels } from "@earendil-works/pi-ai";
+import type { SlashMenuLeaf } from "./types";
 
 /**
  * Builds the shared thinking-level setting leaf for settings and root menu flows.
@@ -10,17 +10,18 @@ import type { SlashMenuLeaf } from "./types.js";
  * @returns Thinking-level setting leaf.
  */
 export function createThinkingSettingLeaf(
-  thinkingLevel: string,
-  model: Model<Api> | undefined,
+	thinkingLevel: string,
+	model: Model<Api> | undefined,
 ): SlashMenuLeaf {
-  const options = model === undefined ? ["off"] : getSupportedThinkingLevels(model);
+	const options =
+		model === undefined ? ["off"] : getSupportedThinkingLevels(model);
 
-  return {
-    kind: "setting",
-    label: "Thinking level",
-    description: "Reasoning depth for thinking-capable models",
-    value: "thinking",
-    currentValue: thinkingLevel,
-    options,
-  };
+	return {
+		kind: "setting",
+		label: "Thinking level",
+		description: "Reasoning depth for thinking-capable models",
+		value: "thinking",
+		currentValue: thinkingLevel,
+		options,
+	};
 }

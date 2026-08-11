@@ -1,4 +1,4 @@
-import type { CmuxSavedSessionStore } from "./types.js";
+import type { CmuxSavedSessionStore } from "./types";
 
 /**
  * Creates an empty cmux saved-session store.

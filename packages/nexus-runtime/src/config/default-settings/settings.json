@@ -1,6 +1,6 @@
 {
-  "theme": "nexus-black",
-  "editorPaddingX": 1,
-  "quietStartup": true,
-  "hideThinkingBlock": true
+	"theme": "nexus-black",
+	"editorPaddingX": 1,
+	"quietStartup": true,
+	"hideThinkingBlock": true
 }

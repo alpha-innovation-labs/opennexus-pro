@@ -1,4 +1,4 @@
-import { createTopLevelItems } from "./createTopLevelItems.js";
+import { createTopLevelItems } from "./createTopLevelItems";
 
 /**
  * Finds one top-level slash menu item by value.
@@ -7,5 +7,5 @@ import { createTopLevelItems } from "./createTopLevelItems.js";
  * @returns Matching item, if found.
  */
 export function findTopLevelItem(value: string) {
-  return createTopLevelItems().find((item) => item.value === value);
+	return createTopLevelItems().find((item) => item.value === value);
 }

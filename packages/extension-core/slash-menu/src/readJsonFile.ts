@@ -7,9 +7,9 @@ import { readFile } from "node:fs/promises";
  * @returns Parsed JSON value.
  */
 export async function readJsonFile<T>(path: string): Promise<T | undefined> {
-  try {
-    return JSON.parse(await readFile(path, "utf8")) as T;
-  } catch {
-    return undefined;
-  }
+	try {
+		return JSON.parse(await readFile(path, "utf8")) as T;
+	} catch {
+		return undefined;
+	}
 }

@@ -1,6 +1,7 @@
-import type { TetrisGame } from "../game/types.js";
-import { createTetrisDividerLine } from "./createTetrisDividerLine.js";
-import { renderTetrisHelpLine } from "./renderTetrisHelpLine.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { TetrisGame } from "../game/types";
+import { createTetrisDividerLine } from "./createTetrisDividerLine";
+import { renderTetrisHelpLine } from "./renderTetrisHelpLine";
 
 /**
  * Renders the wide-layout Tetris score and controls side panel.
@@ -11,8 +12,17 @@ import { renderTetrisHelpLine } from "./renderTetrisHelpLine.js";
  * @param musicPlaying Whether music is currently playing.
  * @returns Side-panel lines.
  */
-export function renderTetrisSidePanel(theme: any, game: TetrisGame, width: number, musicPlaying: boolean): string[] {
-	const status = game.gameOver ? "Game Over" : game.paused ? "Paused" : "Playing";
+export function renderTetrisSidePanel(
+	theme: SharedModalTheme & { bold: (text: string) => string },
+	game: TetrisGame,
+	width: number,
+	musicPlaying: boolean,
+): string[] {
+	const status = game.gameOver
+		? "Game Over"
+		: game.paused
+			? "Paused"
+			: "Playing";
 	const music = musicPlaying ? "On" : "Off";
 	return [
 		theme.fg("accent", theme.bold("Stats")),

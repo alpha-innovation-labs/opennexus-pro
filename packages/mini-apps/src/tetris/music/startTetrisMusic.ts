@@ -1,6 +1,6 @@
-import { spawn, type ChildProcess } from "node:child_process";
-import { getTetrisMusicAssetPath } from "./getTetrisMusicAssetPath.js";
-import { getTetrisMusicPlayerScript } from "./getTetrisMusicPlayerScript.js";
+import { type ChildProcess, spawn } from "node:child_process";
+import { getTetrisMusicAssetPath } from "./getTetrisMusicAssetPath";
+import { getTetrisMusicPlayerScript } from "./getTetrisMusicPlayerScript";
 
 /**
  * Starts looping the Tetris music through the first available OS audio player.

@@ -1,4 +1,4 @@
-import { findAgentsSectionRange } from "./findAgentsSectionRange.js";
+import { findAgentsSectionRange } from "./findAgentsSectionRange";
 
 /**
  * Replaces only the AGENTS.md section inside a full system prompt.
@@ -7,7 +7,10 @@ import { findAgentsSectionRange } from "./findAgentsSectionRange.js";
  * @param agentsSection Updated AGENTS.md section text.
  * @returns Full prompt with AGENTS.md replaced.
  */
-export function replaceAgentsSection(prompt: string, agentsSection: string): string {
+export function replaceAgentsSection(
+	prompt: string,
+	agentsSection: string,
+): string {
 	const range = findAgentsSectionRange(prompt);
 	if (!range) return agentsSection;
 	const prefix = prompt.slice(0, range.start);

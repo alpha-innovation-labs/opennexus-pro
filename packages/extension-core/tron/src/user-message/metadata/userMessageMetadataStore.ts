@@ -1,4 +1,4 @@
-import type { UserMessageMetadata } from "./types.ts";
+import type { UserMessageMetadata } from "./types";
 
 const metadataByComponent = new WeakMap<object, UserMessageMetadata>();
 let pendingMetadata: UserMessageMetadata[] = [];
@@ -8,8 +8,10 @@ let pendingMetadata: UserMessageMetadata[] = [];
  *
  * @param metadata Metadata entries in user-message render order.
  */
-export function resetPendingUserMessageMetadata(metadata: UserMessageMetadata[] = []): void {
-  pendingMetadata = [...metadata];
+export function resetPendingUserMessageMetadata(
+	metadata: UserMessageMetadata[] = [],
+): void {
+	pendingMetadata = [...metadata];
 }
 
 /**
@@ -17,8 +19,10 @@ export function resetPendingUserMessageMetadata(metadata: UserMessageMetadata[] 
  *
  * @param metadata Metadata captured for one user message.
  */
-export function enqueueUserMessageMetadata(metadata: UserMessageMetadata): void {
-  pendingMetadata.push(metadata);
+export function enqueueUserMessageMetadata(
+	metadata: UserMessageMetadata,
+): void {
+	pendingMetadata.push(metadata);
 }
 
 /**
@@ -27,8 +31,11 @@ export function enqueueUserMessageMetadata(metadata: UserMessageMetadata): void 
  * @param component User-message component instance.
  * @param metadata Metadata to associate with the component.
  */
-export function setUserMessageMetadata(component: object, metadata: UserMessageMetadata): void {
-  metadataByComponent.set(component, metadata);
+export function setUserMessageMetadata(
+	component: object,
+	metadata: UserMessageMetadata,
+): void {
+	metadataByComponent.set(component, metadata);
 }
 
 /**
@@ -37,11 +44,13 @@ export function setUserMessageMetadata(component: object, metadata: UserMessageM
  * @param component User-message component instance.
  * @returns Metadata associated with the component, when available.
  */
-export function resolveUserMessageMetadata(component: object): UserMessageMetadata | undefined {
-  const existing = metadataByComponent.get(component);
-  if (existing) return existing;
-  const metadata = pendingMetadata.shift();
-  if (!metadata) return undefined;
-  setUserMessageMetadata(component, metadata);
-  return metadata;
+export function resolveUserMessageMetadata(
+	component: object,
+): UserMessageMetadata | undefined {
+	const existing = metadataByComponent.get(component);
+	if (existing) return existing;
+	const metadata = pendingMetadata.shift();
+	if (!metadata) return undefined;
+	setUserMessageMetadata(component, metadata);
+	return metadata;
 }

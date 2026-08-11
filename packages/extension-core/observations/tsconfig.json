@@ -1,0 +1,40 @@
+{
+	"extends": "../../../tsconfig.base.json",
+	"compilerOptions": {
+		"paths": {
+			"@nexus/observability/*": [
+				"../../observability/src/*"
+			],
+			"@nexus/observability": [
+				"../../observability/src/index.ts"
+			],
+			"@nexus/runtime/*": [
+				"../../nexus-runtime/src/*"
+			],
+			"@nexus/runtime": [
+				"../../nexus-runtime/src/index.ts"
+			],
+			"@nexus/tui-kit/*": [
+				"../../tui-kit/src/*"
+			],
+			"@nexus/tui-kit": [
+				"../../tui-kit/src/index.ts"
+			],
+			"@extensions/prompts/*": [
+				"../prompts/src/*"
+			],
+			"@extensions/prompts": [
+				"../prompts/src/index.ts"
+			],
+			"@extensions/slash-menu/*": [
+				"../slash-menu/src/*"
+			],
+			"@extensions/slash-menu": [
+				"../slash-menu/src/index.ts"
+			]
+		}
+	},
+	"include": [
+		"src/**/*.ts"
+	]
+}

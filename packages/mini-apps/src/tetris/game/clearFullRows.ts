@@ -1,4 +1,4 @@
-import type { TetrisCell, TetrisGame } from "./types.js";
+import type { TetrisCell, TetrisGame } from "./types";
 
 const LINE_SCORES = [0, 100, 300, 500, 800] as const;
 
@@ -12,7 +12,9 @@ export function clearFullRows(game: TetrisGame): number {
 	const keptRows = game.board.filter((row) => row.some((cell) => !cell));
 	const cleared = game.height - keptRows.length;
 	if (cleared === 0) return 0;
-	const emptyRows = Array.from({ length: cleared }, () => Array.from<TetrisCell>({ length: game.width }).fill(""));
+	const emptyRows = Array.from({ length: cleared }, () =>
+		Array.from<TetrisCell>({ length: game.width }).fill(""),
+	);
 	game.board = [...emptyRows, ...keptRows];
 	game.lines += cleared;
 	game.level = Math.floor(game.lines / 10) + 1;

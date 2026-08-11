@@ -1,4 +1,4 @@
-import type { CmuxSurface } from "./types.js";
+import type { CmuxSurface } from "./types";
 
 /**
  * Gets the most stable identifier available for a cmux surface.

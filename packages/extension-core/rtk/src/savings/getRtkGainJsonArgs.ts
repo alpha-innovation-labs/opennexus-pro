@@ -4,5 +4,5 @@
  * @returns Arguments for `rtk gain --daily --weekly --monthly --format json`.
  */
 export function getRtkGainJsonArgs(): string[] {
-  return ["--daily", "--weekly", "--monthly", "--format", "json"];
+	return ["--daily", "--weekly", "--monthly", "--format", "json"];
 }

@@ -1,4 +1,4 @@
-import { createPiToolDefinitions } from "./tools/createPiToolDefinitions.js";
+import { createPiToolDefinitions } from "./tools/createPiToolDefinitions";
 
 export { createPiToolDefinitions };
 

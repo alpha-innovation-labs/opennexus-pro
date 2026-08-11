@@ -1,4 +1,4 @@
-import type { NexusRestoreCommand } from "./createNexusResumeCommand.js";
+import type { NexusRestoreCommand } from "./createNexusResumeCommand";
 
 export type CmuxSessionRegistryEntry = {
 	workspaceId?: string;

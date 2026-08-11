@@ -1,10 +1,10 @@
-import type { PromptlineContext, PromptlineDeps } from "./types.js";
-import { PromptlineEditor } from "./PromptlineEditor.js";
-import { refreshGitState } from "../../shared/git/refreshGitState.js";
-import { refreshTransportPreference } from "../../shared/transport/refreshTransportPreference.js";
-import { installPromptlineFooter } from "./installPromptlineFooter.js";
-import { installPromptlineRenderScheduler } from "./installPromptlineRenderScheduler.js";
-import { getUsageRenderUnsubscribe, setPromptlineRenderRequest, setUsageRenderUnsubscribe } from "./state.js";
+import { refreshGitState } from "../../shared/git/refreshGitState";
+import { refreshTransportPreference } from "../../shared/transport/refreshTransportPreference";
+import { installPromptlineFooter } from "./installPromptlineFooter";
+import { installPromptlineRenderScheduler } from "./installPromptlineRenderScheduler";
+import { PromptlineEditor } from "./PromptlineEditor";
+import { getUsageRenderUnsubscribe, setPromptlineRenderRequest } from "./state";
+import type { PromptlineContext, PromptlineDeps } from "./types";
 
 /**
  * Installs the custom promptline editor for one session context.
@@ -12,28 +12,33 @@ import { getUsageRenderUnsubscribe, setPromptlineRenderRequest, setUsageRenderUn
  * @param ctx Extension context.
  * @param deps Promptline dependencies.
  */
-export function installPromptline(ctx: PromptlineContext, deps: PromptlineDeps): void {
-  installPromptlineFooter(ctx);
+export function installPromptline(
+	ctx: PromptlineContext,
+	deps: PromptlineDeps,
+): void {
+	installPromptlineFooter(ctx);
 
-  ctx.ui.setEditorComponent((tui, theme, keybindings) => {
-    installPromptlineRenderScheduler(tui);
-    setPromptlineRenderRequest((force = false) => tui.requestRender(force));
-    getUsageRenderUnsubscribe()?.();
-    void refreshGitState(deps.exec).then(() => tui.requestRender());
-    void refreshTransportPreference(ctx.cwd).then(() => tui.requestRender());
-    return new PromptlineEditor(
-      tui,
-      theme,
-      keybindings,
-      ctx,
-      ctx.ui.theme,
-      deps.getThinkingLevel,
-      deps.setThinkingLevel,
-      deps.getSessionName,
-      deps.getPromptlineConfig,
-      deps.refreshPromptlineConfig,
-      deps.getCommands,
-      deps.getAllTools,
-    );
-  });
+	ctx.ui.setEditorComponent((tui, theme, keybindings) => {
+		installPromptlineRenderScheduler(
+			tui as Parameters<typeof installPromptlineRenderScheduler>[0],
+		);
+		setPromptlineRenderRequest((force = false) => tui.requestRender(force));
+		getUsageRenderUnsubscribe()?.();
+		void refreshGitState(deps.exec).then(() => tui.requestRender());
+		void refreshTransportPreference(ctx.cwd).then(() => tui.requestRender());
+		return new PromptlineEditor(
+			tui,
+			theme,
+			keybindings,
+			ctx,
+			ctx.ui.theme,
+			deps.getThinkingLevel,
+			deps.setThinkingLevel,
+			deps.getSessionName,
+			deps.getPromptlineConfig,
+			deps.refreshPromptlineConfig,
+			deps.getCommands,
+			deps.getAllTools,
+		);
+	});
 }

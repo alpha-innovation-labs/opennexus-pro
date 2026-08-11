@@ -1,8 +1,7 @@
-# ============================================================================
-# Lint Commands
-# ============================================================================
+# Run Biome lint across the entire codebase via Turbo.
+# Usage: just lint [FILTER]
+# Example: just lint @extensions/ai-provider
 
-# Run Biome lint + format check across the entire codebase.
-lint:
-	@echo "\033[1;36mRunning Biome lint check...\033[0m"
-	@bunx biome check .
+[positional-arguments]
+lint *ARGS:
+    @if [ $# -gt 0 ]; then npx turbo --filter="$1" lint --output-logs=errors-only "${@:2}"; else npx turbo lint --output-logs=errors-only; fi

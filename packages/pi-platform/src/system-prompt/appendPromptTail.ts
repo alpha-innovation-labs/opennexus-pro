@@ -1,7 +1,7 @@
 import { formatSkillsForPrompt } from "@earendil-works/pi-coding-agent";
-import { appendAgentsSection } from "./appendAgentsSection.js";
-import { formatCurrentDate } from "./formatCurrentDate.js";
-import type { NexusSystemPromptOptions } from "./types.js";
+import { appendAgentsSection } from "./appendAgentsSection";
+import { formatCurrentDate } from "./formatCurrentDate";
+import type { NexusSystemPromptOptions } from "./types";
 
 /**
  * Appends context, skills, date, and working directory like Pi's prompt builder.
@@ -11,10 +11,16 @@ import type { NexusSystemPromptOptions } from "./types.js";
  * @param includeSkills Whether skills are allowed for the prompt mode.
  * @returns Complete prompt text.
  */
-export function appendPromptTail(prompt: string, options: NexusSystemPromptOptions, includeSkills: boolean): string {
+export function appendPromptTail(
+	prompt: string,
+	options: NexusSystemPromptOptions,
+	includeSkills: boolean,
+): string {
 	let next = appendAgentsSection(prompt, options.contextFiles ?? []);
 	if (includeSkills && (options.skills?.length ?? 0) > 0) {
-		next += formatSkillsForPrompt((options.skills ?? []) as Parameters<typeof formatSkillsForPrompt>[0]);
+		next += formatSkillsForPrompt(
+			(options.skills ?? []) as Parameters<typeof formatSkillsForPrompt>[0],
+		);
 	}
 	next += `\nCurrent date: ${formatCurrentDate()}`;
 	next += `\nCurrent working directory: ${options.cwd.replace(/\\/g, "/")}`;

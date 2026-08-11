@@ -6,6 +6,10 @@
  * @param visibleLines Visible content line count.
  * @returns Safe scroll offset.
  */
-export function clampHotkeysScrollOffset(offset: number, totalLines: number, visibleLines: number): number {
-  return Math.max(0, Math.min(offset, Math.max(0, totalLines - visibleLines)));
+export function clampHotkeysScrollOffset(
+	offset: number,
+	totalLines: number,
+	visibleLines: number,
+): number {
+	return Math.max(0, Math.min(offset, Math.max(0, totalLines - visibleLines)));
 }

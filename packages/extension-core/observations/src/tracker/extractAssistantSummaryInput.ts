@@ -14,7 +14,9 @@ export function extractAssistantSummaryInput(message: {
 		.join("\n\n")
 		.trim();
 	const thinking = content
-		.filter((part) => part.type === "thinking" && typeof part.thinking === "string")
+		.filter(
+			(part) => part.type === "thinking" && typeof part.thinking === "string",
+		)
 		.map((part) => part.thinking)
 		.join("\n\n")
 		.trim();

@@ -1,7 +1,7 @@
-import type { HotkeysKeybindings } from "./types.js";
+import type { HotkeysKeybindings } from "./types";
 
 type ModeWithKeybindings = {
-  keybindings?: HotkeysKeybindings;
+	keybindings?: HotkeysKeybindings;
 };
 
 /**
@@ -10,6 +10,8 @@ type ModeWithKeybindings = {
  * @param mode Interactive mode instance patched by Nexus.
  * @returns Injected keybinding manager, when present.
  */
-export function getModeKeybindings(mode: unknown): HotkeysKeybindings | undefined {
-  return (mode as ModeWithKeybindings).keybindings;
+export function getModeKeybindings(
+	mode: unknown,
+): HotkeysKeybindings | undefined {
+	return (mode as ModeWithKeybindings).keybindings;
 }

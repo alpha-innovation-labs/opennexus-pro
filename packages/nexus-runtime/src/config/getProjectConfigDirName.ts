@@ -6,5 +6,5 @@ const PROJECT_CONFIG_DIR_NAME = ".nexus";
  * @returns Project config directory name.
  */
 export function getProjectConfigDirName(): string {
-  return PROJECT_CONFIG_DIR_NAME;
+	return PROJECT_CONFIG_DIR_NAME;
 }

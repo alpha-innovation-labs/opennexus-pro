@@ -1,4 +1,4 @@
-import { extractAssistantErrorMessage } from "./extractAssistantErrorMessage.js";
+import { extractAssistantErrorMessage } from "./extractAssistantErrorMessage";
 
 const assistantErrorIcon = "✗";
 
@@ -9,5 +9,5 @@ const assistantErrorIcon = "✗";
  * @returns Error text with the Nexus error prefix.
  */
 export function formatAssistantErrorText(errorMessage: string): string {
-  return `${assistantErrorIcon} error ${extractAssistantErrorMessage(errorMessage)}`;
+	return `${assistantErrorIcon} error ${extractAssistantErrorMessage(errorMessage)}`;
 }

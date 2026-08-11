@@ -1,6 +1,6 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { renderTranscriptLines } from "@extensions/tron/transcript/renderTranscriptLines.js";
-import { toSessionTranscriptEntries } from "./toSessionTranscriptEntries.js";
+import { renderTranscriptLines } from "@extensions/tron/transcript/renderTranscriptLines";
+import { toSessionTranscriptEntries } from "./toSessionTranscriptEntries";
 
 /**
  * Reads and renders one resumable session preview using the shared /agents transcript renderer.
@@ -11,10 +11,10 @@ import { toSessionTranscriptEntries } from "./toSessionTranscriptEntries.js";
  * @returns Rendered transcript lines.
  */
 export function readResumeTranscriptLines(
-  theme: ExtensionCommandContext["ui"]["theme"],
-  width: number,
-  sessionPath: string,
+	theme: ExtensionCommandContext["ui"]["theme"],
+	width: number,
+	sessionPath: string,
 ): string[] {
-  const transcript = toSessionTranscriptEntries(sessionPath);
-  return renderTranscriptLines(theme, width, { transcript });
+	const transcript = toSessionTranscriptEntries(sessionPath);
+	return renderTranscriptLines(theme, width, { transcript });
 }

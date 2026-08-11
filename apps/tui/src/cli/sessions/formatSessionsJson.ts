@@ -1,4 +1,4 @@
-import type { SessionJsonRow } from "./SessionJsonRow.js";
+import type { SessionJsonRow } from "./SessionJsonRow";
 
 /**
  * Formats session rows as pretty JSON for machine-readable CLI output.
@@ -7,5 +7,5 @@ import type { SessionJsonRow } from "./SessionJsonRow.js";
  * @returns Pretty-printed JSON array.
  */
 export function formatSessionsJson(rows: readonly SessionJsonRow[]): string {
-  return JSON.stringify(rows, undefined, 2);
+	return JSON.stringify(rows, undefined, 2);
 }

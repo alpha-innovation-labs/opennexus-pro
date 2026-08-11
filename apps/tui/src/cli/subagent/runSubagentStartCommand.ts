@@ -1,4 +1,4 @@
-import { splitPaneRight, startForegroundAgent } from "@nexus/herdr/herdr-client";
+import { splitPaneRight, startForegroundAgent } from "@nexus/herdr";
 
 /**
  * Runs `nexus subagent start [--session <name>]`: splits the current pane to the right,
@@ -8,18 +8,20 @@ import { splitPaneRight, startForegroundAgent } from "@nexus/herdr/herdr-client"
  *
  * @returns Process exit code.
  */
-export async function runSubagentStartCommand(sessionName?: string): Promise<number> {
-  try {
-    const paneId = splitPaneRight();
-    console.error(`Session: ${sessionName}, Pane: ${paneId}`);
+export async function runSubagentStartCommand(
+	sessionName?: string,
+): Promise<number> {
+	try {
+		const paneId = splitPaneRight();
+		console.error(`Session: ${sessionName}, Pane: ${paneId}`);
 
-    // Wait for the split pane to be ready before attaching an agent.
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+		// Wait for the split pane to be ready before attaching an agent.
+		await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    return startForegroundAgent(sessionName ?? "agent-unnamed", paneId);
-  } catch (err) {
-    const message = (err as Error).message ?? `Split failed: status=1`;
-    console.error(message);
-    return 1;
-  }
+		return startForegroundAgent(sessionName ?? "agent-unnamed", paneId);
+	} catch (err) {
+		const message = (err as Error).message ?? `Split failed: status=1`;
+		console.error(message);
+		return 1;
+	}
 }

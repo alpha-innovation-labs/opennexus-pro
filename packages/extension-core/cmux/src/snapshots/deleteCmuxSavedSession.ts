@@ -1,6 +1,6 @@
-import { getCmuxSavedSessionsPath } from "./getCmuxSavedSessionsPath.js";
-import { readCmuxSavedSessionStore } from "./readCmuxSavedSessionStore.js";
-import { writeCmuxSavedSessionStore } from "./writeCmuxSavedSessionStore.js";
+import { getCmuxSavedSessionsPath } from "./getCmuxSavedSessionsPath";
+import { readCmuxSavedSessionStore } from "./readCmuxSavedSessionStore";
+import { writeCmuxSavedSessionStore } from "./writeCmuxSavedSessionStore";
 
 /**
  * Deletes a saved cmux session snapshot by id.

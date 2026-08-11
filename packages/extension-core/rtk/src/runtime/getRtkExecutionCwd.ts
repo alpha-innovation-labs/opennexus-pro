@@ -1,4 +1,4 @@
-import { getActiveRtkCwd } from "./runtimeStore.js";
+import { getActiveRtkCwd } from "./runtimeStore";
 
 /**
  * Resolves the best cwd for an RTK tool execution.
@@ -7,9 +7,9 @@ import { getActiveRtkCwd } from "./runtimeStore.js";
  * @returns Session cwd, active RTK cwd, or process cwd.
  */
 export function getRtkExecutionCwd(ctx?: { cwd?: string }): string {
-  if (typeof ctx?.cwd === "string" && ctx.cwd.length > 0) {
-    return ctx.cwd;
-  }
+	if (typeof ctx?.cwd === "string" && ctx.cwd.length > 0) {
+		return ctx.cwd;
+	}
 
-  return getActiveRtkCwd() ?? process.cwd();
+	return getActiveRtkCwd() ?? process.cwd();
 }

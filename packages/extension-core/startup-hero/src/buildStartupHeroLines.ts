@@ -1,7 +1,7 @@
-import { buildStartupHeroLogoLines } from "./buildStartupHeroLogoLines.js";
-import { buildStartupHeroStatusLines } from "./buildStartupHeroStatusLines.js";
-import { buildStartupHeroVersionLine } from "./buildStartupHeroVersionLine.js";
-import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
+import { buildStartupHeroLogoLines } from "./buildStartupHeroLogoLines";
+import { buildStartupHeroStatusLines } from "./buildStartupHeroStatusLines";
+import { buildStartupHeroVersionLine } from "./buildStartupHeroVersionLine";
+import type { StartupHeroStatus, StartupHeroTheme } from "./types";
 
 const NEXUS_AGENT_LABEL_ENV_VAR = "NEXUS_AGENT_LABEL";
 
@@ -27,7 +27,8 @@ export function buildStartupHeroLines(
 ): string[] {
 	const statusLines = buildStartupHeroStatusLines(theme, status, width);
 	const agentLabel = process.env[NEXUS_AGENT_LABEL_ENV_VAR]?.trim();
-	const devBadge = agentLabel === "Nexus dev" ? theme.fg("muted", "  dev") : undefined;
+	const devBadge =
+		agentLabel === "Nexus dev" ? theme.fg("muted", "  dev") : undefined;
 	return [
 		...buildStartupHeroLogoLines(theme),
 		...(devBadge ? [devBadge] : []),

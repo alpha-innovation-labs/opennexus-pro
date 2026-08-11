@@ -1,6 +1,9 @@
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createPromptlineStatusWidget } from "./createPromptlineStatusWidget.js";
-import { PROMPTLINE_STATUS_WIDGET_KEY } from "./promptlineStatusWidgetKey.js";
+import type {
+	ExtensionAPI,
+	ExtensionContext,
+} from "@earendil-works/pi-coding-agent";
+import { createPromptlineStatusWidget } from "./createPromptlineStatusWidget";
+import { PROMPTLINE_STATUS_WIDGET_KEY } from "./promptlineStatusWidgetKey";
 
 /**
  * Renders the promptline metadata widget below the editor.
@@ -13,7 +16,7 @@ export function renderPromptlineStatusWidget(
 	ctx: ExtensionContext,
 	getThinkingLevel: ExtensionAPI["getThinkingLevel"],
 	getSessionName: ExtensionAPI["getSessionName"],
-): Promise<void> {
+): void {
 	ctx.ui.setWidget(
 		PROMPTLINE_STATUS_WIDGET_KEY,
 		() => createPromptlineStatusWidget(ctx, getThinkingLevel, getSessionName),

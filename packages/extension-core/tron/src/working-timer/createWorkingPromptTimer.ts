@@ -1,5 +1,5 @@
-import { formatWorkingPromptMessage } from "./formatWorkingPromptMessage.js";
-import type { WorkingPromptTimer, WorkingPromptTimerContext } from "./types.js";
+import { formatWorkingPromptMessage } from "./formatWorkingPromptMessage";
+import type { WorkingPromptTimer, WorkingPromptTimerContext } from "./types";
 
 /**
  * Starts a UI working-message timer for one active prompt.
@@ -17,7 +17,8 @@ export function createWorkingPromptTimer(
 	now = (): number => Date.now(),
 ): WorkingPromptTimer {
 	const render = (): void => {
-		if (ctx.hasUI) ctx.ui.setWorkingMessage(formatWorkingPromptMessage(startedAt, now()));
+		if (ctx.hasUI)
+			ctx.ui.setWorkingMessage(formatWorkingPromptMessage(startedAt, now()));
 	};
 
 	render();

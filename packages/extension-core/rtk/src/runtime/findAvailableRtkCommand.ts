@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { createRtkCommandCandidates } from "./createRtkCommandCandidates.js";
-import { hasRtkBinary } from "./hasRtkBinary.js";
+import { createRtkCommandCandidates } from "./createRtkCommandCandidates";
+import { hasRtkBinary } from "./hasRtkBinary";
 
 /**
  * Finds an executable RTK command, including the default installer path.
@@ -10,9 +10,13 @@ import { hasRtkBinary } from "./hasRtkBinary.js";
  * @param signal Optional abort signal.
  * @returns RTK command path, if available.
  */
-export async function findAvailableRtkCommand(pi: ExtensionAPI, cwd: string, signal?: AbortSignal): Promise<string | undefined> {
-  for (const command of createRtkCommandCandidates()) {
-    if (await hasRtkBinary(pi, cwd, signal, command)) return command;
-  }
-  return undefined;
+export async function findAvailableRtkCommand(
+	pi: ExtensionAPI,
+	cwd: string,
+	signal?: AbortSignal,
+): Promise<string | undefined> {
+	for (const command of createRtkCommandCandidates()) {
+		if (await hasRtkBinary(pi, cwd, signal, command)) return command;
+	}
+	return undefined;
 }

@@ -1,4 +1,4 @@
-import type { ExtensionFeatureFlag } from "./types.js";
+import type { ExtensionFeatureFlag } from "./types";
 
 /**
  * Filters the registry down to enabled extensions only.
@@ -6,6 +6,8 @@ import type { ExtensionFeatureFlag } from "./types.js";
  * @param flags Full extension registry.
  * @returns Enabled extension flags.
  */
-export function getEnabledExtensionFeatureFlags(flags: ExtensionFeatureFlag[]): ExtensionFeatureFlag[] {
-  return flags.filter((flag) => flag.enabled);
+export function getEnabledExtensionFeatureFlags(
+	flags: ExtensionFeatureFlag[],
+): ExtensionFeatureFlag[] {
+	return flags.filter((flag) => flag.enabled);
 }

@@ -1,4 +1,7 @@
-import type { SharedModalPane, SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
+import type {
+	SharedModalPane,
+	SharedModalTheme,
+} from "@nexus/tui-kit/modal/index";
 
 export type AutoUpdateModalLinesInput = {
 	currentVersion: string;
@@ -13,13 +16,17 @@ export type AutoUpdateModalLinesInput = {
  * @param input Version and package values shown to the user.
  * @returns Shared modal pane content.
  */
-export function createAutoUpdateModalLines(input: AutoUpdateModalLinesInput): SharedModalPane[] {
-	return [{
-		id: "auto-update",
-		size: 1,
-		lines: [
-			`Current: ${input.theme.fg("error", input.currentVersion)}`,
-			`Latest: ${input.theme.fg("syntaxType", input.latestVersion)}`,
-		],
-	}];
+export function createAutoUpdateModalLines(
+	input: AutoUpdateModalLinesInput,
+): SharedModalPane[] {
+	return [
+		{
+			id: "auto-update",
+			size: 1,
+			lines: [
+				`Current: ${input.theme.fg("error", input.currentVersion)}`,
+				`Latest: ${input.theme.fg("syntaxType", input.latestVersion)}`,
+			],
+		},
+	];
 }

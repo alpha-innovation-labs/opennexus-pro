@@ -1,5 +1,5 @@
-import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey.js";
-import { getRtkSavingsPeriodOptions } from "./getRtkSavingsPeriodOptions.js";
+import { getRtkSavingsPeriodOptions } from "./getRtkSavingsPeriodOptions";
+import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey";
 
 /**
  * Cycles the selected RTK savings period.
@@ -8,9 +8,12 @@ import { getRtkSavingsPeriodOptions } from "./getRtkSavingsPeriodOptions.js";
  * @param direction Navigation direction.
  * @returns Next period key.
  */
-export function getNextRtkSavingsPeriod(current: RtkSavingsPeriodKey, direction: 1 | -1): RtkSavingsPeriodKey {
-  const options = getRtkSavingsPeriodOptions();
-  const index = options.indexOf(current);
-  const nextIndex = (index + direction + options.length) % options.length;
-  return options[nextIndex] ?? "daily";
+export function getNextRtkSavingsPeriod(
+	current: RtkSavingsPeriodKey,
+	direction: 1 | -1,
+): RtkSavingsPeriodKey {
+	const options = getRtkSavingsPeriodOptions();
+	const index = options.indexOf(current);
+	const nextIndex = (index + direction + options.length) % options.length;
+	return options[nextIndex] ?? "daily";
 }

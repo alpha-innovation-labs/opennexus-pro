@@ -1,5 +1,5 @@
-import type { RtkSavingsPeriodKey } from "../savings/RtkSavingsPeriodKey.js";
-import { getWeekKey } from "./getWeekKey.js";
+import type { RtkSavingsPeriodKey } from "../savings/RtkSavingsPeriodKey";
+import { getWeekKey } from "./getWeekKey";
 
 /**
  * Gets a grouping key for the selected period type.
@@ -9,7 +9,7 @@ import { getWeekKey } from "./getWeekKey.js";
  * @returns Period key.
  */
 export function getPeriodKey(date: Date, period: RtkSavingsPeriodKey): string {
-  if (period === "daily") return date.toISOString().slice(0, 10);
-  if (period === "weekly") return getWeekKey(date);
-  return date.toISOString().slice(0, 7);
+	if (period === "daily") return date.toISOString().slice(0, 10);
+	if (period === "weekly") return getWeekKey(date);
+	return date.toISOString().slice(0, 7);
 }

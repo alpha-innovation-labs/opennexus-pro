@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { startupHeroWidgetKey } from "./startupHeroWidgetKey.js";
+import { startupHeroWidgetKey } from "./startupHeroWidgetKey";
 
 /**
  * Clears the startup hero widget.
@@ -7,5 +7,7 @@ import { startupHeroWidgetKey } from "./startupHeroWidgetKey.js";
  * @param ctx Pi extension context.
  */
 export function clearStartupHero(ctx: ExtensionContext): void {
-	ctx.ui.setWidget(startupHeroWidgetKey, undefined, { placement: "aboveEditor" });
+	ctx.ui.setWidget(startupHeroWidgetKey, undefined, {
+		placement: "aboveEditor",
+	});
 }

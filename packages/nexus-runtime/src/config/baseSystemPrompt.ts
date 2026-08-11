@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
-import { resolveBundledAssetPath } from "../package/resolveBundledAssetPath.js";
-import { embeddedPackageAssetsGlobalKey } from "../package/embedded-assets/embeddedPackageAssetsGlobal.js";
+import { embeddedPackageAssetsGlobalKey } from "../package/embedded-assets/embeddedPackageAssetsGlobal";
+import { resolveBundledAssetPath } from "../package/resolveBundledAssetPath";
 
 /**
  * Reads the bundled system prompt from embedded package assets when available
@@ -9,28 +8,32 @@ import { embeddedPackageAssetsGlobalKey } from "../package/embedded-assets/embed
  * (source/dev mode).
  */
 function readSystemPrompt(): string {
-  const globalAssets = (globalThis as Record<string, unknown>)[embeddedPackageAssetsGlobalKey] as
-    | { embeddedPackageAssets: { path: string; contentBase64: string }[] }
-    | undefined;
+	const globalAssets = (globalThis as Record<string, unknown>)[
+		embeddedPackageAssetsGlobalKey
+	] as
+		| { embeddedPackageAssets: { path: string; contentBase64: string }[] }
+		| undefined;
 
-  if (globalAssets?.embeddedPackageAssets) {
-    const asset = globalAssets.embeddedPackageAssets.find(
-      (a) => a.path === "prompts/base-system-prompt/system_prompt.md",
-    );
-    if (asset) {
-      return Buffer.from(asset.contentBase64, "base64").toString("utf-8").trimEnd();
-    }
-  }
+	if (globalAssets?.embeddedPackageAssets) {
+		const asset = globalAssets.embeddedPackageAssets.find(
+			(a) => a.path === "prompts/base-system-prompt/system_prompt.md",
+		);
+		if (asset) {
+			return Buffer.from(asset.contentBase64, "base64")
+				.toString("utf-8")
+				.trimEnd();
+		}
+	}
 
-  // Source mode: read from filesystem
-  return readFileSync(
-    resolveBundledAssetPath(
-      import.meta.url,
-      "prompts/base-system-prompt/system_prompt.md",
-      "./prompts/system_prompt.md",
-    ),
-    "utf-8",
-  ).trimEnd();
+	// Source mode: read from filesystem
+	return readFileSync(
+		resolveBundledAssetPath(
+			import.meta.url,
+			"prompts/base-system-prompt/system_prompt.md",
+			"./prompts/system_prompt.md",
+		),
+		"utf-8",
+	).trimEnd();
 }
 
 /**

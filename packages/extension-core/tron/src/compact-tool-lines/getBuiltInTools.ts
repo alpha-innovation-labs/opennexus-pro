@@ -1,7 +1,7 @@
-import { getRtkRuntimeForCwd } from '@extensions/rtk/runtime/runtimeStore.ts';
-import { createBuiltInTools } from "./createBuiltInTools.ts";
-import { toolCache } from "./toolCache.ts";
-import type { BuiltInTools } from "./types.ts";
+import { getRtkRuntimeForCwd } from "@extensions/rtk/runtime/runtimeStore";
+import { createBuiltInTools } from "./createBuiltInTools";
+import { toolCache } from "./toolCache";
+import type { BuiltInTools } from "./types";
 
 /**
  * Returns cached built-in tool instances for one cwd.

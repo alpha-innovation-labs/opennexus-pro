@@ -1,4 +1,4 @@
-import { hasResumeCliFlag } from "./hasResumeCliFlag.js";
+import { hasResumeCliFlag } from "./hasResumeCliFlag";
 
 /**
  * Returns whether the startup hero should be shown for the session start reason.
@@ -7,7 +7,10 @@ import { hasResumeCliFlag } from "./hasResumeCliFlag.js";
  * @param argv Process argument vector.
  * @returns True when the startup hero should be rendered.
  */
-export function shouldShowStartupHero(reason: string, argv: readonly string[]): boolean {
+export function shouldShowStartupHero(
+	reason: string,
+	argv: readonly string[],
+): boolean {
 	if (reason === "startup") return !hasResumeCliFlag(argv);
 	return reason === "new" || reason === "fork";
 }

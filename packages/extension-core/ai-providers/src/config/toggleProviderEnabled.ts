@@ -1,5 +1,5 @@
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
 
 /**
  * Enables or disables a provider in the Nexus user config.
@@ -11,14 +11,14 @@ import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig
  * @param enabled Whether to enable (true) or disable (false).
  */
 export function toggleProviderEnabled(
-  providerId: string,
-  enabled: boolean,
+	providerId: string,
+	enabled: boolean,
 ): void {
-  const config = readNexusUserConfig();
-  const providers = config.providers ?? {};
-  if (!providers[providerId]) {
-    providers[providerId] = {};
-  }
-  (providers[providerId] as { enabled?: boolean }).enabled = enabled;
-  writeNexusUserConfig({ ...config, providers });
+	const config = readNexusUserConfig();
+	const providers = config.providers ?? {};
+	if (!providers[providerId]) {
+		providers[providerId] = { enabled };
+	}
+	(providers[providerId] as { enabled?: boolean }).enabled = enabled;
+	writeNexusUserConfig({ ...config, providers });
 }

@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { summarizeAssistantObservations } from "./summarizeAssistantObservations.js";
-import type { ObservationState, StoredObservationMessage } from "./types.js";
+import { summarizeAssistantObservations } from "./summarizeAssistantObservations";
+import type { ObservationState, StoredObservationMessage } from "./types";
 
 /**
  * Applies one assistant message to the current observation topic.
@@ -19,16 +19,20 @@ export async function applyAssistantObservation(
 ): Promise<ObservationState> {
 	const topic = state.topics.at(-1);
 	if (!topic) return state;
+	const topicTitle = Array.isArray(topic.title)
+		? topic.title.join(", ")
+		: topic.title;
 	const nextBullets = await summarizeAssistantObservations(
 		pi,
 		ctx,
-		topic.title,
+		topicTitle,
 		topic.assistantBullets,
 		assistantMessage.thinking ?? "",
 		assistantMessage.text,
 	);
 	for (const bullet of nextBullets) {
-		if (!topic.assistantBullets.includes(bullet)) topic.assistantBullets.push(bullet);
+		if (!topic.assistantBullets.includes(bullet))
+			topic.assistantBullets.push(bullet);
 	}
 	return state;
 }

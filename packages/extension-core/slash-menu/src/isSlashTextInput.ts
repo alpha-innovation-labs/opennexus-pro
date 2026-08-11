@@ -5,5 +5,5 @@
  * @returns True when the payload is printable text.
  */
 export function isSlashTextInput(data: string): boolean {
-  return data.length === 1 && data >= " " && data !== "\u007f";
+	return data.length === 1 && data >= " " && data !== "\u007f";
 }

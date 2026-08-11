@@ -1,5 +1,8 @@
-import { deleteAllKittyImages, getCapabilities } from "@earendil-works/pi-tui/dist/terminal-image.js";
-import type { DoRender, TuiWithInlineImageOverlayPatch } from "./types.js";
+import {
+	deleteAllKittyImages,
+	getCapabilities,
+} from "@earendil-works/pi-tui/dist/terminal-image";
+import type { DoRender, TuiWithInlineImageOverlayPatch } from "./types";
 
 /**
  * Renders with a Kitty image cleanup prefix while an overlay is visible.
@@ -7,8 +10,12 @@ import type { DoRender, TuiWithInlineImageOverlayPatch } from "./types.js";
  * @param originalDoRender Original Pi TUI render method.
  * @returns Patched render method that removes visible inline images before overlay redraws.
  */
-export function renderWithInlineImageCleanup(originalDoRender: DoRender): DoRender {
-	return function doRenderWithInlineImageCleanup(this: TuiWithInlineImageOverlayPatch): void {
+export function renderWithInlineImageCleanup(
+	originalDoRender: DoRender,
+): DoRender {
+	return function doRenderWithInlineImageCleanup(
+		this: TuiWithInlineImageOverlayPatch,
+	): void {
 		if (!this.hasOverlay() || getCapabilities().images !== "kitty") {
 			originalDoRender.call(this);
 			return;

@@ -1,10 +1,13 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { getAllBundledExtensionIds } from "@nexus/feature-flags/registry.js";
-import type { FeatureFlagConfig, FeatureFlagsConfig } from "@nexus/feature-flags/types.js";
-import { PiPackagesModal } from "@extensions/pi-packages/ui/PiPackagesModal.js";
-import { updateManagedExtensionRows } from "@extensions/pi-packages/model/updateManagedExtensionRows.js";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { createManagedMiniAppRows } from "../model/createManagedMiniAppRows.js";
+import { updateManagedExtensionRows } from "@extensions/pi-packages/model/updateManagedExtensionRows";
+import { PiPackagesModal } from "@extensions/pi-packages/ui/PiPackagesModal";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { getAllBundledMiniAppIds } from "../../registry/bundledMiniAppIds";
+import type {
+	FeatureFlagConfig,
+	FeatureFlagsConfig,
+} from "../../registry/featureFlagsTypes";
+import { createManagedMiniAppRows } from "../model/createManagedMiniAppRows";
 
 /**
  * Opens the mini-app manager modal.
@@ -14,7 +17,9 @@ import { createManagedMiniAppRows } from "../model/createManagedMiniAppRows.js";
  *
  * @param ctx Extension command context.
  */
-export async function showMiniAppsModal(ctx: ExtensionCommandContext): Promise<void> {
+export async function showMiniAppsModal(
+	ctx: ExtensionCommandContext,
+): Promise<void> {
 	if (!ctx.hasUI) {
 		ctx.ui.notify("/mini-apps requires an interactive UI session.", "warning");
 		return;
@@ -30,12 +35,17 @@ export async function showMiniAppsModal(ctx: ExtensionCommandContext): Promise<v
 	 * @returns Updated rows.
 	 */
 	function updateMiniApp(miniAppId: string, enabled: boolean) {
-		rows = updateManagedExtensionRows(rows, miniAppId, enabled ? "enabled" : "disabled");
+		rows = updateManagedExtensionRows(
+			rows,
+			miniAppId,
+			enabled ? "enabled" : "disabled",
+		);
 		return rows;
 	}
 
 	await ctx.ui.custom<undefined>(
-		(_tui, theme, _keybindings, done) => new PiPackagesModal(theme, rows, done, updateMiniApp, "Mini-Apps", "all"),
+		(_tui, theme, _keybindings, done) =>
+			new PiPackagesModal(theme, rows, done, updateMiniApp, "Mini-Apps", "all"),
 		{
 			overlay: true,
 			overlayOptions: createPanelOverlayOptions(80, "85%") as never,
@@ -49,7 +59,7 @@ export async function showMiniAppsModal(ctx: ExtensionCommandContext): Promise<v
  * @returns Feature flag config containing mini-app entries from the registry.
  */
 function readMiniAppFeatureFlagsConfig(): FeatureFlagsConfig {
-	const allIds = getAllBundledExtensionIds();
+	const allIds = getAllBundledMiniAppIds();
 	const knownMiniApps = new Set(["tetris"]);
 	const miniAppEntries: Record<string, FeatureFlagConfig> = {};
 	for (const id of allIds) {

@@ -22,4 +22,7 @@ export const collapsedToolGroupLeaderByToolCallId = new Map<string, string>();
 /**
  * Stores summary stats for each collapsed tool group.
  */
-export const collapsedToolGroupStatsByLeader = new Map<string, CollapsedToolGroupStats>();
+export const collapsedToolGroupStatsByLeader = new Map<
+	string,
+	CollapsedToolGroupStats
+>();

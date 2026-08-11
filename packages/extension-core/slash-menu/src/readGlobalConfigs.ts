@@ -1,5 +1,5 @@
-import { getUserConfigPath } from "@nexus/runtime/config/getUserConfigPath.js";
-import { readJsonFile } from "./readJsonFile.js";
+import { getUserConfigPath } from "@nexus/runtime/config/getUserConfigPath";
+import { readJsonFile } from "./readJsonFile";
 
 /**
  * Reads global Nexus config.
@@ -7,5 +7,7 @@ import { readJsonFile } from "./readJsonFile.js";
  * @returns Global config object.
  */
 export async function readGlobalConfigs(): Promise<Record<string, unknown>> {
-  return (await readJsonFile<Record<string, unknown>>(getUserConfigPath())) ?? {};
+	return (
+		(await readJsonFile<Record<string, unknown>>(getUserConfigPath())) ?? {}
+	);
 }

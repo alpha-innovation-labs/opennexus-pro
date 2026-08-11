@@ -6,6 +6,10 @@ import type { SessionInfo } from "@earendil-works/pi-coding-agent";
  * @param sessions Session metadata returned by Pi's session manager.
  * @returns A new sorted session metadata array.
  */
-export function sortSessionsByModifiedTime(sessions: readonly SessionInfo[]): SessionInfo[] {
-  return [...sessions].sort((first, second) => first.modified.getTime() - second.modified.getTime());
+export function sortSessionsByModifiedTime(
+	sessions: readonly SessionInfo[],
+): SessionInfo[] {
+	return [...sessions].sort(
+		(first, second) => first.modified.getTime() - second.modified.getTime(),
+	);
 }

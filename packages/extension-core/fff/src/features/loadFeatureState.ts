@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
-import { filterValidFeatureKeys } from "./filterValidFeatureKeys.js";
-import { getAllFeatureKeys } from "./getAllFeatureKeys.js";
-import { getFeatureStatePath } from "./getFeatureStatePath.js";
-import type { FffFeatureKey } from "../shared/types.js";
+import type { FffFeatureKey } from "../shared/types";
+import { filterValidFeatureKeys } from "./filterValidFeatureKeys";
+import { getAllFeatureKeys } from "./getAllFeatureKeys";
+import { getFeatureStatePath } from "./getFeatureStatePath";
 
 /**
  * Loads persisted FFF feature flags.
@@ -10,13 +10,15 @@ import type { FffFeatureKey } from "../shared/types.js";
  * @returns Enabled feature keys.
  */
 export async function loadFeatureState(): Promise<Set<FffFeatureKey>> {
-  try {
-    const parsed = JSON.parse(await readFile(getFeatureStatePath(), "utf8")) as { enabledFeatures?: unknown[] };
-    const enabled = Array.isArray(parsed.enabledFeatures)
-      ? filterValidFeatureKeys(parsed.enabledFeatures)
-      : getAllFeatureKeys();
-    return new Set(enabled);
-  } catch {
-    return new Set(getAllFeatureKeys());
-  }
+	try {
+		const parsed = JSON.parse(
+			await readFile(getFeatureStatePath(), "utf8"),
+		) as { enabledFeatures?: unknown[] };
+		const enabled = Array.isArray(parsed.enabledFeatures)
+			? filterValidFeatureKeys(parsed.enabledFeatures)
+			: getAllFeatureKeys();
+		return new Set(enabled);
+	} catch {
+		return new Set(getAllFeatureKeys());
+	}
 }

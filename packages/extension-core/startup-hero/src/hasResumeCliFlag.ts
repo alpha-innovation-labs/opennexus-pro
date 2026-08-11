@@ -1,5 +1,5 @@
-import { isResumeLaunch } from "@nexus/runtime/cli/normalizeResumeStartupArgs.js";
-import { parseResumeCliRequest } from "@nexus/runtime/cli/resume/parseResumeCliRequest.js";
+import { isResumeLaunch } from "@nexus/runtime/cli/normalizeResumeStartupArgs";
+import { parseResumeCliRequest } from "@nexus/runtime/cli/resume/parseResumeCliRequest";
 
 /**
  * Returns whether the current process was launched into the Nexus resume picker.

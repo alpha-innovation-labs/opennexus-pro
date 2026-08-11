@@ -7,7 +7,11 @@ import type { SessionInfo } from "@earendil-works/pi-coding-agent";
  * @param session Session metadata from Pi's session manager.
  * @returns Session id and filename-derived conversation id.
  */
-export function getObservationRecreateSessionTargetIds(session: SessionInfo): string[] {
+export function getObservationRecreateSessionTargetIds(
+	session: SessionInfo,
+): string[] {
 	const conversationId = basename(session.path).replace(/\.jsonl$/u, "");
-	return conversationId === session.id ? [session.id] : [session.id, conversationId];
+	return conversationId === session.id
+		? [session.id]
+		: [session.id, conversationId];
 }

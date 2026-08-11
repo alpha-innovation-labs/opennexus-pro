@@ -1,16 +1,16 @@
 import type { ExtensionFactory } from "@earendil-works/pi-coding-agent";
-import { hasNoExtensionsFlag } from "../../cli/extensions/hasNoExtensionsFlag.js";
-import { getAllBundledExtensionIds } from "@nexus/feature-flags/registry.js";
+import { getAllBundledExtensionIds } from "@nexus/feature-flags/registry";
+import { hasNoExtensionsFlag } from "../../cli/extensions/hasNoExtensionsFlag";
 
 export type CreateExtensionFactories = (
-  skipExtensions?: string[],
-  disabledFeatures?: string[],
-  enabledFeatures?: string[],
+	skipExtensions?: string[],
+	disabledFeatures?: string[],
+	enabledFeatures?: string[],
 ) => Promise<ExtensionFactory[]>;
 
 export interface FeatureOverrides {
-  disabledFeatures?: string[];
-  enabledFeatures?: string[];
+	disabledFeatures?: string[];
+	enabledFeatures?: string[];
 }
 
 /**
@@ -22,20 +22,21 @@ export interface FeatureOverrides {
  * @returns Bundled extension factories when argv keeps extensions enabled.
  */
 export async function resolveBundledExtensionFactories(
-  argv: string[],
-  createExtensionFactories: CreateExtensionFactories,
-  featureOverrides?: FeatureOverrides,
+	argv: string[],
+	createExtensionFactories: CreateExtensionFactories,
+	featureOverrides?: FeatureOverrides,
 ): Promise<ExtensionFactory[]> {
-  const disabledFeatures = featureOverrides?.disabledFeatures ?? [];
-  const enabledFeatures = featureOverrides?.enabledFeatures ?? [];
+	const disabledFeatures = featureOverrides?.disabledFeatures ?? [];
+	const enabledFeatures = featureOverrides?.enabledFeatures ?? [];
 
-  if (hasNoExtensionsFlag(argv)) {
-    const allIds = getAllBundledExtensionIds();
-    const skipIds = enabledFeatures.length > 0
-      ? allIds.filter((id) => !enabledFeatures.includes(id))
-      : allIds;
-    return createExtensionFactories(skipIds, disabledFeatures, enabledFeatures);
-  }
+	if (hasNoExtensionsFlag(argv)) {
+		const allIds = getAllBundledExtensionIds();
+		const skipIds =
+			enabledFeatures.length > 0
+				? allIds.filter((id) => !enabledFeatures.includes(id))
+				: allIds;
+		return createExtensionFactories(skipIds, disabledFeatures, enabledFeatures);
+	}
 
-  return createExtensionFactories([], disabledFeatures, enabledFeatures);
+	return createExtensionFactories([], disabledFeatures, enabledFeatures);
 }

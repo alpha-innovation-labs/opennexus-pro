@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { checkForNexusUpdate } from "./runtime/checkForNexusUpdate.js";
+import { checkForNexusUpdate } from "./runtime/checkForNexusUpdate";
 
 /**
  * Registers the auto-update extension.

@@ -1,4 +1,4 @@
-import { hasBunBinaryMarker } from "./hasBunBinaryMarker.js";
+import { hasBunBinaryMarker } from "./hasBunBinaryMarker";
 
 /**
  * Reports whether the current module is running from a Bun compiled binary.
@@ -7,5 +7,5 @@ import { hasBunBinaryMarker } from "./hasBunBinaryMarker.js";
  * @returns True when Bun virtual filesystem markers are present.
  */
 export function isBundledBinary(importMetaUrl: string): boolean {
-  return Boolean(process.versions.bun) && hasBunBinaryMarker(importMetaUrl);
+	return Boolean(process.versions.bun) && hasBunBinaryMarker(importMetaUrl);
 }

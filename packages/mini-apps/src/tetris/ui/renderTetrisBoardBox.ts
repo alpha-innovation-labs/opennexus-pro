@@ -1,5 +1,6 @@
-import type { TetrisGame } from "../game/types.js";
-import { renderScaledTetrisBoard } from "./renderScaledTetrisBoard.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { TetrisGame } from "../game/types";
+import { renderScaledTetrisBoard } from "./renderScaledTetrisBoard";
 
 /**
  * Renders the main Tetris board without adding a second inner panel border.
@@ -10,6 +11,13 @@ import { renderScaledTetrisBoard } from "./renderScaledTetrisBoard.js";
  * @param height Panel height.
  * @returns Board panel lines.
  */
-export function renderTetrisBoardBox(theme: any, game: TetrisGame, width: number, height: number): string[] {
-	return renderScaledTetrisBoard(theme, game, width, height, { title: "Tetris" });
+export function renderTetrisBoardBox(
+	theme: SharedModalTheme & { bold: (text: string) => string },
+	game: TetrisGame,
+	width: number,
+	height: number,
+): string[] {
+	return renderScaledTetrisBoard(theme, game, width, height, {
+		title: "Tetris",
+	});
 }

@@ -1,5 +1,5 @@
-import { getGhostPiece } from "./getGhostPiece.js";
-import type { TetrisCell, TetrisGame } from "./types.js";
+import { getGhostPiece } from "./getGhostPiece";
+import type { TetrisCell, TetrisGame } from "./types";
 
 /** Tetris render cell with optional ghost projection marker. */
 export type TetrisRenderCell = TetrisCell | "ghost";
@@ -26,15 +26,24 @@ export function getTetrisRenderCells(game: TetrisGame): TetrisRenderCell[][] {
  * @param value Cell value to write.
  * @param overwrite Whether to replace existing render cells.
  */
-function applyPiece(cells: TetrisRenderCell[][], game: TetrisGame, piece: { shape: number[][]; row: number; column: number }, value: TetrisRenderCell, overwrite: boolean): void {
+function applyPiece(
+	cells: TetrisRenderCell[][],
+	game: TetrisGame,
+	piece: { shape: number[][]; row: number; column: number },
+	value: TetrisRenderCell,
+	overwrite: boolean,
+): void {
 	for (let row = 0; row < piece.shape.length; row += 1) {
-		for (let column = 0; column < piece.shape[row]!.length; column += 1) {
-			if (!piece.shape[row]![column]) continue;
+		const shapeRow = piece.shape[row];
+		if (!shapeRow) continue;
+		for (let column = 0; column < shapeRow.length; column += 1) {
+			if (!shapeRow[column]) continue;
 			const boardRow = piece.row + row;
 			const boardColumn = piece.column + column;
 			if (boardRow < 0 || boardRow >= game.height) continue;
-			if (!overwrite && cells[boardRow]![boardColumn]) continue;
-			cells[boardRow]![boardColumn] = value;
+			const boardRowArr = cells[boardRow];
+			if (!overwrite && boardRowArr && boardRowArr[boardColumn]) continue;
+			if (boardRowArr) boardRowArr[boardColumn] = value;
 		}
 	}
 }

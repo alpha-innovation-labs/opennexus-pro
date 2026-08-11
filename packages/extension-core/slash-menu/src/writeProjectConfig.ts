@@ -1,5 +1,5 @@
-import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath.js";
-import { writeJsonFile } from "./writeJsonFile.js";
+import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath";
+import { writeJsonFile } from "./writeJsonFile";
 
 /**
  * Writes project Nexus config.
@@ -7,6 +7,9 @@ import { writeJsonFile } from "./writeJsonFile.js";
  * @param cwd Project cwd.
  * @param settings Project config object.
  */
-export async function writeProjectConfig(cwd: string, settings: Record<string, unknown>): Promise<void> {
-  await writeJsonFile(getProjectConfigPath(cwd), settings);
+export async function writeProjectConfig(
+	cwd: string,
+	settings: Record<string, unknown>,
+): Promise<void> {
+	await writeJsonFile(getProjectConfigPath(cwd), settings);
 }

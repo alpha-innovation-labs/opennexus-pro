@@ -1,9 +1,9 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { showSystemPromptModal } from "../modal/showSystemPromptModal.js";
-import { getEffectiveSystemPrompt } from "../state/getEffectiveSystemPrompt.js";
-import type { SystemPromptState } from "../state/types.js";
-import { editSystemPrompt } from "./editSystemPrompt.js";
-import { resetSystemPrompt } from "./resetSystemPrompt.js";
+import { showSystemPromptModal } from "../modal/showSystemPromptModal";
+import { getEffectiveSystemPrompt } from "../state/getEffectiveSystemPrompt";
+import type { SystemPromptState } from "../state/types";
+import { editSystemPrompt } from "./editSystemPrompt";
+import { resetSystemPrompt } from "./resetSystemPrompt";
 
 /**
  * Runs the system prompt viewer command loop until the user closes it.

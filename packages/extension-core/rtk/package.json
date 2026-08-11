@@ -1,15 +1,18 @@
 {
-  "name": "@extensions/rtk",
-  "version": "0.2.24",
-  "type": "module",
-  "exports": {
-    "./*": "./src/*"
-  },
-  "dependencies": {
-    "@nexus/feature-flags": "workspace:*",
-    "@nexus/runtime": "workspace:*",
-    "@nexus/tui-kit": "workspace:*",
-    "@extensions/slash-menu": "workspace:*",
-    "@extensions/tron": "workspace:*"
-  }
+	"name": "@extensions/rtk",
+	"version": "0.2.24",
+	"type": "module",
+	"exports": {
+		"./*": "./src/*"
+	},
+	"dependencies": {
+		"@nexus/runtime": "workspace:*",
+		"@nexus/tui-kit": "workspace:*",
+		"@extensions/slash-menu": "workspace:*",
+		"@extensions/tron": "workspace:*"
+	},
+	"scripts": {
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit"
+	}
 }

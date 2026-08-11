@@ -1,5 +1,5 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
+import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 
 /**
  * Converts slash-menu records into autocomplete items.
@@ -7,19 +7,29 @@ import type { SlashMenuLeaf, SlashMenuSection } from "./types.js";
  * @param records Menu records.
  * @returns Autocomplete items.
  */
-export function toAutocompleteItems(records: Array<SlashMenuLeaf | SlashMenuSection>): AutocompleteItem[] {
-  return records.map((record) => ({
-    value: record.value,
-    label: record.label,
-    description: record.description,
-    groupLabel: record.groupLabel,
-    groupHeaderDescription: (record as { groupHeaderDescription?: string }).groupHeaderDescription,
-    preserveLabelWhitespace: (record as { preserveLabelWhitespace?: boolean }).preserveLabelWhitespace,
-    resumeAge: (record as { resumeAge?: string }).resumeAge,
-    resumeRow: (record as { resumeRow?: boolean }).resumeRow,
-    wrapPreservedLabel: (record as { wrapPreservedLabel?: boolean }).wrapPreservedLabel,
-    wrapToFit: (record as { wrapToFit?: boolean }).wrapToFit,
-    fixedLabelWidth: (record as { fixedLabelWidth?: number }).fixedLabelWidth,
-    sourcePath: (record as { sourcePath?: string }).sourcePath,
-  }) as AutocompleteItem);
+export function toAutocompleteItems(
+	records: Array<SlashMenuLeaf | SlashMenuSection>,
+): AutocompleteItem[] {
+	return records.map(
+		(record) =>
+			({
+				value: record.value,
+				label: record.label,
+				description: record.description,
+				groupLabel: record.groupLabel,
+				groupHeaderDescription: (record as { groupHeaderDescription?: string })
+					.groupHeaderDescription,
+				preserveLabelWhitespace: (
+					record as { preserveLabelWhitespace?: boolean }
+				).preserveLabelWhitespace,
+				resumeAge: (record as { resumeAge?: string }).resumeAge,
+				resumeRow: (record as { resumeRow?: boolean }).resumeRow,
+				wrapPreservedLabel: (record as { wrapPreservedLabel?: boolean })
+					.wrapPreservedLabel,
+				wrapToFit: (record as { wrapToFit?: boolean }).wrapToFit,
+				fixedLabelWidth: (record as { fixedLabelWidth?: number })
+					.fixedLabelWidth,
+				sourcePath: (record as { sourcePath?: string }).sourcePath,
+			}) as AutocompleteItem,
+	);
 }

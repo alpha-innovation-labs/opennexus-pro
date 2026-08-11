@@ -1,4 +1,7 @@
-import type { ObservationMessageStore, StoredObservationMessage } from "@extensions/observations/tracker/types.js";
+import type {
+	ObservationMessageStore,
+	StoredObservationMessage,
+} from "@extensions/observations/tracker/types";
 
 /**
  * Creates a persisted observation message store payload.
@@ -10,16 +13,16 @@ import type { ObservationMessageStore, StoredObservationMessage } from "@extensi
  * @returns Message store payload.
  */
 export function createObservationMessageStore(
-  conversationId: string,
-  cwd: string,
-  sessionFile: string,
-  messages: readonly StoredObservationMessage[],
+	conversationId: string,
+	cwd: string,
+	sessionFile: string,
+	messages: readonly StoredObservationMessage[],
 ): ObservationMessageStore {
-  return {
-    conversationId,
-    cwd,
-    sessionFile,
-    updatedAt: Date.now(),
-    messages: [...messages],
-  };
+	return {
+		conversationId,
+		cwd,
+		sessionFile,
+		updatedAt: Date.now(),
+		messages: [...messages],
+	};
 }

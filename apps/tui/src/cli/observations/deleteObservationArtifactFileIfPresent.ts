@@ -6,14 +6,16 @@ import { rm } from "node:fs/promises";
  * @param filePath Observation artifact path.
  * @returns True when a file was removed.
  */
-export async function deleteObservationArtifactFileIfPresent(filePath: string): Promise<boolean> {
-  try {
-    await rm(filePath);
-    return true;
-  } catch (error) {
-    if (isNodeErrorCode(error, "ENOENT")) return false;
-    throw error;
-  }
+export async function deleteObservationArtifactFileIfPresent(
+	filePath: string,
+): Promise<boolean> {
+	try {
+		await rm(filePath);
+		return true;
+	} catch (error) {
+		if (isNodeErrorCode(error, "ENOENT")) return false;
+		throw error;
+	}
 }
 
 /**
@@ -24,5 +26,10 @@ export async function deleteObservationArtifactFileIfPresent(filePath: string): 
  * @returns True when the error code matches.
  */
 function isNodeErrorCode(error: unknown, code: string): boolean {
-  return typeof error === "object" && error !== null && "code" in error && error.code === code;
+	return (
+		typeof error === "object" &&
+		error !== null &&
+		"code" in error &&
+		error.code === code
+	);
 }

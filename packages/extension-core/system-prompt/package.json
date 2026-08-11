@@ -1,13 +1,16 @@
 {
-  "name": "@extensions/system-prompt",
-  "version": "0.2.24",
-  "type": "module",
-  "exports": {
-    "./*": "./src/*"
-  },
-  "dependencies": {
-    "@nexus/feature-flags": "workspace:*",
-    "@nexus/runtime": "workspace:*",
-    "@extensions/prompts": "workspace:*"
-  }
+	"name": "@extensions/system-prompt",
+	"version": "0.2.24",
+	"type": "module",
+	"exports": {
+		"./*": "./src/*"
+	},
+	"dependencies": {
+		"@nexus/runtime": "workspace:*",
+		"@extensions/prompts": "workspace:*"
+	},
+	"scripts": {
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit"
+	}
 }

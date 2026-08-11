@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockMetadata.js";
+import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockMetadata";
 
 /**
  * Creates owner metadata for the current cmux registry lock holder.
@@ -7,5 +7,10 @@ import type { CmuxSessionRegistryLockMetadata } from "./CmuxSessionRegistryLockM
  * @returns Lock owner metadata.
  */
 export function createCmuxSessionRegistryLockMetadata(): CmuxSessionRegistryLockMetadata {
-	return { version: 1, pid: process.pid, createdAt: new Date().toISOString(), nonce: randomUUID() };
+	return {
+		version: 1,
+		pid: process.pid,
+		createdAt: new Date().toISOString(),
+		nonce: randomUUID(),
+	};
 }

@@ -1,4 +1,4 @@
-import type { StartupHeroStatus } from "./types.js";
+import type { StartupHeroStatus } from "./types";
 
 /**
  * Formats skill, AGENTS.md, and extension startup status for the hero block.

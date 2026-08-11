@@ -1,5 +1,5 @@
-import { formatStartupDurationBadge } from "./formatStartupDurationBadge.js";
-import { startupStartedAtEnvVar } from "./startupStartedAtEnvVar.js";
+import { formatStartupDurationBadge } from "./formatStartupDurationBadge";
+import { startupStartedAtEnvVar } from "./startupStartedAtEnvVar";
 
 /**
  * Reads the current startup duration from process state and formats it for the hero.

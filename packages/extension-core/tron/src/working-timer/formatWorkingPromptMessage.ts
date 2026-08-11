@@ -1,4 +1,4 @@
-import { formatCompactDuration } from "../duration/formatCompactDuration.js";
+import { formatCompactDuration } from "../duration/formatCompactDuration";
 
 /**
  * Formats the active prompt working message with an elapsed timer.
@@ -7,6 +7,9 @@ import { formatCompactDuration } from "../duration/formatCompactDuration.js";
  * @param now Current timestamp in milliseconds.
  * @returns Working message with compact elapsed duration.
  */
-export function formatWorkingPromptMessage(startedAt: number, now: number): string {
+export function formatWorkingPromptMessage(
+	startedAt: number,
+	now: number,
+): string {
 	return `Working... (⏱ ${formatCompactDuration(Math.max(0, now - startedAt))})`;
 }

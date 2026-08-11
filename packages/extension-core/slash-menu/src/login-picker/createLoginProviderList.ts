@@ -1,5 +1,5 @@
-import { getBuiltinProviders } from "@earendil-works/pi-ai/providers/all";
-import type { SlashMenuLeaf } from "../types.js";
+import { builtinProviders } from "@earendil-works/pi-ai/providers/all";
+import type { SlashMenuLeaf } from "../types";
 
 /**
  * Builds left-pane provider list entries from Pi's built-in provider registry.
@@ -12,17 +12,17 @@ import type { SlashMenuLeaf } from "../types.js";
  * @returns Provider leaves for the left pane.
  */
 export function createLoginProviderList(
-  providerStates: Record<string, { enabled: boolean }>,
+	providerStates: Record<string, { enabled: boolean }>,
 ): SlashMenuLeaf[] {
-  const providers = getBuiltinProviders();
-  return providers.map((provider) => {
-    const enabled = providerStates[provider.id]?.enabled ?? false;
-    return {
-      kind: "provider" as const,
-      label: provider.name,
-      description: enabled ? "Enabled" : "Disabled",
-      value: provider.id,
-      enabled,
-    } as SlashMenuLeaf & { enabled: boolean };
-  });
+	const providers = builtinProviders();
+	return providers.map((provider) => {
+		const enabled = providerStates[provider.id]?.enabled ?? false;
+		return {
+			kind: "provider" as const,
+			label: provider.name,
+			description: enabled ? "Enabled" : "Disabled",
+			value: provider.id,
+			enabled,
+		} as SlashMenuLeaf & { enabled: boolean };
+	});
 }

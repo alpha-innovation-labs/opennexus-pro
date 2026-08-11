@@ -1,5 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
+import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
 
 /**
  * Renders one titled panel top border.
@@ -9,13 +9,19 @@ import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index.js";
  * @param width Full panel width.
  * @returns Styled border line.
  */
-export function renderHelpPanelTop(uiTheme: SelectPreviewTheme, title: string, width: number): string {
-  const text = ` ${title} `;
-  const innerWidth = Math.max(1, width - 2);
-  const rule = Math.max(0, innerWidth - visibleWidth(text));
-  return uiTheme.fg("borderMuted", "┌")
-    + uiTheme.fg("borderMuted", "─".repeat(Math.floor(rule / 2)))
-    + uiTheme.fg("accent", uiTheme.bold(text))
-    + uiTheme.fg("borderMuted", "─".repeat(Math.ceil(rule / 2)))
-    + uiTheme.fg("borderMuted", "┐");
+export function renderHelpPanelTop(
+	uiTheme: SelectPreviewTheme,
+	title: string,
+	width: number,
+): string {
+	const text = ` ${title} `;
+	const innerWidth = Math.max(1, width - 2);
+	const rule = Math.max(0, innerWidth - visibleWidth(text));
+	return (
+		uiTheme.fg("borderMuted", "┌") +
+		uiTheme.fg("borderMuted", "─".repeat(Math.floor(rule / 2))) +
+		uiTheme.fg("accent", uiTheme.bold(text)) +
+		uiTheme.fg("borderMuted", "─".repeat(Math.ceil(rule / 2))) +
+		uiTheme.fg("borderMuted", "┐")
+	);
 }

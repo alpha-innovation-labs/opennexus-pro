@@ -1,7 +1,7 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import type { SystemPromptState } from "../state/types.js";
-import { SystemPromptModal } from "./SystemPromptModal.js";
-import type { SystemPromptModalAction } from "./types.js";
+import type { SystemPromptState } from "../state/types";
+import { SystemPromptModal } from "./SystemPromptModal";
+import type { SystemPromptModalAction } from "./types";
 
 /**
  * Opens the system prompt viewer and returns the chosen action.

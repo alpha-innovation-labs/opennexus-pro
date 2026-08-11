@@ -1,7 +1,7 @@
-import { withFileMutationQueue } from "@earendil-works/pi-coding-agent";
 import { writeFile } from "node:fs/promises";
-import { readObservationMessageStore } from "./readObservationMessageStore.js";
-import type { StoredObservationMessage } from "./types.js";
+import { withFileMutationQueue } from "@earendil-works/pi-coding-agent";
+import { readObservationMessageStore } from "./readObservationMessageStore";
+import type { StoredObservationMessage } from "./types";
 
 /**
  * Appends one raw tracked message to the observation store.
@@ -21,7 +21,12 @@ export async function appendObservationMessage(
 	nextMessage: Omit<StoredObservationMessage, "index">,
 ): Promise<StoredObservationMessage> {
 	return withFileMutationQueue(messagesPath, async () => {
-		const store = await readObservationMessageStore(messagesPath, conversationId, cwd, sessionFile);
+		const store = await readObservationMessageStore(
+			messagesPath,
+			conversationId,
+			cwd,
+			sessionFile,
+		);
 		const storedMessage: StoredObservationMessage = {
 			index: store.messages.length + 1,
 			...nextMessage,
@@ -29,7 +34,11 @@ export async function appendObservationMessage(
 		store.messages.push(storedMessage);
 		store.updatedAt = Date.now();
 		store.sessionFile = sessionFile;
-		await writeFile(messagesPath, `${JSON.stringify(store, null, 2)}\n`, "utf8");
+		await writeFile(
+			messagesPath,
+			`${JSON.stringify(store, null, 2)}\n`,
+			"utf8",
+		);
 		return storedMessage;
 	});
 }

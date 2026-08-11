@@ -1,7 +1,7 @@
-import { getProviderFromEnabledModelPattern } from "./getProviderFromEnabledModelPattern.js";
+import { getProviderFromEnabledModelPattern } from "./getProviderFromEnabledModelPattern";
 
 export type ProviderAuthStatusReader = {
-  hasAuth: (provider: string) => boolean;
+	hasAuth: (provider: string) => boolean;
 };
 
 /**
@@ -12,12 +12,14 @@ export type ProviderAuthStatusReader = {
  * @returns Filtered patterns, or undefined when no explicit scope remains.
  */
 export function filterLoggedInEnabledModelPatterns(
-  patterns: string[] | undefined,
-  authStorage: ProviderAuthStatusReader,
+	patterns: string[] | undefined,
+	authStorage: ProviderAuthStatusReader,
 ): string[] | undefined {
-  if (!patterns) return undefined;
-  const filteredPatterns = patterns.filter((pattern) => isEnabledModelPatternAvailable(pattern, authStorage));
-  return filteredPatterns.length > 0 ? filteredPatterns : undefined;
+	if (!patterns) return undefined;
+	const filteredPatterns = patterns.filter((pattern) =>
+		isEnabledModelPatternAvailable(pattern, authStorage),
+	);
+	return filteredPatterns.length > 0 ? filteredPatterns : undefined;
 }
 
 /**
@@ -27,7 +29,10 @@ export function filterLoggedInEnabledModelPatterns(
  * @param authStorage Auth status reader.
  * @returns True when the pattern is unqualified or its provider has configured auth.
  */
-function isEnabledModelPatternAvailable(pattern: string, authStorage: ProviderAuthStatusReader): boolean {
-  const provider = getProviderFromEnabledModelPattern(pattern);
-  return provider === undefined || authStorage.hasAuth(provider);
+function isEnabledModelPatternAvailable(
+	pattern: string,
+	authStorage: ProviderAuthStatusReader,
+): boolean {
+	const provider = getProviderFromEnabledModelPattern(pattern);
+	return provider === undefined || authStorage.hasAuth(provider);
 }

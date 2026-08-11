@@ -1,6 +1,6 @@
 import type { Component, TUI } from "@earendil-works/pi-tui";
-import { buildCenteredStartupHeroLines } from "./buildCenteredStartupHeroLines.js";
-import type { StartupHeroStatus, StartupHeroTheme } from "./types.js";
+import { buildCenteredStartupHeroLines } from "./buildCenteredStartupHeroLines";
+import type { StartupHeroStatus, StartupHeroTheme } from "./types";
 
 /**
  * Creates the height-aware startup hero widget shown above the editor.
@@ -41,7 +41,14 @@ export function createStartupHeroWidget(
 			].join("\u001f");
 			if (cachedKey === key) return cachedLines;
 			cachedKey = key;
-			cachedLines = buildCenteredStartupHeroLines(theme, tui.terminal.rows, width, version, status, startupDurationBadge);
+			cachedLines = buildCenteredStartupHeroLines(
+				theme,
+				tui.terminal.rows,
+				width,
+				version,
+				status,
+				startupDurationBadge,
+			);
 			return cachedLines;
 		},
 		/** Invalidates cached rendering state. */

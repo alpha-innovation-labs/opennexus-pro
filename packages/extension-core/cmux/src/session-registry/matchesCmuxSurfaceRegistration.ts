@@ -1,4 +1,4 @@
-import type { CmuxSessionRegistryEntry } from "./types.js";
+import type { CmuxSessionRegistryEntry } from "./types";
 
 /**
  * Checks whether a registry entry belongs to a cmux workspace surface.
@@ -8,6 +8,13 @@ import type { CmuxSessionRegistryEntry } from "./types.js";
  * @param surfaceId Surface identifier from cmux.
  * @returns True when the entry targets the workspace surface.
  */
-export function matchesCmuxSurfaceRegistration(entry: CmuxSessionRegistryEntry, workspaceId: string | undefined, surfaceId: string): boolean {
-	return entry.surfaceId === surfaceId && (!workspaceId || !entry.workspaceId || entry.workspaceId === workspaceId);
+export function matchesCmuxSurfaceRegistration(
+	entry: CmuxSessionRegistryEntry,
+	workspaceId: string | undefined,
+	surfaceId: string,
+): boolean {
+	return (
+		entry.surfaceId === surfaceId &&
+		(!workspaceId || !entry.workspaceId || entry.workspaceId === workspaceId)
+	);
 }

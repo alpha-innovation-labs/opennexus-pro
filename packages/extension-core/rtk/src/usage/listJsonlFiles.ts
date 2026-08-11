@@ -8,23 +8,26 @@ import { join } from "node:path";
  * @returns Absolute JSONL file paths.
  */
 export async function listJsonlFiles(root: string): Promise<string[]> {
-  const files: string[] = [];
+	const files: string[] = [];
 
-  async function visit(directory: string): Promise<void> {
-    let entries;
-    try {
-      entries = await readdir(directory, { withFileTypes: true });
-    } catch {
-      return;
-    }
+	async function visit(directory: string): Promise<void> {
+		let entries: import("node:fs").Dirent[];
+		try {
+			entries = await readdir(directory, { withFileTypes: true });
+		} catch {
+			return;
+		}
 
-    await Promise.all(entries.map(async (entry) => {
-      const path = join(directory, entry.name);
-      if (entry.isDirectory()) await visit(path);
-      else if (entry.isFile() && entry.name.endsWith(".jsonl")) files.push(path);
-    }));
-  }
+		await Promise.all(
+			entries.map(async (entry) => {
+				const path = join(directory, entry.name);
+				if (entry.isDirectory()) await visit(path);
+				else if (entry.isFile() && entry.name.endsWith(".jsonl"))
+					files.push(path);
+			}),
+		);
+	}
 
-  await visit(root);
-  return files;
+	await visit(root);
+	return files;
 }

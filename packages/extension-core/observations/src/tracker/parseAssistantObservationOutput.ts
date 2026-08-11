@@ -10,7 +10,10 @@ export function parseAssistantObservationOutput(output: string): string[] {
 	try {
 		const parsed = JSON.parse(trimmed) as unknown;
 		if (!Array.isArray(parsed)) return [];
-		return parsed.filter((item): item is string => typeof item === "string").map((item) => item.trim()).filter(Boolean);
+		return parsed
+			.filter((item): item is string => typeof item === "string")
+			.map((item) => item.trim())
+			.filter(Boolean);
 	} catch {
 		return [];
 	}

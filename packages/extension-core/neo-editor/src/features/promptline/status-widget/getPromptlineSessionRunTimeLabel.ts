@@ -1,5 +1,5 @@
-import { formatPromptlineSessionRunTime } from "./formatPromptlineSessionRunTime.js";
-import { getPromptlineSessionStartedAt } from "./getPromptlineSessionStartedAt.js";
+import { formatPromptlineSessionRunTime } from "./formatPromptlineSessionRunTime";
+import { getPromptlineSessionStartedAt } from "./getPromptlineSessionStartedAt";
 
 /**
  * Builds the displayed promptline session runtime label.

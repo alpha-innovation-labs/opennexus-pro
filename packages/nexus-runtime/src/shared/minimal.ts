@@ -3,19 +3,19 @@ export const MINIMAL_FLAGS = new Set(["--minimal", "-m"]);
 
 /** Minimal extension whitelist — only these extensions are loaded in minimal mode. */
 export const MINIMAL_EXTENSION_WHITELIST = [
-  "ai-providers",
-  "end-message-formatter",
-  "exit-message",
-  "feature-management",
-  "fff",
-  "herdr-agent-end-log",
-  "neo-editor",
-  "observations",
-  "slash-menu",
-  "startup-hero",
-  "subagents",
-  "system-prompt",
-  "tron",
+	"ai-providers",
+	"end-message-formatter",
+	"exit-message",
+	"feature-management",
+	"fff",
+	"herdr-agent-end-log",
+	"neo-editor",
+	"observations",
+	"slash-menu",
+	"startup-hero",
+	"subagents",
+	"system-prompt",
+	"tron",
 ];
 
 /**
@@ -25,5 +25,5 @@ export const MINIMAL_EXTENSION_WHITELIST = [
  * @returns True when the minimal flag is present.
  */
 export function hasMinimalFlag(argv: string[]): boolean {
-  return argv.some((arg) => MINIMAL_FLAGS.has(arg));
+	return argv.some((arg) => MINIMAL_FLAGS.has(arg));
 }

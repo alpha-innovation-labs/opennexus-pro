@@ -5,5 +5,19 @@
  * @returns Sanitized text.
  */
 export function sanitizePlainText(text: string): string {
-	return text.replace(/\t/g, "    ").replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "");
+	return text
+		.replace(/\t/g, "    ")
+		.split("")
+		.filter((c) => {
+			const code = c.charCodeAt(0);
+			return !(
+				code === 0 ||
+				(code >= 1 && code <= 8) ||
+				code === 11 ||
+				code === 12 ||
+				(code >= 14 && code <= 31) ||
+				code === 127
+			);
+		})
+		.join("");
 }

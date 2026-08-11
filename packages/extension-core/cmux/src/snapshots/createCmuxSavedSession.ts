@@ -1,5 +1,5 @@
-import { createCmuxSavedSessionId } from "./createCmuxSavedSessionId.js";
-import type { CmuxSavedSession, CmuxSavedWorkspace } from "./types.js";
+import { createCmuxSavedSessionId } from "./createCmuxSavedSessionId";
+import type { CmuxSavedSession, CmuxSavedWorkspace } from "./types";
 
 /**
  * Creates a saved cmux session snapshot object.
@@ -9,7 +9,11 @@ import type { CmuxSavedSession, CmuxSavedWorkspace } from "./types.js";
  * @param workspaces Structured workspaces with session ids.
  * @returns Saved cmux session snapshot.
  */
-export function createCmuxSavedSession(name: string, lines: string[], workspaces?: CmuxSavedWorkspace[]): CmuxSavedSession {
+export function createCmuxSavedSession(
+	name: string,
+	lines: string[],
+	workspaces?: CmuxSavedWorkspace[],
+): CmuxSavedSession {
 	return {
 		id: createCmuxSavedSessionId(),
 		name,

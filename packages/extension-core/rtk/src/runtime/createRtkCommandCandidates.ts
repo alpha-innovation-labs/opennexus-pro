@@ -1,4 +1,4 @@
-import { getRtkDefaultInstallPath } from "./getRtkDefaultInstallPath.js";
+import { getRtkDefaultInstallPath } from "./getRtkDefaultInstallPath";
 
 /**
  * Creates the RTK command candidates Nexus can execute.
@@ -6,5 +6,5 @@ import { getRtkDefaultInstallPath } from "./getRtkDefaultInstallPath.js";
  * @returns RTK command candidates in priority order.
  */
 export function createRtkCommandCandidates(): string[] {
-  return ["rtk", getRtkDefaultInstallPath()];
+	return ["rtk", getRtkDefaultInstallPath()];
 }

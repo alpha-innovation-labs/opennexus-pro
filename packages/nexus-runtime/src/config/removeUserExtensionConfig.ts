@@ -1,6 +1,6 @@
-import { readNexusUserConfig } from "./readNexusUserConfig.js";
-import type { NexusUserConfig } from "./types.js";
-import { writeNexusUserConfig } from "./writeNexusUserConfig.js";
+import { readNexusUserConfig } from "./readNexusUserConfig";
+import type { NexusUserConfig } from "./types";
+import { writeNexusUserConfig } from "./writeNexusUserConfig";
 
 /**
  * Removes one persisted user package preference from the Nexus user config.
@@ -10,7 +10,8 @@ import { writeNexusUserConfig } from "./writeNexusUserConfig.js";
  */
 export function removeUserExtensionConfig(packageSource: string): boolean {
 	const config = readNexusUserConfig();
-	if (!(config.extensions?.pi_packages?.[packageSource] !== undefined)) return false;
+	if (!(config.extensions?.pi_packages?.[packageSource] !== undefined))
+		return false;
 
 	const pi_packages = { ...config.extensions.pi_packages };
 	delete pi_packages[packageSource];

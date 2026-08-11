@@ -1,5 +1,5 @@
 import { truncateToWidth } from "@earendil-works/pi-tui";
-import type { StartupHeroTheme } from "./types.js";
+import type { StartupHeroTheme } from "./types";
 
 /**
  * Builds the text-colored Nexus version line.
@@ -16,6 +16,8 @@ export function buildStartupHeroVersionLine(
 	width: number,
 	startupDurationBadge?: string,
 ): string {
-	const text = startupDurationBadge ? `v${version} ${startupDurationBadge}` : `v${version}`;
+	const text = startupDurationBadge
+		? `v${version} ${startupDurationBadge}`
+		: `v${version}`;
 	return theme.fg("thinkingText", truncateToWidth(text, width, "…"));
 }

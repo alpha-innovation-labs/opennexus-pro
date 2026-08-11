@@ -1,8 +1,8 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey.js";
-import { formatRtkSavingsPeriodTab } from "./formatRtkSavingsPeriodTab.js";
-import { getRtkSavingsPeriodLabel } from "./getRtkSavingsPeriodLabel.js";
-import { getRtkSavingsPeriodOptions } from "./getRtkSavingsPeriodOptions.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import { formatRtkSavingsPeriodTab } from "./formatRtkSavingsPeriodTab";
+import { getRtkSavingsPeriodLabel } from "./getRtkSavingsPeriodLabel";
+import { getRtkSavingsPeriodOptions } from "./getRtkSavingsPeriodOptions";
+import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey";
 
 /**
  * Renders the period selector tabs for the RTK savings modal header.
@@ -11,8 +11,17 @@ import { getRtkSavingsPeriodOptions } from "./getRtkSavingsPeriodOptions.js";
  * @param theme Active UI theme.
  * @returns One-line period selector.
  */
-export function renderRtkSavingsPeriodTabs(selectedPeriod: RtkSavingsPeriodKey, theme: SharedModalTheme): string {
-  return getRtkSavingsPeriodOptions()
-    .map((period) => formatRtkSavingsPeriodTab(getRtkSavingsPeriodLabel(period), period === selectedPeriod, theme))
-    .join(" │ ");
+export function renderRtkSavingsPeriodTabs(
+	selectedPeriod: RtkSavingsPeriodKey,
+	theme: SharedModalTheme,
+): string {
+	return getRtkSavingsPeriodOptions()
+		.map((period) =>
+			formatRtkSavingsPeriodTab(
+				getRtkSavingsPeriodLabel(period),
+				period === selectedPeriod,
+				theme,
+			),
+		)
+		.join(" │ ");
 }

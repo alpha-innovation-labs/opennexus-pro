@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook.js";
-import { formatCompactDuration } from "../duration/formatCompactDuration.js";
+import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook";
+import { formatCompactDuration } from "../duration/formatCompactDuration";
 import {
 	clearActiveAssistantTurnTiming,
 	finishAssistantMessageTiming,
@@ -9,17 +9,19 @@ import {
 	resetAssistantMessageTimings,
 	startAssistantMessageTiming,
 	startAssistantTurnTiming,
-} from "./assistantMessageTimingState.ts";
-import { bootstrapAssistantMessageTimings } from "./bootstrapAssistantMessageTimings.ts";
-import { installAssistantThinkingStyle } from "./installAssistantThinkingStyle.ts";
+} from "./assistantMessageTimingState";
+import { bootstrapAssistantMessageTimings } from "./bootstrapAssistantMessageTimings";
+import { installAssistantThinkingStyle } from "./installAssistantThinkingStyle";
 
 /**
  * Registers the tron assistant-thinking extension.
  *
  * @param pi Extension API.
  */
-export default function registerAssistantThinkingStyleExtension(pi: ExtensionAPI): void {
-	setAssistantMessageUpdateHook(undefined as any);
+export default function registerAssistantThinkingStyleExtension(
+	pi: ExtensionAPI,
+): void {
+	setAssistantMessageUpdateHook(undefined);
 	installAssistantThinkingStyle();
 	pi.on("session_start", async (_event, ctx) => {
 		resetAssistantMessageTimings();
@@ -35,8 +37,14 @@ export default function registerAssistantThinkingStyleExtension(pi: ExtensionAPI
 			return;
 		}
 		if (event.message.role !== "assistant") return;
-		const startedAt = getCurrentAssistantTurnStartedAt() ?? getCurrentAssistantStartedAt() ?? Date.now();
-		finishAssistantMessageTiming(event.message.timestamp ?? Date.now(), formatCompactDuration(Date.now() - startedAt));
+		const startedAt =
+			getCurrentAssistantTurnStartedAt() ??
+			getCurrentAssistantStartedAt() ??
+			Date.now();
+		finishAssistantMessageTiming(
+			event.message.timestamp ?? Date.now(),
+			formatCompactDuration(Date.now() - startedAt),
+		);
 	});
 	pi.on("agent_end", async () => {
 		clearActiveAssistantTurnTiming();

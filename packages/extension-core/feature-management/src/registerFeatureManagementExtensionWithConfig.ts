@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup.js";
-import { showFeaturesModal } from "./command/showFeaturesModal.js";
+import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
+import { showFeaturesModal } from "./command/showFeaturesModal";
 
 /**
  * Registers the feature management command.
@@ -8,11 +8,19 @@ import { showFeaturesModal } from "./command/showFeaturesModal.js";
  *
  * @param pi Extension API.
  */
-export function registerFeatureManagementExtensionWithConfig(pi: ExtensionAPI): void {
-	pi.registerCommand("features", withSlashMenuGroup({
-		description: "Show feature flags and release channels",
-		handler: async (_args, ctx) => {
-			await showFeaturesModal(ctx);
-		},
-	}, "Extensions"));
+export function registerFeatureManagementExtensionWithConfig(
+	pi: ExtensionAPI,
+): void {
+	pi.registerCommand(
+		"features",
+		withSlashMenuGroup(
+			{
+				description: "Show feature flags and release channels",
+				handler: async (_args, ctx) => {
+					await showFeaturesModal(ctx);
+				},
+			},
+			"Extensions",
+		),
+	);
 }

@@ -1,8 +1,8 @@
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import type { ManagedExtensionRow } from "../model/types.js";
-import { formatManagedExtensionRow } from "./formatManagedExtensionRow.js";
-import { getManagedExtensionColumnWidth } from "./getManagedExtensionColumnWidth.js";
-import { getManagedExtensionGroupLabel } from "./getManagedExtensionGroupLabel.js";
+import type { ManagedExtensionRow } from "../model/types";
+import { formatManagedExtensionRow } from "./formatManagedExtensionRow";
+import { getManagedExtensionColumnWidth } from "./getManagedExtensionColumnWidth";
+import { getManagedExtensionGroupLabel } from "./getManagedExtensionGroupLabel";
 
 /**
  * Creates autocomplete items for managed extension rows.
@@ -18,7 +18,11 @@ export function createManagedExtensionItems(
 	const extensionColumnWidth = getManagedExtensionColumnWidth(rows);
 	return rows.map((row) => ({
 		groupLabel: getManagedExtensionGroupLabel(row.kind),
-		label: formatManagedExtensionRow(row, extensionColumnWidth, theme).trimEnd(),
+		label: formatManagedExtensionRow(
+			row,
+			extensionColumnWidth,
+			theme,
+		).trimEnd(),
 		value: row.id,
 		preserveLabelWhitespace: true,
 	}));

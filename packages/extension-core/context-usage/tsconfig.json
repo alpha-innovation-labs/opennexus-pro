@@ -1,0 +1,52 @@
+{
+	"extends": "../../../tsconfig.base.json",
+	"compilerOptions": {
+		"paths": {
+			"@nexus/observability/*": [
+				"../../observability/src/*"
+			],
+			"@nexus/observability": [
+				"../../observability/src/index.ts"
+			],
+			"@nexus/tui-kit/*": [
+				"../../tui-kit/src/*"
+			],
+			"@nexus/tui-kit": [
+				"../../tui-kit/src/index.ts"
+			],
+			"@nexus/pi-platform/*": [
+				"../../pi-platform/src/*"
+			],
+			"@nexus/pi-platform": [
+				"../../pi-platform/src/index.ts"
+			],
+			"@extensions/slash-menu/*": [
+				"../slash-menu/src/*"
+			],
+			"@extensions/slash-menu": [
+				"../slash-menu/src/index.ts"
+			],
+			"@extensions/neo-editor/features/promptline/render/constants": [
+				"../neo-editor/src/features/promptline/render/constants.ts"
+			],
+			"@extensions/neo-editor/features/promptline/render/getContextColor": [
+				"../neo-editor/src/features/promptline/render/getContextColor.ts"
+			],
+			"@extensions/neo-editor/features/promptline/state": [
+				"../neo-editor/src/features/promptline/state.ts"
+			],
+			"@extensions/neo-editor/features/editor-triggers/ensureSubmitTrigger": [
+				"../neo-editor/src/features/editor-triggers/ensureSubmitTrigger.ts"
+			],
+			"@extensions/neo-editor/features/promptline/config/refreshPromptlineConfig": [
+				"../neo-editor/src/features/promptline/config/refreshPromptlineConfig.ts"
+			],
+			"@extensions/neo-editor/*": [
+				"../neo-editor/src/*"
+			]
+		}
+	},
+	"include": [
+		"src/**/*.ts"
+	]
+}

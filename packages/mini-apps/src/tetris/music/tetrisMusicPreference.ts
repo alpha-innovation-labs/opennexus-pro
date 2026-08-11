@@ -1,5 +1,5 @@
-import { readTetrisMusicPreference } from "./readTetrisMusicPreference.js";
-import { writeTetrisMusicPreference } from "./writeTetrisMusicPreference.js";
+import { readTetrisMusicPreference } from "./readTetrisMusicPreference";
+import { writeTetrisMusicPreference } from "./writeTetrisMusicPreference";
 
 let musicEnabled: boolean | undefined;
 

@@ -1,7 +1,7 @@
-import { listCmuxPaneSurfaces } from "./listCmuxPaneSurfaces.js";
-import { listCmuxPanes } from "./listCmuxPanes.js";
-import { listCmuxWorkspaces } from "./listCmuxWorkspaces.js";
-import type { CmuxWorkspaceShellView } from "./types.js";
+import { listCmuxPaneSurfaces } from "./listCmuxPaneSurfaces";
+import { listCmuxPanes } from "./listCmuxPanes";
+import { listCmuxWorkspaces } from "./listCmuxWorkspaces";
+import type { CmuxWorkspaceShellView } from "./types";
 
 /**
  * Collects cmux workspaces, panes, and shells into one view model.

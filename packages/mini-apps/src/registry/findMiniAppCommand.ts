@@ -1,4 +1,4 @@
-import type { MiniAppManifest } from "./MiniAppManifest.js";
+import type { MiniAppManifest } from "./MiniAppManifest";
 
 /**
  * Finds the mini-app manifest that owns a user-facing command.
@@ -7,6 +7,9 @@ import type { MiniAppManifest } from "./MiniAppManifest.js";
  * @param argv Raw CLI arguments.
  * @returns Matching mini-app manifest, or undefined.
  */
-export function findMiniAppCommand(manifests: MiniAppManifest[], argv: readonly string[]): MiniAppManifest | undefined {
+export function findMiniAppCommand(
+	manifests: MiniAppManifest[],
+	argv: readonly string[],
+): MiniAppManifest | undefined {
 	return manifests.find((manifest) => manifest.isCommand(argv));
 }

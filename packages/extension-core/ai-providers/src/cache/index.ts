@@ -3,7 +3,11 @@
  *
  * Single canonical format: ProviderStateCache — `{ providerId: Model[] }`.
  */
-export { getModelCachePath } from "./getModelCachePath.js";
-export { readProviderStateCache, writeProviderStateCache } from "./providerStateCache.js";
-export { resolveModels } from "../gateway/cache.js";
-export type { ProviderStateCache } from "./providerStateCache.js";
+
+export { resolveModels } from "../gateway/cache";
+export { getModelCachePath } from "./getModelCachePath";
+export type { ProviderStateCache } from "./providerStateCache";
+export {
+	readProviderStateCache,
+	writeProviderStateCache,
+} from "./providerStateCache";

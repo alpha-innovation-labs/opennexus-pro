@@ -1,5 +1,5 @@
 import { dirname, resolve } from "node:path";
-import { pathExists } from "./pathExists.js";
+import { pathExists } from "./pathExists";
 
 /**
  * Resolves the closest git-root ancestor for the provided cwd.
@@ -8,12 +8,12 @@ import { pathExists } from "./pathExists.js";
  * @returns Project root.
  */
 export async function resolveProjectRoot(cwd: string): Promise<string> {
-  const start = resolve(cwd);
-  let current = start;
-  while (true) {
-    if (await pathExists(resolve(current, ".git"))) return current;
-    const parent = dirname(current);
-    if (parent === current) return start;
-    current = parent;
-  }
+	const start = resolve(cwd);
+	let current = start;
+	while (true) {
+		if (await pathExists(resolve(current, ".git"))) return current;
+		const parent = dirname(current);
+		if (parent === current) return start;
+		current = parent;
+	}
 }

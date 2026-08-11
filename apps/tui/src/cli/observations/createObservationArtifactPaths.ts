@@ -1,4 +1,4 @@
-import { getObservationStatePath } from "@extensions/observations/shared/getObservationStatePath.js";
+import { getObservationStatePath } from "@extensions/observations/shared/getObservationStatePath";
 
 /**
  * Resolves the single observation state path for one conversation id.
@@ -7,9 +7,9 @@ import { getObservationStatePath } from "@extensions/observations/shared/getObse
  * @returns State path.
  */
 export function createObservationArtifactPaths(conversationId: string): {
-  statePath: string;
+	statePath: string;
 } {
-  return {
-    statePath: getObservationStatePath(conversationId),
-  };
+	return {
+		statePath: getObservationStatePath(conversationId),
+	};
 }

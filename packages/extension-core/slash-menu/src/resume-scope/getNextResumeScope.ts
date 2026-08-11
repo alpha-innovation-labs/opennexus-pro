@@ -1,4 +1,4 @@
-import type { ResumeScope } from "./ResumeScope.js";
+import type { ResumeScope } from "./ResumeScope";
 
 /**
  * Returns the next resume source for keyboard toggles.
@@ -7,5 +7,5 @@ import type { ResumeScope } from "./ResumeScope.js";
  * @returns Next resume source.
  */
 export function getNextResumeScope(scope: ResumeScope): ResumeScope {
-  return scope === "all" ? "current" : "all";
+	return scope === "all" ? "current" : "all";
 }

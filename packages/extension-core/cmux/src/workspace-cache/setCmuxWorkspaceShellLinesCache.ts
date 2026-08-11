@@ -1,4 +1,4 @@
-import { cmuxWorkspaceShellLinesCache } from "./cmuxWorkspaceShellLinesCache.js";
+import { cmuxWorkspaceShellLinesCache } from "./cmuxWorkspaceShellLinesCache";
 
 /**
  * Stores fresh workspace shell lines in the cmux cache.

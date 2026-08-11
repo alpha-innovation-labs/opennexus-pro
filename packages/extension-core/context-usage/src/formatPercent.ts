@@ -5,5 +5,5 @@
  * @returns Percentage label.
  */
 export function formatPercent(percent: number | null): string {
-  return percent === null ? "unknown" : `${percent.toFixed(1)}%`;
+	return percent === null ? "unknown" : `${percent.toFixed(1)}%`;
 }

@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { getNexusAgentDirPath } from "./getNexusAgentDirPath.js";
+import { getNexusAgentDirPath } from "./getNexusAgentDirPath";
 
 /**
  * Resolves the agent commands directory path.
@@ -8,7 +8,7 @@ import { getNexusAgentDirPath } from "./getNexusAgentDirPath.js";
  * @returns Absolute path to `~/.local/share/nexus/agent/commands`.
  */
 export function getAgentCommandsPath(): string {
-  return join(getNexusAgentDirPath(), "commands");
+	return join(getNexusAgentDirPath(), "commands");
 }
 
 /**
@@ -17,5 +17,5 @@ export function getAgentCommandsPath(): string {
  * @returns `true` if `~/.local/share/nexus/agent/commands` exists.
  */
 export function agentCommandsExists(): boolean {
-  return existsSync(getAgentCommandsPath());
+	return existsSync(getAgentCommandsPath());
 }

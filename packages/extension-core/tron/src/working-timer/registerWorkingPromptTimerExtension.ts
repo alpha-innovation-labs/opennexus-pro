@@ -1,13 +1,15 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { createWorkingPromptTimer } from "./createWorkingPromptTimer.js";
-import type { WorkingPromptTimer } from "./types.js";
+import { createWorkingPromptTimer } from "./createWorkingPromptTimer";
+import type { WorkingPromptTimer } from "./types";
 
 /**
  * Registers the active-prompt working-message elapsed timer.
  *
  * @param pi Pi extension API.
  */
-export default function registerWorkingPromptTimerExtension(pi: ExtensionAPI): void {
+export default function registerWorkingPromptTimerExtension(
+	pi: ExtensionAPI,
+): void {
 	let timer: WorkingPromptTimer | undefined;
 
 	const stopTimer = (): void => {

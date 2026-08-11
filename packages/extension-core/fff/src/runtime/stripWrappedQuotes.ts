@@ -5,11 +5,11 @@
  * @returns Unwrapped query.
  */
 export function stripWrappedQuotes(value: string): string {
-  if (value.startsWith('"') && value.endsWith('"') && value.length >= 2) {
-    return value.slice(1, -1);
-  }
-  if (value.startsWith("'") && value.endsWith("'") && value.length >= 2) {
-    return value.slice(1, -1);
-  }
-  return value;
+	if (value.startsWith('"') && value.endsWith('"') && value.length >= 2) {
+		return value.slice(1, -1);
+	}
+	if (value.startsWith("'") && value.endsWith("'") && value.length >= 2) {
+		return value.slice(1, -1);
+	}
+	return value;
 }

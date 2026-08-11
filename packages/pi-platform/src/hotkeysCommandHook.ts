@@ -7,8 +7,10 @@ let hotkeysCommandHook: HotkeysCommandHook | undefined;
  *
  * @param hook Hook invoked when Pi handles /hotkeys.
  */
-export function setHotkeysCommandHook(hook: HotkeysCommandHook | undefined): void {
-  hotkeysCommandHook = hook;
+export function setHotkeysCommandHook(
+	hook: HotkeysCommandHook | undefined,
+): void {
+	hotkeysCommandHook = hook;
 }
 
 /**
@@ -17,5 +19,5 @@ export function setHotkeysCommandHook(hook: HotkeysCommandHook | undefined): voi
  * @returns Active hook, when registered.
  */
 export function getHotkeysCommandHook(): HotkeysCommandHook | undefined {
-  return hotkeysCommandHook;
+	return hotkeysCommandHook;
 }

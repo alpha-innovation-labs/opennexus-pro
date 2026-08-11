@@ -15,41 +15,51 @@
  * @param refreshModelsCallback — Function to call when the user
  *   explicitly requests a model refresh.
  */
-import { getModels } from "../gateway/cache.js";
-import type { ExtensionAPI, ProviderConfigInput } from "@earendil-works/pi-coding-agent";
+
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { getModels } from "../gateway/cache";
+
+type ProviderConfigInput = {
+	models?: Array<Record<string, unknown>>;
+};
 
 export function registerProvider(
-  pi: ExtensionAPI,
-  providerId: string,
-  name: string,
-  baseUrl: string,
-  apiKey?: string,
-  api?: string,
-  apiPath?: string,
-  modelsOverride?: NonNullable<ProviderConfigInput["models"]>,
-  refreshModelsCallback?: (context: unknown) => Promise<NonNullable<ProviderConfigInput["models"]>>,
+	pi: ExtensionAPI,
+	providerId: string,
+	name: string,
+	baseUrl: string,
+	apiKey?: string,
+	api?: string,
+	apiPath?: string,
+	modelsOverride?: NonNullable<ProviderConfigInput["models"]>,
+	_refreshModelsCallback?: (
+		context: unknown,
+	) => Promise<NonNullable<ProviderConfigInput["models"]>>,
 ): void {
-  if (typeof pi.registerProvider !== "function") {
-    return;
-  }
+	if (typeof pi.registerProvider !== "function") {
+		return;
+	}
 
-  pi.registerProvider(providerId, {
-    name,
-    baseUrl,
-    apiKey: apiKey ?? "",
-    api: api ?? "openai-completions",
-    apiPath: apiPath ?? "",
-    models: modelsOverride ?? [],
-    // When Pi calls this (e.g. /list-models opens the model picker),
-    // return cached models only — no network call.  Live fetch only
-    // happens via the CLI refresh command (gw.refreshModels()).
-    refreshModels: async () => getModels(providerId),
-  });
+	pi.registerProvider(providerId, {
+		name,
+		baseUrl,
+		apiKey: apiKey ?? "",
+		api: api ?? "openai-completions",
+		apiPath: apiPath ?? "",
+		models: modelsOverride ?? [],
+		// When Pi calls this (e.g. /list-models opens the model picker),
+		// return cached models only — no network call.  Live fetch only
+		// happens via the CLI refresh command (gw.refreshModels()).
+		refreshModels: async (_context: unknown) => {
+			const models = await getModels(providerId);
+			return models as unknown as Record<string, unknown>[];
+		},
+	} as Record<string, unknown>);
 }
 
 /**
  * No-op — singleton guard removed.
  */
 export function resetRegistration(): void {
-  // No-op — singleton guard removed.
+	// No-op — singleton guard removed.
 }

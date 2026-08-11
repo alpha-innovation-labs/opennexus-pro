@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { sendNotifyMessage } from "./runtime/sendNotifyMessage.js";
+import { sendNotifyMessage } from "./runtime/sendNotifyMessage";
 
 /**
  * Registers desktop notifications for completed agent runs.

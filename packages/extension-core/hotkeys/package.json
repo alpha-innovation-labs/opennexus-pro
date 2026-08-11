@@ -1,13 +1,16 @@
 {
-  "name": "@extensions/hotkeys",
-  "version": "0.2.24",
-  "type": "module",
-  "exports": {
-    "./*": "./src/*"
-  },
-  "dependencies": {
-    "@earendil-works/pi-coding-agent": "^0.83.0",
-    "@nexus/feature-flags": "workspace:*",
-    "@nexus/runtime": "workspace:*"
-  }
+	"name": "@extensions/hotkeys",
+	"version": "0.2.24",
+	"type": "module",
+	"exports": {
+		"./*": "./src/*"
+	},
+	"dependencies": {
+		"@earendil-works/pi-coding-agent": "^0.84.1",
+		"@nexus/runtime": "workspace:*"
+	},
+	"scripts": {
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit"
+	}
 }

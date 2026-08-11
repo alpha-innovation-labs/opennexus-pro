@@ -7,5 +7,8 @@ import { join } from "node:path";
  * @returns Absolute path to Nexus JSONL sessions.
  */
 export function getNexusSessionRoot(): string {
-  return process.env.NEXUS_SESSION_ROOT ?? join(homedir(), ".local", "share", "nexus", "agent", "sessions");
+	return (
+		process.env.NEXUS_SESSION_ROOT ??
+		join(homedir(), ".local", "share", "nexus", "agent", "sessions")
+	);
 }

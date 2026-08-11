@@ -1,4 +1,4 @@
-import type { UserMessageMetadata } from "./types.ts";
+import type { UserMessageMetadata } from "./types";
 
 /**
  * Creates timestamp metadata for a live user message.
@@ -6,8 +6,10 @@ import type { UserMessageMetadata } from "./types.ts";
  * @param message User message emitted by the agent.
  * @returns Metadata for rendering the message timestamp.
  */
-export function createCurrentUserMessageMetadata(message: any): UserMessageMetadata {
-  return {
-    timestamp: message?.timestamp,
-  };
+export function createCurrentUserMessageMetadata(
+	message: { timestamp?: number },
+): UserMessageMetadata {
+	return {
+		timestamp: message?.timestamp,
+	};
 }

@@ -1,5 +1,5 @@
-import { getCurrentCmuxRenameTarget } from "./getCurrentCmuxRenameTarget.js";
-import { runCmuxCommand } from "./runCmuxCommand.js";
+import { getCurrentCmuxRenameTarget } from "./getCurrentCmuxRenameTarget";
+import { runCmuxCommand } from "./runCmuxCommand";
 
 /**
  * Sends a completion notification for the current cmux surface.
@@ -7,7 +7,9 @@ import { runCmuxCommand } from "./runCmuxCommand.js";
  * @param sessionTitle Current Nexus session title.
  * @returns True when cmux accepted the notification request.
  */
-export async function notifyCurrentCmuxSurface(sessionTitle: string): Promise<boolean> {
+export async function notifyCurrentCmuxSurface(
+	sessionTitle: string,
+): Promise<boolean> {
 	const target = getCurrentCmuxRenameTarget();
 	if (!target.surfaceId) return false;
 

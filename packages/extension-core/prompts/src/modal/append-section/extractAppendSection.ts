@@ -1,4 +1,4 @@
-import { findAppendSectionRange } from "./findAppendSectionRange.js";
+import { findAppendSectionRange } from "./findAppendSectionRange";
 
 /**
  * Extracts the editable appendSection from a full system prompt.

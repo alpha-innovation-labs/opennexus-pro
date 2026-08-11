@@ -1,4 +1,4 @@
-import type { SlashMenuSection } from "./types.js";
+import type { SlashMenuSection } from "./types";
 
 /**
  * Builds right-pane preview text for one top-level section.
@@ -7,5 +7,13 @@ import type { SlashMenuSection } from "./types.js";
  * @returns Preview lines.
  */
 export function createSectionPreviewLines(section: SlashMenuSection): string[] {
-  return [section.label, "", section.description, "", "Enter opens this section.", "Esc goes back.", "Ctrl+C closes."];
+	return [
+		section.label,
+		"",
+		section.description,
+		"",
+		"Enter opens this section.",
+		"Esc goes back.",
+		"Ctrl+C closes.",
+	];
 }

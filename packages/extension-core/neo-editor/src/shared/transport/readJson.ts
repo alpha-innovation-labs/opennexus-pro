@@ -6,10 +6,10 @@ import { readFile } from "node:fs/promises";
  * @param path File path.
  * @returns Parsed JSON value.
  */
-export async function readJson(path: string): Promise<any | undefined> {
-  try {
-    return JSON.parse(await readFile(path, "utf8"));
-  } catch {
-    return undefined;
-  }
+export async function readJson(path: string): Promise<unknown | undefined> {
+	try {
+		return JSON.parse(await readFile(path, "utf8"));
+	} catch {
+		return undefined;
+	}
 }

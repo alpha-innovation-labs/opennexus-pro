@@ -1,4 +1,4 @@
-import { styleExitBorder } from "./styleExitCommand.js";
+import { styleExitBorder } from "./styleExitCommand";
 
 export interface PurpleBoxLine {
 	text: string;
@@ -12,7 +12,10 @@ export interface PurpleBoxLine {
  * @param maxWidth Maximum full box width.
  * @returns Purple boxed text.
  */
-export function formatPurpleBox(lines: PurpleBoxLine[], maxWidth = process.stdout.columns ?? 80): string {
+export function formatPurpleBox(
+	lines: PurpleBoxLine[],
+	maxWidth = process.stdout.columns ?? 80,
+): string {
 	const contentWidth = getContentWidth(lines, maxWidth);
 	const wrappedLines = lines.flatMap((line) => wrapBoxLine(line, contentWidth));
 	const top = styleExitBorder(`╭${"─".repeat(contentWidth + 2)}╮`);
@@ -51,7 +54,10 @@ function wrapBoxLine(line: PurpleBoxLine, width: number): PurpleBoxLine[] {
 	while (remaining.length > width) {
 		let splitAt = remaining.lastIndexOf(" ", width);
 		if (splitAt < Math.floor(width * 0.5)) splitAt = width;
-		chunks.push({ text: remaining.slice(0, splitAt).trimEnd(), style: line.style });
+		chunks.push({
+			text: remaining.slice(0, splitAt).trimEnd(),
+			style: line.style,
+		});
 		remaining = remaining.slice(splitAt).trimStart();
 	}
 	if (remaining) chunks.push({ text: remaining, style: line.style });

@@ -1,4 +1,4 @@
-import { truncateFromStart } from "./truncateFromStart.ts";
+import { truncateFromStart } from "./truncateFromStart";
 
 /**
  * Normalizes whitespace and truncates one line from the start.

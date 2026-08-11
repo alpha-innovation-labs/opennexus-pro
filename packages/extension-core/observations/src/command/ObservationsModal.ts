@@ -1,6 +1,6 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
+import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
 
 /**
  * Two-pane modal for browsing observation topics and details.
@@ -17,11 +17,17 @@ export class ObservationsModal extends SelectPreviewModal {
 		private readonly promptEditingEnabled = true,
 		private readonly onRecreateObservation: () => void = () => undefined,
 	) {
-		super(theme, () => done(undefined), () => done(undefined), undefined, {
-			leftTitle: "Topics",
-			rightTitle: "Observations",
-			leftPaneRatio: 0.4,
-		});
+		super(
+			theme,
+			() => done(undefined),
+			() => done(undefined),
+			undefined,
+			{
+				leftTitle: "Topics",
+				rightTitle: "Observations",
+				leftPaneRatio: 0.4,
+			},
+		);
 		this.footerHotkeys = [
 			{ key: "r", label: "recreate" },
 			...(promptEditingEnabled ? [{ key: "e", label: "edit prompt" }] : []),
@@ -32,7 +38,9 @@ export class ObservationsModal extends SelectPreviewModal {
 				this.setRightLines(["No topic selected"]);
 				return;
 			}
-			this.setRightLines(this.detailsByValue.get(item.value) ?? ["No observations available"]);
+			this.setRightLines(
+				this.detailsByValue.get(item.value) ?? ["No observations available"],
+			);
 		});
 		this.setObservationSections(items, detailsByValue);
 	}
@@ -43,10 +51,19 @@ export class ObservationsModal extends SelectPreviewModal {
 	 * @param items Selectable topic items.
 	 * @param detailsByValue Detail lines keyed by topic value.
 	 */
-	setObservationSections(items: AutocompleteItem[], detailsByValue: Map<string, string[]>): void {
+	setObservationSections(
+		items: AutocompleteItem[],
+		detailsByValue: Map<string, string[]>,
+	): void {
 		this.detailsByValue = detailsByValue;
 		this.setItems(items);
-		this.setRightLines(items[0] ? this.detailsByValue.get(items[0].value) ?? ["No observations available"] : ["No observations yet"]);
+		this.setRightLines(
+			items[0]
+				? (this.detailsByValue.get(items[0].value) ?? [
+						"No observations available",
+					])
+				: ["No observations yet"],
+		);
 	}
 
 	/** Routes observation modal hotkeys before the base selector handles input. */

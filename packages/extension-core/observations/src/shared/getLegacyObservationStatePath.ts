@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { getObservationsDir } from "./getObservationsDir.js";
+import { getObservationsDir } from "./getObservationsDir";
 
 /**
  * Resolves the legacy structured observation state path.

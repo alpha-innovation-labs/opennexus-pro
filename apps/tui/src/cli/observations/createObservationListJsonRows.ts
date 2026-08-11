@@ -1,5 +1,5 @@
-import { createObservationListJsonRow } from "./createObservationListJsonRow.js";
-import type { ObservationArtifactGroup, ObservationListJsonRow } from "./types.js";
+import { createObservationListJsonRow } from "./createObservationListJsonRow";
+import type { ObservationArtifactGroup, ObservationListJsonRow } from "./types";
 
 /**
  * Builds machine-readable rows for observation groups.
@@ -8,7 +8,9 @@ import type { ObservationArtifactGroup, ObservationListJsonRow } from "./types.j
  * @returns JSON-safe rows.
  */
 export async function createObservationListJsonRows(
-  groups: readonly ObservationArtifactGroup[],
+	groups: readonly ObservationArtifactGroup[],
 ): Promise<ObservationListJsonRow[]> {
-  return Promise.all(groups.map((group) => createObservationListJsonRow(group)));
+	return Promise.all(
+		groups.map((group) => createObservationListJsonRow(group)),
+	);
 }

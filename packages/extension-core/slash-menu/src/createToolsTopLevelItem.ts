@@ -1,4 +1,4 @@
-import type { SlashMenuSection } from "./types.js";
+import type { SlashMenuSection } from "./types";
 
 /**
  * Builds the top-level Tools resource menu item.
@@ -6,10 +6,10 @@ import type { SlashMenuSection } from "./types.js";
  * @returns Tools section item.
  */
 export function createToolsTopLevelItem(): SlashMenuSection {
-  return {
-    label: "tools",
-    description: "Show available tools.",
-    groupLabel: "Resources",
-    value: "tools",
-  };
+	return {
+		label: "tools",
+		description: "Show available tools.",
+		groupLabel: "Resources",
+		value: "tools",
+	};
 }

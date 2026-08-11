@@ -9,7 +9,9 @@ const MINIMAL_FLAGS = new Set(["--minimal", "-m"]);
  * @returns True when --disable-features or --enable-features is present.
  */
 export function hasFeaturesOverrideFlag(argv: readonly string[]): boolean {
-	return argv.includes(DISABLE_FEATURES_FLAG) || argv.includes(ENABLE_FEATURES_FLAG);
+	return (
+		argv.includes(DISABLE_FEATURES_FLAG) || argv.includes(ENABLE_FEATURES_FLAG)
+	);
 }
 
 /**
@@ -24,7 +26,12 @@ export function readDisabledFeatures(argv: readonly string[]): string[] {
 		if (argv[index] === DISABLE_FEATURES_FLAG && index + 1 < argv.length) {
 			const raw = argv[index + 1];
 			if (raw) {
-				result.push(...raw.split(",").map((id) => id.trim()).filter(Boolean));
+				result.push(
+					...raw
+						.split(",")
+						.map((id) => id.trim())
+						.filter(Boolean),
+				);
 			}
 			index += 1;
 		}
@@ -44,7 +51,12 @@ export function readEnabledFeatures(argv: readonly string[]): string[] {
 		if (argv[index] === ENABLE_FEATURES_FLAG && index + 1 < argv.length) {
 			const raw = argv[index + 1];
 			if (raw) {
-				result.push(...raw.split(",").map((id) => id.trim()).filter(Boolean));
+				result.push(
+					...raw
+						.split(",")
+						.map((id) => id.trim())
+						.filter(Boolean),
+				);
 			}
 			index += 1;
 		}

@@ -5,5 +5,5 @@
  * @returns True when the first argument is uninstall.
  */
 export function isUninstallCommand(argv: readonly string[]): boolean {
-  return argv[0] === "uninstall";
+	return argv[0] === "uninstall";
 }

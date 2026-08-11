@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
 
 /**
  * Applies emphasis color to RTK savings percentages.
@@ -7,6 +7,9 @@ import type { SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
  * @param value Percent text.
  * @returns Colorized percent text.
  */
-export function colorizeSavingsPercent(theme: SharedModalTheme, value: string): string {
-  return theme.fg("success", value);
+export function colorizeSavingsPercent(
+	theme: SharedModalTheme,
+	value: string,
+): string {
+	return theme.fg("success", value);
 }

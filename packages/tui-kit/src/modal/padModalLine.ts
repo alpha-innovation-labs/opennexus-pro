@@ -1,6 +1,6 @@
-import stripAnsi from "strip-ansi";
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { truncateAnsiToWidth } from "./truncateAnsiToWidth.js";
+import stripAnsi from "strip-ansi";
+import { truncateAnsiToWidth } from "./truncateAnsiToWidth";
 
 /**
  * Truncates and pads a modal line to an exact visible width.
@@ -10,7 +10,7 @@ import { truncateAnsiToWidth } from "./truncateAnsiToWidth.js";
  * @returns Width-padded line.
  */
 export function padModalLine(value: string, width: number): string {
-  const truncated = truncateAnsiToWidth(value, width);
-  const visible = visibleWidth(stripAnsi(truncated));
-  return `${truncated}${" ".repeat(Math.max(0, width - visible))}`;
+	const truncated = truncateAnsiToWidth(value, width);
+	const visible = visibleWidth(stripAnsi(truncated));
+	return `${truncated}${" ".repeat(Math.max(0, width - visible))}`;
 }

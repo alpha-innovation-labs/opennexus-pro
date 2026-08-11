@@ -1,4 +1,4 @@
-import type { ManagedExtensionStatus } from "../model/types.js";
+import type { ManagedExtensionStatus } from "../model/types";
 
 /**
  * Colors an extension enabled status using the feature-management palette.

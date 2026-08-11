@@ -1,4 +1,4 @@
-import { APP_NAME } from "@nexus/pi-platform/config.js";
+import { APP_NAME } from "@nexus/pi-platform/config";
 
 const AGENT_LABEL_ENV_VAR = "NEXUS_AGENT_LABEL";
 
@@ -11,5 +11,8 @@ const AGENT_LABEL_ENV_VAR = "NEXUS_AGENT_LABEL";
  * @returns Visible assistant label.
  */
 export function getAgentLabel(): string {
-	return process.env[AGENT_LABEL_ENV_VAR]?.trim() || APP_NAME.charAt(0).toUpperCase() + APP_NAME.slice(1);
+	return (
+		process.env[AGENT_LABEL_ENV_VAR]?.trim() ||
+		APP_NAME.charAt(0).toUpperCase() + APP_NAME.slice(1)
+	);
 }

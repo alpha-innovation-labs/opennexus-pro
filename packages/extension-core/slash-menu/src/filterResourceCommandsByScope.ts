@@ -1,6 +1,6 @@
-import type { ResourceCommandScope } from "./ResourceCommandScope.js";
-import { getResourceCommandScope } from "./getResourceCommandScope.js";
-import type { RegisteredSlashCommand } from "./types.js";
+import { getResourceCommandScope } from "./getResourceCommandScope";
+import type { ResourceCommandScope } from "./ResourceCommandScope";
+import type { RegisteredSlashCommand } from "./types";
 
 /**
  * Filters prompt or skill commands by local/global scope.
@@ -10,9 +10,11 @@ import type { RegisteredSlashCommand } from "./types.js";
  * @returns Commands matching the selected scope.
  */
 export function filterResourceCommandsByScope(
-  commands: RegisteredSlashCommand[],
-  scope: ResourceCommandScope,
+	commands: RegisteredSlashCommand[],
+	scope: ResourceCommandScope,
 ): RegisteredSlashCommand[] {
-  if (scope === "all") return commands;
-  return commands.filter((command) => getResourceCommandScope(command) === scope);
+	if (scope === "all") return commands;
+	return commands.filter(
+		(command) => getResourceCommandScope(command) === scope,
+	);
 }

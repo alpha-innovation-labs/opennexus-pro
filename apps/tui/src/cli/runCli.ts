@@ -1,5 +1,5 @@
-import { runApp } from "../runtime/runApp.js";
-import { runCliWithApp } from "./runCliWithApp.js";
+import { runApp } from "../runtime/runApp";
+import { runCliWithApp } from "./runCliWithApp";
 
 /**
  * Runs the Nexus CLI entrypoint.
@@ -8,5 +8,5 @@ import { runCliWithApp } from "./runCliWithApp.js";
  * @returns Process exit code.
  */
 export async function runCli(argv: string[]): Promise<number> {
-  return runCliWithApp(argv, { runApp });
+	return runCliWithApp(argv, { runApp });
 }

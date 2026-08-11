@@ -1,5 +1,5 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import type { SystemPromptState } from "../state/types.js";
+import type { SystemPromptState } from "../state/types";
 
 /**
  * Clears the custom prompt override and restores the runtime default prompt.

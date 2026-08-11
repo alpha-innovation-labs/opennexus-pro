@@ -7,5 +7,5 @@ const reloadCommandText = "/reload";
  * @returns True when the text is the reload command.
  */
 export function isReloadCommandText(value: string): boolean {
-  return value.trim() === reloadCommandText;
+	return value.trim() === reloadCommandText;
 }

@@ -8,6 +8,9 @@ import { visibleWidth } from "@earendil-works/pi-tui";
  * @returns Line prefixed with left padding.
  */
 export function centerModalLine(line: string, availableWidth: number): string {
-  const padding = Math.max(0, Math.floor((availableWidth - visibleWidth(line)) / 2));
-  return `${" ".repeat(padding)}${line}`;
+	const padding = Math.max(
+		0,
+		Math.floor((availableWidth - visibleWidth(line)) / 2),
+	);
+	return `${" ".repeat(padding)}${line}`;
 }

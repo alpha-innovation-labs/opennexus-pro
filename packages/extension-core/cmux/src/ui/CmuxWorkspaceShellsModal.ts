@@ -1,4 +1,4 @@
-import { SharedModal, type SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
+import { SharedModal, type SharedModalTheme } from "@nexus/tui-kit/modal/index";
 
 /**
  * Modal that displays cmux workspaces and shell/session mappings.
@@ -11,7 +11,13 @@ export class CmuxWorkspaceShellsModal extends SharedModal {
 	 * @param lines Workspace shell display lines.
 	 * @param onClose Close callback.
 	 */
-	constructor(theme: SharedModalTheme, lines: string[], onClose: () => void, private readonly onSave: () => void, private readonly onLoad: () => void) {
+	constructor(
+		theme: SharedModalTheme,
+		lines: string[],
+		onClose: () => void,
+		private readonly onSave: () => void,
+		private readonly onLoad: () => void,
+	) {
 		super({
 			footerLines: [theme.fg("dim", "s save · l load")],
 			headerLines: [theme.fg("accent", "cmux workspaces")],

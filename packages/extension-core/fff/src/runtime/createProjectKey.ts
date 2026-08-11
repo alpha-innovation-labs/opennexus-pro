@@ -8,5 +8,5 @@ import { resolve } from "node:path";
  * @returns Stable project key.
  */
 export function createProjectKey(cwd: string): string {
-  return createHash("sha1").update(resolve(cwd)).digest("hex").slice(0, 12);
+	return createHash("sha1").update(resolve(cwd)).digest("hex").slice(0, 12);
 }

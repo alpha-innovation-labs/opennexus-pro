@@ -1,5 +1,5 @@
-import { formatPurpleBox } from "./formatPurpleBox.js";
-import { styleExitCommand, styleExitTitle } from "./styleExitCommand.js";
+import { formatPurpleBox } from "./formatPurpleBox";
+import { styleExitCommand, styleExitTitle } from "./styleExitCommand";
 
 export interface ExitMessageDetails {
 	sessionId?: string;

@@ -1,4 +1,4 @@
-import { activityInvalidators } from "./activity/state.ts";
+import { activityInvalidators } from "./activity/state";
 
 /**
  * Invalidates all rendered activity components for the provided keys.

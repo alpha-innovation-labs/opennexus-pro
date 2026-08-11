@@ -1,4 +1,4 @@
-import { readTextFile } from "./readTextFile.js";
+import { readTextFile } from "./readTextFile";
 
 /**
  * Reads AGENTS.md content from disk when Pi's structured context content is stale or empty.
@@ -7,5 +7,5 @@ import { readTextFile } from "./readTextFile.js";
  * @returns File content when readable, otherwise undefined.
  */
 export function readAgentsFileContent(path: string): string | undefined {
-  return readTextFile(path);
+	return readTextFile(path);
 }

@@ -7,5 +7,5 @@ import { join } from "node:path";
  * @returns {string} Absolute Pi auth.json path.
  */
 export function resolvePiAuthSourcePath() {
-  return join(homedir(), ".pi", "agent", "auth.json");
+	return join(homedir(), ".pi", "agent", "auth.json");
 }

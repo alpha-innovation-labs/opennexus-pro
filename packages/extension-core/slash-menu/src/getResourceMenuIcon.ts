@@ -4,5 +4,5 @@
  * @returns Navigation icon used for prompt and skill resource rows.
  */
 export function getResourceMenuIcon(): string {
-  return "›";
+	return "›";
 }

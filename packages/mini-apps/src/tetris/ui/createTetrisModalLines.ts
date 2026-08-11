@@ -1,10 +1,11 @@
-import type { TetrisGame } from "../game/types.js";
-import { createCompactTetrisModalLines } from "./createCompactTetrisModalLines.js";
-import { createTetrisDividerLine } from "./createTetrisDividerLine.js";
-import { createWideTetrisModalLines } from "./createWideTetrisModalLines.js";
-import { renderScaledTetrisBoard } from "./renderScaledTetrisBoard.js";
-import { renderTetrisHelpLine } from "./renderTetrisHelpLine.js";
-import { renderTetrisStatusLine } from "./renderTetrisStatusLine.js";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { TetrisGame } from "../game/types";
+import { createCompactTetrisModalLines } from "./createCompactTetrisModalLines";
+import { createTetrisDividerLine } from "./createTetrisDividerLine";
+import { createWideTetrisModalLines } from "./createWideTetrisModalLines";
+import { renderScaledTetrisBoard } from "./renderScaledTetrisBoard";
+import { renderTetrisHelpLine } from "./renderTetrisHelpLine";
+import { renderTetrisStatusLine } from "./renderTetrisStatusLine";
 
 /**
  * Builds full-width Tetris modal body lines.
@@ -16,9 +17,23 @@ import { renderTetrisStatusLine } from "./renderTetrisStatusLine.js";
  * @param musicPlaying Whether music is active.
  * @returns Body lines for the shared modal pane.
  */
-export function createTetrisModalLines(theme: any, game: TetrisGame, width: number, height: number, musicPlaying = false): string[] {
-	if (width < 90) return createCompactTetrisModalLines(theme, game, width, height, musicPlaying);
-	if (width >= 90) return createWideTetrisModalLines(theme, game, width, height, musicPlaying);
+export function createTetrisModalLines(
+	theme: SharedModalTheme & { bold: (text: string) => string },
+	game: TetrisGame,
+	width: number,
+	height: number,
+	musicPlaying = false,
+): string[] {
+	if (width < 90)
+		return createCompactTetrisModalLines(
+			theme,
+			game,
+			width,
+			height,
+			musicPlaying,
+		);
+	if (width >= 90)
+		return createWideTetrisModalLines(theme, game, width, height, musicPlaying);
 	const chromeHeight = 3;
 	const boardHeight = Math.max(3, height - chromeHeight);
 	return [

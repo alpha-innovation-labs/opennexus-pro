@@ -9,17 +9,17 @@ import { isAbsolute, resolve } from "node:path";
  * @returns Absolute or cwd-relative path.
  */
 export function resolveRtkPath(cwd: string, filePath: string): string {
-  if (filePath === "~") {
-    return homedir();
-  }
+	if (filePath === "~") {
+		return homedir();
+	}
 
-  if (filePath.startsWith("~/")) {
-    return homedir() + filePath.slice(1);
-  }
+	if (filePath.startsWith("~/")) {
+		return homedir() + filePath.slice(1);
+	}
 
-  if (isAbsolute(filePath)) {
-    return filePath;
-  }
+	if (isAbsolute(filePath)) {
+		return filePath;
+	}
 
-  return resolve(cwd, filePath);
+	return resolve(cwd, filePath);
 }

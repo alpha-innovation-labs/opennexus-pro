@@ -7,5 +7,5 @@ import type { Api, Model } from "@earendil-works/pi-ai";
  * @returns Provider/model label.
  */
 export function createProviderQualifiedModelLabel(model: Model<Api>): string {
-  return `${model.provider}/${model.id}`;
+	return `${model.provider}/${model.id}`;
 }

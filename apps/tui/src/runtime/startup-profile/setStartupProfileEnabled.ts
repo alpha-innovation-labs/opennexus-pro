@@ -1,4 +1,4 @@
-import { STARTUP_PROFILE_ENV } from "@nexus/observability/startup-profile/constants.js";
+import { STARTUP_PROFILE_ENV } from "@nexus/observability/startup-profile/constants";
 
 /**
  * Stores startup-profile enablement in the process environment.

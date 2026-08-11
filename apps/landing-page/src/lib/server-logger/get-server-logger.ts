@@ -6,5 +6,5 @@ import pino from "pino";
  * @returns A pino logger scoped to the landing page app.
  */
 export function getServerLogger(): pino.Logger {
-  return pino({ name: "landing-page" });
+	return pino({ name: "landing-page" });
 }

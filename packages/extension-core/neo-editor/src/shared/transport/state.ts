@@ -6,7 +6,7 @@ let transportPreference = "sse";
  * @returns Transport preference.
  */
 export function getTransportPreference(): string {
-  return transportPreference;
+	return transportPreference;
 }
 
 /**
@@ -15,5 +15,5 @@ export function getTransportPreference(): string {
  * @param value Transport preference.
  */
 export function setTransportPreference(value: string): void {
-  transportPreference = value;
+	transportPreference = value;
 }

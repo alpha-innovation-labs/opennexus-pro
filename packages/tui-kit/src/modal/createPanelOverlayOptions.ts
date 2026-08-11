@@ -3,14 +3,14 @@ import type { SizeValue } from "@earendil-works/pi-tui";
 export type PanelOverlayWidthMode = "full" | "modal";
 
 export type PanelOverlayConfig = {
-  widthMode?: PanelOverlayWidthMode;
+	widthMode?: PanelOverlayWidthMode;
 };
 
 export type PanelOverlayOptions = {
-  anchor: "center";
-  width: SizeValue;
-  minWidth: number;
-  maxHeight: SizeValue;
+	anchor: "center";
+	width: SizeValue;
+	minWidth: number;
+	maxHeight: SizeValue;
 };
 
 /**
@@ -20,8 +20,11 @@ export type PanelOverlayOptions = {
  * @param widthMode Overlay width behavior.
  * @returns Full terminal width or modal-sized width.
  */
-function resolvePanelOverlayWidth(minWidth: number, widthMode: PanelOverlayWidthMode): SizeValue {
-  return widthMode === "modal" ? minWidth : "100%";
+function resolvePanelOverlayWidth(
+	minWidth: number,
+	widthMode: PanelOverlayWidthMode,
+): SizeValue {
+	return widthMode === "modal" ? minWidth : "100%";
 }
 
 /**
@@ -35,11 +38,15 @@ function resolvePanelOverlayWidth(minWidth: number, widthMode: PanelOverlayWidth
  * @param config Overlay behavior configuration.
  * @returns Centered overlay options.
  */
-export function createPanelOverlayOptions(minWidth: number, maxHeight: SizeValue = "90%", config: PanelOverlayConfig = {}): PanelOverlayOptions {
-  return {
-    anchor: "center",
-    width: resolvePanelOverlayWidth(minWidth, config.widthMode ?? "full"),
-    minWidth,
-    maxHeight,
-  };
+export function createPanelOverlayOptions(
+	minWidth: number,
+	maxHeight: SizeValue = "90%",
+	config: PanelOverlayConfig = {},
+): PanelOverlayOptions {
+	return {
+		anchor: "center",
+		width: resolvePanelOverlayWidth(minWidth, config.widthMode ?? "full"),
+		minWidth,
+		maxHeight,
+	};
 }

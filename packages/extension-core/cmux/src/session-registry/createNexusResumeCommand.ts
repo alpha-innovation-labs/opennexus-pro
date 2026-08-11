@@ -1,5 +1,5 @@
-import { createNexusRestoreLaunchSpec } from "./createNexusRestoreLaunchSpec.js";
-import { shellQuote } from "./shellQuote.js";
+import { createNexusRestoreLaunchSpec } from "./createNexusRestoreLaunchSpec";
+import { shellQuote } from "./shellQuote";
 
 export type NexusRestoreCommand = {
 	command: string;
@@ -13,8 +13,12 @@ export type NexusRestoreCommand = {
  * @param sessionId Nexus session id to resume.
  * @returns Structured command metadata and shell input.
  */
-export function createNexusResumeCommand(sessionId: string): NexusRestoreCommand {
+export function createNexusResumeCommand(
+	sessionId: string,
+): NexusRestoreCommand {
 	const launchSpec = createNexusRestoreLaunchSpec(["--resume", sessionId]);
-	const input = [...[launchSpec.command], ...launchSpec.args].map(shellQuote).join(" ");
+	const input = [...[launchSpec.command], ...launchSpec.args]
+		.map(shellQuote)
+		.join(" ");
 	return { command: launchSpec.command, args: launchSpec.args, input };
 }

@@ -1,4 +1,4 @@
-import { baseSystemPrompt } from "@nexus/runtime/config/baseSystemPrompt.js";
+import { baseSystemPrompt } from "@nexus/runtime/config/baseSystemPrompt";
 
 /**
  * Checks whether the CLI arguments already include the bundled base system prompt append.
@@ -7,11 +7,14 @@ import { baseSystemPrompt } from "@nexus/runtime/config/baseSystemPrompt.js";
  * @returns True when the bundled append argument is already present.
  */
 export function hasBaseSystemPromptArg(args: string[]): boolean {
-  for (let index = 0; index < args.length; index += 1) {
-    if (args[index] === "--append-system-prompt" && args[index + 1] === baseSystemPrompt) {
-      return true;
-    }
-  }
+	for (let index = 0; index < args.length; index += 1) {
+		if (
+			args[index] === "--append-system-prompt" &&
+			args[index + 1] === baseSystemPrompt
+		) {
+			return true;
+		}
+	}
 
-  return false;
+	return false;
 }

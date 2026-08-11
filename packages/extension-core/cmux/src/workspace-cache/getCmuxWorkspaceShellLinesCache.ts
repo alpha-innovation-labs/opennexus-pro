@@ -1,5 +1,5 @@
-import { cmuxWorkspaceShellLinesCache } from "./cmuxWorkspaceShellLinesCache.js";
-import type { CmuxWorkspaceShellLinesCache } from "./types.js";
+import { cmuxWorkspaceShellLinesCache } from "./cmuxWorkspaceShellLinesCache";
+import type { CmuxWorkspaceShellLinesCache } from "./types";
 
 /**
  * Reads the in-memory cmux workspace shell lines cache.

@@ -1,6 +1,6 @@
-import { createSessionJsonRows } from "./createSessionJsonRows.js";
-import { formatSessionsJson } from "./formatSessionsJson.js";
-import { listAllSessions } from "./listAllSessions.js";
+import { createSessionJsonRows } from "./createSessionJsonRows";
+import { formatSessionsJson } from "./formatSessionsJson";
+import { listAllSessions } from "./listAllSessions";
 
 /**
  * Prints all resumable sessions across known project directories to stdout as JSON.
@@ -8,6 +8,6 @@ import { listAllSessions } from "./listAllSessions.js";
  * @returns A promise that resolves after printing finishes.
  */
 export async function printAllSessionsJson(): Promise<void> {
-  const sessions = await listAllSessions();
-  console.log(formatSessionsJson(createSessionJsonRows(sessions)));
+	const sessions = await listAllSessions();
+	console.log(formatSessionsJson(createSessionJsonRows(sessions)));
 }

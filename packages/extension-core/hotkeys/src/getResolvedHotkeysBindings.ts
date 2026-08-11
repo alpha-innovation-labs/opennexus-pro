@@ -1,4 +1,4 @@
-import type { HotkeysKeybindings } from "./types.js";
+import type { HotkeysKeybindings } from "./types";
 
 /**
  * Reads resolved keybindings from the injected Pi keybinding manager.
@@ -6,6 +6,12 @@ import type { HotkeysKeybindings } from "./types.js";
  * @param keybindings Pi keybinding manager.
  * @returns Resolved keybinding map.
  */
-export function getResolvedHotkeysBindings(keybindings: HotkeysKeybindings): Record<string, string | string[] | undefined> {
-  return keybindings.getResolvedBindings?.() ?? keybindings.getEffectiveConfig?.() ?? {};
+export function getResolvedHotkeysBindings(
+	keybindings: HotkeysKeybindings,
+): Record<string, string | string[] | undefined> {
+	return (
+		keybindings.getResolvedBindings?.() ??
+		keybindings.getEffectiveConfig?.() ??
+		{}
+	);
 }

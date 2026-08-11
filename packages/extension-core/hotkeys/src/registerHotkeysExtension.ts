@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerHotkeysCommandHook } from "./registerHotkeysCommandHook.js";
+import { registerHotkeysCommandHook } from "./registerHotkeysCommandHook";
 
 /**
  * Registers the standalone hotkeys hotkeys extension.
@@ -7,5 +7,5 @@ import { registerHotkeysCommandHook } from "./registerHotkeysCommandHook.js";
  * @param _pi Pi extension API.
  */
 export function registerHotkeysExtension(_pi: ExtensionAPI): void {
-  registerHotkeysCommandHook();
+	registerHotkeysCommandHook();
 }

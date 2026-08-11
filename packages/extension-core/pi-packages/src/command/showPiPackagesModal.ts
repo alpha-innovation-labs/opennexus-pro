@@ -1,28 +1,37 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig.js";
-import { normalizeNpmPackageName } from "../package/normalizeNpmPackageName.js";
-import { removeUserExtensionConfig } from "@nexus/runtime/config/removeUserExtensionConfig.js";
-import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled.js";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions.js";
-import { createThirdPartyManagedExtensionRows } from "../model/createThirdPartyManagedExtensionRows.js";
-import { updateManagedExtensionRows } from "../model/updateManagedExtensionRows.js";
-import { createNexusPackageManager } from "../package/createNexusPackageManager.js";
-import { fetchNpmPackageSearchRows } from "../package/fetchNpmPackageSearchRows.js";
-import { PiPackagesModal } from "../ui/PiPackagesModal.js";
+import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { removeUserExtensionConfig } from "@nexus/runtime/config/removeUserExtensionConfig";
+import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled";
+import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createThirdPartyManagedExtensionRows } from "../model/createThirdPartyManagedExtensionRows";
+import { updateManagedExtensionRows } from "../model/updateManagedExtensionRows";
+import { createNexusPackageManager } from "../package/createNexusPackageManager";
+import { fetchNpmPackageSearchRows } from "../package/fetchNpmPackageSearchRows";
+import { normalizeNpmPackageName } from "../package/normalizeNpmPackageName";
+import { PiPackagesModal } from "../ui/PiPackagesModal";
 
 /**
  * Opens the installed Pi packages modal.
  *
  * @param ctx Extension command context.
  */
-export async function showPiPackagesModal(ctx: ExtensionCommandContext): Promise<void> {
+export async function showPiPackagesModal(
+	ctx: ExtensionCommandContext,
+): Promise<void> {
 	if (!ctx.hasUI) {
-		ctx.ui.notify("/pi-packages requires an interactive UI session.", "warning");
+		ctx.ui.notify(
+			"/pi-packages requires an interactive UI session.",
+			"warning",
+		);
 		return;
 	}
 
 	const packageRuntime = createNexusPackageManager(ctx.cwd);
-	const readRows = () => createThirdPartyManagedExtensionRows(readNexusUserConfig(), packageRuntime.packageManager.listConfiguredPackages());
+	const readRows = () =>
+		createThirdPartyManagedExtensionRows(
+			readNexusUserConfig(),
+			packageRuntime.packageManager.listConfiguredPackages(),
+		);
 	let rows = readRows();
 
 	/**
@@ -38,9 +47,15 @@ export async function showPiPackagesModal(ctx: ExtensionCommandContext): Promise
 		const matchingPackage = packages.find(
 			(p) => normalizeNpmPackageName(p.source) === extensionId,
 		);
-		const sourceToWrite = matchingPackage ? matchingPackage.source : extensionId;
+		const sourceToWrite = matchingPackage
+			? matchingPackage.source
+			: extensionId;
 		setUserExtensionEnabled(sourceToWrite, enabled);
-		rows = updateManagedExtensionRows(rows, extensionId, enabled ? "enabled" : "disabled");
+		rows = updateManagedExtensionRows(
+			rows,
+			extensionId,
+			enabled ? "enabled" : "disabled",
+		);
 		return rows;
 	}
 
@@ -61,7 +76,12 @@ export async function showPiPackagesModal(ctx: ExtensionCommandContext): Promise
 		// because Nexus manages config via extensions.pi_packages, not packages array.
 		await packageRuntime.packageManager.remove(source);
 		const removedExtensionConfig = removeUserExtensionConfig(source);
-		ctx.ui.notify(removedExtensionConfig ? `Removed ${source}. Restart Nexus to unload it.` : `No configured package or extension matched ${source}.`, removedExtensionConfig ? "info" : "warning");
+		ctx.ui.notify(
+			removedExtensionConfig
+				? `Removed ${source}. Restart Nexus to unload it.`
+				: `No configured package or extension matched ${source}.`,
+			removedExtensionConfig ? "info" : "warning",
+		);
 		rows = readRows();
 		return rows;
 	}
@@ -75,13 +95,28 @@ export async function showPiPackagesModal(ctx: ExtensionCommandContext): Promise
 	}
 
 	await ctx.ui.custom<undefined>(
-		(_tui, theme, _keybindings, done) => new PiPackagesModal(theme, rows, done, {
-			onUpdate: updateExtension,
-			onInstallPackage: installPackage,
-			onRemovePackage: removePackage,
-			onUpdatePackage: updatePackage,
-			onSearchPackages: async (query, currentRows) => fetchNpmPackageSearchRows(query, new Set(currentRows.map((row) => row.source).filter((source): source is string => !!source))),
-		}, "Pi Packages"),
+		(_tui, theme, _keybindings, done) =>
+			new PiPackagesModal(
+				theme,
+				rows,
+				done,
+				{
+					onUpdate: updateExtension,
+					onInstallPackage: installPackage,
+					onRemovePackage: removePackage,
+					onUpdatePackage: updatePackage,
+					onSearchPackages: async (query, currentRows) =>
+						fetchNpmPackageSearchRows(
+							query,
+							new Set(
+								currentRows
+									.map((row) => row.source)
+									.filter((source): source is string => !!source),
+							),
+						),
+				},
+				"Pi Packages",
+			),
 		{
 			overlay: true,
 			overlayOptions: createPanelOverlayOptions(80, "85%") as never,

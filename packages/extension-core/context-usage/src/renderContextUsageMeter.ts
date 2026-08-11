@@ -1,6 +1,9 @@
-import type { ContextUsageCategory } from "./types.js";
-import { getContextUsageMeterCellCount, getContextUsageMeterCellsPerRow } from "./getContextUsageMeterCellCount.js";
-import { orderContextUsageMeterCategories } from "./orderContextUsageMeterCategories.js";
+import {
+	getContextUsageMeterCellCount,
+	getContextUsageMeterCellsPerRow,
+} from "./getContextUsageMeterCellCount";
+import { orderContextUsageMeterCategories } from "./orderContextUsageMeterCategories";
+import type { ContextUsageCategory } from "./types";
 
 /**
  * Renders a block-meter visualization using category markers.
@@ -8,16 +11,24 @@ import { orderContextUsageMeterCategories } from "./orderContextUsageMeterCatego
  * @param categories Context usage categories.
  * @returns Meter rows.
  */
-export function renderContextUsageMeter(categories: readonly ContextUsageCategory[]): string[] {
-  const cellCount = getContextUsageMeterCellCount(categories);
-  const cellsPerRow = getContextUsageMeterCellsPerRow();
-  const markers = createMeterMarkers(orderContextUsageMeterCategories(categories), cellCount);
-  const padded = [...markers, ...Array.from({ length: cellCount }, () => "⛶")].slice(0, cellCount);
-  const rows: string[] = [];
-  for (let index = 0; index < cellCount; index += cellsPerRow) {
-    rows.push(padded.slice(index, index + cellsPerRow).join(" "));
-  }
-  return rows;
+export function renderContextUsageMeter(
+	categories: readonly ContextUsageCategory[],
+): string[] {
+	const cellCount = getContextUsageMeterCellCount(categories);
+	const cellsPerRow = getContextUsageMeterCellsPerRow();
+	const markers = createMeterMarkers(
+		orderContextUsageMeterCategories(categories),
+		cellCount,
+	);
+	const padded = [
+		...markers,
+		...Array.from({ length: cellCount }, () => "⛶"),
+	].slice(0, cellCount);
+	const rows: string[] = [];
+	for (let index = 0; index < cellCount; index += cellsPerRow) {
+		rows.push(padded.slice(index, index + cellsPerRow).join(" "));
+	}
+	return rows;
 }
 
 /**
@@ -27,8 +38,8 @@ export function renderContextUsageMeter(categories: readonly ContextUsageCategor
  * @returns Meter cell count.
  */
 function getCellCount(percent: number, cellCount: number): number {
-  if (percent <= 0) return 0;
-  return Math.max(1, Math.round((percent / 100) * cellCount));
+	if (percent <= 0) return 0;
+	return Math.max(1, Math.round((percent / 100) * cellCount));
 }
 
 /**
@@ -38,13 +49,29 @@ function getCellCount(percent: number, cellCount: number): number {
  * @param cellCount Total available cells.
  * @returns Meter markers that fit the available cells.
  */
-function createMeterMarkers(categories: readonly ContextUsageCategory[], cellCount: number): string[] {
-  const tailCategories = categories.filter((category) => category.label === "Autocompact buffer" && category.percent > 0);
-  const tailCells = tailCategories.flatMap((category) => Array.from({ length: getCellCount(category.percent, cellCount) }, () => category.marker));
-  const bodyCapacity = Math.max(0, cellCount - tailCells.length);
-  const bodyCells = categories
-    .filter((category) => category.label !== "Autocompact buffer")
-    .flatMap((category) => Array.from({ length: getCellCount(category.percent, cellCount) }, () => category.marker))
-    .slice(0, bodyCapacity);
-  return [...bodyCells, ...tailCells].slice(0, cellCount);
+function createMeterMarkers(
+	categories: readonly ContextUsageCategory[],
+	cellCount: number,
+): string[] {
+	const tailCategories = categories.filter(
+		(category) =>
+			category.label === "Autocompact buffer" && category.percent > 0,
+	);
+	const tailCells = tailCategories.flatMap((category) =>
+		Array.from(
+			{ length: getCellCount(category.percent, cellCount) },
+			() => category.marker,
+		),
+	);
+	const bodyCapacity = Math.max(0, cellCount - tailCells.length);
+	const bodyCells = categories
+		.filter((category) => category.label !== "Autocompact buffer")
+		.flatMap((category) =>
+			Array.from(
+				{ length: getCellCount(category.percent, cellCount) },
+				() => category.marker,
+			),
+		)
+		.slice(0, bodyCapacity);
+	return [...bodyCells, ...tailCells].slice(0, cellCount);
 }

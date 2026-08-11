@@ -1,4 +1,4 @@
-import { pad2 } from "./pad2.js";
+import { pad2 } from "./pad2";
 
 /**
  * Formats a timestamp for rendered observations.

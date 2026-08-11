@@ -1,10 +1,10 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
-import type { FeatureFlagConfigPatch } from "../model/updateFeatureFlagsConfig.js";
-import type { FeatureRuntimeStatus, FeatureStatusRow } from "../model/types.js";
-import { createFeatureAutocompleteItems } from "./createFeatureAutocompleteItems.js";
-import { getFeatureStatusRowForItem } from "./getFeatureStatusRowForItem.js";
+import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
+import type { FeatureRuntimeStatus, FeatureStatusRow } from "../model/types";
+import type { FeatureFlagConfigPatch } from "../model/updateFeatureFlagsConfig";
+import { createFeatureAutocompleteItems } from "./createFeatureAutocompleteItems";
+import { getFeatureStatusRowForItem } from "./getFeatureStatusRowForItem";
 
 export type FeatureManagementUpdate = (
 	extensionId: string,
@@ -36,10 +36,16 @@ export class FeatureManagementModal extends SelectPreviewModal {
 		done: (result: undefined) => void,
 		private readonly onUpdate?: FeatureManagementUpdate,
 	) {
-		super(theme, () => undefined, () => done(undefined), undefined, {
-			leftTitle: "Features",
-			showRightPane: false,
-		});
+		super(
+			theme,
+			() => undefined,
+			() => done(undefined),
+			undefined,
+			{
+				leftTitle: "Features",
+				showRightPane: false,
+			},
+		);
 		this.rows = rows;
 		this.rowTheme = theme;
 		this.setHeaderFocusMarkers(false);
@@ -93,7 +99,13 @@ export class FeatureManagementModal extends SelectPreviewModal {
 		}
 		// Exclude vim / arrow / navigation keys so PlainSelectList handles them.
 		if (FeatureManagementModal.VIM_NAV_KEYS.has(data)) return false;
-		if (matchesKey(data, Key.up) || matchesKey(data, Key.down) || matchesKey(data, Key.left) || matchesKey(data, Key.right)) return false;
+		if (
+			matchesKey(data, Key.up) ||
+			matchesKey(data, Key.down) ||
+			matchesKey(data, Key.left) ||
+			matchesKey(data, Key.right)
+		)
+			return false;
 		if (!data.match(/[a-z0-9_-]/i)) return false;
 		this.filterQuery = `${this.filterQuery}${data}`;
 		this.refreshItems();
@@ -111,7 +123,9 @@ export class FeatureManagementModal extends SelectPreviewModal {
 		const patch: FeatureFlagConfigPatch = {
 			status: row.status === "enabled" ? "disabled" : "enabled",
 		};
-		this.rows = this.onUpdate?.(row.extensionId, patch, row) ?? this.applyLocalPatch(row.extensionId, patch, row);
+		this.rows =
+			this.onUpdate?.(row.extensionId, patch, row) ??
+			this.applyLocalPatch(row.extensionId, patch, row);
 		this.refreshItems(row.extensionId);
 	}
 
@@ -123,9 +137,18 @@ export class FeatureManagementModal extends SelectPreviewModal {
 	 * @param targetRow Existing row being updated.
 	 * @returns Updated rows.
 	 */
-	private applyLocalPatch(extensionId: string, patch: FeatureFlagConfigPatch, targetRow: FeatureStatusRow): FeatureStatusRow[] {
+	private applyLocalPatch(
+		extensionId: string,
+		patch: FeatureFlagConfigPatch,
+		_targetRow: FeatureStatusRow,
+	): FeatureStatusRow[] {
 		return this.rows.map((row) =>
-			row.extensionId === extensionId ? { ...row, status: (patch.status ?? row.status) as FeatureRuntimeStatus } : row,
+			row.extensionId === extensionId
+				? {
+						...row,
+						status: (patch.status ?? row.status) as FeatureRuntimeStatus,
+					}
+				: row,
 		);
 	}
 
@@ -136,7 +159,11 @@ export class FeatureManagementModal extends SelectPreviewModal {
 	 */
 	private refreshItems(selectedValue = this.getSelectedItem()?.value): void {
 		const visibleRows = this.filterQuery
-			? this.rows.filter((row) => row.feature.toLowerCase().includes(this.filterQuery.trim().toLowerCase()))
+			? this.rows.filter((row) =>
+					row.feature
+						.toLowerCase()
+						.includes(this.filterQuery.trim().toLowerCase()),
+				)
 			: this.rows;
 		this.setItems(createFeatureAutocompleteItems(visibleRows, this.rowTheme));
 		if (selectedValue) this.selectValue(selectedValue);

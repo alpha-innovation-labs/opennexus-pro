@@ -1,8 +1,8 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { buildFallbackTopicTitle } from "./buildFallbackTopicTitle.js";
-import { buildObservationMessageExcerpt } from "./buildObservationMessageExcerpt.js";
-import { decideTopicTitle } from "./decideTopicTitle.js";
-import type { ObservationState, StoredObservationMessage } from "./types.js";
+import { buildFallbackTopicTitle } from "./buildFallbackTopicTitle";
+import { buildObservationMessageExcerpt } from "./buildObservationMessageExcerpt";
+import { decideTopicTitle } from "./decideTopicTitle";
+import type { ObservationState, StoredObservationMessage } from "./types";
 
 /**
  * Applies a new user message to the structured observation state.
@@ -21,18 +21,33 @@ export async function applyUserObservation(
 ): Promise<ObservationState> {
 	const messageExcerpt = buildObservationMessageExcerpt(userMessage.text);
 	const currentTopic = state.topics.at(-1);
-	const decidedTitle = await decideTopicTitle(pi, ctx, currentTopic, userMessage.text);
-	const nextTitle = decidedTitle ?? (state.topics.length === 0 ? buildFallbackTopicTitle(userMessage.text) : undefined);
+	const decidedTitle = await decideTopicTitle(
+		pi,
+		ctx,
+		currentTopic,
+		userMessage.text,
+	);
+	const nextTitle =
+		decidedTitle ??
+		(state.topics.length === 0
+			? buildFallbackTopicTitle(userMessage.text)
+			: undefined);
 	if (!nextTitle) {
 		if (currentTopic) {
 			currentTopic.userMessages.push(messageExcerpt);
-			currentTopic.userMessageIndexes = [...(currentTopic.userMessageIndexes ?? []), userMessage.index];
+			currentTopic.userMessageIndexes = [
+				...(currentTopic.userMessageIndexes ?? []),
+				userMessage.index,
+			];
 		}
 		return state;
 	}
 	if (currentTopic?.title === nextTitle) {
 		currentTopic.userMessages.push(messageExcerpt);
-		currentTopic.userMessageIndexes = [...(currentTopic.userMessageIndexes ?? []), userMessage.index];
+		currentTopic.userMessageIndexes = [
+			...(currentTopic.userMessageIndexes ?? []),
+			userMessage.index,
+		];
 		return state;
 	}
 	state.topics.push({

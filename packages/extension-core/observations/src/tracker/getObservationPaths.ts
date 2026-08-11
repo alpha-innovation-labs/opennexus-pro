@@ -1,7 +1,7 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { getObservationStatePath } from "../shared/getObservationStatePath.js";
-import { getObservationsDir } from "../shared/getObservationsDir.js";
-import { getTrackedConversationId } from "./getTrackedConversationId.js";
+import { getObservationStatePath } from "../shared/getObservationStatePath";
+import { getObservationsDir } from "../shared/getObservationsDir";
+import { getTrackedConversationId } from "./getTrackedConversationId";
 
 /**
  * Resolves all storage paths needed by the observations tracker.
@@ -20,7 +20,10 @@ export function getObservationPaths(
 	statePath: string;
 } {
 	const sessionFile = ctx.sessionManager.getSessionFile();
-	const conversationId = getTrackedConversationId(sessionFile ?? null, ephemeralConversationId);
+	const conversationId = getTrackedConversationId(
+		sessionFile ?? null,
+		ephemeralConversationId,
+	);
 	return {
 		conversationId,
 		sessionFile: sessionFile ?? null,

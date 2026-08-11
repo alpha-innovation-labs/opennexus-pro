@@ -1,6 +1,6 @@
-import { createDefaultPromptlineConfig } from "./createDefaultPromptlineConfig.js";
-import { getPromptlineConfigState } from "./state.js";
-import type { PromptlineConfig } from "./types.js";
+import { createDefaultPromptlineConfig } from "./createDefaultPromptlineConfig";
+import { getPromptlineConfigState } from "./state";
+import type { PromptlineConfig } from "./types";
 
 /**
  * Returns the cached promptline config, falling back to defaults before startup loads complete.
@@ -8,5 +8,5 @@ import type { PromptlineConfig } from "./types.js";
  * @returns Active promptline config.
  */
 export function getPromptlineConfig(): PromptlineConfig {
-  return getPromptlineConfigState() ?? createDefaultPromptlineConfig();
+	return getPromptlineConfigState() ?? createDefaultPromptlineConfig();
 }

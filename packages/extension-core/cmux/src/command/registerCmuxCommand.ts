@@ -1,6 +1,9 @@
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup.js";
-import { showCmuxWorkspaceShellsModal } from "./showCmuxWorkspaceShellsModal.js";
+import type {
+	ExtensionAPI,
+	ExtensionCommandContext,
+} from "@earendil-works/pi-coding-agent";
+import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
+import { showCmuxWorkspaceShellsModal } from "./showCmuxWorkspaceShellsModal";
 
 /**
  * Registers the /cmux workspace shell command.
@@ -8,10 +11,16 @@ import { showCmuxWorkspaceShellsModal } from "./showCmuxWorkspaceShellsModal.js"
  * @param pi Pi extension API.
  */
 export function registerCmuxCommand(pi: ExtensionAPI): void {
-	pi.registerCommand("cmux", withSlashMenuGroup({
-		description: "Show cmux workspaces and Nexus session ids",
-		handler: async (_args, ctx) => {
-			await showCmuxWorkspaceShellsModal(ctx);
-		},
-	}, "Extensions"));
+	pi.registerCommand(
+		"cmux",
+		withSlashMenuGroup(
+			{
+				description: "Show cmux workspaces and Nexus session ids",
+				handler: async (_args: string, ctx: ExtensionCommandContext) => {
+					await showCmuxWorkspaceShellsModal(ctx);
+				},
+			},
+			"Extensions",
+		),
+	);
 }

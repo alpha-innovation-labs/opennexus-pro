@@ -1,4 +1,4 @@
-import type { CmuxWorkspace } from "./types.js";
+import type { CmuxWorkspace } from "./types";
 
 /**
  * Gets the most stable identifier available for a cmux workspace.

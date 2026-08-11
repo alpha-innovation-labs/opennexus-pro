@@ -1,18 +1,18 @@
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { getTwoPaneBodyHeight } from "./getTwoPaneBodyHeight.js";
+import { getTwoPaneBodyHeight } from "./getTwoPaneBodyHeight";
 
 export type TwoPaneRightInputState = {
-  data: string;
-  pendingRightGotoStart: boolean;
-  rightLinesLength: number;
-  rightScrollOffset: number;
+	data: string;
+	pendingRightGotoStart: boolean;
+	rightLinesLength: number;
+	rightScrollOffset: number;
 };
 
 export type TwoPaneRightInputResult = {
-  activePane: "left" | "right";
-  close: boolean;
-  pendingRightGotoStart: boolean;
-  rightScrollOffset: number;
+	activePane: "left" | "right";
+	close: boolean;
+	pendingRightGotoStart: boolean;
+	rightScrollOffset: number;
 };
 
 /**
@@ -21,16 +21,52 @@ export type TwoPaneRightInputResult = {
  * @param state Current right-pane input state.
  * @returns Updated right-pane state.
  */
-export function handleTwoPaneRightInput(state: TwoPaneRightInputState): TwoPaneRightInputResult {
-  if (matchesKey(state.data, Key.ctrl("c"))) return { ...state, activePane: "right", close: true };
-  if (matchesKey(state.data, Key.escape) || matchesKey(state.data, Key.tab)) return { ...state, activePane: "left", close: false, pendingRightGotoStart: false };
-  if (state.data === "G") return { ...state, activePane: "right", close: false, pendingRightGotoStart: false, rightScrollOffset: maxOffset(state.rightLinesLength) };
-  if (state.data === "g") return handleGotoStart(state);
-  if (state.data === "j" || matchesKey(state.data, Key.down) || matchesKey(state.data, Key.ctrl("n"))) return scrollBy(state, 1);
-  if (state.data === "k" || matchesKey(state.data, Key.up) || matchesKey(state.data, Key.ctrl("p"))) return scrollBy(state, -1);
-  if (matchesKey(state.data, Key.ctrl("d"))) return scrollBy(state, Math.max(1, Math.floor(getTwoPaneBodyHeight() / 2)));
-  if (matchesKey(state.data, Key.ctrl("u"))) return scrollBy(state, -Math.max(1, Math.floor(getTwoPaneBodyHeight() / 2)));
-  return { ...state, activePane: "right", close: false, pendingRightGotoStart: false };
+export function handleTwoPaneRightInput(
+	state: TwoPaneRightInputState,
+): TwoPaneRightInputResult {
+	if (matchesKey(state.data, Key.ctrl("c")))
+		return { ...state, activePane: "right", close: true };
+	if (matchesKey(state.data, Key.escape) || matchesKey(state.data, Key.tab))
+		return {
+			...state,
+			activePane: "left",
+			close: false,
+			pendingRightGotoStart: false,
+		};
+	if (state.data === "G")
+		return {
+			...state,
+			activePane: "right",
+			close: false,
+			pendingRightGotoStart: false,
+			rightScrollOffset: maxOffset(state.rightLinesLength),
+		};
+	if (state.data === "g") return handleGotoStart(state);
+	if (
+		state.data === "j" ||
+		matchesKey(state.data, Key.down) ||
+		matchesKey(state.data, Key.ctrl("n"))
+	)
+		return scrollBy(state, 1);
+	if (
+		state.data === "k" ||
+		matchesKey(state.data, Key.up) ||
+		matchesKey(state.data, Key.ctrl("p"))
+	)
+		return scrollBy(state, -1);
+	if (matchesKey(state.data, Key.ctrl("d")))
+		return scrollBy(state, Math.max(1, Math.floor(getTwoPaneBodyHeight() / 2)));
+	if (matchesKey(state.data, Key.ctrl("u")))
+		return scrollBy(
+			state,
+			-Math.max(1, Math.floor(getTwoPaneBodyHeight() / 2)),
+		);
+	return {
+		...state,
+		activePane: "right",
+		close: false,
+		pendingRightGotoStart: false,
+	};
 }
 
 /**
@@ -39,9 +75,23 @@ export function handleTwoPaneRightInput(state: TwoPaneRightInputState): TwoPaneR
  * @param state Current right-pane input state.
  * @returns Updated right-pane state.
  */
-function handleGotoStart(state: TwoPaneRightInputState): TwoPaneRightInputResult {
-  if (state.pendingRightGotoStart) return { ...state, activePane: "right", close: false, pendingRightGotoStart: false, rightScrollOffset: 0 };
-  return { ...state, activePane: "right", close: false, pendingRightGotoStart: true };
+function handleGotoStart(
+	state: TwoPaneRightInputState,
+): TwoPaneRightInputResult {
+	if (state.pendingRightGotoStart)
+		return {
+			...state,
+			activePane: "right",
+			close: false,
+			pendingRightGotoStart: false,
+			rightScrollOffset: 0,
+		};
+	return {
+		...state,
+		activePane: "right",
+		close: false,
+		pendingRightGotoStart: true,
+	};
 }
 
 /**
@@ -51,9 +101,24 @@ function handleGotoStart(state: TwoPaneRightInputState): TwoPaneRightInputResult
  * @param delta Scroll delta.
  * @returns Updated right-pane state.
  */
-function scrollBy(state: TwoPaneRightInputState, delta: number): TwoPaneRightInputResult {
-  const rightScrollOffset = Math.max(0, Math.min(maxOffset(state.rightLinesLength), state.rightScrollOffset + delta));
-  return { ...state, activePane: "right", close: false, pendingRightGotoStart: false, rightScrollOffset };
+function scrollBy(
+	state: TwoPaneRightInputState,
+	delta: number,
+): TwoPaneRightInputResult {
+	const rightScrollOffset = Math.max(
+		0,
+		Math.min(
+			maxOffset(state.rightLinesLength),
+			state.rightScrollOffset + delta,
+		),
+	);
+	return {
+		...state,
+		activePane: "right",
+		close: false,
+		pendingRightGotoStart: false,
+		rightScrollOffset,
+	};
 }
 
 /**
@@ -63,5 +128,5 @@ function scrollBy(state: TwoPaneRightInputState, delta: number): TwoPaneRightInp
  * @returns Maximum scroll offset.
  */
 function maxOffset(rightLinesLength: number): number {
-  return Math.max(0, rightLinesLength - Math.max(1, getTwoPaneBodyHeight()));
+	return Math.max(0, rightLinesLength - Math.max(1, getTwoPaneBodyHeight()));
 }

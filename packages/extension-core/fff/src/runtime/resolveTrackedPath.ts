@@ -8,7 +8,11 @@ import { isAbsolute, resolve } from "node:path";
  * @param selectedPath Tracked file path.
  * @returns Absolute tracked file path.
  */
-export function resolveTrackedPath(projectRoot: string, cwd: string, selectedPath: string): string {
-  if (isAbsolute(selectedPath)) return selectedPath;
-  return resolve(projectRoot || cwd, selectedPath);
+export function resolveTrackedPath(
+	projectRoot: string,
+	cwd: string,
+	selectedPath: string,
+): string {
+	if (isAbsolute(selectedPath)) return selectedPath;
+	return resolve(projectRoot || cwd, selectedPath);
 }

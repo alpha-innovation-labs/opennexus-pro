@@ -1,17 +1,17 @@
 export type GitState = {
-  branch: string | null;
-  dirtyCount: number;
-  ahead: number;
-  behind: number;
-  isRepo: boolean;
+	branch: string | null;
+	dirtyCount: number;
+	ahead: number;
+	behind: number;
+	isRepo: boolean;
 };
 
 export const DEFAULT_GIT_STATE: GitState = {
-  branch: null,
-  dirtyCount: 0,
-  ahead: 0,
-  behind: 0,
-  isRepo: false,
+	branch: null,
+	dirtyCount: 0,
+	ahead: 0,
+	behind: 0,
+	isRepo: false,
 };
 
 let gitState: GitState = { ...DEFAULT_GIT_STATE };
@@ -23,7 +23,7 @@ let gitRefreshInFlight: Promise<void> | null = null;
  * @returns Cached git state.
  */
 export function getGitState(): GitState {
-  return gitState;
+	return gitState;
 }
 
 /**
@@ -32,7 +32,7 @@ export function getGitState(): GitState {
  * @param nextState Next git state.
  */
 export function setGitState(nextState: GitState): void {
-  gitState = nextState;
+	gitState = nextState;
 }
 
 /**
@@ -41,7 +41,7 @@ export function setGitState(nextState: GitState): void {
  * @returns In-flight refresh promise.
  */
 export function getGitRefreshInFlight(): Promise<void> | null {
-  return gitRefreshInFlight;
+	return gitRefreshInFlight;
 }
 
 /**
@@ -50,5 +50,5 @@ export function getGitRefreshInFlight(): Promise<void> | null {
  * @param promise Refresh promise.
  */
 export function setGitRefreshInFlight(promise: Promise<void> | null): void {
-  gitRefreshInFlight = promise;
+	gitRefreshInFlight = promise;
 }

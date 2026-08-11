@@ -3,6 +3,7 @@
 dist/
 node_modules/
 
+.turbo/
 apps/marketing-videos/out
 apps/marketing-videos/out
 logs
@@ -19,3 +20,6 @@ test.fish
 
 .lucid
 .DS_Store
+apps/landing-page/out/
+apps/landing-page/.next/
+apps/landing-page/public/asciinema/asciinema-player.min.js

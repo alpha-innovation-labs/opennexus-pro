@@ -4,12 +4,12 @@
  * @param node Render tree node.
  * @returns First discovered text value.
  */
-export function findText(node: any): string {
+export function findText(node: { text?: string; children?: unknown[] }): string {
 	if (!node) return "";
 	if (typeof node.text === "string") return node.text;
 	if (!Array.isArray(node.children)) return "";
 	for (const child of node.children) {
-		const text = findText(child);
+		const text = findText(child as { text?: string; children?: unknown[] });
 		if (text) return text;
 	}
 	return "";

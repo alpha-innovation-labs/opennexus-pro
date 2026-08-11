@@ -1,5 +1,5 @@
 import { relative } from "node:path";
-import { normalizeSlashes } from "./normalizeSlashes.js";
+import { normalizeSlashes } from "./normalizeSlashes";
 
 /**
  * Builds a normalized relative path from the runtime base.
@@ -9,6 +9,6 @@ import { normalizeSlashes } from "./normalizeSlashes.js";
  * @returns Relative path.
  */
 export function relativeFromBase(basePath: string, targetPath: string): string {
-  const relativePath = normalizeSlashes(relative(basePath, targetPath));
-  return relativePath || ".";
+	const relativePath = normalizeSlashes(relative(basePath, targetPath));
+	return relativePath || ".";
 }

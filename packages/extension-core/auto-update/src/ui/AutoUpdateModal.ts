@@ -1,6 +1,6 @@
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { SharedModal, type SharedModalTheme } from "@nexus/tui-kit/modal/index.js";
-import { createAutoUpdateModalLines } from "./createAutoUpdateModalLines.js";
+import { SharedModal, type SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import { createAutoUpdateModalLines } from "./createAutoUpdateModalLines";
 
 export type AutoUpdateModalOptions = {
 	currentVersion: string;

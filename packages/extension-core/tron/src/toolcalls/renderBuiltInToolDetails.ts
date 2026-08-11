@@ -1,8 +1,22 @@
-import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { allToolDefinitions } from "@nexus/pi-platform/tools.js";
-import { formatToolCallDetails } from "./formatToolCallDetails.js";
-import { toPlainTextLines } from "./toPlainTextLines.js";
-import type { ToolCallInfo } from "./types.js";
+import type { AgentToolResult, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
+import { allToolDefinitions } from "@nexus/pi-platform/tools";
+import { formatToolCallDetails } from "./formatToolCallDetails";
+import { toPlainTextLines } from "./toPlainTextLines";
+import type { ToolCallInfo } from "./types";
+
+type ToolDefinitionWithRender = {
+	renderCall?: (
+		args: unknown,
+		theme: ExtensionCommandContext["ui"]["theme"],
+		context: Record<string, unknown>,
+	) => { render(width: number): string[]; invalidate?(): void };
+	renderResult?: (
+		result: AgentToolResult<any>,
+		state: Record<string, unknown>,
+		theme: ExtensionCommandContext["ui"]["theme"],
+		context: Record<string, unknown>,
+	) => { render(width: number): string[]; invalidate?(): void };
+};
 
 /**
  * Renders built-in call and result components when available.
@@ -17,8 +31,11 @@ export function renderBuiltInToolDetails(
 	theme: ExtensionCommandContext["ui"]["theme"],
 	width: number,
 ): string[] {
-	const definition = (allToolDefinitions as Record<string, any>)[toolCall.toolName];
-	if (!definition?.renderCall && !definition?.renderResult) return formatToolCallDetails(toolCall);
+	const definition = (allToolDefinitions as Record<string, ToolDefinitionWithRender>)[
+		toolCall.toolName
+	];
+	if (!definition?.renderCall && !definition?.renderResult)
+		return formatToolCallDetails(toolCall);
 	const state: Record<string, unknown> = {};
 	const baseContext = {
 		args: toolCall.arguments,
@@ -37,12 +54,20 @@ export function renderBuiltInToolDetails(
 	const lines = [
 		`call id: ${toolCall.toolCallId}`,
 		`assistant message: #${toolCall.assistantIndex}`,
-		...(toolCall.assistantPreview ? [`context: ${toolCall.assistantPreview}`] : []),
-		...(toolCall.assistantThinking ? ["", "Thinking", ...toPlainTextLines(toolCall.assistantThinking)] : []),
+		...(toolCall.assistantPreview
+			? [`context: ${toolCall.assistantPreview}`]
+			: []),
+		...(toolCall.assistantThinking
+			? ["", "Thinking", ...toPlainTextLines(toolCall.assistantThinking)]
+			: []),
 		"",
 	];
 	if (definition.renderCall) {
-		const callComponent = definition.renderCall(toolCall.arguments, theme, baseContext);
+		const callComponent = definition.renderCall(
+			toolCall.arguments,
+			theme,
+			baseContext,
+		);
 		lines.push("Call");
 		lines.push(...callComponent.render(width));
 		lines.push("");
@@ -52,15 +77,25 @@ export function renderBuiltInToolDetails(
 		return lines;
 	}
 	if (definition.renderResult) {
-		const resultContext = toolCall.toolName === "edit"
-			? { ...baseContext, state: {}, lastComponent: undefined, isError: toolCall.result.isError }
-			: { ...baseContext, lastComponent: undefined, isError: toolCall.result.isError };
+		const resultContext =
+			toolCall.toolName === "edit"
+				? {
+						...baseContext,
+						state: {},
+						lastComponent: undefined,
+						isError: toolCall.result.isError,
+					}
+				: {
+						...baseContext,
+						lastComponent: undefined,
+						isError: toolCall.result.isError,
+					};
 		const resultComponent = definition.renderResult(
 			{
-				content: toolCall.result.content ?? [],
+				content: (toolCall.result.content ?? []) as (unknown | { type?: string; text?: string })[],
 				details: toolCall.result.details,
 				isError: toolCall.result.isError,
-			},
+			} as unknown as AgentToolResult<any>,
 			{ expanded: true, isPartial: false },
 			theme,
 			resultContext,

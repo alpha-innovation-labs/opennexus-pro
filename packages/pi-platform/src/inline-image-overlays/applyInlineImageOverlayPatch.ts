@@ -1,7 +1,7 @@
-import { TUI } from "@earendil-works/pi-tui";
-import { compositeOverlayOverImageLine } from "./compositeOverlayOverImageLine.js";
-import { renderWithInlineImageCleanup } from "./renderWithInlineImageCleanup.js";
-import type { TuiWithInlineImageOverlayPatch } from "./types.js";
+import { TuiBase } from "@earendil-works/pi-tui/dist/tui.js";
+import { compositeOverlayOverImageLine } from "./compositeOverlayOverImageLine";
+import { renderWithInlineImageCleanup } from "./renderWithInlineImageCleanup";
+import type { TuiWithInlineImageOverlayPatch } from "./types";
 
 let inlineImageOverlayPatchApplied = false;
 
@@ -11,8 +11,11 @@ let inlineImageOverlayPatchApplied = false;
 export function applyInlineImageOverlayPatch(): void {
 	if (inlineImageOverlayPatchApplied) return;
 
-	const prototype = TUI.prototype as unknown as TuiWithInlineImageOverlayPatch;
-	prototype.compositeLineAt = compositeOverlayOverImageLine(prototype.compositeLineAt);
+	const prototype =
+		TuiBase.prototype as unknown as TuiWithInlineImageOverlayPatch;
+	prototype.compositeLineAt = compositeOverlayOverImageLine(
+		prototype.compositeLineAt,
+	);
 	prototype.doRender = renderWithInlineImageCleanup(prototype.doRender);
 
 	inlineImageOverlayPatchApplied = true;

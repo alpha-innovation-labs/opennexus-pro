@@ -1,6 +1,6 @@
-import type { SharedModalTheme } from "../types.js";
-import { getModalHotkeyColor } from "./getModalHotkeyColor.js";
-import type { SharedModalHotkey } from "./types.js";
+import type { SharedModalTheme } from "../types";
+import { getModalHotkeyColor } from "./getModalHotkeyColor";
+import type { SharedModalHotkey } from "./types";
 
 /**
  * Formats one hotkey hint with purple key text and dim label text.
@@ -9,6 +9,9 @@ import type { SharedModalHotkey } from "./types.js";
  * @param hotkey Hotkey hint to format.
  * @returns Rendered hotkey segment.
  */
-export function formatModalHotkey(theme: SharedModalTheme, hotkey: SharedModalHotkey): string {
-  return `${theme.fg(getModalHotkeyColor(), hotkey.key)} ${theme.fg("dim", hotkey.label)}`;
+export function formatModalHotkey(
+	theme: SharedModalTheme,
+	hotkey: SharedModalHotkey,
+): string {
+	return `${theme.fg(getModalHotkeyColor(), hotkey.key)} ${theme.fg("dim", hotkey.label)}`;
 }

@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerObservationsCommand } from "./command/registerObservationsCommand.js";
-import { registerObservationTracker } from "./tracker/registerObservationTracker.js";
+import { registerObservationsCommand } from "./command/registerObservationsCommand";
+import { registerObservationTracker } from "./tracker/registerObservationTracker";
 
 /**
  * Registers the full observations extension surface.

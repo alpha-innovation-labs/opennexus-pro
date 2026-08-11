@@ -1,5 +1,5 @@
-import type { TriggerModalState } from "../types.js";
-import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal.js";
+import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal";
+import type { TriggerModalState } from "../types";
 
 /**
  * Returns the active `/` modal instance.
@@ -7,6 +7,8 @@ import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal.js";
  * @param modalState Shared modal state.
  * @returns Active `/` modal.
  */
-export function getSlashTriggerModal(modalState: TriggerModalState): SlashMenuModal | undefined {
-  return modalState.slashModal;
+export function getSlashTriggerModal(
+	modalState: TriggerModalState,
+): SlashMenuModal | undefined {
+	return modalState.slashModal;
 }

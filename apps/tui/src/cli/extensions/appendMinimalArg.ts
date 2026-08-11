@@ -1,4 +1,4 @@
-import { hasMinimalFlag } from "./hasMinimalFlag.js";
+import { hasMinimalFlag } from "./hasMinimalFlag";
 
 /**
  * Appends the canonical minimal flag when argv does not already use minimal mode.
@@ -7,9 +7,9 @@ import { hasMinimalFlag } from "./hasMinimalFlag.js";
  * @returns Args guaranteed to contain a minimal flag.
  */
 export function appendMinimalArg(argv: string[]): string[] {
-  if (hasMinimalFlag(argv)) {
-    return [...argv];
-  }
+	if (hasMinimalFlag(argv)) {
+		return [...argv];
+	}
 
-  return ["--minimal", ...argv];
+	return ["--minimal", ...argv];
 }

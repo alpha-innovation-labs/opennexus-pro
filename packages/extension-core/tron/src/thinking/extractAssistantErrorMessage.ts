@@ -5,11 +5,11 @@
  * @returns Decoded text when the fragment is valid JSON, otherwise undefined.
  */
 function decodeJsonStringFragment(value: string): string | undefined {
-  try {
-    return JSON.parse(`"${value}"`) as string;
-  } catch {
-    return undefined;
-  }
+	try {
+		return JSON.parse(`"${value}"`) as string;
+	} catch {
+		return undefined;
+	}
 }
 
 /**
@@ -19,17 +19,21 @@ function decodeJsonStringFragment(value: string): string | undefined {
  * @returns Extracted message field when present.
  */
 function extractMessageField(errorMessage: string): string | undefined {
-  const nestedErrorMatch = errorMessage.match(/"error"\s*:\s*\{[\s\S]*?"message"\s*:\s*"((?:\\.|[^"\\])*)"/);
-  if (nestedErrorMatch?.[1]) {
-    return decodeJsonStringFragment(nestedErrorMatch[1])?.trim();
-  }
+	const nestedErrorMatch = errorMessage.match(
+		/"error"\s*:\s*\{[\s\S]*?"message"\s*:\s*"((?:\\.|[^"\\])*)"/,
+	);
+	if (nestedErrorMatch?.[1]) {
+		return decodeJsonStringFragment(nestedErrorMatch[1])?.trim();
+	}
 
-  const topLevelMatch = errorMessage.match(/"message"\s*:\s*"((?:\\.|[^"\\])*)"/);
-  if (topLevelMatch?.[1]) {
-    return decodeJsonStringFragment(topLevelMatch[1])?.trim();
-  }
+	const topLevelMatch = errorMessage.match(
+		/"message"\s*:\s*"((?:\\.|[^"\\])*)"/,
+	);
+	if (topLevelMatch?.[1]) {
+		return decodeJsonStringFragment(topLevelMatch[1])?.trim();
+	}
 
-  return undefined;
+	return undefined;
 }
 
 /**
@@ -39,26 +43,31 @@ function extractMessageField(errorMessage: string): string | undefined {
  * @returns The nested JSON message when present, otherwise the trimmed raw text.
  */
 export function extractAssistantErrorMessage(errorMessage: string): string {
-  const trimmedMessage = errorMessage.trim();
-  const jsonStartIndex = trimmedMessage.indexOf("{");
+	const trimmedMessage = errorMessage.trim();
+	const jsonStartIndex = trimmedMessage.indexOf("{");
 
-  if (jsonStartIndex === -1) {
-    return trimmedMessage;
-  }
+	if (jsonStartIndex === -1) {
+		return trimmedMessage;
+	}
 
-  try {
-    const parsed = JSON.parse(trimmedMessage.slice(jsonStartIndex)) as {
-      message?: unknown;
-      error?: { message?: unknown };
-    };
-    const nestedMessage = typeof parsed.error?.message === "string"
-      ? parsed.error.message
-      : typeof parsed.message === "string"
-        ? parsed.message
-        : undefined;
+	try {
+		const parsed = JSON.parse(trimmedMessage.slice(jsonStartIndex)) as {
+			message?: unknown;
+			error?: { message?: unknown };
+		};
+		const nestedMessage =
+			typeof parsed.error?.message === "string"
+				? parsed.error.message
+				: typeof parsed.message === "string"
+					? parsed.message
+					: undefined;
 
-    return nestedMessage?.trim() || extractMessageField(trimmedMessage) || trimmedMessage;
-  } catch {
-    return extractMessageField(trimmedMessage) || trimmedMessage;
-  }
+		return (
+			nestedMessage?.trim() ||
+			extractMessageField(trimmedMessage) ||
+			trimmedMessage
+		);
+	} catch {
+		return extractMessageField(trimmedMessage) || trimmedMessage;
+	}
 }

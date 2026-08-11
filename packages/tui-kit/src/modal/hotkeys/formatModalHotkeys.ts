@@ -1,6 +1,6 @@
-import type { SharedModalTheme } from "../types.js";
-import { formatModalHotkey } from "./formatModalHotkey.js";
-import type { SharedModalHotkey } from "./types.js";
+import type { SharedModalTheme } from "../types";
+import { formatModalHotkey } from "./formatModalHotkey";
+import type { SharedModalHotkey } from "./types";
 
 /**
  * Formats hotkey hints with purple key text.
@@ -9,6 +9,11 @@ import type { SharedModalHotkey } from "./types.js";
  * @param hotkeys Hotkey hints to format.
  * @returns Single display string for the hotkey group.
  */
-export function formatModalHotkeys(theme: SharedModalTheme, hotkeys: readonly SharedModalHotkey[]): string {
-  return hotkeys.map((hotkey) => formatModalHotkey(theme, hotkey)).join(theme.fg("dim", " · "));
+export function formatModalHotkeys(
+	theme: SharedModalTheme,
+	hotkeys: readonly SharedModalHotkey[],
+): string {
+	return hotkeys
+		.map((hotkey) => formatModalHotkey(theme, hotkey))
+		.join(theme.fg("dim", " · "));
 }

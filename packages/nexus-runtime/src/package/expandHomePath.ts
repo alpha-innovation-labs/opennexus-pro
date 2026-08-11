@@ -6,7 +6,7 @@
  * @returns Expanded absolute-like path.
  */
 export function expandHomePath(input: string, homeDir: string): string {
-  if (input === "~") return homeDir;
-  if (input.startsWith("~/")) return `${homeDir}${input.slice(1)}`;
-  return input;
+	if (input === "~") return homeDir;
+	if (input.startsWith("~/")) return `${homeDir}${input.slice(1)}`;
+	return input;
 }

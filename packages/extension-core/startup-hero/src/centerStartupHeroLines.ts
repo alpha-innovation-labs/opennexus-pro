@@ -7,7 +7,10 @@ import { visibleWidth } from "@earendil-works/pi-tui";
  * @param terminalColumns Current terminal column count.
  * @returns Full-width horizontally centered hero lines.
  */
-export function centerStartupHeroLines(lines: string[], terminalColumns: number): string[] {
+export function centerStartupHeroLines(
+	lines: string[],
+	terminalColumns: number,
+): string[] {
 	return lines.map((line) => {
 		const lineWidth = visibleWidth(line);
 		const totalPadding = Math.max(0, terminalColumns - lineWidth);

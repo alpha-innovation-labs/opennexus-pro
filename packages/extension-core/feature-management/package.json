@@ -1,14 +1,17 @@
 {
-  "name": "@extensions/feature-management",
-  "version": "0.2.24",
-  "type": "module",
-  "exports": {
-    "./*": "./src/*"
-  },
-  "dependencies": {
-    "@nexus/feature-flags": "workspace:*",
-    "@nexus/runtime": "workspace:*",
-    "@nexus/tui-kit": "workspace:*",
-    "@extensions/pi-packages": "workspace:*"
-  }
+	"name": "@extensions/feature-management",
+	"version": "0.2.24",
+	"type": "module",
+	"exports": {
+		"./*": "./src/*"
+	},
+	"dependencies": {
+		"@nexus/runtime": "workspace:*",
+		"@nexus/tui-kit": "workspace:*",
+		"@extensions/pi-packages": "workspace:*"
+	},
+	"scripts": {
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit"
+	}
 }

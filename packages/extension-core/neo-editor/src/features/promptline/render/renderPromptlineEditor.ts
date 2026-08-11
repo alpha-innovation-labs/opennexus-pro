@@ -1,8 +1,11 @@
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { getPromptlineFrameWidth } from "../layout/getPromptlineFrameWidth.js";
-import { hasConversationMessages } from "../layout/hasConversationMessages.js";
-import { padPromptlineFrameToWidth } from "../layout/padPromptlineFrameToWidth.js";
-import { renderPromptlineFrame } from "./renderPromptlineFrame.js";
+import type {
+	ExtensionAPI,
+	ExtensionContext,
+} from "@earendil-works/pi-coding-agent";
+import { getPromptlineFrameWidth } from "../layout/getPromptlineFrameWidth";
+import { hasConversationMessages } from "../layout/hasConversationMessages";
+import { padPromptlineFrameToWidth } from "../layout/padPromptlineFrameToWidth";
+import { renderPromptlineFrame } from "./renderPromptlineFrame";
 
 /**
  * Renders the responsive Neo promptline editor frame.
@@ -23,7 +26,17 @@ export function renderPromptlineEditor(
 	ctx: ExtensionContext,
 	getThinkingLevel: ExtensionAPI["getThinkingLevel"],
 ): string[] {
-	const frameWidth = getPromptlineFrameWidth(width, hasConversationMessages(ctx));
-	const frameLines = renderPromptlineFrame(renderBaseLines(frameWidth), frameWidth, borderColor, uiTheme, ctx, getThinkingLevel);
+	const frameWidth = getPromptlineFrameWidth(
+		width,
+		hasConversationMessages(ctx),
+	);
+	const frameLines = renderPromptlineFrame(
+		renderBaseLines(frameWidth),
+		frameWidth,
+		borderColor,
+		uiTheme,
+		ctx,
+		getThinkingLevel,
+	);
 	return padPromptlineFrameToWidth(frameLines, width, frameWidth);
 }

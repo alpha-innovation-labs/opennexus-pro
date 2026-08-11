@@ -6,5 +6,5 @@
  * @returns Text that represents the tool in the system prompt.
  */
 export function getToolText(name: string, snippet: string): string {
-  return `- ${name}: ${snippet}`;
+	return `- ${name}: ${snippet}`;
 }

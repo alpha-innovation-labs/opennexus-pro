@@ -7,10 +7,10 @@ import { existsSync, readFileSync } from "node:fs";
  * @returns File content when readable, otherwise undefined.
  */
 export function readTextFile(path: string): string | undefined {
-  if (!existsSync(path)) return undefined;
-  try {
-    return readFileSync(path, "utf8");
-  } catch {
-    return undefined;
-  }
+	if (!existsSync(path)) return undefined;
+	try {
+		return readFileSync(path, "utf8");
+	} catch {
+		return undefined;
+	}
 }

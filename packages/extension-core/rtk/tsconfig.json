@@ -1,0 +1,34 @@
+{
+	"extends": "../../../tsconfig.base.json",
+	"compilerOptions": {
+		"paths": {
+			"@nexus/runtime/*": [
+				"../../nexus-runtime/src/*"
+			],
+			"@nexus/runtime": [
+				"../../nexus-runtime/src/index.ts"
+			],
+			"@nexus/tui-kit/*": [
+				"../../tui-kit/src/*"
+			],
+			"@nexus/tui-kit": [
+				"../../tui-kit/src/index.ts"
+			],
+			"@extensions/slash-menu/*": [
+				"../slash-menu/src/*"
+			],
+			"@extensions/slash-menu": [
+				"../slash-menu/src/index.ts"
+			],
+			"@extensions/tron/*": [
+				"../tron/src/*"
+			],
+			"@extensions/tron": [
+				"../tron/src/index.ts"
+			]
+		}
+	},
+	"include": [
+		"src/**/*.ts"
+	]
+}

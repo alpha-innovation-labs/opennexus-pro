@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { showPiPackagesModal } from "./command/showPiPackagesModal.js";
+import { showPiPackagesModal } from "./command/showPiPackagesModal";
 
 /**
  * Registers the pi-packages extension.

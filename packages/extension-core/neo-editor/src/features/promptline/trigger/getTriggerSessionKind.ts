@@ -1,5 +1,5 @@
-import { getTriggerSession } from "./sessionState.js";
-import type { TriggerKind } from "./types.js";
+import { getTriggerSession } from "./sessionState";
+import type { TriggerKind } from "./types";
 
 /**
  * Returns the kind of the active trigger session.
@@ -7,5 +7,5 @@ import type { TriggerKind } from "./types.js";
  * @returns Active trigger kind.
  */
 export function getTriggerSessionKind(): TriggerKind | null {
-  return getTriggerSession()?.kind ?? null;
+	return getTriggerSession()?.kind ?? null;
 }

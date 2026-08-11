@@ -1,9 +1,9 @@
-import { getBundledEditorTriggerConfig } from "./getBundledEditorTriggerConfig.js";
-import { getEditorTriggerConfigPath } from "./getEditorTriggerConfigPath.js";
-import { getGlobalEditorTriggerConfigPath } from "./getGlobalEditorTriggerConfigPath.js";
-import { mergeEditorTriggerConfigs } from "./mergeEditorTriggerConfigs.js";
-import { readEditorTriggerConfigFile } from "./readEditorTriggerConfigFile.js";
-import type { EditorTriggerConfig } from "./types.js";
+import { getBundledEditorTriggerConfig } from "./getBundledEditorTriggerConfig";
+import { getEditorTriggerConfigPath } from "./getEditorTriggerConfigPath";
+import { getGlobalEditorTriggerConfigPath } from "./getGlobalEditorTriggerConfigPath";
+import { mergeEditorTriggerConfigs } from "./mergeEditorTriggerConfigs";
+import { readEditorTriggerConfigFile } from "./readEditorTriggerConfigFile";
+import type { EditorTriggerConfig } from "./types";
 
 /**
  * Reads merged global and project editor-trigger config.
@@ -11,10 +11,16 @@ import type { EditorTriggerConfig } from "./types.js";
  * @param cwd Project working directory.
  * @returns Merged trigger config.
  */
-export async function readEditorTriggerConfig(cwd: string): Promise<EditorTriggerConfig> {
+export async function readEditorTriggerConfig(
+	cwd: string,
+): Promise<EditorTriggerConfig> {
 	const [globalConfig, projectConfig] = await Promise.all([
 		readEditorTriggerConfigFile(getGlobalEditorTriggerConfigPath()),
 		readEditorTriggerConfigFile(getEditorTriggerConfigPath(cwd)),
 	]);
-	return mergeEditorTriggerConfigs(getBundledEditorTriggerConfig(), globalConfig, projectConfig);
+	return mergeEditorTriggerConfigs(
+		getBundledEditorTriggerConfig(),
+		globalConfig,
+		projectConfig,
+	);
 }

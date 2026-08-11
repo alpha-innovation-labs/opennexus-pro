@@ -7,10 +7,10 @@ import { stat } from "node:fs/promises";
  * @returns True when the path exists.
  */
 export async function pathExists(path: string): Promise<boolean> {
-  try {
-    await stat(path);
-    return true;
-  } catch {
-    return false;
-  }
+	try {
+		await stat(path);
+		return true;
+	} catch {
+		return false;
+	}
 }

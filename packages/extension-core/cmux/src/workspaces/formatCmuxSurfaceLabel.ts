@@ -1,7 +1,7 @@
-import type { CmuxSessionRegistryEntry } from "../session-registry/types.js";
-import { formatCmuxNexusTitle } from "./formatCmuxNexusTitle.js";
-import { getCmuxShellIcon } from "./getCmuxShellIcon.js";
-import type { CmuxSurface } from "./types.js";
+import type { CmuxSessionRegistryEntry } from "../session-registry/types";
+import { formatCmuxNexusTitle } from "./formatCmuxNexusTitle";
+import { getCmuxShellIcon } from "./getCmuxShellIcon";
+import type { CmuxSurface } from "./types";
 
 /**
  * Formats a cmux surface as a shell label, replacing Nexus shells with session ids.
@@ -10,9 +10,15 @@ import type { CmuxSurface } from "./types.js";
  * @param registration Matching Nexus session registration, when any.
  * @returns Human-readable shell label.
  */
-export function formatCmuxSurfaceLabel(surface: CmuxSurface, registration?: CmuxSessionRegistryEntry): string {
+export function formatCmuxSurfaceLabel(
+	surface: CmuxSurface,
+	registration?: CmuxSessionRegistryEntry,
+): string {
 	const icon = getCmuxShellIcon(registration);
-	if (registration) return formatCmuxNexusTitle(registration.sessionTitle ?? "Untitled Nexus session");
+	if (registration)
+		return formatCmuxNexusTitle(
+			registration.sessionTitle ?? "Untitled Nexus session",
+		);
 	const prefix = surface.type === "terminal" ? "" : `${surface.type}: `;
 	return `${icon} ${prefix}${surface.title}`;
 }

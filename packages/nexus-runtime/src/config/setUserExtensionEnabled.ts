@@ -1,6 +1,6 @@
-import { readNexusUserConfig } from "./readNexusUserConfig.js";
-import type { NexusUserConfig } from "./types.js";
-import { writeNexusUserConfig } from "./writeNexusUserConfig.js";
+import { readNexusUserConfig } from "./readNexusUserConfig";
+import type { NexusUserConfig } from "./types";
+import { writeNexusUserConfig } from "./writeNexusUserConfig";
 
 /**
  * Persists one package enabled preference in the Nexus user config.
@@ -11,11 +11,15 @@ import { writeNexusUserConfig } from "./writeNexusUserConfig.js";
  * @param enabled Whether the package should be enabled for this user.
  * @returns The updated user config.
  */
-export function setUserExtensionEnabled(packageSource: string, enabled: boolean): NexusUserConfig {
+export function setUserExtensionEnabled(
+	packageSource: string,
+	enabled: boolean,
+): NexusUserConfig {
 	const config = readNexusUserConfig();
-	const current = (config.extensions?.pi_packages) ?? {};
+	const current = config.extensions?.pi_packages ?? {};
 	const next = { ...current, [packageSource]: enabled };
-	const nextExtensions = Object.keys(next).length > 0 ? { pi_packages: next } : {};
+	const nextExtensions =
+		Object.keys(next).length > 0 ? { pi_packages: next } : {};
 	const nextConfig: NexusUserConfig = {
 		...config,
 		extensions: { ...config.extensions, ...nextExtensions },

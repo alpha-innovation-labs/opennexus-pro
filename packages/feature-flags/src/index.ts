@@ -1,14 +1,28 @@
-export { applySystemExtensionAvailability } from "./applySystemExtensionAvailability.js";
-export { createExtensionFeatureFlagReport } from "./createExtensionFeatureFlagReport.js";
-export { createExtensionFeatureFlags } from "./createExtensionFeatureFlags.js";
-export { createExtensionRegistrationTask } from "./createExtensionRegistrationTask.js";
-export { getEnabledExtensionFeatureFlags } from "./getEnabledExtensionFeatureFlags.js";
-export { registerEnabledExtensions } from "./registerEnabledExtensions.js";
-export { isRuntimeExtensionFeatureEnabled, setRuntimeExtensionFeatureFlags, setRuntimeExtensionFeatureState } from "./runtimeExtensionFeatureState.js";
-export { isRuntimeFeatureAvailable } from "./isRuntimeFeatureAvailable.js";
-export { bundledFeatureFlags, getAllBundledExtensionIds, isBundledExtension } from "./registry.js";
-export { clearRegisteredToolRecords } from "./tool-registry/clearRegisteredToolRecords.js";
-export { getRegisteredToolRecords } from "./tool-registry/getRegisteredToolRecords.js";
-export { recordRegisteredTool } from "./tool-registry/recordRegisteredTool.js";
-export type { ToolRegistrationRecord } from "./tool-registry/ToolRegistrationRecord.js";
-export type { ExtensionFeatureFlag, ExtensionFeatureFlagConfig, FeatureFlagConfig, FeatureFlagsConfig, UserFeatureFlagOverride } from "./types.js";
+export { applySystemExtensionAvailability } from "./applySystemExtensionAvailability";
+export { createExtensionFeatureFlagReport } from "./createExtensionFeatureFlagReport";
+export { createExtensionFeatureFlags } from "./createExtensionFeatureFlags";
+export { createExtensionRegistrationTask } from "./createExtensionRegistrationTask";
+export { getEnabledExtensionFeatureFlags } from "./getEnabledExtensionFeatureFlags";
+export { isRuntimeFeatureAvailable } from "./isRuntimeFeatureAvailable";
+export { registerEnabledExtensions } from "./registerEnabledExtensions";
+export {
+	bundledFeatureFlags,
+	getAllBundledExtensionIds,
+	isBundledExtension,
+} from "./registry";
+export {
+	isRuntimeExtensionFeatureEnabled,
+	setRuntimeExtensionFeatureFlags,
+	setRuntimeExtensionFeatureState,
+} from "./runtimeExtensionFeatureState";
+export { clearRegisteredToolRecords } from "./tool-registry/clearRegisteredToolRecords";
+export { getRegisteredToolRecords } from "./tool-registry/getRegisteredToolRecords";
+export { recordRegisteredTool } from "./tool-registry/recordRegisteredTool";
+export type { ToolRegistrationRecord } from "./tool-registry/ToolRegistrationRecord";
+export type {
+	ExtensionFeatureFlag,
+	ExtensionFeatureFlagConfig,
+	FeatureFlagConfig,
+	FeatureFlagsConfig,
+	UserFeatureFlagOverride,
+} from "./types";

@@ -1,11 +1,11 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index.js";
-import { USER_HEADER_PREFIX } from "./constants.js";
-import { getGroupDurationLabel } from "./getGroupDurationLabel.js";
-import { renderBuiltInToolDetails } from "./renderBuiltInToolDetails.js";
-import { summarizeToolCall } from "./summarizeToolCall.js";
-import type { ToolCallGroup, ToolCallInfo } from "./types.js";
+import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
+import { USER_HEADER_PREFIX } from "./constants";
+import { getGroupDurationLabel } from "./getGroupDurationLabel";
+import { renderBuiltInToolDetails } from "./renderBuiltInToolDetails";
+import { summarizeToolCall } from "./summarizeToolCall";
+import type { ToolCallGroup, ToolCallInfo } from "./types";
 
 /**
  * Two-pane modal for browsing tool calls and rendered details.
@@ -24,20 +24,27 @@ export class ToolCallsModal extends SelectPreviewModal {
 		toolCalls: Map<string, ToolCallInfo>,
 		done: () => void,
 	) {
-		super(theme, () => {}, () => done(), undefined, {
-			leftTitle: "Calls",
-			rightTitle: "Details",
-			leftPaneRatio: 0.5,
-			itemMaxLines: (item) => (item.value.startsWith(USER_HEADER_PREFIX) ? 3 : 1),
-			itemStyles: {
-				label: (item, selected, text, uiTheme) =>
-					item.value.startsWith(USER_HEADER_PREFIX)
-						? uiTheme.fg("error", selected ? uiTheme.bold(text) : text)
-						: selected
-							? uiTheme.fg("accent", text)
-							: text,
+		super(
+			theme,
+			() => {},
+			() => done(),
+			undefined,
+			{
+				leftTitle: "Calls",
+				rightTitle: "Details",
+				leftPaneRatio: 0.5,
+				itemMaxLines: (item) =>
+					item.value.startsWith(USER_HEADER_PREFIX) ? 3 : 1,
+				itemStyles: {
+					label: (item, selected, text, uiTheme) =>
+						item.value.startsWith(USER_HEADER_PREFIX)
+							? uiTheme.fg("error", selected ? uiTheme.bold(text) : text)
+							: selected
+								? uiTheme.fg("accent", text)
+								: text,
+				},
 			},
-		});
+		);
 		this.detailTheme = theme;
 		this.groups = groups;
 		this.toolCalls = toolCalls;
@@ -48,7 +55,9 @@ export class ToolCallsModal extends SelectPreviewModal {
 		this.setOnSelectionChange((item) => {
 			this.selectedValue = item?.value;
 			if (!item) {
-				this.setRightLines(["Select a tool call to inspect its arguments and result."]);
+				this.setRightLines([
+					"Select a tool call to inspect its arguments and result.",
+				]);
 				return;
 			}
 			if (item.value.startsWith(USER_HEADER_PREFIX)) {
@@ -80,11 +89,17 @@ export class ToolCallsModal extends SelectPreviewModal {
 			return;
 		}
 		if (data === "J") {
-			this.jumpSelection((item) => item.value.startsWith(USER_HEADER_PREFIX), 1);
+			this.jumpSelection(
+				(item) => item.value.startsWith(USER_HEADER_PREFIX),
+				1,
+			);
 			return;
 		}
 		if (data === "K") {
-			this.jumpSelection((item) => item.value.startsWith(USER_HEADER_PREFIX), -1);
+			this.jumpSelection(
+				(item) => item.value.startsWith(USER_HEADER_PREFIX),
+				-1,
+			);
 			return;
 		}
 		super.handleInput(data);
@@ -104,10 +119,15 @@ export class ToolCallsModal extends SelectPreviewModal {
 			} else {
 				const toolCall = this.toolCalls.get(this.selectedValue);
 				if (toolCall) {
-					const dialogWidth = Math.max(80, Math.min(width, Math.floor(width * 0.9)));
+					const dialogWidth = Math.max(
+						80,
+						Math.min(width, Math.floor(width * 0.9)),
+					);
 					const innerWidth = Math.max(78, dialogWidth - 2);
 					const rightWidth = Math.floor((innerWidth - 1) / 2);
-					this.setRightLines(renderBuiltInToolDetails(toolCall, this.detailTheme, rightWidth));
+					this.setRightLines(
+						renderBuiltInToolDetails(toolCall, this.detailTheme, rightWidth),
+					);
 				}
 			}
 		}
@@ -138,11 +158,17 @@ export class ToolCallsModal extends SelectPreviewModal {
 			items.push({
 				label: group.userPreview,
 				value: `${USER_HEADER_PREFIX}${group.userIndex}`,
-				description: getGroupDurationLabel(group.userTimestamp, group.lastAssistantTimestamp),
+				description: getGroupDurationLabel(
+					group.userTimestamp,
+					group.lastAssistantTimestamp,
+				),
 			});
 			if (this.collapsed) continue;
 			for (const toolCall of [...group.toolCalls].reverse()) {
-				items.push({ label: summarizeToolCall(toolCall), value: toolCall.toolCallId });
+				items.push({
+					label: summarizeToolCall(toolCall),
+					value: toolCall.toolCallId,
+				});
 			}
 		}
 		return items;
@@ -155,14 +181,19 @@ export class ToolCallsModal extends SelectPreviewModal {
 	 * @param items Rebuilt item list.
 	 * @returns Selected value when available.
 	 */
-	private resolvePreferredValue(preferredValue: string | undefined, items: AutocompleteItem[]): string | undefined {
+	private resolvePreferredValue(
+		preferredValue: string | undefined,
+		items: AutocompleteItem[],
+	): string | undefined {
 		if (!preferredValue) return items[0]?.value;
-		if (items.some((item) => item.value === preferredValue)) return preferredValue;
+		if (items.some((item) => item.value === preferredValue))
+			return preferredValue;
 		if (!preferredValue.startsWith(USER_HEADER_PREFIX)) {
 			const toolCall = this.toolCalls.get(preferredValue);
 			if (toolCall) {
 				const headerValue = `${USER_HEADER_PREFIX}${toolCall.userIndex}`;
-				if (items.some((item) => item.value === headerValue)) return headerValue;
+				if (items.some((item) => item.value === headerValue))
+					return headerValue;
 			}
 		}
 		return items[0]?.value;

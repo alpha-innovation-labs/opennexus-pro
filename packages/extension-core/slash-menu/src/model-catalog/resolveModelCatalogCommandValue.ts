@@ -7,5 +7,7 @@ const MODEL_CATALOG_VALUE_PREFIX = "catalog:";
  * @returns Provider/model reference accepted by the internal model command.
  */
 export function resolveModelCatalogCommandValue(value: string): string {
-  return value.startsWith(MODEL_CATALOG_VALUE_PREFIX) ? value.slice(MODEL_CATALOG_VALUE_PREFIX.length) : value;
+	return value.startsWith(MODEL_CATALOG_VALUE_PREFIX)
+		? value.slice(MODEL_CATALOG_VALUE_PREFIX.length)
+		: value;
 }

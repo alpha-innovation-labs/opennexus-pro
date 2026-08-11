@@ -4,7 +4,7 @@
  * @returns Child environment inherited from the current process.
  */
 export function createSummarizerEnv(): NodeJS.ProcessEnv {
-  return {
-    ...process.env,
-  };
+	return {
+		...process.env,
+	};
 }
