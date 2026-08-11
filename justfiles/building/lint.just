@@ -1,6 +1,7 @@
 # Run Biome lint across the entire codebase via Turbo.
-# Usage: just lint
-# Example: just lint
+# Usage: just lint [FILTER]
+# Example: just lint @extensions/ai-provider
 
-lint:
-    @npx turbo lint --output-logs=errors-only
+[positional-arguments]
+lint *ARGS:
+    @if [ $# -gt 0 ]; then npx turbo --filter="$1" lint --output-logs=errors-only "${@:2}"; else npx turbo lint --output-logs=errors-only; fi

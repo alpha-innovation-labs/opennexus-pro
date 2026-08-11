@@ -1,6 +1,6 @@
 # Run tests, excluding release-dependent e2e coverage by default.
-# Usage: just test | just test --with-release
-# Example: just test --with-release
+# Usage: just test [FILTER] | just test --with-release
+# Example: just test -- filter=auth
 
 [positional-arguments]
 test *ARGS:
@@ -10,5 +10,9 @@ test *ARGS:
     if [ "${1:-}" = "list" ]; then
         npx tsx scripts/testing/list-tests.ts
     else
-        npx vitest run "$@"
+        FILTER=""
+        if [ $# -gt 0 ]; then
+            FILTER="--filter=$1"
+        fi
+        npx vitest run $FILTER "$@"
     fi
