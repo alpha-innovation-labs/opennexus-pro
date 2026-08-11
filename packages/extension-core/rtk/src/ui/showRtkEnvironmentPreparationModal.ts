@@ -9,9 +9,9 @@ import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverl
  * @returns Function that closes the overlay.
  */
 export function showRtkEnvironmentPreparationModal(ctx: ExtensionContext): () => void {
-  if (!ctx.hasUI) return () => undefined;
+  if (!ctx.hasUI) return () => {};
 
-  let close = () => undefined;
+  let close: (result: void) => void = () => {};
   void ctx.ui.custom<void>((_tui, theme, _keybindings, done) => {
     close = done;
     return new SharedModal({
@@ -21,7 +21,7 @@ export function showRtkEnvironmentPreparationModal(ctx: ExtensionContext): () =>
       headerLines: [theme.fg("accent", "Preparing environment")],
       panes: [{ id: "body", size: 1, lines: ["Nexus is preparing local command tooling.", theme.fg("muted", "This usually takes a moment on first run.")] }],
       footerLines: [theme.fg("muted", "Please wait…")],
-      onClose: () => undefined,
+      onClose: () => {},
     });
   }, {
     overlay: true,

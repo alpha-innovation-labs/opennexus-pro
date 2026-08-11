@@ -21,7 +21,7 @@ export function registerSubagentPromptTool(pi: ExtensionAPI): void {
       text: Type.String({ description: "The prompt text to send." }),
       timeoutMs: Type.Optional(Type.Number({ description: "Optional timeout in milliseconds (default 120000)." })),
     }),
-    async execute(_toolCallId, params) {
+    async execute(_toolCallId, params, _signal, _onUpdate, _ctx) {
       const timeout = params.timeoutMs ?? 120_000;
 
       try {

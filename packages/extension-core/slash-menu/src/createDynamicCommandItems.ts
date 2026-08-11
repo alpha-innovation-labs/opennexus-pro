@@ -1,4 +1,4 @@
-import type { RegisteredSlashCommand, SlashMenuLeaf } from "./types";
+import type { RegisteredSlashCommand, SlashMenuLeaf, SlashMenuSection } from "./types";
 
 /** Skill prefix used to fuse skill commands into the top-level menu. */
 const SKILL_PREFIX = "skill:";

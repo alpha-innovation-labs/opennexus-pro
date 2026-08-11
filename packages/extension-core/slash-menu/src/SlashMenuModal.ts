@@ -114,7 +114,7 @@ export class SlashMenuModal extends SelectPreviewModal {
         this.loginPicker?.requestClose();
         this.onCommandPicked(commandText);
       },
-      (message, type) => this.ctx.ui.notify(message, type),
+      (message, type) => this.ctx.ui.notify(message, type as "error" | "info" | "warning"),
     );
   }
 
@@ -508,7 +508,8 @@ path).
   async openLevel(level: SlashMenuLevel): Promise<void> {
     this.previousLevels.push(this.level);
     // Route "login" to "login-picker".
-    if (level === "login") {
+    const rawLevel = level as string;
+    if (rawLevel === "login") {
       level = "login-picker";
     }
     // Handle login-picker: delegate to LoginPickerModal.
@@ -718,8 +719,9 @@ path).
    * @returns Helper footer lines.
    */
   private createFooterHintLines(): string[] {
-    if (this.level === "prompts" || this.level === "skills") return
-    [createResourceCommandFooterHint(this.ctx.ui.theme, this.isRightPaneFocused())];
+    if (this.level === "prompts" || this.level === "skills") {
+      return [createResourceCommandFooterHint(this.ctx.ui.theme, this.isRightPaneFocused())];
+    }
     return [];
   }
 
@@ -756,7 +758,7 @@ path).
       description: "", preserveLabelWhitespace: true, resumeRow: true, wrapPreservedLabel: true
     };
     if (this.level === "model") return { ...item, label: `${icon} ${item.label}` };
-    if (this.level === "login" || this.level === "login-providers" ||
+    if (this.level === "login-picker" ||
       this.level === "logout" ||
       this.level === "theme" || this.level === "scoped-models" || this.level === "name-input") return {
         ...item, label: `${icon} ${item.label}`, description: ""

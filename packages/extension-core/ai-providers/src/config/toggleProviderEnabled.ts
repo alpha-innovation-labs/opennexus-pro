@@ -17,7 +17,7 @@ export function toggleProviderEnabled(
   const config = readNexusUserConfig();
   const providers = config.providers ?? {};
   if (!providers[providerId]) {
-    providers[providerId] = {};
+    providers[providerId] = { enabled };
   }
   (providers[providerId] as { enabled?: boolean }).enabled = enabled;
   writeNexusUserConfig({ ...config, providers });

@@ -20,7 +20,7 @@ export function registerSubagentSendTool(pi: ExtensionAPI): void {
       agentName: Type.String({ description: "The target agent name (e.g. 'agent-abc1')." }),
       text: Type.String({ description: "The text to send." }),
     }),
-    async execute(_toolCallId, params) {
+    async execute(_toolCallId, params, _signal, _onUpdate, _ctx) {
       try {
         sendTextToAgent(params.agentName, params.text);
         return {

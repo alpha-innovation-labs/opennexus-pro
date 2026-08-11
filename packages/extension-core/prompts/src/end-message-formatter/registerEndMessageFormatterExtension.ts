@@ -1,4 +1,4 @@
-import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type { AssistantMessageComponent, ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { runChild } from "@nexus/runtime/shared/child-process/runChild";
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -20,21 +20,44 @@ const END_MESSAGE_FORMATTER_PATH = resolve(
  *
  * @param pi Pi extension API.
  */
-export function registerEndMessageFormatterExtension(_pi: ExtensionAPI): void {
+export function registerEndMessageFormatterExtension(pi: ExtensionAPI): void {
   const formatterPrompt = readFileSync(END_MESSAGE_FORMATTER_PATH, "utf-8");
   let pendingMessage: { content: unknown } | null = null;
   let pendingText: string = "";
   let firstUserMessage: string | undefined = undefined;
 
   /**
+   * Extracts the full text content from an assistant message.
+   */
+  function extractAssistantText(content: unknown): string {
+    if (typeof content === "string") return content;
+    if (Array.isArray(content)) {
+      return content
+        .filter((part) => typeof part === "object" && part !== null && "type" in part)
+        .map((part) => {
+          const typed = part as { type: string; text?: string };
+          if (typed.type === "text" && typeof typed.text === "string") return typed.text;
+          return "";
+        })
+        .join("\n\n");
+    }
+    return "";
+  }
+
+  /**
    * Collects text chunks as they stream in.
    */
-  function onStreamUpdate(_component: unknown, message: { content?: Array<{ type: string; text?: string }> }): void {
-    const textParts = (message.content ?? [])
-      .filter((part) => part.type === "text" && typeof part.text === "string")
-      .map((part) => part.text);
+  function onStreamUpdate(component: AssistantMessageComponent, _message: unknown): void {
+    const content = (component as { message?: { content?: unknown } }).message?.content;
+    const textParts = Array.isArray(content)
+      ? content
+          .filter((part) => typeof part === "object" && part !== null && "type" in part && (part as { type: string }).type === "text" && typeof (part as { text?: string }).text === "string")
+          .map((part) => (part as { text?: string }).text)
+      : typeof content === "string"
+        ? [content]
+        : [];
     pendingText = textParts.join("\n\n");
-    pendingMessage = message as { content: unknown };
+    pendingMessage = { content };
   }
 
   /**
@@ -54,12 +77,7 @@ export function registerEndMessageFormatterExtension(_pi: ExtensionAPI): void {
     for (const entry of branch) {
       if (entry.type !== "message") continue;
       if (entry.message?.role !== "assistant") continue;
-      const raw = typeof entry.message.content === "string"
-        ? entry.message.content
-        : (entry.message.content ?? [])
-          .filter((part) => part.type === "text" && typeof part.text === "string")
-          .map((part) => part.text)
-          .join("\n\n");
+      const raw = extractAssistantText(entry.message.content);
       if (raw && !raw.startsWith("[END_MESSAGE_FORMATTER_RAN]")) {
         assistantMessages.push({ message: entry.message as { content: unknown }, content: raw });
       }
@@ -69,18 +87,8 @@ export function registerEndMessageFormatterExtension(_pi: ExtensionAPI): void {
     firstUserMessage = undefined;
     for (const entry of branch) {
       if (entry.type === "message" && entry.message?.role === "user") {
-        const content = entry.message.content;
-        if (typeof content === "string") {
-          firstUserMessage = content;
-          break;
-        }
-        if (Array.isArray(content)) {
-          const text = content
-            .filter((part) => part.type === "text" && typeof part.text === "string")
-            .map((part) => part.text)
-            .join("\n\n");
-          if (text) { firstUserMessage = text; break; }
-        }
+        const extracted = extractAssistantText(entry.message.content);
+        if (extracted) { firstUserMessage = extracted; break; }
       }
     }
 
@@ -96,11 +104,8 @@ export function registerEndMessageFormatterExtension(_pi: ExtensionAPI): void {
       const output = await runChild(ctx.cwd, combinedPrompt);
       const formatted = output || `Error: end-message formatter failed to produce output.\n\nOriginal message:\n${content}`;
 
-      if (typeof message.content === "string") {
-        message.content = formatted;
-      } else {
-        message.content = [{ type: "text", text: formatted }];
-      }
+      const extracted = extractAssistantText(message.content);
+      message.content = typeof extracted === "string" ? formatted : [{ type: "text", text: formatted }];
     }
 
     // Reinstall hook to pick up the next turn's streaming updates.

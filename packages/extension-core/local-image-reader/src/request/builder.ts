@@ -1,5 +1,5 @@
 import type { LocalImageReaderConfig } from "../config/types";
-import type { ChatCompletionRequest } from "./types";
+import type { ChatCompletionRequest, ChatCompletionResponse, ToolResult } from "./types";
 import { DEFAULT_SYSTEM_PROMPT } from "../constants";
 
 /**

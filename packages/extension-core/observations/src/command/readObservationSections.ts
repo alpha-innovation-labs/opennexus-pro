@@ -19,7 +19,7 @@ export async function readObservationSections(
 ): Promise<{ items: AutocompleteItem[]; detailsByValue: Map<string, string[]> }> {
 	const state = await readObservationState(statePath, conversationId, cwd, sessionFile);
 	const items: AutocompleteItem[] = state.topics.map((topic) => ({
-		label: topic.title,
+		label: Array.isArray(topic.title) ? topic.title.join(", ") : topic.title,
 		value: String(topic.index),
 	}));
 	const detailsByValue = new Map(

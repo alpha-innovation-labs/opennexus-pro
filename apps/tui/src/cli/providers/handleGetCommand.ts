@@ -58,13 +58,16 @@ export async function handleGetCommand(
   const formatContextWindow = (w: number): string => w.toLocaleString();
   const formatMaxTokens = (t: number): string => t.toLocaleString();
 
-  const tableData = models.map((model) => ({
-    Model: `${GREEN}${model.id}${RESET}`,
-    Reasoning: formatReasoning(model.reasoning),
-    Input: formatInput(model.input),
-    Context: formatContextWindow(model.contextWindow),
-    MaxTokens: formatMaxTokens(model.maxTokens),
-  }));
+  const tableData = models.map((model) => {
+    const entry = model as Record<string, unknown>;
+    return {
+      Model: `${GREEN}${entry.id}${RESET}`,
+      Reasoning: formatReasoning(Boolean(entry.reasoning)),
+      Input: formatInput(entry.input as string[]),
+      Context: formatContextWindow(Number(entry.contextWindow)),
+      MaxTokens: formatMaxTokens(Number(entry.maxTokens)),
+    };
+  });
 
   const ct = new Table({
     columns: [

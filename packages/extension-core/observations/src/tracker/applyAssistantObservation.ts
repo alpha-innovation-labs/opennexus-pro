@@ -19,10 +19,11 @@ export async function applyAssistantObservation(
 ): Promise<ObservationState> {
 	const topic = state.topics.at(-1);
 	if (!topic) return state;
+	const topicTitle = Array.isArray(topic.title) ? topic.title.join(", ") : topic.title;
 	const nextBullets = await summarizeAssistantObservations(
 		pi,
 		ctx,
-		topic.title,
+		topicTitle,
 		topic.assistantBullets,
 		assistantMessage.thinking ?? "",
 		assistantMessage.text,

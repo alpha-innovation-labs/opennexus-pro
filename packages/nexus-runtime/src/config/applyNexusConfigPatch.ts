@@ -6,6 +6,7 @@ type NexusSettingsManagerInstance = {
   globalSettings: SettingsRecord;
   projectSettings: SettingsRecord;
   settings: SettingsRecord;
+  getGlobalSettings(): SettingsRecord;
 };
 
 type NexusSettingsManagerClass = {
@@ -59,9 +60,9 @@ export async function applyNexusConfigPatch(): Promise<void> {
         // Convert { "npm:pi-chrome": true } to ["npm:pi-chrome"],
         // but EXCLUDE packages explicitly set to false so they never
         // reach Pi's resolver and are never loaded.
-        const existingPackages = (manager.globalSettings as Record<string, unknown>).packages ?? [];
+        const existingPackages = (manager.globalSettings as Record<string, unknown>).packages as string[] ?? [];
         const merged = [...existingPackages];
-        for (const [src, enabled] of Object.entries(piPackages)) {
+        for (const [src, enabled] of Object.entries(piPackages as Record<string, unknown>)) {
           // Only inject source strings whose value is truthy (true or omitted).
           // When the user sets a source to false, skip it entirely so Pi
           // never sees it and never loads it.

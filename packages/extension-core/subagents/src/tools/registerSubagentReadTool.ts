@@ -21,7 +21,7 @@ export function registerSubagentReadTool(pi: ExtensionAPI): void {
       lines: Type.Optional(Type.Number({ description: "Optional number of lines to read." })),
       source: Type.Optional(Type.String({ description: "Optional source: 'visible' or 'recent'." })),
     }),
-    async execute(_toolCallId, params) {
+    async execute(_toolCallId, params, _signal, _onUpdate, _ctx) {
       try {
         const args = ["agent", "read", params.agentName];
         if (params.lines !== undefined) {

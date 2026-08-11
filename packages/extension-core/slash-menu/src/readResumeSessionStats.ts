@@ -10,7 +10,7 @@ function loadEntriesFromFileStub(filePath: string): ReturnType<typeof parseSessi
   // Validate session header
   if (entries.length === 0) return entries;
   const header = entries[0];
-  if (header.type !== "session" || typeof (header as Record<string, unknown>).id !== "string") {
+  if (header.type !== "session" || typeof (header as unknown as Record<string, unknown>).id !== "string") {
     return [];
   }
   return entries;

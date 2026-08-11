@@ -32,7 +32,7 @@ export async function handleTopLevelMenuEnter(
   if (value === "prompts") return openLevel("prompts");
   if (value === "skills") return openLevel("skills");
   if (value === "tools") return openLevel("tools");
-  if (value === "login") return openLevel("login");
+  if (value === "login") return openLevel("login-picker");
   if (value === "logout") {
     const leaves = createLogoutProviderLeaves(ctx);
     if (leaves.length === 0) {

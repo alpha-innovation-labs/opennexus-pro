@@ -21,7 +21,7 @@ export function registerSubagentStartTool(pi: ExtensionAPI): void {
       session: Type.Optional(Type.String({ description: "Optional session name; defaults to 'agent-<random-hex>'." })),
       skills: Type.Optional(Type.Array(Type.String(), { description: "Optional list of skill names to preload (each becomes --skill <name>; all agents start with --no-skills)." })),
     }),
-    async execute(_toolCallId, params) {
+    async execute(_toolCallId, params, _signal, _onUpdate, _ctx) {
       const sessionName = params.session
         ? params.session
         : `agent-${crypto.randomBytes(4).toString("hex").slice(0, 4)}`;

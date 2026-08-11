@@ -16,7 +16,7 @@ export function installPromptline(ctx: PromptlineContext, deps: PromptlineDeps):
   installPromptlineFooter(ctx);
 
   ctx.ui.setEditorComponent((tui, theme, keybindings) => {
-    installPromptlineRenderScheduler(tui);
+    installPromptlineRenderScheduler(tui as Parameters<typeof installPromptlineRenderScheduler>[0]);
     setPromptlineRenderRequest((force = false) => tui.requestRender(force));
     getUsageRenderUnsubscribe()?.();
     void refreshGitState(deps.exec).then(() => tui.requestRender());

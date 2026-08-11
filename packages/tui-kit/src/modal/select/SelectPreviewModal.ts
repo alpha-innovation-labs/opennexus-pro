@@ -16,7 +16,7 @@ import type { SelectPreviewModalOptions, SelectPreviewTheme } from "./types";
 /** Framed selectable list with an optional preview pane, backed by SharedModal. */
 export class SelectPreviewModal extends SharedModal {
   focused = true;
-  private activePane: "left" | "right" = "left";
+  protected activePane: "left" | "right" = "left";
   private bottomPrefix = "> ";
   private bottomTitle?: string;
   private bottomValue = "";

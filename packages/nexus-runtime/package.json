@@ -6,7 +6,6 @@
   "scripts": {},
   "dependencies": {},
   "exports": {
-    "./*.js": "./src/*.ts",
-    "./*": "./src/*"
+    "./*": "./dist/*"
   }
 }

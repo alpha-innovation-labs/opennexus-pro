@@ -32,7 +32,7 @@ export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof Bui
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
 			if (context.isError) return new Container();
 			const { renderer } = renderTranscriptEntry(
-				{ role: "tool", toolCallId: context.toolCallId, toolName, args: args as Record<string, unknown> },
+				{ role: "tool", toolCallId: context.toolCallId, toolName, args: args as Record<string, unknown>, text: "" },
 				{ theme, expanded: context.expanded },
 			);
 			return renderer;
@@ -47,7 +47,7 @@ export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof Bui
 				lastComponent: undefined,
 			};
 			const { renderer } = renderTranscriptEntry(
-				{ role: "toolResult", toolCallId: context.toolCallId, toolName, result },
+				{ role: "toolResult", toolCallId: context.toolCallId, toolName, result, text: "" },
 				{
 					theme,
 					expanded: state.expanded,
@@ -55,13 +55,12 @@ export function registerCompactBuiltInTool(pi: ExtensionAPI, toolName: keyof Bui
 						? {
 							render: (innerWidth: number) =>
 								builtIn(result, state, theme, cleanContext).render(innerWidth),
-							invalidate: () =>
-								builtIn(result, state, theme, cleanContext).invalidate?.(),
+							invalidate: () => { builtIn(result, state, theme, cleanContext).invalidate?.(); },
 						}
 						: undefined,
 				},
 			);
 			return renderer;
 		},
-	}));
+	} as any));
 }

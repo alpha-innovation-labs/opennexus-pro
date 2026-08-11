@@ -255,6 +255,9 @@ export class SystemPromptModal {
 		return getSystemPromptViewportHeight(this.getRowCount());
 	}
 
+	/** No-op invalidator for Component compatibility. */
+	invalidate(): void {}
+
 	/** Returns the editable user-prompt section selected in the outline. */
 	private getSelectedEditableSection(rows = createSystemPromptOutlineRows(this.prompt)): "append" | "agents" | undefined {
 		const row = rows[this.selectedOutlineIndex];

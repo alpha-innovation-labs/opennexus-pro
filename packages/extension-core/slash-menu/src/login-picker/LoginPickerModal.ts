@@ -36,10 +36,10 @@ export class LoginPickerModal extends SelectPreviewModal {
 
   constructor(
     uiTheme: SelectPreviewTheme,
-    private readonly requestClose: () => void,
-    private readonly requestRender: () => void,
-    private readonly onCommandPicked: (commandText: string) => void,
-    private readonly notify: (message: string, type: string) => void,
+    public readonly requestClose: () => void,
+    public readonly requestRender: () => void,
+    public readonly onCommandPicked: (commandText: string) => void,
+    public readonly notify: (message: string, type: string) => void,
   ) {
     super(
       uiTheme,
@@ -62,7 +62,7 @@ export class LoginPickerModal extends SelectPreviewModal {
    * Initializes the modal: loads provider states, fetches the model catalog,
    * and renders the initial left-pane provider list.
    */
-  private async init(): Promise<void> {
+  public async init(): Promise<void> {
     const config = readNexusUserConfig();
     this.providerStates = config.providers ?? {};
     this.catalog = builtinProviders().map((provider) => ({
@@ -82,7 +82,7 @@ export class LoginPickerModal extends SelectPreviewModal {
   /**
    * Renders the left-pane provider list with current filter state.
    */
-  private renderLeftPane(): void {
+  public renderLeftPane(): void {
     const { filteredProviders, filteredModelsByProvider } = filterLoginItems(
       this.allProviders,
       this.allModelsByProvider,
@@ -142,9 +142,16 @@ export class LoginPickerModal extends SelectPreviewModal {
   }
 
   /**
-   * Called when an item is picked (Enter).
+   * Returns the currently selected login item.
    */
-  override handlePick(item: { value: string }): void {
+  public getSelectedItem(): ReturnType<SelectPreviewModal["getSelectedItem"]> {
+    return super.getSelectedItem();
+  }
+
+  /**
+   * Handles a login picker item pick.
+   */
+  public handlePick(item: { value: string }): void {
     const isProvider = this.allProviders.some((p) => p.value === item.value);
     if (isProvider) {
       // Toggle provider enabled state

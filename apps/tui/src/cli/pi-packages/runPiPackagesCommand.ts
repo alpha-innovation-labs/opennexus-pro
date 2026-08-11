@@ -91,7 +91,6 @@ async function runListCommand(): Promise<number> {
       { name: "Status", alignment: "left" },
       { name: "Source", alignment: "left" },
     ],
-    border: {},
   });
   ct.addRows(tableData);
   ct.printTable();

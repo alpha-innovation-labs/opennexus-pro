@@ -18,7 +18,7 @@ export function createCompactToolDefinition(definition: ToolDefinition<any, any,
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
 			if (context.isError) return new Container();
 			const { renderer } = renderTranscriptEntry(
-				{ role: "tool", toolCallId: context.toolCallId, toolName: definition.name, args: args as Record<string, unknown> },
+				{ role: "tool", toolCallId: context.toolCallId, toolName: definition.name, args: args as Record<string, unknown>, text: "" },
 				{ theme, expanded: context.expanded },
 			);
 			return renderer;
@@ -26,20 +26,20 @@ export function createCompactToolDefinition(definition: ToolDefinition<any, any,
 		renderResult(result: any, state: any, theme: any, context: any) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
 			const { renderer } = renderTranscriptEntry(
-				{ role: "toolResult", toolCallId: context.toolCallId, toolName: definition.name, result },
+				{ role: "toolResult", toolCallId: context.toolCallId, toolName: definition.name, result, text: "" },
 				{
 					theme,
 					expanded: state.expanded,
 					resultChildRenderer: definition.renderResult
 						? {
 							render: (innerWidth: number) => definition.renderResult!(result, state, theme, context).render(innerWidth),
-							invalidate: () => definition.renderResult!(result, state, theme, context).invalidate?.(),
+							invalidate: () => { definition.renderResult!(result, state, theme, context).invalidate?.(); },
 						}
 						: undefined,
 				},
 			);
 			return renderer;
 		},
-	};
+	} as ToolDefinition<any, any, any>;
 	return markCompactWrappedToolDefinition(wrapped);
 }

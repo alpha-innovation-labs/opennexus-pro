@@ -17,6 +17,6 @@ export function writeProviderConfig(
 ): void {
   const userConfig = readNexusUserConfig();
   const providers = userConfig.providers ?? {};
-  providers[providerId] = config;
-  writeNexusUserConfig({ ...userConfig, providers });
+  providers[providerId] = config as { enabled: boolean };
+  writeNexusUserConfig({ ...userConfig, providers } as Parameters<typeof writeNexusUserConfig>[0]);
 }

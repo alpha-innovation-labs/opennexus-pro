@@ -31,7 +31,9 @@ export function isEmbeddingModel(id: string): boolean {
 /**
  * Default model metadata used when no catalog entry is available.
  */
-const DEFAULT_MODEL: ProviderConfigInput["models"][number] = {
+type ModelEntry = Record<string, unknown>;
+
+const DEFAULT_MODEL: ModelEntry = {
   id: "",
   name: "",
   reasoning: false,
@@ -65,9 +67,9 @@ export async function fetchModelsFromGateway(
       return [];
     }
     const data = await res.json();
-    const catalogModels = data.data ?? [];
+    const catalogModels: Array<{ id: string }> = (data.data ?? []) as Array<{ id: string }>;
     const results: NonNullable<ProviderConfigInput["models"]> = [];
-    for (const m of catalogModels as Array<{ id: string }>) {
+    for (const m of catalogModels) {
       if (isEmbeddingModel(m.id)) {
         continue;
       }

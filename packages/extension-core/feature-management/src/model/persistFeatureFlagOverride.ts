@@ -2,7 +2,8 @@ import { bundledFeatureFlags, getAllBundledExtensionIds } from "@nexus/feature-f
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
 import type { FeatureFlagConfigPatch } from "./updateFeatureFlagsConfig";
-import type { FeatureProductCategory, FeatureStatusCategory, FeatureStatusRow } from "./types";
+import type { FeatureProductCategory } from "@nexus/feature-flags/types";
+import type { FeatureRuntimeStatus, FeatureStatusCategory, FeatureStatusRow } from "./types";
 import { getFeatureManagementGroup } from "./getFeatureManagementGroup";
 
 /**

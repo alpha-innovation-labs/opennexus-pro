@@ -20,7 +20,7 @@ export function registerSubagentSendKeysTool(pi: ExtensionAPI): void {
       agentName: Type.String({ description: "The target agent name (e.g. 'agent-abc1')." }),
       keys: Type.Array(Type.String(), { description: "Key presses to send (e.g. 'Enter', 'Esc')." }),
     }),
-    async execute(_toolCallId, params) {
+    async execute(_toolCallId, params, _signal, _onUpdate, _ctx) {
       try {
         sendKeysToAgent(params.agentName, ...params.keys);
         return {

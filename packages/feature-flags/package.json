@@ -31,7 +31,6 @@
     "@nexus/runtime": "workspace:*"
   },
   "exports": {
-    "./*.js": "./src/*.ts",
-    "./*": "./src/*"
+    "./*": "./dist/*"
   }
 }

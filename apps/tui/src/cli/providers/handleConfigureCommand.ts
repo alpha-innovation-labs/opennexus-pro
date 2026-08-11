@@ -136,7 +136,6 @@ export async function handleConfigureCommand(
           ? `Enter API key for ${providerIdResolved} (optional, leave blank to clear; key already stored):`
           : `Enter API key for ${providerIdResolved} (optional, leave blank to clear):`,
         initialValue: existingKey,
-        password: "•",
       });
       if (isCancel(promptResult)) {
         return 0;

@@ -37,18 +37,24 @@ export function registerProvider(
     return;
   }
 
-  pi.registerProvider(providerId, {
-    name,
-    baseUrl,
-    apiKey: apiKey ?? "",
-    api: api ?? "openai-completions",
-    apiPath: apiPath ?? "",
-    models: modelsOverride ?? [],
-    // When Pi calls this (e.g. /list-models opens the model picker),
-    // return cached models only — no network call.  Live fetch only
-    // happens via the CLI refresh command (gw.refreshModels()).
-    refreshModels: async () => getModels(providerId),
-  });
+  pi.registerProvider(
+    providerId,
+    {
+      name,
+      baseUrl,
+      apiKey: apiKey ?? "",
+      api: api ?? "openai-completions",
+      apiPath: apiPath ?? "",
+      models: modelsOverride ?? [],
+      // When Pi calls this (e.g. /list-models opens the model picker),
+      // return cached models only — no network call.  Live fetch only
+      // happens via the CLI refresh command (gw.refreshModels()).
+      refreshModels: async (context: unknown) => {
+        const models = await getModels(providerId);
+        return models as unknown as Record<string, unknown>[];
+      },
+    } as Record<string, unknown>,
+  );
 }
 
 /**

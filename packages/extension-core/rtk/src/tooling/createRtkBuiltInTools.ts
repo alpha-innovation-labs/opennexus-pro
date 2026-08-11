@@ -1,4 +1,12 @@
-import { createEditTool, createWriteTool } from "@earendil-works/pi-coding-agent";
+import {
+  createBashTool,
+  createEditTool,
+  createFindTool,
+  createGrepTool,
+  createLsTool,
+  createReadTool,
+  createWriteTool,
+} from "@earendil-works/pi-coding-agent";
 import type { BuiltInTools } from "@extensions/tron/compact-tool-lines/types";
 import { createRtkBashTool } from "./createRtkBashTool";
 import { createRtkFindTool } from "./createRtkFindTool";
@@ -14,12 +22,12 @@ import { createRtkReadTool } from "./createRtkReadTool";
  */
 export function createRtkBuiltInTools(cwd: string): BuiltInTools {
   return {
-    read: createRtkReadTool(cwd, false),
-    bash: createRtkBashTool(cwd, false),
+    read: createRtkReadTool(cwd, false) as ReturnType<typeof createReadTool>,
+    bash: createRtkBashTool(cwd, false) as ReturnType<typeof createBashTool>,
     edit: createEditTool(cwd),
     write: createWriteTool(cwd),
-    find: createRtkFindTool(cwd, false),
-    grep: createRtkGrepTool(cwd, false),
-    ls: createRtkLsTool(cwd, false),
+    find: createRtkFindTool(cwd, false) as ReturnType<typeof createFindTool>,
+    grep: createRtkGrepTool(cwd, false) as ReturnType<typeof createGrepTool>,
+    ls: createRtkLsTool(cwd, false) as ReturnType<typeof createLsTool>,
   };
 }

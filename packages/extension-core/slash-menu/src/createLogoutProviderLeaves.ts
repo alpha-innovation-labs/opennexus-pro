@@ -9,20 +9,23 @@ import type { SlashMenuLeaf } from "./types";
  */
 export function createLogoutProviderLeaves(ctx: ExtensionContext): SlashMenuLeaf[] {
 	const registry = ctx.modelRegistry;
-	if (!registry || !registry.authStorage) return [];
-	const oauthNameById = new Map(
-		registry.authStorage.getOAuthProviders().map((provider) => [provider.id, provider.name] as const),
-	);
-	return registry.authStorage
-		.list()
-		.map((providerId) => {
-			const credential = registry.authStorage.get(providerId);
-			return {
-				kind: "provider" as const,
-				label: oauthNameById.get(providerId) ?? providerId,
-				description: credential?.type === "api_key" ? "API key" : providerId,
-				value: providerId,
-			};
-		})
-		.sort((left, right) => left.label.localeCompare(right.label));
+	if (!registry) return [];
+	const providerIds = registry.getRegisteredProviderIds();
+	if (providerIds.length === 0) return [];
+
+	const leaves: SlashMenuLeaf[] = [];
+	for (const providerId of providerIds) {
+		const status = registry.getProviderAuthStatus(providerId);
+		if (!status || !status.configured) {
+			continue;
+		}
+		const displayName = registry.getProviderDisplayName(providerId);
+		leaves.push({
+			kind: "provider" as const,
+			label: displayName,
+			description: providerId,
+			value: providerId,
+		});
+	}
+	return leaves.sort((a, b) => a.label.localeCompare(b.label));
 }

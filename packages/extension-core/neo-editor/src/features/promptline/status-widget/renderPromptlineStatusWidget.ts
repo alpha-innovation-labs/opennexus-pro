@@ -13,7 +13,7 @@ export function renderPromptlineStatusWidget(
 	ctx: ExtensionContext,
 	getThinkingLevel: ExtensionAPI["getThinkingLevel"],
 	getSessionName: ExtensionAPI["getSessionName"],
-): Promise<void> {
+): void {
 	ctx.ui.setWidget(
 		PROMPTLINE_STATUS_WIDGET_KEY,
 		() => createPromptlineStatusWidget(ctx, getThinkingLevel, getSessionName),

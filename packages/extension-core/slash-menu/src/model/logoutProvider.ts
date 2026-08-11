@@ -14,7 +14,11 @@ export function logoutProvider(
 	providerId: string,
 	settings: EnabledModelSettings = SettingsManager.create(ctx.cwd),
 ): void {
-	ctx.modelRegistry.authStorage.logout(providerId);
+	// Use ModelRegistry API instead of authStorage (which does not exist).
+	const status = ctx.modelRegistry.getProviderAuthStatus(providerId);
+	if (status && status.configured) {
+		ctx.modelRegistry.unregisterProvider(providerId);
+	}
 	removeProviderFromEnabledModels(settings, providerId);
 	ctx.modelRegistry.refresh();
 }
