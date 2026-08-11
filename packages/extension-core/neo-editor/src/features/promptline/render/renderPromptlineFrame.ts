@@ -95,18 +95,12 @@ export function renderPromptlineFrame(
 		}
 	}
 
-	const bodyLines = contentLines.map(
-		(entry) =>
-			borderColor("│") + padToWidth(entry, innerWidth) + borderColor("│"),
-	);
-
-	if (bodyLines.length === 0) {
-		bodyLines.push(borderColor("│") + padToWidth("", innerWidth) + borderColor("│"));
-	}
-
 	return [
 		chrome.top,
-		...bodyLines,
+		...contentLines.map(
+			(entry) =>
+				borderColor("│") + padToWidth(entry, innerWidth) + borderColor("│"),
+		),
 		chrome.bottom,
 	];
 }

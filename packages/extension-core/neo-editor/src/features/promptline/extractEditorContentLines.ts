@@ -17,9 +17,9 @@ export function extractEditorContentLines(lines: string[]): string[] {
 			}
 			break;
 		}
-		if (!seenTop) {
+		if (seenTop) {
 			result.push(line);
 		}
 	}
-	return result;
+	return result.filter((line) => !isEditorBorderLine(line));
 }
