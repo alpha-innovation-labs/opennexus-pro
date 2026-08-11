@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import type { AgentToolResult, ExtensionAPI, Theme } from "@earendil-works/pi-coding-agent";
 import { Container } from "@earendil-works/pi-tui";
 import { getRtkExecutionCwd } from "@extensions/rtk/runtime/getRtkExecutionCwd";
 import { allToolDefinitions } from "@nexus/pi-platform/tools";
@@ -7,6 +7,17 @@ import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry";
 import { getBuiltInTools } from "./getBuiltInTools";
 import { markCompactWrappedToolDefinition } from "./markCompactWrappedToolDefinition";
 import type { BuiltInTools } from "./types";
+
+type CompactToolContext = {
+	toolCallId: string;
+	invalidate(): void;
+	isError: boolean;
+	expanded?: boolean;
+};
+
+type CompactToolResultState = {
+	expanded?: boolean;
+};
 
 /**
  * Registers one compact-rendered built-in tool.
@@ -43,7 +54,7 @@ export function registerCompactBuiltInTool(
 					onUpdate,
 				);
 			},
-			renderCall(args: unknown, theme: unknown, context: unknown) {
+			renderCall(args: unknown, theme: Theme, context: CompactToolContext) {
 				rememberActivityInvalidator(context.toolCallId, context.invalidate);
 				if (context.isError) return new Container();
 				const { renderer } = renderTranscriptEntry(
@@ -59,18 +70,18 @@ export function registerCompactBuiltInTool(
 				return renderer;
 			},
 			renderResult(
-				result: unknown,
-				state: unknown,
-				theme: unknown,
-				context: unknown,
+				result: AgentToolResult,
+				state: CompactToolResultState,
+				theme: Theme,
+				context: CompactToolContext,
 			) {
 				rememberActivityInvalidator(context.toolCallId, context.invalidate);
-				const builtIn = (allToolDefinitions as unknown)[toolName]?.renderResult;
+				const builtIn = (allToolDefinitions as Record<string, { renderResult?: (result: AgentToolResult, state: CompactToolResultState, theme: Theme, context: CompactToolContext) => Container }>[toolName]?.renderResult);
 				// Strip lastComponent so the built-in renderResult doesn't see the Container
 				// from compact renderCall, which lacks setText and triggers a crash.
-				const cleanContext = {
+				const cleanContext: CompactToolContext = {
 					...context,
-					lastComponent: undefined,
+					lastComponent: undefined as never,
 				};
 				const { renderer } = renderTranscriptEntry(
 					{

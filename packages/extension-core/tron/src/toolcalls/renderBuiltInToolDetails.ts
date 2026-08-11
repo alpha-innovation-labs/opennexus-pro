@@ -1,8 +1,22 @@
-import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
+import type { AgentToolResult, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { allToolDefinitions } from "@nexus/pi-platform/tools";
 import { formatToolCallDetails } from "./formatToolCallDetails";
 import { toPlainTextLines } from "./toPlainTextLines";
 import type { ToolCallInfo } from "./types";
+
+type ToolDefinitionWithRender = {
+	renderCall?: (
+		args: unknown,
+		theme: ExtensionCommandContext["ui"]["theme"],
+		context: Record<string, unknown>,
+	) => { render(width: number): string[]; invalidate?(): void };
+	renderResult?: (
+		result: AgentToolResult,
+		state: Record<string, unknown>,
+		theme: ExtensionCommandContext["ui"]["theme"],
+		context: Record<string, unknown>,
+	) => { render(width: number): string[]; invalidate?(): void };
+};
 
 /**
  * Renders built-in call and result components when available.
@@ -17,7 +31,7 @@ export function renderBuiltInToolDetails(
 	theme: ExtensionCommandContext["ui"]["theme"],
 	width: number,
 ): string[] {
-	const definition = (allToolDefinitions as Record<string, unknown>)[
+	const definition = (allToolDefinitions as Record<string, ToolDefinitionWithRender>)[
 		toolCall.toolName
 	];
 	if (!definition?.renderCall && !definition?.renderResult)
@@ -81,7 +95,7 @@ export function renderBuiltInToolDetails(
 				content: toolCall.result.content ?? [],
 				details: toolCall.result.details,
 				isError: toolCall.result.isError,
-			},
+			} as AgentToolResult,
 			{ expanded: true, isPartial: false },
 			theme,
 			resultContext,

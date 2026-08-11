@@ -1,3 +1,4 @@
+import type { Theme } from "@earendil-works/pi-coding-agent";
 import { renderCompactInputBubble } from "../user-message/renderCompactInputBubble";
 import type { EntryRenderer } from "./types";
 
@@ -33,7 +34,7 @@ export class UserMessageRenderer implements EntryRenderer {
 export class ErrorRenderer implements EntryRenderer {
 	constructor(
 		private readonly text: string,
-		private readonly theme: unknown,
+		private readonly theme: Theme,
 	) {}
 
 	render(): string[] {

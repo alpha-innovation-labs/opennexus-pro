@@ -1,4 +1,5 @@
-import type { Component } from "@earendil-works/pi-tui";
+import type { Component, MarkdownTheme } from "@earendil-works/pi-tui";
+import type { Theme } from "@earendil-works/pi-coding-agent";
 
 /**
  * One role in a transcript entry.
@@ -33,8 +34,8 @@ export interface TranscriptEntry {
  * Context passed when rendering a transcript entry.
  */
 export interface RenderContext {
-	theme: unknown;
-	markdownTheme?: unknown;
+	theme: Theme;
+	markdownTheme?: MarkdownTheme;
 	connectThinkingToTools?: boolean;
 	connectThinkingFromTool?: boolean;
 	expanded?: boolean;

@@ -21,7 +21,7 @@ import { installAssistantThinkingStyle } from "./installAssistantThinkingStyle";
 export default function registerAssistantThinkingStyleExtension(
 	pi: ExtensionAPI,
 ): void {
-	setAssistantMessageUpdateHook(undefined as unknown);
+	setAssistantMessageUpdateHook(undefined);
 	installAssistantThinkingStyle();
 	pi.on("session_start", async (_event, ctx) => {
 		resetAssistantMessageTimings();

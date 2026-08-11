@@ -1,4 +1,4 @@
-import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
+import type { ExtensionContext, SessionEntry } from "@earendil-works/pi-coding-agent";
 import { createUserMessageSignature } from "./createUserMessageSignature";
 import type { UserMessageMetadata } from "./types";
 
@@ -13,7 +13,7 @@ export function createUserMessageMetadataQueueFromSession(
 ): UserMessageMetadata[] {
 	const branch = ctx.sessionManager.getBranch(
 		ctx.sessionManager.getLeafId() ?? undefined,
-	);
+	) as SessionEntry[];
 	const renderedUserSignatures = getRenderedUserSignatures(ctx);
 	const renderedCounts = new Map<string, number>();
 	const queue: UserMessageMetadata[] = [];
@@ -26,7 +26,7 @@ export function createUserMessageMetadataQueueFromSession(
 		if (consumed >= remaining) continue;
 		renderedCounts.set(signature, consumed + 1);
 		queue.push({
-			timestamp: (entry.message as unknown).timestamp ?? entry.timestamp,
+			timestamp: entry.message.timestamp ?? entry.timestamp,
 		});
 	}
 
@@ -42,14 +42,14 @@ export function createUserMessageMetadataQueueFromSession(
 function getRenderedUserSignatures(ctx: ExtensionContext): Map<string, number> {
 	const signatures = new Map<string, number>();
 	const sessionContext = (
-		ctx.sessionManager as unknown
+		ctx.sessionManager as unknown as { buildSessionContext?: () => { messages?: { role?: string; timestamp?: number }[] } }
 	).buildSessionContext?.();
 	const messages = Array.isArray(sessionContext?.messages)
 		? sessionContext.messages
 		: [];
 	for (const message of messages) {
 		if (message.role !== "user") continue;
-		const signature = createUserMessageSignature(message);
+		const signature = createUserMessageSignature(message as { timestamp?: number });
 		signatures.set(signature, (signatures.get(signature) ?? 0) + 1);
 	}
 	return signatures;

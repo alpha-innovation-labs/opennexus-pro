@@ -1,7 +1,10 @@
+import type { Theme } from "@earendil-works/pi-coding-agent";
 import { visibleWidth } from "@earendil-works/pi-tui";
 import { hasToolCallFrameState } from "../activity/hasToolCallFrameState";
 import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder";
 import { measureTronRender } from "../profiling/measureTronRender";
+
+type Themed = { fg(color: string, text: string): string };
 
 /**
  * Wraps a built-in tool result component in nexus borders.
@@ -13,7 +16,7 @@ export class BorderedToolResult {
 			render(width: number): string[];
 			invalidate?(): void;
 		},
-		private readonly theme: unknown,
+		private readonly theme: Themed,
 	) {}
 
 	/**

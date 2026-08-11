@@ -19,7 +19,7 @@ export class SingleLineToolCall {
 		private readonly toolCallId: string,
 		private readonly toolName: string,
 		private readonly summary: SummaryText,
-		private readonly theme: unknown,
+		private readonly theme: { fg(color: string, text: string): string; bold(text: string): string };
 		private readonly hasAttachedResult: boolean,
 	) {}
 

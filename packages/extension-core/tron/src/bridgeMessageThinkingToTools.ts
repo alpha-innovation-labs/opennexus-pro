@@ -1,3 +1,4 @@
+import type { AssistantMessage } from "@earendil-works/pi-ai";
 import { bridgeThinkingToToolCalls } from "./activity/bridgeThinkingToToolCalls";
 import { getImmediateFollowingToolCallGroup } from "./activity/getImmediateFollowingToolCallGroup";
 
@@ -6,8 +7,8 @@ import { getImmediateFollowingToolCallGroup } from "./activity/getImmediateFollo
  *
  * @param message Assistant message payload.
  */
-export function bridgeMessageThinkingToTools(message: unknown): void {
-	for (let index = 0; index < (message.content ?? []).length; index++) {
+export function bridgeMessageThinkingToTools(message: AssistantMessage): void {
+	for (let index = 0; index < message.content.length; index++) {
 		const content = message.content[index];
 		if (
 			content?.type !== "thinking" ||
@@ -16,7 +17,7 @@ export function bridgeMessageThinkingToTools(message: unknown): void {
 		)
 			continue;
 		const group = getImmediateFollowingToolCallGroup(
-			message.content ?? [],
+			message.content,
 			index,
 		);
 		if (group.toolCallIds.length > 0) {

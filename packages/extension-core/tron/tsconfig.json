@@ -8,6 +8,12 @@
 			"@nexus/observability": [
 				"../../observability/src/index.ts"
 			],
+			"@nexus/pi-platform/*": [
+				"../../pi-platform/src/*"
+			],
+			"@nexus/pi-platform": [
+				"../../pi-platform/src/index.ts"
+			],
 			"@nexus/runtime/*": [
 				"../../nexus-runtime/src/*"
 			],
@@ -19,6 +25,15 @@
 			],
 			"@nexus/tui-kit": [
 				"../../tui-kit/src/index.ts"
+			],
+			"@extensions/rtk/*": [
+				"../rtk/src/*"
+			],
+			"@extensions/rtk": [
+				"../rtk/src/index.ts"
+			],
+			"@extensions/tron/colors/*": [
+				"./src/colors/*"
 			]
 		}
 	},

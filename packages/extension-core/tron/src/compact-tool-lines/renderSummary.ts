@@ -1,3 +1,4 @@
+import type { Theme } from "@earendil-works/pi-coding-agent";
 import { renderEditChangeStats } from "./renderEditChangeStats";
 import { SingleLineToolCall } from "./SingleLineToolCall";
 import type { SummaryText } from "./SummaryText";
@@ -18,7 +19,7 @@ export function renderSummary(
 	toolCallId: string,
 	toolName: string,
 	summary: SummaryText,
-	theme: unknown,
+	theme: Theme,
 	hasAttachedResult: boolean,
 ): SingleLineToolCall {
 	const normalizedSummary = {

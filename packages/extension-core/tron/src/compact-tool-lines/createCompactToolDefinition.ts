@@ -1,8 +1,20 @@
-import type { ToolDefinition } from "@earendil-works/pi-coding-agent";
+import type { AgentToolResult, ToolDefinition } from "@earendil-works/pi-coding-agent";
 import { Container } from "@earendil-works/pi-tui";
+import type { Theme } from "@earendil-works/pi-coding-agent";
 import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator";
 import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry";
 import { markCompactWrappedToolDefinition } from "./markCompactWrappedToolDefinition";
+
+type CompactToolContext = {
+	toolCallId: string;
+	invalidate(): void;
+	isError: boolean;
+	expanded?: boolean;
+};
+
+type CompactToolResultState = {
+	expanded?: boolean;
+};
 
 /**
  * Creates a Tron compact-rendered copy of any registered tool definition.
@@ -11,12 +23,12 @@ import { markCompactWrappedToolDefinition } from "./markCompactWrappedToolDefini
  * @returns Compact-rendered tool definition.
  */
 export function createCompactToolDefinition(
-	definition: ToolDefinition<unknown, unknown, unknown>,
-): ToolDefinition<unknown, unknown, unknown> {
+	definition: ToolDefinition,
+): ToolDefinition {
 	const wrapped = {
 		...definition,
 		renderShell: "self" as const,
-		renderCall(args: unknown, theme: unknown, context: unknown) {
+		renderCall(args: unknown, theme: Theme, context: CompactToolContext) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
 			if (context.isError) return new Container();
 			const { renderer } = renderTranscriptEntry(
@@ -32,10 +44,10 @@ export function createCompactToolDefinition(
 			return renderer;
 		},
 		renderResult(
-			result: unknown,
-			state: unknown,
-			theme: unknown,
-			context: unknown,
+			result: AgentToolResult,
+			state: CompactToolResultState,
+			theme: Theme,
+			context: CompactToolContext,
 		) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
 			const { renderer } = renderTranscriptEntry(
@@ -66,6 +78,6 @@ export function createCompactToolDefinition(
 			);
 			return renderer;
 		},
-	} as ToolDefinition<unknown, unknown, unknown>;
+	} as ToolDefinition;
 	return markCompactWrappedToolDefinition(wrapped);
 }

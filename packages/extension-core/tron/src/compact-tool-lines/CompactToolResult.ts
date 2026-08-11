@@ -1,4 +1,5 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
+import type { AgentToolResult } from "@earendil-works/pi-coding-agent";
 import { hasToolCallFrameState } from "../activity/hasToolCallFrameState";
 import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder";
 import { measureTronRender } from "../profiling/measureTronRender";
@@ -10,9 +11,9 @@ import { getResultText } from "./getResultText";
 export class CompactToolResult {
 	constructor(
 		private readonly toolCallId: string,
-		private readonly result: unknown,
+		private readonly result: AgentToolResult,
 		private readonly expanded: boolean,
-		private readonly theme: unknown,
+		private readonly theme: { fg(color: string, text: string): string },
 	) {}
 
 	/**

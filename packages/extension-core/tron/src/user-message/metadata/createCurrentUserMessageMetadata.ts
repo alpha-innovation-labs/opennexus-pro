@@ -7,7 +7,7 @@ import type { UserMessageMetadata } from "./types";
  * @returns Metadata for rendering the message timestamp.
  */
 export function createCurrentUserMessageMetadata(
-	message: unknown,
+	message: { timestamp?: number },
 ): UserMessageMetadata {
 	return {
 		timestamp: message?.timestamp,

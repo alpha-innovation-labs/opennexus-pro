@@ -17,7 +17,7 @@ export function createTronToolWrappingExtensionApi(
 	return new Proxy(pi, {
 		get(target, property, receiver) {
 			if (property === "registerTool") {
-				return (definition: ToolDefinition<unknown, unknown, unknown>) => {
+				return (definition: ToolDefinition) => {
 					const compactDefinition = isCompactWrappedToolDefinition(definition)
 						? definition
 						: createCompactToolDefinition(definition);

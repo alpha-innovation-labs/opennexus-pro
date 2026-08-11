@@ -1,13 +1,14 @@
+import type { AssistantMessage } from "@earendil-works/pi-ai";
 import { AssistantMessageComponent } from "@earendil-works/pi-coding-agent";
 
 type AssistantMessageUpdateHook = (
 	component: AssistantMessageComponent,
-	message: unknown,
+	message: AssistantMessage | undefined,
 ) => void;
 
 const assistantMessagePrototype =
 	AssistantMessageComponent.prototype as AssistantMessageComponent & {
-		updateContent(message: unknown): void;
+		updateContent(message: AssistantMessage, isStreaming?: boolean): void;
 	};
 const originalUpdateContent = assistantMessagePrototype.updateContent;
 let currentAssistantMessageUpdateHook: AssistantMessageUpdateHook | undefined;
@@ -22,13 +23,14 @@ function installAssistantMessageHookBridge(): void {
 	}
 
 	assistantMessagePrototype.updateContent = function updateContentWithHook(
-		message: unknown,
+		message: AssistantMessage,
+		isStreaming?: boolean,
 	): void {
 		if (currentAssistantMessageUpdateHook) {
 			currentAssistantMessageUpdateHook(this, message);
 			return;
 		}
-		originalUpdateContent.call(this, message);
+		originalUpdateContent.call(this, message, isStreaming);
 	};
 	assistantMessageHookInstalled = true;
 }
