@@ -11,7 +11,7 @@ export async function listJsonlFiles(root: string): Promise<string[]> {
   const files: string[] = [];
 
   async function visit(directory: string): Promise<void> {
-    let entries;
+    let entries: import('node:fs').Dirent[];
     try {
       entries = await readdir(directory, { withFileTypes: true });
     } catch {

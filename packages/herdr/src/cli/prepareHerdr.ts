@@ -22,7 +22,7 @@ import {
   promptHerdrAgent,
   closeHerdrWorkspace,
   runHerdr,
-  PreparedHerdr,
+  type PreparedHerdr,
 } from "../index";
 
 // ---------------------------------------------------------------------------
@@ -85,7 +85,7 @@ function cmdSetup(flags: Record<string, string>): PreparedHerdr {
   });
 }
 
-function cmdStart(paneId: string, flags: Record<string, string>): string {
+function _cmdStart(paneId: string, flags: Record<string, string>): string {
   return startHerdrAgent(paneId, {
     maxWaitSeconds: flags.maxWait ? parseInt(flags.maxWait, 10) : undefined,
   });
@@ -179,7 +179,7 @@ Usage:
 const { command, args, flags } = parseArgs();
 
 switch (command) {
-  case "setup":
+  case "setup": {
     if (args.length > 0) {
       console.error("Error: 'setup' takes no positional arguments.");
       process.exit(1);
@@ -187,6 +187,7 @@ switch (command) {
     const result = cmdSetup(flags);
     console.error(`  Agent name: ${result.agentName}`);
     break;
+  }
 
   case "start": {
     const paneId = args[0];
@@ -250,7 +251,6 @@ switch (command) {
     cmdFull(flags);
     break;
 
-  case "help":
   default:
     cmdHelp();
     break;

@@ -90,7 +90,7 @@ function getBoolean(raw: Record<string, unknown>, key: string): boolean | undefi
  * Warns when a section is missing from the user's config file.
  * This makes it easy to spot mis-configurations without crashing.
  */
-function warnMissingSection(section: string): void {
+function warnMissingSection(_section: string): void {
   console.warn(
     `[pi-web-search] Config file is missing the "websearch" section. ` +
       `Add it to your Nexus config file or set the relevant environment variable. ` +

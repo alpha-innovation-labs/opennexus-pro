@@ -115,7 +115,10 @@ export class SelectPreviewModal extends SharedModal {
 
   /** Routes keyboard input to the focused pane. */
   override handleInput(data: string): void {
-    if (this.activePane !== "right") return this.selectList.handleInput(data);
+    if (this.activePane !== "right") {
+      this.selectList.handleInput(data);
+      return;
+    }
     const result = handleTwoPaneRightInput({ data, pendingRightGotoStart: this.pendingRightGotoStart, rightLinesLength: this.rightLines.length, rightScrollOffset: this.rightScrollOffset });
     this.activePane = result.activePane;
     this.pendingRightGotoStart = result.pendingRightGotoStart;
@@ -171,7 +174,9 @@ export class SelectPreviewModal extends SharedModal {
     this.headerLines = [createTwoPaneHeaderLine({ activePane: this.activePane, leftTitle: this.leftTitle, rightTitle: this.rightTitle, showFocusMarkers: this.showHeaderFocusMarkers, leftWidth: widths[0], rightWidth: widths.at(-1), showLeftPane: this.showLeftPane, showRightPane: this.showRightPane, uiTheme: this.uiTheme })];
     const footerSeparator = (this.footerHintLines?.length ?? 0) > 0 ? [SHARED_MODAL_FOOTER_BORDER] : [];
     this.footerLines = [...(this.footerHintLines ?? []), ...footerSeparator, ...createTwoPaneFooterLine({ bottomPrefix: this.bottomPrefix, bottomTitle: this.bottomTitle, bottomValue: this.bottomValue })];
-    this.panes = [...(this.showLeftPane ? [{ ...shells[0]!, lines: leftLines }] : []), ...(this.showRightPane ? [{ ...shells[shells.length - 1]!, lines: right.lines }] : [])];
+    const leftShell = shells[0];
+    const rightShell = shells[shells.length - 1];
+    this.panes = [...(this.showLeftPane ? [{ ...leftShell, lines: leftLines }] : []), ...(this.showRightPane ? [{ ...rightShell, lines: right.lines }] : [])];
   }
 
   /** Recreates the select list when visible height changes. */

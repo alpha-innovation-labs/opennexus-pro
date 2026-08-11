@@ -18,7 +18,12 @@ export function renderModalPanes(theme: SharedModalTheme, panes: SharedModalPane
   const rows: string[] = [];
 
   for (let rowIndex = 0; rowIndex < rowCount; rowIndex += 1) {
-    rows.push(renderPaneRow(theme, paneLines.map((lines, index) => lines[rowIndex] ?? renderSharedModalPaneFillerLine(theme, panes[index]!, widths[index] ?? 1)), widths));
+    const mapped = paneLines.map((lines, index) => {
+      const pane = panes[index];
+      if (!pane) return "";
+      return lines[rowIndex] ?? renderSharedModalPaneFillerLine(theme, pane, widths[index] ?? 1);
+    });
+    rows.push(renderPaneRow(theme, mapped, widths));
   }
 
   return rows;

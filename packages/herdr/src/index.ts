@@ -161,7 +161,7 @@ interface PreparedHerdr {
  * @returns Handle containing workspaceId, rootPaneId, and agentName.
  */
 function prepareHerdr(options: PrepareHerdrOptions = {}): PreparedHerdr {
-  const { workspaceLabel = "nexus-e2e", maxWaitSeconds = 30, agentName: providedAgentName } = options;
+  const { workspaceLabel = "nexus-e2e", agentName: providedAgentName } = options;
 
   // Step 1: Create workspace (no-focus to avoid stealing UI focus).
   const createData = runHerdr(["workspace", "create", "--label", workspaceLabel, "--no-focus"]);

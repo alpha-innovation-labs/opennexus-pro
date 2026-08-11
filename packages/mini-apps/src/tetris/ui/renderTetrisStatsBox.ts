@@ -1,4 +1,5 @@
 import type { TetrisGame } from "../game/types";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
 import { renderTetrisBox } from "./renderTetrisBox";
 
 /**
@@ -10,7 +11,7 @@ import { renderTetrisBox } from "./renderTetrisBox";
  * @param color Value color.
  * @returns Rendered stat row.
  */
-function statRow(theme: any, label: string, value: string | number, color: string): string {
+function statRow(theme: SharedModalTheme & { bold: (text: string) => string }, label: string, value: string | number, color: string): string {
 	return `${theme.fg("dim", label.padEnd(7))} ${theme.fg(color, String(value))}`;
 }
 
@@ -24,7 +25,7 @@ function statRow(theme: any, label: string, value: string | number, color: strin
  * @param musicPlaying Whether music is currently active.
  * @returns Boxed stats panel lines.
  */
-export function renderTetrisStatsBox(theme: any, game: TetrisGame, width: number, height: number, musicPlaying: boolean): string[] {
+export function renderTetrisStatsBox(theme: SharedModalTheme & { bold: (text: string) => string }, game: TetrisGame, width: number, height: number, musicPlaying: boolean): string[] {
 	const status = game.gameOver ? "Game Over" : game.paused ? "Paused" : "Playing";
 	return renderTetrisBox(theme, "Score", [
 		statRow(theme, "Score", game.score, "accent"),

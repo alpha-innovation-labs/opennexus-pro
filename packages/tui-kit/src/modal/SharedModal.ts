@@ -212,5 +212,5 @@ export class SharedModal implements Component {
   /**
    * Clears render caches for theme changes.
    */
-  invalidate(): void { return undefined; }
+  invalidate(): void { }
 }

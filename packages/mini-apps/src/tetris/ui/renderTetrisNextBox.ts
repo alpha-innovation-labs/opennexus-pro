@@ -1,3 +1,4 @@
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
 import { TETROMINOES } from "../game/tetrominoes";
 import type { TetrisGame } from "../game/types";
 import { centerTetrisLine } from "./centerTetrisLine";
@@ -13,7 +14,7 @@ import { renderTetrisCellSegment } from "./renderTetrisCellSegment";
  * @param height Panel height.
  * @returns Boxed next-piece panel lines.
  */
-export function renderTetrisNextBox(theme: any, game: TetrisGame, width: number, height: number): string[] {
+export function renderTetrisNextBox(theme: SharedModalTheme & { bold: (text: string) => string }, game: TetrisGame, width: number, height: number): string[] {
 	const shape = TETROMINOES[game.nextKind];
 	const innerWidth = Math.max(1, width - 2);
 	const cellWidth = 2;

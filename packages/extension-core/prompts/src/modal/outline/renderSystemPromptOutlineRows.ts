@@ -12,7 +12,7 @@ import type { SystemPromptOutlineRow } from "./createSystemPromptOutlineRows";
  * @param theme Modal theme.
  * @returns Renderable outline lines.
  */
-export function renderSystemPromptOutlineRows(rows: readonly SystemPromptOutlineRow[], selectedIndex: number, focused: boolean, theme: SelectPreviewTheme): string[] {
+export function renderSystemPromptOutlineRows(rows: readonly SystemPromptOutlineRow[], selectedIndex: number, _focused: boolean, theme: SelectPreviewTheme): string[] {
 	return rows.map((row, index) => {
 		const selected = row.selectable && index === selectedIndex;
 		const label = row.level === 0 ? row.label : row.label;

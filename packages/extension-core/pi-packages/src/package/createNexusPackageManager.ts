@@ -3,8 +3,6 @@ import { DefaultPackageManager } from "@earendil-works/pi-coding-agent";
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import { normalizeNpmPackageName } from "./normalizeNpmPackageName";
-import type { ConfiguredPackage } from "../model/types";
-
 /** Package manager patched to also read from extensions.pi_packages. */
 export type NexusPackageManagerRuntime = {
 	packageManager: DefaultPackageManager;
@@ -22,7 +20,7 @@ export function createNexusPackageManager(cwd: string): NexusPackageManagerRunti
 	const packageManager = new DefaultPackageManager({ cwd, agentDir: getNexusAgentDirPath(), settingsManager });
 	// Patch listConfiguredPackages to also read from extensions.pi_packages.
 	const originalListConfiguredPackages = packageManager.listConfiguredPackages.bind(packageManager);
-	packageManager.listConfiguredPackages = function () {
+	packageManager.listConfiguredPackages = () => {
 		const configuredPackages = originalListConfiguredPackages();
 		const userConfig = readNexusUserConfig();
 		const piPackages = userConfig.extensions?.pi_packages;

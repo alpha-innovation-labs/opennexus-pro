@@ -42,14 +42,14 @@ export class PiPackagesModal extends SelectPreviewModal {
 
 	/** Handles tab, search-mode, update/remove, and selection input. */
 	override handleInput(data: string): void {
-		if (matchesKey(data, Key.shift("tab"))) return this.moveToNextTab(-1);
-		if (matchesKey(data, Key.tab)) return this.moveToNextTab(1);
+		if (matchesKey(data, Key.shift("tab"))) { this.moveToNextTab(-1); return; }
+		if (matchesKey(data, Key.tab)) { this.moveToNextTab(1); return; }
 		if (this.searchActive && this.closeSearchOnEscape(data)) return;
 		if (this.searchActive && this.handleFilterInput(data)) return;
-		if (data === "/") return this.openSearch();
-		if (data === "d") return void this.removeSelectedPackage();
-		if (data === "u") return void this.updateSelectedPackage();
-		if (matchesKey(data, Key.enter) || data === " ") return void this.activateSelectedRow();
+		if (data === "/") { this.openSearch(); return; }
+		if (data === "d") { void this.removeSelectedPackage(); return; }
+		if (data === "u") { void this.updateSelectedPackage(); return; }
+		if (matchesKey(data, Key.enter) || data === " ") { void this.activateSelectedRow(); return; }
 		super.handleInput(data);
 	}
 
@@ -155,7 +155,7 @@ export class PiPackagesModal extends SelectPreviewModal {
 	/** Removes one selected third-party extension or package from Nexus settings. */
 	private async removeSelectedPackage(): Promise<void> {
 		const row = this.getSelectedRow();
-		if (!row || row.kind !== "third-party" || row.rowType === "search" || typeof this.callbacksOrUpdate === "function" || !this.callbacksOrUpdate?.onRemovePackage) return;
+		if (row?.kind !== "third-party" || row.rowType === "search" || typeof this.callbacksOrUpdate === "function" || !this.callbacksOrUpdate?.onRemovePackage) return;
 		const source = row.rowType === "package" && row.source ? row.source : row.id;
 		this.pendingAction = `Removing ${source}…`; this.refreshBottom();
 		this.rows = await this.callbacksOrUpdate.onRemovePackage(source); this.pendingAction = null; this.refreshBottom(); this.refreshItems();

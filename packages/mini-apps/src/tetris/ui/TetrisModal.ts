@@ -1,4 +1,5 @@
-import { type Focusable } from "@earendil-works/pi-tui";
+import type { Focusable } from "@earendil-works/pi-tui";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
 import { SharedModal } from "@nexus/tui-kit/modal/index";
 import { hardDropTetrisPiece } from "../game/hardDropTetrisPiece";
 import { moveTetrisPiece } from "../game/moveTetrisPiece";
@@ -32,7 +33,7 @@ export class TetrisModal extends SharedModal implements Focusable {
 	 */
 	constructor(
 		private readonly tui: TetrisModalHost,
-		theme: any,
+		theme: SharedModalTheme & { bold: (text: string) => string },
 		private readonly game: TetrisGame,
 		private readonly closeModal: () => void,
 		private readonly options: TetrisModalOptions = {},
@@ -68,10 +69,10 @@ export class TetrisModal extends SharedModal implements Focusable {
 
 	/** Handles movement, rotation, pausing, restart, and close keys. */
 	override handleInput(data: string): void {
-		if (isTetrisEscape(data) || isTetrisQuit(data)) return this.close();
-		if (data === "p") return this.togglePause();
-		if (data === "r") return this.restart();
-		if (data === "m") return this.toggleMusic();
+		if (isTetrisEscape(data) || isTetrisQuit(data)) { this.close(); return; }
+		if (data === "p") { this.togglePause(); return; }
+		if (data === "r") { this.restart(); return; }
+		if (data === "m") { this.toggleMusic(); return; }
 		super.handleInput(data);
 		if (this.game.paused || this.game.gameOver) return;
 		if (isTetrisLeft(data) || data === "a") moveTetrisPiece(this.game, -1);
@@ -87,7 +88,7 @@ export class TetrisModal extends SharedModal implements Focusable {
 		const modalWidth = this.fullScreenEnabled ? width : Math.min(width, 116, Math.max(40, Math.floor(width * 0.94)));
 		const innerWidth = Math.max(1, modalWidth - 2);
 		const bodyHeight = this.fullScreenEnabled ? Math.max(12, (this.tui.terminal?.rows ?? 30) - 6) : Math.max(12, Math.min(28, (this.tui.terminal?.rows ?? 30) - 10));
-		this.panes = [{ id: "tetris", size: 1, lines: createTetrisModalLines(this.theme, this.game, innerWidth, bodyHeight, this.musicEnabled && isTetrisMusicRunning()) }];
+		this.panes = [{ id: "tetris", size: 1, lines: createTetrisModalLines(this.theme as SharedModalTheme & { bold: (text: string) => string }, this.game, innerWidth, bodyHeight, this.musicEnabled && isTetrisMusicRunning()) }];
 		return super.render(width);
 	}
 

@@ -22,7 +22,7 @@ export async function applyNexusSystemPromptPatch(): Promise<void> {
 	const originalRebuild = AgentSession.prototype._rebuildSystemPrompt;
 	AgentSession.prototype._rebuildSystemPrompt = function rebuildNexusSystemPrompt(this: AgentSessionInstance, toolNames: string[]): string {
 		originalRebuild.call(this, toolNames);
-		return buildNexusSystemPrompt(this._baseSystemPromptOptions!);
+		return buildNexusSystemPrompt(this._baseSystemPromptOptions ?? {});
 	};
 	AgentSession.__nexusSystemPromptPatched__ = true;
 }

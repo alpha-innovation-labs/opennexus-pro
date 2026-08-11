@@ -217,7 +217,7 @@ export async function applyPromptTemplateArgAppendPatch(): Promise<void> {
 						const MAX_ARGS_LENGTH = 1_000_000; // 1MB
 						const truncatedArgs = templateArgs.join(" ");
 						const safeArgs = truncatedArgs.length > MAX_ARGS_LENGTH
-							? truncatedArgs.slice(0, MAX_ARGS_LENGTH) + "...[truncated]"
+							? `${truncatedArgs.slice(0, MAX_ARGS_LENGTH)}...[truncated]`
 							: truncatedArgs;
 						// The sentinel is NOT appended here — it would leak to the AI
 						// model. The guard works because the modal path appends the

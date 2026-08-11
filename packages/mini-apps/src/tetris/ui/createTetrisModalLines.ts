@@ -1,3 +1,4 @@
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
 import type { TetrisGame } from "../game/types";
 import { createCompactTetrisModalLines } from "./createCompactTetrisModalLines";
 import { createTetrisDividerLine } from "./createTetrisDividerLine";
@@ -16,7 +17,7 @@ import { renderTetrisStatusLine } from "./renderTetrisStatusLine";
  * @param musicPlaying Whether music is active.
  * @returns Body lines for the shared modal pane.
  */
-export function createTetrisModalLines(theme: any, game: TetrisGame, width: number, height: number, musicPlaying = false): string[] {
+export function createTetrisModalLines(theme: SharedModalTheme & { bold: (text: string) => string }, game: TetrisGame, width: number, height: number, musicPlaying = false): string[] {
 	if (width < 90) return createCompactTetrisModalLines(theme, game, width, height, musicPlaying);
 	if (width >= 90) return createWideTetrisModalLines(theme, game, width, height, musicPlaying);
 	const chromeHeight = 3;

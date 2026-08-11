@@ -9,13 +9,13 @@ import type { TetrisCell, TetrisGame } from "./types";
 export function createTetrisGame(): TetrisGame {
 	const width = 15;
 	const height = 20;
-	const firstKind = TETRIS_SEQUENCE[0]!;
+	const firstKind = TETRIS_SEQUENCE[0];
 	return {
 		width,
 		height,
 		board: Array.from({ length: height }, () => Array.from<TetrisCell>({ length: width }).fill("")),
 		active: createTetrisPiece(firstKind, width),
-		nextKind: TETRIS_SEQUENCE[1]!,
+		nextKind: TETRIS_SEQUENCE[1] as Exclude<TetrisCell, "">,
 		pieceIndex: 1,
 		score: 0,
 		lines: 0,

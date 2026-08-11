@@ -9,12 +9,15 @@ import type { TetrisActivePiece, TetrisGame } from "./types";
  */
 export function canPlacePiece(game: TetrisGame, piece: TetrisActivePiece): boolean {
 	for (let row = 0; row < piece.shape.length; row += 1) {
-		for (let column = 0; column < piece.shape[row]!.length; column += 1) {
-			if (!piece.shape[row]![column]) continue;
+		const shapeRow = piece.shape[row];
+		if (!shapeRow) continue;
+		for (let column = 0; column < shapeRow.length; column += 1) {
+			if (!shapeRow[column]) continue;
 			const boardRow = piece.row + row;
 			const boardColumn = piece.column + column;
 			if (boardColumn < 0 || boardColumn >= game.width || boardRow < 0 || boardRow >= game.height) return false;
-			if (game.board[boardRow]![boardColumn]) return false;
+			const boardRowArr = game.board[boardRow];
+			if (boardRowArr?.[boardColumn]) return false;
 		}
 	}
 	return true;

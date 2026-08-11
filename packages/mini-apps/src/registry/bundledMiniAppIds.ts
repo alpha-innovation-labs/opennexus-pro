@@ -1,5 +1,3 @@
-import type { FeatureProductCategory } from "./featureFlagsTypes";
-
 /**
  * Canonical registry of all bundled mini-apps.
  *

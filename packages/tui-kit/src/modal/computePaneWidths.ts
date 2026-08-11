@@ -32,7 +32,8 @@ function shrinkPaneWidths(widths: number[], panes: SharedModalPane[], overflow: 
   let remaining = overflow;
   for (let index = widths.length - 1; index >= 0 && remaining > 0; index -= 1) {
     const minimum = panes[index]?.minWidth ?? 1;
-    const removable = Math.max(0, widths[index]! - minimum);
+    const paneWidth = widths[index];
+    const removable = Math.max(0, (paneWidth ?? 0) - minimum);
     const amount = Math.min(removable, remaining);
     widths[index] -= amount;
     remaining -= amount;

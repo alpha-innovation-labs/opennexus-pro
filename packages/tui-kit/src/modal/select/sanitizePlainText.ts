@@ -5,5 +5,5 @@
  * @returns Sanitized text.
  */
 export function sanitizePlainText(text: string): string {
-	return text.replace(/\t/g, "    ").replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "");
+	return text.replace(/\t/g, "    ").replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g, "");
 }

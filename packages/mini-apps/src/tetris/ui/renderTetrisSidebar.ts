@@ -1,3 +1,4 @@
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
 import type { TetrisGame } from "../game/types";
 
 /**
@@ -7,7 +8,7 @@ import type { TetrisGame } from "../game/types";
  * @param game Current game state.
  * @returns Sidebar lines.
  */
-export function renderTetrisSidebar(theme: any, game: TetrisGame): string[] {
+export function renderTetrisSidebar(theme: SharedModalTheme & { bold: (text: string) => string }, game: TetrisGame): string[] {
 	const status = game.gameOver ? "Game Over" : game.paused ? "Paused" : "Playing";
 	return [
 		theme.fg("accent", theme.bold("Tetris")),

@@ -23,5 +23,6 @@ export const TETROMINOES: Record<Exclude<TetrisCell, "">, number[][]> = {
  */
 export function createTetrisPiece(kind: Exclude<TetrisCell, "">, boardWidth: number): TetrisActivePiece {
 	const shape = TETROMINOES[kind].map((row) => [...row]);
-	return { kind, shape, row: 0, column: Math.floor((boardWidth - shape[0]!.length) / 2) };
+	const firstRow = shape[0];
+	return { kind, shape, row: 0, column: firstRow ? Math.floor((boardWidth - firstRow.length) / 2) : 0 };
 }

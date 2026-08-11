@@ -28,13 +28,16 @@ export function getTetrisRenderCells(game: TetrisGame): TetrisRenderCell[][] {
  */
 function applyPiece(cells: TetrisRenderCell[][], game: TetrisGame, piece: { shape: number[][]; row: number; column: number }, value: TetrisRenderCell, overwrite: boolean): void {
 	for (let row = 0; row < piece.shape.length; row += 1) {
-		for (let column = 0; column < piece.shape[row]!.length; column += 1) {
-			if (!piece.shape[row]![column]) continue;
+		const shapeRow = piece.shape[row];
+		if (!shapeRow) continue;
+		for (let column = 0; column < shapeRow.length; column += 1) {
+			if (!shapeRow[column]) continue;
 			const boardRow = piece.row + row;
 			const boardColumn = piece.column + column;
 			if (boardRow < 0 || boardRow >= game.height) continue;
-			if (!overwrite && cells[boardRow]![boardColumn]) continue;
-			cells[boardRow]![boardColumn] = value;
+			const boardRowArr = cells[boardRow];
+			if (!overwrite && boardRowArr && boardRowArr[boardColumn]) continue;
+			if (boardRowArr) boardRowArr[boardColumn] = value;
 		}
 	}
 }

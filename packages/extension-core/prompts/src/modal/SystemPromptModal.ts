@@ -44,7 +44,7 @@ export class SystemPromptModal {
 	constructor(
 		private readonly uiTheme: SelectPreviewTheme,
 		private readonly prompt: string,
-		isCustom: boolean,
+		_isCustom: boolean,
 		private readonly done: (action: SystemPromptModalAction) => void,
 		private readonly tui?: TUI,
 		private readonly onRenderNeeded: () => void = () => {},
@@ -57,13 +57,13 @@ export class SystemPromptModal {
 	 * @param data Raw terminal input.
 	 */
 	handleInput(data: string): void {
-		if (matchesKey(data, Key.tab)) return this.toggleFocusedPane();
-		if (data === "h") return this.focusPane("left");
-		if (data === "l") return this.focusPane("right");
-		if (data === "j" || matchesKey(data, Key.down)) return this.moveFocusedPane(1);
-		if (data === "k" || matchesKey(data, Key.up)) return this.moveFocusedPane(-1);
-		if (data === "g") return this.handleGoPrefix();
-		if (data === "G") return this.scrollRightToBottom();
+		if (matchesKey(data, Key.tab)) { this.toggleFocusedPane(); return; }
+		if (data === "h") { this.focusPane("left"); return; }
+		if (data === "l") { this.focusPane("right"); return; }
+		if (data === "j" || matchesKey(data, Key.down)) { this.moveFocusedPane(1); return; }
+		if (data === "k" || matchesKey(data, Key.up)) { this.moveFocusedPane(-1); return; }
+		if (data === "g") { this.handleGoPrefix(); return; }
+		if (data === "G") { this.scrollRightToBottom(); return; }
 		this.pendingGoToTop = false;
 
 		if (matchesKey(data, Key.ctrl("g"))) {

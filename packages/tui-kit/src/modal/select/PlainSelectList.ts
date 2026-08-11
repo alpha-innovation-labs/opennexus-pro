@@ -29,12 +29,27 @@ export class PlainSelectList {
 
   /** Handles list navigation and selection keys. */
   handleInput(data: string): void {
-    if (data === "G") return this.goToLastViaInput();
-    if (data === "g") return this.handleGotoStart();
+    if (data === "G") {
+      this.goToLastViaInput();
+      return;
+    }
+    if (data === "g") {
+      this.handleGotoStart();
+      return;
+    }
     this.pendingGotoStart = false;
-    if (data === "k" || matchesKey(data, Key.up) || matchesKey(data, Key.ctrl("p"))) return this.moveBy(-1);
-    if (data === "j" || matchesKey(data, Key.down) || matchesKey(data, Key.ctrl("n"))) return this.moveBy(1);
-    if (matchesKey(data, Key.enter)) return this.pickSelected();
+    if (data === "k" || matchesKey(data, Key.up) || matchesKey(data, Key.ctrl("p"))) {
+      this.moveBy(-1);
+      return;
+    }
+    if (data === "j" || matchesKey(data, Key.down) || matchesKey(data, Key.ctrl("n"))) {
+      this.moveBy(1);
+      return;
+    }
+    if (matchesKey(data, Key.enter)) {
+      this.pickSelected();
+      return;
+    }
     if (matchesKey(data, Key.escape) || matchesKey(data, Key.ctrl("c"))) this.onClose();
   }
 

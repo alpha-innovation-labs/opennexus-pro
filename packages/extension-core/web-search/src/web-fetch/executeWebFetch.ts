@@ -15,8 +15,8 @@ import type { WebFetchFormat, WebFetchResult } from "./webFetchTypes";
  */
 export async function executeWebFetch(
   url: string,
-  format: WebFetchFormat = "markdown",
-  timeout?: number,
+  _format: WebFetchFormat = "markdown",
+  _timeout?: number,
   signal?: AbortSignal,
   crawl4aiUrl?: string,
   jinaApiKey?: string,

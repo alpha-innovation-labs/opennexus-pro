@@ -1,4 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
 import type { TetrisGame } from "../game/types";
 import { getTetrisHotkeysBoxHeight } from "./getTetrisHotkeysBoxHeight";
 import { getTetrisHotkeysBoxWidth } from "./getTetrisHotkeysBoxWidth";
@@ -19,7 +20,7 @@ import { renderTetrisStatsBox } from "./renderTetrisStatsBox";
  * @param musicPlaying Whether music is active.
  * @returns Wide body lines.
  */
-export function createWideTetrisModalLines(theme: any, game: TetrisGame, width: number, height: number, musicPlaying: boolean): string[] {
+export function createWideTetrisModalLines(theme: SharedModalTheme & { bold: (text: string) => string }, game: TetrisGame, width: number, height: number, musicPlaying: boolean): string[] {
 	const gap = " ";
 	const scoreWidth = 21;
 	const rightWidth = Math.max(20, getTetrisHotkeysBoxWidth());

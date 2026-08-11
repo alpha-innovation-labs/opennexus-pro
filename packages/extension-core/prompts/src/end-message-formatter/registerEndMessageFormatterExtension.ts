@@ -22,9 +22,9 @@ const END_MESSAGE_FORMATTER_PATH = resolve(
  */
 export function registerEndMessageFormatterExtension(pi: ExtensionAPI): void {
   const formatterPrompt = readFileSync(END_MESSAGE_FORMATTER_PATH, "utf-8");
-  let pendingMessage: { content: unknown } | null = null;
-  let pendingText: string = "";
-  let firstUserMessage: string | undefined = undefined;
+  let _pendingMessage: { content: unknown } | null = null;
+  let _pendingText: string = "";
+  let firstUserMessage: string | undefined;
 
   /**
    * Extracts the full text content from an assistant message.
@@ -56,8 +56,8 @@ export function registerEndMessageFormatterExtension(pi: ExtensionAPI): void {
       : typeof content === "string"
         ? [content]
         : [];
-    pendingText = textParts.join("\n\n");
-    pendingMessage = { content };
+    _pendingText = textParts.join("\n\n");
+    _pendingMessage = { content };
   }
 
   /**

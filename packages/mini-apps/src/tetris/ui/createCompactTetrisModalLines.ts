@@ -1,3 +1,4 @@
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
 import type { TetrisGame } from "../game/types";
 import { padTetrisLine } from "./padTetrisLine";
 import { padTetrisLines } from "./padTetrisLines";
@@ -16,7 +17,7 @@ import { renderTetrisStatsLineBox } from "./renderTetrisStatsLineBox";
  * @param musicPlaying Whether music is active.
  * @returns Compact body lines.
  */
-export function createCompactTetrisModalLines(theme: any, game: TetrisGame, width: number, height: number, musicPlaying: boolean): string[] {
+export function createCompactTetrisModalLines(theme: SharedModalTheme & { bold: (text: string) => string }, game: TetrisGame, width: number, height: number, musicPlaying: boolean): string[] {
 	const sectionWidth = Math.min(width, 34);
 	const hotkeysHeight = Math.min(5, Math.max(3, height - 6));
 	const scoreHeight = height >= 16 ? 7 : Math.min(3, Math.max(0, height - hotkeysHeight));

@@ -16,7 +16,10 @@ export function applyHotkeysCommandPatch(): void {
 
   prototype.handleHotkeysCommand = function handleHotkeysCommand(this: unknown): void {
     const hook = getHotkeysCommandHook();
-    if (!hook) return originalHandleHotkeysCommand.call(this);
+    if (!hook) {
+      originalHandleHotkeysCommand.call(this);
+      return;
+    }
     void hook(this);
   };
 

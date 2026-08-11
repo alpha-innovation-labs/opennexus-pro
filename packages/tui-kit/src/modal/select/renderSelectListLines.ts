@@ -49,7 +49,7 @@ function createSelectListRenderRows(options: RenderSelectListLinesOptions): Sele
   let previousSubGroupLabel: string | undefined;
   let renderedGroupHeaderDescription = false;
   for (let index = 0; index < options.items.length; index += 1) {
-    const item = options.items[index]!;
+    const item = options.items[index];
     const groupLabel = getGroupLabel(item);
     const subGroupLabel = getSubGroupLabel(item);
     if (groupLabel && groupLabel !== previousGroupLabel) {
@@ -266,7 +266,7 @@ function getSubGroupLabel(item: AutocompleteItem): string | undefined {
  * @param subGroupLabel Sub-group heading text.
  * @returns Rendered sub-group heading.
  */
-function renderSubGroupHeader(options: RenderSelectListLinesOptions, item: AutocompleteItem, subGroupLabel: string): string {
+function renderSubGroupHeader(options: RenderSelectListLinesOptions, _item: AutocompleteItem, subGroupLabel: string): string {
   const label = truncateToWidth(subGroupLabel, Math.max(1, options.width - 2), "");
   return `  ${options.theme.fg("accent", options.theme.bold(label))}`;
 }

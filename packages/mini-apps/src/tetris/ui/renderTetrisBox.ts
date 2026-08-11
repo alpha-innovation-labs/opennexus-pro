@@ -1,3 +1,4 @@
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
 import { padTetrisLine } from "./padTetrisLine";
 
 /**
@@ -10,7 +11,7 @@ import { padTetrisLine } from "./padTetrisLine";
  * @param height Target panel height.
  * @returns Boxed panel lines.
  */
-export function renderTetrisBox(theme: any, title: string, lines: string[], width: number, height: number): string[] {
+export function renderTetrisBox(theme: SharedModalTheme, title: string, lines: string[], width: number, height: number): string[] {
 	const innerWidth = Math.max(1, width - 2);
 	const titleText = ` ${title} `;
 	const top = theme.fg("borderMuted", `┌${titleText}${"─".repeat(Math.max(0, innerWidth - titleText.length))}┐`);

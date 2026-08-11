@@ -11,7 +11,7 @@ import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverl
 export function showRtkEnvironmentPreparationModal(ctx: ExtensionContext): () => void {
   if (!ctx.hasUI) return () => {};
 
-  let close: (result: void) => void = () => {};
+  let close: (result: undefined) => void = () => {};
   void ctx.ui.custom<void>((_tui, theme, _keybindings, done) => {
     close = done;
     return new SharedModal({
@@ -28,5 +28,5 @@ export function showRtkEnvironmentPreparationModal(ctx: ExtensionContext): () =>
     overlayOptions: createPanelOverlayOptions(52, "40%"),
   }).catch(() => undefined);
 
-  return () => close();
+  return () => close(undefined);
 }

@@ -1,3 +1,4 @@
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
 import { getTetrisCells } from "../game/getTetrisCells";
 import type { TetrisGame } from "../game/types";
 
@@ -18,7 +19,7 @@ const CELL_COLORS: Record<string, string> = {
  * @param game Current game state.
  * @returns Board lines.
  */
-export function renderTetrisBoard(theme: any, game: TetrisGame): string[] {
+export function renderTetrisBoard(theme: SharedModalTheme & { bold: (text: string) => string }, game: TetrisGame): string[] {
 	const cells = getTetrisCells(game);
 	const horizontal = "─".repeat(game.width * 2);
 	const topBorder = theme.fg("borderMuted", `┌${horizontal}┐`);

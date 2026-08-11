@@ -1,3 +1,4 @@
+import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
 import { getTetrisRenderCells, type TetrisRenderCell } from "../game/getTetrisRenderCells";
 import type { TetrisGame } from "../game/types";
 import { centerTetrisLine } from "./centerTetrisLine";
@@ -15,7 +16,7 @@ import { renderTetrisCellSegment } from "./renderTetrisCellSegment";
  * @param options Render options.
  * @returns Board area lines.
  */
-export function renderScaledTetrisBoard(theme: any, game: TetrisGame, width: number, height: number, options: { fillWidth?: boolean; title?: string } = {}): string[] {
+export function renderScaledTetrisBoard(theme: SharedModalTheme & { bold: (text: string) => string }, game: TetrisGame, width: number, height: number, options: { fillWidth?: boolean; title?: string } = {}): string[] {
 	const defaultCellWidth = getTetrisCellWidth(width, height, game.width, game.height);
 	const boardInnerWidth = options.fillWidth ? Math.max(game.width, width - 2) : defaultCellWidth * game.width;
 	const columnWidths = options.fillWidth ? createTetrisSegmentWidths(boardInnerWidth, game.width) : Array.from({ length: game.width }, () => defaultCellWidth);
@@ -40,7 +41,7 @@ export function renderScaledTetrisBoard(theme: any, game: TetrisGame, width: num
  * @param cellWidth Width of each cell.
  * @returns One rendered row.
  */
-function renderScaledTetrisRow(theme: any, row: TetrisRenderCell[], columnWidths: number[]): string {
+function renderScaledTetrisRow(theme: SharedModalTheme & { bold: (text: string) => string }, row: TetrisRenderCell[], columnWidths: number[]): string {
 	const content = row.map((cell, index) => renderTetrisCellSegment(theme, cell, columnWidths[index] ?? 1)).join("");
 	return `${theme.fg("borderMuted", "│")}${content}${theme.fg("borderMuted", "│")}`;
 }

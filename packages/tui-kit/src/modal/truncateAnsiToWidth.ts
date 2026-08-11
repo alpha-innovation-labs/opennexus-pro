@@ -1,6 +1,6 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
 
-const ansiPattern = /\x1b\[[0-9;]*m/uy;
+const ansiPattern = /\x1B\[[0-9;]*m/uy;
 
 /** Truncates a string containing ANSI SGR escape sequences to a visible width. */
 export function truncateAnsiToWidth(value: string, width: number): string {
