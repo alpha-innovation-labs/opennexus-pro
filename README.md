@@ -5,7 +5,6 @@ Custom Pi TUI app that bundles the local extensions and uses `.nexus/` for proje
 ## Commands
 
 - `just test` — run unit tests
-- `just release` — build and install globally via npm (`~/.local/bin/nexus`)
 - `just uninstall` — remove the installed Nexus launcher and bundle
 
 ## Gateway
@@ -22,4 +21,4 @@ The gateway stores its runtime files under the Nexus agent dir in `gateway/`, in
 
 This app disables automatic extension discovery and injects the local bundled extension entrypoint inline through Pi's exported `main()` API and `extensionFactories` hook.
 
-`just release` builds the TypeScript source, packs it as an npm package, and installs it globally so the `nexus` command is available on PATH.
+
