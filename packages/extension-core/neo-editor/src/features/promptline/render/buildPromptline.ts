@@ -7,9 +7,11 @@ import { buildContextBar } from "./buildContextBar";
 import { collectUsage } from "./collectUsage";
 import { PRIMARY_COLOR, RESET } from "./constants";
 import { formatContextTokenUsage } from "./formatContextTokenUsage";
+import { getCachedContextUsage } from "./getCachedContextUsage";
 import { getContextColor } from "./getContextColor";
 import { getStartupContextReport } from "../../../registerNeoEditorExtension";
 import { truncateFromStart } from "./truncateFromStart";
+import { getGitState } from "../../../shared/git/state";
 
 /**
  * Builds the promptline left and right display segments.

@@ -20,4 +20,5 @@ test.fish
 
 .lucid
 .DS_Store
-apps/landing-page
+apps/landing-page/out/
+apps/landing-page/.next/
