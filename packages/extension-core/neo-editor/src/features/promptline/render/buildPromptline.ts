@@ -50,7 +50,6 @@ export function buildPromptline(
 		"…",
 	);
 	const location = `${folderIcon} ${uiTheme.fg(PRIMARY_COLOR as ThemeColor, locationPath)}`;
-	const primaryFg = (text: string) => uiTheme.fg(PRIMARY_COLOR as ThemeColor, text);
 	segments.push(location);
 
 	const gitState = getGitState();
