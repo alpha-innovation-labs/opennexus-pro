@@ -172,9 +172,8 @@ export async function applyPromptTemplateArgAppendPatch(): Promise<void> {
 		prototype: { prompt: (...args: unknown[]) => unknown };
 	};
 
-	const originalPrompt = (
-		AgentSession.prototype.prompt as (...args: unknown[]) => unknown
-	).bind(AgentSession.prototype);
+	const originalPrompt =
+		AgentSession.prototype.prompt as (...args: unknown[]) => unknown;
 
 	AgentSession.prototype.prompt = async function (
 		this: { promptTemplates?: Array<{ name: string; content: string }> },
