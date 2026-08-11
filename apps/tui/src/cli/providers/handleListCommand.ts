@@ -2,7 +2,6 @@ import { readProviderConfig } from "@extensions/ai-providers/config/readProvider
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import type { AiGateway } from "@extensions/ai-providers/index";
 import { getModelCachePath, readProviderStateCache } from "@extensions/ai-providers/cache/index";
-import { getAllProviderIds } from "./getAllProviderIds";
 import { Table } from "console-table-printer";
 import { GRAY, GREEN, ORANGE, RED, RESET } from "../shared/ansiColors";
 

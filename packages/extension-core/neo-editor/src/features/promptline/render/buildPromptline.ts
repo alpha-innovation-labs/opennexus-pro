@@ -2,13 +2,11 @@ import { homedir } from "node:os";
 import type { AssistantMessage, UserMessage } from "@earendil-works/pi-ai";
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { estimateTokensFromText } from "@extensions/context-usage/estimateTokensFromText";
-import { getGitState } from "../../../shared/git/state";
 import { getPromptlineModel } from "../getPromptlineModel";
 import { buildContextBar } from "./buildContextBar";
 import { collectUsage } from "./collectUsage";
 import { PRIMARY_COLOR, RESET } from "./constants";
 import { formatContextTokenUsage } from "./formatContextTokenUsage";
-import { getCachedContextUsage } from "./getCachedContextUsage";
 import { getContextColor } from "./getContextColor";
 import { getStartupContextReport } from "../../../registerNeoEditorExtension";
 import { truncateFromStart } from "./truncateFromStart";
@@ -38,9 +36,9 @@ export function buildPromptline(
   const maxPathWidth = Math.max(12, Math.floor((width ?? 80) * 0.8));
   const home = homedir();
   const displayCwd = ctx.cwd.startsWith(home) ? `~${ctx.cwd.slice(home.length)}` : ctx.cwd;
-  const folderIcon = uiTheme.fg(PRIMARY_COLOR as any, "");
+  const folderIcon = uiTheme.fg(PRIMARY_COLOR as ThemeColor, "");
   const locationPath = truncateFromStart(displayCwd, Math.max(1, maxPathWidth - 2), "…");
-  const location = `${folderIcon} ${uiTheme.fg(PRIMARY_COLOR as any, locationPath)}`;
+  const location = `${folderIcon} ${uiTheme.fg(PRIMARY_COLOR as ThemeColor, locationPath)}`;
   segments.push(location);
 
   const gitState = getGitState();

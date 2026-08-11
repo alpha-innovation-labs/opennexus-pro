@@ -1,6 +1,4 @@
-import type { AiGateway } from "@extensions/ai-providers/index";
 import { getGateways, readProviderConfig } from "@extensions/ai-providers/index";
-import { getAllProviderIds } from "./getAllProviderIds";
 import { parseProvidersCommand } from "./parseProvidersCommand";
 import { handleListCommand } from "./handleListCommand";
 import { handleSetupCommand } from "./handleSetupCommand";

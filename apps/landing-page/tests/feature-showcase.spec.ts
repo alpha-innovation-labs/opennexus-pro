@@ -44,24 +44,32 @@ test.describe("Nexus feature showcase", () => {
       if (!terminal || !copy || !firstTitle) return null;
       return {
         activeExampleId: document.querySelector<HTMLElement>(".showcase-example.opacity-100")?.id,
-        copyVisible: Number(window.getComputedStyle(document.querySelector<HTMLElement>(".feature-story-copy")!).opacity) > 0.9,
+        copyVisible: (() => {
+          const el = document.querySelector<HTMLElement>(".feature-story-copy");
+          if (!el) return false;
+          return Number(window.getComputedStyle(el).opacity) > 0.9;
+        })(),
         firstTitleCenterDelta: Math.abs((firstTitle.top + firstTitle.height / 2) - window.innerHeight / 2),
-        progress: window.getComputedStyle(document.querySelector<HTMLElement>(".feature-story-grid")!).getPropertyValue("--showcase-story-progress"),
+        progress: (() => {
+          const el = document.querySelector<HTMLElement>(".feature-story-grid");
+          if (!el) return "";
+          return window.getComputedStyle(el).getPropertyValue("--showcase-story-progress");
+        })(),
         terminalCenterDelta: Math.abs((terminal.top + terminal.height / 2) - window.innerHeight / 2),
         terminalLeftOfCopy: terminal.right < copy.left,
       };
     });
 
     expect(introLayout).not.toBeNull();
-    expect(introLayout!.terminalCenterDelta).toBeLessThan(220);
-    expect(introLayout!.copyOpacity).toBeLessThan(0.2);
+    expect(introLayout?.terminalCenterDelta).toBeLessThan(220);
+    expect(introLayout?.copyOpacity).toBeLessThan(0.2);
     expect(settledLayout).not.toBeNull();
-    expect(settledLayout!.progress).toBe("1.0000");
-    expect(settledLayout!.activeExampleId).toBe("code-lsp");
-    expect(settledLayout!.firstTitleCenterDelta).toBeLessThan(80);
-    expect(settledLayout!.terminalCenterDelta).toBeLessThan(120);
-    expect(settledLayout!.terminalLeftOfCopy).toBe(true);
-    expect(settledLayout!.copyVisible).toBe(true);
+    expect(settledLayout?.progress).toBe("1.0000");
+    expect(settledLayout?.activeExampleId).toBe("code-lsp");
+    expect(settledLayout?.firstTitleCenterDelta).toBeLessThan(80);
+    expect(settledLayout?.terminalCenterDelta).toBeLessThan(120);
+    expect(settledLayout?.terminalLeftOfCopy).toBe(true);
+    expect(settledLayout?.copyVisible).toBe(true);
   });
 
   test("shows attached showcase navigation only after the terminal settles", async ({ page }) => {
@@ -95,7 +103,7 @@ test.describe("Nexus feature showcase", () => {
     });
 
     expect(shellWidths).not.toBeNull();
-    expect(Math.abs(shellWidths!.navWidth - shellWidths!.featureNavWidth)).toBeLessThan(1);
+    expect(Math.abs(shellWidths?.navWidth - shellWidths?.featureNavWidth)).toBeLessThan(1);
   });
 
   test("keeps the desktop showcase compact with copy beside the terminal", async ({ page }) => {
@@ -119,9 +127,9 @@ test.describe("Nexus feature showcase", () => {
     });
 
     expect(layout).not.toBeNull();
-    expect(layout!.storyHeightRatio).toBeGreaterThan(1.2);
-    expect(layout!.copyWidth).toBeGreaterThan(280);
-    expect(layout!.copyLeft - layout!.terminalRight).toBeLessThan(120);
+    expect(layout?.storyHeightRatio).toBeGreaterThan(1.2);
+    expect(layout?.copyWidth).toBeGreaterThan(280);
+    expect(layout?.copyLeft - layout?.terminalRight).toBeLessThan(120);
   });
 
   test("keeps the original cast while feature sections scroll", async ({ page }) => {

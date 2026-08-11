@@ -109,7 +109,7 @@ async function runToggleCommand(action: string, options: { source?: string }): P
   const sourceInput = options.source;
   if (!sourceInput) {
     console.error(`Missing package source for "${action}".`);
-    console.error("Usage: nexus pi-packages ${action} <source>");
+    console.error(`Usage: nexus pi-packages ${action} <source>`);
     return 1;
   }
 

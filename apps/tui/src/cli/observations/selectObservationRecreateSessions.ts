@@ -17,5 +17,5 @@ export function selectObservationRecreateSessions(
   const matches = exactMatches.length > 0 ? exactMatches : sessions.filter((session) => matchesObservationRecreateSessionTarget(session, target, false));
   if (matches.length === 0) return { error: `No session found matching '${target}'` };
   if (matches.length > 1) return { error: `Multiple sessions match '${target}'. Use a longer session id.` };
-  return { sessions: [matches[0]!] };
+  return { sessions: [matches[0]] };
 }

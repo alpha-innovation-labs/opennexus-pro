@@ -62,7 +62,7 @@ function readOutput(lines = 100): string {
   return (result as any)._raw ?? "";
 }
 
-function escape() {
+function sendEscape() {
   runHerdr(["agent", "send-keys", agentName, "Escape"]);
 }
 

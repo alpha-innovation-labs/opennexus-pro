@@ -4,7 +4,7 @@
  * @param features CLI feature visibility options.
  * @returns Help text for supported Nexus CLI surfaces.
  */
-export function createNexusUsageText(_features: {} = {}): string {
+export function createNexusUsageText(_features: Record<string, never> = {}): string {
 	return [
 		"Usage: nexus [options] [prompt]",
 		"",

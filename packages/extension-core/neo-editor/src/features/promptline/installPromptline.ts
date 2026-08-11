@@ -4,7 +4,7 @@ import { refreshGitState } from "../../shared/git/refreshGitState";
 import { refreshTransportPreference } from "../../shared/transport/refreshTransportPreference";
 import { installPromptlineFooter } from "./installPromptlineFooter";
 import { installPromptlineRenderScheduler } from "./installPromptlineRenderScheduler";
-import { getUsageRenderUnsubscribe, setPromptlineRenderRequest, setUsageRenderUnsubscribe } from "./state";
+import { setPromptlineRenderRequest, setUsageRenderUnsubscribe } from "./state";
 
 /**
  * Installs the custom promptline editor for one session context.

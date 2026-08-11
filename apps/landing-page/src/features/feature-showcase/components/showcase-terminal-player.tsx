@@ -1,7 +1,7 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { mountShowcaseTerminalPlayer } from "../utils/mount-showcase-terminal-player";
 import { waitForAsciinemaPlayer } from "../utils/wait-for-asciinema-player";
 
@@ -23,7 +23,6 @@ type AsciinemaPlayerInstance = {
 export function ShowcaseTerminalPlayer(props: ShowcaseTerminalPlayerProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<AsciinemaPlayerInstance | null>(null);
-  const [scriptVersion, setScriptVersion] = useState(0);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -46,17 +45,12 @@ export function ShowcaseTerminalPlayer(props: ShowcaseTerminalPlayerProps) {
       playerRef.current = null;
       targetRef.current?.replaceChildren();
     };
-  }, [props.castSrc, scriptVersion]);
-
-  /** Marks the shared Asciinema runtime as ready for player creation. */
-  function handleScriptReady(): void {
-    setScriptVersion((version) => version + 1);
-  }
+  }, [props.castSrc]);
 
   return (
     <>
-      <Script src="/asciinema/asciinema-player.min.js" strategy="afterInteractive" onLoad={handleScriptReady} onReady={handleScriptReady} />
-      <div ref={targetRef} className="showcase-terminal-player overflow-hidden bg-black" data-cast-src={props.castSrc} aria-label={`${props.title} terminal recording`} />
+      <Script src="/asciinema/asciinema-player.min.js" strategy="afterInteractive" />
+      <div ref={targetRef} className="showcase-terminal-player overflow-hidden bg-black" data-cast-src={props.castSrc} />
     </>
   );
 }

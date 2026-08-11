@@ -32,10 +32,10 @@ export async function runObservationsCommand(argv: readonly string[], cwd: strin
     console.log(getObservationsDir());
     return 0;
   }
-  if (request.action === "list") return runList(request.target!, request.json);
-  if (request.action === "delete") return runDelete(request.target!);
-  if (request.action === "view") return runView(request.target!);
-  return runRecreate(request.target!, cwd, sessionDir);
+  if (request.action === "list") return runList(request.target, request.json);
+  if (request.action === "delete") return runDelete(request.target);
+  if (request.action === "view") return runView(request.target);
+  return runRecreate(request.target, cwd, sessionDir);
 }
 
 /**

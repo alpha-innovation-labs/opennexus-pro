@@ -14,7 +14,7 @@ export async function refreshGitState(exec: ExtensionAPI["exec"]): Promise<void>
   const refreshPromise = (async () => {
     try {
       const result = await exec("git", ["status", "--porcelain=v2", "--branch"], { timeout: 5000 });
-      if (!result || result.code !== 0) {
+      if (result?.code !== 0) {
         setGitState({ ...DEFAULT_GIT_STATE });
         return;
       }

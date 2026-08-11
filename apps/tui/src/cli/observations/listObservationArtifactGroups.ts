@@ -44,9 +44,9 @@ function parseObservationArtifactFileName(fileName: string): { conversationId: s
   if (legacyMatch) {
     const suffix = legacyMatch[2];
     const kind = suffix === "messages.json" ? "messages" : suffix === "state.json" ? "legacy-state" : "markdown";
-    return { conversationId: legacyMatch[1]!, kind };
+    return { conversationId: legacyMatch[1], kind };
   }
   const currentMatch = /^(.*)\.json$/.exec(fileName);
   if (!currentMatch) return undefined;
-  return { conversationId: currentMatch[1]!, kind: "state" };
+  return { conversationId: currentMatch[1], kind: "state" };
 }

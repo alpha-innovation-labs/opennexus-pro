@@ -54,8 +54,12 @@ export function ShowcaseNav(props: ShowcaseNavProps) {
       frameId = window.requestAnimationFrame(updateNavVisibility);
     }
 
-    document.querySelectorAll("[data-showcase-major]").forEach((section) => majorObserver.observe(section));
-    document.querySelectorAll("[data-showcase-child]").forEach((section) => childObserver.observe(section));
+    for (const section of document.querySelectorAll("[data-showcase-major]")) {
+      majorObserver.observe(section);
+    }
+    for (const section of document.querySelectorAll("[data-showcase-child]")) {
+      childObserver.observe(section);
+    }
     updateNavVisibility();
     window.addEventListener("scroll", scheduleNavVisibilityUpdate, { passive: true });
     window.addEventListener("resize", scheduleNavVisibilityUpdate, { passive: true });

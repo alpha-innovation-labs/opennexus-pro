@@ -4,7 +4,7 @@ import type { WebFetchResult } from "./webFetchTypes";
  * Strips control characters that break JSON parsing.
  */
 function stripControlChars(text: string): string {
-  return text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, "");
+  return text.replace(new RegExp("[\u0000-\u0008\u000B\u000C\u000E-\u001F]", "g"), "");
 }
 
 /**

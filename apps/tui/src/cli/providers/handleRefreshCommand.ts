@@ -35,7 +35,7 @@ export async function handleRefreshCommand(
   const allGateways = gateways ?? (await getGateways(readProviderConfig()));
   const allProviderIds = getAllProviderIds();
 
-  const gatewaysToRefresh = providerId
+  const _gatewaysToRefresh = providerId
     ? allGateways.filter((gw) => gw.providerId === providerId)
     : allGateways;
 

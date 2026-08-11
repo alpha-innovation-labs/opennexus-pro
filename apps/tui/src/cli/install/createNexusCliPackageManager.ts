@@ -1,7 +1,6 @@
 import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
 import { DefaultPackageManager, SettingsManager } from "@earendil-works/pi-coding-agent";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
-import type { ConfiguredPackage } from "@extensions/pi-packages/model/types";
 
 export type NexusCliPackageManagerRuntime = {
   packageManager: DefaultPackageManager;
@@ -14,11 +13,11 @@ export type NexusCliPackageManagerRuntime = {
  * @param cwd Current command working directory.
  * @returns Package manager runtime backed by Nexus settings.
  */
-export function createNexusCliPackageManager(cwd: string): NexusCliPackageManagerRuntime {
+export const createNexusCliPackageManager = (cwd: string): NexusCliPackageManagerRuntime => {
   const settingsManager = SettingsManager.create(cwd, getNexusAgentDirPath());
   const packageManager = new DefaultPackageManager({ cwd, agentDir: getNexusAgentDirPath(), settingsManager });
   const originalListConfiguredPackages = packageManager.listConfiguredPackages.bind(packageManager);
-  packageManager.listConfiguredPackages = function () {
+  packageManager.listConfiguredPackages = () => {
     const configuredPackages = originalListConfiguredPackages();
     const userConfig = readNexusUserConfig();
     const piPackages = userConfig.extensions?.pi_packages;

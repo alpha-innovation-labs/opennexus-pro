@@ -7,6 +7,6 @@ import type { SessionInfo } from "@earendil-works/pi-coding-agent";
  * @returns Session name, first message, or an untitled placeholder.
  */
 export function formatSessionTitle(session: Pick<SessionInfo, "name" | "firstMessage">): string {
-  const title = (session.name ?? session.firstMessage).replace(/[\x00-\x1f\x7f]/g, " ").trim();
+  const title = (session.name ?? session.firstMessage).replace(new RegExp("[\u0000-\u001f\u007f]", "g"), " ").trim();
   return title.length > 0 ? title : "(untitled)";
 }

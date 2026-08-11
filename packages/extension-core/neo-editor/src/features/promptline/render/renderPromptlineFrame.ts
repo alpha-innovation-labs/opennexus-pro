@@ -77,7 +77,10 @@ export function renderPromptlineFrame(
   const contentLines = editorContent.map((entry) => padToWidth(entry, innerWidth));
 
   if (contentLines.length > 0) {
-    contentLines[0] = prefixEditorLine(contentLines[0]!.replace(/^\s+/, ""), innerWidth, "» ", (text) => uiTheme.fg("error" as any, text));
+    const firstLine = contentLines[0];
+    if (firstLine) {
+      contentLines[0] = prefixEditorLine(firstLine.replace(/^\s+/, ""), innerWidth, "» ", (text) => uiTheme.fg("error", text));
+    }
   }
 
   return [

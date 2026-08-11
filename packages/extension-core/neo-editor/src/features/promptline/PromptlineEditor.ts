@@ -1,6 +1,7 @@
 import { CustomEditor, type ExtensionAPI, type ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
-import type { AutocompleteItem, AutocompleteProvider } from "@earendil-works/pi-tui";
+import type { AutocompleteItem, AutocompleteProvider, EditorTheme, KeybindingsManager, TUI } from "@earendil-works/pi-tui";
+
 import { matchesKey } from "@earendil-works/pi-tui";
 import { readClipboardImageViaMacOsJxa } from "@nexus/runtime/clipboard-image/readClipboardImageViaMacOsJxa";
 import { writeClipboardImageTempFile } from "@nexus/runtime/clipboard-image/writeClipboardImageTempFile";
@@ -37,7 +38,7 @@ export class PromptlineEditor extends CustomEditor {
   private triggerSubmitInFlight = false;
   private startupHeroCleared = false;
 
-  constructor(tui: any, theme: any, private readonly editorKeybindings: any, private readonly ctx: ExtensionContext, private readonly uiTheme: ExtensionContext["ui"]["theme"], private readonly getThinkingLevel: ExtensionAPI["getThinkingLevel"], private readonly setThinkingLevel: ExtensionAPI["setThinkingLevel"], private readonly getSessionName: ExtensionAPI["getSessionName"], private readonly getPromptlineConfig: () => PromptlineConfig, private readonly refreshPromptlineConfig: (cwd: string) => Promise<PromptlineConfig>, private readonly getCommands: ExtensionAPI["getCommands"] = () => [], private readonly getAllTools: ExtensionAPI["getAllTools"] = () => []) {
+  constructor(tui: TUI, theme: EditorTheme, private readonly editorKeybindings: KeybindingsManager, private readonly ctx: ExtensionContext, private readonly uiTheme: ExtensionContext["ui"]["theme"], private readonly getThinkingLevel: ExtensionAPI["getThinkingLevel"], private readonly setThinkingLevel: ExtensionAPI["setThinkingLevel"], readonly _getSessionName: ExtensionAPI["getSessionName"], private readonly getPromptlineConfig: () => PromptlineConfig, private readonly refreshPromptlineConfig: (cwd: string) => Promise<PromptlineConfig>, private readonly getCommands: ExtensionAPI["getCommands"] = () => [], private readonly getAllTools: ExtensionAPI["getAllTools"] = () => []) {
     super(tui, theme, editorKeybindings);
   }
   /** Cancels Pi's stock autocomplete when the custom slash modal is active. */
@@ -61,10 +62,10 @@ export class PromptlineEditor extends CustomEditor {
   }
   /** Applies one cached submit trigger match when editor text exactly matches a rule. */
   private handleConfiguredTriggers(text: string): void {
-    if (!text.trim() || this.triggerSubmitInFlight || !this.onSubmit) return;
+    if (!text.trim() || this.triggerSubmitInFlight || this.onSubmit === undefined) return;
     const { triggerConfig, neoConfig } = this.getPromptlineConfig();
     const match = findMatchingTrigger(triggerConfig, text);
-    if (!match || match.action.type !== "submit" || this.getText() !== text) return;
+    if (match?.action.type !== "submit" || this.getText() !== text) return;
     this.triggerSubmitInFlight = true;
     if (neoConfig.clearEditorOnTriggerSubmit) {
       super.setText("");
@@ -109,9 +110,9 @@ export class PromptlineEditor extends CustomEditor {
     if (!this.promptAutocompleteProvider) return;
     const cursor = this.getCursor();
     const result = this.promptAutocompleteProvider.applyCompletion(this.getLines(), cursor.line, cursor.col, item, this.promptAutocompletePrefix);
-    (this as any).state.lines = result.lines;
-    (this as any).state.cursorLine = result.cursorLine;
-    (this as any).setCursorCol(result.cursorCol);
+    (this as unknown as Record<string, unknown>).state.lines = result.lines;
+    (this as unknown as Record<string, unknown>).state.cursorLine = result.cursorLine;
+    (this as unknown as { setCursorCol: (col: number) => void }).setCursorCol(result.cursorCol);
     closeTriggerModal(this.modalState, () => this.tui.requestRender());
   }
   /** Submits one slash command immediately through the editor submit path. */
@@ -220,7 +221,7 @@ export class PromptlineEditor extends CustomEditor {
     const cursor = this.getCursor();
     const line = this.getLines()[cursor.line] ?? "";
     const triggerState = getActiveTriggerState(line.slice(0, cursor.col));
-    this.borderColor = (text: string) => this.uiTheme.fg(PRIMARY_COLOR as any, text);
+    this.borderColor = (text: string) => this.uiTheme.fg(PRIMARY_COLOR as string, text);
     if (triggerState?.kind === "slash" && !this.modalState.slashModal) return super.render(width);
     if (this.getPaddingX() !== 1) this.setPaddingX(1);
     const lines = renderPromptlineEditor(width, (frameWidth) => super.render(Math.max(1, frameWidth - 2)), this.borderColor, this.uiTheme, this.ctx, this.getThinkingLevel);

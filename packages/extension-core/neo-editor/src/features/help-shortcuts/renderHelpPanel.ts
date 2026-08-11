@@ -1,6 +1,6 @@
 import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
 import type { HelpShortcutGroup } from "./types";
-import { padVisible } from "./padVisible";
+
 import { renderHelpPanelTop } from "./renderHelpPanelTop";
 import { renderHelpShortcutRow } from "./renderHelpShortcutRow";
 

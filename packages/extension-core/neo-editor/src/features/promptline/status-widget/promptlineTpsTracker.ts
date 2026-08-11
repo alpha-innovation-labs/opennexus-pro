@@ -10,7 +10,7 @@
  * to avoid skewing.
  */
 
-const PROMPTLINE_TPS_DELTAS_KEY = "__nexus_promptline_tps__";
+const _PROMPTLINE_TPS_DELTAS_KEY = "__nexus_promptline_tps__";
 
 const TPS_WINDOW_MS = 1000;
 const TPS_MIN_SPAN_MS = 100;

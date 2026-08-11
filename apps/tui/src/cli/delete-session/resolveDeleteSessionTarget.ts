@@ -24,5 +24,5 @@ export async function resolveDeleteSessionTarget(
 
   if (matches.length === 0) return { type: "not_found", sessionReference };
   if (matches.length > 1) return { type: "ambiguous", sessionReference, matches };
-  return { type: "found", session: matches[0]! };
+  return { type: "found", session: matches[0] };
 }

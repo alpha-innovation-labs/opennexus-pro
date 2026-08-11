@@ -1,9 +1,7 @@
 import type { AutocompleteItem, AutocompleteProvider } from "@earendil-works/pi-tui";
-import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { closeTriggerModal } from "../closeTriggerModal";
 import { refreshAtTrigger } from "../refreshAtTrigger";
 import { ensureAtTriggerModal } from "./ensureAtTriggerModal";
-import { getAtTriggerModal } from "./getAtTriggerModal";
 import type { TriggerProviderRefreshArgs } from "../types";
 
 /**
