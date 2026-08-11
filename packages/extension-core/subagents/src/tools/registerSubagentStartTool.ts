@@ -1,7 +1,7 @@
 import { Type } from "@earendil-works/pi-ai";
 import { defineTool, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import * as crypto from "node:crypto";
-import { splitPaneRight, startForegroundAgent } from "@nexus/herdr/herdr-client";
+import { splitPaneRight, startForegroundAgent } from "@nexus/herdr";
 
 /**
  * Registers the `subagent_start` tool — splits the current pane right and

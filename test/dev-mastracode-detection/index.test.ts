@@ -123,7 +123,10 @@ describe("Dev environment mastracode detection", () => {
   });
 
   it("agent is interactive_ready", () => {
-    const result = runHerdrCli(["agent", "get", agentName!]);
+    if (!agentName) {
+      throw new Error("agentName is undefined");
+    }
+    const result = runHerdrCli(["agent", "get", agentName]);
     const agentInfo = (result.result as Record<string, unknown>) as
       | Record<string, unknown>
       | undefined;

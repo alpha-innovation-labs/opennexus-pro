@@ -1,4 +1,3 @@
-import { resolve } from "node:path";
 import { loadSnapshot } from "../../scripts/testing/snapshots/loadSnapshot.mjs";
 import { writeSnapshot, compareSnapshot } from "../../scripts/testing/snapshots/writeSnapshot.mjs";
 

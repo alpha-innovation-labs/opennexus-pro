@@ -1,6 +1,6 @@
 import { Type } from "@earendil-works/pi-ai";
 import { defineTool, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { sendKeysToAgent } from "@nexus/herdr/herdr-client";
+import { sendKeysToAgent } from "@nexus/herdr";
 
 /**
  * Registers the `subagent_send_keys` tool — sends key presses to an agent

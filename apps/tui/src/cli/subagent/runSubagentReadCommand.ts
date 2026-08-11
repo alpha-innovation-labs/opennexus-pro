@@ -1,4 +1,4 @@
-import { runHerdr } from "@nexus/herdr/herdr-client";
+import { runHerdr } from "@nexus/herdr";
 
 /**
  * Reads terminal output from an agent via `herdr agent read`.

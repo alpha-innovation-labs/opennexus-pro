@@ -1,4 +1,4 @@
-import { sendKeysToAgent } from "@nexus/herdr/herdr-client";
+import { sendKeysToAgent } from "@nexus/herdr";
 
 /**
  * Sends key presses to an agent via `herdr agent send-keys`.

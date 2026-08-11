@@ -39,7 +39,7 @@ export async function handleRefreshCommand(
     ? allGateways.filter((gw) => gw.providerId === providerId)
     : allGateways;
 
-  if (gatewaysToRefresh.length === 0) {
+  if (_gatewaysToRefresh.length === 0) {
     if (providerId) {
       console.log(`Provider '${providerId}' is not configured. Nothing to refresh.`);
     } else {
@@ -50,7 +50,7 @@ export async function handleRefreshCommand(
 
   // Probe each gateway once, storing results for both display and cache write.
   const refreshResults: RefreshResult[] = await Promise.all(
-    gatewaysToRefresh.map(async (gw) => {
+    _gatewaysToRefresh.map(async (gw: AiGateway) => {
       const port = gw.baseUrl.split(':')[2]?.replace('/', '') ?? '';
       const probe = await gw.exists();
       const models = await gw.refreshModels(null);

@@ -59,10 +59,10 @@ function sendKeys(keys: string[]) {
 
 function readOutput(lines = 100): string {
   const result = runHerdr(["agent", "read", agentName, "--source", "recent", "--lines", String(lines)]);
-  return (result as any)._raw ?? "";
+  return (result as { _raw?: string })._raw ?? "";
 }
 
-function sendEscape() {
+function _sendEscape() {
   runHerdr(["agent", "send-keys", agentName, "Escape"]);
 }
 

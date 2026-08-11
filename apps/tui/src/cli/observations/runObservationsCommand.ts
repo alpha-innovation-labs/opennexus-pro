@@ -45,7 +45,7 @@ export async function runObservationsCommand(argv: readonly string[], cwd: strin
  * @param json Whether to print JSON.
  * @returns Process exit code.
  */
-async function runList(target: string, json: boolean): Promise<number> {
+async function runList(target: string | undefined, json: boolean): Promise<number> {
   const groups = selectObservationArtifactGroups(await listObservationArtifactGroups(getObservationsDir()), target);
   const rows = await createObservationListJsonRows(groups);
   console.log(json ? formatObservationListJson(rows) : formatObservationListTable(rows));
@@ -58,7 +58,7 @@ async function runList(target: string, json: boolean): Promise<number> {
  * @param target Delete target.
  * @returns Process exit code.
  */
-async function runDelete(target: string): Promise<number> {
+async function runDelete(target: string | undefined): Promise<number> {
   const deletedCount = await deleteObservationArtifacts(target);
   if (deletedCount === 0 && target !== "all") {
     console.error(`No observations found matching '${target}'`);
@@ -74,7 +74,7 @@ async function runDelete(target: string): Promise<number> {
  * @param target View target.
  * @returns Process exit code.
  */
-async function runView(target: string): Promise<number> {
+async function runView(target: string | undefined): Promise<number> {
   const result = await readObservationViewContent(target);
   if ("error" in result) {
     console.error(result.error);
@@ -92,7 +92,7 @@ async function runView(target: string): Promise<number> {
  * @param sessionDir Optional custom session directory.
  * @returns Process exit code.
  */
-async function runRecreate(target: string, cwd: string, sessionDir?: string): Promise<number> {
+async function runRecreate(target: string | undefined, cwd: string, sessionDir?: string): Promise<number> {
   const selected = selectObservationRecreateSessions(await listObservationRecreateSessions(cwd, sessionDir), target);
   if ("error" in selected) {
     console.error(selected.error);

@@ -1,4 +1,4 @@
-import { sendTextToAgent } from "@nexus/herdr/herdr-client";
+import { sendTextToAgent } from "@nexus/herdr";
 
 /**
  * Sends text to an agent via `herdr agent send-text`, then sends Enter

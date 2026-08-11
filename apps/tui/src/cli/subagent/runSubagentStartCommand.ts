@@ -1,4 +1,4 @@
-import { splitPaneRight, startForegroundAgent } from "@nexus/herdr/herdr-client";
+import { splitPaneRight, startForegroundAgent } from "@nexus/herdr";
 
 /**
  * Runs `nexus subagent start [--session <name>]`: splits the current pane to the right,

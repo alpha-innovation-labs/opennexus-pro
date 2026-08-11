@@ -3,7 +3,8 @@ import { DEFAULT_PORTS } from "@extensions/ai-providers/constants/default-ports"
 import { createGateway } from "@extensions/ai-providers/gateway/createGateway";
 import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig";
 import { writeProviderConfig } from "@extensions/ai-providers/config/writeProviderConfig";
-import { BOLD, GREEN, RESET } from "../shared/ansiColors";
+import { BOLD, RESET } from "../shared/ansiColors";
+import { getAllProviderIds } from "./getAllProviderIds";
 
 /**
  * Handles the "configure" subcommand: launches an interactive, fuzzy-filtered
@@ -49,7 +50,7 @@ export async function handleConfigureCommand(
     // Fuzzy-filtered provider picker using @clack/prompts autocomplete
     const selected = await autocomplete({
       message: "Select a provider:",
-      options: knownIds.map((id) => ({
+      options: knownIds.map((id: string) => ({
         value: id,
         label: id,
         hint: `default port: ${DEFAULT_PORTS[id] ?? "—"}`,
@@ -61,7 +62,7 @@ export async function handleConfigureCommand(
       return 0;
     }
 
-    selectedProviderId = selected;
+    selectedProviderId = selected as string;
   }
 
   const providerIdResolved = selectedProviderId;
@@ -71,9 +72,9 @@ export async function handleConfigureCommand(
   // Resolve CLI-provided values vs interactive prompts.
   // When CLI args are supplied, skip interactive prompts for those fields
   // and validate them directly.  Missing CLI values fall back to interactive.
-  let cliHostValue: string | undefined = cliHost;
-  let cliPortValue: number | undefined = cliPort;
-  let cliApiKeyVal: string | undefined = cliApiKey;
+  const cliHostValue: string | undefined = cliHost;
+  const cliPortValue: number | undefined = cliPort;
+  const cliApiKeyVal: string | undefined = cliApiKey;
 
   // Step 2 — collect connection details (with retry loop)
   let success = false;

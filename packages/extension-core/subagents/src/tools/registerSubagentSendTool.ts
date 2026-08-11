@@ -1,6 +1,6 @@
 import { Type } from "@earendil-works/pi-ai";
 import { defineTool, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { sendTextToAgent } from "@nexus/herdr/herdr-client";
+import { sendTextToAgent } from "@nexus/herdr";
 
 /**
  * Registers the `subagent_send` tool — sends text to an agent and then

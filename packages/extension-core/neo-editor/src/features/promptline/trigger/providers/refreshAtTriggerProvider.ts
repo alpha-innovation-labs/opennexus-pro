@@ -1,7 +1,7 @@
 import type { AutocompleteItem, AutocompleteProvider } from "@earendil-works/pi-tui";
 import { closeTriggerModal } from "../closeTriggerModal";
 import { refreshAtTrigger } from "../refreshAtTrigger";
-import { ensureAtTriggerModal } from "./ensureAtTriggerModal";
+import { ensureAtTriggerModal, getAtTriggerModal } from "./ensureAtTriggerModal";
 import type { TriggerProviderRefreshArgs } from "../types";
 
 /**

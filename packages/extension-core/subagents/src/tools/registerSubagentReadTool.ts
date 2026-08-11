@@ -1,6 +1,6 @@
 import { Type } from "@earendil-works/pi-ai";
 import { defineTool, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { runHerdr } from "@nexus/herdr/herdr-client";
+import { runHerdr } from "@nexus/herdr";
 
 /**
  * Registers the `subagent_read` tool — reads terminal output from an agent

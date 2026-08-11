@@ -1,4 +1,4 @@
-import { promptHerdrAgent } from "@nexus/herdr/herdr-client";
+import { promptHerdrAgent } from "@nexus/herdr";
 
 /**
  * Runs `nexus subagent prompt <session-id> "<text>"`: sends a prompt to an

@@ -1,6 +1,6 @@
 import { Type } from "@earendil-works/pi-ai";
 import { defineTool, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { promptHerdrAgent } from "@nexus/herdr/herdr-client";
+import { promptHerdrAgent } from "@nexus/herdr";
 
 /**
  * Registers the `subagent_prompt` tool — sends a prompt to an agent
