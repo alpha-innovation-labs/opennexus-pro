@@ -262,6 +262,9 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
         version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@extensions/slash-menu':
+        specifier: workspace:*
+        version: link:../slash-menu
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -379,6 +382,9 @@ importers:
       '@extensions/prompts':
         specifier: workspace:*
         version: link:../prompts
+      '@extensions/slash-menu':
+        specifier: workspace:*
+        version: link:../slash-menu
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability

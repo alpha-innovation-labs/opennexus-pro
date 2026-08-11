@@ -13,6 +13,12 @@
 			],
 			"@nexus/runtime": [
 				"../../nexus-runtime/src/index.ts"
+			],
+			"@nexus/feature-flags/*": [
+				"../../feature-flags/src/*"
+			],
+			"@nexus/feature-flags": [
+				"../../feature-flags/src/index.ts"
 			]
 		}
 	},

@@ -6,7 +6,7 @@ import {
 	closeHerdrWorkspace,
 	prepareHerdr,
 	runHerdr,
-} from "../../packages/herdr/dist/index.js";
+} from "../../packages/herdr/src/index.js";
 
 // Shared setup — one workspace, one agent
 const agentName = "login-test-shared";
@@ -14,7 +14,7 @@ const agentName = "login-test-shared";
 // Pre-cleanup: close any stale workspace with this label to avoid ownership conflicts
 try {
 	const { closeHerdrWorkspace: _preClose } = await import(
-		"../../packages/herdr/dist/index.js"
+		"../../packages/herdr/src/index.js"
 	);
 	// Attempt to find and close any previous run (best-effort, ignore errors)
 	try {
@@ -116,11 +116,11 @@ describe("login-rework", () => {
 		const snap = getSnapshot("two-pane-modal-opens-on-login.jsonl");
 		if (snap === "__MISSING__") {
 			writeSnapshot("two-pane-modal-opens-on-login.jsonl", output);
-			escape();
+			_sendEscape();
 			return;
 		}
 		expect(normalizeTiming(output)).toBe(normalizeTiming(snap));
-		escape();
+		_sendEscape();
 	});
 
 	it("provider toggle on Enter", async () => {
@@ -131,10 +131,10 @@ describe("login-rework", () => {
 		const snap = getSnapshot("provider-toggle-on-Enter.jsonl");
 		if (snap === "__MISSING__") {
 			writeSnapshot("provider-toggle-on-Enter.jsonl", output);
-			escape();
+			_sendEscape();
 			return;
 		}
 		expect(normalizeTiming(output)).toBe(normalizeTiming(snap));
-		escape();
+		_sendEscape();
 	});
 });

@@ -17,9 +17,10 @@ export async function createPiBuiltinToolItems(
 ): Promise<ContextUsageDetailItem[]> {
 	return Object.entries(createPiToolDefinitions(cwd))
 		.filter(
-			(entry): entry is [string, PiToolDefinition] =>
-				typeof entry[1].promptSnippet === "string" &&
-				entry[1].promptSnippet.length > 0,
+			(entry): entry is [string, PiToolDefinition] => {
+				const def = entry[1] as PiToolDefinition;
+				return typeof def.promptSnippet === "string" && def.promptSnippet.length > 0;
+			},
 		)
 		.map(([name, definition]) => ({
 			label: name,

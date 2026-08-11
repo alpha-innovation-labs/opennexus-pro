@@ -34,6 +34,9 @@
 			],
 			"@extensions/tron/colors/*": [
 				"./src/colors/*"
+			],
+			"@extensions/tron/compact-tool-lines/types": [
+				"./src/compact-tool-lines/types.ts"
 			]
 		}
 	},

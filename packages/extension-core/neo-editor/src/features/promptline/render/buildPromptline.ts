@@ -4,6 +4,7 @@ import type {
 	ExtensionAPI,
 	ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
+import type { ThemeColor } from "@earendil-works/pi-coding-agent";
 import { estimateTokensFromText } from "@extensions/context-usage/estimateTokensFromText";
 import { getStartupContextReport } from "../../../registerNeoEditorExtension";
 import { getGitState } from "../../../shared/git/state";
@@ -49,6 +50,7 @@ export function buildPromptline(
 		"…",
 	);
 	const location = `${folderIcon} ${uiTheme.fg(PRIMARY_COLOR as ThemeColor, locationPath)}`;
+	const primaryFg = (text: string) => uiTheme.fg(PRIMARY_COLOR as ThemeColor, text);
 	segments.push(location);
 
 	const gitState = getGitState();

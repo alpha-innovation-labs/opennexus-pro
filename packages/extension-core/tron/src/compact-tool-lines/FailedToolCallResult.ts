@@ -14,7 +14,7 @@ export class FailedToolCallResult {
 		private readonly toolCallId: string,
 		private readonly toolName: string,
 		private readonly errorText: string,
-		private readonly theme: { fg(color: string, text: string): string; bold(text: string): string };
+		private readonly theme: { fg(color: string, text: string): string; bold(text: string): string },
 	) {}
 
 	/**

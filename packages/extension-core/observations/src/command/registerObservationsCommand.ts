@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
 import { logExtensionEvent } from "@nexus/observability/startup-debug";
 import { showObservationsModal } from "./showObservationsModal";
@@ -15,7 +15,7 @@ export function registerObservationsCommand(pi: ExtensionAPI): void {
 		withSlashMenuGroup(
 			{
 				description: "Show observations for the current conversation",
-				handler: async (_args, ctx) => {
+				handler: async (_args: string, ctx: ExtensionCommandContext) => {
 					await showObservationsModal(ctx);
 				},
 			},

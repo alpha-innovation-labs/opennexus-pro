@@ -19,6 +19,18 @@
 			],
 			"@nexus/tui-kit": [
 				"../../tui-kit/src/index.ts"
+			],
+			"@extensions/prompts/*": [
+				"../prompts/src/*"
+			],
+			"@extensions/prompts": [
+				"../prompts/src/index.ts"
+			],
+			"@extensions/slash-menu/*": [
+				"../slash-menu/src/*"
+			],
+			"@extensions/slash-menu": [
+				"../slash-menu/src/index.ts"
 			]
 		}
 	},

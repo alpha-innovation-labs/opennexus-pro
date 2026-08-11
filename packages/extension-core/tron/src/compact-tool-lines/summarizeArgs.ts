@@ -1,4 +1,9 @@
-import type { EditToolParams } from "@earendil-works/pi-coding-agent";
+type EditToolParams = {
+	path: string;
+	oldText?: string;
+	newText?: string;
+	edits?: Array<{ oldText?: string; newText?: string }>;
+};
 import { countChangedLines } from "./countChangedLines";
 import { countContentLines } from "./countContentLines";
 import { firstLine } from "./firstLine";

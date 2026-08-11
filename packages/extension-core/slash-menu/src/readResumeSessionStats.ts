@@ -43,8 +43,8 @@ export function readResumeSessionStats(
 	const entries = loadEntriesFromFileStub(sessionPath);
 	const sessionContext = buildSessionContext(entries as never);
 
-	return sessionContext.messages.reduce<ResumeSessionStats>(
-		(stats: ResumeSessionStats, message: unknown) => {
+	return (sessionContext.messages as { role?: string; content?: unknown[] }[]).reduce<ResumeSessionStats>(
+		(stats: ResumeSessionStats, message) => {
 			if (message.role === "user") {
 				stats.humanMessages += 1;
 				return stats;
@@ -54,11 +54,11 @@ export function readResumeSessionStats(
 			}
 			for (const block of message.content) {
 				if (!block || typeof block !== "object" || !("type" in block)) continue;
-				if (block.type === "toolCall") stats.toolCalls += 1;
+				if ((block as { type?: string }).type === "toolCall") stats.toolCalls += 1;
 				if (
-					block.type === "thinking" &&
-					typeof block.thinking === "string" &&
-					block.thinking.trim()
+					(block as { type?: string }).type === "thinking" &&
+					typeof (block as { thinking?: string }).thinking === "string" &&
+					(block as { thinking?: string }).thinking!.trim()
 				) {
 					stats.thinkingBlocks += 1;
 				}

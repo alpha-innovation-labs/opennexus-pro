@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
 import { setLatestSystemPromptOptions } from "./contextUsageState";
 import { showContextUsageCommand } from "./showContextUsageCommand";
@@ -18,7 +18,7 @@ export function registerContextUsageExtension(pi: ExtensionAPI): void {
 		withSlashMenuGroup(
 			{
 				description: "Show current context-window usage",
-				handler: async (_args, ctx) => {
+				handler: async (_args: string, ctx: ExtensionCommandContext) => {
 					await showContextUsageCommand(ctx);
 				},
 			},

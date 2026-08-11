@@ -1,9 +1,10 @@
 import type {
 	FeatureFlagConfig,
+	FeatureFlagsConfig,
 	FeatureProductCategory,
 } from "@nexus/feature-flags/types";
 import { getFeatureManagementGroup } from "./getFeatureManagementGroup";
-import type { FeatureStatusRow } from "./types";
+import type { FeatureStatusCategory, FeatureStatusRow } from "./types";
 
 /**
  * Sort order for group section headers.
@@ -89,7 +90,7 @@ function createCategoryFeatureStatusRows(
  */
 function getFeatureStatusCategory(
 	category: FeatureProductCategory | undefined,
-): FeatureStatusCategory {
+): "core" | "dev" | "pro" | "mini-apps" {
 	if (category === "mini-app") return "mini-apps";
 	if (category === "dev") return "dev";
 	if (category === "pro") return "pro";

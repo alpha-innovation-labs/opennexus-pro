@@ -1,4 +1,4 @@
-import type { AgentToolResult, ToolDefinition } from "@earendil-works/pi-coding-agent";
+import type { AgentToolResult, ToolDefinition, ToolRenderResultOptions } from "@earendil-works/pi-coding-agent";
 import { Container } from "@earendil-works/pi-tui";
 import type { Theme } from "@earendil-works/pi-coding-agent";
 import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator";
@@ -14,6 +14,7 @@ type CompactToolContext = {
 
 type CompactToolResultState = {
 	expanded?: boolean;
+	isPartial?: boolean;
 };
 
 /**
@@ -44,7 +45,7 @@ export function createCompactToolDefinition(
 			return renderer;
 		},
 		renderResult(
-			result: AgentToolResult,
+			result: AgentToolResult<any>,
 			state: CompactToolResultState,
 			theme: Theme,
 			context: CompactToolContext,
@@ -55,21 +56,27 @@ export function createCompactToolDefinition(
 					role: "toolResult",
 					toolCallId: context.toolCallId,
 					toolName: definition.name,
-					result,
+					result: result as never,
 					text: "",
 				},
 				{
 					theme,
-					expanded: state.expanded,
+					expanded: state.expanded ?? false,
 					resultChildRenderer: definition.renderResult
 						? {
 								render: (innerWidth: number) =>
 									definition
-										.renderResult?.(result, state, theme, context)
-										.render(innerWidth),
+										.renderResult?.(result, {
+											expanded: state.expanded ?? false,
+											isPartial: state.isPartial ?? false,
+										} as ToolRenderResultOptions, theme, context as never)
+										.render(innerWidth) ?? [],
 								invalidate: () => {
 									definition
-										.renderResult?.(result, state, theme, context)
+										.renderResult?.(result, {
+											expanded: state.expanded ?? false,
+											isPartial: state.isPartial ?? false,
+										} as ToolRenderResultOptions, theme, context as never)
 										.invalidate?.();
 								},
 							}

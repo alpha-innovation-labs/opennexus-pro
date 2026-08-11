@@ -11,7 +11,7 @@ type ToolDefinitionWithRender = {
 		context: Record<string, unknown>,
 	) => { render(width: number): string[]; invalidate?(): void };
 	renderResult?: (
-		result: AgentToolResult,
+		result: AgentToolResult<any>,
 		state: Record<string, unknown>,
 		theme: ExtensionCommandContext["ui"]["theme"],
 		context: Record<string, unknown>,
@@ -92,10 +92,10 @@ export function renderBuiltInToolDetails(
 					};
 		const resultComponent = definition.renderResult(
 			{
-				content: toolCall.result.content ?? [],
+				content: (toolCall.result.content ?? []) as (unknown | { type?: string; text?: string })[],
 				details: toolCall.result.details,
 				isError: toolCall.result.isError,
-			} as AgentToolResult,
+			} as unknown as AgentToolResult<any>,
 			{ expanded: true, isPartial: false },
 			theme,
 			resultContext,

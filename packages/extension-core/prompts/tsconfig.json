@@ -13,6 +13,18 @@
 			],
 			"@nexus/tui-kit": [
 				"../../tui-kit/src/index.ts"
+			],
+			"@nexus/pi-platform/*": [
+				"../../pi-platform/src/*"
+			],
+			"@nexus/pi-platform": [
+				"../../pi-platform/src/index.ts"
+			],
+			"@extensions/slash-menu/*": [
+				"../slash-menu/src/*"
+			],
+			"@extensions/slash-menu": [
+				"../slash-menu/src/index.ts"
 			]
 		}
 	},

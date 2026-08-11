@@ -55,7 +55,7 @@ async function runList(
 ): Promise<number> {
 	const groups = selectObservationArtifactGroups(
 		await listObservationArtifactGroups(getObservationsDir()),
-		target,
+		target ?? "all",
 	);
 	const rows = await createObservationListJsonRows(groups);
 	console.log(
@@ -71,7 +71,8 @@ async function runList(
  * @returns Process exit code.
  */
 async function runDelete(target: string | undefined): Promise<number> {
-	const deletedCount = await deleteObservationArtifacts(target);
+	const targetOrDefault = target ?? "all";
+	const deletedCount = await deleteObservationArtifacts(targetOrDefault);
 	if (deletedCount === 0 && target !== "all") {
 		console.error(`No observations found matching '${target}'`);
 		return 1;
@@ -89,7 +90,7 @@ async function runDelete(target: string | undefined): Promise<number> {
  * @returns Process exit code.
  */
 async function runView(target: string | undefined): Promise<number> {
-	const result = await readObservationViewContent(target);
+	const result = await readObservationViewContent(target ?? "all");
 	if ("error" in result) {
 		console.error(result.error);
 		return 1;
@@ -113,7 +114,7 @@ async function runRecreate(
 ): Promise<number> {
 	const selected = selectObservationRecreateSessions(
 		await listObservationRecreateSessions(cwd, sessionDir),
-		target,
+		target ?? "all",
 	);
 	if ("error" in selected) {
 		console.error(selected.error);

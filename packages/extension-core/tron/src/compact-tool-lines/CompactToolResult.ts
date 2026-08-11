@@ -11,7 +11,7 @@ import { getResultText } from "./getResultText";
 export class CompactToolResult {
 	constructor(
 		private readonly toolCallId: string,
-		private readonly result: AgentToolResult,
+		private readonly result: AgentToolResult<any>,
 		private readonly expanded: boolean,
 		private readonly theme: { fg(color: string, text: string): string },
 	) {}

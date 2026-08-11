@@ -3,11 +3,11 @@ import {
 	type ExtensionAPI,
 	type ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
+import type { KeybindingsManager } from "@earendil-works/pi-coding-agent";
 import type {
 	AutocompleteItem,
 	AutocompleteProvider,
 	EditorTheme,
-	KeybindingsManager,
 	TUI,
 } from "@earendil-works/pi-tui";
 import { matchesKey } from "@earendil-works/pi-tui";
@@ -188,8 +188,9 @@ export class PromptlineEditor extends CustomEditor {
 			item,
 			this.promptAutocompletePrefix,
 		);
-		(this as unknown as Record<string, unknown>).state.lines = result.lines;
-		(this as unknown as Record<string, unknown>).state.cursorLine =
+		const state = this as unknown as { state: { lines: string[]; cursorLine: number } };
+		state.state.lines = result.lines;
+		state.state.cursorLine =
 			result.cursorLine;
 		(this as unknown as { setCursorCol: (col: number) => void }).setCursorCol(
 			result.cursorCol,
@@ -216,7 +217,7 @@ export class PromptlineEditor extends CustomEditor {
 	private openHotkeysModal(): void {
 		const opened = openHotkeysModal(
 			this.uiTheme,
-			this.editorKeybindings,
+			this.editorKeybindings as never,
 			getRegisteredHotkeysShortcuts(),
 			this.tui.showOverlay.bind(this.tui) as never,
 			() => {
@@ -327,7 +328,7 @@ export class PromptlineEditor extends CustomEditor {
 		const line = this.getLines()[cursor.line] ?? "";
 		const triggerState = getActiveTriggerState(line.slice(0, cursor.col));
 		this.borderColor = (text: string) =>
-			this.uiTheme.fg(PRIMARY_COLOR as string, text);
+			(this.uiTheme.fg as (color: string, text: string) => string)(PRIMARY_COLOR, text);
 		if (triggerState?.kind === "slash" && !this.modalState.slashModal)
 			return super.render(width);
 		if (this.getPaddingX() !== 1) this.setPaddingX(1);

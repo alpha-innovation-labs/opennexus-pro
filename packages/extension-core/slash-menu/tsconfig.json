@@ -19,6 +19,195 @@
 			],
 			"@nexus/tui-kit": [
 				"../../tui-kit/src/index.ts"
+			],
+			"@nexus/feature-flags/index": [
+				"../../feature-flags/src/index.ts"
+			],
+			"@nexus/feature-flags/*": [
+				"../../feature-flags/src/*"
+			],
+			"@nexus/feature-flags": [
+				"../../feature-flags/src/index.ts"
+			],
+			"@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch": [
+				"../../pi-platform/src/prompt-templates/applyPromptTemplateArgAppendPatch.ts"
+			],
+			"@nexus/pi-platform/tools/createPiToolDefinitions": [
+				"../../pi-platform/src/tools/createPiToolDefinitions.ts"
+			],
+			"@nexus/pi-platform/*": [
+				"../../pi-platform/src/*"
+			],
+			"@nexus/pi-platform": [
+				"../../pi-platform/src/index.ts"
+			],
+			"@extensions/hotkeys/getRegisteredHotkeysShortcuts": [
+				"../hotkeys/src/getRegisteredHotkeysShortcuts.ts"
+			],
+			"@extensions/hotkeys/HotkeysModal": [
+				"../hotkeys/src/HotkeysModal.ts"
+			],
+			"@extensions/hotkeys/*": [
+				"../hotkeys/src/*"
+			],
+			"@extensions/hotkeys": [
+				"../hotkeys/src/index.ts"
+			],
+			"@extensions/tron/collapse/state": [
+				"../tron/src/collapse/state.ts"
+			],
+			"@extensions/tron/*": [
+				"../tron/src/*"
+			],
+			"@extensions/tron": [
+				"../tron/src/index.ts"
+			],
+			"@extensions/rtk/runtime/runtimeStore": [
+				"../rtk/src/runtime/runtimeStore.ts"
+			],
+			"@extensions/rtk/runtime/getRtkExecutionCwd": [
+				"../rtk/src/runtime/getRtkExecutionCwd.ts"
+			],
+			"@extensions/rtk/tooling/createRtkBuiltInTools": [
+				"../rtk/src/tooling/createRtkBuiltInTools.ts"
+			],
+			"@extensions/rtk/*": [
+				"../rtk/src/*"
+			],
+			"@extensions/rtk": [
+				"../rtk/src/index.ts"
+			],
+			"@extensions/slash-menu/*": [
+				"../slash-menu/src/*"
+			],
+			"@extensions/slash-menu": [
+				"../slash-menu/src/index.ts"
+			],
+			"@extensions/neo-editor/*": [
+				"../neo-editor/src/*"
+			],
+			"@extensions/neo-editor": [
+				"../neo-editor/src/index.ts"
+			],
+			"@extensions/ai-providers/*": [
+				"../ai-providers/src/*"
+			],
+			"@extensions/ai-providers": [
+				"../ai-providers/src/index.ts"
+			],
+			"@extensions/auto-update/*": [
+				"../auto-update/src/*"
+			],
+			"@extensions/auto-update": [
+				"../auto-update/src/index.ts"
+			],
+			"@extensions/cmux/*": [
+				"../cmux/src/*"
+			],
+			"@extensions/cmux": [
+				"../cmux/src/index.ts"
+			],
+			"@extensions/context-usage/*": [
+				"../context-usage/src/*"
+			],
+			"@extensions/context-usage": [
+				"../context-usage/src/index.ts"
+			],
+			"@extensions/exit-message/*": [
+				"../exit-message/src/*"
+			],
+			"@extensions/exit-message": [
+				"../exit-message/src/index.ts"
+			],
+			"@extensions/feature-management/*": [
+				"../feature-management/src/*"
+			],
+			"@extensions/feature-management": [
+				"../feature-management/src/index.ts"
+			],
+			"@extensions/fff/*": [
+				"../fff/src/*"
+			],
+			"@extensions/fff": [
+				"../fff/src/index.ts"
+			],
+			"@extensions/herdr-agent-end-log/*": [
+				"../herdr-agent-end-log/src/*"
+			],
+			"@extensions/herdr-agent-end-log": [
+				"../herdr-agent-end-log/src/index.ts"
+			],
+			"@extensions/local-image-reader/*": [
+				"../local-image-reader/src/*"
+			],
+			"@extensions/local-image-reader": [
+				"../local-image-reader/src/index.ts"
+			],
+			"@extensions/notify/*": [
+				"../notify/src/*"
+			],
+			"@extensions/notify": [
+				"../notify/src/index.ts"
+			],
+			"@extensions/observations/*": [
+				"../observations/src/*"
+			],
+			"@extensions/observations": [
+				"../observations/src/index.ts"
+			],
+			"@extensions/pi-packages/*": [
+				"../pi-packages/src/*"
+			],
+			"@extensions/pi-packages": [
+				"../pi-packages/src/index.ts"
+			],
+			"@extensions/startup-hero/*": [
+				"../startup-hero/src/*"
+			],
+			"@extensions/startup-hero": [
+				"../startup-hero/src/index.ts"
+			],
+			"@extensions/subagents/*": [
+				"../subagents/src/*"
+			],
+			"@extensions/subagents": [
+				"../subagents/src/index.ts"
+			],
+			"@extensions/system-prompt/*": [
+				"../system-prompt/src/*"
+			],
+			"@extensions/system-prompt": [
+				"../system-prompt/src/index.ts"
+			],
+			"@extensions/web-search/*": [
+				"../web-search/src/*"
+			],
+			"@extensions/web-search": [
+				"../web-search/src/index.ts"
+			],
+			"@nexus/mini-apps/*": [
+				"../../mini-apps/src/*"
+			],
+			"@nexus/mini-apps": [
+				"../../mini-apps/src/index.ts"
+			],
+			"@extensions/prompts/modal/openSystemPromptExternalEditor": [
+				"../prompts/src/modal/openSystemPromptExternalEditor.ts"
+			],
+			"@extensions/prompts/registerPromptsExtension": [
+				"../prompts/src/registerPromptsExtension.ts"
+			],
+			"@extensions/prompts/*": [
+				"../prompts/src/*"
+			],
+			"@extensions/prompts": [
+				"../prompts/src/index.ts"
+			],
+			"@nexus/herdr/*": [
+				"../../herdr/src/*"
+			],
+			"@nexus/herdr": [
+				"../../herdr/src/index.ts"
 			]
 		}
 	},

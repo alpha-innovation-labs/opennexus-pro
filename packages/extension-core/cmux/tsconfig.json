@@ -2,6 +2,9 @@
 	"extends": "../../../tsconfig.base.json",
 	"compilerOptions": {
 		"paths": {
+			"@extensions/slash-menu/withSlashMenuGroup": [
+				"../slash-menu/src/withSlashMenuGroup.ts"
+			],
 			"@nexus/runtime/*": [
 				"../../nexus-runtime/src/*"
 			],

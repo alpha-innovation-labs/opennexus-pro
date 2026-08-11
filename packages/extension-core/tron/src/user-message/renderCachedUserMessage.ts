@@ -17,7 +17,7 @@ type UserMessageRenderCache = {
 	cachedLines?: string[];
 };
 
-type CachedUserMessageComponent = {
+export type CachedUserMessageComponent = {
 	text?: string;
 	__nexusTronUserMessageRenderCache__?: UserMessageRenderCache;
 };

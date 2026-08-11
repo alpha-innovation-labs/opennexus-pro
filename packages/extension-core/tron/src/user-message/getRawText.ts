@@ -7,5 +7,5 @@ import { findText } from "./findText";
  * @returns Raw message text.
  */
 export function getRawText(component: unknown): string {
-	return findText(component);
+	return findText(component as { text?: string; children?: unknown[] });
 }

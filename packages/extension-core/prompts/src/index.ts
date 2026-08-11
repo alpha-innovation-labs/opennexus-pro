@@ -1,0 +1,1 @@
+export { registerPromptsExtension } from "./registerPromptsExtension";

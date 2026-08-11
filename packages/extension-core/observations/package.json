@@ -9,7 +9,8 @@
 		"@nexus/observability": "workspace:*",
 		"@nexus/runtime": "workspace:*",
 		"@nexus/tui-kit": "workspace:*",
-		"@extensions/prompts": "workspace:*"
+		"@extensions/prompts": "workspace:*",
+		"@extensions/slash-menu": "workspace:*"
 	},
 	"scripts": {
 		"lint": "biome lint .",

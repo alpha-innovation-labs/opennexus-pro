@@ -4,6 +4,18 @@ import { createAtModal } from "../createAtModal";
 import type { ShowOverlay, TriggerModalState } from "../types";
 
 /**
+ * Returns the `@` modal instance from shared state.
+ *
+ * @param modalState Shared modal state.
+ * @returns Active `@` modal or undefined.
+ */
+export function getAtTriggerModal(
+	modalState: TriggerModalState,
+): import("../../AtModal").AtModal | undefined {
+	return modalState.atModal;
+}
+
+/**
  * Ensures the `@` modal exists.
  *
  * @param modalState Shared modal state.

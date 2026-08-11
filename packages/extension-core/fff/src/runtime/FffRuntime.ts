@@ -163,7 +163,7 @@ export class FffRuntime {
 
 		const top = candidates[0];
 		if (!top)
-			return { query, absolutePath: "", relativePath: "", pathType: "file" };
+			return { query, absolutePath: "", relativePath: "", pathType: "file", candidates: [] };
 		return {
 			query,
 			absolutePath: resolve(basePath, top.item.relativePath),

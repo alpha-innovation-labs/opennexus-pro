@@ -112,14 +112,19 @@ function renameTab(tabId: string, label: string): boolean {
 	return result.status === 0 && !result.error;
 }
 
+interface AgentMessage {
+	role?: string;
+	content?: string | Array<{ text?: string }>;
+}
+
 /**
  * Reads the last assistant message from agent_end event data.
  * Scans messages array for the last entry with role === "assistant".
  */
-function lastAssistantMessage(messages: unknown[]): unknown | undefined {
+function lastAssistantMessage(messages: unknown[]): AgentMessage | undefined {
 	const arr = Array.isArray(messages) ? messages : [];
 	for (let i = arr.length - 1; i >= 0; i -= 1) {
-		const msg = arr[i] as unknown;
+		const msg = arr[i] as AgentMessage | undefined;
 		if (msg?.role === "assistant") {
 			return msg;
 		}
@@ -131,7 +136,7 @@ function lastAssistantMessage(messages: unknown[]): unknown | undefined {
  * Extracts a human-readable string from an assistant message.
  * Prefers content (text or string array), falls back to JSON stringification.
  */
-function extractAssistantContent(msg: unknown): string | undefined {
+function extractAssistantContent(msg: AgentMessage | undefined): string | undefined {
 	if (!msg) return undefined;
 
 	const content = msg.content;
@@ -141,8 +146,8 @@ function extractAssistantContent(msg: unknown): string | undefined {
 
 	if (Array.isArray(content)) {
 		const textParts = content
-			.filter((part: unknown) => typeof part?.text === "string")
-			.map((part: unknown) => part.text);
+			.filter((part): part is { text: string } => typeof part?.text === "string")
+			.map((part) => part.text);
 		if (textParts.length > 0) {
 			return textParts.join("\n");
 		}
@@ -195,7 +200,7 @@ export function registerHerdrAgentEndLogExtension(pi: ExtensionAPI): void {
 			return;
 		}
 
-		const assistantMsg = lastAssistantMessage(event?.messages);
+		const assistantMsg = lastAssistantMessage((event as Record<string, unknown>)?.messages as unknown[]);
 		const content = extractAssistantContent(assistantMsg);
 
 		if (content) {

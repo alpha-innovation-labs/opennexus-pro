@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
 import { fetchOpenRouterModelOptions } from "../pricing/fetchOpenRouterModelOptions";
 import { getRtkExecutionCwd } from "../runtime/getRtkExecutionCwd";
@@ -20,7 +20,7 @@ export function registerSavingsCommand(pi: ExtensionAPI): void {
 		withSlashMenuGroup(
 			{
 				description: "Show Nexus token savings",
-				handler: async (_args, ctx) => {
+				handler: async (_args: string, ctx: ExtensionCommandContext) => {
 					const result = (await pi.exec(
 						"rtk",
 						["gain", ...getRtkGainJsonArgs()],

@@ -86,6 +86,7 @@ const SLASH_MENU_LEFT_PANE_RATIO = 0.42;
 export class SlashMenuModal extends SelectPreviewModal {
 	private level: SlashMenuLevel = "top";
 	private query = "";
+	private searchActive = false;
 	private topItems = createTopLevelItems();
 	private activeLeaves: SlashMenuLeaf[] = [];
 	private nameInput = "";

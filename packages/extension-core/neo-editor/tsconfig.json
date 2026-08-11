@@ -19,6 +19,186 @@
 			],
 			"@nexus/tui-kit": [
 				"../../tui-kit/src/index.ts"
+			],
+			"@nexus/feature-flags/runtimeExtensionFeatureState": [
+				"../../feature-flags/src/runtimeExtensionFeatureState.ts"
+			],
+			"@nexus/feature-flags/*": [
+				"../../feature-flags/src/*"
+			],
+			"@nexus/feature-flags": [
+				"../../feature-flags/src/index.ts"
+			],
+			"@nexus/pi-platform/hotkeysCommandHook": [
+				"../../pi-platform/src/hotkeysCommandHook.ts"
+			],
+			"@nexus/pi-platform/*": [
+				"../../pi-platform/src/*"
+			],
+			"@nexus/pi-platform": [
+				"../../pi-platform/src/index.ts"
+			],
+			"@extensions/fff/editor/wrapAutocompleteProviderForCwd": [
+				"../fff/src/editor/wrapAutocompleteProviderForCwd.ts"
+			],
+			"@extensions/fff/*": [
+				"../fff/src/*"
+			],
+			"@extensions/fff": [
+				"../fff/src/index.ts"
+			],
+			"@extensions/hotkeys/getRegisteredHotkeysShortcuts": [
+				"../hotkeys/src/getRegisteredHotkeysShortcuts.ts"
+			],
+			"@extensions/hotkeys/openHotkeysModal": [
+				"../hotkeys/src/openHotkeysModal.ts"
+			],
+			"@extensions/hotkeys/*": [
+				"../hotkeys/src/*"
+			],
+			"@extensions/hotkeys": [
+				"../hotkeys/src/index.ts"
+			],
+			"@extensions/startup-hero/clearStartupHero": [
+				"../startup-hero/src/clearStartupHero.ts"
+			],
+			"@extensions/startup-hero/*": [
+				"../startup-hero/src/*"
+			],
+			"@extensions/startup-hero": [
+				"../startup-hero/src/index.ts"
+			],
+			"@extensions/context-usage/estimateTokensFromText": [
+				"../context-usage/src/estimateTokensFromText.ts"
+			],
+			"@extensions/context-usage/createContextUsageReport": [
+				"../context-usage/src/createContextUsageReport.ts"
+			],
+			"@extensions/context-usage/createRuntimeSnapshot": [
+				"../context-usage/src/createRuntimeSnapshot.ts"
+			],
+			"@extensions/context-usage/types": [
+				"../context-usage/src/types.ts"
+			],
+			"@extensions/context-usage/*": [
+				"../context-usage/src/*"
+			],
+			"@extensions/context-usage": [
+				"../context-usage/src/index.ts"
+			],
+			"@extensions/slash-menu/SlashMenuModal": [
+				"../slash-menu/src/SlashMenuModal.ts"
+			],
+			"@extensions/slash-menu/readProjectConfig": [
+				"../slash-menu/src/readProjectConfig.ts"
+			],
+			"@extensions/slash-menu/internal-commands/showStartupResumeModal": [
+				"../slash-menu/src/internal-commands/showStartupResumeModal.ts"
+			],
+			"@extensions/slash-menu/*": [
+				"../slash-menu/src/*"
+			],
+			"@extensions/slash-menu": [
+				"../slash-menu/src/index.ts"
+			],
+			"@extensions/tron/collapse/state": [
+				"../tron/src/collapse/state.ts"
+			],
+			"@extensions/tron/*": [
+				"../tron/src/*"
+			],
+			"@extensions/tron": [
+				"../tron/src/index.ts"
+			],
+			"@extensions/context-usage/features/promptline/render/constants": [
+				"../context-usage/src/features/promptline/render/constants.ts"
+			],
+			"@extensions/context-usage/features/promptline/render/getContextColor": [
+				"../context-usage/src/features/promptline/render/getContextColor.ts"
+			],
+			"@extensions/context-usage/features/promptline/state": [
+				"../context-usage/src/features/promptline/state.ts"
+			],
+			"@extensions/context-usage/features/editor-triggers/ensureSubmitTrigger": [
+				"../context-usage/src/features/editor-triggers/ensureSubmitTrigger.ts"
+			],
+			"@extensions/context-usage/features/promptline/config/refreshPromptlineConfig": [
+				"../context-usage/src/features/promptline/config/refreshPromptlineConfig.ts"
+			],
+			"@extensions/neo-editor/features/promptline/render/constants": [
+				"./src/features/promptline/render/constants.ts"
+			],
+			"@extensions/neo-editor/features/promptline/render/getContextColor": [
+				"./src/features/promptline/render/getContextColor.ts"
+			],
+			"@extensions/neo-editor/features/promptline/state": [
+				"./src/features/promptline/state.ts"
+			],
+			"@extensions/neo-editor/features/editor-triggers/ensureSubmitTrigger": [
+				"./src/features/editor-triggers/ensureSubmitTrigger.ts"
+			],
+			"@extensions/neo-editor/features/promptline/config/refreshPromptlineConfig": [
+				"./src/features/promptline/config/refreshPromptlineConfig.ts"
+			],
+			"@extensions/neo-editor/registerNeoEditorExtension": [
+				"./src/registerNeoEditorExtension.ts"
+			],
+			"@nexus/mini-apps/*": [
+				"../../mini-apps/src/*"
+			],
+			"@nexus/mini-apps": [
+				"../../mini-apps/src/index.ts"
+			],
+			"@extensions/ai-providers/*": [
+				"../ai-providers/src/*"
+			],
+			"@extensions/auto-update/*": [
+				"../auto-update/src/*"
+			],
+			"@extensions/cmux/*": [
+				"../cmux/src/*"
+			],
+			"@extensions/exit-message/*": [
+				"../exit-message/src/*"
+			],
+			"@extensions/feature-management/*": [
+				"../feature-management/src/*"
+			],
+			"@extensions/herdr-agent-end-log/*": [
+				"../herdr-agent-end-log/src/*"
+			],
+			"@extensions/local-image-reader/*": [
+				"../local-image-reader/src/*"
+			],
+			"@extensions/prompts/*": [
+				"../prompts/src/*"
+			],
+			"@nexus/herdr/*": [
+				"../../herdr/src/*"
+			],
+			"@nexus/herdr": [
+				"../../herdr/src/index.ts"
+			],
+			"@extensions/notify/*": [
+				"../notify/src/*"
+			],
+			"@extensions/observations/*": [
+				"../observations/src/*"
+			],
+			"@extensions/pi-packages/*": [
+				"../pi-packages/src/*"
+			],
+			"@extensions/rtk/*": [
+				"../rtk/src/*"
+			],
+			"@extensions/subagents/*": [
+				"../subagents/src/*"
+			],
+			"@extensions/system-prompt/*": [
+				"../system-prompt/src/*"
+			],
+			"@extensions/web-search/*": [
+				"../web-search/src/*"
 			]
 		}
 	},

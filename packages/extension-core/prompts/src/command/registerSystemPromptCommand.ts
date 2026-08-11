@@ -1,4 +1,7 @@
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import type {
+	ExtensionAPI,
+	ExtensionCommandContext,
+} from "@earendil-works/pi-coding-agent";
 import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
 import type { SystemPromptState } from "../state/types";
 import { handleSystemPromptCommand } from "./handleSystemPromptCommand";
@@ -18,7 +21,10 @@ export function registerSystemPromptCommand(
 		withSlashMenuGroup(
 			{
 				description: "View, edit, or reset the current system prompt.",
-				handler: async (_args, ctx) => {
+				handler: async (
+					_args: string,
+					ctx: ExtensionCommandContext,
+				) => {
 					await handleSystemPromptCommand(ctx, state);
 				},
 			},

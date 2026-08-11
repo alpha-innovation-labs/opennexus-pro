@@ -104,7 +104,7 @@ export function renderTranscriptEntry(
 				const renderer = new FailedToolCallResult(
 					toolCallId,
 					toolName,
-					getToolErrorText(entry.result),
+					getToolErrorText(entry.result as never),
 					context.theme,
 				);
 				return {
@@ -134,7 +134,7 @@ export function renderTranscriptEntry(
 
 			const renderer = new CompactToolResult(
 				toolCallId,
-				entry.result,
+				entry.result as never,
 				true,
 				context.theme,
 			);

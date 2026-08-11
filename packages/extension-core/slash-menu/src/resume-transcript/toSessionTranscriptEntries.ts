@@ -39,8 +39,8 @@ export function toSessionTranscriptEntries(
 	const entries = loadEntriesFromFileStub(sessionPath);
 	const sessionContext = buildSessionContext(entries as never);
 
-	return sessionContext.messages
-		.flatMap((message: unknown) => {
+	return (sessionContext.messages as { role?: string; content?: unknown; timestamp?: unknown; command?: string; summary?: string }[])
+		.flatMap((message) => {
 			const createdAt = getMessageCreatedAt(message);
 			if (message.role === "user") {
 				return [
@@ -52,7 +52,7 @@ export function toSessionTranscriptEntries(
 				];
 			}
 			if (message.role === "assistant") {
-				return toAssistantTranscriptEntries(message);
+				return toAssistantTranscriptEntries(message as { content?: unknown; errorMessage?: string; stopReason?: string; timestamp?: unknown });
 			}
 			if (
 				message.role === "custom" ||
@@ -65,7 +65,7 @@ export function toSessionTranscriptEntries(
 						role: "system" as const,
 						text:
 							extractMessageText(message.content) ||
-							String(message.command ?? message.summary ?? ""),
+							String((message as { command?: string; summary?: string }).command ?? (message as { summary?: string }).summary ?? ""),
 						createdAt,
 					},
 				];

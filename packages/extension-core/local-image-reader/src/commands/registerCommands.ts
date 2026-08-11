@@ -1,4 +1,4 @@
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import type { LocalImageReaderConfig } from "../config/types";
 import { fetchModels } from "../request/executor";
@@ -14,7 +14,7 @@ import { fetchModels } from "../request/executor";
  */
 export function registerCommands(
 	pi: ExtensionAPI,
-	_getConfig: (_) => LocalImageReaderConfig,
+	_getConfig: (_: ExtensionContext) => LocalImageReaderConfig,
 	persistConfig: (config: LocalImageReaderConfig) => void,
 ): void {
 	// Register /local-image command: interactive settings menu

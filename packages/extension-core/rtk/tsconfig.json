@@ -13,6 +13,18 @@
 			],
 			"@nexus/tui-kit": [
 				"../../tui-kit/src/index.ts"
+			],
+			"@extensions/slash-menu/*": [
+				"../slash-menu/src/*"
+			],
+			"@extensions/slash-menu": [
+				"../slash-menu/src/index.ts"
+			],
+			"@extensions/tron/*": [
+				"../tron/src/*"
+			],
+			"@extensions/tron": [
+				"../tron/src/index.ts"
 			]
 		}
 	},

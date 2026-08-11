@@ -1,4 +1,5 @@
 import { Text } from "@earendil-works/pi-tui";
+import type { AgentToolResult } from "@earendil-works/pi-coding-agent";
 import { CompactToolResult } from "./CompactToolResult";
 import { getResultText } from "./getResultText";
 
@@ -13,11 +14,11 @@ import { getResultText } from "./getResultText";
  */
 export function renderCompactResult(
 	toolCallId: string,
-	result: unknown,
+	result: AgentToolResult<any> | undefined,
 	expanded: boolean,
-	theme: unknown,
+	theme: { fg(color: string, text: string): string },
 ): CompactToolResult | Text {
 	const text = getResultText(result);
 	if (!text) return new Text("", 0, 0);
-	return new CompactToolResult(toolCallId, result, expanded, theme);
+	return new CompactToolResult(toolCallId, result!, expanded, theme);
 }

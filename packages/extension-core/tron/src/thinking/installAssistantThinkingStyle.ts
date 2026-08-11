@@ -1,5 +1,7 @@
 import type { AssistantMessage } from "@earendil-works/pi-ai";
 import { getMarkdownTheme } from "@earendil-works/pi-coding-agent";
+import type { Theme as PiTheme } from "@earendil-works/pi-coding-agent";
+import type { MarkdownTheme } from "@earendil-works/pi-tui";
 import { Spacer, Text } from "@earendil-works/pi-tui";
 import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook";
 import type { AssistantMessageComponent } from "@earendil-works/pi-coding-agent";
@@ -26,6 +28,16 @@ function isVisibleToolCall(content: { type?: string; name?: string }): boolean {
 	return content?.type === "toolCall" && content?.name !== "Agent";
 }
 
+function castComponent(c: AssistantMessageComponent): Record<string, unknown> & {
+	lastMessage: unknown;
+	contentContainer: { clear(): void; addChild(c: unknown): void; children?: unknown[] };
+	markdownTheme?: unknown;
+	hideThinkingBlock: boolean;
+	hasToolCalls: boolean;
+} {
+	return c as never;
+}
+
 /**
  * Installs the tron assistant-thinking renderer hook.
  */
@@ -34,10 +46,11 @@ export function installAssistantThinkingStyle(): void {
 		(component: AssistantMessageComponent, message: AssistantMessage | undefined) => {
 			if (!message) return;
 			const startedAt = performance.now();
-			component.lastMessage = message;
-			component.contentContainer.clear();
+			const comp = castComponent(component);
+			comp.lastMessage = message;
+			comp.contentContainer.clear();
 			syncToolCallFrameState(message.content);
-			const markdownTheme = component.markdownTheme ?? getMarkdownTheme();
+			const markdownTheme = comp.markdownTheme ?? (getMarkdownTheme() as MarkdownTheme);
 			const hasVisibleContent = message.content.some(
 				(content: { type?: string; text?: string; thinking?: string }) =>
 					(content.type === "text" && content.text?.trim()) ||
@@ -52,17 +65,17 @@ export function installAssistantThinkingStyle(): void {
 				hasVisibleContent &&
 				!hasVisibleToolCalls &&
 				!shouldTightenThinkingOuterSpacing;
-			setCompactModeThinkingExpanded(!component.hideThinkingBlock);
+			setCompactModeThinkingExpanded(!comp.hideThinkingBlock);
 
-			// if (shouldAddTopSpacer) component.contentContainer.addChild(new Spacer(1));
+			// if (shouldAddTopSpacer) comp.contentContainer.addChild(new Spacer(1));
 			for (let index = 0; index < message.content.length; index++) {
 				const content = message.content[index];
 				if (content.type === "text" && content.text?.trim()) {
 					const { component: child } = renderTranscriptEntry(
 						{ role: "assistant", text: content.text.trim() },
-						{ theme, markdownTheme, xOffset: 1 },
+						{ theme: theme as PiTheme, markdownTheme: markdownTheme as never, xOffset: 1 },
 					);
-					if (child) component.contentContainer.addChild(child);
+					if (child) comp.contentContainer.addChild(child);
 					continue;
 				}
 				if (content.type === "thinking" && content.thinking?.trim()) {
@@ -86,69 +99,69 @@ export function installAssistantThinkingStyle(): void {
 								(previous.type === "text" && previous.text?.trim()) ||
 								(previous.type === "thinking" && previous.thinking?.trim()),
 						);
-					const connectFromTool = isVisibleToolCall(previousVisibleContent);
+					const connectFromTool = previousVisibleContent ? isVisibleToolCall(previousVisibleContent) : false;
 					if (connectToTools)
 						bridgeThinkingToToolCalls(
 							toolGroup.toolCallIds,
 							!toolGroup.followedByThinking,
 						);
-					if (component.hideThinkingBlock) {
+					if (comp.hideThinkingBlock) {
 						const { component: child } = renderTranscriptEntry(
 							{ role: "thinking", text: content.thinking.trim() },
 							{
-								theme,
-								markdownTheme,
+								theme: theme as PiTheme,
+								markdownTheme: markdownTheme as never,
 								connectThinkingToTools: connectToTools,
 								connectThinkingFromTool: connectFromTool,
 							},
 						);
-						if (child) component.contentContainer.addChild(child);
+						if (child) comp.contentContainer.addChild(child);
 					} else {
 						const { component: child } = renderTranscriptEntry(
 							{ role: "thinking", text: content.thinking.trim() },
 							{
-								theme,
-								markdownTheme,
+								theme: theme as PiTheme,
+								markdownTheme: markdownTheme as never,
 								expanded: true,
 								connectThinkingToTools: connectToTools,
 								connectThinkingFromTool: connectFromTool,
 								xOffset: 1,
 							},
 						);
-						if (child) component.contentContainer.addChild(child);
+						if (child) comp.contentContainer.addChild(child);
 					}
 					if (hasVisibleContentAfter)
-						component.contentContainer.addChild(new Spacer(1));
+						comp.contentContainer.addChild(new Spacer(1));
 				}
 			}
-			component.hasToolCalls = hasVisibleToolCalls;
+			comp.hasToolCalls = hasVisibleToolCalls;
 			const durationLabel =
 				typeof message.timestamp === "number"
 					? getAssistantMessageTiming(message.timestamp)
 					: undefined;
-			if (hasVisibleContent && !component.hasToolCalls && durationLabel) {
+			if (hasVisibleContent && !comp.hasToolCalls && durationLabel) {
 				if (!shouldTightenThinkingOuterSpacing)
-					component.contentContainer.addChild(new Spacer(1));
-				component.contentContainer.addChild(
-					createAssistantMetaText(theme, durationLabel, message.timestamp),
+					comp.contentContainer.addChild(new Spacer(1));
+				comp.contentContainer.addChild(
+					createAssistantMetaText(theme as PiTheme, durationLabel, message.timestamp),
 				);
 			}
-			if (!component.hasToolCalls && message.stopReason === "aborted") {
+			if (!comp.hasToolCalls && message.stopReason === "aborted") {
 				const abortMessage =
 					message.errorMessage && message.errorMessage !== "Request was aborted"
 						? message.errorMessage
 						: "Operation aborted";
 				if (!shouldTightenThinkingOuterSpacing)
-					component.contentContainer.addChild(new Spacer(1));
-				component.contentContainer.addChild(
-					new Text(theme.fg("error", abortMessage), 1, 0),
+					comp.contentContainer.addChild(new Spacer(1));
+				comp.contentContainer.addChild(
+					new Text((theme as PiTheme).fg("error", abortMessage), 1, 0),
 				);
 			}
-			if (!component.hasToolCalls && message.stopReason === "error") {
+			if (!comp.hasToolCalls && message.stopReason === "error") {
 				const errorMessage = message.errorMessage || "Unknown error";
-				component.contentContainer.addChild(
+				comp.contentContainer.addChild(
 					new BorderedAssistantErrorRow(
-						theme,
+						theme as PiTheme,
 						formatAssistantErrorText(errorMessage),
 					),
 				);
@@ -156,10 +169,10 @@ export function installAssistantThinkingStyle(): void {
 			recordTronRenderTiming(
 				"assistant-update-content",
 				performance.now() - startedAt,
-				component.contentContainer.children?.length ?? 0,
+				comp.contentContainer.children?.length ?? 0,
 				{
 					contentBlocks: message.content.length,
-					hasToolCalls: component.hasToolCalls,
+					hasToolCalls: comp.hasToolCalls,
 				},
 			);
 		},

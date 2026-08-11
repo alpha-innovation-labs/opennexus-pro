@@ -7,6 +7,30 @@
 			],
 			"@nexus/runtime": [
 				"../../nexus-runtime/src/index.ts"
+			],
+			"@extensions/prompts": [
+				"../prompts/src/index.ts"
+			],
+			"@extensions/prompts/*": [
+				"../prompts/src/*"
+			],
+			"@extensions/slash-menu/*": [
+				"../slash-menu/src/*"
+			],
+			"@extensions/slash-menu": [
+				"../slash-menu/src/index.ts"
+			],
+			"@nexus/pi-platform/*": [
+				"../../../packages/pi-platform/src/*"
+			],
+			"@nexus/pi-platform": [
+				"../../../packages/pi-platform/src/index.ts"
+			],
+			"@nexus/tui-kit/*": [
+				"../../../packages/tui-kit/src/*"
+			],
+			"@nexus/tui-kit": [
+				"../../../packages/tui-kit/src/index.ts"
 			]
 		}
 	},
