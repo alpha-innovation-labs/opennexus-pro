@@ -43,14 +43,14 @@ export interface PreparedNexusTest {
  * @param options Session name and optional dump directory.
  * @returns A handle containing the session name and dump directory.
  */
-export function prepareNexusTest(options: PrepareNexusTestOptions): PreparedNexusTest {
+export async function prepareNexusTest(options: PrepareNexusTestOptions): Promise<PreparedNexusTest> {
   const { sessionName, dumpDir: customDumpDir } = options;
   const dumpDir = customDumpDir ?? join(tmpdir(), `nexus-${sessionName}-dump`);
   const env = process.env.NEXUS_TEST_ENV ?? "dev";
 
   // Step 1: Clean up previous session and dump dir
   try { agentTui("session", "delete", sessionName); } catch { /* ignore */ }
-  try { rm.sync(dumpDir, { recursive: true, force: true }); } catch { /* ignore */ }
+  try { await rm(dumpDir, { recursive: true, force: true }); } catch { /* ignore */ }
 
   // Step 2: Create a fresh agent-tui session
   agentTui("session", "create", sessionName);

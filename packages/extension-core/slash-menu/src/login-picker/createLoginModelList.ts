@@ -1,4 +1,4 @@
-import { getBuiltinModels, getBuiltinProviders } from "@earendil-works/pi-ai/providers/all";
+import { getBuiltinModels, builtinProviders, type BuiltinProvider } from "@earendil-works/pi-ai/providers/all";
 import type { SlashMenuLeaf } from "../types";
 import { filterMenuItems } from "../filterMenuItems";
 import { resolveProviderModels } from "./resolveProviderModels";
@@ -19,9 +19,9 @@ export function createLoginModelList(
   query: string,
 ): SlashMenuLeaf[] {
   if (!providerId) return [];
-  const catalog = getBuiltinProviders().map((provider) => ({
+  const catalog = builtinProviders().map((provider) => ({
     provider,
-    models: getBuiltinModels(provider),
+    models: getBuiltinModels(provider.id as BuiltinProvider),
   }));
   return resolveProviderModels(providerId, catalog, query);
 }

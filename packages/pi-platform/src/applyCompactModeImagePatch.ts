@@ -19,7 +19,7 @@ function sanitizeBinaryOutput(str: string): string {
 		.join("");
 }
 import { ToolExecutionComponent } from "@earendil-works/pi-coding-agent";
-import { isToolGroupCollapseEnabled } from "@extensions/tron/collapse/state.ts";
+import { isToolGroupCollapseEnabled } from "@extensions/tron/collapse/state";
 
 let compactModeImagePatchApplied = false;
 

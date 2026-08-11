@@ -69,7 +69,7 @@ export async function handleListCommand(json: boolean, gateways: AiGateway[]): P
       if (probe.status === "ok") {
         reachable = "Yes";
         authorized = "Yes";
-      } else if (probe.status === "access-denied" || probe.status === "wrong-app") {
+      } else if (probe.status === "access-denied" || probe.status === "not-a-gateway") {
         reachable = "Yes";
         authorized = "No";
       }
@@ -169,7 +169,7 @@ export async function handleListCommand(json: boolean, gateways: AiGateway[]): P
       { name: "Authorized", alignment: "left" },
       { name: "Models", alignment: "right" },
     ],
-    border: {},
+    // border removed — console-table-printer no longer accepts it
   });
   ct.addRows(tableData);
   ct.printTable();

@@ -34,10 +34,10 @@ export function createAppArgs(inputArgs: string[]): string[] {
   // mechanism to disable theme loading.
   // Commands are injected in priority order (first match wins).
   // User commands shadow agent commands shadow bundled commands.
-  if (userCommandsExists(userCommandsPath) && !hasNoPromptTemplates) {
+  if (userCommandsExists() && !hasNoPromptTemplates) {
     prependedArgs.push("--prompt-template", userCommandsPath);
   }
-  if (agentCommandsExists(agentCommandsPath) && !hasNoPromptTemplates) {
+  if (agentCommandsExists() && !hasNoPromptTemplates) {
     prependedArgs.push("--prompt-template", agentCommandsPath);
   }
   if (!hasBundledCommandsPath) prependedArgs.push("--prompt-template", bundledCommandsPath);

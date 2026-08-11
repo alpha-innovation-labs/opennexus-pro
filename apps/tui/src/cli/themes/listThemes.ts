@@ -14,7 +14,7 @@ export async function listThemes(): Promise<{ themes: string[]; currentTheme: st
   const settings = SettingsManager.create(process.cwd());
   const storedTheme = settings.getTheme();
   // Validate: Pi may have a stale theme name in settings.json that no longer exists.
-  const currentTheme = names.includes(storedTheme || "") ? storedTheme : "nexus-black";
+  const currentTheme = names.includes(storedTheme || "") ? (storedTheme ?? "nexus-black") : "nexus-black";
 
   return {
     themes: names,

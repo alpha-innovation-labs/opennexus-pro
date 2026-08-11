@@ -12,7 +12,7 @@ interface RefreshResult {
   providerId: string;
   port: string;
   probe: Awaited<ReturnType<AiGateway["exists"]>>;
-  models: Awaited<ReturnType<AiGateway["fetchModels"]>>;
+  models: Awaited<ReturnType<AiGateway["getModels"]>>;
   status: RefreshStatus;
   statusLine: string;
 }
@@ -53,7 +53,7 @@ export async function handleRefreshCommand(
     gatewaysToRefresh.map(async (gw) => {
       const port = gw.baseUrl.split(':')[2]?.replace('/', '') ?? '';
       const probe = await gw.exists();
-      const models = await gw.refreshModels();
+      const models = await gw.refreshModels(null);
       let status: RefreshStatus;
       let statusLine: string;
       if (probe.status === "ok") {
@@ -93,7 +93,7 @@ export async function handleRefreshCommand(
       { name: "Port", alignment: "right" },
       { name: "Status", alignment: "left" },
     ],
-    border: {},
+    // border removed — console-table-printer no longer accepts it
   });
   for (const r of refreshResults) {
     let rowColor = GREEN;

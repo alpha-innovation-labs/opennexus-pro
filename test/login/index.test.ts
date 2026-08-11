@@ -53,13 +53,13 @@ if (cleanupId) {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-function sendKeys(keys) {
+function sendKeys(keys: string[]) {
   runHerdr(["agent", "send-keys", agentName, ...keys]);
 }
 
-function readOutput(lines = 100) {
+function readOutput(lines = 100): string {
   const result = runHerdr(["agent", "read", agentName, "--source", "recent", "--lines", String(lines)]);
-  return result._raw ?? "";
+  return (result as any)._raw ?? "";
 }
 
 function escape() {
@@ -69,7 +69,7 @@ function escape() {
 const actualDir = join(__dirname, "snapshots", "actual");
 mkdirSync(actualDir, { recursive: true });
 
-function getSnapshot(name) {
+function getSnapshot(name: string): string {
   const snapPath = join(__dirname, "snapshots", name);
   try {
     return readFileSync(snapPath, "utf-8").trim();

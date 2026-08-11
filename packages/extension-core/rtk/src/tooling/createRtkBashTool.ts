@@ -1,3 +1,4 @@
+import type { ToolDefinition } from "@earendil-works/pi-coding-agent";
 import { createBashTool } from "@earendil-works/pi-coding-agent";
 import { getRtkRuntimeForCwd } from "../runtime/runtimeStore";
 
@@ -6,7 +7,7 @@ import { getRtkRuntimeForCwd } from "../runtime/runtimeStore";
  *
  * @returns RTK-aware bash tool definition.
  */
-export function createRtkBashTool(cwd = process.cwd(), useProcessCwdFallback = true) {
+export function createRtkBashTool(cwd = process.cwd(), useProcessCwdFallback = true): ToolDefinition {
   const template = createBashTool(cwd);
 
   return {

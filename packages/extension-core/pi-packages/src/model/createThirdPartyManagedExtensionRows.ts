@@ -1,7 +1,6 @@
-import type { ConfiguredPackage } from "@earendil-works/pi-coding-agent";
 import type { NexusUserConfig } from "@nexus/runtime/config/types";
 import { createConfiguredPackageRows } from "../package/createConfiguredPackageRows";
-import type { ManagedExtensionRow } from "./types";
+import type { ManagedExtensionRow, ConfiguredPackage } from "./types";
 import { sortManagedExtensionRows } from "./sortManagedExtensionRows";
 
 /**

@@ -1,5 +1,5 @@
 import type { SessionEntry } from "@nexus/pi-platform/sessionManager";
-import { resetAssistantActivityGrouping } from "./resetAssistantActivityGrouping";
+import { resetAssistantActivityGrouping } from "./activity/resetAssistantActivityGrouping";
 
 /**
  * Standalone tool mode resets any stale grouping cache without rebuilding it.

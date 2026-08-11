@@ -1,8 +1,8 @@
 import { Loader } from "@earendil-works/pi-tui";
 import { createWorkingElapsedMessage } from "./working-loader/createWorkingElapsedMessage";
 import { isWorkingLoaderMessage } from "./working-loader/isWorkingLoaderMessage";
-import type { PatchableLoader } from "./working-loader/types";
 import { clearWorkingLoaderStartedAt, getWorkingLoaderStartedAt } from "./working-loader/workingLoaderStartedAt";
+import type { PatchableLoader } from "./working-loader/types";
 
 let workingLoaderElapsedPatchApplied = false;
 
@@ -14,24 +14,28 @@ export function applyWorkingLoaderElapsedPatch(): void {
     return;
   }
 
-  const prototype = Loader.prototype as unknown as PatchableLoader;
-  const originalUpdateDisplay = prototype.updateDisplay;
+  const prototype = Loader.prototype as unknown as {
+    message?: string;
+    updateDisplay(): void;
+  };
 
-  prototype.updateDisplay = function updateDisplayWithElapsedTime(this: PatchableLoader): void {
-    const message = this.message ?? "";
+  const originalUpdateDisplay = prototype.updateDisplay.bind(prototype);
+
+  prototype.updateDisplay = function updateDisplayWithElapsedTime(): void {
+    const message = (this as { message?: string }).message ?? "";
     if (!isWorkingLoaderMessage(message)) {
-      clearWorkingLoaderStartedAt(this);
-      originalUpdateDisplay.call(this);
+      clearWorkingLoaderStartedAt(this as PatchableLoader);
+      originalUpdateDisplay();
       return;
     }
 
     const now = Date.now();
-    const startedAt = getWorkingLoaderStartedAt(this, now);
-    this.message = createWorkingElapsedMessage(message, now - startedAt);
+    const startedAt = getWorkingLoaderStartedAt(this as PatchableLoader, now);
+    (this as { message?: string }).message = createWorkingElapsedMessage(message, now - startedAt);
     try {
-      originalUpdateDisplay.call(this);
+      originalUpdateDisplay();
     } finally {
-      this.message = message;
+      (this as { message?: string }).message = message;
     }
   };
 

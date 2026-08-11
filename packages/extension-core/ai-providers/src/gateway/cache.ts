@@ -16,8 +16,11 @@ import {
   writeProviderStateCache,
   type ProviderStateCache,
 } from "../cache/index";
-import type { ProviderConfigInput } from "@earendil-works/pi-coding-agent";
 import { fetchModelsFromGateway } from "./model-discovery";
+
+type ProviderConfigInput = {
+  models?: Array<Record<string, unknown>>;
+};
 
 /**
  * Returns the cached models for this gateway, or an empty array if

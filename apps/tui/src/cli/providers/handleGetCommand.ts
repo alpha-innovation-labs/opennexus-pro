@@ -28,8 +28,8 @@ export async function handleGetCommand(
   }
 
   const providerConfig = readProviderConfig();
-  const allGateways = gateways ?? getGateways(providerConfig);
-  const gw = allGateways.find((g) => g.providerId === providerId);
+  const allGateways = gateways ?? (await getGateways(providerConfig));
+  const gw = allGateways.find((g: AiGateway) => g.providerId === providerId);
 
   if (!gw) {
     console.log(`Provider '${providerId}' is not configured. Run 'nexus provider setup ${providerId}' to configure it.`);
@@ -41,12 +41,12 @@ export async function handleGetCommand(
     console.log(`Provider '${providerId}' is not running at ${gw.baseUrl} (${probe.reason}).`);
     return 1;
   }
-  // probe.status === "error" — server responded but rejected; fall through to fetchModels.
+  // probe.status === "access-denied" — server responded but rejected; fall through.
 
-  const models = await gw.fetchModels();
+  const models = await gw.getModels();
   if (models.length === 0) {
-    if (probe.status === "error") {
-      console.log(`Provider '${providerId}' responded with ${probe.statusCode} ${probe.statusText} at ${gw.baseUrl}.`);
+    if (probe.status === "access-denied") {
+      console.log(`Provider '${providerId}' responded with access denied (${probe.reason}) at ${gw.baseUrl}.`);
     } else {
       console.log(`Provider '${providerId}' is running but has no models available.`);
     }
@@ -74,7 +74,7 @@ export async function handleGetCommand(
       { name: "Context", alignment: "right" },
       { name: "MaxTokens", alignment: "right" },
     ],
-    border: {},
+    // border removed — console-table-printer no longer accepts it
   });
   ct.addRows(tableData);
   ct.printTable();

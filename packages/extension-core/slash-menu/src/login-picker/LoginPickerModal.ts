@@ -2,7 +2,7 @@ import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
-import { getBuiltinModels, getBuiltinProviders } from "@earendil-works/pi-ai/providers/all";
+import { getBuiltinModels, builtinProviders, type BuiltinProvider } from "@earendil-works/pi-ai/providers/all";
 import type { Model, Api } from "@earendil-works/pi-ai";
 import type { SlashMenuLeaf } from "../types";
 import { createLoadingLeaf } from "../createLoadingLeaf";
@@ -65,9 +65,9 @@ export class LoginPickerModal extends SelectPreviewModal {
   private async init(): Promise<void> {
     const config = readNexusUserConfig();
     this.providerStates = config.providers ?? {};
-    this.catalog = getBuiltinProviders().map((provider) => ({
+    this.catalog = builtinProviders().map((provider) => ({
       provider,
-      models: getBuiltinModels(provider),
+      models: getBuiltinModels(provider.id as BuiltinProvider),
     }));
     this.allProviders = createLoginProviderList(this.providerStates);
     // Build the model map for all providers.

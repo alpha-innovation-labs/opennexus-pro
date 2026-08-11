@@ -2,8 +2,8 @@ import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath
 import { DefaultPackageManager } from "@earendil-works/pi-coding-agent";
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
-import type { ConfiguredPackage } from "@earendil-works/pi-coding-agent";
 import { normalizeNpmPackageName } from "./normalizeNpmPackageName";
+import type { ConfiguredPackage } from "../model/types";
 
 /** Package manager patched to also read from extensions.pi_packages. */
 export type NexusPackageManagerRuntime = {

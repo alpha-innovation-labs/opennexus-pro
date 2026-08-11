@@ -1,3 +1,4 @@
+import type { ToolDefinition } from "@earendil-works/pi-coding-agent";
 import { createFindTool } from "@earendil-works/pi-coding-agent";
 import { getRtkRuntimeForCwd } from "../runtime/runtimeStore";
 import { resolveRtkPath } from "../runtime/resolveRtkPath";
@@ -7,7 +8,7 @@ import { resolveRtkPath } from "../runtime/resolveRtkPath";
  *
  * @returns RTK-aware find tool definition.
  */
-export function createRtkFindTool(cwd = process.cwd(), useProcessCwdFallback = true) {
+export function createRtkFindTool(cwd = process.cwd(), useProcessCwdFallback = true): ToolDefinition {
   const template = createFindTool(cwd);
 
   return {

@@ -33,7 +33,7 @@ export async function applyStartupHelpSilencePatch(): Promise<void> {
 		import("@earendil-works/pi-coding-agent"),
 		import("@earendil-works/pi-coding-agent"),
 	]);
-	const InteractiveMode = interactiveModule.InteractiveMode as InteractiveModeClass;
+	const InteractiveMode = interactiveModule.InteractiveMode as unknown as InteractiveModeClass;
 	const SettingsManager = settingsModule.SettingsManager as SettingsManagerClass;
 	if (InteractiveMode.__nexusStartupHelpSilenced__) return;
 

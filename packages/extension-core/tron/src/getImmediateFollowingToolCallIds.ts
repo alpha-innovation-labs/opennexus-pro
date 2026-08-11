@@ -1,4 +1,4 @@
-import { getImmediateFollowingToolCallGroup } from "./getImmediateFollowingToolCallGroup";
+import { getImmediateFollowingToolCallGroup } from "./activity/getImmediateFollowingToolCallGroup";
 
 type ToolCallContent = { type?: unknown; id?: unknown; text?: unknown; thinking?: unknown };
 

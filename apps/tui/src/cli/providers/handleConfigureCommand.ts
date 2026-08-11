@@ -95,7 +95,7 @@ export async function handleConfigureCommand(
       const promptResult = await text({
         message: `Enter host for ${providerIdResolved}:`,
         initialValue: existing?.host ?? "localhost",
-        validate: (value) => (value.trim() ? undefined : "Host is required."),
+        validate: (value) => (value && value.trim() ? undefined : "Host is required."),
       });
       if (isCancel(promptResult)) {
         return 0;
@@ -136,7 +136,7 @@ export async function handleConfigureCommand(
           ? `Enter API key for ${providerIdResolved} (optional, leave blank to clear; key already stored):`
           : `Enter API key for ${providerIdResolved} (optional, leave blank to clear):`,
         initialValue: existingKey,
-        mask: "•",
+        password: "•",
       });
       if (isCancel(promptResult)) {
         return 0;
@@ -170,13 +170,13 @@ export async function handleConfigureCommand(
 
     if (probe.status === "unreachable") {
       console.error(`\n✗ Provider is unreachable at ${baseUrl} (${probe.reason}).`);
-    } else if (probe.status === "error") {
-      console.error(`\n✗ Provider responded with ${probe.statusCode} ${probe.statusText} at ${baseUrl} (check your API key).`);
+    } else if (probe.status === "access-denied") {
+      console.error(`\n✗ Provider responded with access denied (${probe.reason}) at ${baseUrl}.`);
     } else {
       // ok — server is reachable
     }
 
-    if (probe.status === "unreachable" || (probe.status === "error" && models.length === 0)) {
+    if (probe.status === "unreachable" || (probe.status === "access-denied" && models.length === 0)) {
       const retry = await text({
         message: "Press Enter to re-edit, or type 'cancel' to abort:",
         initialValue: "",

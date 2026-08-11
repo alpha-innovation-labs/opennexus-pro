@@ -123,11 +123,13 @@ export async function runCliWithApp(argv: string[], options: RunCliWithAppOption
   }
 
   if (hasThemesListFlag(argv)) {
-    return printThemesList(readListThemeNameArg(argv));
+    await printThemesList(readListThemeNameArg(argv));
+    return 0;
   }
 
   if (hasThemesFlag(argv)) {
-    return printThemesHelp();
+    printThemesHelp();
+    return 0;
   }
 
   if (hasProvidersFlag(argv)) {

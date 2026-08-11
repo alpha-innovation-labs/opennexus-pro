@@ -1,4 +1,4 @@
-import { getBuiltinProviders } from "@earendil-works/pi-ai/providers/all";
+import { builtinProviders } from "@earendil-works/pi-ai/providers/all";
 import type { SlashMenuLeaf } from "../types";
 
 /**
@@ -14,7 +14,7 @@ import type { SlashMenuLeaf } from "../types";
 export function createLoginProviderList(
   providerStates: Record<string, { enabled: boolean }>,
 ): SlashMenuLeaf[] {
-  const providers = getBuiltinProviders();
+  const providers = builtinProviders();
   return providers.map((provider) => {
     const enabled = providerStates[provider.id]?.enabled ?? false;
     return {

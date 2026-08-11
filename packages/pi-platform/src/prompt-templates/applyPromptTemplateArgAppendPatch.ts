@@ -170,13 +170,14 @@ export async function applyPromptTemplateArgAppendPatch(): Promise<void> {
 		prototype: { prompt: (...args: unknown[]) => unknown };
 	};
 
-	const originalPrompt = AgentSession.prototype.prompt;
+	const originalPrompt = (AgentSession.prototype.prompt as (...args: unknown[]) => unknown).bind(AgentSession.prototype);
 
 	AgentSession.prototype.prompt = async function (
 		this: { promptTemplates?: Array<{ name: string; content: string }> },
-		text: string,
-		options?: Record<string, unknown>,
+		...args: unknown[]
 	): Promise<unknown> {
+		let text = args[0] as string;
+		const options = args[1] as Record<string, unknown> | undefined;
 		const expandPromptTemplates = (options?.expandPromptTemplates as boolean) ?? true;
 
 		// Only patch when prompt template expansion is enabled and text starts with "/"
@@ -195,8 +196,8 @@ export async function applyPromptTemplateArgAppendPatch(): Promise<void> {
 				const template = templates.find((t) => t.name === templateName);
 
 				if (template) {
-					const args = parseCommandArgs(argsString);
-					const expanded = substituteArgs(template.content, args);
+					const templateArgs = parseCommandArgs(argsString);
+					const expanded = substituteArgs(template.content, templateArgs);
 
 					// Always append raw user args so the query is never silently lost,
 					// regardless of whether the template references `$ARGUMENTS` / `$@`.
@@ -214,7 +215,7 @@ export async function applyPromptTemplateArgAppendPatch(): Promise<void> {
 						// Use parsed args (quotes stripped) instead of raw `argsString`
 						// for consistent output between modal and CLI paths.
 						const MAX_ARGS_LENGTH = 1_000_000; // 1MB
-						const truncatedArgs = args.join(" ");
+						const truncatedArgs = templateArgs.join(" ");
 						const safeArgs = truncatedArgs.length > MAX_ARGS_LENGTH
 							? truncatedArgs.slice(0, MAX_ARGS_LENGTH) + "...[truncated]"
 							: truncatedArgs;

@@ -12,6 +12,8 @@ export type ProviderConfig = {
   api_key?: string;
   /** Whether the provider is enabled. Defaults to true. */
   enabled?: boolean;
+  /** Optional path prefix for API endpoints (e.g. "/v1" for Ollama). */
+  apiPath?: string;
 };
 
 /**

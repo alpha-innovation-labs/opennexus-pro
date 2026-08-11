@@ -9,7 +9,11 @@
  * - **refreshModels()**  — fetches fresh models, writes cache, returns them
  * - **registerProvider()**  — registers with Pi (sync, fire-and-forget warm)
  */
-import type { ExtensionAPI, ProviderConfigInput } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+
+type ProviderConfigInput = {
+  models?: Array<Record<string, unknown>>;
+};
 import {
   defaultPort,
   baseUrlFromPort,

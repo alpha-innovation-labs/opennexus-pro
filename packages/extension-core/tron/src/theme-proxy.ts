@@ -11,13 +11,23 @@
 const THEME_KEY = Symbol.for("@earendil-works/pi-coding-agent:theme");
 
 /**
+ * Minimal theme interface used by tron rendering code.
+ * Mirrors Pi's internal theme object shape.
+ */
+export interface Theme {
+  fg: (colorName: string, text: string) => string;
+  bold: (text: string) => string;
+  italic: (text: string) => string;
+}
+
+/**
  * A Proxy that forwards property access to the currently registered theme.
  * Throws if the theme has not been initialized via `initTheme()`.
  */
-export const theme = new Proxy({}, {
+export const theme: Theme = new Proxy({} as Theme, {
   get(_target, prop) {
-    const t = globalThis[THEME_KEY];
+    const t = (globalThis as Record<symbol, Theme | undefined>)[THEME_KEY];
     if (!t) throw new Error("Theme not initialized. Call initTheme() first.");
-    return t[prop as keyof typeof t];
+    return t[prop as keyof Theme];
   },
 });

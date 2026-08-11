@@ -5,8 +5,11 @@
  * and returns every remaining model with sensible defaults for
  * reasoning, cost, contextWindow, and maxTokens.  No catalog lookup.
  */
-import type { ProviderConfigInput } from "@earendil-works/pi-coding-agent";
 import { buildModelsUrl, authHeaders } from "./probe";
+
+type ProviderConfigInput = {
+  models?: Array<Record<string, unknown>>;
+};
 
 /**
  * Returns true if a model ID looks like an embedding model.
