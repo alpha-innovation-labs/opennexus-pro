@@ -8,5 +8,9 @@
   "dependencies": {
     "@earendil-works/pi-coding-agent": "^0.83.0",
     "@nexus/runtime": "workspace:*"
+  },
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit"
   }
 }

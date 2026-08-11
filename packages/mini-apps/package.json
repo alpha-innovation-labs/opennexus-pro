@@ -12,5 +12,9 @@
   },
   "exports": {
     "./*": "./dist/*"
+  },
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit"
   }
 }

@@ -2,7 +2,6 @@
 # Typecheck Commands
 # ============================================================================
 
-# Run full TypeScript typecheck across the entire codebase.
+# Run TypeScript typecheck across the entire codebase via Turbo.
 typecheck:
-	@echo "\033[1;36mRunning TypeScript typecheck...\033[0m"
-	@npx tsc --noEmit
+	@npx turbo typecheck --output-logs=errors-only

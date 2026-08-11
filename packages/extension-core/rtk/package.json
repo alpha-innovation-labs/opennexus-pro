@@ -10,5 +10,9 @@
     "@nexus/tui-kit": "workspace:*",
     "@extensions/slash-menu": "workspace:*",
     "@extensions/tron": "workspace:*"
+  },
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit"
   }
 }

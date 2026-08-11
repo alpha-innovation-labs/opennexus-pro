@@ -9,5 +9,9 @@
     "@nexus/runtime": "workspace:*",
     "@nexus/tui-kit": "workspace:*",
     "@extensions/pi-packages": "workspace:*"
+  },
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit"
   }
 }

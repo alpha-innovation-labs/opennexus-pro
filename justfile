@@ -11,6 +11,7 @@ import 'justfiles/development/dev-profile.just'
 import 'justfiles/building/release.just'
 import 'justfiles/building/pub.just'
 import 'justfiles/building/pub-full.just'
+import 'justfiles/building/check.just'
 import 'justfiles/building/typecheck.just'
 import 'justfiles/building/lint.just'
 

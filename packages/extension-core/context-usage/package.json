@@ -9,5 +9,9 @@
     "@earendil-works/pi-coding-agent": "^0.83.0",
     "@nexus/observability": "workspace:*",
     "@nexus/tui-kit": "workspace:*"
+  },
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit"
   }
 }

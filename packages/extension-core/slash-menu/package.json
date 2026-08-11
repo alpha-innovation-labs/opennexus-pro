@@ -11,5 +11,9 @@
     "@nexus/runtime": "workspace:*",
     "@nexus/tui-kit": "workspace:*",
     "@extensions/tron": "workspace:*"
+  },
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit"
   }
 }

@@ -3,7 +3,10 @@
   "version": "0.2.24",
   "private": true,
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@extensions/ai-providers": "workspace:*",
     "@extensions/auto-update": "workspace:*",

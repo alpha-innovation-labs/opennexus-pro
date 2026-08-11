@@ -2,7 +2,6 @@
 # Lint Commands
 # ============================================================================
 
-# Run Biome lint + format check across the entire codebase.
+# Run Biome lint across the entire codebase via Turbo.
 lint:
-	@echo "\033[1;36mRunning Biome lint check...\033[0m"
-	@npx biome check .
+	@npx turbo lint --output-logs=errors-only

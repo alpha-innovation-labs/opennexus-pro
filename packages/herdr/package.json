@@ -9,6 +9,8 @@
     "./herdr-client": "./dist/index.js"
   },
   "scripts": {
-    "build": "tsc --project tsconfig.json"
+    "build": "tsc --project tsconfig.json",
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit"
   }
 }

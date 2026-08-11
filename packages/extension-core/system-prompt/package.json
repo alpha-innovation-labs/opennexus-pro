@@ -8,5 +8,9 @@
   "dependencies": {
     "@nexus/runtime": "workspace:*",
     "@extensions/prompts": "workspace:*"
+  },
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit"
   }
 }

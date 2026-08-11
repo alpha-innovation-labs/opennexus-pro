@@ -5,6 +5,12 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "lint": {
+      "inputs": ["src/**", "*.ts", "*.js"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
@@ -12,6 +18,9 @@
     "test": {
       "dependsOn": ["^build"],
       "outputs": []
+    },
+    "check": {
+      "dependsOn": ["lint", "build", "typecheck"]
     }
   }
 }

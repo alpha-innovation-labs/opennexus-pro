@@ -9,5 +9,9 @@
     "@earendil-works/pi-coding-agent": "^0.83.0",
     "@nexus/herdr": "workspace:*",
     "@nexus/runtime": "workspace:*"
+  },
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit"
   }
 }
