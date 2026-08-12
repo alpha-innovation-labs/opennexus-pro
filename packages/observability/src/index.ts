@@ -1,0 +1,10 @@
+// Auto-generated — do not edit
+export * from "./startup-debug.ts"
+export * from "./startup-profile/clearStartupProfileLog.ts"
+export * from "./startup-profile/constants.ts"
+export * from "./startup-profile/createProfiledExtensionApi.ts"
+export * from "./startup-profile/isStartupProfileEnabled.ts"
+export * from "./startup-profile/logStartupProfileEvent.ts"
+export * from "./startup-profile/safeSerialize.ts"
+export * from "./startup-profile/startupProfileLogPath.ts"
+export * from "./startup-profile/wrapExtensionEventHandler.ts"
