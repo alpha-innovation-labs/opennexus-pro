@@ -6,4 +6,7 @@ export default defineConfig({
   dts: true,
   clean: true,
   target: 'node20',
+  deps: {
+    neverBundle: true,
+  },
 })

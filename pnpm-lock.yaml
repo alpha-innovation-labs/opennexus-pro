@@ -487,6 +487,9 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+      strip-ansi:
+        specifier: ^7.1.0
+        version: 7.2.0
     devDependencies:
       tsdown:
         specifier: ^0.22.14
@@ -623,6 +626,9 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+      strip-ansi:
+        specifier: ^7.1.0
+        version: 7.2.0
     devDependencies:
       tsdown:
         specifier: ^0.22.14

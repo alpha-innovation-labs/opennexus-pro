@@ -27,4 +27,5 @@ export default defineConfig({
       'react',
     ],
   },
+  exe: true
 })

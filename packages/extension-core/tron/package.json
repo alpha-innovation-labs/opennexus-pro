@@ -10,7 +10,8 @@
 		"@nexus/observability": "workspace:*",
 		"@nexus/pi-platform": "workspace:*",
 		"@nexus/runtime": "workspace:*",
-		"@nexus/tui-kit": "workspace:*"
+		"@nexus/tui-kit": "workspace:*",
+		"strip-ansi": "^7.1.0"
 	},
 	"scripts": {
 		"lint": "biome lint .",
