@@ -13,18 +13,8 @@ function c(color, text) {
 	return `${color}${text}${R}`;
 }
 
-const testDir = join(
-	dirname(fileURLToPath(import.meta.url)),
-	"..",
-	"..",
-	"test",
-);
-const testBase = join(
-	dirname(fileURLToPath(import.meta.url)),
-	"..",
-	"..",
-	"test",
-);
+const testDir = dirname(fileURLToPath(import.meta.url));
+const testBase = testDir;
 
 function findTestFiles(dir) {
 	const results = [];

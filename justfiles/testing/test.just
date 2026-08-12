@@ -8,7 +8,7 @@ test *ARGS:
     set -euo pipefail
 
     if [ "${1:-}" = "list" ]; then
-        npx tsx scripts/testing/list-tests.ts
+        npx tsx test/list-tests.ts
     else
         FILTER=""
         if [ $# -gt 0 ]; then

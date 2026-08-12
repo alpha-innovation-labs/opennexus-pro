@@ -1,8 +1,8 @@
-import { loadSnapshot } from "../../scripts/testing/snapshots/loadSnapshot.mjs";
+import { loadSnapshot } from "../snapshots/loadSnapshot.mjs";
 import {
 	compareSnapshot,
 	writeSnapshot,
-} from "../../scripts/testing/snapshots/writeSnapshot.mjs";
+} from "../snapshots/writeSnapshot.mjs";
 
 /**
  * Runs a snapshot-asserted test: compares the current result against
