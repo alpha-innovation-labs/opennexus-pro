@@ -11,10 +11,14 @@
 		"strip-ansi": "^6.0.1"
 	},
 	"exports": {
-		"./*": "./dist/*"
+		"./*": "./dist/*.mjs"
 	},
 	"scripts": {
 		"lint": "biome lint .",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"build": "tsdown"
+	},
+	"devDependencies": {
+		"tsdown": "^0.22.14"
 	}
 }

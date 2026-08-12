@@ -242,9 +242,6 @@ importers:
         specifier: ^19.2.0
         version: 19.2.8
     devDependencies:
-      '@rollup/plugin-alias':
-        specifier: ^6.0.0
-        version: 6.0.0
       tsdown:
         specifier: ^0.22.14
         version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
@@ -257,6 +254,10 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/auto-update:
     dependencies:
@@ -266,6 +267,10 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/cmux:
     dependencies:
@@ -281,6 +286,10 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/context-usage:
     dependencies:
@@ -293,6 +302,10 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/exit-message:
     dependencies:
@@ -302,6 +315,10 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/feature-management:
     dependencies:
@@ -314,6 +331,10 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/fff:
     dependencies:
@@ -323,6 +344,10 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/herdr-agent-end-log:
     dependencies:
@@ -335,6 +360,10 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/hotkeys:
     dependencies:
@@ -344,6 +373,10 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/local-image-reader:
     dependencies:
@@ -353,6 +386,10 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/neo-editor:
     dependencies:
@@ -377,6 +414,10 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/notify:
     dependencies:
@@ -386,6 +427,10 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/observations:
     dependencies:
@@ -404,6 +449,10 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/pi-packages:
     dependencies:
@@ -416,6 +465,10 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/prompts:
     dependencies:
@@ -431,6 +484,10 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/rtk:
     dependencies:
@@ -446,6 +503,10 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/runtime:
     dependencies:
@@ -470,6 +531,10 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/slash-menu:
     dependencies:
@@ -488,6 +553,10 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/startup-hero:
     dependencies:
@@ -500,6 +569,10 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/subagents:
     dependencies:
@@ -512,6 +585,10 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/system-prompt:
     dependencies:
@@ -521,6 +598,10 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/tron:
     dependencies:
@@ -539,12 +620,20 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/web-search:
     dependencies:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/feature-flags:
     dependencies:
@@ -620,8 +709,16 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../nexus-runtime
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
-  packages/herdr: {}
+  packages/herdr:
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/mini-apps:
     dependencies:
@@ -640,22 +737,42 @@ importers:
       strip-ansi:
         specifier: ^6.0.1
         version: 6.0.1
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
-  packages/nexus-runtime: {}
+  packages/nexus-runtime:
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
-  packages/observability: {}
+  packages/observability:
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/pi-platform:
     dependencies:
       strip-ansi:
         specifier: ^6.0.1
         version: 6.0.1
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
   packages/tui-kit:
     dependencies:
       strip-ansi:
         specifier: ^6.0.1
         version: 6.0.1
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
 
 packages:
 

@@ -5,7 +5,8 @@
 	"type": "module",
 	"scripts": {
 		"lint": "biome lint .",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"build": "tsdown"
 	},
 	"dependencies": {
 		"@extensions/ai-providers": "workspace:*",
@@ -34,6 +35,9 @@
 		"@nexus/runtime": "workspace:*"
 	},
 	"exports": {
-		"./*": "./dist/*"
+		"./*": "./dist/*.mjs"
+	},
+	"devDependencies": {
+		"tsdown": "^0.22.14"
 	}
 }

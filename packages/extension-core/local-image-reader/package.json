@@ -11,6 +11,10 @@
 	},
 	"scripts": {
 		"lint": "biome lint .",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"build": "tsdown"
+	},
+	"devDependencies": {
+		"tsdown": "^0.22.14"
 	}
 }

@@ -4,12 +4,13 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "npx tsdown --config ../../tsdown.config.ts",
+		"build": "tsdown",
 		"test": "npm --prefix ../.. test"
 	},
 	"dependencies": {
 		"@clack/prompts": "^1.7.0",
 		"@extensions/ai-providers": "workspace:*",
+		"@nexus/feature-flags": "workspace:*",
 		"@extensions/exit-message": "workspace:*",
 		"@extensions/observations": "workspace:*",
 		"@extensions/pi-packages": "workspace:*",
@@ -31,7 +32,6 @@
 		"./*": "./src/*"
 	},
 	"devDependencies": {
-		"@rollup/plugin-alias": "^6.0.0",
 		"tsdown": "^0.22.14"
 	}
 }

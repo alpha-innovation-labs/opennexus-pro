@@ -67,7 +67,7 @@
   },
   "workspaces": [
     ".",
-    "apps/*",
+    "apps/tui",
     "packages/*",
     "packages/extension-core/*/"
   ]
