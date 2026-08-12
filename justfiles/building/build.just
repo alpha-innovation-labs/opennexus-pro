@@ -1,7 +1,12 @@
-# Build the project using Turbo across all workspaces.
+# Build the project. When called without a filter, builds the TUI with
+# tsgo (flat dist/ tree). When called with a filter, delegates to turbo
+# for that specific package.
 # Usage: just build [FILTER]
 # Example: just build @extensions/ai-provider
+#          just build (produces flat dist/ tree)
 
 [positional-arguments]
 build *ARGS:
-    @if [ $# -gt 0 ]; then npx turbo --filter="$1" build --output-logs=errors-only "${@:2}"; else npx turbo build --output-logs=errors-only; fi
+    # If a filter is provided, delegate to turbo for that package.
+    # Otherwise, build the TUI with tsgo (flat dist/ tree).
+    @if [ $# -gt 0 ]; then npx turbo --filter="$1" build --output-logs=errors-only "${@:2}"; else node apps/tui/build.mjs; fi

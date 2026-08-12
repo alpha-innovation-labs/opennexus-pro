@@ -4,22 +4,22 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "npm --prefix ../.. run build",
+		"build": "npx tsdown --config ../../tsdown.config.ts",
 		"test": "npm --prefix ../.. test"
 	},
 	"dependencies": {
-		"@nexus/herdr": "workspace:*",
+		"@clack/prompts": "^1.7.0",
+		"@extensions/ai-providers": "workspace:*",
+		"@extensions/exit-message": "workspace:*",
 		"@extensions/observations": "workspace:*",
 		"@extensions/pi-packages": "workspace:*",
-		"@extensions/ai-providers": "workspace:*",
 		"@extensions/runtime": "workspace:*",
-		"@extensions/exit-message": "workspace:*",
 		"@extensions/startup-hero": "workspace:*",
+		"@nexus/herdr": "workspace:*",
 		"@nexus/mini-apps": "workspace:*",
 		"@nexus/observability": "workspace:*",
 		"@nexus/pi-platform": "workspace:*",
 		"@nexus/runtime": "workspace:*",
-		"@clack/prompts": "^1.7.0",
 		"console-table-printer": "^2.16.1",
 		"ink": "^7.1.0",
 		"ink-big-text": "^2.0.0",
@@ -29,5 +29,9 @@
 	"exports": {
 		"./*.js": "./src/*.ts",
 		"./*": "./src/*"
+	},
+	"devDependencies": {
+		"@rollup/plugin-alias": "^6.0.0",
+		"tsdown": "^0.22.14"
 	}
 }

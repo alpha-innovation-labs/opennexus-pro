@@ -13,23 +13,27 @@ release:
     NPM_PACKAGE_DIR=".release/npm-package"
     PACK_DIR=".release/packed"
 
-    echo "🏗️ Building native release bundle..."
-    npm run build:release
+    # Step 1: Build the TUI with tsdown (bundles TUI + all workspace packages into a single ESM file).
+    echo "🔨 Building TUI with tsdown..."
+    npx tsdown --config tsdown.config.ts
 
-    echo "📦 Preparing npm release package..."
-    rm -rf "${NPM_PACKAGE_DIR}" "${PACK_DIR}"
-    mkdir -p "${PACK_DIR}"
-    node scripts/release/npm-package/createReleaseNpmPackage.mjs
+    # Step 2: Verify the entry point exists
+    ENTRY_POINT="dist/index-tui.js"
+    if [ ! -f "$ENTRY_POINT" ]; then
+        echo "❌ Build failed: $ENTRY_POINT not found"
+        exit 1
+    fi
+    echo "✅ Entry point created at $ENTRY_POINT"
 
-    echo "📦 Packing npm release package..."
-    PACKAGE_TGZ=$(npm pack "${NPM_PACKAGE_DIR}" --pack-destination "${PACK_DIR}")
+    # Step 3: Prepend shebang so the bundled file is directly executable.
+    sed -i '' '1s/^/#!\/usr\/bin\/env node\n/' "$ENTRY_POINT"
+    chmod +x "$ENTRY_POINT"
+    echo "✅ Shebang prepended to $ENTRY_POINT"
 
-    echo "📦 Installing ${APP_NAME} globally with npm..."
-    npm install -g --force "${PACK_DIR}/${PACKAGE_TGZ}"
-
-    mkdir -p "${AGENT_DIR}"
-
-    echo "🔎 Verifying launcher..."
-    "${BIN_PATH}" --help >/dev/null
-
-    echo "✅ Installed ${APP_NAME} to ${BIN_PATH}"
+    # Step 4: Install the release globally.
+    # The bundled file is a self-contained ESM executable — runs directly as `#!/usr/bin/env node`.
+    echo "📦 Installing release binary..."
+    mkdir -p "${PREFIX_DIR}/bin"
+    cp "$ENTRY_POINT" "${BIN_PATH}"
+    chmod +x "${BIN_PATH}"
+    echo "✅ Installed to ${BIN_PATH}"
