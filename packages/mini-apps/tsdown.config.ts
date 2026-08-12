@@ -5,7 +5,7 @@ export default defineConfig({
   format: ['esm', 'cjs'],
   dts: true,
   clean: true,
-  target: 'node20',
+  target: 'node26',
   deps: {
     neverBundle: true,
   },

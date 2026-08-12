@@ -4,7 +4,7 @@ export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm'],
   clean: true,
-  target: 'node20',
+  target: 'node26',
   deps: {
     onlyImport: [
       '@clack/prompts',
