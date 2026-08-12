@@ -1,4 +1,4 @@
-import { APP_NAME } from "@nexus/pi-platform/config";
+import { APP_NAME } from "@nexus/pi-platform";
 
 const AGENT_LABEL_ENV_VAR = "NEXUS_AGENT_LABEL";
 

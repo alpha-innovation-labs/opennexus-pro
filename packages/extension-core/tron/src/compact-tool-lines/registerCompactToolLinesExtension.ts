@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { logExtensionEvent } from "@nexus/observability";
 import { resetAssistantActivityGrouping } from "../activity/resetAssistantActivityGrouping";
 import { resetThinkingToolBridge } from "../activity/resetThinkingToolBridge";
 import { registerCompactBuiltInTool } from "./registerCompactBuiltInTool";

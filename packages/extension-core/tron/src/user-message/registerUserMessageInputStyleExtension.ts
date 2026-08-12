@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { logExtensionEvent } from "@nexus/observability";
 import { installUserMessageRenderHook } from "./installUserMessageRenderHook";
 import { registerUserMessageMetadataHandlers } from "./metadata/registerUserMessageMetadataHandlers";
 import { restoreUserMessageRenderer } from "./restoreUserMessageRenderer";

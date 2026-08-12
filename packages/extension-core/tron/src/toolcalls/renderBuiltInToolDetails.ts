@@ -1,5 +1,5 @@
 import type { AgentToolResult, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { allToolDefinitions } from "@nexus/pi-platform/tools";
+import { allToolDefinitions } from "@nexus/pi-platform";
 import { formatToolCallDetails } from "./formatToolCallDetails";
 import { toPlainTextLines } from "./toPlainTextLines";
 import type { ToolCallInfo } from "./types";

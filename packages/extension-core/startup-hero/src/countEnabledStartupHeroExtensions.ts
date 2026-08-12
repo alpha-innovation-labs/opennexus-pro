@@ -1,4 +1,4 @@
-import { getAllBundledExtensionIds } from "@nexus/feature-flags/registry";
+import { getAllBundledExtensionIds } from "@nexus/feature-flags";
 import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
 
 /**

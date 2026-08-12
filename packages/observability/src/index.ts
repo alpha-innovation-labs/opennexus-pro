@@ -8,3 +8,4 @@ export * from "./startup-profile/logStartupProfileEvent.ts"
 export * from "./startup-profile/safeSerialize.ts"
 export * from "./startup-profile/startupProfileLogPath.ts"
 export * from "./startup-profile/wrapExtensionEventHandler.ts"
+export { logExtensionEvent } from "./startup-debug";

@@ -1,5 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { logExtensionEvent } from "@nexus/observability";
 import { isStartupProfileEnabled } from "@nexus/observability";
 import { colorBorder } from "./colorBorder";
 import { colorContent } from "./colorContent";

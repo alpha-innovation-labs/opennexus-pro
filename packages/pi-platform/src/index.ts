@@ -40,3 +40,5 @@ export * from "./working-loader/formatWorkingElapsed.ts"
 export * from "./working-loader/isWorkingLoaderMessage.ts"
 export * from "./working-loader/types.ts"
 export * from "./working-loader/workingLoaderStartedAt.ts"
+export { allToolDefinitions } from "./tools";
+export { APP_NAME } from "./config";

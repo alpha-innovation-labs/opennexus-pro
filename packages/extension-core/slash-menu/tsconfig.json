@@ -20,20 +20,11 @@
 			"@nexus/tui-kit": [
 				"../../tui-kit/src/index.ts"
 			],
-			"@nexus/feature-flags/index": [
-				"../../feature-flags/src/index.ts"
-			],
 			"@nexus/feature-flags/*": [
 				"../../feature-flags/src/*"
 			],
 			"@nexus/feature-flags": [
 				"../../feature-flags/src/index.ts"
-			],
-			"@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch": [
-				"../../pi-platform/src/prompt-templates/applyPromptTemplateArgAppendPatch.ts"
-			],
-			"@nexus/pi-platform/tools/createPiToolDefinitions": [
-				"../../pi-platform/src/tools/createPiToolDefinitions.ts"
 			],
 			"@nexus/pi-platform/*": [
 				"../../pi-platform/src/*"
@@ -41,35 +32,17 @@
 			"@nexus/pi-platform": [
 				"../../pi-platform/src/index.ts"
 			],
-			"@extensions/hotkeys/getRegisteredHotkeysShortcuts": [
-				"../hotkeys/src/getRegisteredHotkeysShortcuts.ts"
-			],
-			"@extensions/hotkeys/HotkeysModal": [
-				"../hotkeys/src/HotkeysModal.ts"
-			],
 			"@extensions/hotkeys/*": [
 				"../hotkeys/src/*"
 			],
 			"@extensions/hotkeys": [
 				"../hotkeys/src/index.ts"
 			],
-			"@extensions/tron/collapse/state": [
-				"../tron/src/collapse/state.ts"
-			],
 			"@extensions/tron/*": [
 				"../tron/src/*"
 			],
 			"@extensions/tron": [
 				"../tron/src/index.ts"
-			],
-			"@extensions/rtk/runtime/runtimeStore": [
-				"../rtk/src/runtime/runtimeStore.ts"
-			],
-			"@extensions/rtk/runtime/getRtkExecutionCwd": [
-				"../rtk/src/runtime/getRtkExecutionCwd.ts"
-			],
-			"@extensions/rtk/tooling/createRtkBuiltInTools": [
-				"../rtk/src/tooling/createRtkBuiltInTools.ts"
 			],
 			"@extensions/rtk/*": [
 				"../rtk/src/*"
@@ -191,12 +164,6 @@
 			"@nexus/mini-apps": [
 				"../../mini-apps/src/index.ts"
 			],
-			"@extensions/prompts/modal/openSystemPromptExternalEditor": [
-				"../prompts/src/modal/openSystemPromptExternalEditor.ts"
-			],
-			"@extensions/prompts/registerPromptsExtension": [
-				"../prompts/src/registerPromptsExtension.ts"
-			],
 			"@extensions/prompts/*": [
 				"../prompts/src/*"
 			],
@@ -208,6 +175,9 @@
 			],
 			"@nexus/herdr": [
 				"../../herdr/src/index.ts"
+			],
+			"@extensions/tron/colors/*": [
+				"./src/colors/*"
 			]
 		}
 	},

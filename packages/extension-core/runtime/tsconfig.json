@@ -172,6 +172,12 @@
 			],
 			"@nexus/feature-flags": [
 				"../../feature-flags/src/index.ts"
+			],
+			"@extensions/tron/colors/*": [
+				"./src/colors/*"
+			],
+			"@nexus/herdr/*": [
+				"../../herdr/src/*"
 			]
 		}
 	},

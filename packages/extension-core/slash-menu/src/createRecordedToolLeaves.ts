@@ -1,4 +1,4 @@
-import type { ToolRegistrationRecord } from "@nexus/feature-flags/index";
+import type { ToolRegistrationRecord } from "@nexus/feature-flags";
 import { formatExtensionIdLabel } from "./formatExtensionIdLabel";
 import type { SlashMenuLeaf } from "./types";
 

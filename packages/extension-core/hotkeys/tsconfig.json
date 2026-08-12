@@ -2,17 +2,11 @@
 	"extends": "../../../tsconfig.base.json",
 	"compilerOptions": {
 		"paths": {
-			"@nexus/feature-flags/runtimeExtensionFeatureState": [
-				"../../feature-flags/src/runtimeExtensionFeatureState.ts"
-			],
 			"@nexus/feature-flags/*": [
 				"../../feature-flags/src/*"
 			],
 			"@nexus/feature-flags": [
 				"../../feature-flags/src/index.ts"
-			],
-			"@nexus/pi-platform/hotkeysCommandHook": [
-				"../../pi-platform/src/hotkeysCommandHook.ts"
 			],
 			"@nexus/pi-platform/*": [
 				"../../pi-platform/src/*"
@@ -157,6 +151,33 @@
 			],
 			"@extensions/web-search": [
 				"../web-search/src/index.ts"
+			],
+			"@extensions/hotkeys": [
+				"../hotkeys/src/index.ts"
+			],
+			"@extensions/hotkeys/*": [
+				"../hotkeys/src/*"
+			],
+			"@extensions/tron/colors/*": [
+				"./src/colors/*"
+			],
+			"@nexus/herdr": [
+				"../../herdr/src/index.ts"
+			],
+			"@nexus/herdr/*": [
+				"../../herdr/src/*"
+			],
+			"@nexus/mini-apps": [
+				"../../mini-apps/src/index.ts"
+			],
+			"@nexus/mini-apps/*": [
+				"../../mini-apps/src/*"
+			],
+			"@nexus/observability": [
+				"../../observability/src/index.ts"
+			],
+			"@nexus/observability/*": [
+				"../../observability/src/*"
 			]
 		}
 	},
