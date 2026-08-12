@@ -41,7 +41,7 @@ export { updateSessionTitleFromObservationState } from "./tracker/updateSessionT
 export { writeObservationsMarkdown } from "./tracker/writeObservationsMarkdown";
 export { writeObservationState } from "./tracker/writeObservationState";
 export { registerObservationsExtension } from "./registerObservationsExtension";
-export { DEFAULT_OBSERVATION_RECREATION_PROMPT_TEMPLATE } from "./shared/defaultObservationRecreationPromptTemplate";
+export { DEFAULT_OBSERVATION_RECREATION_PROMPT_TEMPLATE, OBSERVATION_RECREATION_MESSAGES_PLACEHOLDER } from "./shared/defaultObservationRecreationPromptTemplate";
 export { getCurrentConversationId } from "./shared/getCurrentConversationId";
 export { getLegacyObservationStatePath } from "./shared/getLegacyObservationStatePath";
 export { getObservationMessagesPath } from "./shared/getObservationMessagesPath";
