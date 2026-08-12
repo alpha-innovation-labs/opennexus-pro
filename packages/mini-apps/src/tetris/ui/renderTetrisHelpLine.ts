@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 
 /**
  * Renders the compact Tetris hotkey help line.

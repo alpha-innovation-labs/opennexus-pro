@@ -3,7 +3,7 @@ import {
 	computeModalWidth,
 	type SelectPreviewTheme,
 	SharedModal,
-} from "@nexus/tui-kit/modal/index";
+} from "@nexus/tui-kit";
 import { arrangeHelpGroups } from "./arrangeHelpGroups";
 import { getHelpShortcutGroups } from "./getHelpShortcutGroups";
 import { padVisible } from "./padVisible";

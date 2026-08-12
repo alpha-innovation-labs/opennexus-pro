@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import { colorizeSavingsPercent } from "./colorizeSavingsPercent";
 import { colorizeSavingsValue } from "./colorizeSavingsValue";
 import { formatPercent } from "./formatPercent";

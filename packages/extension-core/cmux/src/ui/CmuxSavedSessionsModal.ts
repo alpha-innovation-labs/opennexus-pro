@@ -1,7 +1,7 @@
 import {
 	SelectPreviewModal,
 	type SelectPreviewTheme,
-} from "@nexus/tui-kit/modal/index";
+} from "@nexus/tui-kit";
 import { createCmuxSavedSessionItems } from "../snapshots/createCmuxSavedSessionItems";
 import type { CmuxSavedSession } from "../snapshots/types";
 

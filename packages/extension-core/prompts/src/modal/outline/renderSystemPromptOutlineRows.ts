@@ -1,4 +1,4 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import type { SelectPreviewTheme } from "@nexus/tui-kit";
 import type { SystemPromptOutlineRow } from "./createSystemPromptOutlineRows";
 import { renderOutlineConnector } from "./renderOutlineConnector";
 import { styleSelectedSystemPromptOutlineRow } from "./styleSelectedSystemPromptOutlineRow";

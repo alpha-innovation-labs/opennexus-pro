@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { createSessionInfoRows } from "./createSessionInfoRows";
 import { SessionInfoModal } from "./SessionInfoModal";
 

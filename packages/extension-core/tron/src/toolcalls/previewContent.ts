@@ -1,4 +1,4 @@
-import { sanitizePlainText } from "@nexus/tui-kit/modal/index";
+import { sanitizePlainText } from "@nexus/tui-kit";
 
 /**
  * Builds a compact result preview from tool result content blocks.

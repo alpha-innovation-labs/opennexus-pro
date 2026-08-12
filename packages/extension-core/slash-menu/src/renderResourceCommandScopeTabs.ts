@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import { createResourceCommandScopeOptions } from "./createResourceCommandScopeOptions";
 import { formatResourceCommandScopeTab } from "./formatResourceCommandScopeTab";
 import type { ResourceCommandScope } from "./ResourceCommandScope";

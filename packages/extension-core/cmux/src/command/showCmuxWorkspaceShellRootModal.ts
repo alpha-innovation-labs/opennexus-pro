@@ -1,5 +1,5 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { CmuxWorkspaceShellsModal } from "../ui/CmuxWorkspaceShellsModal";
 import { getCachedCmuxWorkspaceShellLines } from "../workspace-cache/getCachedCmuxWorkspaceShellLines";
 import { refreshCmuxWorkspaceShellLinesCache } from "../workspace-cache/refreshCmuxWorkspaceShellLinesCache";

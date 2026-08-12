@@ -7,8 +7,8 @@ import {
 import { Key, matchesKey } from "@earendil-works/pi-tui";
 import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
 import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/select/types";
+import { SelectPreviewModal } from "@nexus/tui-kit";
+import type { SelectPreviewTheme } from "@nexus/tui-kit";
 import { toAutocompleteItems } from "../toAutocompleteItems";
 import type { SlashMenuLeaf } from "../types";
 import { createLoginModelList } from "./createLoginModelList";

@@ -24,6 +24,7 @@ export default defineConfig({
       '@nexus/observability',
       '@nexus/pi-platform',
       '@nexus/runtime',
+      '@nexus/tui-kit',
       '@extensions/ai-providers',
       '@extensions/exit-message',
       '@extensions/observations',

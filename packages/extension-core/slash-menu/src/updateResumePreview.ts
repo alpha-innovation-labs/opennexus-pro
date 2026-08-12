@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { computeTwoPaneWidths } from "@nexus/tui-kit/modal/index";
+import { computeTwoPaneWidths } from "@nexus/tui-kit";
 import { readResumeTranscriptLines } from "./resume-transcript/readResumeTranscriptLines";
 import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 

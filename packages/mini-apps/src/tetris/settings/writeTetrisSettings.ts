@@ -1,5 +1,5 @@
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
-import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
+import { readNexusUserConfig } from "@nexus/runtime";
+import { writeNexusUserConfig } from "@nexus/runtime";
 import type { TetrisSettings } from "./readTetrisSettings";
 
 /**

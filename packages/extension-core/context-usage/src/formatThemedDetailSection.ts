@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import { formatDetailConnector } from "./formatDetailConnector";
 import { formatTokenCount } from "./formatTokenCount";
 import type { ContextUsageDetailItem } from "./types";

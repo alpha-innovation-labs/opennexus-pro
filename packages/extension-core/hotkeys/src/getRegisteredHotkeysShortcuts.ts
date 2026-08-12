@@ -1,4 +1,4 @@
-import { getRegisteredShortcuts } from "@nexus/tui-kit/shortcuts/index";
+import { getRegisteredShortcuts } from "@nexus/tui-kit";
 import type { HotkeysExtensionShortcut } from "./types";
 
 /**

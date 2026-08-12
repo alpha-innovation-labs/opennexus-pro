@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { createProfiledExtensionApi } from "@nexus/observability/startup-profile/createProfiledExtensionApi";
-import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent";
+import { createProfiledExtensionApi } from "@nexus/observability";
+import { logStartupProfileEvent } from "@nexus/observability";
 import { isPromiseLike } from "./isPromiseLike";
 import type { ExtensionFeatureFlag } from "./types";
 

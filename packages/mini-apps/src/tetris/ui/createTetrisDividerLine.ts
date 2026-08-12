@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 
 /**
  * Renders a modal-themed horizontal divider inside the Tetris body.

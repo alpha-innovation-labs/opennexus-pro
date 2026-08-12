@@ -1,6 +1,6 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
+import { SelectPreviewModal } from "@nexus/tui-kit";
 import type { ManagedExtensionRow, PiPackagesTab } from "../model/types";
 import { updateManagedExtensionRows } from "../model/updateManagedExtensionRows";
 import { createManagedExtensionItems } from "./createManagedExtensionItems";

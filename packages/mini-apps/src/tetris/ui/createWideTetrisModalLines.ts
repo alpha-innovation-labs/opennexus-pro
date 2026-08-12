@@ -1,5 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import type { TetrisGame } from "../game/types";
 import { getTetrisHotkeysBoxHeight } from "./getTetrisHotkeysBoxHeight";
 import { getTetrisHotkeysBoxWidth } from "./getTetrisHotkeysBoxWidth";

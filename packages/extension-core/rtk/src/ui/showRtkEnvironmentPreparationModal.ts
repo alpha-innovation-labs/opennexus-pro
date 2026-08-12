@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
-import { SharedModal } from "@nexus/tui-kit/modal/index";
+import { createPanelOverlayOptions } from "@nexus/tui-kit";
+import { SharedModal } from "@nexus/tui-kit";
 
 /**
  * Shows a small environment preparation overlay while RTK is being prepared.

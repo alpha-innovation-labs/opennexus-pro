@@ -1,4 +1,4 @@
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { readNexusUserConfig } from "@nexus/runtime";
 import { applySystemExtensionAvailability } from "./applySystemExtensionAvailability";
 import { createExtensionRegisterMap } from "./createExtensionRegisterMap";
 import { bundledFeatureFlags, getAllBundledExtensionIds } from "./registry";

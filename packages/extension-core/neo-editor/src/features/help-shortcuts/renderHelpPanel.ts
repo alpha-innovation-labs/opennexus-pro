@@ -1,4 +1,4 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import type { SelectPreviewTheme } from "@nexus/tui-kit";
 import { renderHelpPanelTop } from "./renderHelpPanelTop";
 import { renderHelpShortcutRow } from "./renderHelpShortcutRow";
 import type { HelpShortcutGroup } from "./types";

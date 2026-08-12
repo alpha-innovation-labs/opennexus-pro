@@ -1,5 +1,5 @@
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { SharedModal, type SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import { SharedModal, type SharedModalTheme } from "@nexus/tui-kit";
 import type { OpenRouterModelOption } from "../pricing/OpenRouterModelOption";
 import { createRtkSavingsHeaderLine } from "../savings/createRtkSavingsHeaderLine";
 import { createRtkSavingsLines } from "../savings/createRtkSavingsLines";

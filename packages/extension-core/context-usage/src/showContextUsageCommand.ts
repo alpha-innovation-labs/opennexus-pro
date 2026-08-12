@@ -1,5 +1,5 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { ContextUsageModal } from "./ContextUsageModal";
 import { createContextUsageReport } from "./createContextUsageReport";
 import { createRuntimeSnapshot } from "./createRuntimeSnapshot";

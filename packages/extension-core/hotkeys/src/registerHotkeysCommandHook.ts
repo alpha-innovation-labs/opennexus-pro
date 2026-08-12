@@ -1,6 +1,6 @@
 import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
 import { setHotkeysCommandHook } from "@nexus/pi-platform/hotkeysCommandHook";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { getModeExtensionShortcuts } from "./getModeExtensionShortcuts";
 import { getModeKeybindings } from "./getModeKeybindings";
 import { HotkeysModal } from "./HotkeysModal";

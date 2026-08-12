@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import { TETROMINOES } from "../game/tetrominoes";
 import type { TetrisGame } from "../game/types";
 import { centerTetrisLine } from "./centerTetrisLine";

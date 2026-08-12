@@ -1,4 +1,4 @@
-import { sanitizePlainText } from "@nexus/tui-kit/modal/index";
+import { sanitizePlainText } from "@nexus/tui-kit";
 
 /**
  * Converts free-form text into sanitized display lines.

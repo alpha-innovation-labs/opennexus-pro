@@ -1,6 +1,6 @@
 import type { Focusable } from "@earendil-works/pi-tui";
-import { SharedModal } from "@nexus/tui-kit/modal/index";
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import { SharedModal } from "@nexus/tui-kit";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import { hardDropTetrisPiece } from "../game/hardDropTetrisPiece";
 import { moveTetrisPiece } from "../game/moveTetrisPiece";
 import { resetTetrisGame } from "../game/resetTetrisGame";

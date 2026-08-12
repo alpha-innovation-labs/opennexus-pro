@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import type { TetrisRenderCell } from "../game/getTetrisRenderCells";
 
 const CELL_COLORS: Record<string, string> = {

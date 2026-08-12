@@ -11,7 +11,7 @@ import {
 	getEnabledExtensionFeatureFlags,
 	setRuntimeExtensionFeatureFlags,
 } from "@nexus/feature-flags/index";
-import { recordRegisteredShortcut } from "@nexus/tui-kit/shortcuts/recordRegisteredShortcut";
+import { recordRegisteredShortcut } from "@nexus/tui-kit";
 
 // Re-export for backwards compatibility — consumers that reference
 // these from @extensions still work.

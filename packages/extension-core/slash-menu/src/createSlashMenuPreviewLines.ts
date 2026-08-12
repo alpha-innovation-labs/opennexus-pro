@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import { createLeafPreviewLines } from "./createLeafPreviewLines";
 import { createResourceCommandPreviewLines } from "./createResourceCommandPreviewLines";
 import { findTopLevelItem } from "./findTopLevelItem";

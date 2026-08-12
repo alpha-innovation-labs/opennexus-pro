@@ -1,7 +1,7 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { updateManagedExtensionRows } from "@extensions/pi-packages/model/updateManagedExtensionRows";
 import { PiPackagesModal } from "@extensions/pi-packages/ui/PiPackagesModal";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { getAllBundledMiniAppIds } from "../../registry/bundledMiniAppIds";
 import type {
 	FeatureFlagConfig,

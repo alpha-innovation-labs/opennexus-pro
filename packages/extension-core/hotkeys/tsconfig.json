@@ -26,13 +26,13 @@
 			"@nexus/runtime": [
 				"../../nexus-runtime/src/index.ts"
 			],
-			"@nexus/tui-kit/modal/createPanelOverlayOptions": [
+			"@nexus/tui-kit/createPanelOverlayOptions": [
 				"../../tui-kit/src/modal/createPanelOverlayOptions.ts"
 			],
-			"@nexus/tui-kit/modal/index": [
+			"@nexus/tui-kit/index": [
 				"../../tui-kit/src/modal/index.ts"
 			],
-			"@nexus/tui-kit/modal/*": [
+			"@nexus/tui-kit/*": [
 				"../../tui-kit/src/modal/*"
 			],
 			"@nexus/tui-kit/shortcuts/index": [

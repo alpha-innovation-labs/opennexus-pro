@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import { getTetrisHotkeyRows } from "./getTetrisHotkeyRows";
 import { renderTetrisBox } from "./renderTetrisBox";
 

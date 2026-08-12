@@ -1,8 +1,8 @@
 import {
 	type MarkdownPreviewStyleToken,
 	renderMarkdownPreview,
-} from "@nexus/tui-kit/markdown-preview/index";
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+} from "@nexus/tui-kit";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import { createResourceCommandMarkdown } from "./createResourceCommandMarkdown";
 import type { SlashMenuLeaf, SlashMenuSection } from "./types";
 

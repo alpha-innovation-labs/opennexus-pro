@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import { getModelMenuTabLabel } from "./getModelMenuTabLabel";
 import type { ModelMenuTab } from "./ModelMenuTab";
 

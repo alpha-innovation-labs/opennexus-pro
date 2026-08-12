@@ -1,4 +1,4 @@
-import type { SharedModalHotkey } from "@nexus/tui-kit/modal/index";
+import type { SharedModalHotkey } from "@nexus/tui-kit";
 import { createHotkeysFilterFooterHotkeys } from "./createHotkeysFilterFooterHotkeys";
 import { createHotkeysFooterHotkeys } from "./createHotkeysFooterHotkeys";
 

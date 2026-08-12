@@ -1,4 +1,4 @@
-import { formatShortcut } from "@nexus/tui-kit/shortcuts/index";
+import { formatShortcut } from "@nexus/tui-kit";
 import type { HotkeysExtensionShortcut, HotkeysGroup } from "./types";
 
 /**

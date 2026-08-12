@@ -9,8 +9,8 @@ import {
 	parseCommandArgs,
 	SENTINEL,
 } from "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
+import { createPanelOverlayOptions } from "@nexus/tui-kit";
+import { SelectPreviewModal } from "@nexus/tui-kit";
 import { applySlashMenuLeaf } from "./applySlashMenuLeaf";
 import { applySlashMenuSettingValue } from "./applySlashMenuSettingValue";
 import { calculateModelMenuWidth } from "./calculateModelMenuWidth";

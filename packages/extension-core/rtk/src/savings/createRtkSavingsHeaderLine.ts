@@ -1,5 +1,5 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import type { RtkSavingsPeriodKey } from "./RtkSavingsPeriodKey";
 import { renderRtkSavingsPeriodTabs } from "./renderRtkSavingsPeriodTabs";
 

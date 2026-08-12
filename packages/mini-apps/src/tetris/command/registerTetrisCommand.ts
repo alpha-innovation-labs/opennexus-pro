@@ -1,5 +1,5 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
+import { withSlashMenuGroup } from "@extensions/slash-menu";
 import { showTetrisModal } from "./showTetrisModal";
 
 /**

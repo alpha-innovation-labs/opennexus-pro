@@ -54,3 +54,4 @@ export { readObservationPromptOverride } from "./shared/readObservationPromptOve
 export { sanitizeConversationId } from "./shared/sanitizeConversationId";
 export { writeObservationPromptOverride } from "./shared/writeObservationPromptOverride";
 export { editObservationPrompt } from "./command/editObservationPrompt";
+export type { StoredObservationMessage, ObservationMessageStore, ObservationState } from "./tracker/types";

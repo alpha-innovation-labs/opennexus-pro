@@ -2,7 +2,7 @@ import { Key, matchesKey, parseKey } from "@earendil-works/pi-tui";
 import {
 	type SelectPreviewTheme,
 	SharedModal,
-} from "@nexus/tui-kit/modal/index";
+} from "@nexus/tui-kit";
 import { applyHotkeysFilterInput } from "./applyHotkeysFilterInput";
 import { clampHotkeysScrollOffset } from "./clampHotkeysScrollOffset";
 import { createHotkeysModalFooterState } from "./createHotkeysModalFooterState";

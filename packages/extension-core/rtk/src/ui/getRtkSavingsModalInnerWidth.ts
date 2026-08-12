@@ -1,4 +1,4 @@
-import { computeModalWidth } from "@nexus/tui-kit/modal/index";
+import { computeModalWidth } from "@nexus/tui-kit";
 import {
 	RTK_SAVINGS_MODAL_MAX_WIDTH,
 	RTK_SAVINGS_MODAL_MAX_WIDTH_RATIO,

@@ -1,4 +1,4 @@
-import type { SharedModalHotkey } from "@nexus/tui-kit/modal/index";
+import type { SharedModalHotkey } from "@nexus/tui-kit";
 
 /**
  * Creates footer hotkeys for active hotkeys-modal filtering.

@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import type { HotkeysModal } from "./HotkeysModal";
 import { HotkeysModal as HotkeysModalComponent } from "./HotkeysModal";
 import type { HotkeysExtensionShortcut, HotkeysKeybindings } from "./types";

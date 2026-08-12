@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import { createTokenCostReport } from "../pricing/createTokenCostReport";
 import { getTokenUsagePeriod } from "../usage/getTokenUsagePeriod";
 import { calculateSavedShare } from "./calculateSavedShare";

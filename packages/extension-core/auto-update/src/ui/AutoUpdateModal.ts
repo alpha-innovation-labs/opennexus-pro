@@ -1,5 +1,5 @@
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { SharedModal, type SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import { SharedModal, type SharedModalTheme } from "@nexus/tui-kit";
 import { createAutoUpdateModalLines } from "./createAutoUpdateModalLines";
 
 export type AutoUpdateModalOptions = {

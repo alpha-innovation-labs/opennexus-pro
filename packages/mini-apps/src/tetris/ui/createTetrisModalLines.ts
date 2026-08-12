@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/types";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import type { TetrisGame } from "../game/types";
 import { createCompactTetrisModalLines } from "./createCompactTetrisModalLines";
 import { createTetrisDividerLine } from "./createTetrisDividerLine";

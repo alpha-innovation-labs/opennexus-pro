@@ -1,4 +1,4 @@
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { readNexusUserConfig } from "@nexus/runtime";
 
 /** Tetris settings persisted under Nexus mini-app config. */
 export type TetrisSettings = {

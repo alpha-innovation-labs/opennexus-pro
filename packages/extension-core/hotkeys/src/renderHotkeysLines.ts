@@ -1,4 +1,4 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import type { SelectPreviewTheme } from "@nexus/tui-kit";
 import { arrangeFocusedHotkeysGroups } from "./arrangeFocusedHotkeysGroups";
 import { padVisible } from "./padVisible";
 import { renderHotkeysColumn } from "./renderHotkeysColumn";

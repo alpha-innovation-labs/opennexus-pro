@@ -1,6 +1,6 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
+import { SelectPreviewModal } from "@nexus/tui-kit";
 import type { FeatureRuntimeStatus, FeatureStatusRow } from "../model/types";
 import type { FeatureFlagConfigPatch } from "../model/updateFeatureFlagsConfig";
 import { createFeatureAutocompleteItems } from "./createFeatureAutocompleteItems";

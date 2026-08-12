@@ -1,7 +1,7 @@
 import {
 	formatShortcut,
 	getRegisteredShortcuts,
-} from "@nexus/tui-kit/shortcuts/index";
+} from "@nexus/tui-kit";
 import type { HelpShortcutGroup } from "./types";
 
 /**

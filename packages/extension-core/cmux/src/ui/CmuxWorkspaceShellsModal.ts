@@ -1,4 +1,4 @@
-import { SharedModal, type SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import { SharedModal, type SharedModalTheme } from "@nexus/tui-kit";
 
 /**
  * Modal that displays cmux workspaces and shell/session mappings.

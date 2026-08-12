@@ -1,6 +1,6 @@
 import { Key, matchesKey, type TUI } from "@earendil-works/pi-tui";
-import { renderSharedModalPaneLines } from "@nexus/tui-kit/modal/renderSharedModalPaneLines";
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/select/types";
+import { renderSharedModalPaneLines } from "@nexus/tui-kit";
+import type { SelectPreviewTheme } from "@nexus/tui-kit";
 import { extractAgentsSection } from "./agents-section/extractAgentsSection";
 import { replaceAgentsSection } from "./agents-section/replaceAgentsSection";
 import { extractAppendSection } from "./append-section/extractAppendSection";

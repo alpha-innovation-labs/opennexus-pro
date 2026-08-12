@@ -3,7 +3,7 @@ import {
 	computeModalWidth,
 	type SelectPreviewTheme,
 	SharedModal,
-} from "@nexus/tui-kit/modal/index";
+} from "@nexus/tui-kit";
 import { renderSessionInfoRows } from "./renderSessionInfoRows";
 
 /**

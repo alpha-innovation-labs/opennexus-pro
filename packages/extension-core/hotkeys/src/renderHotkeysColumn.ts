@@ -1,4 +1,4 @@
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
+import type { SelectPreviewTheme } from "@nexus/tui-kit";
 import { renderHotkeysPanel } from "./renderHotkeysPanel";
 import type { HotkeysGroup } from "./types";
 

@@ -1,4 +1,4 @@
-import { sanitizePlainText } from "@nexus/tui-kit/modal/index";
+import { sanitizePlainText } from "@nexus/tui-kit";
 import type { ToolCallGroup } from "./types";
 
 /**

@@ -1,6 +1,6 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { SelectPreviewModal } from "@nexus/tui-kit/modal/index";
+import { SelectPreviewModal } from "@nexus/tui-kit";
 import { USER_HEADER_PREFIX } from "./constants";
 import { getGroupDurationLabel } from "./getGroupDurationLabel";
 import { renderBuiltInToolDetails } from "./renderBuiltInToolDetails";

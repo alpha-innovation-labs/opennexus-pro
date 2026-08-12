@@ -1,5 +1,5 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import type { RtkGainReport } from "../savings/RtkGainReport";
 import type { SavingsReport } from "../savings/SavingsReport";
 import { RtkSavingsModal } from "./RtkSavingsModal";

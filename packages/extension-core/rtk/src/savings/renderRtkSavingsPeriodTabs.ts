@@ -1,4 +1,4 @@
-import type { SharedModalTheme } from "@nexus/tui-kit/modal/index";
+import type { SharedModalTheme } from "@nexus/tui-kit";
 import { formatRtkSavingsPeriodTab } from "./formatRtkSavingsPeriodTab";
 import { getRtkSavingsPeriodLabel } from "./getRtkSavingsPeriodLabel";
 import { getRtkSavingsPeriodOptions } from "./getRtkSavingsPeriodOptions";

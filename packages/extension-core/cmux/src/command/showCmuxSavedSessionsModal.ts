@@ -1,5 +1,5 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { createPanelOverlayOptions } from "@nexus/tui-kit/modal/createPanelOverlayOptions";
+import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { deleteCmuxSavedSession } from "../snapshots/deleteCmuxSavedSession";
 import { listCmuxSavedSessions } from "../snapshots/listCmuxSavedSessions";
 import { CmuxSavedSessionsModal } from "../ui/CmuxSavedSessionsModal";

@@ -5,7 +5,7 @@ import type { AutocompleteItem } from "@earendil-works/pi-tui";
 import {
 	SelectPreviewModal,
 	sanitizePlainText,
-} from "@nexus/tui-kit/modal/index";
+} from "@nexus/tui-kit";
 
 /**
  * Two-pane picker used for `@` file and folder autocomplete.

@@ -1,6 +1,6 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import type { SelectPreviewTheme } from "@nexus/tui-kit/modal/index";
-import { truncateAnsiToWidth } from "@nexus/tui-kit/modal/truncateAnsiToWidth";
+import type { SelectPreviewTheme } from "@nexus/tui-kit";
+import { truncateAnsiToWidth } from "@nexus/tui-kit";
 import stripAnsi from "strip-ansi";
 
 /**
