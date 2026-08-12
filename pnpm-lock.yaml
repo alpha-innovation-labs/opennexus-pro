@@ -131,7 +131,7 @@ importers:
         version: 8.0.1
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
       tsx:
         specifier: ^4.23.12
         version: 4.23.12
@@ -245,9 +245,12 @@ importers:
         specifier: ^19.2.0
         version: 19.2.8
     devDependencies:
+      '@tsdown/exe':
+        specifier: 0.22.14
+        version: 0.22.14(tsdown@0.22.14)
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/ai-providers:
     dependencies:
@@ -260,7 +263,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/auto-update:
     dependencies:
@@ -273,7 +276,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/cmux:
     dependencies:
@@ -292,7 +295,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/context-usage:
     dependencies:
@@ -308,7 +311,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/exit-message:
     dependencies:
@@ -321,7 +324,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/feature-management:
     dependencies:
@@ -337,7 +340,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/fff:
     dependencies:
@@ -350,7 +353,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/herdr-agent-end-log:
     dependencies:
@@ -366,7 +369,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/hotkeys:
     dependencies:
@@ -379,7 +382,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/local-image-reader:
     dependencies:
@@ -392,7 +395,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/neo-editor:
     dependencies:
@@ -420,7 +423,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/notify:
     dependencies:
@@ -433,7 +436,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/observations:
     dependencies:
@@ -455,7 +458,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/pi-packages:
     dependencies:
@@ -471,7 +474,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/prompts:
     dependencies:
@@ -493,7 +496,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/rtk:
     dependencies:
@@ -512,7 +515,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/runtime:
     dependencies:
@@ -540,7 +543,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/slash-menu:
     dependencies:
@@ -562,7 +565,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/startup-hero:
     dependencies:
@@ -578,7 +581,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/subagents:
     dependencies:
@@ -594,7 +597,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/system-prompt:
     dependencies:
@@ -607,7 +610,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/tron:
     dependencies:
@@ -632,7 +635,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/extension-core/web-search:
     dependencies:
@@ -642,7 +645,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/feature-flags:
     dependencies:
@@ -721,13 +724,13 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/herdr:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/mini-apps:
     dependencies:
@@ -749,19 +752,19 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/nexus-runtime:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/observability:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/pi-platform:
     dependencies:
@@ -771,7 +774,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
   packages/tui-kit:
     dependencies:
@@ -781,7 +784,7 @@ importers:
     devDependencies:
       tsdown:
         specifier: ^0.22.14
-        version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
 
 packages:
 
@@ -2163,6 +2166,12 @@ packages:
 
   '@tailwindcss/postcss@4.3.3':
     resolution: {integrity: sha512-JTSZZGQi1AyKirbLN3azmjVzef92tcX7h+iSqPdaeStyFpGpDlKvvpxeOE8njhbUanbRwr3z8DyzhICWnMtQeg==}
+
+  '@tsdown/exe@0.22.14':
+    resolution: {integrity: sha512-5BcuRfxrjjIin2MmHnspwkKxXx3o5oA33QLbuGMPmJlOScJOtl04mzUXn4ICeUoxUpOYkszltaYXV5TPMzDRrg==}
+    engines: {node: ^22.18.0 || >=24.11.0}
+    peerDependencies:
+      tsdown: 0.22.14
 
   '@turbo/darwin-64@2.10.9':
     resolution: {integrity: sha512-Jh+pTGXLNz8+1tkUU13TI/f+ZOI+OvC4YbHi1H+57iSpLt5DR3xgptd+4sA07RdjdRR/RX/01uQQu2OkbzIefA==}
@@ -5767,6 +5776,13 @@ snapshots:
       postcss: 8.5.19
       tailwindcss: 4.3.3
 
+  '@tsdown/exe@0.22.14(tsdown@0.22.14)':
+    dependencies:
+      obug: 2.1.4
+      tinyexec: 1.2.4
+      tsdown: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
+      verkit: 0.3.2
+
   '@turbo/darwin-64@2.10.9':
     optional: true
 
@@ -7670,7 +7686,7 @@ snapshots:
 
   ts-algebra@2.0.0: {}
 
-  tsdown@0.22.14(tsx@4.23.12)(typescript@7.0.2):
+  tsdown@0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2):
     dependencies:
       ansis: 4.3.1
       cac: 7.0.0
@@ -7688,6 +7704,7 @@ snapshots:
       unconfig-core: 7.5.0
       verkit: 0.3.2
     optionalDependencies:
+      '@tsdown/exe': 0.22.14(tsdown@0.22.14)
       tsx: 4.23.12
       typescript: 7.0.2
     transitivePeerDependencies:

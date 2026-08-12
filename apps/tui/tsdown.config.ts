@@ -5,6 +5,9 @@ export default defineConfig({
   format: ['esm'],
   clean: true,
   target: 'node26',
+  exe: {
+    targets: [{ platform: 'darwin', arch: 'arm64', nodeVersion: 'latest' }],
+  },
   deps: {
     onlyImport: [
       '@clack/prompts',
@@ -82,6 +85,7 @@ export default defineConfig({
       'get-east-asian-width',
       'highlight.js',
       'yaml',
+      '@nexus/pi-platform',
       '@silvia-odwyer/photon-node',
       '@earendil-works/pi-telemetry',
       '@earendil-works/pi-agent-core',
@@ -109,5 +113,4 @@ export default defineConfig({
       '@colors/colors',
     ],
   },
-  exe: true
 })

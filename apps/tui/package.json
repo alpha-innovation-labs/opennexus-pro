@@ -10,12 +10,12 @@
 	"dependencies": {
 		"@clack/prompts": "^1.7.0",
 		"@extensions/ai-providers": "workspace:*",
-		"@nexus/feature-flags": "workspace:*",
 		"@extensions/exit-message": "workspace:*",
 		"@extensions/observations": "workspace:*",
 		"@extensions/pi-packages": "workspace:*",
 		"@extensions/runtime": "workspace:*",
 		"@extensions/startup-hero": "workspace:*",
+		"@nexus/feature-flags": "workspace:*",
 		"@nexus/herdr": "workspace:*",
 		"@nexus/mini-apps": "workspace:*",
 		"@nexus/observability": "workspace:*",
@@ -32,6 +32,7 @@
 		"./*": "./src/*"
 	},
 	"devDependencies": {
+		"@tsdown/exe": "0.22.14",
 		"tsdown": "^0.22.14"
 	}
 }
