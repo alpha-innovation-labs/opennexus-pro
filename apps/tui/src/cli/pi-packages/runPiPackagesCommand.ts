@@ -4,7 +4,7 @@ import { applyNexusConfigPatch } from "@nexus/runtime";
 import { getNexusAgentDirPath } from "@nexus/runtime";
 import { readNexusUserConfig } from "@nexus/runtime";
 import { setUserExtensionEnabled } from "@nexus/runtime";
-import { Table } from "console-table-printer";
+import { Table } from "@nexus/console-table-printer";
 import { parsePiPackagesCommand } from "./parsePiPackagesCommand";
 import { printPiPackagesUsage } from "./printPiPackagesUsage";
 

@@ -211,6 +211,9 @@ importers:
       '@extensions/startup-hero':
         specifier: workspace:*
         version: link:../../packages/extension-core/startup-hero
+      '@nexus/console-table-printer':
+        specifier: workspace:*
+        version: link:../../packages/extension-core/console-table-printer
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../../packages/feature-flags
@@ -229,9 +232,6 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../packages/nexus-runtime
-      console-table-printer:
-        specifier: ^2.16.1
-        version: 2.16.1
       ink:
         specifier: ^7.1.0
         version: 7.1.1(bufferutil@4.1.0)(react@19.2.8)(utf-8-validate@6.0.6)
@@ -292,6 +292,16 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
+    devDependencies:
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
+
+  packages/extension-core/console-table-printer:
+    dependencies:
+      simple-wcswidth:
+        specifier: ^1.1.2
+        version: 1.1.2
     devDependencies:
       tsdown:
         specifier: ^0.22.14
@@ -2842,9 +2852,6 @@ packages:
 
   commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
-
-  console-table-printer@2.16.1:
-    resolution: {integrity: sha512-Sc9FRJ4O9xKGNrvulNdPfK5SyBcZ6lcaRnDE4AQ/uw6IDtjHhsqyzzqcnMikjyGaiOOF2tNOKoBhbVjRvFy9Lw==}
 
   content-disposition@1.1.0:
     resolution: {integrity: sha512-5jRCH9Z/+DRP7rkvY83B+yGIGX96OYdJmzngqnw2SBSxqCFPd0w2km3s5iawpGX8krnwSGmF0FW5Nhr0Hfai3g==}
@@ -6275,10 +6282,6 @@ snapshots:
   commander@14.0.3: {}
 
   commander@2.20.3: {}
-
-  console-table-printer@2.16.1:
-    dependencies:
-      simple-wcswidth: 1.1.2
 
   content-disposition@1.1.0: {}
 

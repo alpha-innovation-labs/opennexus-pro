@@ -5,7 +5,7 @@ import {
 import { readProviderConfig } from "@extensions/ai-providers";
 import type { AiGateway } from "@extensions/ai-providers";
 import { readNexusUserConfig } from "@nexus/runtime";
-import { Table } from "console-table-printer";
+import { Table } from "@nexus/console-table-printer";
 import { GRAY, GREEN, RED, RESET } from "../shared/ansiColors";
 import { getAllProviderIds } from "./getAllProviderIds";
 

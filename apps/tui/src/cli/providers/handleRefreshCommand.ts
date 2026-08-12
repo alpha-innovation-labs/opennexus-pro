@@ -7,7 +7,7 @@ import {
 import { readProviderConfig } from "@extensions/ai-providers";
 import { getGateways } from "@extensions/ai-providers";
 import type { AiGateway } from "@extensions/ai-providers";
-import { Table } from "console-table-printer";
+import { Table } from "@nexus/console-table-printer";
 import { GRAY, GREEN, ORANGE, RED, RESET } from "../shared/ansiColors";
 
 type RefreshStatus = "ok" | "access-denied" | "not-a-gateway" | "no-provider";

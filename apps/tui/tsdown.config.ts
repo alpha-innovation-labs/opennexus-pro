@@ -18,6 +18,7 @@ export default defineConfig({
       'react'
     ],
     alwaysBundle: [
+      '@nexus/console-table-printer',
       '@nexus/mini-apps',
       '@nexus/feature-flags',
       '@nexus/herdr',
@@ -33,6 +34,7 @@ export default defineConfig({
       '@extensions/startup-hero',
     ],
     onlyBundle: [
+      'simple-wcswidth',
       'chalk',
       'isexe',
       'which',
