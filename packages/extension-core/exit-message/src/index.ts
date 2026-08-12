@@ -1,10 +1,10 @@
-export { clearExitMessage } from "./clearExitMessage";
-export { exitMessageState } from "./exitMessageState";
+export { clearExitMessage } from "./state/clearExitMessage";
+export { exitMessageState } from "./state/exitMessageState";
 export { formatExitMessage } from "./formatExitMessage";
 export { formatPurpleBox } from "./formatPurpleBox";
-export { getExitMessage } from "./getExitMessage";
+export { getExitMessage } from "./state/getExitMessage";
 export { hasRealSessionMessages } from "./hasRealSessionMessages";
 export { registerExitMessageExtension } from "./registerExitMessageExtension";
-export { setExitMessage } from "./setExitMessage";
+export { setExitMessage } from "./state/setExitMessage";
 export { styleExitCommand } from "./styleExitCommand";
 export { updateExitMessageFromSessionTitle } from "./updateExitMessageFromSessionTitle";

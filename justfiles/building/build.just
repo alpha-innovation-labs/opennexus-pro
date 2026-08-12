@@ -9,4 +9,4 @@
 build *ARGS:
     # If a filter is provided, delegate to turbo for that package.
     # Otherwise, build the TUI with tsgo (flat dist/ tree).
-    @if [ $# -gt 0 ]; then npx turbo --filter="$1" build --output-logs=errors-only "${@:2}"; else node apps/tui/build.mjs; fi
+    @if [ $# -gt 0 ]; then npx turbo --filter="$1" build --output-logs=errors-only "${@:2}"; else npx turbo build --output-logs=errors-only; fi

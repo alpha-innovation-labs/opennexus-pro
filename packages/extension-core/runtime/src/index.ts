@@ -1,2 +1,2 @@
 export { createBundledExtensionFactories } from "./createBundledExtensionFactories";
-export { registerBundledExtensions } from "./registerBundledExtensions";
+export { default as registerBundledExtensions } from "./registerBundledExtensions";

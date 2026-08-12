@@ -28,6 +28,6 @@ export { getModeKeybindings } from "./getModeKeybindings";
 export { getNextHotkeysFocus } from "./getNextHotkeysFocus";
 export { getPrintableKeyFilterToken } from "./getPrintableKeyFilterToken";
 export { getRegisteredHotkeysShortcuts } from "./getRegisteredHotkeysShortcuts";
-export { hotkeysState } from "./hotkeysState";
+export { openHotkeysModal } from "./openHotkeysModal";
+export { HotkeysModal } from "./HotkeysModal";
 export { registerHotkeysExtension } from "./registerHotkeysExtension";
-export { showHotkeysModal } from "./showHotkeysModal";

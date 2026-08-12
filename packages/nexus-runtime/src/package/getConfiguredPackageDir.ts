@@ -1,5 +1,5 @@
 import { homedir } from "node:os";
-import { expandHomePath } from "./expandHomePath";
+import { expandPackageHomePath } from "./expandHomePath";
 
 /**
  * Reads the package directory override from the environment.
@@ -14,5 +14,5 @@ export function getConfiguredPackageDir(
 ): string | null {
 	const configuredPath = env.PI_PACKAGE_DIR;
 	if (!configuredPath) return null;
-	return expandHomePath(configuredPath, homeDir);
+	return expandPackageHomePath(configuredPath, homeDir);
 }
