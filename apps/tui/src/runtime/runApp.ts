@@ -3,19 +3,21 @@ import { createBundledExtensionFactories } from "@extensions/runtime/createBundl
 import { startupStartedAtEnvVar } from "@extensions/startup-hero/startupStartedAtEnvVar";
 import { clearStartupProfileLog } from "@nexus/observability/startup-profile/clearStartupProfileLog";
 import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent";
-import { applyCompactModeImagePatch } from "@nexus/pi-platform/applyCompactModeImagePatch";
-import { applyHotkeysCommandPatch } from "@nexus/pi-platform/applyHotkeysCommandPatch";
-import { applyModelChangeDisplayPatch } from "@nexus/pi-platform/applyModelChangeDisplayPatch";
-import { applyStartupChangelogSilencePatch } from "@nexus/pi-platform/applyStartupChangelogSilencePatch";
-import { applyStartupHelpSilencePatch } from "@nexus/pi-platform/applyStartupHelpSilencePatch";
-import { applyStartupUpdateSilencePatch } from "@nexus/pi-platform/applyStartupUpdateSilencePatch";
-import { applyToolExecutionSpacingPatch } from "@nexus/pi-platform/applyToolExecutionSpacingPatch";
-import { applyToolGroupCollapsePatch } from "@nexus/pi-platform/applyToolGroupCollapsePatch";
-import { applyWorkingLoaderElapsedPatch } from "@nexus/pi-platform/applyWorkingLoaderElapsedPatch";
-import { applyInlineImageOverlayPatch } from "@nexus/pi-platform/inline-image-overlays/applyInlineImageOverlayPatch";
-import { applyPromptTemplateArgAppendPatch } from "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch";
-import { pruneLoggedOutEnabledModels } from "@nexus/pi-platform/settings/pruneLoggedOutEnabledModels";
-import { applyNexusSystemPromptPatch } from "@nexus/pi-platform/system-prompt/applyNexusSystemPromptPatch";
+import {
+	applyCompactModeImagePatch,
+	applyHotkeysCommandPatch,
+	applyInlineImageOverlayPatch,
+	applyModelChangeDisplayPatch,
+	applyNexusSystemPromptPatch,
+	applyPromptTemplateArgAppendPatch,
+	applyStartupChangelogSilencePatch,
+	applyStartupHelpSilencePatch,
+	applyStartupUpdateSilencePatch,
+	applyToolExecutionSpacingPatch,
+	applyToolGroupCollapsePatch,
+	applyWorkingLoaderElapsedPatch,
+	pruneLoggedOutEnabledModels,
+} from "@nexus/pi-platform";
 import { normalizeResumeStartupArgs } from "@nexus/runtime/cli/normalizeResumeStartupArgs";
 import { normalizeUsageStartupArgs } from "@nexus/runtime/cli/normalizeUsageStartupArgs";
 import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch";
