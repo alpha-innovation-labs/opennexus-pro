@@ -211,6 +211,9 @@ importers:
       '@extensions/startup-hero':
         specifier: workspace:*
         version: link:../../packages/extension-core/startup-hero
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../packages/feature-flags
       '@nexus/herdr':
         specifier: workspace:*
         version: link:../../packages/herdr
