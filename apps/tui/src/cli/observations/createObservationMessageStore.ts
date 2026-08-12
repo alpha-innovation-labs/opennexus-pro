@@ -1,7 +1,7 @@
 import type {
 	ObservationMessageStore,
 	StoredObservationMessage,
-} from "@extensions/observations/tracker/types";
+} from "@extensions/observations";
 
 /**
  * Creates a persisted observation message store payload.

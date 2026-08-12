@@ -2,8 +2,8 @@ import {
 	findMiniAppCommand,
 	findMiniAppRunnerCommand,
 	getMiniAppManifests,
-} from "@nexus/mini-apps/index";
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
+} from "@nexus/mini-apps";
+import { getNexusAgentDirPath } from "@nexus/runtime";
 import { hasDeleteSessionFlag } from "./delete-session/hasDeleteSessionFlag";
 import { runDeleteSessionCommand } from "./delete-session/runDeleteSessionCommand";
 import {
@@ -185,7 +185,7 @@ export async function runCliWithApp(
 	// --minimal: whitelist only the specified extensions, disable everything else.
 	if (hasMinimalFlag(argv)) {
 		const { getAllBundledExtensionIds } = await import(
-			"@nexus/feature-flags/registry"
+			"@nexus/feature-flags"
 		);
 		const allIds = getAllBundledExtensionIds();
 		const disabledFeatures = allIds.filter(
@@ -200,7 +200,7 @@ export async function runCliWithApp(
 
 	if (hasFeaturesOverrideFlag(argv)) {
 		const { getAllBundledExtensionIds } = await import(
-			"@nexus/feature-flags/registry"
+			"@nexus/feature-flags"
 		);
 		const validIds = new Set(getAllBundledExtensionIds());
 		const invalidDisabled = disabledFeatures.filter((id) => !validIds.has(id));

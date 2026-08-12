@@ -1,9 +1,9 @@
-import { createNexusPackageManager } from "@extensions/pi-packages/package/createNexusPackageManager";
-import { normalizeNpmPackageName } from "@extensions/pi-packages/package/normalizeNpmPackageName";
-import { applyNexusConfigPatch } from "@nexus/runtime/config/applyNexusConfigPatch";
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
-import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled";
+import { createNexusPackageManager } from "@extensions/pi-packages";
+import { normalizeNpmPackageName } from "@extensions/pi-packages";
+import { applyNexusConfigPatch } from "@nexus/runtime";
+import { getNexusAgentDirPath } from "@nexus/runtime";
+import { readNexusUserConfig } from "@nexus/runtime";
+import { setUserExtensionEnabled } from "@nexus/runtime";
 import { Table } from "console-table-printer";
 import { parsePiPackagesCommand } from "./parsePiPackagesCommand";
 import { printPiPackagesUsage } from "./printPiPackagesUsage";

@@ -3,10 +3,10 @@ import {
 	type ProviderStateCache,
 	readProviderStateCache,
 	writeProviderStateCache,
-} from "@extensions/ai-providers/cache/index";
-import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig";
-import { getGateways } from "@extensions/ai-providers/gateway/getGateways";
-import type { AiGateway } from "@extensions/ai-providers/index";
+} from "@extensions/ai-providers";
+import { readProviderConfig } from "@extensions/ai-providers";
+import { getGateways } from "@extensions/ai-providers";
+import type { AiGateway } from "@extensions/ai-providers";
 import { Table } from "console-table-printer";
 import { GRAY, GREEN, ORANGE, RED, RESET } from "../shared/ansiColors";
 

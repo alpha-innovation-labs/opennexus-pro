@@ -1,4 +1,4 @@
-import { DEFAULT_PORTS } from "@extensions/ai-providers/constants/default-ports";
+import { DEFAULT_PORTS } from "@extensions/ai-providers";
 
 /**
  * Returns all known provider IDs from DEFAULT_PORTS, sorted alphabetically.

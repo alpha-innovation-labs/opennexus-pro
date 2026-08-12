@@ -2,8 +2,8 @@ import {
 	DefaultPackageManager,
 	SettingsManager,
 } from "@earendil-works/pi-coding-agent";
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { getNexusAgentDirPath } from "@nexus/runtime";
+import { readNexusUserConfig } from "@nexus/runtime";
 
 export type NexusCliPackageManagerRuntime = {
 	packageManager: DefaultPackageManager;

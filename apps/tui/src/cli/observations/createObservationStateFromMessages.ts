@@ -1,8 +1,8 @@
-import { buildObservationMessageExcerpt } from "@extensions/observations/tracker/buildObservationMessageExcerpt";
+import { buildObservationMessageExcerpt } from "@extensions/observations";
 import type {
 	ObservationState,
 	StoredObservationMessage,
-} from "@extensions/observations/tracker/types";
+} from "@extensions/observations";
 import { recreateObservationTopics } from "./recreateObservationTopics";
 import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopic";
 

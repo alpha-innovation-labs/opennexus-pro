@@ -1,5 +1,5 @@
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
-import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled";
+import { getNexusAgentDirPath } from "@nexus/runtime";
+import { setUserExtensionEnabled } from "@nexus/runtime";
 import { createNexusCliPackageManager } from "./createNexusCliPackageManager";
 import { normalizeInstallSource } from "./normalizeInstallSource";
 import { parseInstallCommand } from "./parseInstallCommand";

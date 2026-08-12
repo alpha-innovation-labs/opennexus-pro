@@ -1,4 +1,4 @@
-import { toggleProviderEnabled } from "@extensions/ai-providers/config/toggleProviderEnabled";
+import { toggleProviderEnabled } from "@extensions/ai-providers";
 import { getAllProviderIds } from "./getAllProviderIds";
 
 /**

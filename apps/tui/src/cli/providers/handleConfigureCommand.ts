@@ -1,8 +1,8 @@
 import { autocomplete, isCancel, text } from "@clack/prompts";
-import { readProviderConfig } from "@extensions/ai-providers/config/readProviderConfig";
-import { writeProviderConfig } from "@extensions/ai-providers/config/writeProviderConfig";
-import { DEFAULT_PORTS } from "@extensions/ai-providers/constants/default-ports";
-import { createGateway } from "@extensions/ai-providers/gateway/createGateway";
+import { readProviderConfig } from "@extensions/ai-providers";
+import { writeProviderConfig } from "@extensions/ai-providers";
+import { DEFAULT_PORTS } from "@extensions/ai-providers";
+import { createGateway } from "@extensions/ai-providers";
 import { BOLD, RESET } from "../shared/ansiColors";
 import { getAllProviderIds } from "./getAllProviderIds";
 

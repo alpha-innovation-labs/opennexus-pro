@@ -1,5 +1,5 @@
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
-import { readObservationState } from "@extensions/observations/tracker/readObservationState";
+import { getObservationsDir } from "@extensions/observations";
+import { readObservationState } from "@extensions/observations";
 import { formatObservationTopicList } from "./formatObservationTopicList";
 import { listObservationArtifactGroups } from "./listObservationArtifactGroups";
 import { resolveObservationConversationId } from "./resolveObservationConversationId";

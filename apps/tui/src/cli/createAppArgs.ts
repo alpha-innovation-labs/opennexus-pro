@@ -1,12 +1,12 @@
 import {
 	agentCommandsExists,
 	getAgentCommandsPath,
-} from "@nexus/runtime/config/getAgentCommandsPath";
-import { getBundledCommandsPath } from "@nexus/runtime/config/getBundledCommandsPath";
+} from "@nexus/runtime";
+import { getBundledCommandsPath } from "@nexus/runtime";
 import {
 	getUserCommandsPath,
 	userCommandsExists,
-} from "@nexus/runtime/config/getUserCommandsPath";
+} from "@nexus/runtime";
 import { filterVerboseStartupArg } from "./filterVerboseStartupArg";
 import { addBaseSystemPromptArg } from "./system-prompt/addBaseSystemPromptArg";
 

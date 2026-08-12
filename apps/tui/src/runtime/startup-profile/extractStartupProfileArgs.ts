@@ -1,4 +1,4 @@
-import { STARTUP_PROFILE_ARG } from "@nexus/observability/startup-profile/constants";
+import { STARTUP_PROFILE_ARG } from "@nexus/observability";
 
 /**
  * Extracts the Nexus startup profiling flag from argv.

@@ -1,5 +1,5 @@
 import { writeFile } from "node:fs/promises";
-import type { ObservationMessageStore } from "@extensions/observations/tracker/types";
+import type { ObservationMessageStore } from "@extensions/observations";
 
 /**
  * Writes an observation message store to disk.

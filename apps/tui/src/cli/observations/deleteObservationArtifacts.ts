@@ -1,4 +1,4 @@
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
+import { getObservationsDir } from "@extensions/observations";
 import { deleteObservationArtifactGroup } from "./deleteObservationArtifactGroup";
 import { listObservationArtifactGroups } from "./listObservationArtifactGroups";
 import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups";

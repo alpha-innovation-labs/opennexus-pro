@@ -1,4 +1,4 @@
-import type { ObservationState } from "@extensions/observations/tracker/types";
+import type { ObservationState } from "@extensions/observations";
 
 /**
  * Formats observation topics exactly like the modal left pane: titles only.

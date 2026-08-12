@@ -1,7 +1,7 @@
 import {
 	getGateways,
 	readProviderConfig,
-} from "@extensions/ai-providers/index";
+} from "@extensions/ai-providers";
 import { handleConfigureCommand } from "./handleConfigureCommand";
 import { handleDisableCommand } from "./handleDisableCommand";
 import { handleEnableCommand } from "./handleEnableCommand";

@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
+import { getObservationsDir } from "@extensions/observations";
 
 /**
  * Resolves all known observation artifact paths for a conversation id.

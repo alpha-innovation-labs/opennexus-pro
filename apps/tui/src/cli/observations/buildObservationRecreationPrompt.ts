@@ -1,5 +1,5 @@
-import { readObservationPromptOverride } from "@extensions/observations/shared/readObservationPromptOverride";
-import type { StoredObservationMessage } from "@extensions/observations/tracker/types";
+import { readObservationPromptOverride } from "@extensions/observations";
+import type { StoredObservationMessage } from "@extensions/observations";
 import { formatObservationRecreationMessages } from "./formatObservationRecreationMessages";
 import { renderObservationRecreationPrompt } from "./renderObservationRecreationPrompt";
 

@@ -1,5 +1,5 @@
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
-import { sanitizeConversationId } from "@extensions/observations/shared/sanitizeConversationId";
+import { getObservationsDir } from "@extensions/observations";
+import { sanitizeConversationId } from "@extensions/observations";
 import { findObservationStateConversationId } from "./findObservationStateConversationId";
 
 /**

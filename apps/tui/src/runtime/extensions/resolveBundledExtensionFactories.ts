@@ -1,5 +1,5 @@
 import type { ExtensionFactory } from "@earendil-works/pi-coding-agent";
-import { getAllBundledExtensionIds } from "@nexus/feature-flags/registry";
+import { getAllBundledExtensionIds } from "@nexus/feature-flags";
 import { hasNoExtensionsFlag } from "../../cli/extensions/hasNoExtensionsFlag";
 
 export type CreateExtensionFactories = (

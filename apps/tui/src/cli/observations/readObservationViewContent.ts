@@ -1,6 +1,6 @@
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
-import { readObservationState } from "@extensions/observations/tracker/readObservationState";
-import { renderObservationsMarkdown } from "@extensions/observations/tracker/renderObservationsMarkdown";
+import { getObservationsDir } from "@extensions/observations";
+import { readObservationState } from "@extensions/observations";
+import { renderObservationsMarkdown } from "@extensions/observations";
 import { listObservationArtifactGroups } from "./listObservationArtifactGroups";
 import { selectObservationArtifactGroups } from "./selectObservationArtifactGroups";
 

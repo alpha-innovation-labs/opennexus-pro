@@ -1,7 +1,7 @@
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
-import { removeUserExtensionConfig } from "@nexus/runtime/config/removeUserExtensionConfig";
-import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
+import { getNexusAgentDirPath } from "@nexus/runtime";
+import { readNexusUserConfig } from "@nexus/runtime";
+import { removeUserExtensionConfig } from "@nexus/runtime";
+import { writeNexusUserConfig } from "@nexus/runtime";
 import { createNexusCliPackageManager } from "../install/createNexusCliPackageManager";
 import { normalizeUninstallSource } from "./normalizeUninstallSource";
 import { parseUninstallCommand } from "./parseUninstallCommand";

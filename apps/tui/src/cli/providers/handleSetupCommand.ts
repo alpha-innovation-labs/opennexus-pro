@@ -1,5 +1,5 @@
-import { writeProviderConfig } from "@extensions/ai-providers/config/writeProviderConfig";
-import { DEFAULT_PORTS } from "@extensions/ai-providers/constants/default-ports";
+import { writeProviderConfig } from "@extensions/ai-providers";
+import { DEFAULT_PORTS } from "@extensions/ai-providers";
 import { getAllProviderIds } from "./getAllProviderIds";
 
 /**

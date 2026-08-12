@@ -1,4 +1,4 @@
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
+import { getObservationsDir } from "@extensions/observations";
 import { createObservationListJsonRows } from "./createObservationListJsonRows";
 import { createObservationsUsageText } from "./createObservationsUsageText";
 import { deleteObservationArtifacts } from "./deleteObservationArtifacts";

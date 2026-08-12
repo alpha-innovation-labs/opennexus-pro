@@ -1,6 +1,6 @@
-import { extractAssistantSummaryInput } from "@extensions/observations/tracker/extractAssistantSummaryInput";
-import { extractUserText } from "@extensions/observations/tracker/extractUserText";
-import type { StoredObservationMessage } from "@extensions/observations/tracker/types";
+import { extractAssistantSummaryInput } from "@extensions/observations";
+import { extractUserText } from "@extensions/observations";
+import type { StoredObservationMessage } from "@extensions/observations";
 import { getSessionEntryTimestamp } from "./getSessionEntryTimestamp";
 import { isSessionMessageEntry } from "./isSessionMessageEntry";
 

@@ -5,4 +5,4 @@ export {
 	hasMinimalFlag,
 	MINIMAL_EXTENSION_WHITELIST,
 	MINIMAL_FLAGS,
-} from "@nexus/runtime/shared/minimal";
+} from "@nexus/runtime";

@@ -1,7 +1,7 @@
 import { mkdir } from "node:fs/promises";
 import type { SessionInfo } from "@earendil-works/pi-coding-agent";
-import { getObservationsDir } from "@extensions/observations/shared/getObservationsDir";
-import { writeObservationState } from "@extensions/observations/tracker/writeObservationState";
+import { getObservationsDir } from "@extensions/observations";
+import { writeObservationState } from "@extensions/observations";
 import { createObservationArtifactPaths } from "./createObservationArtifactPaths";
 import { createObservationMessagesFromSessionEntries } from "./createObservationMessagesFromSessionEntries";
 import { createObservationStateFromMessages } from "./createObservationStateFromMessages";

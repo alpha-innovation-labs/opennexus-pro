@@ -1,4 +1,4 @@
-import type { StoredObservationMessage } from "@extensions/observations/tracker/types";
+import type { StoredObservationMessage } from "@extensions/observations";
 
 /**
  * Formats stored messages as XML-like blocks for the observation recreation prompt.

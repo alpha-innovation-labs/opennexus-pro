@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { runObservationSummarizer } from "@extensions/observations/tracker/runObservationSummarizer";
-import type { StoredObservationMessage } from "@extensions/observations/tracker/types";
+import { runObservationSummarizer } from "@extensions/observations";
+import type { StoredObservationMessage } from "@extensions/observations";
 import { buildObservationRecreationPrompt } from "./buildObservationRecreationPrompt";
 import { parseRecreatedObservationTopics } from "./parseRecreatedObservationTopics";
 import type { RecreatedObservationTopic } from "./types/RecreatedObservationTopic";

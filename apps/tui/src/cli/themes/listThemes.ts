@@ -1,5 +1,5 @@
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import { readThemes } from "@nexus/runtime/config/readThemes";
+import { readThemes } from "@nexus/runtime";
 
 /**
  * Lists available themes by delegating to the shared readThemes primitive,

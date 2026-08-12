@@ -1,4 +1,4 @@
-import { baseSystemPrompt } from "@nexus/runtime/config/baseSystemPrompt";
+import { baseSystemPrompt } from "@nexus/runtime";
 import { hasBaseSystemPromptArg } from "./hasBaseSystemPromptArg";
 
 /**

@@ -1,4 +1,4 @@
-import { baseSystemPrompt } from "@nexus/runtime/config/baseSystemPrompt";
+import { baseSystemPrompt } from "@nexus/runtime";
 
 /**
  * Checks whether the CLI arguments already include the bundled base system prompt append.

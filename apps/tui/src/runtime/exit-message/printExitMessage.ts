@@ -1,5 +1,5 @@
-import { clearExitMessage } from "@extensions/exit-message/state/clearExitMessage";
-import { getExitMessage } from "@extensions/exit-message/state/getExitMessage";
+import { clearExitMessage } from "@extensions/exit-message";
+import { getExitMessage } from "@extensions/exit-message";
 
 /**
  * Prints the queued exit message after the TUI has shut down.
