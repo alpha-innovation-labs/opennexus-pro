@@ -1,3 +1,5 @@
+const ansiRegex = new RegExp(`\x1b\\[[0-9;]*m`, "g");
+
 export function stripAnsi(text: string): string {
-	return text.replace(/\033\[[0-9;]*m/g, "");
+	return text.replace(ansiRegex, "");
 }

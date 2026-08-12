@@ -124,6 +124,6 @@
 			]
 		}
 	},
-	"exclude": ["src/**/*.test.ts", "apps/**/*.test.ts", "packages/**/*.test.ts"],
+	"exclude": ["src/**/*.test.ts", "apps/**/*.test.ts", "packages/**/*.test.ts", "test/list-tests.ts"],
 	"include": ["apps/**/*.ts", "packages/**/*.ts", "test/**/*.ts"]
 }

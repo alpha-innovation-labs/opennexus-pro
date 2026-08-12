@@ -11,11 +11,11 @@
 	"scripts": {
 		"generate:package-info": "node scripts/auto-update/generatePackageInfo.mjs",
 		"build": "tsc --project tsconfig.json",
-		"lint": "biome lint .",
+		"build:release": "node scripts/build-ncc-bin.mjs",
+		"lint": "biome lint",
 		"typecheck": "tsc --noEmit --project tsconfig.json",
 		"dev": "npx turbo dev",
-		"test": "npx vitest run",
-		"build:release": "node scripts/build-esbuild-bin.mjs"
+		"test": "npx vitest run"
 	},
 	"dependencies": {
 		"@ast-grep/napi": "^0.45.1",

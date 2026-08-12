@@ -9,14 +9,14 @@ const GR = "[32m";
 const OR = "[33m";
 const PU = "[35m";
 
-function c(color, text) {
+function c(color: string, text: string): string {
 	return `${color}${text}${R}`;
 }
 
 const testDir = dirname(fileURLToPath(import.meta.url));
 const testBase = testDir;
 
-function findTestFiles(dir) {
+function findTestFiles(dir: string): string[] {
 	const results = [];
 	const entries = readdirSync(dir, { withFileTypes: true });
 	for (const entry of entries) {
