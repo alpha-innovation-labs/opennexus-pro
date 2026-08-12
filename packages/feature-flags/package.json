@@ -35,6 +35,7 @@
 		"@nexus/runtime": "workspace:*"
 	},
 	"exports": {
+		".": "./dist/index.mjs",
 		"./*": "./dist/*.mjs"
 	},
 	"devDependencies": {

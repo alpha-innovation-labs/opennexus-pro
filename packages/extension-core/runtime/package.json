@@ -3,7 +3,8 @@
 	"version": "0.2.24",
 	"type": "module",
 	"exports": {
-		"./*": "./src/*"
+		".": "./dist/index.mjs",
+		"./*": "./dist/*.mjs"
 	},
 	"dependencies": {
 		"@earendil-works/pi-coding-agent": "^0.84.1",

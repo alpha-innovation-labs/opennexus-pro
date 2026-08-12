@@ -10,6 +10,7 @@
 	},
 	"dependencies": {},
 	"exports": {
+		".": "./dist/index.mjs",
 		"./*": "./dist/*.mjs"
 	},
 	"devDependencies": {

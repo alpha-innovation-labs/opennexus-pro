@@ -11,25 +11,25 @@ export default defineConfig({
   deps: {
     onlyImport: [
       '@clack/prompts',
-      '@extensions/ai-providers',
+      'console-table-printer',
+      'ink',
+      'ink-big-text',
+      'ink-gradient',
+      'react'
+    ],
+    alwaysBundle: [
+      '@nexus/mini-apps',
       '@nexus/feature-flags',
+      '@nexus/herdr',
+      '@nexus/observability',
+      '@nexus/pi-platform',
+      '@nexus/runtime',
+      '@extensions/ai-providers',
       '@extensions/exit-message',
       '@extensions/observations',
       '@extensions/pi-packages',
       '@extensions/runtime',
       '@extensions/startup-hero',
-      '@nexus/herdr',
-      '@nexus/mini-apps',
-      '@nexus/observability',
-      '@nexus/runtime',
-      'console-table-printer',
-      'ink',
-      'ink-big-text',
-      'ink-gradient',
-      'react',
-    ],
-    alwaysBundle: [
-      '@nexus/pi-platform',
     ],
     onlyBundle: [
       'chalk',
