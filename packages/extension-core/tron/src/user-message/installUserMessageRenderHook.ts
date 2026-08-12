@@ -1,5 +1,5 @@
 import type { UserMessageComponent } from "@earendil-works/pi-coding-agent";
-import { setUserMessageRenderHook } from "@nexus/pi-platform/userMessageHook";
+import { setUserMessageRenderHook } from "@nexus/pi-platform";
 import { renderCachedUserMessage } from "./renderCachedUserMessage";
 import type { CachedUserMessageComponent } from "./renderCachedUserMessage";
 

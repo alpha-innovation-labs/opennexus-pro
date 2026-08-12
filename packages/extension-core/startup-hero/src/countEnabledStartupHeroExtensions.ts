@@ -1,5 +1,5 @@
 import { getAllBundledExtensionIds } from "@nexus/feature-flags";
-import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
+import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags";
 
 /**
  * Counts enabled extension-category features from the hardcoded registry.
@@ -9,14 +9,14 @@ import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeEx
  * @returns Number of currently enabled extensions.
  */
 export function countEnabledStartupHeroExtensions(): number {
-	const allIds = getAllBundledExtensionIds();
-	const knownMiniApps = new Set(["tetris"]);
-	let count = 0;
-	for (const id of allIds) {
-		if (knownMiniApps.has(id)) continue;
-		if (isRuntimeExtensionFeatureEnabled(id)) {
-			count++;
-		}
-	}
-	return count;
+  const allIds = getAllBundledExtensionIds();
+  const knownMiniApps = new Set(["tetris"]);
+  let count = 0;
+  for (const id of allIds) {
+    if (knownMiniApps.has(id)) continue;
+    if (isRuntimeExtensionFeatureEnabled(id)) {
+      count++;
+    }
+  }
+  return count;
 }

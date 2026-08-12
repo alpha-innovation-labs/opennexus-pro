@@ -1,4 +1,4 @@
-import { setUserMessageRenderHook } from "@nexus/pi-platform/userMessageHook";
+import { setUserMessageRenderHook } from "@nexus/pi-platform";
 
 /**
  * Restores the default user-message renderer.

@@ -3,7 +3,7 @@ import { getMarkdownTheme } from "@earendil-works/pi-coding-agent";
 import type { Theme as PiTheme } from "@earendil-works/pi-coding-agent";
 import type { MarkdownTheme } from "@earendil-works/pi-tui";
 import { Spacer, Text } from "@earendil-works/pi-tui";
-import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook";
+import { setAssistantMessageUpdateHook } from "@nexus/pi-platform";
 import type { AssistantMessageComponent } from "@earendil-works/pi-coding-agent";
 import { bridgeThinkingToToolCalls } from "../activity/bridgeThinkingToToolCalls";
 import { getImmediateFollowingToolCallGroup } from "../activity/getImmediateFollowingToolCallGroup";
