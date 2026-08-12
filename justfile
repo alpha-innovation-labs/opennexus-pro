@@ -29,6 +29,7 @@ import 'justfiles/testing/test.just'
 # Utility Commands
 # ============================================================================
 import 'justfiles/utilities/check-automate.just'
+import 'justfiles/utilities/check-release.just'
 import 'justfiles/utilities/help.just'
 import 'justfiles/utilities/uninstall.just'
 import 'justfiles/utilities/upgrade-vendors.just'

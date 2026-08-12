@@ -1,0 +1,1 @@
+../../../../packages/nexus-runtime/src/config/prompts/system_prompt.md
