@@ -1,4 +1,4 @@
-import { setHotkeysCommandHook } from "@nexus/pi-platform/hotkeysCommandHook";
+import { setHotkeysCommandHook } from "@nexus/pi-platform";
 import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { HelpShortcutsModal } from "./HelpShortcutsModal";
 

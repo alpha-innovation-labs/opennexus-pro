@@ -7,7 +7,7 @@ import type {
 	AutocompleteProvider,
 	Component,
 } from "@earendil-works/pi-tui";
-import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal";
+import type { SlashMenuModal } from "@extensions/slash-menu";
 import type { AtModal } from "../AtModal";
 
 export type TriggerKind = "at" | "slash";

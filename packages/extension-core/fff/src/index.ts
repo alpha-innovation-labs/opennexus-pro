@@ -1,5 +1,7 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { registerFffExtension } from "./registerFffExtension";
+export { registerFffExtension };
+export { wrapAutocompleteProviderForCwd } from "./editor/wrapAutocompleteProviderForCwd";
 
 /**
  * Registers the bundled FFF extension surface.

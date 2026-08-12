@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { getProjectConfigDirPath } from "@nexus/runtime/config/getProjectConfigDirPath";
+import { getProjectConfigDirPath } from "@nexus/runtime";
 
 /**
  * Returns the project editor-trigger config file path.

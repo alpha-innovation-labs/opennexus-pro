@@ -1,5 +1,5 @@
-import { mergeSettings } from "@nexus/runtime/config/mergeSettings";
-import { readBundledDefaultSettings } from "@nexus/runtime/config/readBundledDefaultSettings";
+import { mergeSettings } from "@nexus/runtime";
+import { readBundledDefaultSettings } from "@nexus/runtime";
 import { readGlobalConfigs } from "./readGlobalConfigs";
 import { readProjectConfig } from "./readProjectConfig";
 

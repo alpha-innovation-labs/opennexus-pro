@@ -1,6 +1,6 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import { colorSecondaryText } from "@extensions/tron/colors/colorSecondaryText";
-import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon";
+import { colorSecondaryText } from "../colors/colorSecondaryText";
+import { colorToolCallIcon } from "../colors/colorToolCallIcon";
 import { getCollapsedSummaryNeighbors } from "../activity/getCollapsedSummaryNeighbors";
 import { getCollapsedToolGroupSummary } from "../activity/getCollapsedToolGroupSummary";
 import { isCompactModeThinkingExpanded } from "../collapse/thinkingVisibility";

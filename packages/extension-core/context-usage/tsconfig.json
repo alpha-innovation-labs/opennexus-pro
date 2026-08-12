@@ -43,6 +43,9 @@
 			],
 			"@extensions/neo-editor/*": [
 				"../neo-editor/src/*"
+			],
+			"@extensions/neo-editor": [
+				"../neo-editor/src/index.ts"
 			]
 		}
 	},

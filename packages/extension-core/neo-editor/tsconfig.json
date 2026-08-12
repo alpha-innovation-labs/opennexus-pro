@@ -152,6 +152,9 @@
 			"@extensions/ai-providers/*": [
 				"../ai-providers/src/*"
 			],
+			"@extensions/ai-providers": [
+				"../ai-providers/src/index.ts"
+			],
 			"@extensions/auto-update/*": [
 				"../auto-update/src/*"
 			],
@@ -160,6 +163,9 @@
 			],
 			"@extensions/exit-message/*": [
 				"../exit-message/src/*"
+			],
+			"@extensions/exit-message": [
+				"../exit-message/src/index.ts"
 			],
 			"@extensions/feature-management/*": [
 				"../feature-management/src/*"
@@ -185,8 +191,14 @@
 			"@extensions/observations/*": [
 				"../observations/src/*"
 			],
+			"@extensions/observations": [
+				"../observations/src/index.ts"
+			],
 			"@extensions/pi-packages/*": [
 				"../pi-packages/src/*"
+			],
+			"@extensions/pi-packages": [
+				"../pi-packages/src/index.ts"
 			],
 			"@extensions/rtk/*": [
 				"../rtk/src/*"

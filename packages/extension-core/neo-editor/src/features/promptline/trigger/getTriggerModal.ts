@@ -1,4 +1,4 @@
-import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal";
+import type { SlashMenuModal } from "@extensions/slash-menu";
 import type { AtModal } from "../AtModal";
 import { getTriggerProvider } from "./getTriggerProvider";
 import type { TriggerKind, TriggerModalState } from "./types";

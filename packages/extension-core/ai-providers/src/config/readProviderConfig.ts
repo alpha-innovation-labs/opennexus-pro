@@ -1,4 +1,4 @@
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { readNexusUserConfig } from "@nexus/runtime";
 import type { ProviderConfig, ProvidersConfig } from "./types";
 
 /**

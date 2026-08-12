@@ -7,7 +7,7 @@ import type {
 	ToolCallEvent,
 	TurnEndEvent,
 } from "@earendil-works/pi-coding-agent";
-import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { logExtensionEvent } from "@nexus/observability";
 import {
 	resetTpsTracker,
 	resetTurnPauseAccumulator,

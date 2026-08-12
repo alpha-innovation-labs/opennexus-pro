@@ -1,7 +1,7 @@
 import { InteractiveMode } from "@earendil-works/pi-coding-agent";
-import { activityInvalidators } from "@extensions/tron/activity/state";
-import { toggleToolGroupCollapse } from "@extensions/tron/collapse/state";
-import { invalidateActivityKeys } from "@extensions/tron/invalidateActivityKeys";
+import { activityInvalidators } from "@extensions/tron";
+import { toggleToolGroupCollapse } from "@extensions/tron";
+import { invalidateActivityKeys } from "@extensions/tron";
 import { KEYBINDINGS } from "./keybindings";
 
 type InteractiveModeWithCollapsePatch = {

@@ -11,7 +11,7 @@
  */
 
 import { join } from "node:path";
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
+import { getNexusAgentDirPath } from "@nexus/runtime";
 
 export function getModelCachePath(): string {
 	return join(getNexusAgentDirPath(), "cache", "available_models.json");

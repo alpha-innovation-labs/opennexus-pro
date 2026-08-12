@@ -1,6 +1,6 @@
 import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { withSlashMenuGroup } from "@extensions/slash-menu/withSlashMenuGroup";
-import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { withSlashMenuGroup } from "@extensions/slash-menu";
+import { logExtensionEvent } from "@nexus/observability";
 import { showObservationsModal } from "./showObservationsModal";
 
 /**

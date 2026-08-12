@@ -1,4 +1,4 @@
-import type { NexusUserConfig } from "@nexus/runtime/config/types";
+import type { NexusUserConfig } from "@nexus/runtime";
 import { createConfiguredPackageRows } from "../package/createConfiguredPackageRows";
 import { sortManagedExtensionRows } from "./sortManagedExtensionRows";
 import type { ConfiguredPackage, ManagedExtensionRow } from "./types";

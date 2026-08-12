@@ -2,7 +2,7 @@ import type {
 	FeatureFlagConfig,
 	FeatureFlagsConfig,
 	FeatureProductCategory,
-} from "@nexus/feature-flags/types";
+} from "@nexus/feature-flags";
 import { getFeatureManagementGroup } from "./getFeatureManagementGroup";
 import type { FeatureStatusCategory, FeatureStatusRow } from "./types";
 

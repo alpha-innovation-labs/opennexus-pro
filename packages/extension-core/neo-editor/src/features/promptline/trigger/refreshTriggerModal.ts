@@ -6,7 +6,7 @@ import type {
 	AutocompleteItem,
 	AutocompleteProvider,
 } from "@earendil-works/pi-tui";
-import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
+import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags";
 import { closeTriggerModal } from "./closeTriggerModal";
 import { getTriggerProvider } from "./getTriggerProvider";
 import type { ShowOverlay, TriggerModalState, TriggerState } from "./types";

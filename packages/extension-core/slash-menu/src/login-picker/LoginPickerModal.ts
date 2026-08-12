@@ -5,8 +5,8 @@ import {
 	getBuiltinModels,
 } from "@earendil-works/pi-ai/providers/all";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
-import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
+import { readNexusUserConfig } from "@nexus/runtime";
+import { writeNexusUserConfig } from "@nexus/runtime";
 import { SelectPreviewModal } from "@nexus/tui-kit";
 import type { SelectPreviewTheme } from "@nexus/tui-kit";
 import { toAutocompleteItems } from "../toAutocompleteItems";

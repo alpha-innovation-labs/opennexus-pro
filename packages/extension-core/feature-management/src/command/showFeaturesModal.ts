@@ -1,13 +1,13 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { createNexusPackageManager } from "@extensions/pi-packages/package/createNexusPackageManager";
-import { normalizeNpmPackageName } from "@extensions/pi-packages/package/normalizeNpmPackageName";
+import { createNexusPackageManager } from "@extensions/pi-packages";
+import { normalizeNpmPackageName } from "@extensions/pi-packages";
 import {
 	bundledFeatureFlags,
 	getAllBundledExtensionIds,
-} from "@nexus/feature-flags/registry";
-import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
-import { MINIMAL_EXTENSION_WHITELIST } from "@nexus/runtime/shared/minimal";
+} from "@nexus/feature-flags";
+import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags";
+import { readNexusUserConfig } from "@nexus/runtime";
+import { MINIMAL_EXTENSION_WHITELIST } from "@nexus/runtime";
 import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { createFeatureStatusRows } from "../model/createFeatureStatusRows";
 import { getFeatureManagementGroup } from "../model/getFeatureManagementGroup";

@@ -3,12 +3,12 @@ import type {
 	ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
-import { getRegisteredHotkeysShortcuts } from "@extensions/hotkeys/getRegisteredHotkeysShortcuts";
-import { HotkeysModal } from "@extensions/hotkeys/HotkeysModal";
+import { getRegisteredHotkeysShortcuts } from "@extensions/hotkeys";
+import { HotkeysModal } from "@extensions/hotkeys";
 import {
 	parseCommandArgs,
 	SENTINEL,
-} from "@nexus/pi-platform/prompt-templates/applyPromptTemplateArgAppendPatch";
+} from "@nexus/pi-platform";
 import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { SelectPreviewModal } from "@nexus/tui-kit";
 import { applySlashMenuLeaf } from "./applySlashMenuLeaf";

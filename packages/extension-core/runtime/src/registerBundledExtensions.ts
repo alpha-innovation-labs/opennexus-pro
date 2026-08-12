@@ -1,16 +1,16 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { clearHotkeysCommandHook } from "@extensions/hotkeys/clearHotkeysCommandHook";
+import { clearHotkeysCommandHook } from "@extensions/hotkeys";
 import {
 	clearRegisteredSlashCommands,
 	registerSlashCommand,
-} from "@extensions/slash-menu/registerSlashCommand";
-import { createTronToolWrappingExtensionApi } from "@extensions/tron/compact-tool-lines/createTronToolWrappingExtensionApi";
+} from "@extensions/slash-menu";
+import { createTronToolWrappingExtensionApi } from "@extensions/tron";
 import {
 	clearRegisteredToolRecords,
 	createExtensionFeatureFlags,
 	getEnabledExtensionFeatureFlags,
 	setRuntimeExtensionFeatureFlags,
-} from "@nexus/feature-flags/index";
+} from "@nexus/feature-flags";
 import { recordRegisteredShortcut } from "@nexus/tui-kit";
 
 // Re-export for backwards compatibility — consumers that reference
@@ -19,7 +19,7 @@ export {
 	createExtensionFeatureFlagReport,
 	createExtensionFeatureFlags,
 	getEnabledExtensionFeatureFlags,
-} from "@nexus/feature-flags/index";
+} from "@nexus/feature-flags";
 
 /**
  * Central extension entrypoint.
@@ -114,7 +114,7 @@ export default async function registerBundledExtensions(
 		? enabledFlags.filter((flag) => !skipExtensions.includes(flag.id))
 		: enabledFlags;
 	const { createExtensionRegistrationTask } = await import(
-		"@nexus/feature-flags/createExtensionRegistrationTask"
+		"@nexus/feature-flags"
 	);
 	await Promise.all(
 		filteredFlags.map((flag) =>

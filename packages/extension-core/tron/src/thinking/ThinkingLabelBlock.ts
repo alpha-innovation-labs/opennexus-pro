@@ -3,7 +3,7 @@ import {
 	truncateToWidth,
 	visibleWidth,
 } from "@earendil-works/pi-tui";
-import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon";
+import { colorToolCallIcon } from "../colors/colorToolCallIcon";
 import { measureTronRender } from "../profiling/measureTronRender";
 import { theme } from "../theme-proxy";
 

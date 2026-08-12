@@ -1,6 +1,6 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import { colorSecondaryText } from "@extensions/tron/colors/colorSecondaryText";
-import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon";
+import { colorSecondaryText } from "../../colors/colorSecondaryText";
+import { colorToolCallIcon } from "../../colors/colorToolCallIcon";
 import { createRenderedOptions } from "./createRenderedOptions";
 
 /**

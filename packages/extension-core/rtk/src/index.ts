@@ -77,3 +77,4 @@ export { showRtkEnvironmentPreparationModal } from "./ui/showRtkEnvironmentPrepa
 export { showRtkSavingsModal } from "./ui/showRtkSavingsModal";
 export { registerSavingsCommand } from "./command/registerSavingsCommand";
 export { registerRtkExtension } from "./registerRtkExtension";
+export { setRtkRuntimeForCwd, getRtkRuntimeForCwd, getActiveRtkCwd, clearRtkRuntimeForCwd } from "./runtime/runtimeStore";

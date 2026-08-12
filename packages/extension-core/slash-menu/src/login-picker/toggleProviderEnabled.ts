@@ -1,5 +1,5 @@
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
-import { writeNexusUserConfig } from "@nexus/runtime/config/writeNexusUserConfig";
+import { readNexusUserConfig } from "@nexus/runtime";
+import { writeNexusUserConfig } from "@nexus/runtime";
 
 /**
  * Reads the current provider states from config, flips the enabled state for

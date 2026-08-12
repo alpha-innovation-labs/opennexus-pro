@@ -1,5 +1,5 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { renderTranscriptLines } from "@extensions/tron/transcript/renderTranscriptLines";
+import { renderTranscriptLines } from "@extensions/tron";
 import { toSessionTranscriptEntries } from "./toSessionTranscriptEntries";
 
 /**

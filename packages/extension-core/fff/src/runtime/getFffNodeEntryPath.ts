@@ -1,4 +1,4 @@
-import { resolveInstalledDependencyPath } from "@nexus/runtime/package/resolveInstalledDependencyPath";
+import { resolveInstalledDependencyPath } from "@nexus/runtime";
 
 /**
  * Resolves the FFF module entrypoint from the installed package root.

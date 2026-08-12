@@ -29,3 +29,4 @@ export { getToolText } from "./getToolText";
 export { isMcpToolName } from "./isMcpToolName";
 export { normalizeContextUsage } from "./normalizeContextUsage";
 export { registerContextUsageExtension } from "./registerContextUsageExtension";
+export type { ContextUsageReport } from "./types";

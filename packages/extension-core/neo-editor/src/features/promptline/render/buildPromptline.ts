@@ -5,7 +5,7 @@ import type {
 	ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
 import type { ThemeColor } from "@earendil-works/pi-coding-agent";
-import { estimateTokensFromText } from "@extensions/context-usage/estimateTokensFromText";
+import { estimateTokensFromText } from "@extensions/context-usage";
 import { getStartupContextReport } from "../../../registerNeoEditorExtension";
 import { getGitState } from "../../../shared/git/state";
 import { getPromptlineModel } from "../getPromptlineModel";

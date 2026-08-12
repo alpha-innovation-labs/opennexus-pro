@@ -1,5 +1,5 @@
 import type { ExtensionFactory } from "@earendil-works/pi-coding-agent";
-import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent";
+import { logStartupProfileEvent } from "@nexus/observability";
 
 /**
  * Creates the inline extension factories bundled with this app.

@@ -1,5 +1,5 @@
-import { getCurrentNexusLaunchSpec } from "@nexus/runtime/cli/getCurrentNexusLaunchSpec";
-import type { NexusLaunchSpec } from "@nexus/runtime/cli/types";
+import { getCurrentNexusLaunchSpec } from "@nexus/runtime";
+import type { NexusLaunchSpec } from "@nexus/runtime";
 import { getNexusCliWrapperPath } from "./getNexusCliWrapperPath";
 
 /**

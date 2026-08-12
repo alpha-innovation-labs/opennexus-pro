@@ -1,4 +1,4 @@
-import { getUserConfigPath } from "@nexus/runtime/config/getUserConfigPath";
+import { getUserConfigPath } from "@nexus/runtime";
 import { readJsonFile } from "./readJsonFile";
 
 /**

@@ -30,3 +30,7 @@ export { getActiveTriggerState } from "./features/promptline/trigger/getActiveTr
 export { getPromptlineConfig } from "./features/promptline/config/getPromptlineConfig";
 export { getTriggerProvider } from "./features/promptline/trigger/getTriggerProvider";
 export { default as registerNeoEditorExtension } from "./registerNeoEditorExtension";
+export { RESET } from "./features/promptline/render/constants";
+export { getContextColor } from "./features/promptline/render/getContextColor";
+export { getPromptlineRenderRequest, setPromptlineModelOverride } from "./features/promptline/state";
+export { refreshPromptlineConfig } from "./features/promptline/config/refreshPromptlineConfig";

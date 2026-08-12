@@ -1,5 +1,5 @@
-import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath";
-import { getUserConfigPath } from "@nexus/runtime/config/getUserConfigPath";
+import { getProjectConfigPath } from "@nexus/runtime";
+import { getUserConfigPath } from "@nexus/runtime";
 import { readJson } from "./readJson";
 import { setTransportPreference } from "./state";
 

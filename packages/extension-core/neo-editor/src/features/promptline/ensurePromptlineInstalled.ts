@@ -1,4 +1,4 @@
-import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { logExtensionEvent } from "@nexus/observability";
 import { installPromptline } from "./installPromptline";
 import {
 	getPromptlineInstalledForSession,

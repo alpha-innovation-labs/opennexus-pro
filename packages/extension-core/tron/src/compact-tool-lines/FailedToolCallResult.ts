@@ -1,5 +1,5 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
-import { colorToolCallIcon } from "@extensions/tron/colors/colorToolCallIcon";
+import { colorToolCallIcon } from "../colors/colorToolCallIcon";
 import { hasToolCallFrameState } from "../activity/hasToolCallFrameState";
 import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder";
 import { shouldShowToolCallTopBorder } from "../activity/shouldShowToolCallTopBorder";

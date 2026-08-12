@@ -6,8 +6,8 @@ import type {
 	ExtensionAPI,
 	ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
-import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook";
-import { runChild } from "@nexus/runtime/shared/child-process/runChild";
+import { setAssistantMessageUpdateHook } from "@nexus/pi-platform";
+import { runChild } from "@nexus/runtime";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

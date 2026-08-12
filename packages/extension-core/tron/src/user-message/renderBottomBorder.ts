@@ -1,5 +1,5 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { colorSecondaryText } from "@extensions/tron/colors/colorSecondaryText";
+import { colorSecondaryText } from "../colors/colorSecondaryText";
 import { colorBorder } from "./colorBorder";
 import { formatUserMessageTime } from "./metadata/formatUserMessageTime";
 import type { UserMessageMetadata } from "./metadata/types";

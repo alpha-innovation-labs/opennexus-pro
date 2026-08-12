@@ -1,7 +1,7 @@
 import type { Api, Model } from "@earendil-works/pi-ai";
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
-import { readThemes } from "@nexus/runtime/config/readThemes";
+import { readNexusUserConfig } from "@nexus/runtime";
+import { readThemes } from "@nexus/runtime";
 import { createThinkingSettingLeaf } from "./createThinkingSettingLeaf";
 import { sortSlashMenuItemsByLabel } from "./sortSlashMenuItemsByLabel";
 import type { SlashMenuLeaf } from "./types";

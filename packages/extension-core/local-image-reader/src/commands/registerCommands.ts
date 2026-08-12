@@ -1,5 +1,5 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
+import { readNexusUserConfig } from "@nexus/runtime";
 import type { LocalImageReaderConfig } from "../config/types";
 import { fetchModels } from "../request/executor";
 

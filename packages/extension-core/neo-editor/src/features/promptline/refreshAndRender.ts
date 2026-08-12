@@ -1,4 +1,4 @@
-import { logExtensionEvent } from "@nexus/observability/startup-debug";
+import { logExtensionEvent } from "@nexus/observability";
 import { refreshGitState } from "../../shared/git/refreshGitState";
 import { refreshTransportPreference } from "../../shared/transport/refreshTransportPreference";
 import { getPromptlineRenderRequest } from "./state";

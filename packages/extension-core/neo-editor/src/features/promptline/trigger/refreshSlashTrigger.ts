@@ -1,4 +1,4 @@
-import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal";
+import type { SlashMenuModal } from "@extensions/slash-menu";
 
 /**
  * Refreshes the slash modal query from the active prefix.

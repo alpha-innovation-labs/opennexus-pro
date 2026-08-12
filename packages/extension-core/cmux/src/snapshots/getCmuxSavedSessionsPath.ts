@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
+import { getNexusAgentDirPath } from "@nexus/runtime";
 
 const CMUX_SAVED_SESSIONS_ENV = "NEXUS_CMUX_SAVED_SESSIONS";
 

@@ -1,4 +1,4 @@
-import { getProjectConfigPath } from "@nexus/runtime/config/getProjectConfigPath";
+import { getProjectConfigPath } from "@nexus/runtime";
 import { writeJsonFile } from "./writeJsonFile";
 
 /**

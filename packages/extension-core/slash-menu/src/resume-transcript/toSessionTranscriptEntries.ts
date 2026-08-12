@@ -22,7 +22,7 @@ function loadEntriesFromFileStub(
 	return entries;
 }
 
-import type { TranscriptEntry } from "@extensions/tron/transcript/types";
+import type { TranscriptEntry } from "@extensions/tron";
 import { extractMessageText } from "./extractMessageText";
 import { getMessageCreatedAt } from "./getMessageCreatedAt";
 import { toAssistantTranscriptEntries } from "./toAssistantTranscriptEntries";

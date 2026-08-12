@@ -1,4 +1,4 @@
-import { createPiToolDefinitions } from "@nexus/pi-platform/tools/createPiToolDefinitions";
+import { createPiToolDefinitions } from "@nexus/pi-platform";
 import type { SlashMenuLeaf } from "./types";
 
 /**

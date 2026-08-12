@@ -1,6 +1,6 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { ensureSubmitTrigger } from "@extensions/neo-editor/features/editor-triggers/ensureSubmitTrigger";
-import { refreshPromptlineConfig } from "@extensions/neo-editor/features/promptline/config/refreshPromptlineConfig";
+import { ensureSubmitTrigger } from "@extensions/neo-editor";
+import { refreshPromptlineConfig } from "@extensions/neo-editor";
 import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { SlashMenuModal } from "../SlashMenuModal";
 import { registerStartupModalTerminalInputForwarder } from "./registerStartupModalTerminalInputForwarder";

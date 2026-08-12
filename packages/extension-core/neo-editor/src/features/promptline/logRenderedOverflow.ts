@@ -1,6 +1,6 @@
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { logExtensionEvent } from "@nexus/observability/startup-debug";
-import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled";
+import { logExtensionEvent } from "@nexus/observability";
+import { isStartupProfileEnabled } from "@nexus/observability";
 
 /**
  * Logs rendered line overflows for promptline diagnostics.

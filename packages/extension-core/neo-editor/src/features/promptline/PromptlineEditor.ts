@@ -11,13 +11,13 @@ import type {
 	TUI,
 } from "@earendil-works/pi-tui";
 import { matchesKey } from "@earendil-works/pi-tui";
-import { wrapAutocompleteProviderForCwd } from "@extensions/fff/editor/wrapAutocompleteProviderForCwd";
-import { getRegisteredHotkeysShortcuts } from "@extensions/hotkeys/getRegisteredHotkeysShortcuts";
-import { openHotkeysModal } from "@extensions/hotkeys/openHotkeysModal";
-import { clearStartupHero } from "@extensions/startup-hero/clearStartupHero";
-import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
-import { readClipboardImageViaMacOsJxa } from "@nexus/runtime/clipboard-image/readClipboardImageViaMacOsJxa";
-import { writeClipboardImageTempFile } from "@nexus/runtime/clipboard-image/writeClipboardImageTempFile";
+import { wrapAutocompleteProviderForCwd } from "@extensions/fff";
+import { getRegisteredHotkeysShortcuts } from "@extensions/hotkeys";
+import { openHotkeysModal } from "@extensions/hotkeys";
+import { clearStartupHero } from "@extensions/startup-hero";
+import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags";
+import { readClipboardImageViaMacOsJxa } from "@nexus/runtime";
+import { writeClipboardImageTempFile } from "@nexus/runtime";
 import { findMatchingTrigger } from "../editor-triggers/findMatchingTrigger";
 import { handleClipboardImagePaste } from "./clipboard/handleClipboardImagePaste";
 import type { PromptlineConfig } from "./config/types";

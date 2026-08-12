@@ -1,4 +1,4 @@
-import { isCmuxCommandAvailable } from "@extensions/cmux/runtime/isCmuxCommandAvailable";
+import { isCmuxCommandAvailable } from "@extensions/cmux";
 import type { ExtensionFeatureFlag } from "./types";
 
 /**

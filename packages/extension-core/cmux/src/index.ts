@@ -25,6 +25,7 @@ export { formatCmuxWorkspaceShells } from "./workspaces/formatCmuxWorkspaceShell
 export { formatCmuxWorkspaceTitle } from "./workspaces/formatCmuxWorkspaceTitle";
 export { getCachedCmuxWorkspaceShellLines } from "./workspace-cache/getCachedCmuxWorkspaceShellLines";
 export { getCmuxExecutablePath } from "./runtime/getCmuxExecutablePath";
+export { isCmuxCommandAvailable } from "./runtime/isCmuxCommandAvailable";
 export { getCmuxSavedSessionsPath } from "./snapshots/getCmuxSavedSessionsPath";
 export { getCmuxSessionRegistryLockMetadataPath } from "./session-registry/getCmuxSessionRegistryLockMetadataPath";
 export { getCmuxSessionRegistryPath } from "./session-registry/getCmuxSessionRegistryPath";

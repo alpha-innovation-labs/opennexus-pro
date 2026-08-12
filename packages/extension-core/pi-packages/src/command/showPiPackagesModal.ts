@@ -1,7 +1,7 @@
 import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { readNexusUserConfig } from "@nexus/runtime/config/readNexusUserConfig";
-import { removeUserExtensionConfig } from "@nexus/runtime/config/removeUserExtensionConfig";
-import { setUserExtensionEnabled } from "@nexus/runtime/config/setUserExtensionEnabled";
+import { readNexusUserConfig } from "@nexus/runtime";
+import { removeUserExtensionConfig } from "@nexus/runtime";
+import { setUserExtensionEnabled } from "@nexus/runtime";
 import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { createThirdPartyManagedExtensionRows } from "../model/createThirdPartyManagedExtensionRows";
 import { updateManagedExtensionRows } from "../model/updateManagedExtensionRows";

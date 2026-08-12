@@ -1,4 +1,4 @@
-import type { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal";
+import type { SlashMenuModal } from "@extensions/slash-menu";
 import type { TriggerModalState } from "../types";
 
 /**

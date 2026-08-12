@@ -1,7 +1,7 @@
 import {
 	createPiToolDefinitions,
 	type PiToolDefinition,
-} from "@nexus/pi-platform/tools/createPiToolDefinitions";
+} from "@nexus/pi-platform";
 import { estimateTokensFromText } from "../estimateTokensFromText";
 import { getToolText } from "../getToolText";
 import type { ContextUsageDetailItem } from "../types";

@@ -1,4 +1,4 @@
-import type { NexusUserConfig } from "@nexus/runtime/config/types";
+import type { NexusUserConfig } from "@nexus/runtime";
 import type { ConfiguredPackage, ManagedExtensionRow } from "../model/types";
 import { normalizeNpmPackageName } from "./normalizeNpmPackageName";
 

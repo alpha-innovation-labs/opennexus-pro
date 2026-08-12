@@ -1,4 +1,4 @@
-import type { ManagedExtensionRow } from "@extensions/pi-packages/model/types";
+import type { ManagedExtensionRow } from "@extensions/pi-packages";
 import type { FeatureFlagsConfig } from "../../registry/featureFlagsTypes";
 
 /**

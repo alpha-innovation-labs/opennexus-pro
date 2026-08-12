@@ -1,6 +1,6 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { getCurrentNexusLaunchSpec } from "@nexus/runtime/cli/getCurrentNexusLaunchSpec";
+import { getCurrentNexusLaunchSpec } from "@nexus/runtime";
 import type { ObservationRecreateCliResult } from "./types/ObservationRecreateCliResult";
 
 const execFileAsync = promisify(execFile);

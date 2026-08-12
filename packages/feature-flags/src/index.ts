@@ -24,5 +24,6 @@ export type {
 	ExtensionFeatureFlagConfig,
 	FeatureFlagConfig,
 	FeatureFlagsConfig,
+	FeatureProductCategory,
 	UserFeatureFlagOverride,
 } from "./types";

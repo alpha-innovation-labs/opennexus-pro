@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { getNexusAgentDirPath } from "@nexus/runtime/config/getNexusAgentDirPath";
+import { getNexusAgentDirPath } from "@nexus/runtime";
 
 const STATE_FILE = path.join(getNexusAgentDirPath(), "last-msg.json");
 

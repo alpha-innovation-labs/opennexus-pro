@@ -1,4 +1,4 @@
-import { getUserEditorTriggersPath } from "@nexus/runtime/config/getUserEditorTriggersPath";
+import { getUserEditorTriggersPath } from "@nexus/runtime";
 
 /**
  * Returns the global editor-trigger config file path.

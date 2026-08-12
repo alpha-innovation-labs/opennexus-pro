@@ -2,7 +2,7 @@ import type {
 	ExtensionAPI,
 	ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
-import { SlashMenuModal } from "@extensions/slash-menu/SlashMenuModal";
+import { SlashMenuModal } from "@extensions/slash-menu";
 import type { ShowOverlay, TriggerModalHandle } from "./types";
 
 /**

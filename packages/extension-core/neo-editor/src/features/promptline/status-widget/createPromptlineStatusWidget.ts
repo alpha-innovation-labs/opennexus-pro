@@ -3,8 +3,8 @@ import type {
 	ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
 import { visibleWidth } from "@earendil-works/pi-tui";
-import { logExtensionEvent } from "@nexus/observability/startup-debug";
-import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled";
+import { logExtensionEvent } from "@nexus/observability";
+import { isStartupProfileEnabled } from "@nexus/observability";
 import { getPromptlineModel } from "../getPromptlineModel";
 import { getPromptlineFrameWidth } from "../layout/getPromptlineFrameWidth";
 import { hasConversationMessages } from "../layout/hasConversationMessages";
