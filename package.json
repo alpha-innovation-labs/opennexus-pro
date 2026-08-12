@@ -9,12 +9,7 @@
     "configDir": ".nexus"
   },
   "scripts": {
-    "generate:package-info": "node scripts/auto-update/generatePackageInfo.mjs",
-    "build": "tsc --project tsconfig.json",
-    "lint": "biome lint",
-    "typecheck": "tsc --noEmit --project tsconfig.json",
-    "dev": "npx turbo dev",
-    "test": "npx vitest run"
+    "generate:package-info": "node scripts/auto-update/generatePackageInfo.mjs"
   },
   "dependencies": {
     "@ast-grep/napi": "^0.45.1",

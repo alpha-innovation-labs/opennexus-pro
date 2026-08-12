@@ -392,6 +392,9 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
+      typebox:
+        specifier: 1.3.12
+        version: 1.3.12
     devDependencies:
       tsdown:
         specifier: ^0.22.14

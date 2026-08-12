@@ -42,6 +42,7 @@ export default defineConfig({
       'shebang-command',
       '@earendil-works/pi-coding-agent',
       'typebox',
+      '@sinclair/typebox',
       '@earendil-works/pi-ai',
       'partial-json',
       '@anthropic-ai/sdk',
