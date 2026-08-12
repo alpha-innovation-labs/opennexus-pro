@@ -1,0 +1,12 @@
+export { checkForNexusUpdate } from "./checkForNexusUpdate";
+export { compareVersions } from "./compareVersions";
+export { createAutoUpdateModalLines } from "./createAutoUpdateModalLines";
+export { createUpdateInstallArgs } from "./createUpdateInstallArgs";
+export { currentPackageInfo } from "./currentPackageInfo";
+export { fetchLatestNpmVersion } from "./fetchLatestNpmVersion";
+export { installNexusUpdate } from "./installNexusUpdate";
+export { isNewerVersion } from "./isNewerVersion";
+export { packageInfo } from "./packageInfo.generated";
+export { parseVersionParts } from "./parseVersionParts";
+export { registerAutoUpdateExtension } from "./registerAutoUpdateExtension";
+export { showAutoUpdateModal } from "./showAutoUpdateModal";

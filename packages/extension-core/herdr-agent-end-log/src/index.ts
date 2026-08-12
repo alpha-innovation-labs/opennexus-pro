@@ -1,0 +1,1 @@
+export { registerHerdrAgentEndLogExtension } from "./registerHerdrAgentEndLogExtension";
