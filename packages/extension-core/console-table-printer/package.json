@@ -9,7 +9,9 @@
 		"simple-wcswidth": "^1.1.2"
 	},
 	"scripts": {
-		"build": "tsdown"
+		"build": "tsdown",
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit"
 	},
 	"devDependencies": {
 		"tsdown": "^0.22.14"

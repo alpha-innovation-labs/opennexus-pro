@@ -85,6 +85,16 @@ release:
     }
     PKGJSON
 
+    # Patch highlight.js import paths.
+    # highlight.js v11.12.0's exports don't expose ./lib/index.js for ESM,
+    # so imports of highlight.js/lib/index.js fail with ERR_PACKAGE_PATH_NOT_EXPORTED.
+    # Fix: replace highlight.js/lib/index.js → highlight.js (root export).
+    echo "🔧 Patching highlight.js import paths..."
+    for f in "${NPM_PACKAGE_DIR}"/*.mjs; do
+        [ -f "$f" ] || continue
+        sed -i '' 's|"highlight\.js/lib/index\.js"|"highlight.js"|g' "$f"
+    done
+
     # Install locally (no npm publish).
     # Note: `npm install -g .` skips postinstall scripts, so we run it manually.
     # Also strip workspace:* from package.json before install so npm doesn't choke.

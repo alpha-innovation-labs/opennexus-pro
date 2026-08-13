@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "tsdown",
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit",
     "test": "npm --prefix ../.. test"
   },
   "dependencies": {
