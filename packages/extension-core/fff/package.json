@@ -7,7 +7,10 @@
 	},
 	"dependencies": {
 		"@earendil-works/pi-coding-agent": "^0.84.1",
-		"@nexus/runtime": "workspace:*"
+		"@earendil-works/pi-tui": "^0.84.1",
+		"@ff-labs/fff-node": "^0.10.3",
+		"@nexus/runtime": "workspace:*",
+		"@sinclair/typebox": "^0.34.52"
 	},
 	"scripts": {
 		"lint": "biome lint .",

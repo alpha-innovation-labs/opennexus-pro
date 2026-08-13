@@ -31,3 +31,30 @@ export { getRegisteredHotkeysShortcuts } from "./getRegisteredHotkeysShortcuts";
 export { openHotkeysModal } from "./openHotkeysModal";
 export { HotkeysModal } from "./HotkeysModal";
 export { registerHotkeysExtension } from "./registerHotkeysExtension";
+export { getResolvedHotkeysBindings } from "./getResolvedHotkeysBindings";
+export { getSpecialKeyFilterToken } from "./getSpecialKeyFilterToken";
+export { getStaticHotkeysGroups } from "./getStaticHotkeysGroups";
+export { matchesHotkeysEntry } from "./matchesHotkeysEntry";
+export { padVisible } from "./padVisible";
+export { readKeybindingsConfigFile } from "./readKeybindingsConfigFile";
+export { registerHotkeysCommandHook } from "./registerHotkeysCommandHook";
+export { removeConflictingHotkeysBindings } from "./removeConflictingHotkeysBindings";
+export { renderHotkeysColumn } from "./renderHotkeysColumn";
+export { renderHotkeysConflictModal } from "./renderHotkeysConflictModal";
+export { renderHotkeysLines } from "./renderHotkeysLines";
+export { renderHotkeysPanel } from "./renderHotkeysPanel";
+export { renderHotkeysPanelTop } from "./renderHotkeysPanelTop";
+export { resolveHotkeysFocus } from "./resolveHotkeysFocus";
+export { resolveHotkeysPaneFocus } from "./resolveHotkeysPaneFocus";
+export { saveHotkeysBinding } from "./saveHotkeysBinding";
+export { toHotkeysExtensionGroup } from "./toHotkeysExtensionGroup";
+export { toKeyList } from "./toKeyList";
+export { truncateVisible } from "./truncateVisible";
+export { writeKeybindingsConfigFile } from "./writeKeybindingsConfigFile";
+export type {
+  HotkeysEntry,
+  HotkeysGroup,
+  HotkeysExtensionShortcut,
+  HotkeysKeybindings,
+  PendingHotkeysConflict,
+} from "./types";

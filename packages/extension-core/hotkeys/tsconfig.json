@@ -178,6 +178,12 @@
 			],
 			"@nexus/observability/*": [
 				"../../observability/src/*"
+			],
+			"@earendil-works/pi-tui": [
+				"../../../node_modules/.pnpm/@earendil-works+pi-tui@0.84.1/node_modules/@earendil-works/pi-tui/dist/index.d.ts"
+			],
+			"@earendil-works/pi-coding-agent": [
+				"../../../node_modules/.pnpm/@earendil-works+pi-coding-agent@0.84.1_@modelcontextprotocol+sdk@1.30.0_supports-color@_30b9fe349720cc528b96609bcbcee381/node_modules/@earendil-works/pi-coding-agent/dist/index.d.ts"
 			]
 		}
 	},

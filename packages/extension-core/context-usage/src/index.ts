@@ -28,5 +28,14 @@ export { getPiDefaultCompactionReserveTokens } from "./pi/getPiDefaultCompaction
 export { getToolText } from "./getToolText";
 export { isMcpToolName } from "./isMcpToolName";
 export { normalizeContextUsage } from "./normalizeContextUsage";
+export { orderContextUsageMeterCategories } from "./orderContextUsageMeterCategories";
+export { readAgentsFileContent } from "./readAgentsFileContent";
+export { readTextFile } from "./readTextFile";
 export { registerContextUsageExtension } from "./registerContextUsageExtension";
+export { renderContextUsageMeter } from "./renderContextUsageMeter";
+export { renderNeoContextMeter } from "./renderNeoContextMeter";
+export { renderThemedContextUsageMeter } from "./renderThemedContextUsageMeter";
+export { renderThemedContextUsageRows } from "./renderThemedContextUsageRows";
+export { showContextUsageCommand } from "./showContextUsageCommand";
+export { sumTokens } from "./sumTokens";
 export type { ContextUsageReport } from "./types";

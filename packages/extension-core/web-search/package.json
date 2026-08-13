@@ -6,7 +6,8 @@
 		"./*": "./src/*"
 	},
 	"dependencies": {
-		"@nexus/runtime": "workspace:*"
+		"@nexus/runtime": "workspace:*",
+		"typebox": "1.3.12"
 	},
 	"scripts": {
 		"lint": "biome lint .",
