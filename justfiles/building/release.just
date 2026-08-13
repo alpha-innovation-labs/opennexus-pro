@@ -1,4 +1,4 @@
-# Build the compiled Nexus release and install it globally with npm.
+# Build the compiled Nexus release and install it locally via npm.
 # Usage: just release
 # Example: just release
 
@@ -7,27 +7,92 @@ release:
     set -euo pipefail
 
     DIST="./apps/tui/dist"
+    NPM_PACKAGE_DIR=".release/npm-package"
 
-    # Build the JS bundle (tsdown produces dist/index.mjs).
+    # Read the current version from the root package.json.
+    PUBLISHED_VERSION=$(node -p "require('./apps/tui/package.json').version")
+    echo "📦 Building local release ${PUBLISHED_VERSION}..."
+
+    # Build the TUI bundle.
+    echo "🏗️ Building TUI bundle..."
     npx turbo build --filter=@apps/app-tui
 
-    # npm install -g copies the target file as-is; without a shebang the
-    # shell will try to interpret the JS source (and fail).
-    # We prepend a shebang to index.mjs and tell npm to use it as the bin.
-    # tsdown already puts the entry at dist/index.mjs — we just need
-    # `#!/usr/bin/env node` on line 1.
+    # Prepend shebang so the bundled file is directly executable.
+    echo "📝 Prepending shebang..."
     ( echo '#!/usr/bin/env node'; cat "$DIST/index.mjs" ) > "$DIST/index.mjs.tmp"
     mv "$DIST/index.mjs.tmp" "$DIST/index.mjs"
     chmod +x "$DIST/index.mjs"
 
-    # Write package.json with bin pointing to index.mjs.
-    cat > "$DIST/package.json" << 'PKGJSON'
+    # Prepare npm package directory.
+    echo "📦 Preparing npm package..."
+    rm -rf "${NPM_PACKAGE_DIR}"
+    mkdir -p "${NPM_PACKAGE_DIR}"
+
+    # Copy the bundled files into the package.
+    cp "$DIST/index.mjs" "${NPM_PACKAGE_DIR}/index.mjs"
+    for f in "$DIST"/*.mjs; do
+        [ "$f" = "$DIST/index.mjs" ] && continue
+        cp "$f" "${NPM_PACKAGE_DIR}/"
+    done
+    # Copy any non-.mjs assets (prompts, default-settings, etc.).
+    for d in "$DIST"/*/; do
+        [ -d "$d" ] || continue
+        dirname="$(basename "$d")"
+        [ "$dirname" = "prompts" ] && continue
+        [ "$dirname" = "default-settings" ] && continue
+        cp -r "$d" "${NPM_PACKAGE_DIR}/"
+    done
+    # Copy prompts and default-settings explicitly.
+    [ -d "$DIST/prompts" ] && cp -r "$DIST/prompts" "${NPM_PACKAGE_DIR}/"
+    [ -d "$DIST/default-settings" ] && cp -r "$DIST/default-settings" "${NPM_PACKAGE_DIR}/"
+
+    # Write the postinstall script that pulls in runtime dependencies.
+    cat > "${NPM_PACKAGE_DIR}/install-deps.mjs" << 'POSTINSTALL'
+    import { execSync } from "node:child_process";
+    import { readFileSync } from "node:fs";
+    import { fileURLToPath } from "node:url";
+    import { dirname, join } from "node:path";
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const p = JSON.parse(readFileSync(join(__dirname, "package.json"), "utf8"));
+    const deps = Object.keys(p.dependencies);
+    if (deps.length) {
+      console.log("[opennexus] Installing runtime dependencies...");
+      execSync(`npm install --no-save --force ${deps.join(" ")}`, { stdio: "inherit" });
+    }
+    POSTINSTALL
+
+    # Build the dependencies list from the app's package.json, excluding
+    # workspace:* refs (internal packages are bundled by tsdown).
+    DEPS_JSON=$(node -e "const p=require('./apps/tui/package.json'); const d={}; Object.keys(p.dependencies).filter(k=>!p.dependencies[k].startsWith('workspace:')).forEach(k=>{d[k]=p.dependencies[k]}); console.log(JSON.stringify(d))")
+
+    # Write package.json (same as pub, but without publishConfig).
+    cat > "${NPM_PACKAGE_DIR}/package.json" << PKGJSON
     {
-      "name": "nexus-cli",
-      "version": "0.2.29",
-      "bin": "index.mjs"
+      "name": "opennexus",
+      "version": "${PUBLISHED_VERSION}",
+      "description": "Nexus TUI — terminal interface for AI agents",
+      "type": "module",
+      "main": "index.mjs",
+      "bin": {
+        "nexus": "index.mjs"
+      },
+      "scripts": {
+        "postinstall": "node install-deps.mjs"
+      },
+      "dependencies": ${DEPS_JSON},
+      "files": ["index.mjs", "*.mjs", "package.json", "install-deps.mjs", "prompts", "default-settings"],
+      "os": ["darwin"],
+      "cpu": ["arm64", "x64"]
     }
     PKGJSON
 
-    # Install globally so 'nexus' is on PATH.
-    npm install -g "$DIST"
+    # Install locally (no npm publish).
+    # Note: `npm install -g .` skips postinstall scripts, so we run it manually.
+    echo "🚀 Installing locally..."
+    (
+        cd "${NPM_PACKAGE_DIR}"
+        npm install -g .
+        node install-deps.mjs
+    )
+
+    echo "✅ Installed opennexus@${PUBLISHED_VERSION} locally"

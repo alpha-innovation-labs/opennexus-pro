@@ -10,7 +10,7 @@ pub:
     NPM_PACKAGE_DIR=".release/npm-package"
 
     # Read the current version from the root package.json (no bump).
-    PUBLISHED_VERSION=$(node -p "require('./package.json').version")
+    PUBLISHED_VERSION=$(node -p "require('./apps/tui/package.json').version")
     echo "📦 Publishing opennexus@${PUBLISHED_VERSION}..."
 
     # Build the TUI bundle.
@@ -34,13 +34,39 @@ pub:
         [ "$f" = "$DIST/index.mjs" ] && continue
         cp "$f" "${NPM_PACKAGE_DIR}/"
     done
+    # Copy any non-.mjs assets (prompts, default-settings, etc.).
+    for d in "$DIST"/*/; do
+        [ -d "$d" ] || continue
+        dirname="$(basename "$d")"
+        [ "$dirname" = "prompts" ] && continue
+        [ "$dirname" = "default-settings" ] && continue
+        cp -r "$d" "${NPM_PACKAGE_DIR}/"
+    done
+    # Copy prompts and default-settings explicitly.
+    [ -d "$DIST/prompts" ] && cp -r "$DIST/prompts" "${NPM_PACKAGE_DIR}/"
+    [ -d "$DIST/default-settings" ] && cp -r "$DIST/default-settings" "${NPM_PACKAGE_DIR}/"
 
-    # Install runtime dependencies into the package directory so
-    # the published package is self-contained (no npm install needed).
-    DEPS=$(node -e "const p=require('./package.json'); Object.keys(p.dependencies).forEach(d => console.log(d + '@' + p.dependencies[d]))")
-    npm install --no-save $DEPS --prefix "${NPM_PACKAGE_DIR}" 2>/dev/null
+    # Write the postinstall script that pulls in runtime dependencies.
+    cat > "${NPM_PACKAGE_DIR}/install-deps.mjs" << 'POSTINSTALL'
+    import { execSync } from "node:child_process";
+    import { readFileSync } from "node:fs";
+    import { fileURLToPath } from "node:url";
+    import { dirname, join } from "node:path";
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const p = JSON.parse(readFileSync(join(__dirname, "package.json"), "utf8"));
+    const deps = Object.keys(p.dependencies);
+    if (deps.length) {
+      console.log("[opennexus] Installing runtime dependencies...");
+      execSync(`npm install --no-save --force ${deps.join(" ")}`, { stdio: "inherit" });
+    }
+    POSTINSTALL
 
-    # Write package.json for npm publish.
+    # Build the dependencies list from the app's package.json, excluding
+    # workspace:* refs (internal packages are bundled by tsdown).
+    DEPS_JSON=$(node -e "const p=require('./apps/tui/package.json'); const d={}; Object.keys(p.dependencies).filter(k=>!p.dependencies[k].startsWith('workspace:')).forEach(k=>{d[k]=p.dependencies[k]}); console.log(JSON.stringify(d))")
+
+    # Write package.json for npm publish. The postinstall script pulls
+    # in all runtime dependencies after `npm install -g opennexus`.
     cat > "${NPM_PACKAGE_DIR}/package.json" << PKGJSON
     {
       "name": "opennexus",
@@ -55,7 +81,11 @@ pub:
         "registry": "https://registry.npmjs.org/",
         "access": "public"
       },
-      "files": ["index.mjs", "*.mjs", "node_modules"],
+      "scripts": {
+        "postinstall": "node install-deps.mjs"
+      },
+      "dependencies": ${DEPS_JSON},
+      "files": ["index.mjs", "*.mjs", "package.json", "install-deps.mjs", "prompts", "default-settings"],
       "os": ["darwin"],
       "cpu": ["arm64", "x64"]
     }
