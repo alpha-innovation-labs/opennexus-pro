@@ -6,20 +6,28 @@ release:
     #!/usr/bin/env bash
     set -euo pipefail
 
-    BINARY="./apps/tui/build/index-darwin-arm64"
-    PATCH="/tmp/patch-execpath.mjs"
-    SEA_NODE="$HOME/Library/Caches/tsdown/node/v26.7.0/darwin-arm64/node"
+    DIST="./apps/tui/dist"
 
-    # Create preload script that patches process.execPath so tsdown uses
-    # the SEA-compatible binary for --build-sea (it hardcodes process.execPath).
-    cat > "$PATCH" << 'PATCH_EOF'
-    process.execPath = `${process.env.HOME}/Library/Caches/tsdown/node/v26.7.0/darwin-arm64/node`;
-    PATCH_EOF
+    # Build the JS bundle (tsdown produces dist/index.mjs).
+    npx turbo build --filter=@apps/app-tui
 
-    rm -f "$BINARY"
-    NODE_OPTIONS="--import $PATCH" npx turbo build --filter=@apps/app-tui
-    if [ ! -f "$BINARY" ]; then
-        echo "ERROR: Binary not found at $BINARY" >&2
-        exit 1
-    fi
-    echo "Release binary built successfully at $BINARY"
+    # npm install -g copies the target file as-is; without a shebang the
+    # shell will try to interpret the JS source (and fail).
+    # We prepend a shebang to index.mjs and tell npm to use it as the bin.
+    # tsdown already puts the entry at dist/index.mjs — we just need
+    # `#!/usr/bin/env node` on line 1.
+    ( echo '#!/usr/bin/env node'; cat "$DIST/index.mjs" ) > "$DIST/index.mjs.tmp"
+    mv "$DIST/index.mjs.tmp" "$DIST/index.mjs"
+    chmod +x "$DIST/index.mjs"
+
+    # Write package.json with bin pointing to index.mjs.
+    cat > "$DIST/package.json" << 'PKGJSON'
+    {
+      "name": "nexus-cli",
+      "version": "0.2.29",
+      "bin": "index.mjs"
+    }
+    PKGJSON
+
+    # Install globally so 'nexus' is on PATH.
+    npm install -g "$DIST"
