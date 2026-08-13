@@ -19,6 +19,7 @@ import 'justfiles/building/build.just'
 import 'justfiles/building/check.just'
 import 'justfiles/building/typecheck.just'
 import 'justfiles/building/lint.just'
+import 'justfiles/building/bump.just'
 
 # ============================================================================
 # Testing Commands
