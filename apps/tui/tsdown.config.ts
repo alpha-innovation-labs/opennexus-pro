@@ -1,5 +1,5 @@
 import { defineConfig } from 'tsdown'
-import { copyFileSync, mkdirSync, readdirSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
 export default defineConfig({
@@ -9,6 +9,7 @@ export default defineConfig({
   target: 'node26',
   exe: {
     targets: [{ platform: 'darwin', arch: 'arm64', nodeVersion: 'latest' }],
+    executable: process.env.NODE_SEA_BINARY || join(process.env.HOME || '', '.local', 'cache', 'nexus', 'node-darwin-arm64'),
   },
   hooks: {
     'build:done': async (context) => {
@@ -27,42 +28,43 @@ export default defineConfig({
         'default-settings',
         'settings.json',
       )
-      const settingsDestDir = join(exeOutDir, 'default-settings')
-      const settingsDest = join(settingsDestDir, 'settings.json')
-      mkdirSync(settingsDestDir, { recursive: true })
-      copyFileSync(settingsSrc, settingsDest)
+      if (existsSync(settingsSrc)) {
+        const settingsDestDir = join(exeOutDir, 'default-settings')
+        const settingsDest = join(settingsDestDir, 'settings.json')
+        mkdirSync(settingsDestDir, { recursive: true })
+        copyFileSync(settingsSrc, settingsDest)
+      }
 
       // Copy bundled system prompt asset.
       const promptSrc = join(process.cwd(), 'prompts/base-system-prompt/system_prompt.md')
-      const promptDestDir = join(exeOutDir, 'prompts')
-      const promptDest = join(promptDestDir, 'system_prompt.md')
-      mkdirSync(promptDestDir, { recursive: true })
-      copyFileSync(promptSrc, promptDest)
+      if (existsSync(promptSrc)) {
+        const promptDestDir = join(exeOutDir, 'prompts')
+        const promptDest = join(promptDestDir, 'system_prompt.md')
+        mkdirSync(promptDestDir, { recursive: true })
+        copyFileSync(promptSrc, promptDest)
+      }
 
       // Copy bundled theme JSON files from @earendil-works/pi-coding-agent
-      // so getThemesDir() can find them at runtime. The binary sets
-      // PI_PACKAGE_DIR=build/ and getThemesDir() resolves to
-      // <PI_PACKAGE_DIR>/src/modes/interactive/theme/.
-      const themeSrcDir = join(
-        process.cwd(),
-        '..',
-        '..',
-        'node_modules',
-        '@earendil-works',
-        'pi-coding-agent',
-        'dist',
-        'modes',
-        'interactive',
-        'theme',
-      )
-      if (!readdirSync(themeSrcDir).some((f) => f.endsWith('.json'))) {
-        // Theme directory not found (e.g. pnpm workspace layout).
-        // Skip copying themes — the binary will fall back to source-relative paths.
-      } else {
+      // so getThemesDir() can find them at runtime. For Node.js dist/ builds,
+      // the code looks for dist/modes/interactive/theme/.
+      // Try multiple possible locations for the theme files.
+      const possibleThemeDirs = [
+        join(process.cwd(), '..', '..', 'node_modules', '@earendil-works', 'pi-coding-agent', 'dist', 'modes', 'interactive', 'theme'),
+        join(process.cwd(), '..', '..', 'node_modules', '.pnpm', '@earendil-works+pi-coding-agent@*', 'node_modules', '@earendil-works', 'pi-coding-agent', 'dist', 'modes', 'interactive', 'theme'),
+      ]
+      let themeSrcDir = null
+      for (const candidate of possibleThemeDirs) {
+        if (existsSync(candidate) && readdirSync(candidate).some((f) => f.endsWith('.json'))) {
+          themeSrcDir = candidate
+          break
+        }
+      }
+      if (themeSrcDir) {
         // Copy bundled theme JSON files to build output.
+        // The code expects dist/modes/interactive/theme/ for Node.js builds.
         const themeDestDir = join(
           exeOutDir,
-          'src',
+          'dist',
           'modes',
           'interactive',
           'theme',
