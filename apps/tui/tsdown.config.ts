@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path'
 
 export default defineConfig({
   entry: ['src/index.ts'],
+  dts: false,
   format: ['esm'],
   clean: true,
   target: 'node26',
@@ -12,7 +13,7 @@ export default defineConfig({
   // },
   hooks: {
     'build:done': async (context) => {
-      const exeOutDir = join(process.cwd(), 'build')
+      const distOutDir = join(process.cwd(), 'dist')
 
       // Copy bundled default settings asset so getBundledDefaultSettingsPath
       // can find it at runtime in the compiled binary.
@@ -28,35 +29,43 @@ export default defineConfig({
         'settings.json',
       )
       if (existsSync(settingsSrc)) {
-        const settingsDestDir = join(exeOutDir, 'default-settings')
-        const settingsDest = join(settingsDestDir, 'settings.json')
-        mkdirSync(settingsDestDir, { recursive: true })
-        copyFileSync(settingsSrc, settingsDest)
-
-        // Also place at runtime/config/default-settings for PI_PACKAGE_DIR mode.
-        const runtimeSettingsDestDir = join(
-          exeOutDir,
+        // Package-relative path for binary mode
+        const settingsDestDir = join(
+          distOutDir,
           'runtime',
           'config',
           'default-settings',
         )
-        const runtimeSettingsDest = join(runtimeSettingsDestDir, 'settings.json')
-        mkdirSync(runtimeSettingsDestDir, { recursive: true })
-        copyFileSync(settingsSrc, runtimeSettingsDest)
+        const settingsDest = join(settingsDestDir, 'settings.json')
+        mkdirSync(settingsDestDir, { recursive: true })
+        copyFileSync(settingsSrc, settingsDest)
+        // Source-relative fallback for dev mode
+        const settingsDestSimple = join(distOutDir, 'default-settings', 'settings.json')
+        mkdirSync(join(distOutDir, 'default-settings'), { recursive: true })
+        copyFileSync(settingsSrc, settingsDestSimple)
       }
 
       // Copy bundled system prompt asset.
       const promptSrc = join(process.cwd(), 'prompts/base-system-prompt/system_prompt.md')
       if (existsSync(promptSrc)) {
-        const promptDestDir = join(exeOutDir, 'prompts')
-        const promptDest = join(promptDestDir, 'system_prompt.md')
+        // Package-relative path for binary mode (PI_PACKAGE_DIR/prompts/base-system-prompt/system_prompt.md)
+        const promptDestDir = join(distOutDir, 'prompts', 'base-system-prompt')
         mkdirSync(promptDestDir, { recursive: true })
+        const promptDest = join(promptDestDir, 'system_prompt.md')
         copyFileSync(promptSrc, promptDest)
+        // Source-relative fallback for dev mode (dist/prompts/system_prompt.md)
+        const promptDestSimple = join(distOutDir, 'prompts', 'system_prompt.md')
+        copyFileSync(promptSrc, promptDestSimple)
       }
 
+      // Ensure bundled commands directory exists (prompt-template placeholder).
+      // getBundledCommandsPath resolves to PI_PACKAGE_DIR/commands or ./ in dev mode.
+      const commandsDestDir = join(distOutDir, 'commands')
+      mkdirSync(commandsDestDir, { recursive: true })
+
       // Copy bundled theme JSON files from @earendil-works/pi-coding-agent
-      // so getThemesDir() can find them at runtime. For Node.js dist/ builds,
-      // the code looks for dist/modes/interactive/theme/.
+      // so getThemesDir() can find them at runtime.
+      // The code expects PI_PACKAGE_DIR/theme/ for Node.js builds.
       // Try multiple possible locations for the theme files.
       const possibleThemeDirs = [
         join(process.cwd(), '..', '..', 'node_modules', '@earendil-works', 'pi-coding-agent', 'dist', 'modes', 'interactive', 'theme'),
@@ -70,15 +79,9 @@ export default defineConfig({
         }
       }
       if (themeSrcDir) {
-        // Copy bundled theme JSON files to build output.
-        // The code expects dist/modes/interactive/theme/ for Node.js builds.
-        const themeDestDir = join(
-          exeOutDir,
-          'dist',
-          'modes',
-          'interactive',
-          'theme',
-        )
+        // pi-coding-agent's getThemesDir() expects PI_PACKAGE_DIR/dist/modes/interactive/theme/
+        // when PI_PACKAGE_DIR is set (bundled binary mode).
+        const themeDestDir = join(distOutDir, 'dist', 'modes', 'interactive', 'theme')
         mkdirSync(themeDestDir, { recursive: true })
         for (const file of readdirSync(themeSrcDir)) {
           if (file.endsWith('.json')) {
@@ -111,97 +114,9 @@ export default defineConfig({
       '@extensions/observations',
       '@extensions/pi-packages',
       '@extensions/runtime',
-      '@extensions/startup-hero',
-    ],
-    onlyBundle: [
-      '@clack/prompts',
-      'simple-wcswidth',
-      'chalk',
-      'isexe',
-      'which',
-      'path-key',
-      'cross-spawn',
-      'shebang-regex',
-      'shebang-command',
       '@earendil-works/pi-coding-agent',
-      'typebox',
-      '@sinclair/typebox',
-      '@earendil-works/pi-ai',
-      'partial-json',
-      '@anthropic-ai/sdk',
-      'openai',
-      'retry',
-      'p-retry',
-      'extend',
-      'gaxios',
-      'ms',
-      'debug',
-      'has-flag',
-      'supports-color',
-      'agent-base',
-      'https-proxy-agent',
-      'data-uri-to-buffer',
-      'web-streams-polyfill',
-      'fetch-blob',
-      'formdata-polyfill',
-      'node-fetch',
-      'node-domexception',
-      'bignumber.js',
-      'json-bigint',
-      'gcp-metadata',
-      'google-logging-utils',
-      'base64-js',
-      'google-auth-library',
-      'safe-buffer',
-      'ecdsa-sig-formatter',
-      'jws',
-      'buffer-equal-constant-time',
-      'jwa',
-      'ws',
-      'node-gyp-build',
-      'bufferutil',
-      'utf-8-validate',
-      '@google/genai',
-      '@mistralai/mistralai',
-      '@opentelemetry/api',
-      '@opentelemetry/semantic-conventions',
-      'zod',
-      'zod-to-json-schema',
-      'marked',
-      '@earendil-works/pi-tui',
-      'get-east-asian-width',
-      'highlight.js',
-      'yaml',
-      '@silvia-odwyer/photon-node',
-      '@earendil-works/pi-telemetry',
-      '@earendil-works/pi-agent-core',
-      'ignore',
-      'diff',
-      'jiti',
-      'graceful-fs',
-      'signal-exit',
-      'proper-lockfile',
-      'balanced-match',
-      'brace-expansion',
-      'minimatch',
-      'glob',
-      'semver',
-      'lru-cache',
-      'hosted-git-info',
-      'undici',
-      'grok-mermaid',
-      'cli-table3',
-      'ansi-regex',
-      'strip-ansi',
-      'is-fullwidth-code-point',
-      'emoji-regex',
-      'string-width',
-      '@colors/colors',
-      'fast-string-truncated-width',
-      'fast-string-width',
-      'fast-wrap-ansi',
-      'sisteransi',
-      '@clack/core',
+      '@extensions/startup-hero'
     ],
+    neverBundle: true,
   },
 })
