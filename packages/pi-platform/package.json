@@ -13,7 +13,7 @@
 	},
 	"exports": {
 		".": "./dist/index.mjs",
-		"./*": "./dist/*.js"
+		"./*": "./dist/*.mjs"
 	},
 	"devDependencies": {
 		"tsdown": "^0.22.14"

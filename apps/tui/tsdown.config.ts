@@ -7,9 +7,9 @@ export default defineConfig({
   format: ['esm'],
   clean: true,
   target: 'node26',
-  exe: {
-    targets: [{ platform: 'darwin', arch: 'arm64', nodeVersion: 'latest' }],
-  },
+  // exe: {
+  // targets: [{ platform: 'darwin', arch: 'arm64', nodeVersion: 'latest' }],
+  // },
   hooks: {
     'build:done': async (context) => {
       const exeOutDir = join(process.cwd(), 'build')
@@ -32,6 +32,17 @@ export default defineConfig({
         const settingsDest = join(settingsDestDir, 'settings.json')
         mkdirSync(settingsDestDir, { recursive: true })
         copyFileSync(settingsSrc, settingsDest)
+
+        // Also place at runtime/config/default-settings for PI_PACKAGE_DIR mode.
+        const runtimeSettingsDestDir = join(
+          exeOutDir,
+          'runtime',
+          'config',
+          'default-settings',
+        )
+        const runtimeSettingsDest = join(runtimeSettingsDestDir, 'settings.json')
+        mkdirSync(runtimeSettingsDestDir, { recursive: true })
+        copyFileSync(settingsSrc, runtimeSettingsDest)
       }
 
       // Copy bundled system prompt asset.
