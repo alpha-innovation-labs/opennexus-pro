@@ -1,7 +1,7 @@
 import {
 	deleteAllKittyImages,
 	getCapabilities,
-} from "@earendil-works/pi-tui/dist/terminal-image";
+} from "@earendil-works/pi-tui";
 import type { DoRender, TuiWithInlineImageOverlayPatch } from "./types";
 
 /**

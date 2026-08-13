@@ -1,4 +1,4 @@
-import { isImageLine } from "@earendil-works/pi-tui/dist/terminal-image";
+import { isImageLine } from "@earendil-works/pi-tui/dist/terminal-image.js";
 import type { CompositeLineAt, TuiWithInlineImageOverlayPatch } from "./types";
 
 /**
