@@ -93,8 +93,21 @@ export default defineConfig({
   },
   deps: {
     alwaysBundle: [
-      '@extensions/*',
-      '@nexus/*',
+      '@nexus/console-table-printer',
+      '@nexus/mini-apps',
+      '@nexus/feature-flags',
+      '@nexus/herdr',
+      '@nexus/observability',
+      '@nexus/pi-platform',
+      '@nexus/runtime',
+      '@nexus/tui-kit',
+      '@extensions/ai-providers',
+      '@extensions/exit-message',
+      '@extensions/observations',
+      '@extensions/pi-packages',
+      '@extensions/runtime',
+      '@earendil-works/pi-coding-agent',
+      '@extensions/startup-hero'
     ],
     neverBundle: true,
   },

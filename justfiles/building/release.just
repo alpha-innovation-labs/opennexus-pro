@@ -10,7 +10,7 @@ release:
     NPM_PACKAGE_DIR=".release/npm-package"
 
     # Read the current version from the root package.json.
-    PUBLISHED_VERSION=$(node -p "require('./apps/tui/package.json').version")
+    PUBLISHED_VERSION=$(node -p "require('./package.json').version")
     echo "📦 Building local release ${PUBLISHED_VERSION}..."
 
     # Build the TUI bundle.
@@ -54,16 +54,15 @@ release:
     import { dirname, join } from "node:path";
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const p = JSON.parse(readFileSync(join(__dirname, "package.json"), "utf8"));
-    const deps = Object.keys(p.dependencies);
+    const deps = Object.keys(p.dependencies).filter(d => !p.dependencies[d].startsWith("workspace:"));
     if (deps.length) {
       console.log("[opennexus] Installing runtime dependencies...");
       execSync(`npm install --no-save --force ${deps.join(" ")}`, { stdio: "inherit" });
     }
     POSTINSTALL
 
-    # Build the dependencies list from the app's package.json, excluding
-    # workspace:* refs (internal packages are bundled by tsdown).
-    DEPS_JSON=$(node -e "const p=require('./apps/tui/package.json'); const d={}; Object.keys(p.dependencies).filter(k=>!p.dependencies[k].startsWith('workspace:')).forEach(k=>{d[k]=p.dependencies[k]}); console.log(JSON.stringify(d))")
+    # Copy dependencies from the root package.json as-is.
+    DEPS_JSON=$(node -e "const p=require('./package.json'); console.log(JSON.stringify(p.dependencies))")
 
     # Write package.json (same as pub, but without publishConfig).
     cat > "${NPM_PACKAGE_DIR}/package.json" << PKGJSON
@@ -88,9 +87,13 @@ release:
 
     # Install locally (no npm publish).
     # Note: `npm install -g .` skips postinstall scripts, so we run it manually.
+    # Also strip workspace:* from package.json before install so npm doesn't choke.
     echo "🚀 Installing locally..."
     (
         cd "${NPM_PACKAGE_DIR}"
+        # Create a clean deps list (no workspace:*) for npm.
+        CLEAN_DEPS=$(node -e "const p=require('./package.json'); const d={}; Object.keys(p.dependencies).filter(k=>!p.dependencies[k].startsWith('workspace:')).forEach(k=>{d[k]=p.dependencies[k]}); console.log(JSON.stringify(d))")
+        node -e "const p=JSON.parse(require('fs').readFileSync('package.json','utf8')); p.dependencies=JSON.parse(process.argv[1]); require('fs').writeFileSync('package.json',JSON.stringify(p,null,2));" "${CLEAN_DEPS}"
         npm install -g .
         node install-deps.mjs
     )
