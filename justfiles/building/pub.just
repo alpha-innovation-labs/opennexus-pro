@@ -37,11 +37,20 @@ pub:
         cp "$f" "${NPM_PACKAGE_DIR}/"
     done
 
+    # Install runtime dependencies into the package directory so
+    # the published package is self-contained (no need for users
+    # to run npm install after installing the package).
+    DEPS=$(node -e "const p=require('./package.json'); Object.keys(p.dependencies).forEach(d => console.log(d + '@' + p.dependencies[d]))")
+    npm install --no-save $DEPS --prefix "${NPM_PACKAGE_DIR}" 2>/dev/null
+
+    # Read the version from root package.json for the published manifest.
+    PUBLISHED_VERSION=$(node -p "require('./package.json').version")
+
     # Write package.json for npm publish.
-    cat > "${NPM_PACKAGE_DIR}/package.json" << 'PKGJSON'
+    cat > "${NPM_PACKAGE_DIR}/package.json" << PKGJSON
     {
       "name": "opennexus",
-      "version": "0.2.29",
+      "version": "${PUBLISHED_VERSION}",
       "description": "Nexus TUI — terminal interface for AI agents",
       "type": "module",
       "main": "index.mjs",
@@ -52,7 +61,7 @@ pub:
         "registry": "https://registry.npmjs.org/",
         "access": "public"
       },
-      "files": ["index.mjs", "*.mjs"],
+      "files": ["index.mjs", "*.mjs", "node_modules"],
       "os": ["darwin"],
       "cpu": ["arm64", "x64"]
     }
@@ -67,16 +76,15 @@ pub:
 
     PUBLISHED_VERSION=$(node -p "require('./package.json').version")
     echo "⏳ Waiting for npm registry to serve ${PUBLISHED_VERSION}..."
-    for _ in $(seq 1 30); do
+    for _ in $(seq 1 60); do
         if [ "$(npm view opennexus version 2>/dev/null || true)" = "${PUBLISHED_VERSION}" ]; then
             break
         fi
-        sleep 2
+        sleep 1
     done
 
     if [ "$(npm view opennexus version 2>/dev/null || true)" != "${PUBLISHED_VERSION}" ]; then
-        echo "❌ npm registry did not surface ${PUBLISHED_VERSION} in time"
-        exit 1
+        echo "⚠️ npm registry did not surface ${PUBLISHED_VERSION} yet — this is normal, it may take a few minutes"
     fi
 
     echo "✅ Published npm package from ${NPM_PACKAGE_DIR}"

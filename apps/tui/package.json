@@ -1,38 +1,38 @@
 {
-	"name": "@apps/app-tui",
-	"version": "0.2.34",
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"build": "tsdown",
-		"test": "npm --prefix ../.. test"
-	},
-	"dependencies": {
-		"@clack/prompts": "^1.7.0",
-		"@extensions/ai-providers": "workspace:*",
-		"@extensions/exit-message": "workspace:*",
-		"@extensions/observations": "workspace:*",
-		"@extensions/pi-packages": "workspace:*",
-		"@extensions/runtime": "workspace:*",
-		"@extensions/startup-hero": "workspace:*",
-		"@nexus/feature-flags": "workspace:*",
-		"@nexus/herdr": "workspace:*",
-		"@nexus/mini-apps": "workspace:*",
-		"@nexus/observability": "workspace:*",
-		"@nexus/pi-platform": "workspace:*",
-		"@nexus/runtime": "workspace:*",
-		"@nexus/console-table-printer": "workspace:*",
-		"ink": "^7.1.0",
-		"ink-big-text": "^2.0.0",
-		"ink-gradient": "^4.0.1",
-		"react": "^19.2.0"
-	},
-	"exports": {
-		"./*.js": "./src/*.ts",
-		"./*": "./src/*"
-	},
-	"devDependencies": {
-		"@tsdown/exe": "0.22.14",
-		"tsdown": "^0.22.14"
-	}
+  "name": "@apps/app-tui",
+  "version": "0.2.35",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsdown",
+    "test": "npm --prefix ../.. test"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.7.0",
+    "@extensions/ai-providers": "workspace:*",
+    "@extensions/exit-message": "workspace:*",
+    "@extensions/observations": "workspace:*",
+    "@extensions/pi-packages": "workspace:*",
+    "@extensions/runtime": "workspace:*",
+    "@extensions/startup-hero": "workspace:*",
+    "@nexus/feature-flags": "workspace:*",
+    "@nexus/herdr": "workspace:*",
+    "@nexus/mini-apps": "workspace:*",
+    "@nexus/observability": "workspace:*",
+    "@nexus/pi-platform": "workspace:*",
+    "@nexus/runtime": "workspace:*",
+    "@nexus/console-table-printer": "workspace:*",
+    "ink": "^7.1.0",
+    "ink-big-text": "^2.0.0",
+    "ink-gradient": "^4.0.1",
+    "react": "^19.2.0"
+  },
+  "exports": {
+    "./*.js": "./src/*.ts",
+    "./*": "./src/*"
+  },
+  "devDependencies": {
+    "@tsdown/exe": "0.22.14",
+    "tsdown": "^0.22.14"
+  }
 }
