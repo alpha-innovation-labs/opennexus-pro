@@ -61,8 +61,8 @@ release:
     }
     POSTINSTALL
 
-    # Copy dependencies from the root package.json as-is.
-    DEPS_JSON=$(node -e "const p=require('./package.json'); console.log(JSON.stringify(p.dependencies))")
+    # Read deps from apps/tui/package.json, stripping workspace:* entries.
+    DEPS_JSON=$(node -e "const p=require('./apps/tui/package.json'); const d={}; Object.keys(p.dependencies).filter(k=>!p.dependencies[k].startsWith('workspace:')).forEach(k=>{d[k]=p.dependencies[k]}); console.log(JSON.stringify(d))")
 
     # Write package.json (same as pub, but without publishConfig).
     cat > "${NPM_PACKAGE_DIR}/package.json" << PKGJSON

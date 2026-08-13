@@ -8,6 +8,7 @@
 		"build": "next build",
 		"start": "next start -p ${PORT:-4321}",
 		"test:e2e": "playwright test",
+		"typecheck": "tsc --noEmit",
 		"lint": "echo lint skipped for landing-page"
 	},
 	"dependencies": {

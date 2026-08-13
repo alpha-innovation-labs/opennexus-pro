@@ -16,6 +16,7 @@
 		"./*": "./dist/*.mjs"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^2.5.8",
 		"tsdown": "^0.22.14"
 	}
 }

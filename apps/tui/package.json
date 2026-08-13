@@ -34,6 +34,7 @@
     "./*": "./src/*"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.8",
     "@tsdown/exe": "0.22.14",
     "tsdown": "^0.22.14"
   }
