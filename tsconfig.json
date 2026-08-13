@@ -18,6 +18,9 @@
 			"@nexus/pi-platform": ["./packages/pi-platform/src/index.ts"],
 			"@nexus/tui-kit/*": ["./packages/tui-kit/src/*"],
 			"@nexus/tui-kit": ["./packages/tui-kit/src/index.ts"],
+			"@nexus/console-table-printer": [
+				"./packages/extension-core/console-table-printer/index.ts"
+			],
 			"@extensions/ai-providers/*": [
 				"./packages/extension-core/ai-providers/src/*"
 			],
