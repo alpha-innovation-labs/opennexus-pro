@@ -6,9 +6,9 @@
 		"./*": "./src/*"
 	},
 	"dependencies": {
+		"@extensions/pi-packages": "workspace:*",
 		"@nexus/runtime": "workspace:*",
-		"@nexus/tui-kit": "workspace:*",
-		"@extensions/pi-packages": "workspace:*"
+		"@nexus/tui-kit": "workspace:*"
 	},
 	"scripts": {
 		"lint": "biome lint .",
@@ -17,6 +17,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.8",
-		"tsdown": "^0.22.14"
+		"tsdown": "^0.22.14",
+		"typescript": "^7.0.2"
 	}
 }

@@ -17,13 +17,13 @@
     "@extensions/pi-packages": "workspace:*",
     "@extensions/runtime": "workspace:*",
     "@extensions/startup-hero": "workspace:*",
+    "@nexus/console-table-printer": "workspace:*",
     "@nexus/feature-flags": "workspace:*",
     "@nexus/herdr": "workspace:*",
     "@nexus/mini-apps": "workspace:*",
     "@nexus/observability": "workspace:*",
     "@nexus/pi-platform": "workspace:*",
     "@nexus/runtime": "workspace:*",
-    "@nexus/console-table-printer": "workspace:*",
     "ink": "^7.1.0",
     "ink-big-text": "^2.0.0",
     "ink-gradient": "^4.0.1",
@@ -36,6 +36,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.5.8",
     "@tsdown/exe": "0.22.14",
-    "tsdown": "^0.22.14"
+    "tsdown": "^0.22.14",
+    "typescript": "^7.0.2"
   }
 }

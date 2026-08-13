@@ -6,11 +6,11 @@
 		"./*": "./src/*"
 	},
 	"dependencies": {
+		"@extensions/tron": "workspace:*",
 		"@nexus/observability": "workspace:*",
 		"@nexus/pi-platform": "workspace:*",
 		"@nexus/runtime": "workspace:*",
-		"@nexus/tui-kit": "workspace:*",
-		"@extensions/tron": "workspace:*"
+		"@nexus/tui-kit": "workspace:*"
 	},
 	"scripts": {
 		"lint": "biome lint .",
@@ -19,6 +19,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.8",
-		"tsdown": "^0.22.14"
+		"tsdown": "^0.22.14",
+		"typescript": "^7.0.2"
 	}
 }
