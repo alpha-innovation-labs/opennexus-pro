@@ -9,7 +9,6 @@ export default defineConfig({
   target: 'node26',
   exe: {
     targets: [{ platform: 'darwin', arch: 'arm64', nodeVersion: 'latest' }],
-    executable: process.env.NODE_SEA_BINARY || join(process.env.HOME || '', '.local', 'cache', 'nexus', 'node-darwin-arm64'),
   },
   hooks: {
     'build:done': async (context) => {

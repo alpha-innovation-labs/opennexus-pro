@@ -54,7 +54,7 @@ check-release:
         cat "$ERROR_FILE"
         echo "----------------------------------------"
 
-        PROMPT2="Read ./.automation/error-${ITERATION}.txt and fix the error. Do NOT run 'just clean' or 'just release'. Do NOT write to ./.automation/status — only Prompt 1 is allowed to set the status. Just fix the code. Before fixing, read all ./.automation/attempt-*.md files to learn from previous attempts and avoid repeating the same mistakes. Also read the tsdown skill at .agents/skills/tsdown since the problem is related to tsdown. Write ./.automation/attempt-${ITERATION}.md with everything you learned — what you changed, why it failed, and what to try next. Be thorough so the next attempt doesn't rediscover the same issues."
+        PROMPT2="Read ./.automation/error-${ITERATION}.txt and fix the error. Do NOT run 'just clean' or 'just release'. Do NOT write to ./.automation/status — only Prompt 1 is allowed to set the status. Just fix the code.  Also please note that node_modules will be deleted in a final release, so any hard change in them is bad unless if tracked in package.json. Before fixing, read all ./.automation/attempt-*.md files to learn from previous attempts and avoid repeating the same mistakes. Also read the tsdown skill at .agents/skills/tsdown since the problem is related to tsdown. Write ./.automation/attempt-${ITERATION}.md with everything you learned — what you changed, why it failed, and what to try next. Be thorough so the next attempt doesn't rediscover the same issues."
         echo "Prompt 2: $PROMPT2"
         pi --no-skills --no-session -p "$PROMPT2" < /dev/null
     done

@@ -1,0 +1,4 @@
+Error: Failed to load extension "/Users/alpha/.local/share/nexus/agent/npm/node_modules/@plannotator/pi-extension": Failed to load extension: Cannot find module 'marked'
+Require stack:
+- /Users/alpha/workspace/alpha-innovation-labs/__nexus/nexus-tui-awesome/node_modules/@earendil-works/pi-tui/dist/index.js
+Hint: Start without extensions using "pi -ne".
