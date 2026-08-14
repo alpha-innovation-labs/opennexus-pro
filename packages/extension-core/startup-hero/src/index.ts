@@ -23,4 +23,4 @@ export { shouldShowStartupHero } from "./shouldShowStartupHero";
 export { showStartupHero } from "./showStartupHero";
 export { startupHeroWidgetKey } from "./startupHeroWidgetKey";
 export { startupStartedAtEnvVar } from "./startupStartedAtEnvVar";
-export { type StartupHeroStatus, type StartupHeroTheme } from "./types";
+export type { StartupHeroStatus, StartupHeroTheme } from "./types";

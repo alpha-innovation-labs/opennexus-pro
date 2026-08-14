@@ -1,7 +1,7 @@
 export { showPiPackagesModal } from "./command/showPiPackagesModal";
 export { createThirdPartyManagedExtensionRows } from "./model/createThirdPartyManagedExtensionRows";
 export { sortManagedExtensionRows } from "./model/sortManagedExtensionRows";
-export { type ManagedExtensionKind, type ManagedExtensionRow, type ManagedExtensionStatus, type PiPackagesTab, type ConfiguredPackage } from "./model/types";
+export type { ManagedExtensionKind, ManagedExtensionRow, ManagedExtensionStatus, PiPackagesTab, ConfiguredPackage } from "./model/types";
 export { updateManagedExtensionRows } from "./model/updateManagedExtensionRows";
 export { createConfiguredPackageRows } from "./package/createConfiguredPackageRows";
 export { createNexusPackageManager } from "./package/createNexusPackageManager";
@@ -21,5 +21,5 @@ export { getNextPiPackagesTab } from "./ui/getNextPiPackagesTab";
 export { getPiPackagesHeaderWidth } from "./ui/getPiPackagesHeaderWidth";
 export { isPiPackagesTextInput } from "./ui/isPiPackagesTextInput";
 export { padManagedExtensionColumn } from "./ui/padManagedExtensionColumn";
-export { type PiPackagesCallbacks } from "./ui/PiPackagesCallbacks";
+export type { PiPackagesCallbacks } from "./ui/PiPackagesCallbacks";
 export { PiPackagesModal } from "./ui/PiPackagesModal";

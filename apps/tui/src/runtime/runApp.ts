@@ -3,14 +3,12 @@ import { createBundledExtensionFactories } from "@extensions/runtime";
 import { startupStartedAtEnvVar } from "@extensions/startup-hero";
 import { clearStartupProfileLog } from "@nexus/observability";
 import { logStartupProfileEvent } from "@nexus/observability";
-import { applyCompactModeImagePatch } from "@nexus/pi-platform";
 import { applyHotkeysCommandPatch } from "@nexus/pi-platform";
 import { applyModelChangeDisplayPatch } from "@nexus/pi-platform";
 import { applyStartupChangelogSilencePatch } from "@nexus/pi-platform";
 import { applyStartupHelpSilencePatch } from "@nexus/pi-platform";
 import { applyStartupUpdateSilencePatch } from "@nexus/pi-platform";
 import { applyToolExecutionSpacingPatch } from "@nexus/pi-platform";
-import { applyToolGroupCollapsePatch } from "@nexus/pi-platform";
 import { applyWorkingLoaderElapsedPatch } from "@nexus/pi-platform";
 import { applyInlineImageOverlayPatch } from "@nexus/pi-platform";
 import { applyPromptTemplateArgAppendPatch } from "@nexus/pi-platform";
@@ -114,14 +112,6 @@ export async function runApp(
   phaseStartedAt = performance.now();
   applyToolExecutionSpacingPatch();
   logRunAppPhase("applyToolExecutionSpacingPatch:done", phaseStartedAt);
-
-  phaseStartedAt = performance.now();
-  await applyToolGroupCollapsePatch();
-  logRunAppPhase("applyToolGroupCollapsePatch:done", phaseStartedAt);
-
-  phaseStartedAt = performance.now();
-  applyCompactModeImagePatch();
-  logRunAppPhase("applyCompactModeImagePatch:done", phaseStartedAt);
 
   phaseStartedAt = performance.now();
   applyInlineImageOverlayPatch();

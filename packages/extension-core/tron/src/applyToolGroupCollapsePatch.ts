@@ -1,8 +1,8 @@
 import { InteractiveMode } from "@earendil-works/pi-coding-agent";
-import { activityInvalidators } from "@extensions/tron";
-import { toggleToolGroupCollapse } from "@extensions/tron";
-import { invalidateActivityKeys } from "@extensions/tron";
-import { KEYBINDINGS } from "./keybindings";
+import { KEYBINDINGS } from "@nexus/pi-platform";
+import { activityInvalidators } from "./activity/state";
+import { invalidateActivityKeys } from "./invalidateActivityKeys";
+import { toggleToolGroupCollapse } from "./collapse/state";
 
 type InteractiveModeWithCollapsePatch = {
 	defaultEditor: { onAction(action: string, handler: () => void): void };

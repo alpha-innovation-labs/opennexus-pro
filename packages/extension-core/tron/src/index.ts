@@ -4,6 +4,8 @@ import registerSkillInvocationStyleExtension from "./skill-invocation/registerSk
 import registerAssistantThinkingStyleExtension from "./thinking/registerAssistantThinkingStyleExtension";
 import registerToolCallsExtension from "./toolcalls/registerToolCallsExtension";
 import registerUserMessageInputStyleExtension from "./user-message/registerUserMessageInputStyleExtension";
+import { applyCompactModeImagePatch } from "./compact-tool-lines/applyCompactModeImagePatch";
+import { applyToolGroupCollapsePatch } from "./applyToolGroupCollapsePatch";
 export { activityInvalidators } from "./activity/state";
 export { invalidateActivityKeys } from "./invalidateActivityKeys";
 export { setToolGroupCollapseEnabled, toggleToolGroupCollapse, isToolGroupCollapseEnabled } from "./collapse/state";
@@ -20,6 +22,8 @@ export { colorSecondaryText } from "./colors/colorSecondaryText";
  * @param pi Pi extension API.
  */
 export default function index(pi: ExtensionAPI): void {
+	applyCompactModeImagePatch();
+	applyToolGroupCollapsePatch();
 	registerUserMessageInputStyleExtension(pi);
 	registerSkillInvocationStyleExtension(pi);
 	registerAssistantThinkingStyleExtension(pi);
