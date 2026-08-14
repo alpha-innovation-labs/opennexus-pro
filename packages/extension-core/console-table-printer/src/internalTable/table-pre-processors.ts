@@ -1,8 +1,8 @@
-import { Row } from '../models/common';
-import { ComputedColumn } from '../models/external-table';
-import { Column } from '../models/internal-table';
+import type { Row } from '../models/common';
+import type { ComputedColumn } from '../models/external-table';
+import type { Column } from '../models/internal-table';
 import { findLenOfColumn } from '../utils/table-helpers';
-import TableInternal from './internal-table';
+import type TableInternal from './internal-table';
 
 // All these functions are ran when renderTable/printTable is called
 const createComputedColumnsIfNecessary = (table: TableInternal) => {
