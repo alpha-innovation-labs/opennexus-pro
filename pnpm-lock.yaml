@@ -569,9 +569,6 @@ importers:
       '@extensions/shared':
         specifier: workspace:*
         version: link:../shared
-      '@extensions/tron':
-        specifier: workspace:*
-        version: link:../tron
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime

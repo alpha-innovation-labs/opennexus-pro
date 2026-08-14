@@ -9,7 +9,7 @@ import {
 	createEditTool,
 	createWriteTool,
 } from "@earendil-works/pi-coding-agent";
-import type { BuiltInTools } from "@extensions/tron";
+import type { BuiltInTools } from "@extensions/shared";
 import { createRtkBashTool } from "./createRtkBashTool";
 import { createRtkFindTool } from "./createRtkFindTool";
 import { createRtkGrepTool } from "./createRtkGrepTool";
