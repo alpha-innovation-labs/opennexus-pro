@@ -1,22 +1,26 @@
 {
-	"name": "@extensions/hotkeys",
-	"version": "0.2.24",
-	"type": "module",
-	"exports": {
-		"./*": "./src/*"
-	},
-	"dependencies": {
-		"@earendil-works/pi-coding-agent": "^0.84.1",
-		"@nexus/runtime": "workspace:*"
-	},
-	"scripts": {
-		"lint": "biome lint .",
-		"typecheck": "tsc --noEmit",
-		"build": "tsdown"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^2.5.8",
-		"tsdown": "^0.22.14",
-		"typescript": "^7.0.2"
-	}
+  "name": "@extensions/hotkeys",
+  "version": "0.2.24",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*"
+  },
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "^0.84.1",
+    "@earendil-works/pi-tui": "^0.84.1",
+    "@nexus/feature-flags": "workspace:*",
+    "@nexus/pi-platform": "workspace:*",
+    "@nexus/runtime": "workspace:*",
+    "@nexus/tui-kit": "workspace:*"
+  },
+  "scripts": {
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit",
+    "build": "tsdown"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.8",
+    "tsdown": "^0.22.14",
+    "typescript": "^7.0.2"
+  }
 }

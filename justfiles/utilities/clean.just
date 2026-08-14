@@ -21,5 +21,5 @@ clean:
     @echo "Cleaning build artifacts..."
     @find . -type d -name dist -not -path "*/node_modules/*" -exec rm -rf {} + 2>/dev/null || true
     @find . -type d -name build -not -path "*/node_modules/*" -exec rm -rf {} + 2>/dev/null || true
-    @rm -rf .turbo 2>/dev/null || true
+    @find . -type d -name .turbo -not -path "*/node_modules/*" -exec rm -rf {} + 2>/dev/null || true
     @echo "Clean complete."

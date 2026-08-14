@@ -1,4 +1,5 @@
 // Auto-generated — do not edit
+export type { ExtensionAPI } from "@earendil-works/pi-coding-agent"
 export * from "./startup-debug.ts"
 export * from "./startup-profile/clearStartupProfileLog.ts"
 export * from "./startup-profile/constants.ts"

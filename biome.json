@@ -19,6 +19,9 @@
 			"style": {
 				"noDescendingSpecificity": "off"
 			},
+			"correctness": {
+				"noUndeclaredDependencies": "error"
+			},
 			"suspicious": {
 				"noDuplicateProperties": "off",
 				"noUndeclaredEnvVars": "off"
