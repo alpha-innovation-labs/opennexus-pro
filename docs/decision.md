@@ -82,6 +82,20 @@ slash-menu → @extensions/neo-editor  (imports 4 functions)
 
 ---
 
+## 7. Shared Code Lives in `packages/extension-core/shared/`
+
+**Status:** Accepted
+
+**Problem:** When a function, type, constant, or module is used by two or more extensions, placing it inside one of those extensions creates circular dependency risk — the other extension must import from it, and if that extension later needs anything back, a cycle forms.
+
+**Decision:** Any code used by one or more packages belongs in `packages/extension-core/shared/`. This is a grouping folder (not a published package) that sits alongside all extensions. Extensions import shared code via `@extensions/shared`.
+
+**Rule:** If two or more extensions import the same thing, extract it to `shared/`. If a single extension is the sole consumer, keep it co-located with that extension. This prevents circular deps by design — `shared/` has no dependencies on sibling extensions.
+
+**Existing examples:** `compact-tool-lines/`, `withSlashMenuGroup.ts`.
+
+---
+
 ## Audit Summary: All 22 Extensions
 
 | Extension | Redundant Checks | Sibling Imports | Cycle Risk | Action |

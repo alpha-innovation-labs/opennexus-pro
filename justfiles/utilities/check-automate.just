@@ -28,8 +28,8 @@ check-automate:
       echo ""
       echo "[$CURRENT/$COUNT] Working on: $pkg"
       echo "----------------------------------------"
-      PROMPT="Run 'just check $pkg' and fix all errors., Do not run any other command. You need to just make sure the index.ts is reflective of the current code. Do NOT add no longer existing files. if the command does not fail, simply skip. dont worry about it"
-      echo "Running: just dev --minimal --no-skills --no-session -p \"$PROMPT\""
+      PROMPT="Pleae read ./docs/decision.md. Then, Run 'just check $pkg' and fix all errors., Do not run any other command. You need to just make sure the index.ts is reflective of the current code. Do NOT add no longer existing files. if the command does not fail, simply skip. dont worry about it"
+      echo "Running: pi --minimal --no-skills --no-session -p \"$PROMPT\""
       # just dev --minimal --no-skills --no-session -p "$PROMPT" < /dev/null
       pi --no-skills --no-session -p "$PROMPT" < /dev/null
     done
