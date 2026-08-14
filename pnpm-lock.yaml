@@ -631,6 +631,15 @@ importers:
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
+      '@extensions/context-usage':
+        specifier: workspace:*
+        version: link:../context-usage
+      '@extensions/hotkeys':
+        specifier: workspace:*
+        version: link:../hotkeys
+      '@extensions/neo-editor':
+        specifier: workspace:*
+        version: link:../neo-editor
       '@extensions/tron':
         specifier: workspace:*
         version: link:../tron

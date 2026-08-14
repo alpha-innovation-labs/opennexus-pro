@@ -1,8 +1,8 @@
 export { clearCmuxWorkspaceShellLinesCache } from "./workspace-cache/clearCmuxWorkspaceShellLinesCache";
 export { CmuxSavedSessionsModal } from "./ui/CmuxSavedSessionsModal";
-export { type CmuxSessionRegistryLockMetadata } from "./session-registry/CmuxSessionRegistryLockMetadata";
+export type { CmuxSessionRegistryLockMetadata } from "./session-registry/CmuxSessionRegistryLockMetadata";
 export { cmuxTitleSyncState } from "./state/cmuxTitleSyncState";
-export { type CmuxWorkspaceShellAction } from "./command/CmuxWorkspaceShellAction";
+export type { CmuxWorkspaceShellAction } from "./command/CmuxWorkspaceShellAction";
 export { cmuxWorkspaceShellLinesCache } from "./workspace-cache/cmuxWorkspaceShellLinesCache";
 export { CmuxWorkspaceShellsModal } from "./ui/CmuxWorkspaceShellsModal";
 export { collectCmuxWorkspaceShells } from "./workspaces/collectCmuxWorkspaceShells";
@@ -46,7 +46,7 @@ export { showCmuxWorkspaceShellsModal } from "./command/showCmuxWorkspaceShellsM
 export { notifyCmuxPaneCompletion } from "./notifyCmuxPaneCompletion";
 
 // runtime
-export { type CmuxRenameTarget } from "./runtime/getCurrentCmuxRenameTarget";
+export type { CmuxRenameTarget } from "./runtime/getCurrentCmuxRenameTarget";
 export { getCurrentCmuxRenameTarget } from "./runtime/getCurrentCmuxRenameTarget";
 export { notifyCurrentCmuxSurface } from "./runtime/notifyCurrentCmuxSurface";
 export { renameCurrentCmuxSurface } from "./runtime/renameCurrentCmuxSurface";
@@ -78,8 +78,8 @@ export { registerCurrentNexusSession } from "./session-registry/registerCurrentN
 export { removeCmuxSessionRegistryEntry } from "./session-registry/removeCmuxSessionRegistryEntry";
 export { removeStaleCmuxSessionRegistryLock } from "./session-registry/removeStaleCmuxSessionRegistryLock";
 export { shellQuote } from "./session-registry/shellQuote";
-export { type CmuxSessionRegistryEntry } from "./session-registry/types";
-export { type CmuxSessionRegistry } from "./session-registry/types";
+export type { CmuxSessionRegistryEntry } from "./session-registry/types";
+export type { CmuxSessionRegistry } from "./session-registry/types";
 export { unregisterCurrentNexusSession } from "./session-registry/unregisterCurrentNexusSession";
 export { updateCmuxSessionRegistryEntryTitle } from "./session-registry/updateCmuxSessionRegistryEntryTitle";
 export { updateCurrentNexusSessionTitle } from "./session-registry/updateCurrentNexusSessionTitle";
@@ -93,10 +93,10 @@ export { writeCmuxSessionRegistryLockMetadata } from "./session-registry/writeCm
 export { listCmuxSavedSessions } from "./snapshots/listCmuxSavedSessions";
 export { readCmuxSavedSessionStore } from "./snapshots/readCmuxSavedSessionStore";
 export { saveCmuxSessionSnapshot } from "./snapshots/saveCmuxSessionSnapshot";
-export { type CmuxSavedPane } from "./snapshots/types";
-export { type CmuxSavedWorkspace } from "./snapshots/types";
-export { type CmuxSavedSession } from "./snapshots/types";
-export { type CmuxSavedSessionStore } from "./snapshots/types";
+export type { CmuxSavedPane } from "./snapshots/types";
+export type { CmuxSavedWorkspace } from "./snapshots/types";
+export type { CmuxSavedSession } from "./snapshots/types";
+export type { CmuxSavedSessionStore } from "./snapshots/types";
 export { writeCmuxSavedSessionStore } from "./snapshots/writeCmuxSavedSessionStore";
 
 // state
@@ -108,7 +108,7 @@ export { getCmuxWorkspaceShellLinesCache } from "./workspace-cache/getCmuxWorksp
 export { isCmuxWorkspaceShellLinesCacheFresh } from "./workspace-cache/isCmuxWorkspaceShellLinesCacheFresh";
 export { refreshCmuxWorkspaceShellLinesCache } from "./workspace-cache/refreshCmuxWorkspaceShellLinesCache";
 export { setCmuxWorkspaceShellLinesCache } from "./workspace-cache/setCmuxWorkspaceShellLinesCache";
-export { type CmuxWorkspaceShellLinesCache } from "./workspace-cache/types";
+export type { CmuxWorkspaceShellLinesCache } from "./workspace-cache/types";
 
 // workspaces
 export { getCmuxShellIcon } from "./workspaces/getCmuxShellIcon";
@@ -121,7 +121,7 @@ export { listCmuxWorkspaces } from "./workspaces/listCmuxWorkspaces";
 export { normalizeCmuxBoolean } from "./workspaces/normalizeCmuxBoolean";
 export { normalizeCmuxIndex } from "./workspaces/normalizeCmuxIndex";
 export { normalizeCmuxString } from "./workspaces/normalizeCmuxString";
-export { type CmuxSurface } from "./workspaces/types";
-export { type CmuxPane } from "./workspaces/types";
-export { type CmuxWorkspace } from "./workspaces/types";
-export { type CmuxWorkspaceShellView } from "./workspaces/types";
+export type { CmuxSurface } from "./workspaces/types";
+export type { CmuxPane } from "./workspaces/types";
+export type { CmuxWorkspace } from "./workspaces/types";
+export type { CmuxWorkspaceShellView } from "./workspaces/types";

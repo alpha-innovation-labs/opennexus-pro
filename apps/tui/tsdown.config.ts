@@ -1,6 +1,6 @@
 import { defineConfig } from 'tsdown'
 import { copyFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs'
-import { dirname, join } from 'node:path'
+import { join } from 'node:path'
 
 export default defineConfig({
   entry: ['src/index.ts'],
@@ -12,7 +12,7 @@ export default defineConfig({
   // targets: [{ platform: 'darwin', arch: 'arm64', nodeVersion: 'latest' }],
   // },
   hooks: {
-    'build:done': async (context) => {
+    'build:done': async (_context) => {
       const distOutDir = join(process.cwd(), 'dist')
 
       // Copy bundled default settings asset so getBundledDefaultSettingsPath

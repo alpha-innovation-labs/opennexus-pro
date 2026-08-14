@@ -4,7 +4,7 @@ import type {
 	FeatureProductCategory,
 } from "@nexus/feature-flags";
 import { getFeatureManagementGroup } from "./getFeatureManagementGroup";
-import type { FeatureStatusCategory, FeatureStatusRow } from "./types";
+import type { FeatureStatusRow } from "./types";
 
 /**
  * Sort order for group section headers.

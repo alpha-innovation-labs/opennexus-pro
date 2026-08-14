@@ -172,7 +172,7 @@ test.describe("Nexus feature showcase", () => {
 
 		expect(shellWidths).not.toBeNull();
 		expect(
-			Math.abs(shellWidths!.navWidth - shellWidths!.featureNavWidth),
+			Math.abs(shellWidths?.navWidth - shellWidths?.featureNavWidth),
 		).toBeLessThan(1);
 	});
 
@@ -201,9 +201,9 @@ test.describe("Nexus feature showcase", () => {
 		});
 
 		expect(layout).not.toBeNull();
-		expect(layout!.storyHeightRatio).toBeGreaterThan(1.2);
-		expect(layout!.copyWidth).toBeGreaterThan(280);
-		expect(layout!.copyLeft - layout!.terminalRight).toBeLessThan(120);
+		expect(layout?.storyHeightRatio).toBeGreaterThan(1.2);
+		expect(layout?.copyWidth).toBeGreaterThan(280);
+		expect(layout?.copyLeft - layout?.terminalRight).toBeLessThan(120);
 	});
 
 	test("keeps the original cast while feature sections scroll", async ({
