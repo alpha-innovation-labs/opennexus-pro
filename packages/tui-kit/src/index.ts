@@ -1,4 +1,6 @@
 // Auto-generated — do not edit
+export * from "./styles/constants.ts";
+export * from "./styles/getContextColor.ts";
 export * from "./markdown-preview/MarkdownPreview.ts"
 export * from "./markdown-preview/addMarkdownPreviewLineNumbers.ts"
 export * from "./markdown-preview/constants.ts"

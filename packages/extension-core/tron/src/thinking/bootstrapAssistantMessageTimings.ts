@@ -1,4 +1,4 @@
-import type { SessionEntry } from "@nexus/pi-platform/sessionManager";
+import type { SessionEntry } from "@nexus/pi-platform";
 import { formatCompactDuration } from "../duration/formatCompactDuration";
 import { restoreAssistantMessageTiming } from "./assistantMessageTimingState";
 

@@ -1,5 +1,4 @@
-import { RESET } from "@extensions/neo-editor";
-import { getContextColor } from "@extensions/neo-editor";
+import { RESET, getContextColor } from "@nexus/tui-kit";
 
 /**
  * Renders the context usage meter using Neo promptline color and an extended bar.
