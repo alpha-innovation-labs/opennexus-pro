@@ -71,6 +71,7 @@ import { toAutocompleteItems } from "./toAutocompleteItems";
 import type {
 	RegisteredSlashCommand,
 	SlashMenuLeaf,
+	SlashMenuResult,
 	SlashMenuSection,
 } from "./types";
 import {
@@ -79,6 +80,69 @@ import {
 } from "./updateResumePreview";
 
 const SLASH_MENU_LEFT_PANE_RATIO = 0.42;
+
+/**
+ * Opens the slash menu in data-returning mode.
+ *
+ * The caller (neo-editor) owns all side effects. This function returns
+ * the user's choice as a data object instead of performing callbacks.
+ *
+ * @param ctx Extension context.
+ * @param requestClose Close callback.
+ * @param requestRender Render callback.
+ * @param setText Editor text setter.
+ * @param getThinkingLevel Thinking-level getter.
+ * @param setThinkingLevel Thinking-level setter.
+ * @param submitText Editor submit callback.
+ * @param showOverlay Overlay factory.
+ * @param getCommands Live slash-command getter.
+ * @param getAllTools Live tool metadata getter.
+ * @returns A promise resolving to the user's choice, or null on cancellation.
+ */
+export async function openSlashMenu(
+	ctx: ExtensionContext,
+	requestClose: () => void,
+	requestRender: () => void,
+	setText: (value: string) => void,
+	getThinkingLevel: () => string,
+	setThinkingLevel: (value: string) => void,
+	submitText: (value: string) => void,
+	showOverlay: (component: unknown, options?: unknown) => unknown,
+	getCommands: ExtensionAPI["getCommands"] = () => [],
+	getAllTools: ExtensionAPI["getAllTools"] = () => [],
+): Promise<SlashMenuResult | null> {
+	return new Promise<SlashMenuResult | null>((resolve) => {
+		let result: SlashMenuResult | null = null;
+		const modal = new SlashMenuModal(
+			ctx,
+			getThinkingLevel,
+			setThinkingLevel,
+			() => {
+				requestClose();
+				requestRender();
+				resolve(result);
+			},
+			requestRender,
+			(commandText) => {
+				result = { type: "command", cwd: ctx.cwd, command: commandText };
+				requestClose();
+			},
+			getCommands,
+			async () => undefined,
+			(commandText) => {
+				result = { type: "command", cwd: ctx.cwd, command: commandText };
+				setText(commandText);
+			},
+			getAllTools,
+		);
+		showOverlay(modal, {
+			anchor: "center",
+			width: "100%",
+			minWidth: 80,
+			maxHeight: "100%",
+		});
+	});
+}
 
 /**
  * Two-pane slash navigator with nested Nexus-owned selector flows.

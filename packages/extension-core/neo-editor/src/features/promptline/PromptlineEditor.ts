@@ -15,7 +15,6 @@ import { wrapAutocompleteProviderForCwd } from "@extensions/fff";
 import { getRegisteredHotkeysShortcuts } from "@extensions/hotkeys";
 import { openHotkeysModal } from "@extensions/hotkeys";
 import { clearStartupHero } from "@extensions/startup-hero";
-import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags";
 import { readClipboardImageViaMacOsJxa } from "@nexus/runtime";
 import { writeClipboardImageTempFile } from "@nexus/runtime";
 import { findMatchingTrigger } from "../editor-triggers/findMatchingTrigger";
@@ -232,7 +231,6 @@ export class PromptlineEditor extends CustomEditor {
 	private shouldOpenHotkeys(data: string): boolean {
 		const cursor = this.getCursor();
 		return (
-			isRuntimeExtensionFeatureEnabled("hotkeys") &&
 			data === "?" &&
 			this.getText().length === 0 &&
 			cursor.line === 0 &&
@@ -295,19 +293,16 @@ export class PromptlineEditor extends CustomEditor {
 					this.getText(),
 				)
 			: null;
-		if (
-			triggerSessionStart?.kind === "slash" &&
-			!isRuntimeExtensionFeatureEnabled("slash-menu")
-		) {
+		if (triggerSessionStart?.kind === "slash") {
 			super.handleInput(data);
 			if (this.shouldCheckConfiguredTriggers())
 				this.handleConfiguredTriggers(this.getText());
 			return;
 		}
 		if (triggerSessionStart) {
+			// At this point triggerSessionStart.kind is "at" (slash is handled above).
 			startTriggerSession(triggerSessionStart.kind, triggerSessionStart.prefix);
 			super.handleInput(data);
-			if (triggerSessionStart.kind === "slash") this.suppressBaseAutocomplete();
 			void this.refreshTriggerModal();
 			this.tui.requestRender();
 			return;

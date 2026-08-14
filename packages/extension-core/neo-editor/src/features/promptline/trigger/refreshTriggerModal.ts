@@ -6,7 +6,6 @@ import type {
 	AutocompleteItem,
 	AutocompleteProvider,
 } from "@earendil-works/pi-tui";
-import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags";
 import { closeTriggerModal } from "./closeTriggerModal";
 import { getTriggerProvider } from "./getTriggerProvider";
 import type { ShowOverlay, TriggerModalState, TriggerState } from "./types";
@@ -53,14 +52,6 @@ export async function refreshTriggerModal(
 	showOverlay: ShowOverlay,
 ): Promise<{ autocompletePrefix?: string }> {
 	if (!triggerState) {
-		closeTriggerModal(modalState, requestRender);
-		return {};
-	}
-
-	if (
-		triggerState.kind === "slash" &&
-		!isRuntimeExtensionFeatureEnabled("slash-menu")
-	) {
 		closeTriggerModal(modalState, requestRender);
 		return {};
 	}

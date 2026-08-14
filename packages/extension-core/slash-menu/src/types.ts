@@ -52,3 +52,13 @@ export type SlashMenuSection = {
 	wrapToFit?: boolean;
 	fixedLabelWidth?: number;
 };
+
+/**
+ * Result returned when the user picks an item from the slash menu.
+ *
+ * The slash-menu extension returns data instead of performing side effects;
+ * the caller (neo-editor) owns the side effects.
+ */
+export type SlashMenuResult =
+	| { type: "model"; model: string }
+	| { type: "command"; cwd: string; command: string };

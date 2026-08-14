@@ -83,12 +83,12 @@ export { renderResourceCommandScopeTabs } from "./renderResourceCommandScopeTabs
 export { resolveRequestedSlashMenuLevel } from "./resolveRequestedSlashMenuLevel";
 export { type ResourceCommandScope } from "./ResourceCommandScope";
 export { type SlashMenuLevel } from "./SlashMenuLevel";
-export { SlashMenuModal } from "./SlashMenuModal";
+export { SlashMenuModal, openSlashMenu } from "./SlashMenuModal";
 export { sortSlashMenuItemsByLabel } from "./sortSlashMenuItemsByLabel";
 export { styleFocusedFooterMode } from "./styleFocusedFooterMode";
 export { toAutocompleteItems } from "./toAutocompleteItems";
 export { toggleProjectConfig } from "./toggleProjectConfig";
-export { type RegisteredSlashCommand, type SlashMenuLeaf, type SlashMenuSection } from "./types";
+export { type RegisteredSlashCommand, type SlashMenuLeaf, type SlashMenuResult, type SlashMenuSection } from "./types";
 export { updateResumePreview } from "./updateResumePreview";
 export { withSlashMenuGroup } from "./withSlashMenuGroup";
 export { writeJsonFile } from "./writeJsonFile";

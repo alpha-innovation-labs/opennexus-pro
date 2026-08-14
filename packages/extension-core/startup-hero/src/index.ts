@@ -9,8 +9,6 @@ export { calculateStartupHeroTopPadding } from "./calculateStartupHeroTopPadding
 export { centerStartupHeroLines } from "./centerStartupHeroLines";
 export { clearStartupHero } from "./clearStartupHero";
 export { countActiveSkillsInSystemPrompt } from "./countActiveSkillsInSystemPrompt";
-export { countEnabledStartupHeroExtensions } from "./countEnabledStartupHeroExtensions";
-export { countEnabledStartupHeroMiniApps } from "./countEnabledStartupHeroMiniApps";
 export { createStartupHeroWidget } from "./createStartupHeroWidget";
 export { formatStartupDurationBadge } from "./formatStartupDurationBadge";
 export { formatStartupHeroStatus } from "./formatStartupHeroStatus";

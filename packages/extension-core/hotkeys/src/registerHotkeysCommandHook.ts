@@ -1,4 +1,3 @@
-import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags";
 import { setHotkeysCommandHook } from "@nexus/pi-platform";
 import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { getModeExtensionShortcuts } from "./getModeExtensionShortcuts";
@@ -10,10 +9,6 @@ import { HotkeysModal } from "./HotkeysModal";
  */
 export function registerHotkeysCommandHook(): void {
 	setHotkeysCommandHook((mode) => {
-		if (!isRuntimeExtensionFeatureEnabled("hotkeys")) {
-			setHotkeysCommandHook(undefined);
-			return;
-		}
 		const ui = (
 			mode as {
 				createExtensionUIContext?: () => {

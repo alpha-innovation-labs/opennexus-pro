@@ -6,24 +6,24 @@ export { getEnabledExtensionFeatureFlags } from "./getEnabledExtensionFeatureFla
 export { isRuntimeFeatureAvailable } from "./isRuntimeFeatureAvailable";
 export { registerEnabledExtensions } from "./registerEnabledExtensions";
 export {
-	bundledFeatureFlags,
-	getAllBundledExtensionIds,
-	isBundledExtension,
+  bundledFeatureFlags,
+  getAllBundledExtensionIds,
+  isBundledExtension,
 } from "./registry";
 export {
-	isRuntimeExtensionFeatureEnabled,
-	setRuntimeExtensionFeatureFlags,
-	setRuntimeExtensionFeatureState,
+  isRuntimeExtensionFeatureEnabled,
+  setRuntimeExtensionFeatureFlags,
+  setRuntimeExtensionFeatureState,
 } from "./runtimeExtensionFeatureState";
 export { clearRegisteredToolRecords } from "./tool-registry/clearRegisteredToolRecords";
 export { getRegisteredToolRecords } from "./tool-registry/getRegisteredToolRecords";
 export { recordRegisteredTool } from "./tool-registry/recordRegisteredTool";
 export type { ToolRegistrationRecord } from "./tool-registry/ToolRegistrationRecord";
 export type {
-	ExtensionFeatureFlag,
-	ExtensionFeatureFlagConfig,
-	FeatureFlagConfig,
-	FeatureFlagsConfig,
-	FeatureProductCategory,
-	UserFeatureFlagOverride,
+  ExtensionFeatureFlag,
+  ExtensionFeatureFlagConfig,
+  FeatureFlagConfig,
+  FeatureFlagsConfig,
+  FeatureProductCategory,
+  UserFeatureFlagOverride,
 } from "./types";

@@ -1,17 +1,17 @@
 import { SettingsManager } from "@earendil-works/pi-coding-agent";
-import {
-	getPromptlineRenderRequest,
-	setPromptlineModelOverride,
-} from "@extensions/neo-editor";
 import { ensureEnabledModelIncludesSelection } from "../model/ensureEnabledModelIncludesSelection";
 import type { InternalSlashHandler } from "./types";
 
 /**
  * Applies one model selection without opening Pi's built-in selector.
  *
+ * Returns a result object instead of performing side effects directly;
+ * the caller (neo-editor) owns the prompt-line state mutations.
+ *
  * @param args Command arguments.
  * @param ctx Command context.
  * @param pi Extension API.
+ * @returns A SlashMenuResult, or undefined on error.
  */
 export const handleInternalModelCommand: InternalSlashHandler = async (
 	args,
@@ -30,14 +30,11 @@ export const handleInternalModelCommand: InternalSlashHandler = async (
 		ctx.ui.notify(`Unknown model: ${reference}`, "error");
 		return;
 	}
-	setPromptlineModelOverride(model as never);
 	const changed = await pi.setModel(model);
 	if (!changed) {
-		setPromptlineModelOverride(undefined);
 		ctx.ui.notify(`No configured auth for ${reference}`, "error");
 		return;
 	}
-	getPromptlineRenderRequest()?.(true);
 	const settings = SettingsManager.create(ctx.cwd);
 	const nextEnabledModels = ensureEnabledModelIncludesSelection(
 		settings.getEnabledModels(),

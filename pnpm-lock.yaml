@@ -358,9 +358,6 @@ importers:
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
       '@nexus/pi-platform':
         specifier: workspace:*
         version: link:../../pi-platform
@@ -417,9 +414,6 @@ importers:
       '@extensions/context-usage':
         specifier: workspace:*
         version: link:../context-usage
-      '@extensions/slash-menu':
-        specifier: workspace:*
-        version: link:../slash-menu
       '@extensions/tron':
         specifier: workspace:*
         version: link:../tron

@@ -1,6 +1,4 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
-import { ensureSubmitTrigger } from "@extensions/neo-editor";
-import { refreshPromptlineConfig } from "@extensions/neo-editor";
 import { createPanelOverlayOptions } from "@nexus/tui-kit";
 import { SlashMenuModal } from "../SlashMenuModal";
 import { registerStartupModalTerminalInputForwarder } from "./registerStartupModalTerminalInputForwarder";
@@ -30,8 +28,6 @@ export async function showStartupResumeModal(
 				() => tui.requestRender(),
 				(commandText) => {
 					void (async () => {
-						await ensureSubmitTrigger(ctx.cwd, commandText);
-						await refreshPromptlineConfig(ctx.cwd);
 						finish();
 						ctx.ui.setEditorText(commandText);
 					})();
