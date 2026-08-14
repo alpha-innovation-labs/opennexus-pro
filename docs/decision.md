@@ -79,6 +79,7 @@ slash-menu → @extensions/neo-editor  (imports 4 functions)
 - Move shared concerns to the platform layer (tui-kit, pi-platform)
 - Change data flow direction (return data, don't call back)
 - Remove dead code (redundant feature-flag checks)
+- Extract to `shared/` when the cycle can't be broken structurally (see §8) — never alias around it in tsconfig
 
 ---
 
@@ -93,6 +94,18 @@ slash-menu → @extensions/neo-editor  (imports 4 functions)
 **Rule:** If two or more extensions import the same thing, extract it to `shared/`. If a single extension is the sole consumer, keep it co-located with that extension. This prevents circular deps by design — `shared/` has no dependencies on sibling extensions.
 
 **Existing examples:** `compact-tool-lines/`, `withSlashMenuGroup.ts`.
+
+---
+
+## 8. No Hardlinks in tsconfig to Work Around Dependency Cycles
+
+**Status:** Accepted
+
+**Problem:** A tempting "fix" for a cross-extension dependency is to add a tsconfig `paths` entry (a hardlink) that points straight into a sibling extension's source. That hides the coupling in tooling instead of resolving it — the import graph still depends on another extension's internals, the alias just makes the dependency invisible to readers and to future refactors, and it can mask a cycle that would otherwise force a real fix.
+
+**Decision:** We do NOT add hardlinks to tsconfig to work around cross-extension dependencies. The `paths` entries for `@extensions/*` exist only for the standard package entry-point mapping. Deep-linking into another extension's `src/` as a cycle-breaker is forbidden.
+
+**Rule:** If breaking a dependency would introduce a circular import, extract the shared code to `packages/extension-core/shared/` (per §7) instead. `shared/` has no dependencies on sibling extensions, so the cycle cannot form. The fix is extraction, not aliasing.
 
 ---
 
