@@ -1,4 +1,4 @@
-import { ALIGNMENT, CharLengthDict } from '../models/common';
+import type { ALIGNMENT, CharLengthDict } from '../models/common';
 import { findWidthInConsole } from './console-utils';
 
 // ("How are you?",10) => ["How are ", "you?"]
@@ -68,7 +68,6 @@ export const textWithPadding = (
         .repeat(leftPadding)
         .concat(text)
         .concat(' '.repeat(rightPadding));
-    case 'right':
     default:
       return ' '.repeat(columnLen - curTextSize).concat(text);
   }

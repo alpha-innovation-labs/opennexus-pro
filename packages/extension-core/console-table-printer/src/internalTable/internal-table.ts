@@ -1,5 +1,5 @@
-import { CharLengthDict, Dictionary, Row } from '../models/common';
-import {
+import type { CharLengthDict, Dictionary, Row } from '../models/common';
+import type {
   ColumnOptionsRaw,
   ComplexOptions,
   ComputedColumn,
@@ -8,8 +8,9 @@ import {
   RowSortFunction,
   Valuetransform,
 } from '../models/external-table';
-import { Column, TableStyleDetails } from '../models/internal-table';
-import { ColorMap, DEFAULT_COLOR_MAP } from '../utils/colored-console-line';
+import type { Column, TableStyleDetails } from '../models/internal-table';
+import { DEFAULT_COLOR_MAP } from '../utils/colored-console-line';
+import type { ColorMap } from '../utils/colored-console-line';
 import {
   DEFAULT_TABLE_STYLE,
   DEFAULT_ROW_ALIGNMENT,
@@ -19,8 +20,8 @@ import {
 import {
   createColumFromOnlyName,
   createRow,
-  RowOptions,
 } from '../utils/table-helpers';
+import type { RowOptions } from '../utils/table-helpers';
 import { rawColumnToInternalColumn } from './input-converter';
 import { renderTable } from './internal-table-printer';
 
@@ -113,7 +114,7 @@ class TableInternal {
     this.defaultColumnOptions = undefined;
     this.transforms = {};
 
-    if (options instanceof Array) {
+    if (Array.isArray(options)) {
       this.initSimple(options);
     } else if (typeof options === 'object' && options !== null) {
       this.initDetailed(options);

@@ -9,6 +9,9 @@
 		"build": "tsdown"
 	},
 	"dependencies": {
+		"@earendil-works/pi-ai": "^0.84.1",
+		"@earendil-works/pi-coding-agent": "^0.84.1",
+		"@earendil-works/pi-tui": "^0.84.1",
 		"strip-ansi": "^6.0.1"
 	},
 	"exports": {

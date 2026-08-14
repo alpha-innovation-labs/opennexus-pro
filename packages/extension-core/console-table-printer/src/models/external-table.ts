@@ -1,6 +1,6 @@
-import { ColorMap } from '../utils/colored-console-line';
-import { ALIGNMENT, CharLengthDict, COLOR, Dictionary } from './common';
-import { TableStyleDetails as InternalTableStyleDetails } from './internal-table';
+import type { ColorMap } from '../utils/colored-console-line';
+import type { ALIGNMENT, CharLengthDict, COLOR, Dictionary } from './common';
+import type { TableStyleDetails as InternalTableStyleDetails } from './internal-table';
 
 export type { ALIGNMENT, COLOR };
 

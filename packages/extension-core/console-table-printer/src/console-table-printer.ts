@@ -1,10 +1,10 @@
 import TableInternal from './internalTable/internal-table';
-import { Dictionary } from './models/common';
-import { ColumnOptionsRaw, ComplexOptions } from './models/external-table';
+import type { Dictionary } from './models/common';
+import type { ColumnOptionsRaw, ComplexOptions } from './models/external-table';
 import {
   convertRawRowOptionsToStandard,
-  RowOptionsRaw,
 } from './utils/table-helpers';
+import type { RowOptionsRaw } from './utils/table-helpers';
 
 export default class Table {
   table: TableInternal;

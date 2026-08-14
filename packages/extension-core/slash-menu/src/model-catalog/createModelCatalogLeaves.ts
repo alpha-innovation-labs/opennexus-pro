@@ -1,7 +1,7 @@
 import {
 	getBuiltinModels,
 	getBuiltinProviders,
-} from "@earendil-works/pi-ai/providers/all";
+} from "@earendil-works/pi-ai";
 import type { SlashMenuLeaf } from "../types";
 import { createModelCatalogLeaf } from "./createModelCatalogLeaf";
 

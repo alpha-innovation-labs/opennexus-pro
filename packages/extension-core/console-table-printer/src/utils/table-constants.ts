@@ -1,5 +1,5 @@
-import { ALIGNMENT, COLOR } from '../models/common';
-import { TableStyleDetails } from '../models/internal-table';
+import type { ALIGNMENT, COLOR } from '../models/common';
+import type { TableStyleDetails } from '../models/internal-table';
 
 export const DEFAULT_COLUMN_LEN = 20;
 

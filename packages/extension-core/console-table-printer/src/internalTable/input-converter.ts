@@ -1,13 +1,13 @@
-import { ALIGNMENT, COLOR } from '../models/common';
-import {
+import type { ALIGNMENT, COLOR } from '../models/common';
+import type {
   ColumnOptionsRaw,
   ComputedColumn,
   DefaultColumnOptions,
 } from '../models/external-table';
-import { Column } from '../models/internal-table';
+import type { Column } from '../models/internal-table';
 import { DEFAULT_ROW_ALIGNMENT } from '../utils/table-constants';
 
-export const objIfExists = (key: string, val: any) => {
+export const objIfExists = (key: string, val: unknown) => {
   if (!val) {
     return {};
   }

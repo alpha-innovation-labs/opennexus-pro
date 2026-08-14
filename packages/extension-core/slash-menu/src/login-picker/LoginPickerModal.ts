@@ -3,7 +3,7 @@ import {
 	type BuiltinProvider,
 	builtinProviders,
 	getBuiltinModels,
-} from "@earendil-works/pi-ai/providers/all";
+} from "@earendil-works/pi-ai";
 import { Key, matchesKey } from "@earendil-works/pi-tui";
 import { readNexusUserConfig } from "@nexus/runtime";
 import { writeNexusUserConfig } from "@nexus/runtime";

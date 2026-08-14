@@ -5,9 +5,6 @@
   "version": "0.2.47",
   "type": "module",
   "scripts": {
-    "build": "tsc --noEmit",
-    "lint": "biome lint .",
-    "typecheck": "tsc --noEmit",
     "generate:package-info": "node scripts/auto-update/generatePackageInfo.mjs"
   },
   "dependencies": {},

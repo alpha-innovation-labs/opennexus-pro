@@ -1,7 +1,7 @@
-import { CharLengthDict, Dictionary, Row } from '../models/common';
-import { ComplexOptions } from '../models/external-table';
-import { Column, TableStyleDetails } from '../models/internal-table';
-import ColoredConsoleLine, { ColorMap } from '../utils/colored-console-line';
+import type { CharLengthDict, Dictionary, Row } from '../models/common';
+import type { ComplexOptions } from '../models/external-table';
+import type { Column, TableStyleDetails } from '../models/internal-table';
+import ColoredConsoleLine, { type ColorMap } from '../utils/colored-console-line';
 import { textWithPadding } from '../utils/string-utils';
 import {
   DEFAULT_COLUMN_LEN,
@@ -242,15 +242,25 @@ export const renderTable = (table: TableInternal): string => {
   preProcessRows(table); // sort and filter
 
   const ret: string[] = [];
-  renderTableTitle(table).forEach((row) => ret.push(row));
+  for (const row of renderTableTitle(table)) {
+    ret.push(row);
+  }
 
-  renderTableHeaders(table).forEach((row) => ret.push(row));
+  for (const row of renderTableHeaders(table)) {
+    ret.push(row);
+  }
 
-  table.rows.forEach((row) => {
-    renderRow(table, row).forEach((row_) => ret.push(row_));
-    renderRowSeparator(table, row).forEach((row_) => ret.push(row_));
-  });
-  renderTableEnding(table).forEach((row) => ret.push(row));
+  for (const row of table.rows) {
+    for (const row_ of renderRow(table, row)) {
+      ret.push(row_);
+    }
+    for (const row_ of renderRowSeparator(table, row)) {
+      ret.push(row_);
+    }
+  }
+  for (const row of renderTableEnding(table)) {
+    ret.push(row);
+  }
   return ret.join('\n');
 };
 

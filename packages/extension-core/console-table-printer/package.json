@@ -1,21 +1,21 @@
 {
-	"name": "@nexus/console-table-printer",
-	"version": "2.16.1",
-	"type": "module",
-	"exports": {
-		".": "./dist/index.mjs"
-	},
-	"dependencies": {
-		"simple-wcswidth": "^1.1.2"
-	},
-	"scripts": {
-		"build": "tsdown",
-		"lint": "biome lint .",
-		"typecheck": "tsc --noEmit"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^2.5.8",
-		"tsdown": "^0.22.14",
-		"typescript": "^7.0.2"
-	}
+  "name": "@nexus/console-table-printer",
+  "version": "2.16.1",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.mjs"
+  },
+  "dependencies": {
+    "simple-wcswidth": "^1.1.2"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "lint": "biome lint . --fix",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.8",
+    "tsdown": "^0.22.14",
+    "typescript": "^7.0.2"
+  }
 }

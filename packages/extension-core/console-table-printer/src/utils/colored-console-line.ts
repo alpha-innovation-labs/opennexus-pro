@@ -1,4 +1,4 @@
-import { COLOR } from '../models/common';
+import type { COLOR } from '../models/common';
 
 export type ColorMap = {
   [key in COLOR]?: string;

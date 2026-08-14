@@ -1,8 +1,10 @@
 import { wcswidth } from 'simple-wcswidth';
-import { CharLengthDict } from '../models/common';
+import type { CharLengthDict } from '../models/common';
 
 /* eslint-disable no-control-regex */
-const colorRegex = /\x1b\[\d{1,3}(;\d{1,3})*m/g; // \x1b[30m \x1b[305m \x1b[38;5m
+// Build regex dynamically to avoid literal escape character in source
+const ESCAPE = String.fromCharCode(27);
+const colorRegex = new RegExp(`${ESCAPE}\\[\\d{1,3}(;\\d{1,3})*m`, 'g'); // matches ANSI escape codes like \x1b[30m
 
 export const stripAnsi = (str: string): string => str.replace(colorRegex, '');
 

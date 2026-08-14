@@ -1,6 +1,6 @@
-import { CharLengthDict, COLOR, Dictionary, Row } from '../models/common';
-import { CellValue, Valuetransform } from '../models/external-table';
-import { Column, TableLineDetails } from '../models/internal-table';
+import type { CharLengthDict, COLOR, Dictionary, Row } from '../models/common';
+import type { CellValue, Valuetransform } from '../models/external-table';
+import type { Column, TableLineDetails } from '../models/internal-table';
 import { findWidthInConsole } from './console-utils';
 import {
   biggestWordInSentence,
@@ -34,9 +34,11 @@ export interface RowOptions {
   separator: boolean;
 }
 
-export interface CreateRowFunction {
-  (color: COLOR, text: Dictionary, separator: boolean): Row;
-}
+export type CreateRowFunction = (
+  color: COLOR,
+  text: Dictionary,
+  separator: boolean
+) => Row;
 
 export const convertRawRowOptionsToStandard = (
   options?: RowOptionsRaw

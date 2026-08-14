@@ -1,5 +1,5 @@
-import { ALIGNMENT, COLOR } from './common';
-import { Valuetransform } from './external-table';
+import type { ALIGNMENT, COLOR } from './common';
+import type { Valuetransform } from './external-table';
 
 /* 
 All the fields of Internal Table has to be mandatory

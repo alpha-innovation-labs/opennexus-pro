@@ -1,4 +1,4 @@
-import { builtinProviders } from "@earendil-works/pi-ai/providers/all";
+import { builtinProviders } from "@earendil-works/pi-ai";
 import type { SlashMenuLeaf } from "../types";
 
 /**
