@@ -1,5 +1,5 @@
 import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
-import { withSlashMenuGroup } from "@extensions/slash-menu";
+import { withSlashMenuGroup } from "@extensions/shared";
 import { setLatestSystemPromptOptions } from "./contextUsageState";
 import { showContextUsageCommand } from "./showContextUsageCommand";
 

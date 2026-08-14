@@ -1,0 +1,1 @@
+export { withSlashMenuGroup } from "./withSlashMenuGroup";

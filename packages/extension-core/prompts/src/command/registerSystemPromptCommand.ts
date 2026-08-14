@@ -2,7 +2,7 @@ import type {
 	ExtensionAPI,
 	ExtensionCommandContext,
 } from "@earendil-works/pi-coding-agent";
-import { withSlashMenuGroup } from "@extensions/slash-menu";
+import { withSlashMenuGroup } from "@extensions/shared";
 import type { SystemPromptState } from "../state/types";
 import { handleSystemPromptCommand } from "./handleSystemPromptCommand";
 

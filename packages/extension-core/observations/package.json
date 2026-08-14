@@ -10,7 +10,7 @@
 		"@earendil-works/pi-coding-agent": "^0.84.1",
 		"@earendil-works/pi-tui": "^0.84.1",
 		"@extensions/prompts": "workspace:*",
-		"@extensions/slash-menu": "workspace:*",
+		"@extensions/shared": "workspace:*",
 		"@nexus/observability": "workspace:*",
 		"@nexus/runtime": "workspace:*",
 		"@nexus/tui-kit": "workspace:*"

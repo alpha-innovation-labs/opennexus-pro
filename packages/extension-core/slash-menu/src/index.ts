@@ -90,7 +90,7 @@ export { toAutocompleteItems } from "./toAutocompleteItems";
 export { toggleProjectConfig } from "./toggleProjectConfig";
 export { type RegisteredSlashCommand, type SlashMenuLeaf, type SlashMenuResult, type SlashMenuSection } from "./types";
 export { updateResumePreview } from "./updateResumePreview";
-export { withSlashMenuGroup } from "./withSlashMenuGroup";
+export { withSlashMenuGroup } from "@extensions/shared";
 export { writeJsonFile } from "./writeJsonFile";
 export { writeProjectConfig } from "./writeProjectConfig";
 export { compactSearchText } from "./search/compactSearchText";

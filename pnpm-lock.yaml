@@ -192,9 +192,9 @@ importers:
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
-      '@extensions/slash-menu':
+      '@extensions/shared':
         specifier: workspace:*
-        version: link:../slash-menu
+        version: link:../shared
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -236,6 +236,9 @@ importers:
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
+      '@extensions/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
@@ -283,6 +286,9 @@ importers:
       '@extensions/pi-packages':
         specifier: workspace:*
         version: link:../pi-packages
+      '@extensions/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -470,9 +476,9 @@ importers:
       '@extensions/prompts':
         specifier: workspace:*
         version: link:../prompts
-      '@extensions/slash-menu':
+      '@extensions/shared':
         specifier: workspace:*
-        version: link:../slash-menu
+        version: link:../shared
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
@@ -526,6 +532,9 @@ importers:
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
+      '@extensions/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@nexus/pi-platform':
         specifier: workspace:*
         version: link:../../pi-platform
@@ -557,9 +566,9 @@ importers:
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
-      '@extensions/slash-menu':
+      '@extensions/shared':
         specifier: workspace:*
-        version: link:../slash-menu
+        version: link:../shared
       '@extensions/tron':
         specifier: workspace:*
         version: link:../tron
@@ -614,6 +623,18 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
 
+  packages/extension-core/shared:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: ^2.5.8
+        version: 2.5.8
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+
   packages/extension-core/slash-menu:
     dependencies:
       '@earendil-works/pi-ai':
@@ -634,6 +655,9 @@ importers:
       '@extensions/neo-editor':
         specifier: workspace:*
         version: link:../neo-editor
+      '@extensions/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@extensions/tron':
         specifier: workspace:*
         version: link:../tron
@@ -743,6 +767,9 @@ importers:
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
+      '@extensions/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
@@ -908,9 +935,9 @@ importers:
       '@extensions/pi-packages':
         specifier: workspace:*
         version: link:../extension-core/pi-packages
-      '@extensions/slash-menu':
+      '@extensions/shared':
         specifier: workspace:*
-        version: link:../extension-core/slash-menu
+        version: link:../extension-core/shared
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../nexus-runtime

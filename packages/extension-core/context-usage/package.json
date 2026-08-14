@@ -8,6 +8,7 @@
 	"dependencies": {
 		"@earendil-works/pi-coding-agent": "^0.84.1",
 		"@earendil-works/pi-tui": "^0.84.1",
+		"@extensions/shared": "workspace:*",
 		"@nexus/observability": "workspace:*",
 		"@nexus/tui-kit": "workspace:*"
 	},
