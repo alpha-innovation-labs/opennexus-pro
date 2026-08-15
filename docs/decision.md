@@ -137,3 +137,16 @@ slash-menu → @extensions/neo-editor  (imports 4 functions)
 | `web-search` | 0 | 0 | None | None |
 
 **Totals:** 9 extensions have findings across 10 packages. 13 extensions are clean.
+
+---
+
+
+Using a compilterOption to fix a type error is a hack that is unacceptable:
+Example:
+││  "compilerOptions": {                                                                       │
+││    "paths": {                                                                               │
+││      "@earendil-works/pi-ai/models": [                                                      │
+││        "../../node_modules/@earendil-works/pi-ai/dist/models.d.ts"                          │
+││      ]                                                                                      │
+││    }                                                                                        │
+││  }

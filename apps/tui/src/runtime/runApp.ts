@@ -1,6 +1,6 @@
 import { clearExitMessage } from "@extensions/exit-message";
 import { startupStartedAtEnvVar } from "@extensions/startup-hero";
-import { clearStartupProfileLog } from "@nexus/observability";
+import { clearStartupProfileLog, logStartupProfileEvent } from "@nexus/observability";
 import type { ExtensionAPI, ExtensionFactory } from "@earendil-works/pi-coding-agent";
 import {
 	clearHotkeysCommandHook,
