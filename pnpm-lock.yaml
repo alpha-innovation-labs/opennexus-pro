@@ -242,6 +242,9 @@ importers:
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
+      '@nexus/pi-platform':
+        specifier: workspace:*
+        version: link:../../pi-platform
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
@@ -420,12 +423,27 @@ importers:
       '@extensions/context-usage':
         specifier: workspace:*
         version: link:../context-usage
+      '@extensions/fff':
+        specifier: workspace:*
+        version: link:../fff
+      '@extensions/hotkeys':
+        specifier: workspace:*
+        version: link:../hotkeys
+      '@extensions/slash-menu':
+        specifier: workspace:*
+        version: link:../slash-menu
+      '@extensions/startup-hero':
+        specifier: workspace:*
+        version: link:../startup-hero
       '@extensions/tron':
         specifier: workspace:*
         version: link:../tron
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
+      '@nexus/pi-platform':
+        specifier: workspace:*
+        version: link:../../pi-platform
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -594,12 +612,18 @@ importers:
       '@extensions/hotkeys':
         specifier: workspace:*
         version: link:../hotkeys
+      '@extensions/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@extensions/slash-menu':
         specifier: workspace:*
         version: link:../slash-menu
       '@extensions/tron':
         specifier: workspace:*
         version: link:../tron
+      '@nexus/feature-flags':
+        specifier: workspace:*
+        version: link:../../feature-flags
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
@@ -653,9 +677,6 @@ importers:
       '@extensions/hotkeys':
         specifier: workspace:*
         version: link:../hotkeys
-      '@extensions/neo-editor':
-        specifier: workspace:*
-        version: link:../neo-editor
       '@extensions/shared':
         specifier: workspace:*
         version: link:../shared
