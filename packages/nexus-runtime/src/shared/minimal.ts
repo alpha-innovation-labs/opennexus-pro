@@ -8,7 +8,6 @@ export const MINIMAL_EXTENSION_WHITELIST = [
 	"exit-message",
 	"feature-management",
 	"fff",
-	"herdr-agent-end-log",
 	"neo-editor",
 	"observations",
 	"slash-menu",

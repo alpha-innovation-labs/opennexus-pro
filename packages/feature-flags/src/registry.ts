@@ -137,13 +137,6 @@ export const bundledFeatureFlags: Readonly<
 		],
 		category: "extension",
 	},
-	herdrAgentEndLog: {
-		enabled: true,
-		features: [
-			"writes last assistant message content to ~/.local/share/nexus/agent/state.json per Herdr pane on agent_end",
-		],
-		category: "extension",
-	},
 };
 
 /**

@@ -6,7 +6,6 @@ import { registerContextUsageExtension } from "@extensions/context-usage";
 import { registerExitMessageExtension } from "@extensions/exit-message";
 import { registerFeatureManagementExtension } from "./featureManagement/registerFeatureManagementExtension";
 import { registerFffExtension } from "@extensions/fff";
-import { registerHerdrAgentEndLogExtension } from "@extensions/herdr-agent-end-log";
 import { registerHotkeysExtension } from "@extensions/hotkeys";
 import { registerLocalImageReaderExtension } from "@extensions/local-image-reader";
 import { registerNeoEditorExtension } from "@extensions/neo-editor";
@@ -59,6 +58,5 @@ export function createExtensionRegisterMap(): Record<
 		"local-image-reader": registerLocalImageReaderExtension,
 		subagents: registerSubagentsExtension,
 		"pi-packages": registerPiPackagesExtension,
-		herdrAgentEndLog: registerHerdrAgentEndLogExtension,
 	};
 }

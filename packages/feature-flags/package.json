@@ -17,7 +17,6 @@
 		"@extensions/context-usage": "workspace:*",
 		"@extensions/exit-message": "workspace:*",
 		"@extensions/fff": "workspace:*",
-		"@extensions/herdr-agent-end-log": "workspace:*",
 		"@extensions/hotkeys": "workspace:*",
 		"@extensions/local-image-reader": "workspace:*",
 		"@extensions/neo-editor": "workspace:*",

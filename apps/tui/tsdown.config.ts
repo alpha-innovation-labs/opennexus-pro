@@ -108,7 +108,6 @@ export default defineConfig({
       '@extensions/exit-message',
       '@nexus/feature-flags',
       '@extensions/fff',
-      '@extensions/herdr-agent-end-log',
       '@extensions/hotkeys',
       '@extensions/local-image-reader',
       '@extensions/neo-editor',
