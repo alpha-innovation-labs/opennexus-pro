@@ -10,12 +10,12 @@
 	},
 	"dependencies": {
 		"@earendil-works/pi-coding-agent": "^0.84.1",
+		"@earendil-works/pi-tui": "^0.84.1",
 		"@extensions/ai-providers": "workspace:*",
 		"@extensions/auto-update": "workspace:*",
 		"@extensions/cmux": "workspace:*",
 		"@extensions/context-usage": "workspace:*",
 		"@extensions/exit-message": "workspace:*",
-		"@extensions/feature-management": "workspace:*",
 		"@extensions/fff": "workspace:*",
 		"@extensions/herdr-agent-end-log": "workspace:*",
 		"@extensions/hotkeys": "workspace:*",
@@ -25,6 +25,7 @@
 		"@extensions/observations": "workspace:*",
 		"@extensions/pi-packages": "workspace:*",
 		"@extensions/rtk": "workspace:*",
+		"@extensions/shared": "workspace:*",
 		"@extensions/slash-menu": "workspace:*",
 		"@extensions/startup-hero": "workspace:*",
 		"@extensions/subagents": "workspace:*",
@@ -33,7 +34,8 @@
 		"@extensions/web-search": "workspace:*",
 		"@nexus/mini-apps": "workspace:*",
 		"@nexus/observability": "workspace:*",
-		"@nexus/runtime": "workspace:*"
+		"@nexus/runtime": "workspace:*",
+		"@nexus/tui-kit": "workspace:*"
 	},
 	"exports": {
 		".": "./dist/index.mjs",
