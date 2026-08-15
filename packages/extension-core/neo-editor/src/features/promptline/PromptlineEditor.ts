@@ -294,9 +294,12 @@ export class PromptlineEditor extends CustomEditor {
 				)
 			: null;
 		if (triggerSessionStart?.kind === "slash") {
+			startTriggerSession(triggerSessionStart.kind, triggerSessionStart.prefix);
 			super.handleInput(data);
 			if (this.shouldCheckConfiguredTriggers())
 				this.handleConfiguredTriggers(this.getText());
+			void this.refreshTriggerModal();
+			this.tui.requestRender();
 			return;
 		}
 		if (triggerSessionStart) {
