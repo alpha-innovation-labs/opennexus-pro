@@ -90,8 +90,9 @@ export class PromptlineEditor extends CustomEditor {
 		submission: Promise<unknown>,
 	): void {
 		if (!isReloadCommandText(commandText)) return;
+		const cwd = this.ctx.cwd;
 		void submission.then(async () => {
-			await this.refreshPromptlineConfig(this.ctx.cwd);
+			await this.refreshPromptlineConfig(cwd);
 			await this.refreshTriggerModal();
 			this.tui.requestRender();
 		});
