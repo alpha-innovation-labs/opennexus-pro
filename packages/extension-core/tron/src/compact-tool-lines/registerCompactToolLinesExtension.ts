@@ -2,7 +2,6 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { logExtensionEvent } from "@nexus/observability";
 import { resetAssistantActivityGrouping } from "../activity/resetAssistantActivityGrouping";
 import { resetThinkingToolBridge } from "../activity/resetThinkingToolBridge";
-import { registerCompactBuiltInTool } from "./registerCompactBuiltInTool";
 
 /**
  * Registers the nexus compact tool-lines extension.
@@ -26,13 +25,6 @@ export default function registerCompactToolLinesExtension(
 		resetAssistantActivityGrouping();
 		resetThinkingToolBridge();
 	});
-	registerCompactBuiltInTool(pi, "read");
-	registerCompactBuiltInTool(pi, "bash");
-	registerCompactBuiltInTool(pi, "edit");
-	registerCompactBuiltInTool(pi, "write");
-	registerCompactBuiltInTool(pi, "find");
-	registerCompactBuiltInTool(pi, "grep");
-	registerCompactBuiltInTool(pi, "ls");
 	logExtensionEvent(
 		"compact-tool-lines",
 		"tools_registered_for_extension_instance",
