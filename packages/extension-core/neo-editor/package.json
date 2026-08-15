@@ -15,6 +15,7 @@
     "@extensions/startup-hero": "workspace:*",
     "@extensions/tron": "workspace:*",
     "@nexus/observability": "workspace:*",
+    "@nexus/pi-platform": "workspace:*",
     "@extensions/slash-menu": "workspace:*",
     "@nexus/runtime": "workspace:*",
     "@nexus/tui-kit": "workspace:*",

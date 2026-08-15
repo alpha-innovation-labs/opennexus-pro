@@ -410,6 +410,9 @@ importers:
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
+      '@nexus/pi-platform':
+        specifier: workspace:*
+        version: link:../../pi-platform
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime

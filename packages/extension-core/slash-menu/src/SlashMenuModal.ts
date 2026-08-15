@@ -106,7 +106,7 @@ export async function openSlashMenu(
 	setText: (value: string) => void,
 	getThinkingLevel: () => string,
 	setThinkingLevel: (value: string) => void,
-	submitText: (value: string) => void,
+	_submitText: (value: string) => void,
 	showOverlay: (component: unknown, options?: unknown) => unknown,
 	getCommands: ExtensionAPI["getCommands"] = () => [],
 	getAllTools: ExtensionAPI["getAllTools"] = () => [],
@@ -150,7 +150,7 @@ export async function openSlashMenu(
 export class SlashMenuModal extends SelectPreviewModal {
 	private level: SlashMenuLevel = "top";
 	private query = "";
-	private searchActive = false;
+
 	private topItems = createTopLevelItems();
 	private activeLeaves: SlashMenuLeaf[] = [];
 	private nameInput = "";
