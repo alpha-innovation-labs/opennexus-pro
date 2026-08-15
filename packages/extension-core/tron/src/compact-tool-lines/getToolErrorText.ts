@@ -8,7 +8,7 @@ import { getResultText } from "./getResultText";
  * @param result Tool result payload.
  * @returns First non-empty error line.
  */
-export function getToolErrorText(result: AgentToolResult<any> | undefined): string {
+export function getToolErrorText(result: AgentToolResult<unknown> | undefined): string {
 	const resultText = firstLine(getResultText(result));
 	if (resultText) return resultText;
 	const details = result?.details;

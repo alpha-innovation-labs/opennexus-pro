@@ -7,7 +7,7 @@ import type { ToolResultBlock } from "./types";
  * @param result Tool result payload.
  * @returns Joined text output.
  */
-export function getResultText(result: AgentToolResult<any> | undefined): string {
+export function getResultText(result: AgentToolResult<unknown> | undefined): string {
 	const content = Array.isArray(result?.content)
 		? (result.content as ToolResultBlock[])
 		: [];

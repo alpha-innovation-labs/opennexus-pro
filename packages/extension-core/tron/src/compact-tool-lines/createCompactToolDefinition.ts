@@ -45,7 +45,7 @@ export function createCompactToolDefinition(
 			return renderer;
 		},
 		renderResult(
-			result: AgentToolResult<any>,
+			result: AgentToolResult<unknown>,
 			state: CompactToolResultState,
 			theme: Theme,
 			context: CompactToolContext,

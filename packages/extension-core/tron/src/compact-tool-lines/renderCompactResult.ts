@@ -14,11 +14,12 @@ import { getResultText } from "./getResultText";
  */
 export function renderCompactResult(
 	toolCallId: string,
-	result: AgentToolResult<any> | undefined,
+	result: AgentToolResult<unknown> | undefined,
 	expanded: boolean,
 	theme: { fg(color: string, text: string): string },
 ): CompactToolResult | Text {
+	if (!result) return new Text("", 0, 0);
 	const text = getResultText(result);
 	if (!text) return new Text("", 0, 0);
-	return new CompactToolResult(toolCallId, result!, expanded, theme);
+	return new CompactToolResult(toolCallId, result, expanded, theme);
 }
