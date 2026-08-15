@@ -4,9 +4,9 @@
 	"private": true,
 	"type": "module",
 	"exports": {
-		".": "./dist/index.mjs",
+		".": "./src/index.ts",
 		"./cli/prepareHerdr": "./dist/cli/prepareHerdr.mjs",
-		"./herdr-client": "./dist/index.mjs"
+		"./herdr-client": "./src/index.ts"
 	},
 	"scripts": {
 		"lint": "biome lint .",

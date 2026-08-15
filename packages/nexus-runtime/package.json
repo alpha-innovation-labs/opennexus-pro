@@ -9,7 +9,7 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"exports": {
-		".": "./dist/index.mjs",
+		".": "./src/index.ts",
 		"./*": "./dist/*.mjs"
 	},
 	"devDependencies": {

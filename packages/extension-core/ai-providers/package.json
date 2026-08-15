@@ -3,7 +3,7 @@
   "version": "0.2.24",
   "type": "module",
   "exports": {
-    ".": "./dist/index.mjs",
+    ".": "./src/index.ts",
     "./*": "./dist/*.mjs"
   },
   "dependencies": {

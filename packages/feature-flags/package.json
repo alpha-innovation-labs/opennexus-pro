@@ -38,7 +38,7 @@
 		"@nexus/tui-kit": "workspace:*"
 	},
 	"exports": {
-		".": "./dist/index.mjs",
+		".": "./src/index.ts",
 		"./*": "./dist/*.mjs"
 	},
 	"devDependencies": {

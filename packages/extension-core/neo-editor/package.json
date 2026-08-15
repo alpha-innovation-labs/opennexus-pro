@@ -3,6 +3,7 @@
   "version": "0.2.24",
   "type": "module",
   "exports": {
+    ".": "./src/index.ts",
     "./*": "./src/*"
   },
   "dependencies": {
