@@ -4,4 +4,4 @@
 
 [positional-arguments]
 typecheck *ARGS:
-    @if [ $# -gt 0 ]; then npx turbo --filter="$1" typecheck --output-logs=errors-only "${@:2}"; else npx turbo typecheck --output-logs=errors-only; fi
+    @if [ $# -gt 0 ]; then npx turbo --filter="$1" typecheck "${@:2}"; else npx turbo typecheck ; fi

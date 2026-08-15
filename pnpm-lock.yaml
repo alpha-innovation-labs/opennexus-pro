@@ -242,6 +242,9 @@ importers:
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability
+      '@nexus/pi-platform':
+        specifier: workspace:*
+        version: link:../../pi-platform
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit

@@ -4,4 +4,4 @@
 
 [positional-arguments]
 lint *ARGS:
-    @if [ $# -gt 0 ]; then npx turbo --filter="$1" lint --output-logs=errors-only "${@:2}"; else npx turbo lint --output-logs=errors-only; fi
+    @if [ $# -gt 0 ]; then npx turbo --filter="$1" lint "${@:2}"; else npx turbo lint ; fi

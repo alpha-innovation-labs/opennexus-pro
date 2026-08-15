@@ -10,6 +10,7 @@
 		"@earendil-works/pi-tui": "^0.84.1",
 		"@extensions/shared": "workspace:*",
 		"@nexus/observability": "workspace:*",
+		"@nexus/pi-platform": "workspace:*",
 		"@nexus/tui-kit": "workspace:*"
 	},
 	"scripts": {
