@@ -581,6 +581,15 @@ importers:
       '@extensions/hotkeys':
         specifier: workspace:*
         version: link:../hotkeys
+      '@extensions/neo-editor':
+        specifier: workspace:*
+        version: link:../neo-editor
+      '@extensions/notify':
+        specifier: workspace:*
+        version: link:../notify
+      '@extensions/pi-packages':
+        specifier: workspace:*
+        version: link:../pi-packages
       '@extensions/shared':
         specifier: workspace:*
         version: link:../shared
@@ -593,6 +602,9 @@ importers:
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../../feature-flags
+      '@nexus/herdr':
+        specifier: workspace:*
+        version: link:../../herdr
       '@nexus/observability':
         specifier: workspace:*
         version: link:../../observability

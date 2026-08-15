@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { withSlashMenuGroup } from "@extensions/shared";
-import { showFeaturesModal } from "../command/showFeaturesModal";
+import { showFeaturesModal } from "./command/showFeaturesModal";
 
 /**
  * Registers the feature management command.
