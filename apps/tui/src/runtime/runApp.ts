@@ -1,6 +1,6 @@
 import { clearExitMessage } from "@extensions/exit-message";
 import { startupStartedAtEnvVar } from "@extensions/startup-hero";
-import { clearStartupProfileLog, logStartupProfileEvent } from "@nexus/observability";
+import { clearStartupProfileLog } from "@nexus/observability";
 import type { ExtensionAPI, ExtensionFactory } from "@earendil-works/pi-coding-agent";
 import {
 	clearHotkeysCommandHook,
@@ -17,7 +17,6 @@ import {
 	setRuntimeExtensionFeatureFlags,
 } from "@nexus/feature-flags";
 import { recordRegisteredShortcut } from "@nexus/tui-kit";
-import { logStartupProfileEvent } from "@nexus/observability";
 import { applyHotkeysCommandPatch } from "@nexus/pi-platform";
 import { applyModelChangeDisplayPatch } from "@nexus/pi-platform";
 import { applyStartupChangelogSilencePatch } from "@nexus/pi-platform";

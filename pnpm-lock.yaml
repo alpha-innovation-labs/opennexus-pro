@@ -81,6 +81,9 @@ importers:
       '@extensions/exit-message':
         specifier: workspace:*
         version: link:../../packages/extension-core/exit-message
+      '@extensions/hotkeys':
+        specifier: workspace:*
+        version: link:../../packages/extension-core/hotkeys
       '@extensions/observations':
         specifier: workspace:*
         version: link:../../packages/extension-core/observations
@@ -90,9 +93,15 @@ importers:
       '@extensions/shared':
         specifier: workspace:*
         version: link:../../packages/extension-core/shared
+      '@extensions/slash-menu':
+        specifier: workspace:*
+        version: link:../../packages/extension-core/slash-menu
       '@extensions/startup-hero':
         specifier: workspace:*
         version: link:../../packages/extension-core/startup-hero
+      '@extensions/tron':
+        specifier: workspace:*
+        version: link:../../packages/extension-core/tron
       '@nexus/console-table-printer':
         specifier: workspace:*
         version: link:../../packages/extension-core/console-table-printer
@@ -114,6 +123,9 @@ importers:
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../packages/nexus-runtime
+      '@nexus/tui-kit':
+        specifier: workspace:*
+        version: link:../../packages/tui-kit
       ink:
         specifier: ^7.1.0
         version: 7.1.1(bufferutil@4.1.0)(react@19.2.8)(utf-8-validate@6.0.6)
