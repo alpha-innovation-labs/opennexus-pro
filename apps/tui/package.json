@@ -16,7 +16,7 @@
     "@extensions/exit-message": "workspace:*",
     "@extensions/observations": "workspace:*",
     "@extensions/pi-packages": "workspace:*",
-    "@extensions/runtime": "workspace:*",
+    "@extensions/shared": "workspace:*",
     "@extensions/startup-hero": "workspace:*",
     "@nexus/console-table-printer": "workspace:*",
     "@nexus/feature-flags": "workspace:*",

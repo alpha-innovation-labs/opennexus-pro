@@ -117,7 +117,7 @@ export default defineConfig({
       '@extensions/pi-packages',
       '@extensions/prompts',
       '@extensions/rtk',
-      '@extensions/runtime',
+      '@extensions/shared',
       '@extensions/slash-menu',
       '@extensions/startup-hero',
       '@extensions/subagents',

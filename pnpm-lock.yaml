@@ -87,9 +87,9 @@ importers:
       '@extensions/pi-packages':
         specifier: workspace:*
         version: link:../../packages/extension-core/pi-packages
-      '@extensions/runtime':
+      '@extensions/shared':
         specifier: workspace:*
-        version: link:../../packages/extension-core/runtime
+        version: link:../../packages/extension-core/shared
       '@extensions/startup-hero':
         specifier: workspace:*
         version: link:../../packages/extension-core/startup-hero
@@ -573,7 +573,7 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
 
-  packages/extension-core/runtime:
+  packages/extension-core/shared:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
@@ -590,9 +590,6 @@ importers:
       '@extensions/pi-packages':
         specifier: workspace:*
         version: link:../pi-packages
-      '@extensions/shared':
-        specifier: workspace:*
-        version: link:../shared
       '@extensions/slash-menu':
         specifier: workspace:*
         version: link:../slash-menu
@@ -614,22 +611,6 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../tui-kit
-    devDependencies:
-      '@biomejs/biome':
-        specifier: ^2.5.8
-        version: 2.5.8
-      tsdown:
-        specifier: ^0.22.14
-        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
-      typescript:
-        specifier: ^7.0.2
-        version: 7.0.2
-
-  packages/extension-core/shared:
-    dependencies:
-      '@earendil-works/pi-coding-agent':
-        specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.5.8

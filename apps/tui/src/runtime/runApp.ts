@@ -1,5 +1,5 @@
 import { clearExitMessage } from "@extensions/exit-message";
-import { createBundledExtensionFactories } from "@extensions/runtime";
+import { createBundledExtensionFactories } from "@extensions/shared";
 import { startupStartedAtEnvVar } from "@extensions/startup-hero";
 import { clearStartupProfileLog } from "@nexus/observability";
 import { logStartupProfileEvent } from "@nexus/observability";
