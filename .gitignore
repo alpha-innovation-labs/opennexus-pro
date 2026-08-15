@@ -26,3 +26,4 @@ apps/landing-page/public/asciinema/asciinema-player.min.js
 apps/tui/build
 apps/landing-page/next-env.d.ts
 apps/landing-page/src/types/css.d.ts
+apps/landing-page/tsconfig.tsbuildinfo

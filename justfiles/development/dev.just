@@ -25,4 +25,5 @@ dev *APP_ARGS:
     # of APP_NAME, ensuring Herdr detects the agent correctly regardless of the
     # process chain (npx -> tsx -> node).
     export NEXUS_DEV_MODE=1
-    exec -a mastracode npx tsx -- apps/tui/src/index.ts "$@"
+    export NODE_OPTIONS="--import $(pnpm root)/.pnpm/tsx@4.23.12/node_modules/tsx/dist/esm/index.mjs"
+    exec -a mastracode npx tsx apps/tui/src/index.ts "$@"
