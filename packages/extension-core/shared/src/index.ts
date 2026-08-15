@@ -7,9 +7,3 @@ export type {
 	BuiltInTools,
 	ToolResultBlock,
 } from "./compact-tool-lines/types";
-
-// Runtime (bundled extensions entrypoint).
-export {
-	createBundledExtensionFactories,
-	registerBundledExtensions,
-} from "./runtime";

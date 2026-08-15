@@ -1,7 +1,22 @@
 import { clearExitMessage } from "@extensions/exit-message";
-import { createBundledExtensionFactories } from "@extensions/shared";
 import { startupStartedAtEnvVar } from "@extensions/startup-hero";
-import { clearStartupProfileLog } from "@nexus/observability";
+import { clearStartupProfileLog, logStartupProfileEvent } from "@nexus/observability";
+import type { ExtensionAPI, ExtensionFactory } from "@earendil-works/pi-coding-agent";
+import {
+	clearHotkeysCommandHook,
+} from "@extensions/hotkeys";
+import {
+	clearRegisteredSlashCommands,
+	registerSlashCommand,
+} from "@extensions/slash-menu";
+import { createTronToolWrappingExtensionApi } from "@extensions/tron";
+import { clearRegisteredToolRecords } from "@extensions/shared";
+import {
+	createExtensionFeatureFlags,
+	getEnabledExtensionFeatureFlags,
+	setRuntimeExtensionFeatureFlags,
+} from "@nexus/feature-flags";
+import { recordRegisteredShortcut } from "@nexus/tui-kit";
 import { logStartupProfileEvent } from "@nexus/observability";
 import { applyHotkeysCommandPatch } from "@nexus/pi-platform";
 import { applyModelChangeDisplayPatch } from "@nexus/pi-platform";
@@ -137,6 +152,114 @@ export async function runApp(
     featureOverrides,
   );
   logRunAppPhase("resolveBundledExtensionFactories:done", phaseStartedAt);
+
+  // Inline bundled extension registration (moved from @extensions/runtime).
+  async function registerBundledExtensions(
+    pi: ExtensionAPI,
+    skipExtensions?: string[],
+    disabledFeatures?: string[],
+    enabledFeatures?: string[],
+  ): Promise<void> {
+    clearRegisteredToolRecords();
+
+    const cliDisabled = new Set(disabledFeatures ?? []);
+    const cliEnabled = new Set(enabledFeatures ?? []);
+
+    const standardFlags = createExtensionFeatureFlags();
+
+    const cliFlags = standardFlags.map((flag) => {
+      if (cliDisabled.has(flag.id)) {
+        return { ...flag, enabled: false };
+      }
+      if (cliEnabled.has(flag.id)) {
+        return { ...flag, enabled: true };
+      }
+      return flag;
+    });
+
+    const isTronEnabled = cliFlags.some(
+      (flag) => flag.id === "tron" && flag.enabled,
+    );
+    const isSlashMenuEnabled = cliFlags.some(
+      (flag) => flag.id === "slash-menu" && flag.enabled,
+    );
+    if (!cliFlags.some((flag) => flag.id === "hotkeys" && flag.enabled))
+      clearHotkeysCommandHook();
+    if (!isSlashMenuEnabled) clearRegisteredSlashCommands();
+    const toolAwarePi = isTronEnabled
+      ? createTronToolWrappingExtensionApi(pi)
+      : pi;
+    const slashAwarePi = new Proxy(toolAwarePi, {
+      get(target, property, receiver) {
+        if (property === "registerCommand") {
+          return (name: string, definition: Record<string, unknown>) => {
+            if (isSlashMenuEnabled)
+              registerSlashCommand({
+                name,
+                description:
+                  typeof definition.description === "string"
+                    ? definition.description
+                    : undefined,
+                source: "extension",
+                menuGroup:
+                  typeof definition.menuGroup === "string"
+                    ? definition.menuGroup
+                    : undefined,
+                handler:
+                  typeof definition.handler === "function"
+                    ? (definition.handler as never)
+                    : undefined,
+              });
+            return target.registerCommand(name, definition as never);
+          };
+        }
+        if (property === "registerShortcut") {
+          return (shortcut: string, definition: Record<string, unknown>) => {
+            recordRegisteredShortcut(shortcut, definition);
+            return target.registerShortcut(
+              shortcut as never,
+              definition as never,
+            );
+          };
+        }
+        return Reflect.get(target, property, receiver);
+      },
+    });
+
+    setRuntimeExtensionFeatureFlags(cliFlags);
+
+    const enabledFlags = getEnabledExtensionFeatureFlags(cliFlags);
+    const filteredFlags = skipExtensions
+      ? enabledFlags.filter((flag) => !skipExtensions.includes(flag.id))
+      : enabledFlags;
+    const { createExtensionRegistrationTask } = await import(
+      "@nexus/feature-flags"
+    );
+    await Promise.all(
+      filteredFlags.map((flag) =>
+        createExtensionRegistrationTask(slashAwarePi, flag),
+      ),
+    );
+  }
+
+  async function createBundledExtensionFactories(
+    skipExtensions?: string[],
+    disabledFeatures?: string[],
+    enabledFeatures?: string[],
+  ): Promise<ExtensionFactory[]> {
+    const startedAt = performance.now();
+    const wrapped = (pi: Parameters<typeof registerBundledExtensions>[0]) =>
+      registerBundledExtensions(
+        pi,
+        skipExtensions,
+        disabledFeatures,
+        enabledFeatures,
+      );
+    logStartupProfileEvent("extensions", "importBundledExtensions:done", {
+      durationMs: Number((performance.now() - startedAt).toFixed(3)),
+    });
+    return [wrapped];
+  }
   logStartupProfileEvent("runApp", "prepareArgsAndExtensions:done");
 
   phaseStartedAt = performance.now();

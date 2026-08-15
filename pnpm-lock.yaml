@@ -578,39 +578,6 @@ importers:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
         version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
-      '@extensions/hotkeys':
-        specifier: workspace:*
-        version: link:../hotkeys
-      '@extensions/neo-editor':
-        specifier: workspace:*
-        version: link:../neo-editor
-      '@extensions/notify':
-        specifier: workspace:*
-        version: link:../notify
-      '@extensions/pi-packages':
-        specifier: workspace:*
-        version: link:../pi-packages
-      '@extensions/slash-menu':
-        specifier: workspace:*
-        version: link:../slash-menu
-      '@extensions/tron':
-        specifier: workspace:*
-        version: link:../tron
-      '@nexus/feature-flags':
-        specifier: workspace:*
-        version: link:../../feature-flags
-      '@nexus/herdr':
-        specifier: workspace:*
-        version: link:../../herdr
-      '@nexus/observability':
-        specifier: workspace:*
-        version: link:../../observability
-      '@nexus/runtime':
-        specifier: workspace:*
-        version: link:../../nexus-runtime
-      '@nexus/tui-kit':
-        specifier: workspace:*
-        version: link:../../tui-kit
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.5.8
