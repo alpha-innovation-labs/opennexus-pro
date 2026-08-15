@@ -106,7 +106,7 @@ export default defineConfig({
       '@extensions/cmux',
       '@extensions/context-usage',
       '@extensions/exit-message',
-      '@extensions/feature-management',
+      '@nexus/feature-flags',
       '@extensions/fff',
       '@extensions/herdr-agent-end-log',
       '@extensions/hotkeys',

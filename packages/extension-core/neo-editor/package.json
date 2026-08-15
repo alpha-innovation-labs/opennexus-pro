@@ -10,8 +10,12 @@
     "@earendil-works/pi-coding-agent": "^0.84.1",
     "@earendil-works/pi-tui": "^0.84.1",
     "@extensions/context-usage": "workspace:*",
+    "@extensions/fff": "workspace:*",
+    "@extensions/hotkeys": "workspace:*",
+    "@extensions/startup-hero": "workspace:*",
     "@extensions/tron": "workspace:*",
     "@nexus/observability": "workspace:*",
+    "@extensions/slash-menu": "workspace:*",
     "@nexus/runtime": "workspace:*",
     "@nexus/tui-kit": "workspace:*",
     "typebox": "1.3.12"
