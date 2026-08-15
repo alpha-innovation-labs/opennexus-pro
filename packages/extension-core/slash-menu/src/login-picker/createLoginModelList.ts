@@ -2,7 +2,7 @@ import {
 	type BuiltinProvider,
 	builtinProviders,
 	getBuiltinModels,
-} from "@earendil-works/pi-ai";
+} from "@earendil-works/pi-ai/providers/all";
 import type { SlashMenuLeaf } from "../types";
 import { resolveProviderModels } from "./resolveProviderModels";
 
