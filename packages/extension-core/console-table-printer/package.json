@@ -3,7 +3,7 @@
   "version": "2.16.1",
   "type": "module",
   "exports": {
-    ".": "./dist/index.mjs"
+    "./*": "./src/*"
   },
   "dependencies": {
     "simple-wcswidth": "^1.1.2"
