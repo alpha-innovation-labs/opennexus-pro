@@ -12,7 +12,6 @@
     "@extensions/context-usage": "workspace:*",
     "@extensions/shared": "workspace:*",
     "@extensions/hotkeys": "workspace:*",
-    "@extensions/neo-editor": "workspace:*",
     "@extensions/tron": "workspace:*",
     "@nexus/observability": "workspace:*",
     "@nexus/pi-platform": "workspace:*",

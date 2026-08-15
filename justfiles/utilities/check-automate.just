@@ -2,7 +2,7 @@
 # Usage: just check-automate
 #
 # Lists every @extensions/* and @nexus/* package from turbo,
-# then invokes `pi --no-skills --no-session -p` to run `just check <pkg>`
+# then invokes `pi --no-skills p` to run `just check <pkg>`
 # and fix any reported errors.
 #
 # Each package run is timed; a per-package summary table and the total
@@ -67,11 +67,11 @@ check-automate:
       printf '%s\n' "$PROMPT" | fold -sw 78 | while IFS= read -r line; do
         echo "    ${MAGENTA}${line}${RESET}"
       done
-      echo "  ${YELLOW}\$ pi --no-skills --no-session -p \"<prompt>\"${RESET}"
+      echo "  ${YELLOW}\$ pi --no-skills -p \"<prompt>\"${RESET}"
       echo ""
 
       START=$(date +%s)
-      if pi --no-skills --no-session -p "$PROMPT" < /dev/null; then
+      if pi --no-skills -p "$PROMPT" < /dev/null; then
         OK=1
       else
         OK=0

@@ -5,8 +5,8 @@ import {
 	registerSlashCommand,
 } from "@extensions/slash-menu";
 import { createTronToolWrappingExtensionApi } from "@extensions/tron";
+import { clearRegisteredToolRecords } from "@extensions/shared";
 import {
-	clearRegisteredToolRecords,
 	createExtensionFeatureFlags,
 	getEnabledExtensionFeatureFlags,
 	setRuntimeExtensionFeatureFlags,

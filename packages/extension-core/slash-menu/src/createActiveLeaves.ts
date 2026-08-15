@@ -2,7 +2,7 @@ import type {
 	ExtensionAPI,
 	ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
-import { getRegisteredToolRecords } from "@nexus/feature-flags";
+import { getRegisteredToolRecords } from "@extensions/shared";
 import { createBuiltinToolLeaves } from "./createBuiltinToolLeaves";
 import { createForkLeaves } from "./createForkLeaves";
 import { createLogoutProviderLeaves } from "./createLogoutProviderLeaves";

@@ -1,5 +1,9 @@
 import type { CharLengthDict, Dictionary, Row } from '../models/common';
-import type { ComplexOptions } from '../models/external-table';
+import type {
+  CellValue,
+  ComplexOptions,
+  Valuetransform,
+} from '../models/external-table';
 import type { Column, TableStyleDetails } from '../models/internal-table';
 import ColoredConsoleLine, { type ColorMap } from '../utils/colored-console-line';
 import { textWithPadding } from '../utils/string-utils';
@@ -106,16 +110,14 @@ const transformRow = (row: Row, columns: Column[]): Row => {
     ...row,
     text: { ...row.text },
   };
-  const transforms: Dictionary = {};
-  columns
-    .filter((c) => {
-      return !!c.transform;
-    })
-    .forEach((c) => {
+  const transforms: { [key: string]: Valuetransform } = {};
+  columns.forEach((c) => {
+    if (c.transform) {
       transforms[c.name] = c.transform;
-    });
+    }
+  });
   Object.keys(transforms).forEach((t) => {
-    transformedRow.text[t] = transforms[t](transformedRow.text[t]);
+    transformedRow.text[t] = transforms[t](transformedRow.text[t] as CellValue);
   });
   return transformedRow;
 };

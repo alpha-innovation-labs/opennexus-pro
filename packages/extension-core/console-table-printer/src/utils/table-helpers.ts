@@ -117,7 +117,7 @@ export const findLenOfColumn = (
         max(
           acc,
           biggestWordInSentence(
-            evaluateCellText(row.text[columnId], datatransform),
+            evaluateCellText(row.text[columnId] as CellValue, datatransform),
             charLength
           )
         ),
@@ -132,7 +132,7 @@ export const findLenOfColumn = (
     length = max(
       length,
       findWidthInConsole(
-        evaluateCellText(row.text[columnId], datatransform),
+        evaluateCellText(row.text[columnId] as CellValue, datatransform),
         charLength
       )
     );
@@ -176,7 +176,7 @@ export const getWidthLimitedColumnsArray = (
 
   columns.forEach((column) => {
     ret[column.name] = splitTextIntoTextsOfMinLen(
-      cellText(row.text[column.name]),
+      cellText(row.text[column.name] as CellValue),
       column.length || DEFAULT_COLUMN_LEN,
       charLength
     );
