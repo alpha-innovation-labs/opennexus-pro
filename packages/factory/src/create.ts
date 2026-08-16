@@ -41,7 +41,7 @@ export function addStep(
 	options?: { type?: "bash" | "agent"; validation_prompt?: string; agent?: string },
 ): Workflow {
 	const stepType = options?.type ?? "bash";
-	let step: WorkflowFile["steps"][number];
+	let step: NonNullable<WorkflowFile["steps"]>[number];
 	if (stepType === "agent") {
 		step = {
 			id: generateId(),
@@ -59,6 +59,7 @@ export function addStep(
 				: {}),
 		};
 	}
+	workflow.steps = workflow.steps ?? [];
 	workflow.steps.push(step);
 	return workflow;
 }

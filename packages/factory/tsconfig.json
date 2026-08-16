@@ -2,9 +2,12 @@
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
 		"outDir": "dist",
-		"rootDir": "src",
+		"rootDir": "..",
 		"types": ["node"],
-		"declaration": true
+		"declaration": true,
+		"paths": {
+			"@nexus/herdr": ["../herdr/src/index.ts"]
+		}
 	},
-	"include": ["src/**/*.ts"]
+	"include": ["src/**/*.ts", "../herdr/src/**/*.ts"]
 }

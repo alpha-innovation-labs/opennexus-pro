@@ -36,7 +36,13 @@ export type StepType = "bash" | "agent";
 /**
  * Possible control block types that wrap a group of steps.
  */
-export type ControlType = "loop_until" | "parallel";
+export type ControlType =
+	| "loop_until"
+	| "parallel"
+	| "foreach"
+	| "if_else"
+	| "do_until"
+	| "do_while";
 
 // ─── Bash step ──────────────────────────────────────────────────────────────
 
@@ -72,11 +78,11 @@ export type WorkflowStep = z.infer<typeof WorkflowStepSchema>;
 
 // ─── Control block ──────────────────────────────────────────────────────────
 
-export const ControlBlockSchema = z.object({
-	id: z.string().describe("Unique identifier for the control block"),
-	type: z.enum(["loop_until", "parallel"]).describe(
-		"loop_until = sequential retry; parallel = concurrent, fail fast",
-	),
+// ─── Loop until (sequential retry) ──────────────────────────────────────────
+
+const LoopUntilSchema = z.object({
+	id: z.string().optional().describe("Unique identifier for the control block"),
+	type: z.literal("loop_until"),
 	max_iterations: z
 		.number()
 		.int()
@@ -89,6 +95,103 @@ export const ControlBlockSchema = z.object({
 		.describe("Control-level inputs available to all steps in this block"),
 	steps: z.array(WorkflowStepSchema).min(1).describe("Steps within this control block"),
 });
+
+// ─── Parallel (concurrent, fail fast) ────────────────────────────────────────
+
+const ParallelSchema = z.object({
+	id: z.string().optional().describe("Unique identifier for the control block"),
+	type: z.literal("parallel"),
+	max_iterations: z
+		.number()
+		.int()
+		.min(1)
+		.default(3)
+		.describe("How many iterations before giving up"),
+	inputs: z
+		.array(WorkflowInputSchema)
+		.optional()
+		.describe("Control-level inputs available to all steps in this block"),
+	steps: z.array(WorkflowStepSchema).min(1).describe("Steps within this control block"),
+});
+
+// ─── Foreach (iterate over items, sequential iterations) ─────────────────────
+
+const ForeachSchema = z.object({
+	id: z.string().optional().describe("Unique identifier for the control block"),
+	type: z.literal("foreach"),
+	max_iterations: z
+		.number()
+		.int()
+		.min(1)
+		.default(3)
+		.describe("How many iterations before giving up"),
+	inputs: z
+		.array(WorkflowInputSchema)
+		.optional()
+		.describe("Control-level inputs available to all steps in this block"),
+	steps: z.array(WorkflowStepSchema).min(1).describe("Steps within this control block"),
+	items: z.string().describe("Expression evaluating to an array of items (e.g., a bash output)"),
+	input_var: z.string().default("item").describe("Variable name for the current item in foreach (default: 'item')"),
+});
+
+// ─── If / Else (conditional branching) ───────────────────────────────────────
+
+const IfElseSchema = z.object({
+	id: z.string().optional().describe("Unique identifier for the control block"),
+	type: z.literal("if_else"),
+	condition: z.string().describe("Condition string to evaluate (e.g., 'non-empty', 'contains:foo')"),
+	steps: z.array(WorkflowStepSchema).min(1).describe("Steps to run if condition is truthy"),
+	other_steps: z.array(WorkflowStepSchema).optional().describe("Steps to run if condition is falsy"),
+});
+
+// ─── Do Until (repeat until condition is truthy) ─────────────────────────────
+
+const DoUntilSchema = z.object({
+	id: z.string().optional().describe("Unique identifier for the control block"),
+	type: z.literal("do_until"),
+	max_iterations: z
+		.number()
+		.int()
+		.min(1)
+		.default(3)
+		.describe("How many iterations before giving up"),
+	inputs: z
+		.array(WorkflowInputSchema)
+		.optional()
+		.describe("Control-level inputs available to all steps in this block"),
+	steps: z.array(WorkflowStepSchema).min(1).describe("Steps within this control block"),
+	condition: z.string().describe("Condition string to evaluate after each iteration"),
+});
+
+// ─── Do While (repeat while condition is truthy) ─────────────────────────────
+
+const DoWhileSchema = z.object({
+	id: z.string().optional().describe("Unique identifier for the control block"),
+	type: z.literal("do_while"),
+	max_iterations: z
+		.number()
+		.int()
+		.min(1)
+		.default(3)
+		.describe("How many iterations before giving up"),
+	inputs: z
+		.array(WorkflowInputSchema)
+		.optional()
+		.describe("Control-level inputs available to all steps in this block"),
+	steps: z.array(WorkflowStepSchema).min(1).describe("Steps within this control block"),
+	condition: z.string().describe("Condition string to evaluate after each iteration"),
+});
+
+// ─── Unified control block (discriminated union) ─────────────────────────────
+
+export const ControlBlockSchema = z.discriminatedUnion("type", [
+	LoopUntilSchema,
+	ParallelSchema,
+	ForeachSchema,
+	IfElseSchema,
+	DoUntilSchema,
+	DoWhileSchema,
+]);
 
 export type ControlBlock = z.infer<typeof ControlBlockSchema>;
 

@@ -75,6 +75,13 @@ export async function runFactoryCommand(
 			}
 		}
 
+		case "run": {
+			if ("name" in parsed && "inputs" in parsed) {
+				return runFactoryRun(parsed.name, parsed.inputs);
+			}
+			return 0;
+		}
+
 		case "help": {
 			const invalid =
 				"invalidSubcommand" in parsed
@@ -243,6 +250,34 @@ function runFactoryPaths(): number {
 	return 0;
 }
 
+/**
+ * Resolves a factory name to its file path, handling both bare names and
+ * full paths like "./examples/joke-aggregator.yaml".
+ */
+function resolveFactoryPath(name: string, cwd: string): { filePath: string | null; source: string } {
+	// Normalize: strip ./examples/ or examples/ prefix and .yaml/.yml extension
+	let clean = name;
+	const yamlExt = /\.(yaml|yml)$/i;
+	if (yamlExt.test(clean)) {
+		clean = clean.replace(yamlExt, "");
+	}
+	if (clean.startsWith("./examples/")) {
+		clean = clean.slice("./examples/".length);
+	} else if (clean.startsWith("examples/")) {
+		clean = clean.slice("examples/".length);
+	}
+
+	const factoryFile = join(cwd, ".factory", `${clean}.yaml`);
+	const exampleFile = join(cwd, "examples", `${clean}.yaml`);
+
+	if (existsSync(factoryFile)) {
+		return { filePath: factoryFile, source: ".factory" };
+	} else if (existsSync(exampleFile)) {
+		return { filePath: exampleFile, source: "examples" };
+	}
+	return { filePath: null, source: "" };
+}
+
 function runFactoryRead(name: string): number {
 	if (!name) {
 		console.error("Usage: nexus factory read <name>");
@@ -250,25 +285,16 @@ function runFactoryRead(name: string): number {
 	}
 
 	const cwd = process.cwd();
-	const factoryFile = join(cwd, ".factory", `${name}.yaml`);
-	const exampleFile = join(cwd, "examples", `${name}.yaml`);
-
-	let content: string | null = null;
-	let source = "";
-
-	if (existsSync(factoryFile)) {
-		content = readFileSync(factoryFile, "utf-8");
-		source = ".factory";
-	} else if (existsSync(exampleFile)) {
-		content = readFileSync(exampleFile, "utf-8");
-		source = "examples";
-	} else {
+	const resolved = resolveFactoryPath(name, cwd);
+	if (!resolved.filePath) {
 		console.error(`Factory "${name}" not found.`);
 		console.error(`  Searched: .factory/${name}.yaml, examples/${name}.yaml`);
 		return 1;
 	}
 
-	console.log(`--- ${source}/${name}.yaml ---`);
+	const content = readFileSync(resolved.filePath, "utf-8");
+	const baseName = resolved.filePath.split("/").pop()!.replace(/\.(yaml|yml)$/, "");
+	console.log(`--- ${resolved.source}/${baseName} ---`);
 	console.log(content);
 	return 0;
 }
@@ -280,21 +306,13 @@ function runFactoryValidate(name: string): number {
 	}
 
 	const cwd = process.cwd();
-	const factoryFile = join(cwd, ".factory", `${name}.yaml`);
-	const exampleFile = join(cwd, "examples", `${name}.yaml`);
-
-	let filePath: string | null = null;
-
-	if (existsSync(factoryFile)) {
-		filePath = factoryFile;
-	} else if (existsSync(exampleFile)) {
-		filePath = exampleFile;
-	} else {
+	const resolved = resolveFactoryPath(name, cwd);
+	if (!resolved.filePath) {
 		console.error(`Factory "${name}" not found.`);
 		return 1;
 	}
 
-	const workflow = loadWorkflow(filePath);
+	const workflow = loadWorkflow(resolved.filePath, resolved.filePath);
 	if (workflow === null) {
 		console.error(`Failed to load workflow "${name}".`);
 		return 1;

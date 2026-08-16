@@ -51,6 +51,11 @@ export type FactoryArgs =
 			command: "validate-file";
 			path: string;
 	  }
+	| {
+			command: "run";
+			name: string;
+			inputs: Record<string, string>;
+	  }
 	| { command: "help"; invalidSubcommand?: string }
 	| { command: string; invalidSubcommand: string };
 
@@ -137,6 +142,35 @@ export function parseFactoryArgs(
 				command: "validate-file",
 				path: cliArgs[2] ?? "",
 			};
+		case "run": {
+			const name = cliArgs[2] ?? "";
+			const inputs: Record<string, string> = {};
+
+			// Parse --input key=value flags
+			for (let i = 3; i < cliArgs.length; i++) {
+				const arg = cliArgs[i];
+				if (arg.startsWith("--input=")) {
+					const kv = arg.slice("--input=".length);
+					const eqIndex = kv.indexOf("=");
+					if (eqIndex > 0) {
+						inputs[kv.slice(0, eqIndex)] = kv.slice(eqIndex + 1);
+					}
+				} else if (arg.startsWith("--input")) {
+					i++;
+					const kv = cliArgs[i];
+					const eqIndex = kv.indexOf("=");
+					if (eqIndex > 0) {
+						inputs[kv.slice(0, eqIndex)] = kv.slice(eqIndex + 1);
+					}
+				}
+			}
+
+			return {
+				command: "run",
+				name,
+				inputs,
+			};
+	  }
 		case "help":
 			return { command: "help" };
 		default:

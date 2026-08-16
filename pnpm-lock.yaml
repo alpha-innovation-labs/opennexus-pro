@@ -830,6 +830,9 @@ importers:
 
   packages/factory:
     dependencies:
+      '@nexus/herdr':
+        specifier: workspace:*
+        version: link:../herdr
       yaml:
         specifier: ^2.9.0
         version: 2.9.0

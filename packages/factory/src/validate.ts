@@ -33,16 +33,18 @@ function checkDuplicateIds(workflow: Workflow): ValidationError[] {
 			const cb = workflow.control[i];
 			const cbPath = `control[${i}]`;
 
-			// Control block id itself
-			if (seen.has(cb.id)) {
-				const first = seen.get(cb.id)!;
-				errors.push({
-					path: `${cbPath}.id`,
-					message: `Duplicate id "${cb.id}" (first seen at ${first}).`,
-					code: "DUPLICATE_ID",
-				});
-			} else {
-				seen.set(cb.id, cbPath);
+			// Control block id itself (optional for some types)
+			if (cb.id) {
+				if (seen.has(cb.id)) {
+					const first = seen.get(cb.id)!;
+					errors.push({
+						path: `${cbPath}.id`,
+						message: `Duplicate id "${cb.id}" (first seen at ${first}).`,
+						code: "DUPLICATE_ID",
+					});
+				} else {
+					seen.set(cb.id, cbPath);
+				}
 			}
 
 			if (cb.steps) {

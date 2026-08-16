@@ -37,10 +37,19 @@ export function saveWorkflow(workflow: Workflow): void {
 }
 
 /**
- * Loads a workflow from the `.factory/` directory.
+ * Loads a workflow from the `.factory/` directory, or from an explicit file path.
+ *
+ * @param nameOrPath Workflow name (e.g. "my-workflow") or absolute file path.
+ * @param explicitFilePath  When provided, use this path directly instead of
+ *                          looking in `.factory/`.
  */
-export function loadWorkflow(name: string): Workflow | null {
-	const filePath = path.resolve(getFactoryDir(), `${name}.yaml`);
+export function loadWorkflow(
+	nameOrPath: string,
+	explicitFilePath?: string,
+): Workflow | null {
+	const filePath = explicitFilePath
+		? explicitFilePath
+		: path.resolve(getFactoryDir(), `${nameOrPath}.yaml`);
 	if (!fs.existsSync(filePath)) {
 		return null;
 	}
@@ -49,7 +58,8 @@ export function loadWorkflow(name: string): Workflow | null {
 	const parsed = parse(yaml);
 	const result = WorkflowFileSchema.safeParse(parsed);
 	if (!result.success) {
-		throw new Error(`Invalid workflow file "${name}.yaml": ${result.error.message}`);
+		const label = explicitFilePath ? filePath : `${nameOrPath}.yaml`;
+		throw new Error(`Invalid workflow file "${label}": ${result.error.message}`);
 	}
 	return result.data;
 }

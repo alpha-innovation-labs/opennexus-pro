@@ -30,9 +30,11 @@ export function findNodes(
 	};
 
 	// Search final steps
-	for (const step of workflow.steps) {
-		if (matches(step)) {
-			results.push(step);
+	if (workflow.steps) {
+		for (const step of workflow.steps) {
+			if (matches(step)) {
+				results.push(step);
+			}
 		}
 	}
 
@@ -58,8 +60,10 @@ export function walkWorkflow(
 	visitor: (step: WorkflowStep, context: { controlBlockId?: string }) => void,
 ): void {
 	// Final steps
-	for (const step of workflow.steps) {
-		visitor(step, {});
+	if (workflow.steps) {
+		for (const step of workflow.steps) {
+			visitor(step, {});
+		}
 	}
 
 	// Steps inside control blocks

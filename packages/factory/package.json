@@ -9,6 +9,7 @@
 		"build": "tsdown"
 	},
 	"dependencies": {
+		"@nexus/herdr": "workspace:*",
 		"yaml": "^2.9.0",
 		"zod": "^4.0.0"
 	},

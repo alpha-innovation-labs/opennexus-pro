@@ -10,7 +10,7 @@ export function editStep(
 	stepId: string,
 	updates: Partial<Pick<WorkflowStep, "command" | "inputs">>,
 ): void {
-	const step = workflow.steps.find((s) => s.id === stepId);
+	const step = workflow.steps?.find((s) => s.id === stepId);
 	if (!step) {
 		throw new Error(`Step "${stepId}" not found in workflow "${workflow.name}".`);
 	}
@@ -31,7 +31,7 @@ export function editStepValidationPrompt(
 	stepId: string,
 	validationPrompt: string | null,
 ): void {
-	const step = workflow.steps.find((s) => s.id === stepId);
+	const step = workflow.steps?.find((s) => s.id === stepId);
 	if (!step) {
 		throw new Error(`Step "${stepId}" not found in workflow "${workflow.name}".`);
 	}
@@ -49,11 +49,15 @@ export function editStepValidationPrompt(
  * Removes a step from the workflow's final steps by id.
  */
 export function removeStep(workflow: Workflow, stepId: string): void {
-	const idx = workflow.steps.findIndex((s) => s.id === stepId);
+	const steps = workflow.steps;
+	if (!steps) {
+		throw new Error(`Step "${stepId}" not found in workflow "${workflow.name}".`);
+	}
+	const idx = steps.findIndex((s) => s.id === stepId);
 	if (idx === -1) {
 		throw new Error(`Step "${stepId}" not found in workflow "${workflow.name}".`);
 	}
-	workflow.steps.splice(idx, 1);
+	steps.splice(idx, 1);
 }
 
 // ─── Control block editing ──────────────────────────────────────────────────
@@ -64,7 +68,11 @@ export function removeStep(workflow: Workflow, stepId: string): void {
 export function editControlBlock(
 	workflow: Workflow,
 	controlId: string,
-	updates: Partial<Pick<NonNullable<WorkflowFile["control"]>[number], "max_iterations" | "type" | "inputs">>,
+	updates: {
+		max_iterations?: number;
+		type?: string;
+		inputs?: WorkflowInput[];
+	},
 ): void {
 	const control = workflow.control?.find((c) => c.id === controlId);
 	if (!control) {
@@ -73,13 +81,13 @@ export function editControlBlock(
 		);
 	}
 	if (updates.max_iterations !== undefined) {
-		control.max_iterations = updates.max_iterations;
+		(control as { max_iterations?: number }).max_iterations = updates.max_iterations;
 	}
 	if (updates.type !== undefined) {
-		control.type = updates.type;
+		(control as { type?: string }).type = updates.type;
 	}
 	if (updates.inputs !== undefined) {
-		control.inputs = updates.inputs;
+		(control as { inputs?: WorkflowInput[] }).inputs = updates.inputs;
 	}
 }
 
