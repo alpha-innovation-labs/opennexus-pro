@@ -18,12 +18,17 @@ dev *APP_ARGS:
         set +a
     fi
 
-    # Set process title via `exec -a` so ps shows "mastracode" instead of "npm exec tsx --".
+    # Ensure the bundle exists (build if missing or stale).
+    if [ ! -f apps/tui/dist/index.mjs ]; then
+        npx turbo build --filter=@apps/app-tui
+    fi
+
+    # Patch highlight.js import paths (v11.12.0's ESM exports don't expose ./lib/index.js).
+    for f in apps/tui/dist/*.mjs; do
+        [ -f "$f" ] || continue
+        sed -i '' 's|"highlight\.js/lib/index\.js"|"highlight.js"|g' "$f"
+    done
+
+    # Set process title via `exec -a` so ps shows "mastracode".
     # This matches the release wrapper behavior (AGENTS.md: Herdr mastracode hack).
-    # TODO: Replace with direct "nexus" once Herdr adds support for it.
-    # NEXUS_DEV_MODE=1 tells index.ts to set process.title = "mastracode" instead
-    # of APP_NAME, ensuring Herdr detects the agent correctly regardless of the
-    # process chain (npx -> tsx -> node).
-    export NEXUS_DEV_MODE=1
-    export NODE_OPTIONS="--import $(pnpm root)/.pnpm/tsx@4.23.12/node_modules/tsx/dist/esm/index.mjs"
-    exec -a mastracode npx tsx apps/tui/src/index.ts "$@"
+    exec -a mastracode node apps/tui/dist/index.mjs "$@"

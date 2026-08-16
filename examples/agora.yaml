@@ -5,7 +5,7 @@ control:
   steps:
     - id: lint
       type: bash
-      command: "just lint"
+      command: "just lint {{package}}"
     - id: typecheck
       type: bash
       command: "just typecheck"

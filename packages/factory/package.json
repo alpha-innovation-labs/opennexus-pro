@@ -1,0 +1,25 @@
+{
+	"name": "@nexus/factory",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit",
+		"build": "tsdown"
+	},
+	"dependencies": {
+		"yaml": "^2.9.0",
+		"zod": "^4.0.0"
+	},
+	"exports": {
+		".": "./src/index.ts",
+		"./*": "./dist/*.mjs"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.8",
+		"@types/node": "^24.0.0",
+		"tsdown": "^0.22.14",
+		"typescript": "^7.0.2"
+	}
+}

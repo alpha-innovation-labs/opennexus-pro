@@ -80,6 +80,7 @@ export function createNexusUsageText(
 function createCommandUsageLines(): string[] {
 	return [
 		"  nexus factory                      Manage workflow factories",
+		"  nexus factory <subcommand>         List subcommands for help",
 		"  nexus install <source>             Install an extension package",
 		"  nexus uninstall <source>           Uninstall an extension package",
 		"  nexus steer <session-id> <message> Queue a steering message for a running session",

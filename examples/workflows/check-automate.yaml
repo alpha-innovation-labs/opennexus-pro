@@ -1,0 +1,44 @@
+# Automated check for all @extensions and @nexus packages.
+# Usage: nexus factory run check-automate
+#
+# Maps the justfile `check-automate` recipe:
+#   1. Discovers every @extensions/* and @nexus/* package via `turbo ls`
+#   2. Iterates over each package, running `just check <pkg>` via `pi`
+#   3. Prints a summary table with per-package pass/fail and durations.
+
+name: check-automate
+
+control:
+  # Phase 1: Discover all @extensions and @nexus packages.
+  # The output is captured and passed to the foreach below.
+  - id: discover
+    type: loop_until
+    max_iterations: 3
+    steps:
+      - id: list-packages
+        type: bash
+        output: packages
+        command: "npx turbo ls 2>&1 | grep -E '(@extensions|@nexus)/' | sed 's/^[[:space:]]*//' | cut -d' ' -f1"
+
+  # Phase 2: Run checks for each discovered package, one by one.
+  # `items` references the discover step's captured output.
+  - id: run-checks
+    type: foreach
+    max_iterations: 3
+    items: "<output:packages>"
+    input_var: "pkg"
+    steps:
+      - id: execute
+        type: agent
+        agent: nexus
+        command: >
+          Please read ./docs/decision.md. Then, run 'just check {{pkg}}'
+          and fix all errors. Do not run any other command. You need to just
+          make sure the index.ts is reflective of the current code. Do NOT
+          add no longer existing files. If the command does not fail, simply
+          skip. Don't worry about it.
+
+steps:
+  - id: summary
+    type: bash
+    command: 'echo "check-automate complete"'

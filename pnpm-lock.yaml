@@ -72,9 +72,18 @@ importers:
       '@clack/prompts':
         specifier: ^1.7.0
         version: 1.7.0
+      '@earendil-works/pi-agent-core':
+        specifier: ^0.84.1
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@earendil-works/pi-ai':
+        specifier: ^0.84.1
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
+      '@earendil-works/pi-tui':
+        specifier: ^0.84.1
+        version: 0.84.1
       '@extensions/ai-providers':
         specifier: workspace:*
         version: link:../../packages/extension-core/ai-providers
@@ -105,6 +114,9 @@ importers:
       '@nexus/console-table-printer':
         specifier: workspace:*
         version: link:../../packages/extension-core/console-table-printer
+      '@nexus/factory':
+        specifier: workspace:*
+        version: link:../../packages/factory
       '@nexus/feature-flags':
         specifier: workspace:*
         version: link:../../packages/feature-flags
@@ -126,6 +138,33 @@ importers:
       '@nexus/tui-kit':
         specifier: workspace:*
         version: link:../../packages/tui-kit
+      '@sinclair/typebox':
+        specifier: ^0.34.0
+        version: 0.34.52
+      chalk:
+        specifier: ^5.6.2
+        version: 5.6.2
+      cross-spawn:
+        specifier: ^7.0.3
+        version: 7.0.6
+      diff:
+        specifier: ^9.0.0
+        version: 9.0.0
+      glob:
+        specifier: ^13.0.0
+        version: 13.0.6
+      grok-mermaid:
+        specifier: ^0.2.0
+        version: 0.2.2
+      highlight.js:
+        specifier: ^11.11.1
+        version: 11.12.0
+      hosted-git-info:
+        specifier: ^10.0.0
+        version: 10.1.1
+      ignore:
+        specifier: ^7.0.0
+        version: 7.0.5
       ink:
         specifier: ^7.1.0
         version: 7.1.1(bufferutil@4.1.0)(react@19.2.8)(utf-8-validate@6.0.6)
@@ -135,9 +174,36 @@ importers:
       ink-gradient:
         specifier: ^4.0.1
         version: 4.0.1(ink@7.1.1(bufferutil@4.1.0)(react@19.2.8)(utf-8-validate@6.0.6))(react@19.2.8)
+      jiti:
+        specifier: ^2.0.0
+        version: 2.7.0
+      minimatch:
+        specifier: ^10.0.0
+        version: 10.2.6
+      proper-lockfile:
+        specifier: ^4.1.2
+        version: 4.1.2
       react:
         specifier: ^19.2.0
         version: 19.2.8
+      semver:
+        specifier: ^7.6.0
+        version: 7.8.5
+      simple-wcswidth:
+        specifier: ^1.0.0
+        version: 1.1.2
+      strip-ansi:
+        specifier: ^7.1.0
+        version: 7.2.0
+      typebox:
+        specifier: ^1.3.0
+        version: 1.3.12
+      undici:
+        specifier: ^8.0.0
+        version: 8.9.0
+      yaml:
+        specifier: ^2.5.0
+        version: 2.9.0
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.5.8
@@ -159,7 +225,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -178,7 +244,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -200,7 +266,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -244,7 +310,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -275,7 +341,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -294,7 +360,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -322,7 +388,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -350,7 +416,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -427,7 +493,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@nexus/runtime':
         specifier: workspace:*
         version: link:../../nexus-runtime
@@ -446,7 +512,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -480,7 +546,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -505,7 +571,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -539,7 +605,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -567,7 +633,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.5.8
@@ -629,7 +695,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -679,7 +745,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@extensions/prompts':
         specifier: workspace:*
         version: link:../prompts
@@ -762,11 +828,33 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
 
+  packages/factory:
+    dependencies:
+      yaml:
+        specifier: ^2.9.0
+        version: 2.9.0
+      zod:
+        specifier: ^4.0.0
+        version: 4.4.3
+    devDependencies:
+      '@biomejs/biome':
+        specifier: ^2.5.8
+        version: 2.5.8
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.13.3
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+
   packages/feature-flags:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -872,7 +960,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -909,7 +997,7 @@ importers:
         version: 2.5.8
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       tsdown:
         specifier: ^0.22.14
         version: 0.22.14(@tsdown/exe@0.22.14)(tsx@4.23.12)(typescript@7.0.2)
@@ -921,7 +1009,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.5.8
@@ -962,7 +1050,7 @@ importers:
     dependencies:
       '@earendil-works/pi-coding-agent':
         specifier: ^0.84.1
-        version: 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
+        version: 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-tui':
         specifier: ^0.84.1
         version: 0.84.1
@@ -2251,6 +2339,9 @@ packages:
   '@types/jsesc@2.5.1':
     resolution: {integrity: sha512-9VN+6yxLOPLOav+7PwjZbxiID2bVaeq0ED4qSQmdQTdjnXJSaCVKTR58t15oqH1H5t8Ng2ZX1SabJVoN9Q34bw==}
 
+  '@types/node@24.13.3':
+    resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
+
   '@types/node@26.2.0':
     resolution: {integrity: sha512-5IviulTZeRNp2vAJ514cc/HUlY5nZ9fCbq9DMyC52BrhFZACo3nI0R7qBxhQmo/d27NFe96ur/b7Wwxklda+kg==}
 
@@ -2843,6 +2934,10 @@ packages:
     resolution: {integrity: sha512-DPi0FmjiSU5EvQV0++GFDOJ9ASQUVFh5kD+OzOnYdi7n3Wpm9hWWGfB/O2blfHcMVTL5WkQXSnRiK9makhrcnw==}
     engines: {node: '>=0.3.1'}
 
+  diff@9.0.0:
+    resolution: {integrity: sha512-svtcdpS8CgJyqAjEQIXdb3OjhFVVYjzGAPO8WGCmRbrml64SPw/jJD4GoE98aR7r25A0XcgrK3F02yw9R/vhQw==}
+    engines: {node: '>=0.3.1'}
+
   dts-resolver@3.0.0:
     resolution: {integrity: sha512-1T1f+z+4tl9XD+m+0HBgWoL/nm0bOIffyWaUuUSBlFg/86IWvfx+wjNaO/ybU0AJzG9/Mi5hBUgGV6zCmWEN7Q==}
     engines: {node: ^22.18.0 || >=24.0.0}
@@ -3080,12 +3175,20 @@ packages:
   highlight.js@10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
 
+  highlight.js@11.12.0:
+    resolution: {integrity: sha512-nbfWpyRMcMrPMmDwJB+dhX/eiaPKtc2RB+0QZskqJ3WjRA/FDS0e9hZrx8EC/lbEv8gXy98FcDbNa/dspAaJMg==}
+    engines: {node: '>=12.0.0'}
+
   hono@4.12.30:
     resolution: {integrity: sha512-emn+JoJjrN9YTpRDS5it/UI2SO9BAE37T6I3d963RxcZ81G9A4pr2SZTEiiaiKbzx+NKRg5BZ89fCL7gCJCUog==}
     engines: {node: '>=16.9.0'}
 
   hookable@6.1.1:
     resolution: {integrity: sha512-U9LYDy1CwhMCnprUfeAZWZGByVbhd54hwepegYTK7Pi5NvqEj63ifz5z+xukznehT7i6NIZRu89Ay1AZmRsLEQ==}
+
+  hosted-git-info@10.1.1:
+    resolution: {integrity: sha512-DeOnSPAvOndYKfw075gt8yZzQ7S2hNztw34zBTfhIzLhmBTswIBg5/y+pqu/VD5cYWm5goAFTusDmUEmKZ0PEQ==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   hosted-git-info@9.0.3:
     resolution: {integrity: sha512-Hc+ghLoSt6QaYZUv0WBiIvmMDZuZZ7oaDvdH8MbfOO4lOsxdXLEvuC6ePoGs9H1X9oCLyq6+NVN0MKqD+ydxyg==}
@@ -3912,6 +4015,9 @@ packages:
   unconfig-core@7.5.0:
     resolution: {integrity: sha512-Su3FauozOGP44ZmKdHy2oE6LPjk51M/TRRjHv2HNCWiDvfvCoxC2lno6jevMA91MYAdCdwP05QnWdWpSbncX/w==}
 
+  undici-types@7.18.2:
+    resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
+
   undici-types@8.3.0:
     resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
 
@@ -4484,50 +4590,12 @@ snapshots:
       - ws
       - zod
 
-  '@earendil-works/pi-agent-core@0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)':
-    dependencies:
-      '@earendil-works/pi-ai': 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
-      '@earendil-works/pi-telemetry': 0.84.1
-      diff: 8.0.4
-      ignore: 7.0.5
-      typebox: 1.3.7
-      yaml: 2.9.0
-    transitivePeerDependencies:
-      - '@modelcontextprotocol/sdk'
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-      - ws
-      - zod
-
   '@earendil-works/pi-ai@0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)':
     dependencies:
       '@anthropic-ai/sdk': 0.91.1(zod@4.4.3)
       '@aws-sdk/client-bedrock-runtime': 3.1048.0
       '@earendil-works/pi-telemetry': 0.84.1
       '@google/genai': 1.52.0(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)
-      '@mistralai/mistralai': 2.2.6(@opentelemetry/api@1.9.0)(bufferutil@4.1.0)(utf-8-validate@6.0.6)
-      '@opentelemetry/api': 1.9.0
-      '@smithy/node-http-handler': 4.7.3
-      http-proxy-agent: 7.0.2(supports-color@8.1.1)
-      https-proxy-agent: 7.0.6(supports-color@8.1.1)
-      openai: 6.26.0(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      partial-json: 0.1.7
-      typebox: 1.3.7
-    transitivePeerDependencies:
-      - '@modelcontextprotocol/sdk'
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-      - ws
-      - zod
-
-  '@earendil-works/pi-ai@0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)':
-    dependencies:
-      '@anthropic-ai/sdk': 0.91.1(zod@4.4.3)
-      '@aws-sdk/client-bedrock-runtime': 3.1048.0
-      '@earendil-works/pi-telemetry': 0.84.1
-      '@google/genai': 1.52.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       '@mistralai/mistralai': 2.2.6(@opentelemetry/api@1.9.0)(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       '@opentelemetry/api': 1.9.0
       '@smithy/node-http-handler': 4.7.3
@@ -4552,39 +4620,6 @@ snapshots:
     dependencies:
       '@earendil-works/pi-agent-core': 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
       '@earendil-works/pi-ai': 0.84.1(@modelcontextprotocol/sdk@1.30.0(supports-color@8.1.1)(zod@4.4.3))(bufferutil@4.1.0)(supports-color@8.1.1)(utf-8-validate@6.0.6)(ws@8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6))(zod@4.4.3)
-      '@earendil-works/pi-client': 0.84.1
-      '@earendil-works/pi-protocol': 0.84.1
-      '@earendil-works/pi-tui': 0.84.1
-      '@silvia-odwyer/photon-node': 0.3.4
-      chalk: 5.6.2
-      cross-spawn: 7.0.6
-      diff: 8.0.4
-      glob: 13.0.6
-      grok-mermaid: 0.2.2
-      highlight.js: 10.7.3
-      hosted-git-info: 9.0.3
-      ignore: 7.0.5
-      jiti: 2.7.0
-      minimatch: 10.2.5
-      proper-lockfile: 4.1.2
-      semver: 7.8.0
-      typebox: 1.3.7
-      undici: 8.9.0
-      yaml: 2.9.0
-    optionalDependencies:
-      '@mariozechner/clipboard': 0.3.9
-    transitivePeerDependencies:
-      - '@modelcontextprotocol/sdk'
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-      - ws
-      - zod
-
-  '@earendil-works/pi-coding-agent@0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)':
-    dependencies:
-      '@earendil-works/pi-agent-core': 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
-      '@earendil-works/pi-ai': 0.84.1(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       '@earendil-works/pi-client': 0.84.1
       '@earendil-works/pi-protocol': 0.84.1
       '@earendil-works/pi-tui': 0.84.1
@@ -4773,17 +4808,6 @@ snapshots:
       ws: 8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     optionalDependencies:
       '@modelcontextprotocol/sdk': 1.30.0(supports-color@8.1.1)(zod@4.4.3)
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
-  '@google/genai@1.52.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)':
-    dependencies:
-      google-auth-library: 10.9.0(supports-color@8.1.1)
-      p-retry: 4.6.2
-      protobufjs: 7.6.5
-      ws: 8.21.3(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -5334,6 +5358,10 @@ snapshots:
   '@types/jsesc@2.5.1':
     optional: true
 
+  '@types/node@24.13.3':
+    dependencies:
+      undici-types: 7.18.2
+
   '@types/node@26.2.0':
     dependencies:
       undici-types: 8.3.0
@@ -5753,6 +5781,8 @@ snapshots:
 
   diff@8.0.4: {}
 
+  diff@9.0.0: {}
+
   dts-resolver@3.0.0: {}
 
   dunder-proto@1.0.1:
@@ -6057,10 +6087,16 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
+  highlight.js@11.12.0: {}
+
   hono@4.12.30:
     optional: true
 
   hookable@6.1.1: {}
+
+  hosted-git-info@10.1.1:
+    dependencies:
+      lru-cache: 11.5.2
 
   hosted-git-info@9.0.3:
     dependencies:
@@ -6647,8 +6683,7 @@ snapshots:
 
   semver@7.8.0: {}
 
-  semver@7.8.5:
-    optional: true
+  semver@7.8.5: {}
 
   send@1.2.1(supports-color@8.1.1):
     dependencies:
@@ -6940,6 +6975,8 @@ snapshots:
     dependencies:
       '@quansync/fs': 1.0.0
       quansync: 1.0.0
+
+  undici-types@7.18.2: {}
 
   undici-types@8.3.0: {}
 

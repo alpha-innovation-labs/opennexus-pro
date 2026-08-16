@@ -11,8 +11,7 @@
 import { readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { hasFactoryFlag } from "./factory/hasFactoryFlag";
-import { runFactoryCommand } from "./factory/runFactoryCommand";
+import { hasFactoryFlag, runFactoryCommand } from "@nexus/factory";
 import { hasHelpFlag } from "./help/hasHelpFlag";
 import { printNexusUsage } from "./help/printNexusUsage";
 import { hasVersionFlag } from "./version/hasVersionFlag";

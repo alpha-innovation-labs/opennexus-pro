@@ -28,8 +28,7 @@ import { printAllSessionsTable } from "./sessions/printAllSessionsTable";
 import { printSessionsJson } from "./sessions/printSessionsJson";
 import { printSessionsTable } from "./sessions/printSessionsTable";
 import { readSessionDirArg } from "./sessions/readSessionDirArg";
-import { hasFactoryFlag } from "./factory/hasFactoryFlag";
-import { runFactoryCommand } from "./factory/runFactoryCommand";
+import { hasFactoryFlag, runFactoryCommand } from "@nexus/factory";
 import { hasSubagentFlag } from "./subagent/hasSubagentFlag";
 import { runSubagentCommand } from "./subagent/runSubagentCommand";
 import {
