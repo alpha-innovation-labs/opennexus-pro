@@ -1,0 +1,34 @@
+/**
+ * Waits for an agent to reach a specific status.
+ * Mirrors `herdr agent wait <agentName> --status <status> --timeout <ms>`.
+ *
+ * @param agentName The agent name to wait for.
+ * @param options Status to wait for and timeout in milliseconds.
+ * @returns The agent state after reaching the target status.
+ */
+
+import { runHerdr } from "../core/runHerdr.js";
+
+export type AgentWaitStatus = "idle" | "working" | "blocked" | "done";
+
+export interface WaitAgentOptions {
+	status: AgentWaitStatus;
+	timeoutMs?: number;
+}
+
+export function waitAgent(
+	agentName: string,
+	{ status, timeoutMs = 60_000 }: WaitAgentOptions,
+): Record<string, unknown> {
+	const result = runHerdr([
+		"agent",
+		"wait",
+		agentName,
+		"--status",
+		status,
+		"--timeout",
+		String(timeoutMs),
+	]);
+
+	return result;
+}
