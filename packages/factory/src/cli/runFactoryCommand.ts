@@ -612,3 +612,74 @@ function checkDuplicateIdsWorkflow(workflow: Record<string, unknown>): Array<{
 
 	return errors;
 }
+
+// ─── Run subcommand ──────────────────────────────────────────────────────────
+
+/**
+ * Loads and executes a workflow by name, applying CLI input overrides.
+ *
+ * @param name Workflow name (file name without extension).
+ * @param inputs CLI-provided input overrides.
+ * @returns Process exit code (0 = success, 1 = failure).
+ */
+async function runFactoryRun(name: string, inputs: Record<string, string>): Promise<number> {
+	if (!name) {
+		console.error('Usage: nexus factory run <name> [--input key=value ...]');
+		return 1;
+	}
+
+	const cwd = process.cwd();
+	const factoryFile = join(cwd, ".factory", `${name}.yaml`);
+	const exampleFile = join(cwd, "examples", `${name}.yaml`);
+
+	let filePath: string | null = null;
+
+	if (existsSync(factoryFile)) {
+		filePath = factoryFile;
+	} else if (existsSync(exampleFile)) {
+		filePath = exampleFile;
+	} else {
+		console.error(`Workflow "${name}" not found.`);
+		console.error(`  Searched: .factory/${name}.yaml, examples/${name}.yaml`);
+		return 1;
+	}
+
+	const yaml = readFileSync(filePath, "utf-8");
+	const parsed = parse(yaml);
+	const result = WorkflowFileSchema.safeParse(parsed);
+	if (!result.success) {
+		console.error(`Invalid workflow file "${name}.yaml": ${result.error.message}`);
+		return 1;
+	}
+	const workflow = result.data;
+	if (!workflow) {
+		console.error(`Failed to parse workflow "${name}".`);
+		return 1;
+	}
+
+	const validationErrors = validateWorkflow(workflow);
+	if (hasErrors(validationErrors)) {
+		console.error(`Validation errors for "${name}":`);
+		console.error(formatErrors(validationErrors));
+		return 1;
+	}
+
+	console.log(`Executing workflow: ${name}`);
+
+	try {
+		const finalResult = await runWorkflow(workflow, {
+			inputs,
+		});
+
+		if (finalResult.success) {
+			console.log(`\n✓ Workflow "${name}" completed successfully.`);
+			return 0;
+		} else {
+			console.error(`\n✖ Workflow execution failed: ${finalResult.error}`);
+			return 1;
+		}
+	} catch (err) {
+		console.error(`\n✖ Workflow execution failed: ${err instanceof Error ? err.message : String(err)}`);
+		return 1;
+	}
+}
