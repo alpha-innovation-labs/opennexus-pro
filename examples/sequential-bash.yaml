@@ -1,0 +1,15 @@
+name: sequential-bash
+
+# Simple sequential bash commands — hello world for bash steps
+steps:
+  - id: greet
+    type: bash
+    command: 'echo "Hello from factory!"'
+
+  - id: date
+    type: bash
+    command: 'date "+%Y-%m-%d %H:%M:%S"'
+
+  - id: summary
+    type: bash
+    command: 'echo "Workflow completed successfully"'

@@ -1,0 +1,27 @@
+name: foreach-files
+
+# foreach over a list of files, processing each in its own tab
+inputs:
+  - name: target-dir
+    description: "Directory to scan for files"
+    default: "src"
+
+control:
+  - type: foreach
+    id: process-files
+    items: '<output:file-list>'
+    input_var: filename
+    steps:
+      - id: process
+        type: bash
+        command: 'echo "Processing: {{filename}}" && cat "{{filename}}" | head -20'
+
+steps:
+  - id: file-list
+    type: bash
+    command: 'find {{target-dir}} -type f -name "*.ts" -o -name "*.js" 2>/dev/null | head -10'
+    output: file-list
+
+  - id: done
+    type: bash
+    command: 'echo "All files processed"'

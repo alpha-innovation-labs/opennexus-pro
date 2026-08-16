@@ -1,0 +1,22 @@
+name: loop-compile
+
+# loop_until that compiles code until validation passes
+inputs:
+  - name: file-path
+    description: "Path to the file to compile"
+    default: "src/index.ts"
+
+control:
+  - type: loop_until
+    id: compile
+    max_iterations: 5
+    steps:
+      - id: compile-step
+        type: bash
+        command: 'just build 2>&1 || true'
+        validation_prompt: "built successfully"
+
+steps:
+  - id: report
+    type: bash
+    command: 'echo "Build process complete"'

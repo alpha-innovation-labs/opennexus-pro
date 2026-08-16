@@ -1,0 +1,27 @@
+name: if-exists
+
+# if_else that branches based on whether a file exists
+inputs:
+  - name: check-file
+    description: "File path to check"
+    default: "package.json"
+
+steps:
+  - id: check
+    type: bash
+    command: 'test -f {{check-file}} && echo "exists" || echo "missing"'
+    output: check-result
+
+steps:
+  - id: branch
+    type: if_else
+    condition: 'equals:exists'
+    steps:
+      - id: present
+        type: bash
+        command: 'echo "File {{check-file}} exists, showing first 10 lines:" && head -10 {{check-file}}'
+
+    else_steps:
+      - id: absent
+        type: bash
+        command: 'echo "File {{check-file}} not found"'

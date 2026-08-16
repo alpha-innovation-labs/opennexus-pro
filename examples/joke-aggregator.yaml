@@ -1,0 +1,59 @@
+name: joke-aggregator
+
+# User provides the joke category as input
+inputs:
+  - name: category
+    description: "The type of joke to generate"
+    default: "programming"
+
+# Parallel block: spawn three agents simultaneously, each getting the same input
+control:
+  - type: parallel
+    id: joke-generation
+    steps:
+      - id: agent-1
+        type: agent
+        agent: pi
+        command: "Tell me a funny {{category}} joke. Keep it under 3 sentences."
+        output: joke-1
+
+      - id: agent-2
+        type: agent
+        agent: pi
+        command: "Tell me another funny {{category}} joke. Make it a one-liner."
+        output: joke-2
+
+      - id: agent-3
+        type: agent
+        agent: pi
+        command: "Tell me a third funny {{category}} joke. Make it a pun."
+        output: joke-3
+
+# Final steps: consolidate and display
+steps:
+  - id: consolidate
+    type: agent
+    agent: pi
+    command: |
+      Here are three jokes about {{category}}:
+
+      Joke 1: <output:agent-1>
+      Joke 2: <output:agent-2>
+      Joke 3: <output:agent-3>
+
+      Pick the best one and explain why. Format:
+      ## Best Joke
+      <the joke>
+
+      ## Why
+      <brief explanation>
+
+      ## All Three
+      1. <joke 1>
+      2. <joke 2>
+      3. <joke 3>
+    output: final-result
+
+  - id: display
+    type: bash
+    command: 'echo "<output:consolidate>"'
