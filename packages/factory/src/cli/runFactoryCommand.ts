@@ -330,6 +330,9 @@ async function runFactoryValidateFile(filePath: string): Promise<number> {
 	const cwd = process.cwd();
 	const tsPath = join(cwd, filePath);
 
+	// Derive a human-readable name from the file path.
+	const baseName = filePath.replace(/^.*[\\/]/, "").replace(/\.(ts|yaml|yml)$/, "");
+
 	if (!existsSync(tsPath)) {
 		console.error(`Workflow file not found: ${filePath}`);
 		return 1;
@@ -479,13 +482,13 @@ async function runFactoryValidateFile(filePath: string): Promise<number> {
 		errors.push(...dupErrors);
 
 		if (hasErrors(errors)) {
-			console.error(`Validation errors for "${name}":`);
+			console.error(`Validation errors for "${baseName}":`);
 			console.error(formatErrors(errors));
 			return 1;
 		}
 	}
 
-	console.log(`✓ "${name}" is valid.`);
+	console.log(`✓ "${baseName}" is valid.`);
 	return 0;
 }
 

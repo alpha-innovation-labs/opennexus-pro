@@ -5,12 +5,9 @@ import { join } from 'node:path'
 export default defineConfig({
   entry: ['src/index.ts'],
   dts: false,
-  format: ['esm'],
+  format: 'esm',
   clean: true,
   target: 'node26',
-  watch: {
-    include: ['packages/*/src/**/*', 'packages/extension-core/*/src/**/*'],
-  },
   // exe: {
   // targets: [{ platform: 'darwin', arch: 'arm64', nodeVersion: 'latest' }],
   // },
