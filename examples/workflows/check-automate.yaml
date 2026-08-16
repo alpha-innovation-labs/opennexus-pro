@@ -3,14 +3,23 @@
 #
 # Maps the justfile `check-automate` recipe:
 #   1. Discovers every @extensions/* and @nexus/* package via `turbo ls`
-#   2. Iterates over each package, running `just check <pkg>` via `pi`
+#   2. For each package, retries `just check <pkg>` up to 3 times:
+#      - Run just check; if it passes, done
+#      - If it fails, run an agent to fix, then retry
+#      - After 3 iterations, break and report failure
 #   3. Prints a summary table with per-package pass/fail and durations.
+
+prompt: >
+  Go over each durable package one by one. For each package, run a check with
+  an agent that looks for errors. If there are no errors, move to the next
+  package. If there are errors, spawn an agent that fixes them, then repeat
+  up to three times until either the agent finally manages to fix all the
+  errors of that package or they cannot — in which case involve the human.
 
 name: check-automate
 
 control:
   # Phase 1: Discover all @extensions and @nexus packages.
-  # The output is captured and passed to the foreach below.
   - id: discover
     type: loop_until
     max_iterations: 3
@@ -20,25 +29,47 @@ control:
         output: packages
         command: "npx turbo ls 2>&1 | grep -E '(@extensions|@nexus)/' | sed 's/^[[:space:]]*//' | cut -d' ' -f1"
 
-  # Phase 2: Run checks for each discovered package, one by one.
-  # `items` references the discover step's captured output.
+  # Phase 2: For each package, do_until success or max_iterations.
+  # Each iteration: run `just check <pkg>`.
+  #   - If it passes (non-empty output from validation), stop and proceed.
+  #   - If it fails (empty output), run an agent to fix, then retry.
   - id: run-checks
     type: foreach
     max_iterations: 3
     items: "<output:packages>"
     input_var: "pkg"
     steps:
-      - id: execute
-        type: agent
-        agent: nexus
-        command: >
-          Please read ./docs/decision.md. Then, run 'just check {{pkg}}'
-          and fix all errors. Do not run any other command. You need to just
-          make sure the index.ts is reflective of the current code. Do NOT
-          add no longer existing files. If the command does not fail, simply
-          skip. Don't worry about it.
+      - id: do-check
+        type: do_until
+        max_iterations: 3
+        condition: "<output:check-result>"
+        steps:
+          - id: check
+            type: agent
+            output: check-result
+            agent: nexus
+            command: >
+              Run 'just check {{pkg}}'. Return true if all tests pass.
+              If they do not pass, return the errors.
 
-steps:
-  - id: summary
-    type: bash
-    command: 'echo "check-automate complete"'
+          # If check returns 'true', break the loop.
+          # If check returns errors, run agent-fix, then retry.
+          - id: fix-failures
+            type: if_else
+            condition: "<output:check-result> == 'true'"
+            steps:
+              # This branch runs when check passed — break the loop.
+              - id: noop-pass
+                type: bash
+                command: 'echo "no-op"'
+            else_steps:
+              # This branch runs when check failed — fix errors.
+              - id: run-agent-fix
+                type: agent
+                agent: nexus
+                command: >
+                  Please read ./docs/decision.md. Then, run 'just check {{pkg}}'
+                  and fix all errors. Do not run any other command. You need to
+                  just make sure the index.ts is reflective of the current code.
+                  Do NOT add no longer existing files. If the command does not
+                  fail, simply skip. Don't worry about it.

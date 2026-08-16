@@ -47,6 +47,10 @@ export type FactoryArgs =
 			name: string;
 			controlId: string;
 	  }
+	| {
+			command: "validate-file";
+			name: string;
+	  }
 	| { command: "help"; invalidSubcommand?: string }
 	| { command: string; invalidSubcommand: string };
 
@@ -127,6 +131,11 @@ export function parseFactoryArgs(
 				command: "remove-control",
 				name: cliArgs[2] ?? "",
 				controlId: cliArgs[3] ?? "",
+			};
+		case "validate-file":
+			return {
+				command: "validate-file",
+				name: cliArgs[2] ?? "",
 			};
 		case "help":
 			return { command: "help" };

@@ -1,4 +1,4 @@
-import type { Workflow, WorkflowFile, WorkflowStep, ValidationError, WorkflowInput } from "./schema.js";
+import type { Workflow, WorkflowFile, WorkflowStep, ValidationError, WorkflowInput, ControlBlock } from "./schema.js";
 
 // ─── Step editing ───────────────────────────────────────────────────────────
 
@@ -134,7 +134,9 @@ export function removeStepFromControl(
 			`Control block "${controlId}" not found in workflow "${workflow.name}".`,
 		);
 	}
-	const idx = control.steps.findIndex((s) => s.id === stepId);
+	const idx = control.steps.findIndex(
+		(s) => "id" in s && s.id === stepId,
+	);
 	if (idx === -1) {
 		throw new Error(`Step "${stepId}" not found in control block "${controlId}".`);
 	}

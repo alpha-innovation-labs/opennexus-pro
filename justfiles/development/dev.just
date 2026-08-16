@@ -18,7 +18,16 @@ dev *APP_ARGS:
         set +a
     fi
 
-    # Ensure the bundle exists (build if missing or stale).
+    # Start watch mode in PM2 if not already running.
+    if pm2 info nexus-watch >/dev/null 2>&1; then
+        echo "watch is running (PM2)"
+    else
+        pm2 start apps/tui/ecosystem.config.cjs --only nexus-watch
+        sleep 5  # give watch time to do initial build
+        echo "watch started (PM2)"
+    fi
+
+    # Ensure the initial bundle exists (build if watch hasn't produced it yet).
     if [ ! -f apps/tui/dist/index.mjs ]; then
         npx turbo build --filter=@apps/app-tui
     fi
@@ -31,4 +40,6 @@ dev *APP_ARGS:
 
     # Set process title via `exec -a` so ps shows "mastracode".
     # This matches the release wrapper behavior (AGENTS.md: Herdr mastracode hack).
+    # Stop the watcher when this script exits.
+    trap 'pm2 delete nexus-watch 2>/dev/null' EXIT
     exec -a mastracode node apps/tui/dist/index.mjs "$@"

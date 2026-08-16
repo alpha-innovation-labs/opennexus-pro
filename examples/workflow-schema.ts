@@ -50,7 +50,7 @@ export type StepType = "bash" | "agent";
 /**
  * Possible control block types that wrap a group of steps.
  */
-export type ControlType = "loop_until" | "parallel" | "foreach";
+export type ControlType = "loop_until" | "parallel" | "foreach" | "if_else" | "do_until" | "do_while";
 
 // ─── Bash step ──────────────────────────────────────────────────────────────
 
@@ -94,37 +94,117 @@ export type WorkflowStep = z.infer<typeof WorkflowStepSchema>;
 
 // ─── Control block ──────────────────────────────────────────────────────────
 
-export const ControlBlockSchema = z.object({
+/**
+ * Shared fields across all control block types.
+ */
+const ControlBlockBaseSchema = z.object({
 	id: z.string().describe("Unique identifier for the control block"),
-	type: z.enum(["loop_until", "parallel", "foreach"]).describe(
-		"loop_until = sequential retry; parallel = concurrent, fail fast; foreach = sequential iteration over items",
-	),
 	max_iterations: z
 		.number()
 		.int()
 		.min(1)
 		.default(3)
 		.describe("How many iterations before giving up"),
-	items: z
-		.string()
-		.optional()
-		.describe("For foreach: reference to a previous step's output (via <output:name>) containing newline-separated items to iterate over. Ignored by other control types."),
-	input_var: z
-		.string()
-		.default("item")
-		.describe("For foreach: the input variable name each item is exposed as (default: 'item'). Used as {{item}} in commands."),
 	inputs: z
 		.array(WorkflowInputSchema)
 		.optional()
 		.describe("Control-level inputs available to all steps in this block"),
-	steps: z.array(WorkflowStepSchema).min(1).describe("Steps within this control block"),
+	steps: z.array(z.union([WorkflowStepSchema, ControlBlockSchema])).min(1).describe("Steps or nested control blocks within this control block"),
 });
+
+/**
+ * `loop_until` — retries the same set of steps until all pass.
+ */
+const LoopUntilSchema = ControlBlockBaseSchema.extend({
+	type: z.literal("loop_until").describe("Sequential retry until all steps pass"),
+});
+
+/**
+ * `parallel` — runs all steps concurrently, fails fast on first error.
+ */
+const ParallelSchema = ControlBlockBaseSchema.extend({
+	type: z.literal("parallel").describe("Concurrent execution, fails fast"),
+});
+
+/**
+ * `foreach` — iterates over items from a previous step's output, one at a time.
+ */
+const ForeachSchema = ControlBlockBaseSchema.extend({
+	type: z.literal("foreach").describe("Sequential iteration over items from a previous step's output"),
+	items: z
+		.string()
+		.describe("Reference to a previous step's output (via <output:name>) containing newline-separated items to iterate over."),
+	input_var: z
+		.string()
+		.default("item")
+		.describe("The input variable name each item is exposed as (default: 'item'). Used as {{item}} in commands."),
+});
+
+/**
+ * `if_else` — conditionally runs one of two step groups.
+ * The `condition` references a previous step's output (via <output:name>).
+ * If the output is a non-empty string (truthy), `steps` runs.
+ * If the output is empty (falsy), `else_steps` runs.
+ */
+const IfElseSchema = z.object({
+	id: z.string().describe("Unique identifier for the control block"),
+	type: z.literal("if_else").describe("Conditionally runs one of two step groups based on a condition"),
+	condition: z
+		.string()
+		.describe("Reference to a previous step's output (via <output:name>). Non-empty = truthy = steps, empty = falsy = else_steps."),
+	steps: z.array(z.union([WorkflowStepSchema, ControlBlockSchema])).min(1).describe("Steps or nested control blocks to run when condition is truthy"),
+	else_steps: z
+		.array(z.union([WorkflowStepSchema, ControlBlockSchema]))
+		.min(1)
+		.optional()
+		.describe("Steps or nested control blocks to run when condition is falsy (required when condition can be false)"),
+});
+
+/**
+ * `do_until` — repeats steps until a condition becomes truthy, or max_iterations is reached.
+ * The `condition` references a previous step's output (via <output:name>).
+ * If max_iterations is reached without the condition becoming truthy, the control block
+ * fails and the workflow can choose to break or continue (depending on context).
+ */
+const DoUntilSchema = ControlBlockBaseSchema.extend({
+	type: z.literal("do_until").describe("Repeats steps until a condition becomes truthy, or max_iterations is reached"),
+	condition: z
+		.string()
+		.describe("Reference to a previous step's output (via <output:name>). When non-empty, the loop exits successfully. When empty, another iteration runs (or max_iterations is hit)."),
+});
+
+/**
+ * `do_while` — repeats steps while a condition remains truthy, or max_iterations is reached.
+ * The `condition` references a previous step's output (via <output:name>).
+ * If max_iterations is reached while the condition is still truthy, the loop exits.
+ */
+const DoWhileSchema = ControlBlockBaseSchema.extend({
+	type: z.literal("do_while").describe("Repeats steps while a condition remains truthy, or max_iterations is reached"),
+	condition: z
+		.string()
+		.describe("Reference to a previous step's output (via <output:name>). When non-empty, another iteration runs (up to max_iterations). When empty, the loop exits."),
+});
+
+/**
+ * All control block types as a discriminated union on `type`.
+ */
+export const ControlBlockSchema = z.discriminatedUnion("type", [
+	LoopUntilSchema,
+	ParallelSchema,
+	ForeachSchema,
+	IfElseSchema,
+	DoUntilSchema,
+	DoWhileSchema,
+]);
 
 export type ControlBlock = z.infer<typeof ControlBlockSchema>;
 
 // ─── Workflow (file format — what YAML serializes to) ───────────────────────
 
 export const WorkflowFileSchema = z.object({
+	prompt: z
+		.string()
+		.describe("Human-readable description of what the workflow does"),
 	name: z.string().min(1).describe("Workflow identifier"),
 	inputs: z
 		.array(WorkflowInputSchema)

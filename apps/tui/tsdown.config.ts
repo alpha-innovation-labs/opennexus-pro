@@ -8,6 +8,9 @@ export default defineConfig({
   format: ['esm'],
   clean: true,
   target: 'node26',
+  watch: {
+    include: ['packages/*/src/**/*', 'packages/extension-core/*/src/**/*'],
+  },
   // exe: {
   // targets: [{ platform: 'darwin', arch: 'arm64', nodeVersion: 'latest' }],
   // },

@@ -13,8 +13,7 @@
 		"zod": "^4.0.0"
 	},
 	"exports": {
-		".": "./src/index.ts",
-		"./*": "./dist/*.mjs"
+		".": "./dist/index.mjs"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.8",
