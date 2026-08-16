@@ -101,7 +101,7 @@ export const WorkflowFileSchema = z.object({
 		.optional()
 		.describe("Global inputs available to ALL steps (control + post-control)"),
 	control: z.array(ControlBlockSchema).optional().describe("Control blocks (phases)"),
-	steps: z.array(WorkflowStepSchema).min(1).describe("Final steps (run after all control blocks)"),
+	steps: z.array(WorkflowStepSchema).optional().describe("Final steps (run after all control blocks)"),
 });
 
 export type WorkflowFile = z.infer<typeof WorkflowFileSchema>;

@@ -398,7 +398,7 @@ async function runFactoryValidateFile(filePath: string): Promise<number> {
 	// Steps inside control blocks use z.any() since they can be steps or nested
 	// control blocks. The recursive structure is validated by Zod at runtime.
 	const richLoopUntil = z.object({
-		id: z.string(),
+		id: z.string().optional(),
 		type: z.literal("loop_until"),
 		max_iterations: z.number().int().min(1).default(3),
 		inputs: z.array(richInputSchema).optional(),
@@ -406,7 +406,7 @@ async function runFactoryValidateFile(filePath: string): Promise<number> {
 	});
 
 	const richParallel = z.object({
-		id: z.string(),
+		id: z.string().optional(),
 		type: z.literal("parallel"),
 		max_iterations: z.number().int().min(1).default(3),
 		inputs: z.array(richInputSchema).optional(),
@@ -414,7 +414,7 @@ async function runFactoryValidateFile(filePath: string): Promise<number> {
 	});
 
 	const richForeach = z.object({
-		id: z.string(),
+		id: z.string().optional(),
 		type: z.literal("foreach"),
 		max_iterations: z.number().int().min(1).default(3),
 		inputs: z.array(richInputSchema).optional(),
@@ -424,15 +424,15 @@ async function runFactoryValidateFile(filePath: string): Promise<number> {
 	});
 
 	const richIfElse = z.object({
-		id: z.string(),
+		id: z.string().optional(),
 		type: z.literal("if_else"),
 		condition: z.string(),
 		steps: z.array(z.any()).min(1),
-		else_steps: z.array(z.any()).min(1).optional(),
+		else_steps: z.array(z.any()).optional(),
 	});
 
 	const richDoUntil = z.object({
-		id: z.string(),
+		id: z.string().optional(),
 		type: z.literal("do_until"),
 		max_iterations: z.number().int().min(1).default(3),
 		inputs: z.array(richInputSchema).optional(),
@@ -441,7 +441,7 @@ async function runFactoryValidateFile(filePath: string): Promise<number> {
 	});
 
 	const richDoWhile = z.object({
-		id: z.string(),
+		id: z.string().optional(),
 		type: z.literal("do_while"),
 		max_iterations: z.number().int().min(1).default(3),
 		inputs: z.array(richInputSchema).optional(),
@@ -463,7 +463,7 @@ async function runFactoryValidateFile(filePath: string): Promise<number> {
 		name: z.string().min(1),
 		inputs: z.array(richInputSchema).optional(),
 		control: z.array(richControlSchema).optional(),
-		steps: z.array(richStepSchema).min(1),
+		steps: z.array(richStepSchema).optional(),
 	});
 
 	// Validate against the schema.
@@ -529,16 +529,20 @@ function checkDuplicateIdsWorkflow(workflow: Record<string, unknown>): Array<{
 	const errors: Array<{ path: string; message: string; code: string }> = [];
 	const seen = new Map<string, string>();
 
-	function checkStep(step: { id: string }, path: string): void {
-		if (seen.has(step.id)) {
-			const first = seen.get(step.id)!;
+	function checkStep(step: { id?: string }, path: string): void {
+		const id = step.id;
+		if (id === undefined || id === "") {
+			return;
+		}
+		if (seen.has(id)) {
+			const first = seen.get(id)!;
 			errors.push({
 				path: `${path}.id`,
-				message: `Duplicate id "${step.id}" (first seen at ${first}).`,
+				message: `Duplicate id "${id}" (first seen at ${first}).`,
 				code: "DUPLICATE_STEP_ID",
 			});
 		} else {
-			seen.set(step.id, path);
+			seen.set(id, path);
 		}
 	}
 
