@@ -1,9 +1,31 @@
 import { DefaultResourceLoader } from "@earendil-works/pi-coding-agent";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { getNexusAgentDirPath } from "./getNexusAgentDirPath";
+import { resolveInstalledDependencyPath } from "../package/resolveInstalledDependencyPath";
 
 let cachedNames: string[] | null = null;
 let cacheCwd: string | null = null;
 let cacheAgentDir: string | null = null;
+let cachedAdditionalThemePaths: string[] | null = null;
+
+/**
+ * Resolves Pi's bundled theme directory at runtime, so we always pick up
+ * whatever default themes ship with the installed Pi version (dark, light,
+ * or any future additions) without hardcoding copies.
+ */
+function getPiBundledThemePath(): string | null {
+	try {
+		const piThemeDir = resolveInstalledDependencyPath(
+			import.meta.url,
+			"@earendil-works/pi-coding-agent/dist/modes/interactive/theme",
+			"./../../../node_modules/@earendil-works/pi-coding-agent/dist/modes/interactive/theme",
+		);
+		return piThemeDir;
+	} catch {
+		return null;
+	}
+}
 
 /**
  * Reads available theme names using Pi's DefaultResourceLoader,
@@ -19,10 +41,19 @@ export async function readThemes(cwd: string): Promise<string[]> {
 	if (cachedNames !== null && cacheCwd === cwd && cacheAgentDir === agentDir) {
 		return cachedNames;
 	}
+
+	// Resolve Pi's bundled theme directory (dark, light, etc.) at runtime
+	// so Nexus always reflects whatever themes ship with the installed Pi.
+	const piThemeDir = getPiBundledThemePath();
+	const additionalThemePaths = piThemeDir
+		? [piThemeDir]
+		: [];
+
 	const loader = new DefaultResourceLoader({
 		cwd,
 		agentDir,
 		noThemes: false,
+		additionalThemePaths,
 	});
 	await loader.reload();
 	const { themes } = loader.getThemes();
@@ -34,5 +65,6 @@ export async function readThemes(cwd: string): Promise<string[]> {
 	);
 	cacheCwd = cwd;
 	cacheAgentDir = agentDir;
+	cachedAdditionalThemePaths = additionalThemePaths;
 	return cachedNames;
 }

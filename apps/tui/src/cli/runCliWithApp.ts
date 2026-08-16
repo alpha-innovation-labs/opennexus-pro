@@ -4,6 +4,11 @@ import {
 	getMiniAppManifests,
 } from "@nexus/mini-apps";
 import { getNexusAgentDirPath } from "@nexus/runtime";
+import { applyNexusConfigPatch } from "@nexus/runtime";
+
+// Apply the Nexus config patch at module load so theme defaults (nexus-black)
+// and other app-level settings take effect even in CLI mode (just dev).
+void applyNexusConfigPatch();
 import { hasDeleteSessionFlag } from "./delete-session/hasDeleteSessionFlag";
 import { runDeleteSessionCommand } from "./delete-session/runDeleteSessionCommand";
 import {

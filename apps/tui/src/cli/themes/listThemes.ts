@@ -17,6 +17,8 @@ export async function listThemes(): Promise<{
 	const settings = SettingsManager.create(process.cwd());
 	const storedTheme = settings.getTheme();
 	// Validate: Pi may have a stale theme name in settings.json that no longer exists.
+	// When no theme is explicitly set in settings, default to "nexus-black" so Nexus
+	// ships with its own theme as the default rather than deferring to Pi's "dark".
 	const currentTheme = names.includes(storedTheme || "")
 		? (storedTheme ?? "nexus-black")
 		: "nexus-black";
