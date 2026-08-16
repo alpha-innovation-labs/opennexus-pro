@@ -8,11 +8,78 @@ The engine's job is simple: read a workflow, resolve all template variables and 
 
 ## Core Principle
 
-The engine is a **state machine with template resolution**. It has no external dependencies beyond `execa` (for spawning bash processes). Everything else is domain logic — a few hundred lines of TypeScript.
+The engine is a **state machine with template resolution**, executed inside **Herdr panes**. Each step runs independently in its own pane — no shared processes, no cross-step interference. Everything else is domain logic — a few hundred lines of TypeScript.
 
 No event emitters. No reactive streams. No workflow orchestration frameworks. Just async functions, conditionals, and loops.
 
+## Execution Model: Herdr Pane Hierarchy
+
+Every workflow execution maps to a Herdr workspace, and every structural element maps to a pane level:
+
+| Workflow element | Herdr construct | Isolation |
+|---|---|---|
+| **Workflow** | Workspace (named after the workflow) | Full isolation — each workflow gets its own workspace |
+| **Control block** | Tab | Each control block gets its own tab |
+| **Foreach iteration** | Tab | Each iteration (e.g. iteration 0, 1, 2…) gets its own tab |
+| **Step** | Pane | Each step (bash or agent) gets its own pane inside the relevant tab |
+| **Parallel steps** | Panes side by side | Multiple panes in the same tab, all executing concurrently |
+| **Chained steps** | Panes stacked vertically | Sequential panes in the same tab |
+
+### Workspace creation
+
+When a workflow starts, the engine creates a dedicated Herdr workspace named after the workflow. This workspace is the execution boundary — all panes, tabs, and agents for that workflow live inside it. No other workflow shares this workspace.
+
+### Tab creation
+
+Each control block (or each `foreach` iteration) gets its own tab. This gives visual and logical separation between execution phases. The tab is created before any steps within it begin executing.
+
+### Pane creation
+
+Every step — whether `bash` or `agent` — executes inside its own pane. The pane is created within the tab that corresponds to the step's containing control block (or iteration). The step's command (resolved by the Template Resolver) is sent into the pane as a command. For `bash` steps, the engine runs the command via `herdr_run_command` and reads the output via `herdr_read_pane`. For `agent` steps, the engine spawns an agent via `herdr_start_agent` (or `herdr_delegate` for one-shot) and reads the response via `herdr_read_agent`.
+
+After a step completes, its output is captured and made available to the context. The pane remains alive so its output can be inspected later (useful for debugging), but the engine does not wait for manual interaction — it moves on once the step's result is captured.
+
+### Parallel vs. sequential layout
+
+- **Sequential steps** (normal flow, `loop_until`, `foreach` iterations): panes are created one after another, stacked vertically within the same tab. The engine waits for each pane to finish before creating the next.
+- **Parallel steps** (`parallel` block): all steps in the block are created as panes in the same tab, side by side. The engine fires them all simultaneously and collects results via `Promise.all`. If any step fails, the engine invokes fail-fast — aborting remaining parallel steps.
+- **Nested control blocks**: a control block inside another control block creates a nested tab structure. The outer block's tab contains the inner block's tab, which contains the steps' panes.
+
+### Example: a `foreach` with three iterations, each having three steps
+
+```
+Workspace: "my-workflow"
+  Tab: "foreach iteration 0"
+    Pane: step 1 (bash)
+    Pane: step 2 (agent)
+    Pane: step 3 (bash)
+  Tab: "foreach iteration 1"
+    Pane: step 1 (bash)
+    Pane: step 2 (agent)
+    Pane: step 3 (bash)
+  Tab: "foreach iteration 2"
+    Pane: step 1 (bash)
+    Pane: step 2 (agent)
+    Pane: step 3 (bash)
+```
+
+Each pane is fully independent — no shared process state, no cross-pane interference. The engine coordinates them through the context object, which collects outputs and feeds them into template resolution for downstream steps.
+
 ## Structural Elements
+
+### 0. Pane Manager (execution substrate)
+
+The engine uses Herdr's pane API as its execution substrate. Every step runs inside a Herdr pane — either a raw terminal pane (for `bash` steps) or an agent pane (for `agent` steps). The engine manages the full lifecycle:
+
+- **`herdr_split_pane`** — creates a raw terminal pane for `bash` steps.
+- **`herdr_run_command`** — sends the resolved command into the pane.
+- **`herdr_read_pane`** — captures stdout/stderr from the pane after execution.
+- **`herdr_wait_output`** — waits for expected output markers (e.g., a server "ready" line) before proceeding.
+- **`herdr_start_agent`** / **`herdr_delegate`** — spawns an AI agent pane for `agent` steps.
+- **`herdr_read_agent`** — captures the agent's response.
+- **`herdr_wait_agent`** — waits for an agent to reach idle (finished).
+
+The engine creates the workspace and all tabs/panes up front when the workflow starts, then populates them as execution progresses. Panes are not destroyed after each step — they remain visible for inspection, debugging, and TUI rendering.
 
 ### 1. Context
 
@@ -48,25 +115,25 @@ Template resolution happens **before** a step executes, so the step's command st
 
 ### 4. Step Executor
 
-A dispatch that routes execution by step type:
+A dispatch that routes execution by step type, always executing inside a Herdr pane:
 
-- **`bash`** — spawns a shell process via `execa`, captures stdout/stderr, respects timeouts, and returns a `StepResult`. Optionally runs a `validation_prompt` against the output.
-- **`agent`** — spawns an AI agent (Nexus) with the step's command as a prompt, captures the agent's response, and returns a `StepResult`.
+- **`bash`** — the engine creates (or reuses) a raw terminal pane via `herdr_split_pane`, sends the resolved command via `herdr_run_command`, and reads the output via `herdr_read_pane`. Respects timeouts, captures stdout/stderr, and optionally runs a `validation_prompt` against the output.
+- **`agent`** — the engine spawns an agent pane via `herdr_start_agent` (or uses `herdr_delegate` for one-shot execution), sends the resolved command as a prompt, waits for the agent to finish via `herdr_wait_agent`, and reads the response via `herdr_read_agent`.
 
-Each executor is self-contained and knows only how to run its step type. It receives the context and returns a result.
+Each executor is self-contained and knows only how to run its step type. It receives the context and returns a result. The key constraint: **every step runs in its own pane**, ensuring full isolation between concurrent and sequential steps.
 
 ### 5. Control Block Executor
 
-A dispatch that handles control flow semantics for each block type:
+A dispatch that handles control flow semantics for each block type, mapping each to the appropriate Herdr tab/pane layout:
 
-- **`loop_until`** — retries the same set of steps sequentially until all pass, or `max_iterations` is reached.
-- **`parallel`** — runs all steps concurrently with `Promise.all`. Fails fast on the first error.
-- **`foreach`** — iterates sequentially over newline-separated items from a previous step's output, executing the inner steps for each item.
-- **`if_else`** — conditionally runs one of two step groups based on whether a referenced output is non-empty.
-- **`do_until`** — repeats steps until a condition becomes truthy, or `max_iterations` is reached.
+- **`loop_until`** — retries the same set of steps sequentially within the same tab. The engine reuses existing panes or creates new ones for each retry iteration, waiting for each to complete before proceeding.
+- **`parallel`** — creates all steps as panes in the same tab, side by side, then fires them all simultaneously. Collects results via `Promise.all`. Fails fast on the first error — the engine sends `ctrl+c` or closes remaining panes.
+- **`foreach`** — creates a new tab for each iteration (e.g., "iteration 0", "iteration 1"), each containing the inner steps as panes. Iterations execute sequentially.
+- **`if_else`** — conditionally creates panes for one of two step groups based on whether a referenced output is non-empty. The other group's tab/panes are never created.
+- **`do_until`** — repeats steps until a condition becomes truthy, creating new panes or reusing existing ones for each iteration.
 - **`do_while`** — repeats steps while a condition remains truthy, or `max_iterations` is reached.
 
-Control blocks can be **nested** — a control block may contain other control blocks as children. This is handled by recursion: each control executor calls a generic `executeSteps()` function, which either runs raw steps or delegates to another control executor.
+Control blocks can be **nested** — a control block may contain other control blocks as children. Nested blocks create nested tab structures: the outer block's tab contains the inner block's tab, which contains the steps' panes. This is handled by recursion: each control executor calls a generic `executeSteps()` function, which either runs raw steps or delegates to another control executor.
 
 ### 6. Logger
 
@@ -96,9 +163,13 @@ The top-level entry point. It:
 
 1. Loads and validates the workflow (existing Zod-based validation).
 2. Resolves all inputs into a resolved map.
-3. Initializes an empty context.
-4. Executes control blocks sequentially (if any), then final steps.
-5. Returns a `WorkflowResult` summarizing the execution: total steps, passed/failed counts, duration, and any errors.
+3. Creates a dedicated Herdr workspace named after the workflow.
+4. Initializes an empty context.
+5. Executes control blocks sequentially (if any), creating tabs and panes as needed.
+6. Executes final steps (sequential, after all control blocks).
+7. Returns a `WorkflowResult` summarizing the execution: total steps, passed/failed counts, duration, and any errors.
+
+The runner is responsible for the full Herdr workspace lifecycle: creating the workspace and tabs, creating and populating panes, collecting step results, and cleaning up (or leaving panes visible for inspection) when execution completes.
 
 ## Execution Flow
 
@@ -162,9 +233,10 @@ A callback interface satisfies all three with zero dependencies.
 
 ## What This Document Omits
 
-- **Error handling strategies** — how the engine handles process crashes, timeouts, and agent failures.
+- **Error handling strategies** — how the engine handles process crashes, timeouts, and agent failures within panes.
 - **Input file formats** — YAML parsing is handled by the existing `loadWorkflow` function.
 - **CLI integration** — how the engine is invoked from `nexus factory run`.
 - **TUI integration** — how the engine's logger feeds into the terminal UI.
+- **Pane lifecycle management** — when panes are closed vs. kept alive, workspace cleanup on completion.
 
 These are implementation details. The structural elements above are the contract.
