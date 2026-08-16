@@ -6,6 +6,9 @@ export default defineConfig({
   format: 'esm',
   clean: true,
   target: 'node26',
+  outDir: 'dist',
+  sourcemap: true,
+  dts: true,
   deps: {
     neverBundle: true,
   },
