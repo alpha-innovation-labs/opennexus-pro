@@ -1,14 +1,3 @@
-import {
-	findMiniAppCommand,
-	findMiniAppRunnerCommand,
-	getMiniAppManifests,
-} from "@nexus/mini-apps";
-import { getNexusAgentDirPath } from "@nexus/runtime";
-import { applyNexusConfigPatch } from "@nexus/runtime";
-
-// Apply the Nexus config patch at module load so theme defaults (nexus-black)
-// and other app-level settings take effect even in CLI mode (just dev).
-void applyNexusConfigPatch();
 import { hasDeleteSessionFlag } from "./delete-session/hasDeleteSessionFlag";
 import { runDeleteSessionCommand } from "./delete-session/runDeleteSessionCommand";
 import {
@@ -39,6 +28,8 @@ import { printAllSessionsTable } from "./sessions/printAllSessionsTable";
 import { printSessionsJson } from "./sessions/printSessionsJson";
 import { printSessionsTable } from "./sessions/printSessionsTable";
 import { readSessionDirArg } from "./sessions/readSessionDirArg";
+import { hasFactoryFlag } from "./factory/hasFactoryFlag";
+import { runFactoryCommand } from "./factory/runFactoryCommand";
 import { hasSubagentFlag } from "./subagent/hasSubagentFlag";
 import { runSubagentCommand } from "./subagent/runSubagentCommand";
 import {
@@ -83,10 +74,13 @@ export async function runCliWithApp(
 	}
 
 	if (isObservationsCommand(argv)) {
+		const { getNexusAgentDirPath } = await import("@nexus/runtime");
 		getNexusAgentDirPath();
 		return runObservationsCommand(argv, process.cwd(), readSessionDirArg(argv));
 	}
 
+	const { getMiniAppManifests, findMiniAppCommand, findMiniAppRunnerCommand } =
+		await import("@nexus/mini-apps");
 	const miniAppManifests = getMiniAppManifests();
 	const runnerMiniApp = findMiniAppRunnerCommand(miniAppManifests, argv);
 	if (runnerMiniApp) {
@@ -117,6 +111,7 @@ export async function runCliWithApp(
 	}
 
 	if (hasSessionsAllFlag(argv)) {
+		const { getNexusAgentDirPath } = await import("@nexus/runtime");
 		getNexusAgentDirPath();
 		if (hasJsonFlag(argv)) {
 			await printAllSessionsJson();
@@ -127,6 +122,7 @@ export async function runCliWithApp(
 	}
 
 	if (hasSessionsFlag(argv)) {
+		const { getNexusAgentDirPath } = await import("@nexus/runtime");
 		getNexusAgentDirPath();
 		if (hasJsonFlag(argv)) {
 			await printSessionsJson(process.cwd(), readSessionDirArg(argv));
@@ -137,6 +133,7 @@ export async function runCliWithApp(
 	}
 
 	if (hasDeleteSessionFlag(argv)) {
+		const { getNexusAgentDirPath } = await import("@nexus/runtime");
 		getNexusAgentDirPath();
 		return runDeleteSessionCommand(
 			argv,
@@ -168,11 +165,16 @@ export async function runCliWithApp(
 		return runProvidersCommand(argv);
 	}
 
+	if (hasFactoryFlag(argv)) {
+		return runFactoryCommand(argv);
+	}
+
 	if (hasSubagentFlag(argv)) {
 		return runSubagentCommand();
 	}
 
 	if (hasObservationsFlag(argv)) {
+		const { getNexusAgentDirPath } = await import("@nexus/runtime");
 		getNexusAgentDirPath();
 		const sessionId = readObservationsSessionIdArg(argv);
 		if (!sessionId) {
