@@ -1,4 +1,0 @@
-export declare const CMUX_SESSION_REGISTRY_LOCK_TIMEOUT_MS = 5000;
-export declare const CMUX_SESSION_REGISTRY_LOCK_RETRY_MS = 25;
-export declare const CMUX_SESSION_REGISTRY_LEGACY_LOCK_STALE_MS = 1000;
-export declare const CMUX_SESSION_REGISTRY_LOCK_METADATA_FILE = "owner.json";

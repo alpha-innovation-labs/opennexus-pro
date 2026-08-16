@@ -49,7 +49,7 @@ export type FactoryArgs =
 	  }
 	| {
 			command: "validate-file";
-			name: string;
+			path: string;
 	  }
 	| { command: "help"; invalidSubcommand?: string }
 	| { command: string; invalidSubcommand: string };
@@ -135,7 +135,7 @@ export function parseFactoryArgs(
 		case "validate-file":
 			return {
 				command: "validate-file",
-				name: cliArgs[2] ?? "",
+				path: cliArgs[2] ?? "",
 			};
 		case "help":
 			return { command: "help" };

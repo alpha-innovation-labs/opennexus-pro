@@ -70,8 +70,8 @@ export async function runFactoryCommand(
 		}
 
 		case "validate-file": {
-			if ("name" in parsed) {
-				return runFactoryValidateFile(parsed.name);
+			if ("path" in parsed) {
+				return runFactoryValidateFile(parsed.path);
 			}
 		}
 
@@ -92,7 +92,7 @@ Usage:
   nexus factory paths             Show factory file paths
   nexus factory read <name>       Display a factory's YAML content
   nexus factory validate <name>   Validate a factory, show errors
-  nexus factory validate-file <name>  Validate a TypeScript workflow file
+  nexus factory validate-file <path>  Validate a TypeScript workflow file
 
 On startup, factory ensures the local .factory/ directory exists.
 `);
@@ -321,55 +321,38 @@ function runFactoryValidate(name: string): number {
  * @param name Workflow name (file name without extension).
  * @returns Process exit code.
  */
-async function runFactoryValidateFile(name: string): Promise<number> {
-	if (!name) {
-		console.error("Usage: nexus factory validate-file <name>");
+async function runFactoryValidateFile(filePath: string): Promise<number> {
+	if (!filePath) {
+		console.error("Usage: nexus factory validate-file <path>");
 		return 1;
 	}
 
 	const cwd = process.cwd();
+	const tsPath = join(cwd, filePath);
 
-	// Search paths: examples/workflows/<name>.ts, examples/<name>.ts
-	const candidates = [
-		join(cwd, "examples", "workflows", `${name}.ts`),
-		join(cwd, "examples", `${name}.ts`),
-	];
-
-	let tsPath: string | null = null;
-	for (const candidate of candidates) {
-		if (existsSync(candidate)) {
-			tsPath = candidate;
-			break;
-		}
-	}
-
-	if (!tsPath) {
-		console.error(`TypeScript workflow "${name}" not found.`);
-		console.error(`  Searched: examples/workflows/${name}.ts, examples/${name}.ts`);
+	if (!existsSync(tsPath)) {
+		console.error(`Workflow file not found: ${filePath}`);
 		return 1;
 	}
 
 	// Dynamically import the module so we can get the exported object.
-	// The file exports a named constant (e.g. checkAutomate) typed as WorkflowFile.
 	let mod: Record<string, unknown>;
 
 	try {
 		mod = await import(/* @vite-ignore */ `file://${tsPath}`);
 	} catch (err) {
-		console.error(`Failed to import "${name}.ts":`);
+		console.error(`Failed to import "${filePath}":`);
 		if (err instanceof Error) {
 			console.error(err.message);
 		}
 		return 1;
 	}
 
-	// Find the exported WorkflowFile object. TypeScript workflow files export
-	// a named constant (e.g. checkAutomate). We look for any exported const
-	// whose value is a plain object with a "name" key.
+	// Find the exported WorkflowFile object.
 	const workflowObj = findWorkflowExport(mod);
 	if (!workflowObj) {
 		console.error(
-			`No WorkflowFile export found in "${name}.ts". Expected a named export like "export const <name>: WorkflowFile".`,
+			`No WorkflowFile export found in "${filePath}". Expected a named export like "export const <name>: WorkflowFile".`,
 		);
 		return 1;
 	}
