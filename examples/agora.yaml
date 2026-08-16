@@ -1,0 +1,20 @@
+name: agora
+control:
+  max_iterations: 3
+  type: parallel
+  steps:
+    - id: lint
+      type: bash
+      command: "just lint"
+    - id: typecheck
+      type: bash
+      command: "just typecheck"
+    - id: fix
+      type: agent
+      agent: nexus
+      command: >
+        nexus "just dev failed because: <previous-output>"
+steps:
+  - id: notify
+    type: bash
+    command: "notify 'dev workflow complete'"

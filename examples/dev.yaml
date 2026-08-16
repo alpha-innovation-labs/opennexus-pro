@@ -1,0 +1,29 @@
+name: dev
+control:
+  max_iterations: 3
+  type: loop_until
+  steps:
+    - id: dev
+      type: bash
+      command: "just dev"
+      validation_prompt: "dev shold display a help menu"
+    - id: fix
+      type: agent
+      command: >
+        nexus "just dev failed because: <previous-output>"
+control:
+  max_iterations: 3
+  type: loop_until
+  steps:
+    - id: fmt
+      type: bash
+      command: "just fmt"
+      validation_prompt: "fmt should work without failure or warnings"
+    - id: fix
+      type: agent
+      command: >
+        nexus "just fmt failed due to these failresu or wanrings fix them all: <previous-output>"
+steps:
+  - id: notify
+    type: bash
+    command: "notify 'dev workflow complete'"
