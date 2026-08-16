@@ -18,28 +18,12 @@ dev *APP_ARGS:
         set +a
     fi
 
-    # Start watch mode in PM2 if not already running.
-    if pm2 info nexus-watch >/dev/null 2>&1; then
-        echo "watch is running (PM2)"
-    else
-        pm2 start apps/tui/ecosystem.config.cjs --only nexus-watch
-        sleep 5  # give watch time to do initial build
-        echo "watch started (PM2)"
-    fi
-
-    # Ensure the initial bundle exists (build if watch hasn't produced it yet).
-    if [ ! -f apps/tui/dist/index.mjs ]; then
-        npx turbo build --filter=@apps/app-tui
-    fi
-
-    # Patch highlight.js import paths (v11.12.0's ESM exports don't expose ./lib/index.js).
-    for f in apps/tui/dist/*.mjs; do
-        [ -f "$f" ] || continue
-        sed -i '' 's|"highlight\.js/lib/index\.js"|"highlight.js"|g' "$f"
-    done
-
-    # Set process title via `exec -a` so ps shows "mastracode".
+    # Set process title via `exec -a` so ps shows "mastracode" instead of "npm exec tsx --".
     # This matches the release wrapper behavior (AGENTS.md: Herdr mastracode hack).
-    # Stop the watcher when this script exits.
-    trap 'pm2 delete nexus-watch 2>/dev/null' EXIT
-    exec -a mastracode node apps/tui/dist/index.mjs "$@"
+    # TODO: Replace with direct "nexus" once Herdr adds support for it.
+    # NEXUS_DEV_MODE=1 tells index.ts to set process.title = "mastracode" instead
+    # of APP_NAME, ensuring Herdr detects the agent correctly regardless of the
+    # process chain (npx -> tsx -> node).
+    export NEXUS_DEV_MODE=1
+    export NODE_OPTIONS="--import $(pnpm root)/.pnpm/tsx@4.23.12/node_modules/tsx/dist/esm/index.mjs"
+    exec -a mastracode npx tsx apps/tui/src/index.ts "$@"
