@@ -1,4 +1,4 @@
-import type { Workflow, WorkflowFile, WorkflowStep, ValidationError } from "./types.js";
+import type { Workflow, WorkflowFile, WorkflowStep, ValidationError } from "./types.ts";
 
 /**
  * Filters for `findNodes`.

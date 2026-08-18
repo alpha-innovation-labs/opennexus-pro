@@ -1,4 +1,4 @@
-import type { Workflow, WorkflowFile, WorkflowStep, ValidationError, WorkflowInput, ControlBlock } from "./schema.js";
+import type { Workflow, WorkflowFile, WorkflowStep, ValidationError, WorkflowInput, ControlBlock } from "./schema.ts";
 
 // ─── Step editing ───────────────────────────────────────────────────────────
 

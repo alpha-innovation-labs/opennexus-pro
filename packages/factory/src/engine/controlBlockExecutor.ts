@@ -13,16 +13,17 @@
  * - `do_while` — execute while condition holds (pre-check)
  */
 
-import type { Workflow } from "../schema.js";
-import type { Context, ExecutionOptions, Logger } from "./types.js";
-import type { ControlBlock, WorkflowStep } from "../schema.js";
+import type { Workflow } from "../schema.ts";
+import type { Context, ExecutionOptions, Logger } from "./types.ts";
+import type { ControlBlock, WorkflowStep } from "../schema.ts";
 
-import { templateResolver } from "./templateResolver.js";
+import { templateResolver } from "./templateResolver.ts";
 import {
 	executeStep,
 	updateContext,
-} from "./stepExecutor.js";
-import { resolveInputsForStep } from "./inputResolver.js";
+} from "./stepExecutor.ts";
+import { resolveInputsForStep } from "./inputResolver.ts";
+import { splitPaneRight } from "@nexus/herdr";
 
 // ─── Public executor functions ──────────────────────────────────────────────
 
@@ -136,30 +137,42 @@ async function executeControlBlock(
 	);
 
 	if (block.type === "parallel") {
-		// Execute all steps concurrently, fail fast on first error
+		// Execute all steps concurrently, fail fast on first error.
+		// Pre-split a unique pane for each parallel step so they don't collide
+		// when splitting from the same root pane simultaneously.
+		const basePane = resultContext._paneId;
 		const stepPromises = steps.map(async (step, idx) => {
 			try {
 				const stepInputs = resolvedStepInputs[idx];
-				const stepContext: Context = { ...resultContext, inputs: stepInputs };
+				// Pre-split a unique pane for this parallel step.
+				const splitPane = splitPaneRight(basePane);
+				const stepContext: Context = {
+					...resultContext,
+					inputs: stepInputs,
+					_paneId: splitPane,
+				};
 				const stepResult = await executeStep(step, stepContext, options);
 				return { step, result: stepResult };
 			} catch (err) {
-				return { step, result: { success: false, output: null, validationPassed: null, error: err instanceof Error ? err.message : "unknown" } };
+				return { step, result: { success: false, output: null, validationPassed: null, error: err instanceof Error ? err.message : "unknown"} };
 			}
 		});
 
 		const stepResults = await Promise.all(stepPromises);
 
-		// Check for failures (fail fast)
-		const firstFailure = stepResults.find((sr) => !sr.result.success);
-		if (firstFailure) {
-			logger.error(firstFailure.result.error ?? "step failed", `${block.type}[${block.id}]`);
-			resultContext = updateContext(resultContext, firstFailure.step, firstFailure.result);
-			resultContext.failed = true;
-		} else {
-			for (const sr of stepResults) {
-				resultContext = updateContext(resultContext, sr.step, sr.result);
+		// Always update context with all step results (successful or not),
+		// so downstream steps can reference outputs from any step.
+		for (const sr of stepResults) {
+			resultContext = updateContext(resultContext, sr.step, sr.result);
+		}
+
+		// Mark the block as failed if any step failed.
+		if (stepResults.some((sr) => !sr.result.success)) {
+			const firstFailure = stepResults.find((sr) => !sr.result.success);
+			if (firstFailure) {
+				logger.error(firstFailure.result.error ?? "step failed", `${block.type}[${block.id}]`);
 			}
+			resultContext.failed = true;
 		}
 	} else if (block.type === "foreach") {
 		const itemsBlock = block as Extract<ControlBlock, { type: "foreach" }>;

@@ -12,7 +12,7 @@
  * @packageDocumentation
  */
 
-import type { TemplateContext } from "./types.js";
+import type { TemplateContext } from "./types.ts";
 
 export function templateResolver(
 	template: string,

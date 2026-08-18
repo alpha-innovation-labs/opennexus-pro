@@ -1,7 +1,8 @@
 import { existsSync, readdirSync, statSync, mkdirSync, readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
+import { parse } from "yaml";
 import { z } from "zod";
-import { parseFactoryArgs, type FactoryArgs } from "./parseFactoryArgs.js";
+import { parseFactoryArgs, type FactoryArgs } from "./parseFactoryArgs.ts";
 import {
 	createWorkflow,
 	addStep,
@@ -20,8 +21,9 @@ import {
 	deleteWorkflow,
 	hasErrors,
 	formatErrors,
-} from "../index.js";
-import { WorkflowFileSchema, type WorkflowFile } from "../schema.js";
+	runWorkflow,
+} from "../index.ts";
+import { WorkflowFileSchema, type WorkflowFile } from "../schema.ts";
 
 /**
  * Runs the factory CLI command.
@@ -667,15 +669,14 @@ async function runFactoryRun(name: string, inputs: Record<string, string>): Prom
 	console.log(`Executing workflow: ${name}`);
 
 	try {
-		const finalResult = await runWorkflow(workflow, {
-			inputs,
-		});
+		const finalResult = await runWorkflow({ workflow, inputs });
 
-		if (finalResult.success) {
+		if (finalResult.failed === 0) {
 			console.log(`\n✓ Workflow "${name}" completed successfully.`);
 			return 0;
 		} else {
-			console.error(`\n✖ Workflow execution failed: ${finalResult.error}`);
+			const errorMessages = finalResult.errors.map(e => e.message).join("; ");
+			console.error(`\n✖ Workflow execution failed: ${errorMessages}`);
 			return 1;
 		}
 	} catch (err) {

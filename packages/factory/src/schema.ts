@@ -54,6 +54,7 @@ const BashStepSchema = z.object({
 		.string()
 		.optional()
 		.describe("Text Nexus checks to determine pass/fail (bash only)"),
+	output: z.string().optional().describe("Step output reference (legacy — use <output:{id}> instead)"),
 	inputs: z.array(WorkflowInputSchema).optional().describe("Step-local inputs"),
 });
 
@@ -64,6 +65,7 @@ const AgentStepSchema = z.object({
 	type: z.literal("agent"),
 	agent: z.string().describe("Agent name to spawn (e.g. 'nexus')"),
 	command: z.string().describe("Prompt/command to send to the agent"),
+	output: z.string().optional().describe("Step output reference (legacy — use <output:{id}> instead)"),
 	inputs: z.array(WorkflowInputSchema).optional().describe("Step-local inputs"),
 });
 

@@ -3,7 +3,7 @@ import path from "node:path";
 
 import { parse, stringify } from "yaml";
 
-import { type Workflow, WorkflowFileSchema } from "./schema.js";
+import { type Workflow, WorkflowFileSchema } from "./schema.ts";
 
 const STORAGE_DIR = ".factory";
 

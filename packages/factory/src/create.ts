@@ -1,4 +1,4 @@
-import type { Workflow, WorkflowFile, ValidationError } from "./types.js";
+import type { Workflow, WorkflowFile, ValidationError } from "./types.ts";
 
 /**
  * Creates an empty workflow with the given name.

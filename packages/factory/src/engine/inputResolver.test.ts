@@ -9,7 +9,7 @@
 
 import { describe, it } from "node:test";
 import assert from "node:assert";
-import { resolveInputsForStep } from "./inputResolver.js";
+import { resolveInputsForStep } from "./inputResolver.ts";
 
 const baseWorkflow = {
 	name: "test-workflow",

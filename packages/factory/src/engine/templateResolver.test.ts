@@ -12,7 +12,7 @@
 
 import { describe, it } from "node:test";
 import assert from "node:assert";
-import { templateResolver } from "./templateResolver.js";
+import { templateResolver } from "./templateResolver.ts";
 
 describe("templateResolver", () => {
 	const baseCtx = {

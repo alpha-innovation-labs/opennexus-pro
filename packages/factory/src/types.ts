@@ -16,4 +16,4 @@ export type {
 	ControlType,
 	WorkflowInput,
 	ValidationError,
-} from "./schema.js";
+} from "./schema.ts";

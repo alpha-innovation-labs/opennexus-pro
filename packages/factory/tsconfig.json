@@ -4,6 +4,7 @@
 		"outDir": "dist",
 		"rootDir": "..",
 		"types": ["node"],
+		"allowImportingTsExtensions": true,
 		"declaration": true,
 		"paths": {
 			"@nexus/herdr": ["../herdr/src/index.ts"]

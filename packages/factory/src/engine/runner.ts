@@ -8,10 +8,10 @@
  * @packageDocumentation
  */
 
-import { validateWorkflow } from "../validate.js";
-import { hasErrors, formatErrors } from "../errors.js";
-import { resolveInputsForStep } from "./inputResolver.js";
-import { defaultLogger } from "./logger.js";
+import { validateWorkflow } from "../validate.ts";
+import { hasErrors, formatErrors } from "../errors.ts";
+import { resolveInputsForStep } from "./inputResolver.ts";
+import { defaultLogger } from "./logger.ts";
 import {
 	loopUntilExecutor,
 	parallelExecutor,
@@ -19,10 +19,10 @@ import {
 	ifElseExecutor,
 	doUntilExecutor,
 	doWhileExecutor,
-} from "./controlBlockExecutor.js";
-import { evaluateCondition } from "./controlBlockExecutor.js";
-import { executeStep, updateContext } from "./stepExecutor.js";
-import type { Workflow, WorkflowStep, ControlBlock } from "../types.js";
+} from "./controlBlockExecutor.ts";
+import { evaluateCondition } from "./controlBlockExecutor.ts";
+import { executeStep, updateContext } from "./stepExecutor.ts";
+import type { Workflow, WorkflowStep, ControlBlock } from "../types.ts";
 import type {
 	Context,
 	WorkflowResult,
@@ -30,17 +30,17 @@ import type {
 	RunWorkflowOptions,
 	StepResult,
 	Logger,
-} from "./types.js";
+} from "./types.ts";
 
 import {
 	createHerdrWorkspace,
 } from "@nexus/herdr";
 
 // Re-export the ControlBlockExecutor type for controlBlockExecutor.ts
-export type { ControlBlockExecutor } from "./types.js";
+export type { ControlBlockExecutor } from "./types.ts";
 
 // Re-export types for the public API
-export type { RunWorkflowOptions, WorkflowResult } from "./types.js";
+export type { RunWorkflowOptions, WorkflowResult } from "./types.ts";
 
 // Re-export executeSteps for use by controlBlockExecutor.ts
 export { executeSteps };
@@ -85,6 +85,7 @@ export async function runWorkflow(options: RunWorkflowOptions): Promise<Workflow
 		iteration: 0,
 		failed: false,
 		_paneId: rootPaneId,
+		_rootPaneId: rootPaneId,
 	};
 
 	const errors: Array<{ stepId?: string; message: string; type: string }> = [];
@@ -99,7 +100,7 @@ export async function runWorkflow(options: RunWorkflowOptions): Promise<Workflow
 			block,
 			workflow,
 			context,
-			{ cwd, timeoutMs: 120_000 },
+			{ cwd, timeoutMs: 300_000 },
 			logger,
 			cliInputs,
 		);
@@ -133,7 +134,7 @@ export async function runWorkflow(options: RunWorkflowOptions): Promise<Workflow
 
 		logger.stepStart(step.id, step.type);
 
-		const stepResult = await executeStep(step, stepContext, { cwd, timeoutMs: 120_000 });
+		const stepResult = await executeStep(step, stepContext, { cwd, timeoutMs: 300_000 });
 
 		logger.stepEnd(step.id, stepResult);
 

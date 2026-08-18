@@ -4,7 +4,7 @@
  * This is the lowest-level primitive; every other module builds on it.
  */
 
-import { spawnSync } from "node:child_process";
+import { spawnSync, spawn } from "node:child_process";
 
 // ---------------------------------------------------------------------------
 // Public types
@@ -63,4 +63,79 @@ export function runHerdr(
 			`herdr ${args.join(" ")}: invalid JSON — ${source.slice(0, 200)}`,
 		);
 	}
+}
+
+/**
+ * Async, non-blocking variant of `runHerdr` that returns a promise
+ * resolving with the parsed result (or rejecting on error).
+ *
+ * @param args CLI arguments.
+ * @param options Optional timeout override.
+ * @returns Parsed JSON result (or `{ _raw }` for non-JSON output).
+ */
+export async function runHerdrAsync(
+	args: string[],
+	{ timeoutMs = 10_000 }: { timeoutMs?: number } = {},
+): Promise<HerdrResult> {
+	return new Promise<HerdrResult>((resolve, reject) => {
+		const child = spawn("herdr", args, {
+			env: { ...process.env, LC_ALL: "C", LANG: "C" },
+		});
+
+		const stderrChunks: Array<Buffer> = [];
+		const stdoutChunks: Array<Buffer> = [];
+		let timedOut = false;
+
+		const timer = setTimeout(() => {
+			timedOut = true;
+			child.kill();
+			reject(new Error(`herdr ${args.join(" ")}: timed out after ${timeoutMs}ms`));
+		}, timeoutMs);
+
+		child.stderr?.on("data", (chunk: Buffer) => stderrChunks.push(chunk));
+		child.stdout?.on("data", (chunk: Buffer) => stdoutChunks.push(chunk));
+
+		child.on("error", (err: Error) => {
+			clearTimeout(timer);
+			if (!timedOut) {
+				reject(new Error(`herdr ${args.join(" ")}: ${err.message}`));
+			}
+		});
+
+		child.on("close", (code) => {
+			clearTimeout(timer);
+			if (timedOut) return;
+
+			if (code !== 0 && code !== null) {
+				reject(new Error(`herdr ${args.join(" ")} exited with code ${code}`));
+				return;
+			}
+
+			const stderr = Buffer.concat(stderrChunks).toString();
+			const stdout = Buffer.concat(stdoutChunks).toString();
+
+			// CLI errors write JSON to stderr; success writes JSON to stdout.
+			const source = stderr.startsWith("{") ? stderr : stdout;
+
+			if (!source) {
+				reject(new Error(`herdr ${args.join(" ")}: no output`));
+				return;
+			}
+
+			if (!source.startsWith("{")) {
+				resolve({ _raw: source } as HerdrResult);
+				return;
+			}
+
+			try {
+				resolve(JSON.parse(source) as HerdrResult);
+			} catch {
+				reject(
+					new Error(
+						`herdr ${args.join(" ")}: invalid JSON — ${source.slice(0, 200)}`,
+					),
+				);
+			}
+		});
+	});
 }

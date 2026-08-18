@@ -13,7 +13,7 @@
  * @packageDocumentation
  */
 
-import type { Workflow, WorkflowInput, WorkflowStep, ControlBlock } from "../types.js";
+import type { Workflow, WorkflowInput, WorkflowStep, ControlBlock } from "../types.ts";
 
 /**
  * Resolves inputs for a single step, given the workflow, the step,

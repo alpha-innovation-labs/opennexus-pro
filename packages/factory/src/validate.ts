@@ -1,4 +1,4 @@
-import { WorkflowFileSchema, type Workflow, type ValidationError, WorkflowStepSchema } from "./schema.js";
+import { WorkflowFileSchema, type Workflow, type ValidationError, WorkflowStepSchema } from "./schema.ts";
 
 /**
  * Checks for duplicate step IDs across all steps and control blocks.

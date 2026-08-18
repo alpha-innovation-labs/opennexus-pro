@@ -7,19 +7,25 @@
  * @packageDocumentation
  */
 
-import type { WorkflowStep } from "../types.js";
-import type { Context, StepResult, ExecutionOptions } from "./types.js";
+import { writeFileSync, mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+
+import type { WorkflowStep } from "../types.ts";
+import type { Context, StepResult, ExecutionOptions } from "./types.ts";
 
 import { runCommandInPane, readPaneOutput } from "@nexus/herdr";
 import {
 	startHerdrAgent,
+	startHerdrAgentAsync,
 	promptHerdrAgent,
+	promptHerdrAgentAsync,
 	waitAgent,
 	readAgentOutput,
 	stopAgent,
 	splitPaneRight,
 } from "@nexus/herdr";
-import { templateResolver } from "./templateResolver.js";
+import { templateResolver } from "./templateResolver.ts";
 
 // ─── Bash executor ──────────────────────────────────────────────────────────
 
@@ -36,11 +42,32 @@ async function bashStep(
 		item: context.item,
 	});
 
-	// Split a new pane for this step
-	const paneId = splitPaneRight();
+	// Use the root pane directly for the first step (when _paneId === _rootPaneId)
+	// to avoid creating a dead root pane. Subsequent steps split from the new pane.
+	const paneId =
+		context._rootPaneId && context._paneId === context._rootPaneId
+			? context._paneId
+			: splitPaneRight(context._paneId);
+
+	// When the resolved command is large (multi-line or > 4KB), write it to a
+	// temp script file and execute that instead of passing it as a CLI argument.
+	// This avoids shell argument truncation when the command contains large
+	// interpolated outputs (e.g. <output:stepId> with multi-line content).
+	const LARGE_COMMAND_THRESHOLD = 4096;
+	let scriptPath: string | null = null;
+	let effectiveCommand: string;
+
+	if (resolvedCommand.length > LARGE_COMMAND_THRESHOLD || resolvedCommand.includes("\n")) {
+		const tmpDir = mkdtempSync(join(tmpdir(), "factory-"));
+		scriptPath = join(tmpDir, "script.sh");
+		writeFileSync(scriptPath, resolvedCommand, "utf-8");
+		effectiveCommand = `bash ${scriptPath}`;
+	} else {
+		effectiveCommand = resolvedCommand;
+	}
 
 	try {
-		const result = runCommandInPane(paneId, resolvedCommand, {
+		const result = runCommandInPane(paneId, effectiveCommand, {
 			timeoutMs: options.timeoutMs ?? 30_000,
 		});
 
@@ -61,6 +88,15 @@ async function bashStep(
 			validationPassed: null,
 			error: err instanceof Error ? err.message : "unknown bash error",
 		};
+	} finally {
+		// Clean up temp script file if created
+		if (scriptPath) {
+			try {
+				rmSync(scriptPath);
+			} catch {
+				// Ignore cleanup errors
+			}
+		}
 	}
 }
 
@@ -79,22 +115,27 @@ async function agentStep(
 		item: context.item,
 	});
 
-	// Split a new pane for this step, then start an agent in it
-	const paneId = splitPaneRight();
+	// Use the root pane directly for the first step (when _paneId === _rootPaneId)
+	// to avoid creating a dead root pane. Subsequent steps split from the new pane.
+	const paneId =
+		context._rootPaneId && context._paneId === context._rootPaneId
+			? context._paneId
+			: splitPaneRight(context._paneId);
 
 	try {
-		// Start an agent in the pane
-		const agentName = startHerdrAgent(paneId, {
+		// Start an agent in the pane (async — allows parallel agents to start concurrently)
+		const agentName = await startHerdrAgentAsync(paneId, {
 			maxWaitSeconds: (options.timeoutMs ?? 120_000) / 1000,
+			kind: step.agent,
 		});
 
-		// Prompt the agent and wait for it to settle
-		promptHerdrAgent(agentName, resolvedCommand, {
+		// Prompt the agent and wait for it to settle (async — allows parallel agents to be prompted concurrently)
+		await promptHerdrAgentAsync(agentName, resolvedCommand, {
 			timeoutMs: options.timeoutMs ?? 120_000,
 		});
 
-		// Wait for the agent to reach idle
-		waitAgent(agentName, { status: "idle", timeoutMs: options.timeoutMs ?? 120_000 });
+		// Wait for the agent to reach idle (non-blocking, allows parallel agents to run concurrently)
+		await waitAgent(agentName, { status: "idle", timeoutMs: options.timeoutMs ?? 120_000 });
 
 		// Read the agent's output
 		const outputResult = readAgentOutput(agentName, { lines: 200 });

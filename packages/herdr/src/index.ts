@@ -38,8 +38,8 @@ export { getHerdrPane } from "./panes/getHerdrPane.js";
 export { closeHerdrPane } from "./panes/closeHerdrPane.js";
 
 // Agent operations
-export { startHerdrAgent } from "./agents/startHerdrAgent.js";
-export { promptHerdrAgent } from "./agents/promptHerdrAgent.js";
+export { startHerdrAgent, startHerdrAgentAsync } from "./agents/startHerdrAgent.js";
+export { promptHerdrAgent, promptHerdrAgentAsync } from "./agents/promptHerdrAgent.js";
 export { sendTextToAgent } from "./agents/sendTextToAgent.js";
 export { sendKeysToAgent } from "./agents/sendKeysToAgent.js";
 export { splitPaneRight } from "./agents/splitPaneRight.js";

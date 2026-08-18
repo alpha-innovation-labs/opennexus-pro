@@ -13,7 +13,7 @@ export {
 	WorkflowStepSchema,
 	ControlBlockSchema,
 	WorkflowFileSchema,
-} from "./schema.js";
+} from "./schema.ts";
 
 // Types (derived from schema)
 export type {
@@ -25,17 +25,17 @@ export type {
 	ControlType,
 	WorkflowInput,
 	ValidationError,
-} from "./types.js";
+} from "./types.ts";
 
-export type { NodeFilter } from "./query.js";
+export type { NodeFilter } from "./query.ts";
 
 // CLI (for the TUI to delegate to)
-export { hasFactoryFlag } from "./cli/hasFactoryFlag.js";
-export { parseFactoryArgs, type FactoryArgs } from "./cli/parseFactoryArgs.js";
-export { runFactoryCommand } from "./cli/runFactoryCommand.js";
+export { hasFactoryFlag } from "./cli/hasFactoryFlag.ts";
+export { parseFactoryArgs, type FactoryArgs } from "./cli/parseFactoryArgs.ts";
+export { runFactoryCommand } from "./cli/runFactoryCommand.ts";
 
 // Create
-export { createWorkflow, addStep, addControlBlock } from "./create.js";
+export { createWorkflow, addStep, addControlBlock } from "./create.ts";
 
 // Edit
 export {
@@ -45,16 +45,20 @@ export {
 	removeControlBlock,
 	addStepToControl,
 	removeStepFromControl,
-} from "./edit.js";
+} from "./edit.ts";
 
 // Query
-export { findNodes, walkWorkflow } from "./query.js";
+export { findNodes, walkWorkflow } from "./query.ts";
 
 // Validate
-export { validateWorkflow } from "./validate.js";
+export { validateWorkflow } from "./validate.ts";
 
 // Save / Load / Delete
-export { saveWorkflow, loadWorkflow, deleteWorkflow } from "./save.js";
+export { saveWorkflow, loadWorkflow, deleteWorkflow } from "./save.ts";
 
 // Error helpers
-export { hasErrors, formatErrors, groupByCode } from "./errors.js";
+export { hasErrors, formatErrors, groupByCode } from "./errors.ts";
+
+// Engine (workflow execution)
+export { runWorkflow } from "./engine/runner.ts";
+export type { WorkflowResult, RunWorkflowOptions } from "./engine/types.ts";
