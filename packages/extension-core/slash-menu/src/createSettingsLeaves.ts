@@ -26,7 +26,7 @@ export async function createSettingsLeaves(
 		label: "Theme",
 		description: "Color theme for the interface",
 		value: "theme",
-		currentValue: settings.getTheme() || "dark",
+		currentValue: settings.getTheme() || "nexus-black",
 		options: themeNames,
 	};
 	return sortSlashMenuItemsByLabel([

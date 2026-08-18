@@ -10,7 +10,7 @@ import type { SlashMenuLeaf } from "./types";
  */
 export async function createThemeLeaves(cwd: string): Promise<SlashMenuLeaf[]> {
 	const settings = SettingsManager.create(cwd);
-	const activeTheme = settings.getTheme() || "dark";
+	const activeTheme = settings.getTheme() || "nexus-black";
 	const themeNames = await readThemes(cwd);
 	return themeNames.map((name) => ({
 		kind: "theme",
