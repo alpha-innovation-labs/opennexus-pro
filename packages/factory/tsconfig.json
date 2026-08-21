@@ -4,10 +4,7 @@
 		"outDir": "dist",
 		"rootDir": "..",
 		"types": ["node"],
-		"declaration": true,
-		"paths": {
-			"@nexus/herdr": ["../herdr/src/index.ts"]
-		}
+		"declaration": true
 	},
-	"include": ["src/**/*.ts", "../herdr/src/**/*.ts"]
+	"include": ["src/**/*.ts"]
 }

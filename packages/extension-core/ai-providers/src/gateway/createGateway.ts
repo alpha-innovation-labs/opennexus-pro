@@ -32,6 +32,7 @@ const PROVIDER_NAMES: Record<string, string> = {
 	harbor: "Harbor",
 	openllm: "OpenLLM",
 	"lm-studio": "LM Studio",
+	mtplx: "MTPx",
 };
 
 /**
@@ -92,6 +93,7 @@ export function createGateway(
 		"open-webui",
 		"harbor",
 		"openllm",
+		"mtplx",
 	]);
 	if (OPENAI_COMPATIBLE.has(providerId) && !baseUrl.endsWith("/v1")) {
 		baseUrl = `${baseUrl}/v1`;

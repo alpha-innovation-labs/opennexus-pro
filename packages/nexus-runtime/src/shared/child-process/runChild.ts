@@ -24,7 +24,5 @@ export async function runChild(cwd: string, prompt: string): Promise<string> {
 	});
 	if (code !== 0)
 		throw new Error(`Child process exited with code ${code}: ${stderr.trim()}`);
-	if (stderr.trim())
-		throw new Error(`Child process produced stderr: ${stderr.trim()}`);
 	return stdout;
 }

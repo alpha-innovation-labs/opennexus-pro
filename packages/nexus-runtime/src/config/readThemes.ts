@@ -1,5 +1,4 @@
 import { DefaultResourceLoader } from "@earendil-works/pi-coding-agent";
-import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { getNexusAgentDirPath } from "./getNexusAgentDirPath";
 import { resolveInstalledDependencyPath } from "../package/resolveInstalledDependencyPath";

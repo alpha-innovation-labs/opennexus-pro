@@ -31,6 +31,7 @@ import 'justfiles/testing/test.just'
 # ============================================================================
 import 'justfiles/utilities/check-automate.just'
 import 'justfiles/utilities/check-release.just'
+import 'justfiles/utilities/codegraph.just'
 import 'justfiles/utilities/help.just'
 import 'justfiles/utilities/uninstall.just'
 import 'justfiles/utilities/upgrade-vendors.just'

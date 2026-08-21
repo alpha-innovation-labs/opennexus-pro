@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus TUI Awesome — Isometric System Map</title>
+<style>
+  :root {
+    --bg: #0d1117; --bg2: #161b22; --bg3: #1c2333;
+    --text: #c9d1d9; --text2: #8b949e; --text3: #6e7681;
+    --accent1: #58a6ff; --accent2: #3fb950; --accent3: #f0883e;
+    --accent4: #bc8cff; --accent5: #f778ba; --accent6: #d2a8ff;
+    --border: #30363d; --grid: #21262d;
+    --tower1: #1a3a5c; --tower1top: #2d6aa0;
+    --tower2: #1a4a2c; --tower2top: #2d8a4a;
+    --tower3: #4a2a1a; --tower3top: #8a5a2d;
+    --tower4: #3a1a4a; --tower4top: #6a2d8a;
+    --tower5: #4a1a3a; --tower5top: #8a2d6a;
+    --tower6: #2a3a4a; --tower6top: #4a6a8a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    min-height: 100vh; overflow-x: hidden;
+  }
+  .header {
+    text-align: center; padding: 40px 20px 20px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, #0d1117 0%, #161b22 100%);
+  }
+  .header h1 {
+    font-size: 28px; font-weight: 700; letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--accent1), var(--accent4));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .header .sub {
+    font-size: 13px; color: var(--text2); margin-top: 8px;
+  }
+  .header .commit {
+    font-size: 11px; color: var(--text3); margin-top: 4px;
+    font-family: monospace;
+  }
+
+  .layout {
+    display: flex; gap: 0;
+    max-width: 1600px; margin: 0 auto;
+  }
+  .map-area {
+    flex: 1; padding: 30px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .side-panel {
+    width: 340px; min-width: 340px;
+    border-left: 1px solid var(--border);
+    background: var(--bg2);
+    max-height: calc(100vh - 120px); overflow-y: auto;
+  }
+
+  /* SVG map */
+  .map-container {
+    width: 100%; max-width: 900px;
+  }
+  svg text { font-family: 'SF Mono', 'Fira Code', monospace; }
+  .grid-line { stroke: var(--grid); stroke-width: 0.5; }
+  .grid-line-major { stroke: #2a3040; stroke-width: 0.8; }
+  .tower-base { opacity: 0.9; }
+  .tower-top { opacity: 0.85; }
+  .flow-line {
+    fill: none; stroke-width: 2; stroke-dasharray: 6 3;
+    opacity: 0.7;
+  }
+  .flow-line.control { stroke: var(--accent1); }
+  .flow-line.data { stroke: var(--accent2); stroke-dasharray: 3 4; }
+  .flow-line.payload { stroke: var(--accent3); stroke-dasharray: 8 4 2 4; }
+  .flow-line.config { stroke: var(--accent4); stroke-dasharray: 2 3; }
+  .flow-line.agent { stroke: var(--accent5); stroke-dasharray: 5 2; }
+
+  .label {
+    font-size: 10px; fill: var(--text); font-weight: 600;
+    text-anchor: middle;
+  }
+  .sublabel {
+    font-size: 8px; fill: var(--text2); text-anchor: middle;
+  }
+  .node-label {
+    font-size: 11px; fill: var(--accent6); text-anchor: middle;
+    font-weight: 500;
+  }
+
+  /* Legend */
+  .legend {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .legend h3 {
+    font-size: 14px; color: var(--accent1); margin-bottom: 14px;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .legend-section { margin-bottom: 18px; }
+  .legend-section h4 {
+    font-size: 11px; color: var(--text2); margin-bottom: 8px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 6px; font-size: 12px;
+  }
+  .legend-swatch {
+    width: 28px; height: 3px; border-radius: 2px; flex-shrink: 0;
+  }
+  .legend-swatch.sw { background: var(--accent1); }
+  .legend-swatch.dh { background: var(--accent2); }
+  .legend-swatch.pl { background: var(--accent3); }
+  .legend-swatch.cg { background: var(--accent4); }
+  .legend-swatch.ag { background: var(--accent5); }
+
+  .tower-legend {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;
+  }
+  .tower-dot {
+    width: 14px; height: 14px; border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  /* Explainer */
+  .explainer {
+    padding: 24px;
+  }
+  .explainer h3 {
+    font-size: 14px; color: var(--accent2); margin-bottom: 14px;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .explainer p {
+    font-size: 12px; line-height: 1.7; color: var(--text2);
+    margin-bottom: 14px;
+  }
+  .explainer .ref {
+    font-size: 10px; color: var(--text3);
+    background: var(--bg); padding: 2px 6px; border-radius: 3px;
+    font-family: monospace;
+  }
+  .explainer .ref a { color: var(--accent1); text-decoration: none; }
+  .explainer .ref a:hover { text-decoration: underline; }
+
+  .flow-section { margin-bottom: 18px; }
+  .flow-section h4 {
+    font-size: 12px; color: var(--text); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .flow-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+  }
+  .flow-dot.ctrl { background: var(--accent1); }
+  .flow-dot.data { background: var(--accent2); }
+  .flow-dot.pay { background: var(--accent3); }
+  .flow-dot.cfg { background: var(--accent4); }
+  .flow-dot.agt { background: var(--accent5); }
+
+  /* Tooltip */
+  .tooltip-box {
+    cursor: pointer;
+  }
+  .tooltip-box:hover .tower-base { opacity: 1; filter: brightness(1.3); }
+  .tooltip-box:hover text { fill: #fff; }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--text3);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Nexus TUI Awesome — Isometric System Map</h1>
+  <div class="sub">Infrastructure as 3D buildings on an isometric grid · Dependencies &amp; payloads traced as control/data flows</div>
+  <div class="commit">HEAD: 2571781a · 3168d574 · c5edd9ab · bbd141ba · 630c2cf4 (main)</div>
+</div>
+
+<div class="layout">
+  <div class="map-area">
+    <div class="map-container">
+      <svg viewBox="0 0 900 680" xmlns="http://www.w3.org/2000/svg" width="100%">
+        <defs>
+          <!-- Grid pattern -->
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1a2030" stroke-width="0.5"/>
+          </pattern>
+          <pattern id="gridMajor" width="120" height="120" patternUnits="userSpaceOnUse">
+            <path d="M 120 0 L 0 0 0 120" fill="none" stroke="#243045" stroke-width="0.8"/>
+          </pattern>
+          <!-- Tower gradients -->
+          <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2d6aa0"/>
+            <stop offset="100%" stop-color="#1a3a5c"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2d8a4a"/>
+            <stop offset="100%" stop-color="#1a4a2c"/>
+          </linearGradient>
+          <linearGradient id="g3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8a5a2d"/>
+            <stop offset="100%" stop-color="#4a2a1a"/>
+          </linearGradient>
+          <linearGradient id="g4" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6a2d8a"/>
+            <stop offset="100%" stop-color="#3a1a4a"/>
+          </linearGradient>
+          <linearGradient id="g5" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8a2d6a"/>
+            <stop offset="100%" stop-color="#4a1a3a"/>
+          </linearGradient>
+          <linearGradient id="g6" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4a6a8a"/>
+            <stop offset="100%" stop-color="#2a3a4a"/>
+          </linearGradient>
+          <linearGradient id="g7" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#5a8a5a"/>
+            <stop offset="100%" stop-color="#2a4a2a"/>
+          </linearGradient>
+          <linearGradient id="g8" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6a5a3a"/>
+            <stop offset="100%" stop-color="#4a3a1a"/>
+          </linearGradient>
+          <!-- Glow filter -->
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="shadow">
+            <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.5"/>
+          </filter>
+        </defs>
+
+        <!-- Background -->
+        <rect width="900" height="680" fill="#0d1117"/>
+
+        <!-- Grid floor -->
+        <g id="grid-floor">
+          <rect x="60" y="120" width="780" height="480" fill="url(#grid)"/>
+          <rect x="60" y="120" width="780" height="480" fill="url(#gridMajor)"/>
+          <!-- Grid border -->
+          <rect x="60" y="120" width="780" height="480" fill="none" stroke="#30363d" stroke-width="1"/>
+        </g>
+
+        <!-- ===== TOWER 1: TUI App (Main Gateway) — tallest, center-left ===== -->
+        <g class="tooltip-box" filter="url(#shadow)">
+          <!-- Isometric tower: front face, right face, top face -->
+          <!-- Front face -->
+          <polygon points="180,420 280,420 280,180 180,180" fill="url(#g1)" stroke="#3a7ac0" stroke-width="0.5"/>
+          <!-- Right face -->
+          <polygon points="280,420 320,380 320,140 280,180" fill="#153050" stroke="#2a5a80" stroke-width="0.5"/>
+          <!-- Top face -->
+          <polygon points="180,180 280,180 320,140 220,140" fill="#3a8ac0" stroke="#4aa0d0" stroke-width="0.5"/>
+          <!-- Windows (front) -->
+          <rect x="195" y="200" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.6"/>
+          <rect x="215" y="200" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.4"/>
+          <rect x="255" y="200" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.7"/>
+          <rect x="195" y="230" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.5"/>
+          <rect x="235" y="230" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.6"/>
+          <rect x="255" y="230" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.3"/>
+          <rect x="195" y="260" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.4"/>
+          <rect x="215" y="260" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.7"/>
+          <rect x="255" y="260" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.5"/>
+          <rect x="195" y="290" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.6"/>
+          <rect x="235" y="290" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.4"/>
+          <rect x="195" y="320" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.3"/>
+          <rect x="215" y="320" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.5"/>
+          <rect x="255" y="320" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.6"/>
+          <rect x="195" y="350" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.5"/>
+          <rect x="235" y="350" width="15" height="10" rx="1" fill="#5ab0ff" opacity="0.4"/>
+          <!-- Label -->
+          <text x="230" y="445" class="label" fill="#58a6ff">TUI APP</text>
+          <text x="230" y="458" class="sublabel">apps/tui/src</text>
+        </g>
+
+        <!-- ===== TOWER 2: Herdr (Agent Orchestrator) — tall, center ===== -->
+        <g class="tooltip-box" filter="url(#shadow)">
+          <polygon points="340,380 440,380 440,160 340,160" fill="url(#g2)" stroke="#3a9a5a" stroke-width="0.5"/>
+          <polygon points="440,380 480,340 480,120 440,160" fill="#154030" stroke="#2a7a4a" stroke-width="0.5"/>
+          <polygon points="340,160 440,160 480,120 380,120" fill="#3aaa6a" stroke="#4aba7a" stroke-width="0.5"/>
+          <!-- Windows -->
+          <rect x="355" y="180" width="15" height="10" rx="1" fill="#3fb950" opacity="0.6"/>
+          <rect x="375" y="180" width="15" height="10" rx="1" fill="#3fb950" opacity="0.5"/>
+          <rect x="415" y="180" width="15" height="10" rx="1" fill="#3fb950" opacity="0.7"/>
+          <rect x="355" y="210" width="15" height="10" rx="1" fill="#3fb950" opacity="0.4"/>
+          <rect x="395" y="210" width="15" height="10" rx="1" fill="#3fb950" opacity="0.6"/>
+          <rect x="415" y="210" width="15" height="10" rx="1" fill="#3fb950" opacity="0.5"/>
+          <rect x="355" y="240" width="15" height="10" rx="1" fill="#3fb950" opacity="0.7"/>
+          <rect x="375" y="240" width="15" height="10" rx="1" fill="#3fb950" opacity="0.4"/>
+          <rect x="415" y="240" width="15" height="10" rx="1" fill="#3fb950" opacity="0.6"/>
+          <rect x="355" y="270" width="15" height="10" rx="1" fill="#3fb950" opacity="0.5"/>
+          <rect x="395" y="270" width="15" height="10" rx="1" fill="#3fb950" opacity="0.7"/>
+          <rect x="355" y="300" width="15" height="10" rx="1" fill="#3fb950" opacity="0.6"/>
+          <rect x="375" y="300" width="15" height="10" rx="1" fill="#3fb950" opacity="0.4"/>
+          <rect x="415" y="300" width="15" height="10" rx="1" fill="#3fb950" opacity="0.5"/>
+          <rect x="355" y="330" width="15" height="10" rx="1" fill="#3fb950" opacity="0.4"/>
+          <rect x="395" y="330" width="15" height="10" rx="1" fill="#3fb950" opacity="0.6"/>
+          <!-- Label -->
+          <text x="390" y="400" class="label" fill="#3fb950">HERDR</text>
+          <text x="390" y="413" class="sublabel">packages/herdr/src</text>
+        </g>
+
+        <!-- ===== TOWER 3: Factory (Workflow Engine) — medium, center-right ===== -->
+        <g class="tooltip-box" filter="url(#shadow)">
+          <polygon points="500,380 580,380 580,220 500,220" fill="url(#g3)" stroke="#9a7a3a" stroke-width="0.5"/>
+          <polygon points="580,380 620,340 620,180 580,220" fill="#4a3a1a" stroke="#7a5a2a" stroke-width="0.5"/>
+          <polygon points="500,220 580,220 620,180 540,180" fill="#9a7a3a" stroke="#aa8a4a" stroke-width="0.5"/>
+          <!-- Windows -->
+          <rect x="515" y="240" width="15" height="10" rx="1" fill="#f0883e" opacity="0.6"/>
+          <rect x="535" y="240" width="15" height="10" rx="1" fill="#f0883e" opacity="0.5"/>
+          <rect x="565" y="240" width="15" height="10" rx="1" fill="#f0883e" opacity="0.7"/>
+          <rect x="515" y="270" width="15" height="10" rx="1" fill="#f0883e" opacity="0.4"/>
+          <rect x="555" y="270" width="15" height="10" rx="1" fill="#f0883e" opacity="0.6"/>
+          <rect x="515" y="300" width="15" height="10" rx="1" fill="#f0883e" opacity="0.5"/>
+          <rect x="535" y="300" width="15" height="10" rx="1" fill="#f0883e" opacity="0.7"/>
+          <rect x="565" y="300" width="15" height="10" rx="1" fill="#f0883e" opacity="0.4"/>
+          <rect x="515" y="330" width="15" height="10" rx="1" fill="#f0883e" opacity="0.6"/>
+          <rect x="555" y="330" width="15" height="10" rx="1" fill="#f0883e" opacity="0.5"/>
+          <!-- Label -->
+          <text x="540" y="400" class="label" fill="#f0883e">FACTORY</text>
+          <text x="540" y="413" class="sublabel">packages/factory/src</text>
+        </g>
+
+        <!-- ===== TOWER 4: Extension Core (Plugins) — tall, far-left ===== -->
+        <g class="tooltip-box" filter="url(#shadow)">
+          <polygon points="80,460 160,460 160,240 80,240" fill="url(#g4)" stroke="#7a3aaa" stroke-width="0.5"/>
+          <polygon points="160,460 200,420 200,200 160,240" fill="#3a1a5a" stroke="#5a2a7a" stroke-width="0.5"/>
+          <polygon points="80,240 160,240 200,200 120,200" fill="#7a3aaa" stroke="#8a4aba" stroke-width="0.5"/>
+          <!-- Windows -->
+          <rect x="95" y="260" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.6"/>
+          <rect x="115" y="260" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.5"/>
+          <rect x="145" y="260" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.7"/>
+          <rect x="95" y="290" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.4"/>
+          <rect x="135" y="290" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.6"/>
+          <rect x="95" y="320" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.5"/>
+          <rect x="115" y="320" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.7"/>
+          <rect x="145" y="320" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.4"/>
+          <rect x="95" y="350" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.6"/>
+          <rect x="135" y="350" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.5"/>
+          <rect x="95" y="380" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.4"/>
+          <rect x="115" y="380" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.6"/>
+          <rect x="145" y="380" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.5"/>
+          <rect x="95" y="410" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.5"/>
+          <rect x="135" y="410" width="15" height="10" rx="1" fill="#bc8cff" opacity="0.4"/>
+          <!-- Label -->
+          <text x="120" y="480" class="label" fill="#bc8cff">EXT CORE</text>
+          <text x="120" y="493" class="sublabel">packages/extension-core/*</text>
+        </g>
+
+        <!-- ===== TOWER 5: Pi Platform (Patches &amp; Tools) — medium, far-right ===== -->
+        <g class="tooltip-box" filter="url(#shadow)">
+          <polygon points="640,380 720,380 720,240 640,240" fill="url(#g5)" stroke="#9a3a6a" stroke-width="0.5"/>
+          <polygon points="720,380 760,340 760,200 720,240" fill="#4a1a3a" stroke="#7a2a5a" stroke-width="0.5"/>
+          <polygon points="640,240 720,240 760,200 680,200" fill="#9a3a6a" stroke="#aa4a7a" stroke-width="0.5"/>
+          <!-- Windows -->
+          <rect x="655" y="260" width="15" height="10" rx="1" fill="#f778ba" opacity="0.6"/>
+          <rect x="675" y="260" width="15" height="10" rx="1" fill="#f778ba" opacity="0.5"/>
+          <rect x="705" y="260" width="15" height="10" rx="1" fill="#f778ba" opacity="0.7"/>
+          <rect x="655" y="290" width="15" height="10" rx="1" fill="#f778ba" opacity="0.4"/>
+          <rect x="695" y="290" width="15" height="10" rx="1" fill="#f778ba" opacity="0.6"/>
+          <rect x="655" y="320" width="15" height="10" rx="1" fill="#f778ba" opacity="0.5"/>
+          <rect x="675" y="320" width="15" height="10" rx="1" fill="#f778ba" opacity="0.7"/>
+          <rect x="705" y="320" width="15" height="10" rx="1" fill="#f778ba" opacity="0.4"/>
+          <rect x="655" y="350" width="15" height="10" rx="1" fill="#f778ba" opacity="0.6"/>
+          <rect x="695" y="350" width="15" height="10" rx="1" fill="#f778ba" opacity="0.5"/>
+          <!-- Label -->
+          <text x="680" y="400" class="label" fill="#f778ba">PI PLATFORM</text>
+          <text x="680" y="413" class="sublabel">packages/pi-platform/src</text>
+        </g>
+
+        <!-- ===== TOWER 6: Nexus Runtime (Config &amp; CLI) — short, bottom-left ===== -->
+        <g class="tooltip-box" filter="url(#shadow)">
+          <polygon points="100,540 180,540 180,440 100,440" fill="url(#g6)" stroke="#4a6a8a" stroke-width="0.5"/>
+          <polygon points="180,540 210,510 210,410 180,440" fill="#2a3a4a" stroke="#3a5a7a" stroke-width="0.5"/>
+          <polygon points="100,440 180,440 210,410 130,410" fill="#4a6a8a" stroke="#5a7a9a" stroke-width="0.5"/>
+          <!-- Windows -->
+          <rect x="115" y="455" width="15" height="8" rx="1" fill="#7aaadd" opacity="0.5"/>
+          <rect x="135" y="455" width="15" height="8" rx="1" fill="#7aaadd" opacity="0.4"/>
+          <rect x="165" y="455" width="15" height="8" rx="1" fill="#7aaadd" opacity="0.6"/>
+          <rect x="115" y="475" width="15" height="8" rx="1" fill="#7aaadd" opacity="0.4"/>
+          <rect x="155" y="475" width="15" height="8" rx="1" fill="#7aaadd" opacity="0.5"/>
+          <rect x="115" y="495" width="15" height="8" rx="1" fill="#7aaadd" opacity="0.6"/>
+          <rect x="155" y="495" width="15" height="8" rx="1" fill="#7aaadd" opacity="0.4"/>
+          <!-- Label -->
+          <text x="140" y="558" class="label" fill="#7aaadd">NEXUS RUNTIME</text>
+          <text x="140" y="571" class="sublabel">packages/nexus-runtime/src</text>
+        </g>
+
+        <!-- ===== TOWER 7: Observability (Profiling) — short, bottom-center ===== -->
+        <g class="tooltip-box" filter="url(#shadow)">
+          <polygon points="300,540 380,540 380,460 300,460" fill="url(#g7)" stroke="#5a8a5a" stroke-width="0.5"/>
+          <polygon points="380,540 410,510 410,430 380,460" fill="#2a4a2a" stroke="#3a6a3a" stroke-width="0.5"/>
+          <polygon points="300,460 380,460 410,430 330,430" fill="#5a8a5a" stroke="#6a9a6a" stroke-width="0.5"/>
+          <!-- Windows -->
+          <rect x="315" y="475" width="15" height="8" rx="1" fill="#5ad05a" opacity="0.5"/>
+          <rect x="335" y="475" width="15" height="8" rx="1" fill="#5ad05a" opacity="0.4"/>
+          <rect x="365" y="475" width="15" height="8" rx="1" fill="#5ad05a" opacity="0.6"/>
+          <rect x="315" y="495" width="15" height="8" rx="1" fill="#5ad05a" opacity="0.4"/>
+          <rect x="355" y="495" width="15" height="8" rx="1" fill="#5ad05a" opacity="0.5"/>
+          <rect x="315" y="515" width="15" height="8" rx="1" fill="#5ad05a" opacity="0.5"/>
+          <rect x="355" y="515" width="15" height="8" rx="1" fill="#5ad05a" opacity="0.4"/>
+          <!-- Label -->
+          <text x="340" y="558" class="label" fill="#5ad05a">OBSERVABILITY</text>
+          <text x="340" y="571" class="sublabel">packages/observability/src</text>
+        </g>
+
+        <!-- ===== TOWER 8: TUI Kit (UI Components) — short, bottom-right ===== -->
+        <g class="tooltip-box" filter="url(#shadow)">
+          <polygon points="540,540 620,540 620,470 540,470" fill="url(#g8)" stroke="#6a7a4a" stroke-width="0.5"/>
+          <polygon points="620,540 650,510 650,440 620,470" fill="#4a3a1a" stroke="#5a5a3a" stroke-width="0.5"/>
+          <polygon points="540,470 620,470 650,440 570,440" fill="#6a7a4a" stroke="#7a8a5a" stroke-width="0.5"/>
+          <!-- Windows -->
+          <rect x="555" y="485" width="15" height="8" rx="1" fill="#8aaa5a" opacity="0.5"/>
+          <rect x="575" y="485" width="15" height="8" rx="1" fill="#8aaa5a" opacity="0.4"/>
+          <rect x="605" y="485" width="15" height="8" rx="1" fill="#8aaa5a" opacity="0.6"/>
+          <rect x="555" y="505" width="15" height="8" rx="1" fill="#8aaa5a" opacity="0.4"/>
+          <rect x="595" y="505" width="15" height="8" rx="1" fill="#8aaa5a" opacity="0.5"/>
+          <rect x="555" y="525" width="15" height="8" rx="1" fill="#8aaa5a" opacity="0.5"/>
+          <rect x="595" y="525" width="15" height="8" rx="1" fill="#8aaa5a" opacity="0.4"/>
+          <!-- Label -->
+          <text x="580" y="558" class="label" fill="#8aaa5a">TUI KIT</text>
+          <text x="580" y="571" class="sublabel">packages/tui-kit/src</text>
+        </g>
+
+        <!-- ===== FLOW LINES (Connections between towers) ===== -->
+        <g id="flows" filter="url(#glow)">
+          <!-- TUI → Herdr: Control (blue) — runApp calls Herdr APIs -->
+          <path d="M 280 350 Q 310 320 340 340" class="flow-line control" stroke-dasharray="6 3"/>
+          <text x="310" y="315" class="node-label" fill="#58a6ff" font-size="8">control</text>
+          <text x="310" y="325" class="sublabel" fill="#4a7ab0" font-size="7">runApp.ts → runHerdr.js</text>
+
+          <!-- Herdr → Factory: Data (green) — workflow execution -->
+          <path d="M 440 300 Q 470 280 500 310" class="flow-line data" stroke-dasharray="3 4"/>
+          <text x="470" y="275" class="node-label" fill="#3fb950" font-size="8">data</text>
+          <text x="470" y="285" class="sublabel" fill="#4a9a6a" font-size="7">runWorkflow → runner.ts</text>
+
+          <!-- Factory → Herdr: Payload (orange) — agent commands -->
+          <path d="M 500 340 Q 470 360 440 350" class="flow-line payload" stroke-dasharray="8 4 2 4"/>
+          <text x="470" y="370" class="node-label" fill="#f0883e" font-size="8">payload</text>
+          <text x="470" y="380" class="sublabel" fill="#9a6a3a" font-size="7">runFactoryCommand → startHerdrAgent</text>
+
+          <!-- Extension Core → TUI: Config (purple) — extension registration -->
+          <path d="M 160 350 Q 170 340 180 350" class="flow-line config" stroke-dasharray="2 3"/>
+          <text x="170" y="335" class="node-label" fill="#bc8cff" font-size="8">config</text>
+          <text x="170" y="345" class="sublabel" fill="#6a5a8a" font-size="7">registerBundledExtensions</text>
+
+          <!-- Extension Core → Herdr: Agent (pink) — subagent tools -->
+          <path d="M 200 350 Q 270 320 340 330" class="flow-line agent" stroke-dasharray="5 2"/>
+          <text x="270" y="315" class="node-label" fill="#f778ba" font-size="8">agent</text>
+          <text x="270" y="325" class="sublabel" fill="#8a4a6a" font-size="7">subagents tools → agent ops</text>
+
+          <!-- Nexus Runtime → TUI: Config (teal) — config loading -->
+          <path d="M 180 480 Q 200 450 220 420" class="flow-line config" stroke-dasharray="2 3"/>
+          <text x="200" y="445" class="node-label" fill="#7aaadd" font-size="8">config</text>
+          <text x="200" y="455" class="sublabel" fill="#5a7a9a" font-size="7">applyNexusConfigPatch</text>
+
+          <!-- Observability → TUI: Data (green) — profiling -->
+          <path d="M 380 480 Q 360 450 340 420" class="flow-line data" stroke-dasharray="3 4"/>
+          <text x="360" y="445" class="node-label" fill="#5ad05a" font-size="8">data</text>
+          <text x="360" y="455" class="sublabel" fill="#4a8a4a" font-size="7">logStartupProfileEvent</text>
+
+          <!-- TUI Kit → TUI: Payload (orange) — UI components -->
+          <path d="M 540 500 Q 450 480 320 420" class="flow-line payload" stroke-dasharray="8 4 2 4"/>
+          <text x="430" y="475" class="node-label" fill="#8aaa5a" font-size="8">payload</text>
+          <text x="430" y="485" class="sublabel" fill="#6a7a4a" font-size="7">recordRegisteredShortcut</text>
+
+          <!-- Pi Platform → TUI: Config (pink) — patches -->
+          <path d="M 640 340 Q 450 310 280 280" class="flow-line config" stroke-dasharray="2 3" stroke="#f778ba"/>
+          <text x="460" y="305" class="node-label" fill="#f778ba" font-size="8">config</text>
+          <text x="460" y="315" class="sublabel" fill="#8a4a6a" font-size="7">apply*Patch (8 patches)</text>
+
+          <!-- Extension Core → Herdr: Agent (pink) — web search tools -->
+          <path d="M 200 280 Q 290 240 340 260" class="flow-line agent" stroke-dasharray="5 2"/>
+          <text x="270" y="235" class="node-label" fill="#f778ba" font-size="8">agent</text>
+          <text x="270" y="245" class="sublabel" fill="#8a4a6a" font-size="7">web-search tools → agent</text>
+
+          <!-- Extension Core → Factory: Control (blue) — workflow extensions -->
+          <path d="M 160 300 Q 330 260 500 280" class="flow-line control" stroke-dasharray="6 3"/>
+          <text x="330" y="255" class="node-label" fill="#58a6ff" font-size="8">control</text>
+          <text x="330" y="265" class="sublabel" fill="#4a7ab0" font-size="7">feature flags → workflow</text>
+
+          <!-- Herdr → Pi Platform: Data (green) — settings management -->
+          <path d="M 440 280 Q 540 270 640 300" class="flow-line data" stroke-dasharray="3 4"/>
+          <text x="540" y="265" class="node-label" fill="#3fb950" font-size="8">data</text>
+          <text x="540" y="275" class="sublabel" fill="#4a9a6a" font-size="7">settings → applyPatch</text>
+        </g>
+
+        <!-- ===== ZONE LABELS (floor annotations) ===== -->
+        <g id="zones">
+          <text x="140" y="590" class="sublabel" fill="#4a5a7a" font-size="9">INFRASTRUCTURE ZONE</text>
+          <text x="450" y="590" class="sublabel" fill="#4a5a7a" font-size="9">ORCHESTRATION ZONE</text>
+          <text x="700" y="590" class="sublabel" fill="#4a5a7a" font-size="9">PLATFORM ZONE</text>
+          <!-- Zone separators -->
+          <line x1="280" y1="580" x2="280" y2="600" stroke="#30363d" stroke-width="0.5" stroke-dasharray="4 4"/>
+          <line x1="520" y1="580" x2="520" y2="600" stroke="#30363d" stroke-width="0.5" stroke-dasharray="4 4"/>
+        </g>
+
+        <!-- ===== KEY FILES ANNOTATION ===== -->
+        <g id="key-files" font-size="7" fill="#5a6a7a">
+          <!-- TUI App key files -->
+          <text x="185" y="205" fill="#4a8ab0" font-size="7">runApp.ts</text>
+          <text x="185" y="215" fill="#3a7a9a" font-size="6">resolveBundledExtensionFactories.ts</text>
+          <!-- Herdr key files -->
+          <text x="345" y="185" fill="#3a9a5a" font-size="7">runHerdr.js</text>
+          <text x="345" y="195" fill="#2a8a4a" font-size="6">drill.ts · startHerdrAgent</text>
+          <!-- Factory key files -->
+          <text x="505" y="245" fill="#9a7a3a" font-size="7">runner.ts</text>
+          <text x="505" y="255" fill="#8a6a2a" font-size="6">stepExecutor.ts · templateResolver.ts</text>
+          <!-- Extension Core key files -->
+          <text x="85" y="265" fill="#6a4a8a" font-size="7">tron · web-search · subagents</text>
+          <text x="85" y="275" fill="#5a3a7a" font-size="6">notify · auto-update · hotkeys</text>
+          <!-- Pi Platform key files -->
+          <text x="645" y="265" fill="#8a3a5a" font-size="7">8 apply*Patch</text>
+          <text x="645" y="275" fill="#7a2a4a" font-size="6">buildNexusSystemPrompt.ts</text>
+          <!-- Runtime key files -->
+          <text x="105" y="455" fill="#3a6a8a" font-size="7">readNexusUserConfig</text>
+          <text x="105" y="465" fill="#2a5a7a" font-size="6">normalizeUsageStartupArgs</text>
+          <!-- Observability key files -->
+          <text x="305" y="475" fill="#3a7a3a" font-size="7">logStartupProfileEvent</text>
+          <text x="305" y="485" fill="#2a6a2a" font-size="6">wrapExtensionEventHandler</text>
+          <!-- TUI Kit key files -->
+          <text x="545" y="485" fill="#4a6a2a" font-size="7">markdown-preview · modal</text>
+          <text x="545" y="495" fill="#3a5a1a" font-size="6">shortcuts · styles</text>
+        </g>
+
+        <!-- ===== MAIN ENTRY POINT HIGHLIGHT ===== -->
+        <g id="entrypoint">
+          <rect x="175" y="175" width="110" height="250" fill="none" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="4 2" rx="4"/>
+          <text x="230" y="170" class="node-label" fill="#58a6ff" font-size="9">◄ MAIN ENTRY</text>
+        </g>
+
+        <!-- ===== FLOW LEGEND (on-map) ===== -->
+        <g id="flow-legend" transform="translate(730, 140)">
+          <rect x="0" y="0" width="155" height="110" rx="6" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+          <text x="77" y="18" class="label" fill="#8b949e" font-size="9">FLOW TYPES</text>
+          <line x1="15" y1="32" x2="45" y2="32" class="flow-line control"/>
+          <text x="50" y="36" class="sublabel" fill="#8b949e" font-size="8">— Control (blue)</text>
+          <line x1="15" y1="48" x2="45" y2="48" class="flow-line data"/>
+          <text x="50" y="52" class="sublabel" fill="#8b949e" font-size="8">— Data (green)</text>
+          <line x1="15" y1="64" x2="45" y2="64" class="flow-line payload"/>
+          <text x="50" y="68" class="sublabel" fill="#8b949e" font-size="8">— Payload (orange)</text>
+          <line x1="15" y1="80" x2="45" y2="80" class="flow-line config"/>
+          <text x="50" y="84" class="sublabel" fill="#8b949e" font-size="8">— Config (purple)</text>
+          <line x1="15" y1="96" x2="45" y2="96" class="flow-line agent"/>
+          <text x="50" y="100" class="sublabel" fill="#8b949e" font-size="8">— Agent (pink)</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Side Panel -->
+  <div class="side-panel">
+    <!-- Legend -->
+    <div class="legend">
+      <h3>Legend</h3>
+
+      <div class="legend-section">
+        <h4>Tower Height = Importance</h4>
+        <div class="legend-item">
+          <div class="tower-dot" style="background: #2d6aa0; height: 22px;"></div>
+          <span>TUI App — Main entry, extension host</span>
+        </div>
+        <div class="legend-item">
+          <div class="tower-dot" style="background: #2d8a4a; height: 20px;"></div>
+          <span>Herdr — Agent orchestration</span>
+        </div>
+        <div class="legend-item">
+          <div class="tower-dot" style="background: #8a5a2d; height: 16px;"></div>
+          <span>Factory — Workflow engine</span>
+        </div>
+        <div class="legend-item">
+          <div class="tower-dot" style="background: #6a2d8a; height: 18px;"></div>
+          <span>Extension Core — Plugin system</span>
+        </div>
+        <div class="legend-item">
+          <div class="tower-dot" style="background: #8a2d6a; height: 14px;"></div>
+          <span>Pi Platform — Patches &amp; tools</span>
+        </div>
+        <div class="legend-item">
+          <div class="tower-dot" style="background: #4a6a8a; height: 10px;"></div>
+          <span>Nexus Runtime — Config &amp; CLI</span>
+        </div>
+        <div class="legend-item">
+          <div class="tower-dot" style="background: #5a8a5a; height: 10px;"></div>
+          <span>Observability — Profiling</span>
+        </div>
+        <div class="legend-item">
+          <div class="tower-dot" style="background: #6a7a4a; height: 10px;"></div>
+          <span>TUI Kit — UI components</span>
+        </div>
+      </div>
+
+      <div class="legend-section">
+        <h4>Flow Lines (On-Map)</h4>
+        <div class="legend-item">
+          <div class="legend-swatch sw"></div>
+          <span>Control — API calls, function invocations</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch dh"></div>
+          <span>Data — Configuration passing, state</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch pl"></div>
+          <span>Payload — Command execution, agent work</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch cg"></div>
+          <span>Config — Settings, patches, feature flags</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch ag"></div>
+          <span>Agent — Subagent tools, prompts, output</span>
+        </div>
+      </div>
+
+      <div class="legend-section">
+        <h4>Grid Zones</h4>
+        <div class="legend-item"><span>Infrastructure Zone — Left (extensions, runtime)</span></div>
+        <div class="legend-item"><span>Orchestration Zone — Center (TUI, Herdr, Factory)</span></div>
+        <div class="legend-item"><span>Platform Zone — Right (Pi Platform, TUI Kit)</span></div>
+      </div>
+    </div>
+
+    <!-- Explainer -->
+    <div class="explainer">
+      <h3>System Explainer</h3>
+
+      <p>
+        This map shows <strong>Nexus TUI Awesome</strong> (v0.2.47) as an isometric city of 8 interconnected buildings on a pnpm monorepo grid. Each tower represents a package or app, with height proportional to architectural importance.
+      </p>
+
+      <div class="flow-section">
+        <h4><span class="flow-dot ctrl"></span> Control Flows (blue)</h4>
+        <p>
+          <strong>TUI → Herdr:</strong> <span class="ref"><a href="#runApp.ts">runApp.ts</a></span> orchestrates agent sessions through <span class="ref"><a href="#runHerdr">runHerdr.js</a></span> (packages/herdr/src/core). The <span class="ref"><a href="#resolveBundledExtensionFactories.ts">resolveBundledExtensionFactories.ts</a></span> resolves extension factories based on CLI args and feature flags.
+        </p>
+        <p>
+          <strong>Extension Core → TUI:</strong> Extensions register via <span class="ref"><a href="#registerBundledExtensions">registerBundledExtensions</a></span> with feature-flag gating (tron, slash-menu, hotkeys). Each extension (notify, auto-update, web-search, subagents, etc.) is registered through the <span class="ref">@earendil-works/pi-coding-agent</span> ExtensionAPI.
+        </p>
+        <p>
+          <strong>Extension Core → Factory:</strong> Feature flags gate workflow creation. <span class="ref"><a href="#feature-flags">@nexus/feature-flags</a></span> controls which extensions are active, which flows into Factory's <span class="ref"><a href="#create.ts">createWorkflow/addStep</a></span> API.
+        </p>
+      </div>
+
+      <div class="flow-section">
+        <h4><span class="flow-dot data"></span> Data Flows (green)</h4>
+        <p>
+          <strong>Herdr → Factory:</strong> Workflow execution results flow back via <span class="ref"><a href="#runner.ts">runWorkflow</a></span> (packages/factory/src/engine/runner.ts). Steps execute through <span class="ref"><a href="#stepExecutor.ts">stepExecutor.ts</a></span> and <span class="ref"><a href="#templateResolver.ts">templateResolver.ts</a></span>.
+        </p>
+        <p>
+          <strong>Observability → TUI:</strong> Startup profiling events from <span class="ref"><a href="#logRunAppPhase">logRunAppPhase</a></span> (packages/observability/src/startup-profile) track every phase of <span class="ref"><a href="#runApp.ts">runApp()</a></span> execution. <span class="ref"><a href="#wrapExtensionEventHandler">wrapExtensionEventHandler</a></span> instruments all extension calls.
+        </p>
+        <p>
+          <strong>Herdr → Pi Platform:</strong> Settings management flows through <span class="ref"><a href="#applyNexusSystemPromptPatch">applyNexusSystemPromptPatch</a></span> and <span class="ref"><a href="#pruneLoggedOutEnabledModels">pruneLoggedOutEnabledModels</a></span> (packages/pi-platform/src/settings).
+        </p>
+      </div>
+
+      <div class="flow-section">
+        <h4><span class="flow-dot pay"></span> Payload Flows (orange)</h4>
+        <p>
+          <strong>Factory → Herdr:</strong> Workflow commands execute as agent operations via <span class="ref"><a href="#runFactoryCommand">runFactoryCommand</a></span> → <span class="ref"><a href="#startHerdrAgent">startHerdrAgent</a></span>. Agent operations include <span class="ref">promptHerdrAgent, sendTextToAgent, splitPaneRight, runCommandInPane</span>.
+        </p>
+        <p>
+          <strong>TUI Kit → TUI:</strong> UI components (markdown-preview, modal, shortcuts) are injected into the TUI via <span class="ref"><a href="#tui-kit">recordRegisteredShortcut</a></span> and other TUI Kit exports.
+        </p>
+      </div>
+
+      <div class="flow-section">
+        <h4><span class="flow-dot cfg"></span> Config Flows (purple)</h4>
+        <p>
+          <strong>Nexus Runtime → TUI:</strong> <span class="ref"><a href="#applyNexusConfigPatch">applyNexusConfigPatch</a></span> reads <span class="ref"><a href="#readNexusUserConfig">readNexusUserConfig</a></span> and applies patches. <span class="ref"><a href="#normalizeUsageStartupArgs">normalizeUsageStartupArgs</a></span> normalizes CLI args.
+        </p>
+        <p>
+          <strong>Pi Platform → TUI:</strong> 8 patches applied at startup: <span class="ref">applyStartupUpdateSilencePatch, applyStartupChangelogSilencePatch, applyStartupHelpSilencePatch, applyPromptTemplateArgAppendPatch, applyModelChangeDisplayPatch, applyHotkeysCommandPatch, applyToolExecutionSpacingPatch, applyWorkingLoaderElapsedPatch, applyInlineImageOverlayPatch, applyNexusSystemPromptPatch</span>.
+        </p>
+      </div>
+
+      <div class="flow-section">
+        <h4><span class="flow-dot agt"></span> Agent Flows (pink)</h4>
+        <p>
+          <strong>Extension Core → Herdr:</strong> Subagent tools (<span class="ref"><a href="#startHerdrAgent">startHerdrAgent, promptHerdrAgent</a></span>, <span class="ref"><a href="#sendTextToAgent">sendTextToAgent</a></span>, <span class="ref"><a href="#waitAgent">waitAgent</a></span>, <span class="ref"><a href="#stopAgent">stopAgent</a></span>) are exposed via the subagents extension. Web-search tools (<span class="ref"><a href="#registerWebSearchExtension">registerWebSearchExtension</a></span>) provide <span class="ref">webFetchTool</span> through crawl4ai and Jina fetch.
+        </p>
+        <p>
+          <strong>Extension Core → TUI:</strong> Tron tool-wrapping (<span class="ref"><a href="#createTronToolWrappingExtensionApi">createTronToolWrappingExtensionApi</a></span>) groups tool executions. Notify extension sends system notifications via OSC escape sequences or Windows toast.
+        </p>
+      </div>
+
+      <div class="flow-section">
+        <h4>Extension Inventory</h4>
+        <p>
+          <strong>Core extensions</strong> (packages/extension-core/*/): auto-update, cmux, console-table-printer, context-usage, exit-message, fff, hotkeys, local-image-reader, neo-editor, notify, observations, slash-menu, startup-hero, subagents, system-prompt, tron, web-search.
+        </p>
+        <p>
+          <strong>Other packages:</strong> feature-flags, mini-apps (tetris!), nexus-runtime, observability, pi-platform, tui-kit.
+        </p>
+      </div>
+
+      <div class="flow-section">
+        <h4>Key Source Files</h4>
+        <p>
+          <span class="ref"><a href="apps/tui/src/runtime/runApp.ts">apps/tui/src/runtime/runApp.ts</a></span> — Single app entry point for dev and release modes. Orchestrates startup phases, extension registration, and delegates to <span class="ref">@earendil-works/pi-coding-agent</span>.
+        </p>
+        <p>
+          <span class="ref"><a href="packages/herdr/src/index.ts">packages/herdr/src/index.ts</a></span> — Agent orchestration library: workspaces, tabs, panes, agents. Core primitives: <span class="ref">runHerdr, drill, resolveJustDevBinary</span>.
+        </p>
+        <p>
+          <span class="ref"><a href="packages/factory/src/index.ts">packages/factory/src/index.ts</a></span> — Programmatic workflow YAML API: create, edit, query, validate, save/load/delete, and execute workflows.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  nexus-tui-awesome v0.2.47 · pnpm monorepo · 8 towers · 12 flow connections · 3 zones
+  · Generated from source at HEAD 2571781a
+</div>
+
+</body>
+</html>
