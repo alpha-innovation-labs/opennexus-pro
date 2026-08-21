@@ -24,4 +24,5 @@ export const DEFAULT_PORTS: Record<string, number> = {
 	harbor: 3000,
 	openllm: 3000,
 	"lm-studio": 1234,
+	mtplx: 8000,
 };

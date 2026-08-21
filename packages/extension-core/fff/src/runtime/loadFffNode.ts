@@ -1,13 +1,10 @@
-import { pathToFileURL } from "node:url";
-import { getFffNodeEntryPath } from "./getFffNodeEntryPath";
-
 /**
- * Loads the FFF runtime entrypoint from the available packaged module path.
+ * Loads the FFF runtime module.
  *
  * @returns The loaded FFF module.
  */
 export async function loadFffNode(): Promise<
 	typeof import("@ff-labs/fff-node")
 > {
-	return await import(pathToFileURL(getFffNodeEntryPath()).href);
+	return await import("@ff-labs/fff-node");
 }

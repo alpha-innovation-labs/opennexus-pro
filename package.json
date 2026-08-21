@@ -1,13 +1,12 @@
 {
   "name": "opennexus",
   "private": "true",
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@11.22.0",
   "version": "0.2.47",
   "type": "module",
   "scripts": {
     "generate:package-info": "node scripts/auto-update/generatePackageInfo.mjs"
   },
-  "dependencies": {},
   "devDependencies": {
     "@biomejs/biome": "^2.5.8",
     "turbo": "^2.10.10",
