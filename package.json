@@ -8,10 +8,10 @@
     "generate:package-info": "node scripts/auto-update/generatePackageInfo.mjs"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.8",
-    "turbo": "^2.10.10",
+    "@biomejs/biome": "^2.5.9",
+    "turbo": "^2.10.11",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   },
   "workspaces": [
     "apps/tui",

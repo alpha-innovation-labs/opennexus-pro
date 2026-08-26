@@ -39,11 +39,16 @@ export async function getGateways(
 	}
 
 	// Add cached providers that have no config entry, using hardcoded
-	// default ports as fallback.
+	// default ports as fallback.  Skip cache entries whose provider is
+	// not a known/accepted provider (no default port) — these are
+	// stale or user-added providers that were never fully configured.
 	const cachePath = getModelCachePath();
 	const cache: ProviderStateCache = await readProviderStateCache(cachePath);
 	for (const providerId of Object.keys(cache)) {
 		if (!configuredIds.has(providerId)) {
+			if (!(providerId in DEFAULT_PORTS)) {
+				continue;
+			}
 			const gateway = createGateway(providerId);
 			gateways.push(gateway);
 		}

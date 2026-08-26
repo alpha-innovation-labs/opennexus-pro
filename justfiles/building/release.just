@@ -92,7 +92,7 @@ release:
     echo "🔧 Patching highlight.js import paths..."
     for f in "${NPM_PACKAGE_DIR}"/*.mjs; do
         [ -f "$f" ] || continue
-        sed -i '' 's|"highlight\.js/lib/index\.js"|"highlight.js"|g' "$f"
+        sed -i 's|"highlight\.js/lib/index\.js"|"highlight.js"|g' "$f"
     done
 
     # Install locally (no npm publish).
@@ -104,7 +104,7 @@ release:
         # Create a clean deps list (no workspace:*) for npm.
         CLEAN_DEPS=$(node -e "const p=require('./package.json'); const d={}; Object.keys(p.dependencies).filter(k=>!p.dependencies[k].startsWith('workspace:')).forEach(k=>{d[k]=p.dependencies[k]}); console.log(JSON.stringify(d))")
         node -e "const p=JSON.parse(require('fs').readFileSync('package.json','utf8')); p.dependencies=JSON.parse(process.argv[1]); require('fs').writeFileSync('package.json',JSON.stringify(p,null,2));" "${CLEAN_DEPS}"
-        npm install -g .
+        npm install -g --force .
         node install-deps.mjs
     )
 
