@@ -84,11 +84,23 @@ pub:
         "postinstall": "node install-deps.mjs"
       },
       "dependencies": ${DEPS_JSON},
-      "files": ["index.mjs", "*.mjs", "package.json", "install-deps.mjs", "prompts", "default-settings"],
-      "os": ["darwin"],
-      "cpu": ["arm64", "x64"]
+      "files": ["index.mjs", "*.mjs", "package.json", "install-deps.mjs", "prompts", "default-settings"]
     }
     PKGJSON
+
+    # Patch highlight.js import paths.
+    echo "🔧 Patching highlight.js import paths..."
+    for f in "${NPM_PACKAGE_DIR}"/*.mjs; do
+        [ -f "$f" ] || continue
+        sed -i 's|"highlight\.js/lib/index\.js"|"highlight.js"|g' "$f"
+    done
+
+    # Patch jiti import paths.
+    echo "🔧 Patching jiti import paths..."
+    for f in "${NPM_PACKAGE_DIR}"/*.mjs; do
+        [ -f "$f" ] || continue
+        sed -i 's|"jiti/static"|"jiti"|g' "$f"
+    done
 
     # Publish.
     # Strip workspace:* from package.json so npm doesn't choke on it.

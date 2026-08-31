@@ -65,20 +65,8 @@ export default defineConfig({
 
       // Copy bundled theme JSON files from @earendil-works/pi-coding-agent
       // so getThemesDir() can find them at runtime.
-      // The code expects PI_PACKAGE_DIR/theme/ for Node.js builds.
-      // Try multiple possible locations for the theme files.
-      const possibleThemeDirs = [
-        join(process.cwd(), '..', '..', 'node_modules', '@earendil-works', 'pi-coding-agent', 'dist', 'modes', 'interactive', 'theme'),
-        join(process.cwd(), '..', '..', 'node_modules', '.pnpm', '@earendil-works+pi-coding-agent@*', 'node_modules', '@earendil-works', 'pi-coding-agent', 'dist', 'modes', 'interactive', 'theme'),
-      ]
-      let themeSrcDir = null
-      for (const candidate of possibleThemeDirs) {
-        if (existsSync(candidate) && readdirSync(candidate).some((f) => f.endsWith('.json'))) {
-          themeSrcDir = candidate
-          break
-        }
-      }
-      if (themeSrcDir) {
+      const themeSrcDir = join(process.cwd(), 'node_modules', '@earendil-works', 'pi-coding-agent', 'dist', 'modes', 'interactive', 'theme');
+      if (existsSync(themeSrcDir)) {
         // pi-coding-agent's getThemesDir() expects PI_PACKAGE_DIR/dist/modes/interactive/theme/
         // when PI_PACKAGE_DIR is set (bundled binary mode).
         const themeDestDir = join(distOutDir, 'dist', 'modes', 'interactive', 'theme')
@@ -94,6 +82,7 @@ export default defineConfig({
   deps: {
     alwaysBundle: [
       '@nexus/console-table-printer',
+      '@nexus/factory',
       '@nexus/feature-flags',
       '@nexus/herdr',
       '@nexus/mini-apps',

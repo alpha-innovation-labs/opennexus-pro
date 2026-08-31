@@ -61,8 +61,8 @@ release:
     }
     POSTINSTALL
 
-    # Read deps from apps/tui/package.json, stripping workspace:* entries.
-    DEPS_JSON=$(node -e "const p=require('./apps/tui/package.json'); const d={}; Object.keys(p.dependencies).filter(k=>!p.dependencies[k].startsWith('workspace:')).forEach(k=>{d[k]=p.dependencies[k]}); console.log(JSON.stringify(d))")
+    # Scan built bundles for all bare imports and resolve versions from lockfile.
+    DEPS_JSON=$(node ./scripts/clean-deps.mjs "$DIST")
 
     # Write package.json (same as pub, but without publishConfig).
     cat > "${NPM_PACKAGE_DIR}/package.json" << PKGJSON
@@ -79,9 +79,7 @@ release:
         "postinstall": "node install-deps.mjs"
       },
       "dependencies": ${DEPS_JSON},
-      "files": ["index.mjs", "*.mjs", "package.json", "install-deps.mjs", "prompts", "default-settings"],
-      "os": ["darwin"],
-      "cpu": ["arm64", "x64"]
+      "files": ["index.mjs", "*.mjs", "package.json", "install-deps.mjs", "prompts", "default-settings"]
     }
     PKGJSON
 
@@ -95,15 +93,23 @@ release:
         sed -i 's|"highlight\.js/lib/index\.js"|"highlight.js"|g' "$f"
     done
 
+    # Patch jiti import paths.
+    # jiti doesn't export ./static, only the root and ./register, ./native.
+    # Fix: replace jiti/static → jiti (root export has createJiti).
+    echo "🔧 Patching jiti import paths..."
+    for f in "${NPM_PACKAGE_DIR}"/*.mjs; do
+        [ -f "$f" ] || continue
+        sed -i 's|"jiti/static"|"jiti"|g' "$f"
+    done
+
     # Install locally (no npm publish).
     # Note: `npm install -g .` skips postinstall scripts, so we run it manually.
-    # Also strip workspace:* from package.json before install so npm doesn't choke.
+    # Strip workspace:* entries from the released package.json before installing.
     echo "🚀 Installing locally..."
     (
         cd "${NPM_PACKAGE_DIR}"
-        # Create a clean deps list (no workspace:*) for npm.
-        CLEAN_DEPS=$(node -e "const p=require('./package.json'); const d={}; Object.keys(p.dependencies).filter(k=>!p.dependencies[k].startsWith('workspace:')).forEach(k=>{d[k]=p.dependencies[k]}); console.log(JSON.stringify(d))")
-        node -e "const p=JSON.parse(require('fs').readFileSync('package.json','utf8')); p.dependencies=JSON.parse(process.argv[1]); require('fs').writeFileSync('package.json',JSON.stringify(p,null,2));" "${CLEAN_DEPS}"
+        # Remove workspace:* entries and rewrite package.json
+        node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('package.json','utf8')); for(const k of Object.keys(p.dependencies||{})) { if((p.dependencies[k]||'').startsWith('workspace:')) delete p.dependencies[k]; } fs.writeFileSync('package.json', JSON.stringify(p,null,2));"
         npm install -g --force .
         node install-deps.mjs
     )

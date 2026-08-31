@@ -188,7 +188,7 @@ export async function runCliWithApp(
 	const disabledFeatures = readDisabledFeatures(argv);
 	const enabledFeatures = readEnabledFeatures(argv);
 
-	// --minimal: whitelist only the specified extensions, disable everything else.
+	// --minimal: whitelist only the specified extensions, plus any extras from --enable-features.
 	if (hasMinimalFlag(argv)) {
 		const { getAllBundledExtensionIds } = await import(
 			"@nexus/feature-flags"
@@ -197,9 +197,10 @@ export async function runCliWithApp(
 		const disabledFeatures = allIds.filter(
 			(id) => !MINIMAL_EXTENSION_WHITELIST.includes(id),
 		);
+		const extraEnabled = enabledFeatures.filter((id) => allIds.includes(id));
 		await options.runApp(argv, {
 			disabledFeatures,
-			enabledFeatures: MINIMAL_EXTENSION_WHITELIST,
+			enabledFeatures: [...new Set([...MINIMAL_EXTENSION_WHITELIST, ...extraEnabled])],
 		});
 		return 0;
 	}

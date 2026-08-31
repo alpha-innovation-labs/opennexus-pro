@@ -25,7 +25,7 @@ export function createNexusUsageText(
 		"  --resume=<session-id>              Open a specific session directly",
 		"  --startup-profile                  Write startup timings to /tmp/nexus-startup-profile.log",
 		"  --no-extensions, -ne               Disable extension registration",
-		"  --minimal, -m                      Start with a minimal extension set",
+		"  --minimal, -m                      Start with a minimal extension set (use --enable-features to add extras)",
 		"  --disable-features <list>          Disable listed features (comma-separated IDs)",
 		"  --enable-features <list>           Force-enable listed features (comma-separated IDs)",
 		...createCommandUsageLines(),
