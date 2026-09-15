@@ -19,11 +19,29 @@ export function createRuntimeSnapshot(
 	ctx: ExtensionContext | ExtensionCommandContext,
 ): ContextUsageRuntimeSnapshot {
 	const contextWindow = getContextWindow(ctx);
+	const getAllTools = (
+		ctx as unknown as {
+			getAllTools?: () => Array<{
+				name: string;
+				description: string;
+				parameters: unknown;
+			}>;
+		}
+	).getAllTools;
+	const toolDefinitions =
+		typeof getAllTools === "function"
+			? getAllTools.call(ctx).map((t) => ({
+					name: t.name,
+					description: t.description,
+					parameters: t.parameters,
+			  }))
+			: undefined;
 	return {
 		usage: normalizeContextUsage(ctx.getContextUsage() ?? null, contextWindow),
 		modelName: getModelDisplayName(ctx),
 		systemPrompt: ctx.getSystemPrompt(),
 		systemPromptOptions: getLatestSystemPromptOptions(),
 		messages: getBranchMessages(ctx),
+		toolDefinitions,
 	};
 }

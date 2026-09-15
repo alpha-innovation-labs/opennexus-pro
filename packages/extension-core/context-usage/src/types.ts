@@ -1,5 +1,15 @@
 import type { BuildSystemPromptOptions } from "@earendil-works/pi-coding-agent";
 
+/**
+ * Minimal shape of a tool definition as sent to the API.
+ * Used for accurate token estimation of the tools array.
+ */
+export interface ToolDefinitionInfo {
+	name: string;
+	description: string;
+	parameters: unknown;
+}
+
 export interface ContextUsageRuntimeSnapshot {
 	usage: {
 		tokens: number | null;
@@ -10,6 +20,8 @@ export interface ContextUsageRuntimeSnapshot {
 	systemPrompt: string;
 	systemPromptOptions?: BuildSystemPromptOptions;
 	messages: unknown[];
+	/** Full tool definitions (name + description + parameters) sent to the API. */
+	toolDefinitions?: ToolDefinitionInfo[];
 }
 
 export interface ContextUsageCategory {

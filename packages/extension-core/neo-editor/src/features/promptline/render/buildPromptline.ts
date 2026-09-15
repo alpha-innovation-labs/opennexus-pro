@@ -75,11 +75,11 @@ export function buildPromptline(
 			: typeof usage?.percent === "number" && contextWindow > 0
 				? Math.round((usage.percent / 100) * contextWindow)
 				: 0;
-	// When pi reports 0 tokens (before it computes usage for a new message),
-	// bridge the gap: startup usedTokens + delta from new user/assistant messages.
+	// When pi's token estimate is below the startup baseline (e.g. no assistant
+	// response yet), bridge the gap: startup usedTokens + delta from new messages.
 	const startupReport = getStartupContextReport();
 	const displayTokens =
-		rawTokens === 0 && startupReport?.usedTokens != null
+		startupReport?.usedTokens != null && rawTokens < startupReport.usedTokens
 			? computeBridgeTokens(ctx, startupReport.usedTokens)
 			: rawTokens;
 	const tokenUsage = formatContextTokenUsage(displayTokens, contextWindow);

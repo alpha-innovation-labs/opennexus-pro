@@ -5,6 +5,7 @@ import { createPromptToolItems } from "./createPromptToolItems";
 import { createSkillItems } from "./createSkillItems";
 import { createToolItems } from "./createToolItems";
 import { estimateTokensFromText } from "./estimateTokensFromText";
+import { estimateToolDefinitionsTokens } from "./estimateToolDefinitionTokens";
 import { createPiBuiltinToolItems } from "./pi/createPiBuiltinToolItems";
 import { getPiDefaultCompactionReserveTokens } from "./pi/getPiDefaultCompactionReserveTokens";
 import { sumTokens } from "./sumTokens";
@@ -101,6 +102,12 @@ export async function createContextUsageReport(
 		sumTokens(mcpTools) +
 		sumTokens(agentsFiles) +
 		sumTokens(skills);
+	// The API sends full tool definitions (name + description + parameters
+	// JSON schema) in the tools array, not just the short snippets in the
+	// system prompt. Use the full definition estimate when available.
+	const fullToolDefinitionTokens = snapshot.toolDefinitions
+		? estimateToolDefinitionsTokens(snapshot.toolDefinitions)
+		: null;
 	const renderedSystemPromptTokens = estimateTokensFromText(
 		snapshot.systemPrompt,
 	);
@@ -123,14 +130,28 @@ export async function createContextUsageReport(
 			? Math.min(piReserveTokens, contextWindow)
 			: piReserveTokens;
 	const measuredUsedTokens = snapshot.usage?.tokens ?? null;
-	const estimatedUsedTokens =
+	// Use full tool definition tokens when available (matches what the API
+	// actually counts), otherwise fall back to snippet-based estimate.
+	const systemToolsTokens =
+		fullToolDefinitionTokens != null
+			? fullToolDefinitionTokens
+			: sumTokens(systemTools);
+	const estimatedTotal =
 		systemPromptTokens +
-		sumTokens(systemTools) +
+		systemToolsTokens +
 		sumTokens(mcpTools) +
 		sumTokens(agentsFiles) +
 		sumTokens(skills) +
 		messagesTokens;
-	const usedTokens = measuredUsedTokens ?? estimatedUsedTokens;
+	// The gap between the API-reported total and our local estimates is
+	// distributed estimation error (chars/4 underestimates the real tokenizer,
+	// JSON.stringify doesn't match provider wire format, etc.). Show it as an
+	// explicit "Other" bucket so the math is transparent.
+	const otherTokens =
+		measuredUsedTokens != null
+			? Math.max(0, measuredUsedTokens - estimatedTotal)
+			: 0;
+	const usedTokens = measuredUsedTokens ?? estimatedTotal;
 	const freeTokens = Math.max(0, contextWindow - usedTokens - reserveTokens);
 
 	return {
@@ -150,8 +171,8 @@ export async function createContextUsageReport(
 			{
 				marker: "⛁",
 				label: "System tools",
-				tokens: sumTokens(systemTools),
-				percent: calculatePercent(sumTokens(systemTools), contextWindow),
+				tokens: systemToolsTokens,
+				percent: calculatePercent(systemToolsTokens, contextWindow),
 			},
 			{
 				marker: "⛁",
@@ -177,6 +198,16 @@ export async function createContextUsageReport(
 				tokens: messagesTokens,
 				percent: calculatePercent(messagesTokens, contextWindow),
 			},
+			...(otherTokens > 0
+				? [
+						{
+							marker: "⛁",
+							label: "Other",
+							tokens: otherTokens,
+							percent: calculatePercent(otherTokens, contextWindow),
+						},
+				  ]
+				: []),
 			{
 				marker: "⛶",
 				label: "Free space",
