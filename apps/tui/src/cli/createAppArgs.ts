@@ -25,6 +25,7 @@ export function createAppArgs(inputArgs: string[]): string[] {
 
 	let hasBundledCommandsPath = false;
 	let hasNoPromptTemplates = false;
+	let hasTuiModeFullscreen = false;
 
 	for (let index = 0; index < args.length; index += 1) {
 		if (
@@ -36,9 +37,23 @@ export function createAppArgs(inputArgs: string[]): string[] {
 		if (args[index] === "--no-prompt-templates" || args[index] === "-np") {
 			hasNoPromptTemplates = true;
 		}
+		// Check whether --tui-mode fullscreen is already set by the caller.
+		if (
+			args[index] === "--tui-mode" &&
+			(args[index + 1] === "fullscreen" || args[index + 1] === "regular")
+		) {
+			hasTuiModeFullscreen = true;
+		}
 	}
 
 	const prependedArgs: string[] = [];
+
+	// Default to fullscreen TUI mode so the main screen uses an alternate
+	// viewport with application-owned scrollback (scrollbar + mouse wheel support).
+	if (!hasTuiModeFullscreen) {
+		prependedArgs.push("--tui-mode", "fullscreen");
+	}
+
 	// Themes are now discovered natively from agentDir/.themes/ — no --theme
 	// injection needed. The --no-themes flag still works as Pi's built-in
 	// mechanism to disable theme loading.
