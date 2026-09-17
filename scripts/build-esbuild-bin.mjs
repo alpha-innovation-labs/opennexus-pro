@@ -10,7 +10,8 @@
  * 3. Handle dynamic require() calls for node builtins.
  */
 
-import { resolve } from "node:path";
+import { existsSync, statSync } from "node:fs";
+import { resolve, dirname } from "node:path";
 import { build } from "esbuild";
 
 const ROOT = resolve(import.meta.dirname, "..");
@@ -165,9 +166,18 @@ function aliasPlugin(aliases) {
 			build.onResolve({ filter }, (args) => {
 				const aliasBase = entries.find(([k]) => args.path.startsWith(k));
 				if (aliasBase) {
-					const subPath = args.path.slice(aliasBase[0].length);
-					const fullPath = resolve(aliasBase[1], subPath);
-					if (existsSync(fullPath)) {
+					// Strip the leading slash so the subpath is treated as relative
+				// to the aliased package's source dir (path.resolve would otherwise
+			// treat "/sub" as an absolute path and land on the filesystem root).
+				const subPath = args.path.slice(aliasBase[0].length).replace(/^\/+/, "");
+				const fullPath =
+					subPath === ""
+						? aliasBase[1]
+						: resolve(dirname(aliasBase[1]), subPath);
+					// Only treat an exact match as a file; a directory falls through
+					// to the extension loop (which resolves ".../tools" -> ".../tools.ts"
+					// or ".../tools/index.ts").
+					if (existsSync(fullPath) && statSync(fullPath).isFile()) {
 						return { path: fullPath };
 					}
 					for (const ext of [
@@ -191,14 +201,6 @@ function aliasPlugin(aliases) {
 	};
 }
 
-function existsSync(p) {
-	try {
-		return __require("node:fs").existsSync(p);
-	} catch {
-		return false;
-	}
-}
-
 async function main() {
 	try {
 		console.log("📦 Bundling with esbuild...");
@@ -212,6 +214,16 @@ async function main() {
 			target: "node20",
 			outfile: OUTPUT,
 			external: NODE_MODULES,
+			// The bundle is ESM so import.meta.url works natively, but some bundled
+		// CJS deps call require() at runtime. esbuild's CJS-require shim relies on a
+		// module-scoped `require`, which ESM does not provide, so inject one via
+		// createRequire. This makes both ESM (import.meta) and CJS (require) work.
+			banner: {
+				js: [
+					'import { createRequire as __nexusCreateRequire } from "node:module";',
+					"const require = __nexusCreateRequire(import.meta.url);",
+				].join(""),
+			},
 			plugins: [aliasPlugin(ALIASES)],
 			sourcemap: false,
 			logLevel: "info",
