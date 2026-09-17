@@ -61,6 +61,7 @@ import { showSchedulesMenu } from "./ui/schedule-menu.js";
 import { selectItem } from "./ui/select-item.js";
 import { renderWorkflowEntryCard } from "./ui/workflow-card.js";
 import { renderWorkflowToolResult } from "./ui/workflow-tool-result.js";
+import { WorkflowTranscriptUpdates } from "./ui/workflow-transcript-updates.js";
 import { openWorkflowFromFleet, showWorkflowsMenu, type WorkflowMenuDeps } from "./ui/workflow-menu.js";
 import { getLifetimeCost, getLifetimeTotal, getSessionContextPercent, type LifetimeUsage, PendingUsagePool, toReportedUsage } from "./usage.js";
 import { decideWorkflowCollision, FOREIGN_WORKFLOW_TOOL_NAMES } from "./workflow/collisions.js";
@@ -1670,9 +1671,12 @@ Terse command-style prompts produce shallow, generic work.
       return new Text(rowBackground + "▸ " + name + (desc ? "  " + theme.fg("muted", desc) : ""), 0, 0);
     },
 
-    renderResult(result, { expanded, isPartial }, theme, renderContext) {
+    renderResult(result, { expanded }, theme, renderContext) {
       const details = result.details as AgentDetails | undefined;
-      const text = result.content[0]?.type === "text" ? result.content[0].text : "";
+      const text = result.content.filter(block => block.type === "text").map(block => block.text).join("\n");
+      const withOutput = (line: string) => new Text(
+        expanded && text ? `${line}\n${text}` : line, 0, 0,
+      );
       // Pi reports pre-execution failures (extension block, abort, argument
       // validation) as `{ content: [reason], details: {} }` with isError set —
       // no status to render, so show the reason instead of inventing one (#199).
@@ -1709,20 +1713,20 @@ Terse command-style prompts produce shallow, generic work.
 
       // ---- Background agent launched ----
       if (details.status === "background") {
-        return new Text(theme.fg("dim", `  ⎿  Running in background (ID: ${details.agentId})`), 0, 0);
+        return withOutput(theme.fg("dim", `  ⎿  Running in background${details.agentId ? ` (ID: ${details.agentId})` : ""}`));
       }
 
       // ---- Completed / Steered ----
       if (details.status === "completed" || details.status === "steered") {
-        const duration = formatMs(details.durationMs);
+        const duration = Number.isFinite(details.durationMs) ? formatMs(details.durationMs) : undefined;
         const isSteered = details.status === "steered";
         const icon = isSteered ? theme.fg("warning", "✓") : theme.fg("success", "✓");
         const s = stats(details);
         let line = icon + (s ? " " + s : "");
-        line += " " + theme.fg("dim", "·") + " " + theme.fg("dim", duration);
+        if (duration) line += " " + theme.fg("dim", "·") + " " + theme.fg("dim", duration);
 
         if (expanded) {
-          const resultText = result.content[0]?.type === "text" ? result.content[0].text : "";
+          const resultText = text;
           if (resultText) {
             const lines = resultText.split("\n").slice(0, 50);
             for (const l of lines) {
@@ -1744,11 +1748,11 @@ Terse command-style prompts produce shallow, generic work.
         const s = stats(details);
         let line = theme.fg("dim", "■") + (s ? " " + s : "");
         line += "\n" + theme.fg("dim", "  ⎿  Stopped");
-        return new Text(line, 0, 0);
+        return withOutput(line);
       }
 
-      // Anything left ("queued", or a status added later) has no rendering of
-      // its own — the turn-limit wording below must not be the catch-all.
+      // A status added later has no rendering of its own — the turn-limit
+      // wording below must not be the catch-all.
       if (details.status !== "error" && details.status !== "aborted") {
         return new Text(text, 0, 0);
       }
@@ -1763,7 +1767,7 @@ Terse command-style prompts produce shallow, generic work.
         line += "\n" + theme.fg("warning", "  ⎿  Aborted (max turns exceeded)");
       }
 
-      return new Text(line, 0, 0);
+      return withOutput(line);
     },
 
     // ---- Execute ----
@@ -2314,6 +2318,8 @@ Terse command-style prompts produce shallow, generic work.
    * background run.
    */
   const workflowTasks = new Map<string, WorkflowTask>();
+  const workflowTranscriptUpdates = new WorkflowTranscriptUpdates(workflowTasks);
+  pi.on("session_shutdown", () => workflowTranscriptUpdates.dispose());
 
   /**
    * Workflow runs as the fleet list wants them.
@@ -2473,11 +2479,16 @@ Terse command-style prompts produce shallow, generic work.
     renderResult(result, { expanded }, theme, renderContext) {
       const text = result.content.filter(block => block.type === "text").map(block => block.text).join("\n");
       const taskId = (result.details as { taskId?: string } | undefined)?.taskId;
+      if (taskId !== undefined && !renderContext.isError) {
+        workflowTranscriptUpdates.observe(taskId, renderContext.invalidate);
+      }
       return renderWorkflowToolResult(text, () => {
         const task = taskId !== undefined ? workflowTasks.get(taskId) : undefined;
         if (!task) return undefined;
         return {
           progress: task.workflowProgress,
+          error: task.error,
+          outcome: task.endTime !== undefined ? workflowResultText(task) : undefined,
           task: {
             status: task.status,
             workflowName: task.workflowName,
