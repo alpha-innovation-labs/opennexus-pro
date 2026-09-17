@@ -7,15 +7,15 @@ The engine is stateless until fed from pi lifecycle events. Each event maps to o
 | Pi event | Engine operation |
 |---|---|
 | `session_start` | `resetTpsTracker` — clears the buffer, totals, pause state, and last readings for the new session. |
-| `message_start` (assistant) | `resetTpsTracker` + register the 500 ms refresh request — the stream is starting. |
-| `message_update` | `recordTpsDelta(delta.delta.length / 4)` per streaming delta for `text_delta`, `thinking_delta`, and `toolcall_delta`. The first delta of a stream opens the generating window; tokens are estimated from text length. |
-| `message_end` (assistant) | `endTpsStreaming` — snapshots both readings and closes the generating window. Clear the refresh request. |
+| `message_start` (assistant) | `beginTpsStreaming` + register the 500 ms refresh request — resets measurement for the new message but retains displayed readings. |
+| `message_update` | `recordTpsDelta(delta.delta.length / 4)` per streaming delta for `text_delta`, `thinking_delta`, and `toolcall_delta`. The first delta of a stream opens the generating window; tokens are estimated from text length. Each arrival updates meaningful live and average readings independently. |
+| `message_end` (assistant) | `endTpsStreaming` — closes the generating window without resampling or clearing retained readings. Clear the refresh request. |
 | `turn_end` | `resetTurnPauseAccumulator` — clears any stale pause state for the next turn. |
 | `session_shutdown` | Clear the refresh request. |
 
 ## The refresh cadence
 
-The renderer does not redraw on every delta. A refresh request is registered with the engine, and while a stream is in flight the engine fires it on a 500 ms interval; clearing the request stops the interval. High-throughput streams therefore produce a steady label instead of a flickering one, and the calculation is unaffected by the cadence — only rendering is throttled.
+The renderer does not redraw on every delta. A refresh request is registered with the engine, and while a stream is in flight the engine fires it on a 500 ms interval; clearing the request stops the interval. High-throughput streams therefore produce a steady label instead of a flickering one. Calculations occur on delta arrival, so even a stream ending before the first refresh tick retains its latest meaningful readings; only rendering is throttled.
 
 ## Why estimate-based counting
 

@@ -9,6 +9,7 @@ import type {
 import { logExtensionEvent } from "@nexus/observability/startup-debug";
 import {
 	resetTpsTracker,
+	beginTpsStreaming,
 	resetTurnPauseAccumulator,
 	recordTpsDelta,
 	endTpsStreaming,
@@ -68,7 +69,7 @@ export function registerPromptlineStatusWidget(pi: ExtensionAPI): void {
 		async (event: MessageStartEvent, ctx: ExtensionContext) => {
 			if (!ctx.hasUI) return;
 			if (event.message.role === "assistant") {
-				resetTpsTracker();
+				beginTpsStreaming();
 				setPromptlineRefreshRequest(() =>
 					render(ctx, pi.getThinkingLevel.bind(pi), pi.getSessionName.bind(pi)),
 				);

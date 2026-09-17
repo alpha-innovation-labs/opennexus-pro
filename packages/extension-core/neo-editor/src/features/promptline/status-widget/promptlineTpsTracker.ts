@@ -4,16 +4,18 @@
  * Tracks two metrics:
  * - Sliding-window TPS (default, real-time): sums tokens within the last 1000ms
  *   and divides by the clamped span (min 100ms).
- * - Overall average TPS (at streaming end): totalTokens / elapsedGeneratingSeconds.
+ * - Moving average TPS: arithmetic mean of the last 1000 recorded live readings.
  *
- * Timer pauses during non-generating tool calls (anything other than edit/write)
- * to avoid skewing.
+ * Readings are sampled when deltas arrive and retained through idle gaps.
+ *
+ * Idle gaps add no samples. Explicit pauses suspend recording.
  */
 
 import { formatPromptlineTpsLabel } from "./formatPromptlineTpsLabel";
 
 const TPS_WINDOW_MS = 1000;
 const TPS_MIN_SPAN_MS = 100;
+const TPS_AVERAGE_SAMPLES = 1000;
 const TPS_COMPACT_EVERY = 5000;
 const TPS_COMPACT_WINDOW_MS = TPS_WINDOW_MS * 2;
 
@@ -29,10 +31,12 @@ export interface PromptlineTpsDelta {
 
 // Internal delta ring buffer
 let deltas: PromptlineTpsDelta[] = [];
-let totalTpsTokens = 0;
-let generatingStart = 0;
-let totalPausedMs = 0;
 let pauseStart = 0;
+
+// Session-scoped fixed-capacity ring of recorded live TPS readings.
+const tpsSamples: number[] = [];
+let tpsSampleIndex = 0;
+let tpsSampleSum = 0;
 
 // Streaming state
 let isGenerating = false;
@@ -92,20 +96,18 @@ export function pauseTpsTimer(): void {
 
 /**
  * Resumes the TPS timer after a non-generating tool call finishes.
- * Accumulates the pause duration to subtract from effective elapsed time.
+ * Recording resumes on the next arriving delta.
  */
 export function resumeTpsTimer(): void {
 	if (pauseStart === 0 || !isGenerating) return;
-	totalPausedMs += Date.now() - pauseStart;
 	pauseStart = 0;
 }
 
 /**
- * Clears the paused elapsed accumulator when the overall turn ends.
+ * Clears any pending pause when the overall turn ends.
  */
 export function resetTurnPauseAccumulator(): void {
 	pauseStart = 0;
-	totalPausedMs = 0;
 }
 
 /**
@@ -114,13 +116,25 @@ export function resetTurnPauseAccumulator(): void {
  * @param tokenCount Tokens contributed by this delta (1 by default, or estimated).
  */
 export function recordTpsDelta(tokenCount: number = 1): void {
+	if (pauseStart > 0) return;
 	const now = Date.now();
-	if (!isGenerating) {
-		isGenerating = true;
-		generatingStart = now;
-	}
+	isGenerating = true;
 	deltas.push({ time: now, tokens: tokenCount });
-	totalTpsTokens += tokenCount;
+
+	// Sample at arrival, not during a later repaint or message_end: provider
+	// silence and tool waits must not replace the last reading with zero.
+	// Each meaningful live reading contributes once, independently of repainting.
+	const live = Math.round(getSlidingWindowTps());
+	if (live > 0) {
+		lastLiveTps = live;
+		if (tpsSamples.length === TPS_AVERAGE_SAMPLES) {
+			tpsSampleSum -= tpsSamples[tpsSampleIndex];
+		}
+		tpsSamples[tpsSampleIndex] = live;
+		tpsSampleSum += live;
+		tpsSampleIndex = (tpsSampleIndex + 1) % TPS_AVERAGE_SAMPLES;
+		lastAverageTps = Math.round(getAverageTps());
+	}
 
 	// Compact old entries every 5000 events to bound memory
 	if (deltas.length > TPS_COMPACT_EVERY) {
@@ -130,47 +144,33 @@ export function recordTpsDelta(tokenCount: number = 1): void {
 }
 
 /**
- * Signals that the overall turn / streaming session has ended.
- * Resets the sliding-window tracker for the next turn.
- * Stores the final TPS so it persists in the UI.
+ * Closes the stream without resampling after potentially lengthy provider silence.
+ * The latest meaningful readings already belong to the last arriving deltas.
  */
 export function endTpsStreaming(): void {
 	if (!isGenerating) return;
-	lastLiveTps = Math.round(getSlidingWindowTps());
-	lastAverageTps = Math.round(getAverageTps());
 	isGenerating = false;
 	pauseStart = 0;
-	totalPausedMs = 0;
-	totalTpsTokens = 0;
 }
 
 /**
- * Resets the entire TPS tracker for a new streaming session.
+ * Starts a new assistant message's measurement, retaining the displayed readings
+ * until this message supplies meaningful replacements.
  */
-export function resetTpsTracker(): void {
+export function beginTpsStreaming(): void {
 	deltas = [];
-	totalTpsTokens = 0;
-	generatingStart = 0;
 	pauseStart = 0;
-	totalPausedMs = 0;
+	isGenerating = false;
+}
+
+/** Clears measurement and display state for a new session. */
+export function resetTpsTracker(): void {
+	beginTpsStreaming();
+	tpsSamples.length = 0;
+	tpsSampleIndex = 0;
+	tpsSampleSum = 0;
 	lastLiveTps = 0;
 	lastAverageTps = 0;
-	isGenerating = false;
-}
-
-/**
- * Computes the effective elapsed generating time excluding pauses.
- *
- * @returns Elapsed seconds during which TPS was being recorded.
- */
-function getEffectiveElapsedSeconds(): number {
-	if (generatingStart === 0) return 0;
-	let elapsed = Date.now() - generatingStart;
-	elapsed = Math.max(0, elapsed - totalPausedMs);
-	if (pauseStart > 0) {
-		elapsed = Math.max(0, elapsed - (Date.now() - pauseStart));
-	}
-	return elapsed / 1000;
 }
 
 /**
@@ -202,14 +202,11 @@ export function getSlidingWindowTps(): number {
 }
 
 /**
- * Returns the overall average TPS from generating start to now.
- * Computed as totalTpsTokens / effectiveGeneratingSeconds.
+ * Returns the arithmetic mean of the last 1000 recorded live TPS readings.
+ * Uses all available samples until the ring fills; message boundaries retain it.
  */
 export function getAverageTps(): number {
-	if (totalTpsTokens === 0 || generatingStart === 0) return 0;
-	const elapsedSec = getEffectiveElapsedSeconds();
-	if (elapsedSec < 0.1) return 0;
-	return totalTpsTokens / elapsedSec;
+	return tpsSamples.length ? tpsSampleSum / tpsSamples.length : 0;
 }
 
 /**
@@ -219,7 +216,7 @@ export function getAverageTps(): number {
  */
 export function getPromptlineTpsLabel(): string {
 	return formatPromptlineTpsLabel(
-		isGenerating ? Math.round(getSlidingWindowTps()) : lastLiveTps,
-		isGenerating ? Math.round(getAverageTps()) : lastAverageTps,
+		lastLiveTps,
+		lastAverageTps,
 	);
 }

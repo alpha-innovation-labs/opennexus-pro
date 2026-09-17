@@ -4,16 +4,16 @@ The neo-editor promptline shows token-per-second throughput while the assistant 
 
 ## The three parts
 
-- **The TPS engine** owns the measurement state: a timestamped delta buffer, a pause accumulator, and the last completed readings (live and average). All token counting and TPS arithmetic lives in this module. It also calls the formatter to produce the final label string. See [[tps-engine]].
+- **The TPS engine** owns the measurement state: a timestamped delta buffer, a pause accumulator, and the latest meaningful readings (live and average). All token counting and TPS arithmetic lives in this module. It also calls the formatter to produce the final label string. See [[tps-engine]].
 - **The event wiring** feeds the engine from pi lifecycle events and wakes the renderer on a fixed cadence while a stream is in flight. See [[event-wiring]].
 - **The status line layout** combines optional active-agent counts, the TPS label, and runtime into the right-aligned cluster of the promptline metadata row. See [[status-line-layout]].
 
 ## The loop
 
-A turn starts and the engine is reset. Each streaming delta is recorded with a timestamp. While generating, the renderer refreshes on a fixed interval rather than on every delta, which keeps the label from flickering at high throughput. The stream ends and the engine snapshots both readings independently; the label holds those snapshots until the next turn.
+An assistant message starts a fresh measurement without clearing the displayed readings. Each streaming delta is recorded with a timestamp and updates whichever metrics have enough data. While generating, the renderer refreshes on a fixed interval rather than on every delta, which keeps the label from flickering at high throughput. The last meaningful values remain visible through provider silence, tool execution, stream end, and the next message's initial wait. Only a session reset clears them back to dashes.
 
 ```text
-reset -> record deltas -> snapshot both readings at stream end
+reset measurement -> sample arriving deltas -> retain readings through waits
 ```
 
 ## Why an internal tracker
