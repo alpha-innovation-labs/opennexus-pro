@@ -175,8 +175,6 @@ export function installAssistantThinkingStyle(): void {
 					? getAssistantMessageTiming(message.timestamp)
 					: undefined;
 			if (hasVisibleContent && !comp.hasToolCalls && durationLabel) {
-				if (!shouldTightenThinkingOuterSpacing)
-					comp.contentContainer.addChild(new Spacer(1));
 				comp.contentContainer.addChild(
 					createAssistantMetaText(theme as PiTheme, durationLabel, message.timestamp),
 				);
