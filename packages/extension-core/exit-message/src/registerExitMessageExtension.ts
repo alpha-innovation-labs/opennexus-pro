@@ -1,4 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { copyTextToClipboard } from "./copyToClipboard";
+import { getResumeCommand } from "./formatExitMessage";
 import { hasRealSessionMessages } from "./hasRealSessionMessages";
 import { clearExitMessage } from "./state/clearExitMessage";
 import { updateExitMessageFromSessionTitle } from "./updateExitMessageFromSessionTitle";
@@ -21,6 +23,10 @@ export function registerExitMessageExtension(pi: ExtensionAPI): void {
 			clearExitMessage();
 			return;
 		}
-		updateExitMessageFromSessionTitle(pi, ctx);
+		const sessionId = ctx.sessionManager.getSessionId();
+		const copiedToClipboard = copyTextToClipboard(
+			getResumeCommand(sessionId),
+		);
+		updateExitMessageFromSessionTitle(pi, ctx, { copiedToClipboard });
 	});
 }
