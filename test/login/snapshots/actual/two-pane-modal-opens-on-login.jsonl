@@ -1,11 +1,4 @@
 
- Warning: No models available. Use /login to log into a provider via OAuth or API key. See:
-
- /Users/alpha/workspace/alpha-innovation-labs/__nexus/nexus-tui-awesome/node_modules/.pnpm/@earendil-works+pi-coding-agent@0.83.0_@modelcontextprotocol+sdk@1.30.0_supports-color@_95c01
- 6fce35d24d44417040682159515/node_modules/@earendil-works/pi-coding-agent/docs/providers.md
-
- /Users/alpha/workspace/alpha-innovation-labs/__nexus/nexus-tui-awesome/node_modules/.pnpm/@earendil-works+pi-coding-agent@0.83.0_@modelcontextprotocol+sdk@1.30.0_supports-color@_95c01
- 6fce35d24d44417040682159515/node_modules/@earendil-works/pi-coding-agent/docs/models.md
 
 
 
@@ -17,19 +10,23 @@
 
 
 
-                                                                       ███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗
-                                                                       ████╗  ██║██╔════╝╚██╗██╔╝██║   ██║██╔════╝
-                                                                       ██╔██╗ ██║█████╗   ╚███╔╝ ██║   ██║███████╗
-                                                                       ██║╚██╗██║██╔══╝   ██╔██╗ ██║   ██║╚════██║
-                                                                       ██║ ╚████║███████╗██╔╝ ██╗╚██████╔╝███████║
-                                                                       ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
-                                                                                            dev
 
-                                                                                    v0.2.29 [⏱ 0:48]
 
-                                                         󰧑 Skills (54) ✓   AGENTS.md ✓   Extensions (20) ✓  󱂬 Mini-Apps (1) ✓
 
-                                              ╭─  ~/workspace/alpha-innovation-labs/__nexus/nexus-tui-awesome › master ✱6…  ▱▱▱▱▱ 10k ─╮
-                                              │»                                                                                         │
-                                              ╰──────────────────────────────────────────────────────────────────────────────────────── ─╯
-                                               unknown  unknown  off
+
+                                                                                               ███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗
+                                                                                               ████╗  ██║██╔════╝╚██╗██╔╝██║   ██║██╔════╝
+                                                                                               ██╔██╗ ██║█████╗   ╚███╔╝ ██║   ██║███████╗
+                                                                                               ██║╚██╗██║██╔══╝   ██╔██╗ ██║   ██║╚════██║
+                                                                                               ██║ ╚████║███████╗██╔╝ ██╗╚██████╔╝███████║
+                                                                                               ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+                                                                                                                    dev
+
+                                                                                                            v0.2.49 [⏱ 0:53]
+
+                                                                                 󰧑 Skills (25) ✓   AGENTS.md ✓   Extensions (19) ✓  󱂬 Mini-Apps (1) ✓
+
+                                                          ╭─  ~/workspace/alpha-innovation-labs/__nexus/nexus-tui-awesome › master ✱51 ↑27 ───────────────  ▱▱▱▱▱ 4k/128k ─╮
+                                                          │»                                                                                                                 │
+                                                          ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────── ─╯
+                                                           litellm  neo  off                                                                                             —  —
