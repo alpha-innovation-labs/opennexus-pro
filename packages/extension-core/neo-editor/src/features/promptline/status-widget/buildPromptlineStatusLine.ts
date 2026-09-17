@@ -19,21 +19,21 @@ export function buildPromptlineStatusLine(
 	theme: ExtensionContext["ui"]["theme"],
 ): string {
 	const gap = " ";
-	if (!runTime || !sessionName)
+	if (!runTime)
 		return truncateToWidth(badges, width, theme.fg("dim" as never, "…"));
-	const titleRaw = theme.fg("muted" as never, sessionName);
+	const titleRaw = theme.fg("muted" as never, sessionName ?? "");
 	const titlePrefix = `${badges}${gap}`;
 	const titleWidth =
 		width -
 		visibleWidth(titlePrefix) -
 		visibleWidth(runTime) -
 		visibleWidth(gap);
-	if (titleWidth <= 0)
-		return truncateToWidth(
-			`${badges}${gap}${runTime}`,
-			width,
-			theme.fg("dim" as never, "…"),
-		);
+	if (titleWidth <= 0) {
+		const right = truncateToWidth(runTime, width, "");
+		const leftWidth = Math.max(0, width - visibleWidth(right) - 1);
+		const left = truncateToWidth(badges, leftWidth, "");
+		return left + " ".repeat(Math.max(0, width - visibleWidth(left) - visibleWidth(right))) + right;
+	}
 	const title = truncateToWidth(
 		titleRaw,
 		titleWidth,

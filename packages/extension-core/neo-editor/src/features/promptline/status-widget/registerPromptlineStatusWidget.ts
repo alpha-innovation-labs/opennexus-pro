@@ -4,13 +4,15 @@ import type {
 	MessageEndEvent,
 	MessageStartEvent,
 	SessionStartEvent,
-	ToolCallEvent,
 	TurnEndEvent,
 } from "@earendil-works/pi-coding-agent";
 import { logExtensionEvent } from "@nexus/observability/startup-debug";
 import {
 	resetTpsTracker,
 	resetTurnPauseAccumulator,
+	recordTpsDelta,
+	endTpsStreaming,
+	setPromptlineRefreshRequest,
 } from "./promptlineTpsTracker";
 import { renderPromptlineStatusWidget } from "./renderPromptlineStatusWidget";
 import { setPromptlineSessionStartedAt } from "./setPromptlineSessionStartedAt";
@@ -36,16 +38,23 @@ export function registerPromptlineStatusWidget(pi: ExtensionAPI): void {
 		"message_start",
 		async (event: MessageStartEvent, ctx: ExtensionContext) => {
 			if (!ctx.hasUI) return;
-			if (event.message.role !== "assistant") {
-				resetTurnPauseAccumulator();
+			if (event.message.role === "assistant") {
+				resetTpsTracker();
+				setPromptlineRefreshRequest(() =>
+					render(ctx, pi.getThinkingLevel.bind(pi), pi.getSessionName.bind(pi)),
+				);
 			}
 			render(ctx, pi.getThinkingLevel.bind(pi), pi.getSessionName.bind(pi));
 		},
 	);
 	pi.on(
 		"message_end",
-		async (_event: MessageEndEvent, ctx: ExtensionContext) => {
+		async (event: MessageEndEvent, ctx: ExtensionContext) => {
 			if (!ctx.hasUI) return;
+			if (event.message.role === "assistant") {
+				endTpsStreaming();
+				setPromptlineRefreshRequest(null);
+			}
 			render(ctx, pi.getThinkingLevel.bind(pi), pi.getSessionName.bind(pi));
 		},
 	);
@@ -54,7 +63,19 @@ export function registerPromptlineStatusWidget(pi: ExtensionAPI): void {
 		resetTurnPauseAccumulator();
 		render(ctx, pi.getThinkingLevel.bind(pi), pi.getSessionName.bind(pi));
 	});
-	pi.on("tool_call", async (_event: ToolCallEvent, ctx: ExtensionContext) => {
+	pi.on("message_update", async (event, ctx) => {
 		if (!ctx.hasUI) return;
+		const delta = event.assistantMessageEvent;
+		if (
+			delta.type === "text_delta" ||
+			delta.type === "thinking_delta" ||
+			delta.type === "toolcall_delta"
+		) {
+			// Providers do not expose per-delta token counts; estimate from text.
+			if (delta.delta.length > 0) recordTpsDelta(delta.delta.length / 4);
+		}
+	});
+	pi.on("session_shutdown", async () => {
+		setPromptlineRefreshRequest(null);
 	});
 }

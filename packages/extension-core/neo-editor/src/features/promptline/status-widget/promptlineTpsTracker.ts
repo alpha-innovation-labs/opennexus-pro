@@ -10,7 +10,7 @@
  * to avoid skewing.
  */
 
-const _PROMPTLINE_TPS_DELTAS_KEY = "__nexus_promptline_tps__";
+import { formatPromptlineTpsLabel } from "./formatPromptlineTpsLabel";
 
 const TPS_WINDOW_MS = 1000;
 const TPS_MIN_SPAN_MS = 100;
@@ -36,7 +36,8 @@ let pauseStart = 0;
 
 // Streaming state
 let isGenerating = false;
-let lastTps = 0;
+let lastLiveTps = 0;
+let lastAverageTps = 0;
 let tpsRenderRequest: (() => void) | null = null;
 let tpsRefreshInterval: ReturnType<typeof setInterval> | null = null;
 
@@ -134,7 +135,9 @@ export function recordTpsDelta(tokenCount: number = 1): void {
  * Stores the final TPS so it persists in the UI.
  */
 export function endTpsStreaming(): void {
-	lastTps = Math.round(getAverageTps()) || Math.round(getSlidingWindowTps());
+	if (!isGenerating) return;
+	lastLiveTps = Math.round(getSlidingWindowTps());
+	lastAverageTps = Math.round(getAverageTps());
 	isGenerating = false;
 	pauseStart = 0;
 	totalPausedMs = 0;
@@ -150,7 +153,8 @@ export function resetTpsTracker(): void {
 	generatingStart = 0;
 	pauseStart = 0;
 	totalPausedMs = 0;
-	lastTps = 0;
+	lastLiveTps = 0;
+	lastAverageTps = 0;
 	isGenerating = false;
 }
 
@@ -184,17 +188,16 @@ export function getSlidingWindowTps(): number {
 	const now = Date.now();
 	const cutoff = now - TPS_WINDOW_MS;
 	let windowTokens = 0;
-	let spanMs = 0;
+	let oldestInWindow = now;
 
 	for (let i = deltas.length - 1; i >= 0; i--) {
 		const d = deltas[i];
-		if (d.time < cutoff) break;
+		if (d.time <= cutoff) break;
 		windowTokens += d.tokens;
-		if (spanMs === 0) spanMs = Math.max(0, now - d.time);
+		oldestInWindow = d.time;
 	}
 
-	if (spanMs < TPS_MIN_SPAN_MS) spanMs = TPS_MIN_SPAN_MS;
-
+	const spanMs = Math.max(TPS_MIN_SPAN_MS, now - oldestInWindow);
 	return (windowTokens * 1000) / spanMs;
 }
 
@@ -212,14 +215,11 @@ export function getAverageTps(): number {
 /**
  * Formats a TPS label for display in the promptline status widget.
  *
- * @returns TPS label string, or empty string as fallback when inactive.
+ * @returns Live and average TPS, preserved independently after streaming ends.
  */
 export function getPromptlineTpsLabel(): string {
-	if (isGenerating) {
-		const tps = Math.round(getSlidingWindowTps());
-		if (tps < 1) return "";
-		return `${tps} /s`;
-	}
-	if (lastTps > 0) return `${lastTps} /s`;
-	return "";
+	return formatPromptlineTpsLabel(
+		isGenerating ? Math.round(getSlidingWindowTps()) : lastLiveTps,
+		isGenerating ? Math.round(getAverageTps()) : lastAverageTps,
+	);
 }

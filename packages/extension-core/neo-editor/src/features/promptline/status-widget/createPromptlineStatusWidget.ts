@@ -13,6 +13,7 @@ import { buildPromptlineStatusLine } from "./buildPromptlineStatusLine";
 import { createPromptlineBadge } from "./createPromptlineBadge";
 import { getPromptlineSessionRunTimeLabel } from "./getPromptlineSessionRunTimeLabel";
 import { getPromptlineStatusTitle } from "./getPromptlineStatusTitle";
+import { getPromptlineTpsLabel } from "./promptlineTpsTracker";
 
 const PROVIDER_BADGE_BG = "\x1b[48;2;120;30;30m";
 const MODEL_BADGE_BG = "\x1b[48;2;180;45;45m";
@@ -46,6 +47,7 @@ export function createPromptlineStatusWidget(
 			const hasMessages = hasConversationMessages(ctx);
 			const frameWidth = getPromptlineFrameWidth(width, hasMessages);
 			const title = getPromptlineStatusTitle(getSessionName, ctx);
+			const tps = getPromptlineTpsLabel();
 			const runTime =
 				hasMessages && title
 					? ctx.ui.theme.fg(
@@ -58,6 +60,8 @@ export function createPromptlineStatusWidget(
 				width,
 				frameWidth,
 				modelId,
+				provider,
+				tps,
 				thinking,
 				title ?? "",
 				runTime ?? "",
@@ -66,7 +70,7 @@ export function createPromptlineStatusWidget(
 			const badges = `${createPromptlineBadge(provider, PROVIDER_BADGE_BG)}${createPromptlineBadge(modelId, MODEL_BADGE_BG)}${createPromptlineBadge(thinking, THINKING_BADGE_BG)}`;
 			const line = buildPromptlineStatusLine(
 				badges,
-				runTime,
+				runTime ? `${tps} ${runTime}` : tps,
 				title,
 				frameWidth,
 				ctx.ui.theme,
