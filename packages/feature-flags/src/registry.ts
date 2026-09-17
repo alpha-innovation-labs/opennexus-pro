@@ -126,14 +126,14 @@ export const bundledFeatureFlags: Readonly<
 		features: ["local-image-reading"],
 		category: "extension",
 	},
-	subagents: {
+	"subagent-tintin": {
 		enabled: true,
 		features: [
-			"subagent-start",
-			"subagent-prompt",
-			"subagent-read",
-			"subagent-send",
-			"subagent-send-keys",
+			"agent-delegation",
+			"subagent-workflows",
+			"subagent-steering",
+			"subagent-scheduling",
+			"subagent-fleet-view",
 		],
 		category: "extension",
 	},

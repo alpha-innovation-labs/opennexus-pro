@@ -13,7 +13,7 @@ export const MINIMAL_EXTENSION_WHITELIST = [
 	"observations",
 	"slash-menu",
 	"startup-hero",
-	"subagents",
+	"subagent-tintin",
 	"system-prompt",
 	"tron",
 ];

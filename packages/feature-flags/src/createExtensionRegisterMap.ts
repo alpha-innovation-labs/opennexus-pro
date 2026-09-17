@@ -16,7 +16,7 @@ import { registerPiPackagesExtension } from "@extensions/pi-packages/registerPiP
 import { registerRtkExtension } from "@extensions/rtk/registerRtkExtension";
 import { registerSlashMenuExtension } from "@extensions/slash-menu/registerSlashMenuExtension";
 import { registerStartupHeroExtension } from "@extensions/startup-hero/registerStartupHeroExtension";
-import { registerSubagentsExtension } from "@extensions/subagents/registerSubagentsExtension";
+import registerSubagentTintinExtension from "@extensions/subagent-tintin";
 import { registerSystemPromptExtension } from "@extensions/system-prompt/registerSystemPromptExtension";
 import registerTronExtension from "@extensions/tron/index";
 import { registerWebSearchExtension } from "@extensions/web-search/registerWebSearchExtension";
@@ -57,7 +57,7 @@ export function createExtensionRegisterMap(): Record<
 		tron: registerTronExtension,
 		webtools: registerWebSearchExtension,
 		"local-image-reader": registerLocalImageReaderExtension,
-		subagents: registerSubagentsExtension,
+		"subagent-tintin": registerSubagentTintinExtension,
 		"pi-packages": registerPiPackagesExtension,
 		herdrAgentEndLog: registerHerdrAgentEndLogExtension,
 	};

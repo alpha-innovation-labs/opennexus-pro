@@ -104,6 +104,8 @@
 			"@extensions/startup-hero": [
 				"./packages/extension-core/startup-hero/src/index.ts"
 			],
+			"@extensions/subagent-tintin/*": ["./packages/extension-core/subagent-tintin/src/*"],
+			"@extensions/subagent-tintin": ["./packages/extension-core/subagent-tintin/src/index.ts"],
 			"@extensions/subagents/*": ["./packages/extension-core/subagents/src/*"],
 			"@extensions/subagents": [
 				"./packages/extension-core/subagents/src/index.ts"

@@ -1,0 +1,28 @@
+{
+  "name": "@extensions/subagent-tintin",
+  "version": "0.19.0",
+  "private": true,
+  "type": "module",
+  "description": "Local copy of Tintin's Pi subagent and workflow extension for Nexus.",
+  "author": "tintinweb",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@earendil-works/pi-ai": "^0.84.1",
+    "@earendil-works/pi-coding-agent": "^0.84.1",
+    "@earendil-works/pi-tui": "^0.84.1",
+    "@sinclair/typebox": "^0.34.49",
+    "croner": "^10.0.1",
+    "nanoid": "^5.1.16",
+    "typebox": "^1.3.7"
+  },
+  "pi": {
+    "extensions": ["./src/index.ts"]
+  }
+}

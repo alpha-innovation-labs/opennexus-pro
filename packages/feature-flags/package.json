@@ -25,7 +25,7 @@
 		"@extensions/rtk": "workspace:*",
 		"@extensions/slash-menu": "workspace:*",
 		"@extensions/startup-hero": "workspace:*",
-		"@extensions/subagents": "workspace:*",
+		"@extensions/subagent-tintin": "workspace:*",
 		"@extensions/system-prompt": "workspace:*",
 		"@extensions/tron": "workspace:*",
 		"@extensions/web-search": "workspace:*",

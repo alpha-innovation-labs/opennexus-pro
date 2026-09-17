@@ -13,6 +13,7 @@
 import { existsSync, statSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { build } from "esbuild";
+import { generatePackageInfo } from "./auto-update/generatePackageInfo.mjs";
 
 const ROOT = resolve(import.meta.dirname, "..");
 
@@ -135,6 +136,10 @@ const ALIASES = {
 		ROOT,
 		"packages/extension-core/startup-hero/src/index.ts",
 	),
+	"@extensions/subagent-tintin": resolve(
+		ROOT,
+		"packages/extension-core/subagent-tintin/src/index.ts",
+	),
 	"@extensions/subagents": resolve(
 		ROOT,
 		"packages/extension-core/subagents/src/index.ts",
@@ -203,6 +208,9 @@ function aliasPlugin(aliases) {
 
 async function main() {
 	try {
+		// Bake the current version into the auto-update extension before bundling.
+		await generatePackageInfo();
+
 		console.log("📦 Bundling with esbuild...");
 
 		await build({
