@@ -22,13 +22,13 @@ export function applyWorkingLoaderElapsedPatch(): void {
 		updateDisplay(): void;
 	};
 
-	const originalUpdateDisplay = prototype.updateDisplay.bind(prototype);
+	const originalUpdateDisplay = prototype.updateDisplay;
 
 	prototype.updateDisplay = function updateDisplayWithElapsedTime(): void {
 		const message = (this as { message?: string }).message ?? "";
 		if (!isWorkingLoaderMessage(message)) {
 			clearWorkingLoaderStartedAt(this as PatchableLoader);
-			originalUpdateDisplay();
+			originalUpdateDisplay.call(this);
 			return;
 		}
 
@@ -39,7 +39,7 @@ export function applyWorkingLoaderElapsedPatch(): void {
 			now - startedAt,
 		);
 		try {
-			originalUpdateDisplay();
+			originalUpdateDisplay.call(this);
 		} finally {
 			(this as { message?: string }).message = message;
 		}
