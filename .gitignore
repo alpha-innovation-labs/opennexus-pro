@@ -25,3 +25,9 @@ apps/tui/build/
 apps/landing-page/out/
 apps/landing-page/.next/
 apps/landing-page/public/asciinema/asciinema-player.min.js
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/
