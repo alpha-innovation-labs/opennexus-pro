@@ -29,7 +29,7 @@ import { isThinkingOnlyVisibleMessage } from "./isThinkingOnlyVisibleMessage";
  * @returns True when the tool call should affect thinking/tool layout.
  */
 function isVisibleToolCall(content: { type?: string; name?: string }): boolean {
-	return content?.type === "toolCall" && content?.name !== "Agent";
+	return content?.type === "toolCall";
 }
 
 function castComponent(c: AssistantMessageComponent): Record<

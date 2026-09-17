@@ -5,7 +5,7 @@
  * payload. The compact wrapper must inject it so the toolResult renderer
  * shows a FailedToolCallResult row instead of an empty one.
  */
-import type { AgentToolResult, ToolDefinition } from "@earendil-works/pi-coding-agent";
+import type { AgentToolResult, ToolDefinition, Theme } from "@earendil-works/pi-coding-agent";
 import { beforeAll, describe, expect, it } from "vitest";
 import { createCompactToolDefinition } from "../../packages/extension-core/tron/src/compact-tool-lines/createCompactToolDefinition";
 
@@ -29,7 +29,7 @@ function plain(text: string): string {
 const theme = {
 	fg: (_c: string, t: string) => t,
 	bold: (t: string) => t,
-};
+} as Theme;
 
 function makeDefinition(): ToolDefinition {
 	return {
@@ -41,32 +41,27 @@ function makeDefinition(): ToolDefinition {
 	} as ToolDefinition;
 }
 
-function makeContext(isError: boolean, expanded = false) {
+function makeContext(isError: boolean, expanded = false): Parameters<NonNullable<ToolDefinition["renderResult"]>>[3] {
 	return {
 		toolCallId: "t1",
 		invalidate: () => {},
 		isError,
 		expanded,
+		args: {}, state: {}, cwd: process.cwd(), executionStarted: true,
+		argsComplete: true, isPartial: false, showImages: false, lastComponent: undefined,
 	};
 }
 
 describe("createCompactToolDefinition.renderResult", () => {
 	it("shows the error row when the context reports an error", () => {
-		const wrapped = createCompactToolDefinition(makeDefinition()) as {
-			renderResult: (
-				result: AgentToolResult<unknown>,
-				state: { expanded?: boolean },
-				theme: typeof theme,
-				context: ReturnType<typeof makeContext>,
-			) => { render(width: number): string[]; invalidate?(): void };
-		};
+		const wrapped = createCompactToolDefinition(makeDefinition());
 		const result: AgentToolResult<unknown> = {
 			content: [{ type: "text", text: "ENOENT: no such file or directory" }],
 			details: undefined,
 		};
-		const renderer = wrapped.renderResult(
+		const renderer = wrapped.renderResult!(
 			result,
-			{ expanded: false },
+			{ expanded: false, isPartial: false },
 			theme,
 			makeContext(true),
 		);
@@ -77,21 +72,14 @@ describe("createCompactToolDefinition.renderResult", () => {
 	});
 
 	it("does not render a result row for a non-error result when collapsed", () => {
-		const wrapped = createCompactToolDefinition(makeDefinition()) as {
-			renderResult: (
-				result: AgentToolResult<unknown>,
-				state: { expanded?: boolean },
-				theme: typeof theme,
-				context: ReturnType<typeof makeContext>,
-			) => { render(width: number): string[]; invalidate?(): void };
-		};
+		const wrapped = createCompactToolDefinition(makeDefinition());
 		const result: AgentToolResult<unknown> = {
 			content: [{ type: "text", text: "file contents here" }],
 			details: undefined,
 		};
-		const renderer = wrapped.renderResult(
+		const renderer = wrapped.renderResult!(
 			result,
-			{ expanded: false },
+			{ expanded: false, isPartial: false },
 			theme,
 			makeContext(false),
 		);

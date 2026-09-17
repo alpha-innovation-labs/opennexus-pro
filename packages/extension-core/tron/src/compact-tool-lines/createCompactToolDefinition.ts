@@ -1,5 +1,5 @@
 import type { AgentToolResult, ToolDefinition, ToolRenderResultOptions } from "@earendil-works/pi-coding-agent";
-import { Container } from "@earendil-works/pi-tui";
+import { Container, type Component } from "@earendil-works/pi-tui";
 import type { Theme } from "@earendil-works/pi-coding-agent";
 import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator";
 import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry";
@@ -44,7 +44,12 @@ export function createCompactToolDefinition(
 				{
 					theme, expanded: context.expanded,
 					callChildRenderer: isAgentProgressTool(definition.name) && definition.renderCall
-						? definition.renderCall(args as never, theme, { ...context, lastComponent: undefined } as never)
+						? definition.renderCall(args as never, new Proxy(theme, {
+							// Tintin's badge may restore Pi's tool-shell background; Tron
+							// owns that shell, so keep badges but not a second row tint.
+							get: (target, key) => key === "getBgAnsi"
+								? () => "" : Reflect.get(target, key),
+						}), { ...context, lastComponent: undefined } as never)
 						: undefined,
 				},
 			);
@@ -60,6 +65,21 @@ export function createCompactToolDefinition(
 			// The AgentToolResult payload carries no error flag; pi tracks it on the
 			// render context. Inject it so the toolResult renderer can show the error.
 			const entryResult = { ...result, isError: context.isError };
+			// The upstream renderer must see its own previous component, not our
+			// border wrapper. Read it each paint so background workflow state stays live.
+			let child: Component | undefined;
+			const liveChild = isAgentProgressTool(definition.name) && definition.renderResult
+				? {
+					render: (width: number) => {
+						child = definition.renderResult!(result, {
+							expanded: state.expanded ?? false,
+							isPartial: state.isPartial ?? false,
+						}, theme, { ...context, lastComponent: child } as never);
+						return child.render(width);
+					},
+					invalidate: () => child?.invalidate(),
+				}
+				: undefined;
 			const { renderer } = renderTranscriptEntry(
 				{
 					role: "toolResult",
@@ -71,7 +91,7 @@ export function createCompactToolDefinition(
 				{
 					theme,
 					expanded: state.expanded ?? false,
-					resultChildRenderer: definition.renderResult
+					resultChildRenderer: liveChild ?? (definition.renderResult
 						? {
 								render: (innerWidth: number) =>
 									definition
@@ -89,7 +109,7 @@ export function createCompactToolDefinition(
 										.invalidate?.();
 								},
 							}
-						: undefined,
+						: undefined),
 				},
 			);
 			return renderer;

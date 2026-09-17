@@ -58,16 +58,16 @@ function makeText(
 describe("BorderedAssistantText", () => {
 	it("renders a fully closed box when standalone", () => {
 		const lines = makeText("hello", false, false).render(40);
-		expect(plain(lines[0])).toMatch(/^╭─+╮$/);
-		expect(plain(lines[lines.length - 1])).toMatch(/^╰─+╯$/);
+		expect(plain(lines[0])).toMatch(/^┌─+┐$/);
+		expect(plain(lines[lines.length - 1])).toMatch(/^└─+┘$/);
 	});
 
 	it("suppresses the top border when sharing the thinking wall", () => {
 		const lines = makeText("hello", true, false).render(40);
-		// No ╭╮ top line; the first line is a side-walled content row.
-		expect(lines.some((l) => plain(l).includes("╮"))).toBe(false);
+		// No top line; the first line is a side-walled content row.
+		expect(lines.some((l) => plain(l).includes("┐"))).toBe(false);
 		expect(plain(lines[0])).toMatch(/^│.*│$/);
-		expect(plain(lines[lines.length - 1])).toMatch(/^╰─+╯$/);
+		expect(plain(lines[lines.length - 1])).toMatch(/^└─+┘$/);
 	});
 
 	it("opens the bottom wall into tools", () => {
@@ -76,7 +76,7 @@ describe("BorderedAssistantText", () => {
 	});
 
 	it("keeps every row the same width", () => {
-		const lines = makeText("a long assistant reply with words", 24, false, false).render(24);
+		const lines = makeText("a long assistant reply with words", false, false).render(24);
 		const width = visibleWidth(lines[0]);
 		for (const line of lines) expect(visibleWidth(line)).toBe(width);
 	});
@@ -85,12 +85,12 @@ describe("BorderedAssistantText", () => {
 describe("BorderedAssistantErrorRow", () => {
 	it("renders a fully closed standalone box", () => {
 		const row = new BorderedAssistantErrorRow(
-			{ fg: (_c, t) => t } as never,
+			{ fg: (_c: string, t: string) => t },
 			"provider error: timeout",
 		);
 		const lines = row.render(40);
-		expect(plain(lines[0])).toMatch(/^╭─+╮$/);
-		expect(plain(lines[lines.length - 1])).toMatch(/^╰─+╯$/);
+		expect(plain(lines[0])).toMatch(/^┌─+┐$/);
+		expect(plain(lines[lines.length - 1])).toMatch(/^└─+┘$/);
 		expect(plain(lines[1])).toContain("provider error: timeout");
 	});
 });

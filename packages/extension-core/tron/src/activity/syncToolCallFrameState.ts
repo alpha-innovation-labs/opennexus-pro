@@ -34,7 +34,6 @@ export function syncToolCallFrameState(content: AssistantContent[]): void {
 		}
 		if (
 			block?.type === "toolCall" &&
-			block.name !== "Agent" &&
 			typeof block.id === "string" &&
 			block.id
 		) {
