@@ -3,6 +3,7 @@ import { Container } from "@earendil-works/pi-tui";
 import type { Theme } from "@earendil-works/pi-coding-agent";
 import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator";
 import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry";
+import { isAgentProgressTool } from "./AgentProgressCall";
 import { markCompactWrappedToolDefinition } from "./markCompactWrappedToolDefinition";
 
 type CompactToolContext = {
@@ -31,7 +32,7 @@ export function createCompactToolDefinition(
 		renderShell: "self" as const,
 		renderCall(args: unknown, theme: Theme, context: CompactToolContext) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
-			if (context.isError) return new Container();
+			if (context.isError && !isAgentProgressTool(definition.name)) return new Container();
 			const { renderer } = renderTranscriptEntry(
 				{
 					role: "tool",
@@ -40,7 +41,12 @@ export function createCompactToolDefinition(
 					args: args as Record<string, unknown>,
 					text: "",
 				},
-				{ theme, expanded: context.expanded },
+				{
+					theme, expanded: context.expanded,
+					callChildRenderer: isAgentProgressTool(definition.name) && definition.renderCall
+						? definition.renderCall(args as never, theme, { ...context, lastComponent: undefined } as never)
+						: undefined,
+				},
 			);
 			return renderer;
 		},

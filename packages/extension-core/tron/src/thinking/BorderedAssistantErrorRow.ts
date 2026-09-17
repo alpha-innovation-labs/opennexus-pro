@@ -28,7 +28,7 @@ export class BorderedAssistantErrorRow {
 				const wrappedLines = wrapTextWithAnsi(this.errorText, innerWidth);
 				const border = (t: string) => this.theme.fg("error", t);
 
-				const lines: string[] = [border(`╭${"─".repeat(innerWidth)}╮`)];
+				const lines: string[] = [border(`┌${"─".repeat(innerWidth)}┐`)];
 				for (const line of wrappedLines) {
 					const padding = " ".repeat(
 						Math.max(0, innerWidth - visibleWidth(line)),
@@ -37,7 +37,7 @@ export class BorderedAssistantErrorRow {
 						`${border("│")}${this.theme.fg("error", `${line}${padding}`)}${border("│")}`,
 					);
 				}
-				lines.push(border(`╰${"─".repeat(innerWidth)}╯`));
+				lines.push(border(`└${"─".repeat(innerWidth)}┘`));
 				return lines;
 			},
 			{ width, errorLength: this.errorText.length },

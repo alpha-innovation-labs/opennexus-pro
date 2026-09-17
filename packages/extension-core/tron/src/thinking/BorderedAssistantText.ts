@@ -7,9 +7,9 @@ import { theme } from "../theme-proxy";
  * Renders assistant text content inside a border.
  *
  * Border style adapts to context:
- * - Standalone:         ╭───╮ / │...│ / ╰───╯
- * - Below thinking:     ├───┤ / │...│ / ╰───╯
- * - Above tool calls:   ╭───╮ / │...│ / ├───┤
+ * - Standalone:         ┌───┐ / │...│ / └───┘
+ * - Below thinking:     ├───┤ / │...│ / └───┘
+ * - Above tool calls:   ┌───┐ / │...│ / ├───┤
  * - Between both:       ├───┤ / │...│ / ├───┤
  *
  * This makes the assistant text visually connect to the thinking block above
@@ -25,10 +25,11 @@ export class BorderedAssistantText implements Component {
 		private readonly connectFromThinking: boolean,
 		private readonly connectToTools: boolean,
 		markdownTheme?: MarkdownTheme,
+		private readonly footerLabel?: string,
 	) {
 		this.markdown = new Markdown(
 			text,
-			0,
+			1,
 			0,
 			markdownTheme ?? getMarkdownTheme(),
 		);
@@ -50,11 +51,22 @@ export class BorderedAssistantText implements Component {
 		);
 
 		const borderChar = theme.fg("borderMuted", "─");
-		const bottomLeft = theme.fg("borderMuted", this.connectToTools ? "├" : "╰");
-		const bottomRight = theme.fg("borderMuted", this.connectToTools ? "┤" : "╯");
+		const bottomLeft = theme.fg("borderMuted", this.connectToTools ? "├" : "└");
+		const bottomRight = theme.fg("borderMuted", this.connectToTools ? "┤" : "┘");
 		const sideChar = theme.fg("borderMuted", "│");
 
-		const bottomBorder = `${bottomLeft}${borderChar.repeat(innerWidth)}${bottomRight}`;
+		// Show the footer (e.g. "⏱ 11s") inline on the bottom border of the box
+		// that closes the chain. Left-aligned, matching the user bubble's time.
+		const footerLabel =
+			!this.connectToTools && this.footerLabel ? this.footerLabel : undefined;
+		let bottomBorder: string;
+		if (footerLabel) {
+			const footerSegment = ` ${theme.fg("muted", footerLabel)} `;
+			const fillWidth = Math.max(0, innerWidth - visibleWidth(footerSegment));
+			bottomBorder = `${bottomLeft}${footerSegment}${borderChar.repeat(fillWidth)}${bottomRight}`;
+		} else {
+			bottomBorder = `${bottomLeft}${borderChar.repeat(innerWidth)}${bottomRight}`;
+		}
 
 		// When this block sits directly under a bordered thinking block, that
 		// thinking already draws a ├─┤ bottom wall. Suppress our own top border
@@ -62,7 +74,7 @@ export class BorderedAssistantText implements Component {
 		const lines: string[] = [];
 		if (!this.connectFromThinking) {
 			lines.push(
-				`${theme.fg("borderMuted", "╭")}${borderChar.repeat(innerWidth)}${theme.fg("borderMuted", "╮")}`,
+				`${theme.fg("borderMuted", "┌")}${borderChar.repeat(innerWidth)}${theme.fg("borderMuted", "┐")}`,
 			);
 		}
 		for (const line of rendered) {

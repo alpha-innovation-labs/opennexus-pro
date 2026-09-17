@@ -1,4 +1,5 @@
 import { getMarkdownTheme } from "@earendil-works/pi-coding-agent";
+import { AgentProgressCall, isAgentProgressTool } from "../compact-tool-lines/AgentProgressCall";
 import { Markdown } from "@earendil-works/pi-tui";
 import { BorderedToolResult } from "../compact-tool-lines/BorderedToolResult";
 import { CompactToolResult } from "../compact-tool-lines/CompactToolResult";
@@ -81,7 +82,13 @@ export function renderTranscriptEntry(
 				entry.toolCallId ??
 				`${entry.toolName ?? "tool"}-${entry.createdAt ?? 0}`;
 			const toolName = entry.toolName ?? "tool";
-			const hasAttachedResult = context.expanded ?? false;
+			if (isAgentProgressTool(toolName) && context.callChildRenderer) {
+				return {
+					renderer: new AgentProgressCall(toolCallId, context.callChildRenderer, context.theme),
+					meta: { hasAttachedResult: true, drawsOwnBottomBorder: false },
+				};
+			}
+			const hasAttachedResult = isAgentProgressTool(toolName) || (context.expanded ?? false);
 			const renderer = renderSummary(
 				toolCallId,
 				toolName,
@@ -100,7 +107,7 @@ export function renderTranscriptEntry(
 				`${entry.toolName ?? "tool"}-${entry.createdAt ?? 0}`;
 			const toolName = entry.toolName ?? "tool";
 
-			if (entry.result?.isError) {
+			if (entry.result?.isError && !isAgentProgressTool(toolName)) {
 				const renderer = new FailedToolCallResult(
 					toolCallId,
 					toolName,
@@ -113,7 +120,7 @@ export function renderTranscriptEntry(
 				};
 			}
 
-			if (!context.expanded) {
+			if (!context.expanded && !isAgentProgressTool(toolName)) {
 				return {
 					renderer: new StaticEntryRenderer([]),
 					meta: { hasAttachedResult: false, drawsOwnBottomBorder: false },

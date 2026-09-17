@@ -40,6 +40,7 @@ export interface RenderContext {
 	connectThinkingFromTool?: boolean;
 	expanded?: boolean;
 	xOffset?: number;
+	callChildRenderer?: EntryRenderer;
 	resultChildRenderer?: EntryRenderer;
 }
 

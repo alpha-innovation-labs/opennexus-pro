@@ -1,5 +1,4 @@
 import { Text } from "@earendil-works/pi-tui";
-import { getAgentLabel } from "./agentLabel";
 
 /**
  * Creates the assistant metadata footer text.
@@ -14,6 +13,7 @@ export function createAssistantMetaText(
 	durationLabel: string,
 	_assistantTimestamp?: number,
 ): Text {
-	const baseText = theme.fg("muted", `${getAgentLabel()} · ${durationLabel}`);
-	return new Text(baseText);
+	const baseText = theme.fg("muted", `⏱ ${durationLabel}`);
+	// paddingY=0 so the footer hugs the box above and the editor/bubble below.
+	return new Text(baseText, 1, 0);
 }

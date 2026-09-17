@@ -1,10 +1,13 @@
 import type { AssistantMessage } from "@earendil-works/pi-ai";
+import type {
+	AssistantMessageComponent,
+	Theme as PiTheme,
+} from "@earendil-works/pi-coding-agent";
 import { getMarkdownTheme } from "@earendil-works/pi-coding-agent";
-import type { Theme as PiTheme } from "@earendil-works/pi-coding-agent";
 import type { MarkdownTheme } from "@earendil-works/pi-tui";
 import { Spacer, Text } from "@earendil-works/pi-tui";
+import { NEXUS_TRON_ASSISTANT_FOOTER_FLAG } from "@nexus/pi-platform/applyAssistantFooterSpacingPatch";
 import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook";
-import type { AssistantMessageComponent } from "@earendil-works/pi-coding-agent";
 import { bridgeThinkingToToolCalls } from "../activity/bridgeThinkingToToolCalls";
 import { getImmediateFollowingToolCallGroup } from "../activity/getImmediateFollowingToolCallGroup";
 import { syncToolCallFrameState } from "../activity/syncToolCallFrameState";
@@ -29,9 +32,16 @@ function isVisibleToolCall(content: { type?: string; name?: string }): boolean {
 	return content?.type === "toolCall" && content?.name !== "Agent";
 }
 
-function castComponent(c: AssistantMessageComponent): Record<string, unknown> & {
+function castComponent(c: AssistantMessageComponent): Record<
+	string,
+	unknown
+> & {
 	lastMessage: unknown;
-	contentContainer: { clear(): void; addChild(c: unknown): void; children?: unknown[] };
+	contentContainer: {
+		clear(): void;
+		addChild(c: unknown): void;
+		children?: unknown[];
+	};
 	markdownTheme?: unknown;
 	hideThinkingBlock: boolean;
 	hasToolCalls: boolean;
@@ -44,22 +54,39 @@ function castComponent(c: AssistantMessageComponent): Record<string, unknown> & 
  */
 export function installAssistantThinkingStyle(): void {
 	setAssistantMessageUpdateHook(
-		(component: AssistantMessageComponent, message: AssistantMessage | undefined) => {
+		(
+			component: AssistantMessageComponent,
+			message: AssistantMessage | undefined,
+		) => {
 			if (!message) return;
 			const startedAt = performance.now();
 			const comp = castComponent(component);
 			comp.lastMessage = message;
 			comp.contentContainer.clear();
+			comp[NEXUS_TRON_ASSISTANT_FOOTER_FLAG] = false;
 			syncToolCallFrameState(message.content);
-			const markdownTheme = comp.markdownTheme ?? (getMarkdownTheme() as MarkdownTheme);
+			const markdownTheme =
+				comp.markdownTheme ?? (getMarkdownTheme() as MarkdownTheme);
 			const hasVisibleContent = message.content.some(
 				(content: { type?: string; text?: string; thinking?: string }) =>
 					(content.type === "text" && content.text?.trim()) ||
 					(content.type === "thinking" && content.thinking?.trim()),
 			);
-			const hasVisibleToolCalls = message.content.some((content: { type?: string; name?: string }) =>
-				isVisibleToolCall(content),
+			const hasVisibleToolCalls = message.content.some(
+				(content: { type?: string; name?: string }) =>
+					isVisibleToolCall(content),
 			);
+			const durationLabel =
+				typeof message.timestamp === "number"
+					? getAssistantMessageTiming(message.timestamp)
+					: undefined;
+			const showFooter =
+				hasVisibleContent && !hasVisibleToolCalls && !!durationLabel;
+			let lastTextIndex = -1;
+			for (let index = 0; index < message.content.length; index++) {
+				const block = message.content[index];
+				if (block.type === "text" && block.text?.trim()) lastTextIndex = index;
+			}
 			const shouldTightenThinkingOuterSpacing =
 				isThinkingOnlyVisibleMessage(message);
 			const _shouldAddTopSpacer =
@@ -89,7 +116,7 @@ export function installAssistantThinkingStyle(): void {
 						else break;
 					}
 					const hasToolCallsAfter = toolIdsAfter.length > 0;
-					// An error/abort row after the text ends the chain: close with ╰╯, not ├─┤.
+					// An error/abort row after the text ends the chain: close with └┘, not ├─┤.
 					const hasErrorAfter =
 						message.stopReason === "error" || message.stopReason === "aborted";
 					const connectToTools = hasToolCallsAfter && !hasErrorAfter;
@@ -100,6 +127,9 @@ export function installAssistantThinkingStyle(): void {
 						connectFromThinking,
 						connectToTools,
 						markdownTheme as MarkdownTheme,
+						showFooter && index === lastTextIndex
+							? `⏱ ${durationLabel}`
+							: undefined,
 					);
 					comp.contentContainer.addChild(bordered);
 					continue;
@@ -129,12 +159,19 @@ export function installAssistantThinkingStyle(): void {
 					const previousVisibleContent = message.content
 						.slice(0, index)
 						.findLast(
-							(previous: { type?: string; text?: string; thinking?: string; name?: string }) =>
+							(previous: {
+								type?: string;
+								text?: string;
+								thinking?: string;
+								name?: string;
+							}) =>
 								isVisibleToolCall(previous) ||
 								(previous.type === "text" && previous.text?.trim()) ||
 								(previous.type === "thinking" && previous.thinking?.trim()),
 						);
-					const connectFromTool = previousVisibleContent ? isVisibleToolCall(previousVisibleContent) : false;
+					const connectFromTool = previousVisibleContent
+						? isVisibleToolCall(previousVisibleContent)
+						: false;
 					if (connectToTools)
 						bridgeThinkingToToolCalls(
 							toolGroup.toolCallIds,
@@ -165,19 +202,27 @@ export function installAssistantThinkingStyle(): void {
 						);
 						if (child) comp.contentContainer.addChild(child);
 					}
-					if (hasVisibleContentAfter && !(comp.hideThinkingBlock && connectsBelow))
+					if (
+						hasVisibleContentAfter &&
+						!(comp.hideThinkingBlock && connectsBelow)
+					)
 						comp.contentContainer.addChild(new Spacer(1));
 				}
 			}
 			comp.hasToolCalls = hasVisibleToolCalls;
-			const durationLabel =
-				typeof message.timestamp === "number"
-					? getAssistantMessageTiming(message.timestamp)
-					: undefined;
-			if (hasVisibleContent && !comp.hasToolCalls && durationLabel) {
-				comp.contentContainer.addChild(
-					createAssistantMetaText(theme as PiTheme, durationLabel, message.timestamp),
-				);
+			if (showFooter) {
+				// The footer sits on the last bordered text box's bottom border. A
+				// thinking-only message has no text box, so keep a standalone line.
+				if (lastTextIndex === -1) {
+					comp.contentContainer.addChild(
+						createAssistantMetaText(
+							theme as PiTheme,
+							durationLabel,
+							message.timestamp,
+						),
+					);
+				}
+				comp[NEXUS_TRON_ASSISTANT_FOOTER_FLAG] = true;
 			}
 			if (!comp.hasToolCalls && message.stopReason === "aborted") {
 				const abortMessage =
