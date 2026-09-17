@@ -10,13 +10,13 @@ import { extractAnsiCode, getGraphemeSegmenter } from "@earendil-works/pi-tui/di
 let mainScreenSelectionPatchApplied = false;
 
 /**
- * Enable SGR mouse reporting for button press + drag motion only.
+ * Enable SGR mouse reporting for button press/release and coordinates.
  *
- * Deliberately omits `?1003h` (all-motion) and `?1004h` (wheel) so the
- * terminal keeps handling history scrollback natively. Enabling button +
- * motion tracking is what lets us observe a drag so we can freeze the render
- * loop and own the selection (the terminal's native left-drag selection is
- * replaced by the app's selection, which is what survives streaming renders).
+ * `?1002h` (button + all-motion) tracks continuous drag position so the
+ * selection highlight stays visible during a live drag. The patch intercepts
+ * SGR mouse sequences on stdin but passes wheel events (button bit 6) through
+ * unmodified so the terminal can handle history scrollback natively. Right-
+ * click and other non-left buttons are still consumed to avoid stray input.
  */
 const ENABLE_MOUSE = "\x1b[?1000h\x1b[?1002h\x1b[?1006h";
 /** Disable SGR mouse reporting (mirror of ENABLE_MOUSE). */
@@ -263,10 +263,18 @@ function handleMouse(self: NexusMainScreen, data: string): MouseResult {
 	const x = Number.parseInt(match[2], 10) - 1;
 	const y = Number.parseInt(match[3], 10) - 1;
 	const release = match[4] === "m";
-	// Bits 0-2 encode the button: 0 = left. Bit 6 (64) marks a wheel event, which we
-	// never request (no ?1004h) but ignore defensively. Consume all non-left events
-	// so they are never forwarded as stray input.
-	if ((button & 64) !== 0 || (button & 3) !== 0) {
+	// Bits 0-2 encode the button: 0 = left. Bit 6 (64) marks a wheel event.
+	// We do not request ?1004h explicitly, but many terminals (iTerm2,
+	// Terminal.app, etc.) still encode wheel gestures as SGR sequences when
+	// any mouse mode is active. Rather than consuming them and breaking native
+	// scrollback, pass wheel events through unmodified so the terminal can
+	// handle history scrolling natively.
+	if ((button & 64) !== 0) {
+		return undefined;
+	}
+	// All other non-left-button events (right-click, side-buttons, etc.)
+	// are consumed so they never reach Pi's input handlers as stray data.
+	if ((button & 3) !== 0) {
 		return { consume: true };
 	}
 	const point = toContentPoint(self, x, y);
