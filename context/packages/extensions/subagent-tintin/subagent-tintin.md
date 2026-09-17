@@ -1,6 +1,6 @@
 # Subagent Tintin
 
-`packages/extension-core/subagent-tintin` contains a local copy of Tintin's Pi subagent extension. Its entrypoint exports the upstream extension factory, registered with Nexus under `subagent-tintin`. The feature is enabled by default, appears in `/features`, and remains in `--minimal` / `-m`; the Herdr-backed `subagents` extension is not registered.
+`packages/extension-core/subagent-tintin` contains a locally adapted copy of Tintin's Pi subagent extension. Its entrypoint exports the extension factory, registered with Nexus under `subagent-tintin`. The feature is enabled by default, appears in `/features`, and remains in `--minimal` / `-m`; the Herdr-backed `subagents` extension is not registered.
 
 ## Features
 
@@ -25,8 +25,16 @@ packages/extension-core/subagent-tintin/
     index.ts
     agent-runner.ts
     agent-manager.ts
+    agent-counts.ts
     workflow/
     ui/
+      agent-mention.ts
+      reference-completion.d.ts
+      below-editor-layout.ts
+      fleet-list.ts
+      shared-dialog.ts
+      conversation-viewer.ts
+      workflow-dialog.ts
   docs/
   examples/
   LICENSE

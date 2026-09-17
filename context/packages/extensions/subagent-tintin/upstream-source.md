@@ -1,10 +1,14 @@
 # Upstream source
 
-The package owns a copy of `tintinweb/pi-subagents`, not the unscoped `pi-subagents` npm package. Runtime implementation lives in `src/`; dependencies are resolved by the Nexus pnpm workspace rather than copied into the package.
+The package owns a locally adapted copy of `tintinweb/pi-subagents`, not the unscoped `pi-subagents` npm package. Runtime implementation lives in `src/`; dependencies are resolved by the Nexus pnpm workspace rather than copied into the package.
 
 ## Attribution
 
-`LICENSE` preserves the upstream MIT notice. `UPSTREAM.md` records the source revision and import boundaries. The upstream README, guides, and examples accompany the implementation as reference material.
+`LICENSE` preserves the upstream MIT notice. `UPSTREAM.md` records the source revision and import boundaries. The upstream README, guides, and examples accompany the implementation as reference material, not the authoritative description of Nexus presentation or defaults. `UPSTREAM.md` distinguishes the original import from local modal, fleet, completion, count-publication, and Tron integration changes; the manager and extension entrypoint also contain local integration code.
+
+## Workspace integration
+
+The package depends on `@nexus/tui-kit` for shared modal framing. Its TypeScript configuration includes shared workspace sources under a broader root and maps the toolkit's source subpaths. Neo and the bundled runtime map Tintin source subpaths in their package-local configurations so the shared reference-completion contract resolves outside a root-only build. These source imports do not activate Tintin's extension factory; activation remains the feature registry's responsibility.
 
 ## Registration boundary
 

@@ -12,7 +12,11 @@ Neo's `src/features/promptline/PromptlineEditor.ts` installs the FFF wrapper fro
 
 Merged entries retain their semantic kind, source provider, and completion prefix or replacement span. Only entries with compatible spans share a response prefix; other entries retain source-specific completion context rather than borrowing the first provider's prefix. Quoted paths, spaces, path separators, punctuation boundaries, and a cursor inside a line keep their original provider semantics. Applying an agent inserts its handle and normal completion spacing, not a normalized filesystem path, and does not record a file-search selection.
 
-Deduplication uses target identity for agents and normalized path identity for file entries, with kind retained. An agent and a file with the same displayed name remain distinct choices. Repeated wrappers and overlapping file providers do not duplicate rows. Cancellation and stale responses cannot replace newer suggestions; file-search failure preserves available agent suggestions, and absence of agents preserves normal file completion.
+Deduplication uses target identity for agents and normalized path identity for file entries, with kind retained. An agent and a file with the same displayed name remain distinct choices. Repeated wrappers and overlapping file providers do not duplicate rows. Cancellation and stale responses cannot replace newer suggestions; file-search failure preserves available agent suggestions, and absence of agents preserves normal file completion. Empty, throwing, and rejected FFF searches still deduplicate the inner results by kind and normalized path while preserving their original insertion callbacks and response prefix. With no remaining suggestions, the provider returns no result.
+
+### In-process completion metadata
+
+`src/ui/reference-completion.d.ts` defines the shared `ReferenceCompletionItem` contract. Its `reference` field carries the semantic kind, target identity, originating provider, original prefix, and a text-only insertion callback. Wrappers preserve existing metadata and attach it to unannotated file results before merging. This keeps source-specific replacement spans intact even when the picker passes a single response prefix. FFF tracks selections only inside its own file insertion callback; agent insertion bypasses file providers entirely.
 
 ## Selection boundary
 

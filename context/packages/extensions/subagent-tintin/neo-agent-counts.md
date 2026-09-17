@@ -4,9 +4,15 @@ Neo's existing metadata row includes compact running and queued agent counts whi
 
 ## Count ownership
 
-Counts derive from Tintin's top-level agent records, using their running and queued states rather than rendered fleet rows. Workflow containers are not counted as extra agents; hidden nested agents are not added a second time. Fleet visibility, overflow, filtering, and conversation expansion do not change the totals. Finished rows lingering in the fleet do not keep the active count visible.
+Counts derive from Tintin's top-level agent records, using their running and queued states rather than rendered fleet rows. Top-level records have neither a `parentAgentId` nor a `workflowId`: nested and workflow-owned children are excluded, and workflow containers are not counted as extra agents. Fleet visibility, overflow, filtering, and conversation expansion do not change the totals. Finished rows lingering in the fleet do not keep the active count visible.
 
 Lifecycle changes refresh the row when agents start, queue, resume, finish, or stop, including background changes between main-agent turns. Session changes and disposal clear stale counts and subscriptions. Counts remain available even when a user hides the fleet.
+
+## State bridge
+
+The agent manager coalesces synchronous lifecycle changes into microtask notifications and supplies immediate snapshots to subscribers. Tintin publishes `{ sessionId, running, queued }` on `subagents:counts`; a matching `subagents:counts:request` obtains the current snapshot regardless of extension startup order. The publisher has no dependency on Neo, Tron, or fleet visibility. Session shutdown detaches the publisher and clears its counts, while manager disposal clears its observers.
+
+Neo subscribes for its UI session, ignores other session IDs, and refreshes the metadata widget when the counts change, even between parent turns. Its subscription is replaced on session start and removed on shutdown. The compact `N running · M queued` label is empty when both counts are zero and joins TPS and runtime in the existing measured right-hand cluster.
 
 ## Row composition
 
