@@ -56,14 +56,14 @@ export class BorderedAssistantText implements Component {
 		const sideChar = theme.fg("borderMuted", "│");
 
 		// Show the footer (e.g. "⏱ 11s") inline on the bottom border of the box
-		// that closes the chain. Left-aligned, matching the user bubble's time.
+		// that closes the chain, right-aligned beside the closing corner.
 		const footerLabel =
 			!this.connectToTools && this.footerLabel ? this.footerLabel : undefined;
 		let bottomBorder: string;
 		if (footerLabel) {
 			const footerSegment = ` ${theme.fg("muted", footerLabel)} `;
 			const fillWidth = Math.max(0, innerWidth - visibleWidth(footerSegment));
-			bottomBorder = `${bottomLeft}${footerSegment}${borderChar.repeat(fillWidth)}${bottomRight}`;
+			bottomBorder = `${bottomLeft}${borderChar.repeat(fillWidth)}${footerSegment}${bottomRight}`;
 		} else {
 			bottomBorder = `${bottomLeft}${borderChar.repeat(innerWidth)}${bottomRight}`;
 		}

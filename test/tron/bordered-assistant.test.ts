@@ -75,6 +75,20 @@ describe("BorderedAssistantText", () => {
 		expect(plain(lines[lines.length - 1])).toMatch(/^├─+┤$/);
 	});
 
+	it("right-aligns the duration beside the bottom-right corner after resize", () => {
+		const block = new BorderedAssistantText("hello", false, false, mdTheme, "⏱ 25s");
+		for (const width of [40, 24, 60]) {
+			const footer = block.render(width).at(-1)!;
+			expect(plain(footer)).toMatch(/^└─+ ⏱ 25s ┘$/);
+			expect(visibleWidth(footer)).toBe(width);
+		}
+	});
+
+	it("omits the duration when the bottom wall connects to tools", () => {
+		const block = new BorderedAssistantText("hello", false, true, mdTheme, "⏱ 25s");
+		expect(plain(block.render(40).at(-1)!)).toMatch(/^├─+┤$/);
+	});
+
 	it("keeps every row the same width", () => {
 		const lines = makeText("a long assistant reply with words", false, false).render(24);
 		const width = visibleWidth(lines[0]);

@@ -4,11 +4,11 @@ One assistant message renders as a single bordered chain. Its content blocks —
 
 ## Block order
 
-The hook walks the message content in array order. A `text` block renders as a [[features/assistant-frame/bordered-assistant-text|bordered assistant text]]. A `thinking` block renders as a bordered preview when the thinking block is hidden, and as plain italic Markdown with no border when it is expanded. Tool calls render as compact single-line rows from the [[features/tool-call/compact-tool-error|tool call]] surface. The `Agent` tool is excluded from the chain; it never contributes a visible row.
+The hook walks the message content in array order. A `text` block renders as a [[features/assistant-frame/bordered-assistant-text|bordered assistant text]]. A `thinking` block renders as a bordered preview when the thinking block is hidden, and as bordered italic Markdown when it is expanded. The expanded border starts with the thinking icon in its top-left header and wraps at the available inner width. Tool calls render as compact single-line rows from the [[features/tool-call/compact-tool-error|tool call]] surface. The `Agent` tool is excluded from the chain; it never contributes a visible row.
 
 ## Shared walls
 
-Two adjacent blocks share exactly one wall. The lower block suppresses its own top border, and the block above opens that wall with a `├─┤` bottom border. A hidden thinking block opens a bottom `├─┤` when a bordered block follows; a bordered text block opens a bottom `├─┤` when a contiguous tool call group follows; a bridged tool call drops its top border to sit against the wall above it. Where no block follows, the chain closes with a `╰╯` or `└┘` bottom border.
+Two adjacent blocks share exactly one wall. The lower block suppresses its own top border, and the block above opens that wall with a `├─┤` bottom border. A collapsed or expanded thinking block opens a bottom `├─┤` when a bordered block follows; a bordered text block opens a bottom `├─┤` when a contiguous tool call group follows; a bridged tool call drops its top border to sit against the wall above it. Where no block follows, the chain closes with a `╰╯` or `└┘` bottom border.
 
 Drawing a second `├─┤` at a junction is rejected and stays rejected. It renders as a doubled wall with a visible gap, which is why the lower block always suppresses its top border instead of drawing its own connector.
 

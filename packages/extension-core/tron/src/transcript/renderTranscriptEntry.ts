@@ -10,6 +10,7 @@ import { summarizeArgs } from "../compact-tool-lines/summarizeArgs";
 import { theme } from "../theme-proxy";
 import { getThinkingPreview } from "../thinking/getThinkingPreview";
 import { ThinkingLabelBlock } from "../thinking/ThinkingLabelBlock";
+import { BorderedThinkingBlock } from "../thinking/BorderedThinkingBlock";
 import { toPlainTextLines } from "../toolcalls/toPlainTextLines";
 import {
 	ErrorRenderer,
@@ -54,9 +55,10 @@ export function renderTranscriptEntry(
 						italic: true,
 					},
 				);
+				const block = new BorderedThinkingBlock(markdown, connectToTools, connectFromTool);
 				return {
-					renderer: markdown,
-					component: markdown,
+					renderer: block,
+					component: block,
 					meta: {
 						hasAttachedResult: false,
 						drawsOwnBottomBorder: !connectToTools,

@@ -99,10 +99,9 @@ export function installAssistantThinkingStyle(): void {
 			for (let index = 0; index < message.content.length; index++) {
 				const content = message.content[index];
 				if (content.type === "text" && content.text?.trim()) {
-					// Share the top wall with the collapsed thinking block directly above.
+					// Share the top wall with the thinking block directly above.
 					const prev = message.content[index - 1];
 					const connectFromThinking =
-						comp.hideThinkingBlock &&
 						prev?.type === "thinking" &&
 						Boolean(prev.thinking?.trim());
 					// Contiguous tool calls directly below share the text's bottom wall.
@@ -147,8 +146,8 @@ export function installAssistantThinkingStyle(): void {
 						index,
 					);
 					const connectToTools = toolGroup.toolCallIds.length > 0;
-					// Text is now bordered, so it joins the visual chain: the collapsed
-					// thinking block must open a ├─┤ bottom wall into it.
+					// Thinking and text share a ├─┤ wall in both collapsed and
+					// expanded modes.
 					const hasTextAfter = message.content
 						.slice(index + 1)
 						.some(
@@ -202,10 +201,7 @@ export function installAssistantThinkingStyle(): void {
 						);
 						if (child) comp.contentContainer.addChild(child);
 					}
-					if (
-						hasVisibleContentAfter &&
-						!(comp.hideThinkingBlock && connectsBelow)
-					)
+					if (hasVisibleContentAfter && !connectsBelow)
 						comp.contentContainer.addChild(new Spacer(1));
 				}
 			}
