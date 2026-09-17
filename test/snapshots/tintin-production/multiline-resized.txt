@@ -1,0 +1,12 @@
+│running · integration-flow · 0/1 agent · 600ms                │
+└──────────────────────────────────────────────────────────────┘
+╭─  /tmp/nx-production-wiring-XXXXXX────────  ▱▱▱▱▱ 0k/128k ─╮
+│» multiline first                                             │
+│ multiline second                                             │
+│ multiline third                                              │
+╰──────────────────────────────────────────────────────────── ─╯
+ test-provider  test-model  off  Pro… 1 running · 1 queued —  —
++1 agents · 0 workflows hidden · Alt+Shift+F fleet · /agents
+  ○ main
+  ○ workflow  integration-flow       0/1 agent · 1s · ↓ 0 tokens
+  ○ Explore  scout task                          1s · ↓ 0 tokens
