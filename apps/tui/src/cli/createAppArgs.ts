@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import {
 	agentCommandsExists,
 	getAgentCommandsPath,
@@ -49,8 +50,13 @@ export function createAppArgs(inputArgs: string[]): string[] {
 	if (agentCommandsExists() && !hasNoPromptTemplates) {
 		prependedArgs.push("--prompt-template", agentCommandsPath);
 	}
-	if (!hasBundledCommandsPath)
+	if (
+		!hasBundledCommandsPath &&
+		!hasNoPromptTemplates &&
+		existsSync(bundledCommandsPath)
+	) {
 		prependedArgs.push("--prompt-template", bundledCommandsPath);
+	}
 
 	return [...prependedArgs, ...args];
 }
