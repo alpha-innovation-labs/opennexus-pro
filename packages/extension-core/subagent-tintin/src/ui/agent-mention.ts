@@ -16,8 +16,8 @@
  * pi's `CombinedAutocompleteProvider` already owns `@`, where it means "attach a
  * file". Extensions can wrap it (`ctx.ui.addAutocompleteProvider`), so this
  * provider adds the `@` tokens that name an agent and delegates everything else
- * — including all of `applyCompletion`, whose `@`-branch already inserts
- * `item.value` plus a trailing space, which is exactly what a handle needs.
+ * — agent completion inserts only the handle and a trailing space, while file
+ * completion is routed back to its originating provider.
  *
  * Matching mirrors Claude Code: case-insensitive prefix, not fuzzy. What it does
  * NOT mirror is Claude Code dropping files whenever an agent matches. Here `@` is
@@ -27,15 +27,9 @@
  * use to browse files — would offer no files at all, and a single letter
  * beginning any handle would do the same.
  *
- * Both halves ship under ONE `prefix`, which is sound because wherever BOTH sides
- * produce rows they measured the same span. pi's `extractAtPrefix` takes the
- * token after the last of `{space, tab, ", ', =}` and keeps it only if it starts
- * with `@`; `MENTION_TRIGGER` matches `@[\w-]*` at the cursor, after start-of-line
- * or `[\s。、？！]`. Where those two disagree, exactly one side answers and there
- * is nothing to merge: `@src/index.ts` and `@"my file` are pi's alone (no handle
- * matches), `=@ex` is pi's alone (`=` is a delimiter to pi, not a boundary to us),
- * and `。@ex` is ours alone (the reverse). A merged response therefore never
- * carries a prefix from one side and an item from the other.
+ * Each row retains its own prefix and insertion callback. Other wrappers may
+ * use different token boundaries; the response prefix is not authoritative for
+ * those rows. Metadata also keeps agents distinct from same-named paths.
  *
  * Offering never-started types is a deliberate step beyond Claude Code, whose
  * registry holds only live tasks, so an agent you had not launched yet was
@@ -43,6 +37,7 @@
  */
 
 import type { AutocompleteItem, AutocompleteProvider, AutocompleteSuggestions } from "@earendil-works/pi-tui";
+import type { ReferenceCompletionItem } from "./reference-completion.js";
 import type { AgentManager } from "../agent-manager.js";
 import { handleBase, MENTION_TRIGGER } from "../mention.js";
 import type { AgentRecord, AgentTombstone } from "../types.js";
@@ -123,7 +118,8 @@ export function createMentionProvider(
   // character typed after `@`, so an unguarded log would bury the terminal in
   // the time it takes to finish a word.
   let warnedInnerFailure = false;
-  return {
+  let request = 0;
+  const provider: AutocompleteProvider = {
     // Only `@` — the contract is "characters that should naturally trigger
     // THIS provider", and pi unions each wrapper's own set onto the outermost
     // one itself (interactive-mode.js:432), so re-declaring the wrapped
@@ -131,6 +127,8 @@ export function createMentionProvider(
     triggerCharacters: ["@"],
 
     async getSuggestions(lines, cursorLine, cursorCol, options): Promise<AutocompleteSuggestions | null> {
+      const generation = ++request;
+      if (options.signal.aborted) return null;
       const mine = isEnabled() ? mentionItems(roster(), lines[cursorLine] ?? "", cursorCol) : null;
       // Asked unconditionally: pi owns `@` and must keep answering for it even
       // when a handle matches too. That is the same work vanilla pi does on any
@@ -159,35 +157,65 @@ export function createMentionProvider(
         }
         theirs = null;
       }
-      if (!mine) return theirs;
-      if (!theirs) return mine;
-      // Agents first: there are a handful of them against pi's 20 file rows, and
-      // a handle buried under fuzzy path matches is a handle nobody finds. The
-      // prefix is ours by the span argument in the header — identical to pi's
-      // whenever both sides have something to say.
-      return { items: [...mine.items, ...theirs.items], prefix: mine.prefix };
+      if (options.signal.aborted || generation !== request) return null;
+      const ownItems: ReferenceCompletionItem[] = (mine?.items ?? []).map(({ identity, ...item }) => ({
+        ...item,
+        reference: {
+          kind: "agent", identity, source: provider, prefix: mine!.prefix,
+          apply(lines: string[], cursorLine: number, cursorCol: number) {
+            const before = lines[cursorLine].slice(0, cursorCol - mine!.prefix.length);
+            const result = [...lines];
+            result[cursorLine] = before + item.value + " " + lines[cursorLine].slice(cursorCol);
+            return { lines: result, cursorLine, cursorCol: before.length + item.value.length + 1 };
+          },
+        },
+      }));
+      const innerItems = (theirs?.items ?? []).map((item: ReferenceCompletionItem): ReferenceCompletionItem => item.reference ? item : ({
+        ...item,
+        reference: {
+          kind: item.label.endsWith("/") ? "folder" : "file", identity: item.value,
+          source: current, prefix: theirs!.prefix,
+          apply: (lines, row, col) => current.applyCompletion(lines, row, col, item, theirs!.prefix),
+        },
+      }));
+      const seen = new Set<string>();
+      const items = [...ownItems, ...innerItems].filter(item => {
+        const ref = item.reference!;
+        const key = `${ref.kind}:${ref.identity}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+      return items.length ? { items, prefix: mine?.prefix ?? theirs!.prefix } : null;
     },
 
     applyCompletion(lines, cursorLine, cursorCol, item, prefix) {
-      return current.applyCompletion(lines, cursorLine, cursorCol, item, prefix);
+      const reference = (item as ReferenceCompletionItem).reference;
+      return reference ? reference.apply(lines, cursorLine, cursorCol)
+        : current.applyCompletion(lines, cursorLine, cursorCol, item, prefix);
     },
 
     shouldTriggerFileCompletion(lines, cursorLine, cursorCol) {
       return current.shouldTriggerFileCompletion?.(lines, cursorLine, cursorCol) ?? true;
     },
   };
+  return provider;
 }
 
 /** Suggestions for the `@…` token under the cursor, or null when it names no agent. */
-function mentionItems(roster: MentionTarget[], line: string, cursorCol: number): AutocompleteSuggestions | null {
+function mentionItems(roster: MentionTarget[], line: string, cursorCol: number): { items: (AutocompleteItem & { identity: string })[]; prefix: string } | null {
   const match = MENTION_TRIGGER.exec(line.slice(0, cursorCol));
   if (!match) return null;
 
   const typed = match[2].toLowerCase();
-  const items: AutocompleteItem[] = [];
+  const items: (AutocompleteItem & { identity: string })[] = [];
   for (const target of roster) {
-    if (!target.handle.toLowerCase().startsWith(typed)) continue;
-    items.push({ value: `@${target.handle}`, label: `@${target.handle}`, description: describeTarget(target) });
+    const typeHandle = target.kind === "record" ? target.record.handle
+      : target.kind === "tombstone" ? target.entry.handle : target.handle;
+    if (![target.handle, typeHandle].some(handle => handle?.toLowerCase().startsWith(typed))) continue;
+    const identity = target.kind === "type" ? `type:${target.type.toLowerCase()}`
+      : `agent:${target.kind === "record" ? target.record.id : target.entry.id}`;
+    items.push({ value: `@${target.handle}`, label: `@${target.handle}`, description: describeTarget(target), identity });
   }
   return items.length > 0 ? { items, prefix: `@${match[2]}` } : null;
 }

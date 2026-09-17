@@ -1,3 +1,5 @@
+import { posix } from "node:path";
+import type { ReferenceCompletionItem } from "../../../subagent-tintin/src/ui/reference-completion.js";
 import type { AutocompleteProvider } from "@earendil-works/pi-tui";
 import type { FffRuntime } from "../runtime/FffRuntime";
 import { collectFolderSuggestions } from "./collectFolderSuggestions";
@@ -20,32 +22,29 @@ export function createFffAutocompleteProvider(
 	baseProvider: AutocompleteProvider,
 	runtime: FffRuntime,
 ): AutocompleteProvider {
-	return {
+	let request = 0;
+	const provider: AutocompleteProvider = {
+		triggerCharacters: baseProvider.triggerCharacters,
 		async getSuggestions(lines, cursorLine, cursorCol, options) {
+			const generation = ++request;
+			if (options.signal.aborted) return null;
 			const currentLine = lines[cursorLine] ?? "";
 			const prefix = extractAtPrefix(currentLine.slice(0, cursorCol));
+			// Both sources run even at bare @. Promise callbacks catch synchronous
+			// provider failures as well as rejected searches.
+			const innerPromise = Promise.resolve().then(() =>
+				baseProvider.getSuggestions(lines, cursorLine, cursorCol, options));
 			if (!prefix) {
-				return baseProvider.getSuggestions(
-					lines,
-					cursorLine,
-					cursorCol,
-					options,
-				);
+				const inner = await innerPromise;
+				return options.signal.aborted || generation !== request ? null : inner;
 			}
-			if (options.signal.aborted) return null;
-
 			const parsed = parseAtPrefix(prefix);
-			const candidates = await runtime
-				.searchFileCandidates(parsed.rawQuery, MAX_RESULTS)
-				.catch(() => null);
-			if (options.signal.aborted || !candidates || candidates.length === 0) {
-				return baseProvider.getSuggestions(
-					lines,
-					cursorLine,
-					cursorCol,
-					options,
-				);
-			}
+			const [inner, candidates] = await Promise.all([
+				innerPromise.catch(() => null),
+				Promise.resolve().then(() => runtime.searchFileCandidates(parsed.rawQuery, MAX_RESULTS)).catch(() => null),
+			]);
+			if (options.signal.aborted || generation !== request) return null;
+			if (!candidates?.length) return inner;
 
 			const folderItems = createFolderAutocompleteItems(
 				collectFolderSuggestions(candidates, parsed.rawQuery).slice(
@@ -66,15 +65,45 @@ export function createFffAutocompleteProvider(
 				);
 			});
 
-			return {
-				prefix,
-				items: [...folderItems, ...fileItems].slice(0, MAX_RESULTS),
-			};
+			const innerItems: ReferenceCompletionItem[] = (inner?.items ?? []).map((item: ReferenceCompletionItem) => item.reference ? item : ({
+				...item,
+				reference: {
+					kind: item.label.endsWith("/") ? "folder" : "file", identity: item.value,
+					source: baseProvider, prefix: inner!.prefix,
+					apply: (lines, row, col) => baseProvider.applyCompletion(lines, row, col, item, inner!.prefix),
+				},
+			}));
+			const ranked: ReferenceCompletionItem[] = [...folderItems, ...fileItems].map(item => ({
+				...item,
+				reference: {
+					kind: item.label.endsWith("/") ? "folder" : "file", identity: normalizeInsertedPath(item.value),
+					source: provider, prefix,
+					apply(lines, row, col) {
+						void Promise.resolve().then(() => runtime.trackQuery(prefix, normalizeInsertedPath(item.value))).catch(() => undefined);
+						return baseProvider.applyCompletion(lines, row, col, item, prefix);
+					},
+				},
+			}));
+			const seen = new Set<string>();
+			let fileCount = 0;
+			const items = [
+				...innerItems.filter(item => item.reference?.kind === "agent"),
+				...ranked,
+				...innerItems.filter(item => item.reference?.kind !== "agent"),
+			].filter(item => {
+				const ref = item.reference!;
+				const identity = ref.kind === "agent" ? ref.identity
+					: posix.normalize(normalizeInsertedPath(item.value).replace(/\\/g, "/")).replace(/\/$/, "");
+				const key = `${ref.kind}:${identity}`;
+				if (seen.has(key)) return false;
+				seen.add(key);
+				return ref.kind === "agent" || fileCount++ < MAX_RESULTS;
+			});
+			return { prefix, items };
 		},
 		applyCompletion(lines, cursorLine, cursorCol, item, prefix) {
-			void runtime
-				.trackQuery(prefix, normalizeInsertedPath(item.value))
-				.catch(() => undefined);
+			const reference = (item as ReferenceCompletionItem).reference;
+			if (reference) return reference.apply(lines, cursorLine, cursorCol);
 			return baseProvider.applyCompletion(
 				lines,
 				cursorLine,
@@ -93,4 +122,5 @@ export function createFffAutocompleteProvider(
 			);
 		},
 	};
+	return provider;
 }
