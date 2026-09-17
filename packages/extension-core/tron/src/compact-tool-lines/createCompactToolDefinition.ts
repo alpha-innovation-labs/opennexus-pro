@@ -1,5 +1,7 @@
-import type { AgentToolResult, ToolDefinition, ToolRenderResultOptions } from "@earendil-works/pi-coding-agent";
-import { Container, type Component } from "@earendil-works/pi-tui";
+import type { AgentToolResult, ToolDefinition } from "@earendil-works/pi-coding-agent";
+import { Container, type Component, type TuiMouseEvent } from "@earendil-works/pi-tui";
+import { dispatchMouseEvent } from "@earendil-works/pi-tui/dist/tui.js";
+import { getToolOutputScrollState } from "./ToolOutputViewport";
 import type { Theme } from "@earendil-works/pi-coding-agent";
 import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator";
 import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry";
@@ -11,6 +13,9 @@ type CompactToolContext = {
 	invalidate(): void;
 	isError: boolean;
 	expanded?: boolean;
+	args?: Record<string, unknown>;
+	state?: object;
+	toolOutputViewport?: boolean;
 };
 
 type CompactToolResultState = {
@@ -68,7 +73,7 @@ export function createCompactToolDefinition(
 			// The upstream renderer must see its own previous component, not our
 			// border wrapper. Read it each paint so background workflow state stays live.
 			let child: Component | undefined;
-			const liveChild = isAgentProgressTool(definition.name) && definition.renderResult
+			const liveChild = definition.renderResult
 				? {
 					render: (width: number) => {
 						child = definition.renderResult!(result, {
@@ -78,6 +83,7 @@ export function createCompactToolDefinition(
 						return child.render(width);
 					},
 					invalidate: () => child?.invalidate(),
+					handleMouse: (event: TuiMouseEvent) => child ? dispatchMouseEvent(child, event) : undefined,
 				}
 				: undefined;
 			const { renderer } = renderTranscriptEntry(
@@ -85,31 +91,15 @@ export function createCompactToolDefinition(
 					role: "toolResult",
 					toolCallId: context.toolCallId,
 					toolName: definition.name,
+					args: context.args,
 					result: entryResult as never,
 					text: "",
 				},
 				{
 					theme,
 					expanded: state.expanded ?? false,
-					resultChildRenderer: liveChild ?? (definition.renderResult
-						? {
-								render: (innerWidth: number) =>
-									definition
-										.renderResult?.(result, {
-											expanded: state.expanded ?? false,
-											isPartial: state.isPartial ?? false,
-										} as ToolRenderResultOptions, theme, context as never)
-										.render(innerWidth) ?? [],
-								invalidate: () => {
-									definition
-										.renderResult?.(result, {
-											expanded: state.expanded ?? false,
-											isPartial: state.isPartial ?? false,
-										} as ToolRenderResultOptions, theme, context as never)
-										.invalidate?.();
-								},
-							}
-						: undefined),
+					toolOutputScrollState: context.toolOutputViewport === false ? undefined : getToolOutputScrollState(context.state),
+					resultChildRenderer: liveChild,
 				},
 			);
 			return renderer;

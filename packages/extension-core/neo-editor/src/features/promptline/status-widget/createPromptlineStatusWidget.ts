@@ -2,14 +2,15 @@ import type {
 	ExtensionAPI,
 	ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
-import { visibleWidth } from "@earendil-works/pi-tui";
+import { visibleWidth, type Component } from "@earendil-works/pi-tui";
 import { logExtensionEvent } from "@nexus/observability/startup-debug";
 import { isStartupProfileEnabled } from "@nexus/observability/startup-profile/isStartupProfileEnabled";
 import { getPromptlineModel } from "../getPromptlineModel";
 import { getPromptlineFrameWidth } from "../layout/getPromptlineFrameWidth";
+import { getPromptlineFrameLeftPadding } from "../layout/getPromptlineFrameLeftPadding";
 import { hasConversationMessages } from "../layout/hasConversationMessages";
 import { padPromptlineFrameToWidth } from "../layout/padPromptlineFrameToWidth";
-import { buildPromptlineStatusLine } from "./buildPromptlineStatusLine";
+import { layoutPromptlineStatusLine } from "./buildPromptlineStatusLine";
 import { createPromptlineBadge } from "./createPromptlineBadge";
 import { getPromptlineSessionRunTimeLabel } from "./getPromptlineSessionRunTimeLabel";
 import { getPromptlineStatusTitle } from "./getPromptlineStatusTitle";
@@ -32,13 +33,24 @@ export function createPromptlineStatusWidget(
 	getThinkingLevel: ExtensionAPI["getThinkingLevel"],
 	getSessionName: ExtensionAPI["getSessionName"],
 	getAgentCountsLabel: () => string = () => "",
-): { invalidate(): void; render(width: number): string[] } {
+	onProviderClick?: () => void,
+): Component {
 	let cachedKey: string | undefined;
 	let cachedLines: string[] = [];
+	let providerHit: { start: number; end: number; width: number } | undefined;
 	return {
+		handleMouse(event) {
+			if (!onProviderClick || !providerHit || event.type !== "click" || event.button !== "left"
+				|| event.y !== 0 || event.width !== providerHit.width
+				|| event.x < providerHit.start || event.x >= providerHit.end) return undefined;
+			onProviderClick();
+			// Do not focus the metadata row: the opened picker owns keyboard focus.
+			return { handled: true };
+		},
 		invalidate(): void {
 			cachedKey = undefined;
 			cachedLines = [];
+			providerHit = undefined;
 		},
 		render(width: number): string[] {
 			const modelInfo = getPromptlineModel(ctx);
@@ -70,8 +82,9 @@ export function createPromptlineStatusWidget(
 				runTime ?? "",
 			].join("\u001f");
 			if (cachedKey === key) return cachedLines;
-			const badges = `${createPromptlineBadge(provider, PROVIDER_BADGE_BG)}${createPromptlineBadge(modelId, MODEL_BADGE_BG)}${createPromptlineBadge(thinking, THINKING_BADGE_BG)}`;
-			const line = buildPromptlineStatusLine(
+			const providerBadge = createPromptlineBadge(provider, PROVIDER_BADGE_BG);
+			const badges = `${providerBadge}${createPromptlineBadge(modelId, MODEL_BADGE_BG)}${createPromptlineBadge(thinking, THINKING_BADGE_BG)}`;
+			const { line, badgesWidth } = layoutPromptlineStatusLine(
 				badges,
 				[agentCounts, tps, runTime].filter(Boolean).join(" "),
 				title,
@@ -88,6 +101,12 @@ export function createPromptlineStatusWidget(
 					});
 				}
 			}
+			const start = getPromptlineFrameLeftPadding(width, frameWidth);
+			providerHit = {
+				start,
+				end: start + Math.min(visibleWidth(providerBadge), badgesWidth),
+				width,
+			};
 			cachedKey = key;
 			cachedLines = padPromptlineFrameToWidth([line], width, frameWidth);
 			return cachedLines;

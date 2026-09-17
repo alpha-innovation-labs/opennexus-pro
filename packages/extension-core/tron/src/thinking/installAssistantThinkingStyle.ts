@@ -5,7 +5,7 @@ import type {
 } from "@earendil-works/pi-coding-agent";
 import { getMarkdownTheme } from "@earendil-works/pi-coding-agent";
 import type { MarkdownTheme } from "@earendil-works/pi-tui";
-import { Spacer, Text } from "@earendil-works/pi-tui";
+import { MouseRegion, Spacer, Text } from "@earendil-works/pi-tui";
 import { NEXUS_TRON_ASSISTANT_FOOTER_FLAG } from "@nexus/pi-platform/applyAssistantFooterSpacingPatch";
 import { setAssistantMessageUpdateHook } from "@nexus/pi-platform/assistantMessageHook";
 import { bridgeThinkingToToolCalls } from "../activity/bridgeThinkingToToolCalls";
@@ -44,10 +44,14 @@ function castComponent(c: AssistantMessageComponent): Record<
 	};
 	markdownTheme?: unknown;
 	hideThinkingBlock: boolean;
+	thinkingVisibilityOverrides?: Map<number, boolean>;
 	hasToolCalls: boolean;
 } {
 	return c as never;
 }
+
+// Older assistant components do not clear overrides themselves on a global toggle.
+const lastThinkingDefault = new WeakMap<AssistantMessageComponent, boolean>();
 
 /**
  * Installs the tron assistant-thinking renderer hook.
@@ -61,6 +65,12 @@ export function installAssistantThinkingStyle(): void {
 			if (!message) return;
 			const startedAt = performance.now();
 			const comp = castComponent(component);
+			// Reuse Pi's map so its global keyboard toggle clears local overrides,
+			// including a repeated setting. Keys identify individual content blocks.
+			const thinkingOverrides = comp.thinkingVisibilityOverrides ??= new Map<number, boolean>();
+			if (lastThinkingDefault.has(component) && lastThinkingDefault.get(component) !== comp.hideThinkingBlock)
+				thinkingOverrides.clear();
+			lastThinkingDefault.set(component, comp.hideThinkingBlock);
 			comp.lastMessage = message;
 			comp.contentContainer.clear();
 			comp[NEXUS_TRON_ASSISTANT_FOOTER_FLAG] = false;
@@ -176,31 +186,25 @@ export function installAssistantThinkingStyle(): void {
 							toolGroup.toolCallIds,
 							!toolGroup.followedByThinking,
 						);
-					if (comp.hideThinkingBlock) {
-						const { component: child } = renderTranscriptEntry(
-							{ role: "thinking", text: content.thinking.trim() },
-							{
-								theme: theme as PiTheme,
-								markdownTheme: markdownTheme as never,
-								connectThinkingToTools: connectsBelow,
-								connectThinkingFromTool: connectFromTool,
-							},
-						);
-						if (child) comp.contentContainer.addChild(child);
-					} else {
-						const { component: child } = renderTranscriptEntry(
-							{ role: "thinking", text: content.thinking.trim() },
-							{
-								theme: theme as PiTheme,
-								markdownTheme: markdownTheme as never,
-								expanded: true,
-								connectThinkingToTools: connectsBelow,
-								connectThinkingFromTool: connectFromTool,
-								xOffset: 1,
-							},
-						);
-						if (child) comp.contentContainer.addChild(child);
-					}
+					const hidden = thinkingOverrides.get(index) ?? comp.hideThinkingBlock;
+					const { component: child } = renderTranscriptEntry(
+						{ role: "thinking", text: content.thinking.trim() },
+						{
+							theme: theme as PiTheme,
+							markdownTheme: markdownTheme as never,
+							expanded: !hidden,
+							connectThinkingToTools: connectsBelow,
+							connectThinkingFromTool: connectFromTool,
+							xOffset: 1,
+						},
+					);
+					if (child) comp.contentContainer.addChild(new MouseRegion(child, (event) => {
+						if (event.type !== "click" || event.button !== "left"
+							|| (connectFromTool && event.y === 0)) return undefined;
+						thinkingOverrides.set(index, !hidden);
+						component.invalidate();
+						return { handled: true, render: true };
+					}));
 					if (hasVisibleContentAfter && !connectsBelow)
 						comp.contentContainer.addChild(new Spacer(1));
 				}

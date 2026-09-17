@@ -11,6 +11,7 @@ Renders the pi TUI message area as one continuous bordered transcript. It re-ski
 - [[features/assistant-frame/assistant-footer|assistant-footer]]: Renders the duration footer under the content and keeps it and the following prompt one blank line apart.
 - [[features/assistant-frame/thinking-tool-bridge|thinking-tool-bridge]]: Computes the shared frame state that lets bridged rows drop their top borders.
 - [[features/tool-call/compact-tool-error|compact-tool-error]]: Surfaces a failed tool call as one red error row inside the chain.
+- [[features/tool-call/tool-call-interaction|tool-call-interaction]]: Toggles individual tool results by clicking their boxes in the fullscreen transcript.
 
 ## File Structure
 ```text
@@ -50,12 +51,14 @@ src/
     CompactToolResult.ts
     FailedToolCallResult.ts
     SingleLineToolCall.ts
+    ToolOutputViewport.ts
     SummaryText.ts
     compactToolWrapMarker.ts
     countChangedLines.ts
     countContentLines.ts
     createBuiltInTools.ts
     createCompactToolDefinition.ts
+    createMutationToolDetails.ts
     createTronToolWrappingExtensionApi.ts
     firstLine.ts
     getBuiltInTools.ts

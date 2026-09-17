@@ -1,8 +1,10 @@
 import { getMarkdownTheme } from "@earendil-works/pi-coding-agent";
 import { AgentProgressCall, isAgentProgressTool } from "../compact-tool-lines/AgentProgressCall";
-import { Markdown } from "@earendil-works/pi-tui";
+import { Markdown, Text } from "@earendil-works/pi-tui";
+import { getResultText } from "../compact-tool-lines/getResultText";
 import { BorderedToolResult } from "../compact-tool-lines/BorderedToolResult";
 import { CompactToolResult } from "../compact-tool-lines/CompactToolResult";
+import { createMutationToolDetails } from "../compact-tool-lines/createMutationToolDetails";
 import { FailedToolCallResult } from "../compact-tool-lines/FailedToolCallResult";
 import { getToolErrorText } from "../compact-tool-lines/getToolErrorText";
 import { renderSummary } from "../compact-tool-lines/renderSummary";
@@ -129,11 +131,15 @@ export function renderTranscriptEntry(
 				};
 			}
 
-			if (context.resultChildRenderer) {
+			const resultChild = createMutationToolDetails(toolName, entry.args, entry.result?.details, context.theme)
+				?? context.resultChildRenderer
+				?? (context.toolOutputScrollState ? new Text(getResultText(entry.result as never), 0, 0) : undefined);
+			if (resultChild) {
 				const renderer = new BorderedToolResult(
 					toolCallId,
-					context.resultChildRenderer,
+					resultChild,
 					context.theme,
+					context.expanded ? context.toolOutputScrollState : undefined,
 				);
 				return {
 					renderer,

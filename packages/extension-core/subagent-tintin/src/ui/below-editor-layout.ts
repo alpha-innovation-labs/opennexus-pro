@@ -1,7 +1,6 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 import type { Theme } from "./agent-widget.js";
-
-type Component = { render(width: number): string[]; invalidate(): void };
+import { forwardMouseToChild, type Component } from "@nexus/tui-kit/mouse/forwardMouseToChild";
 type Slot = "metadata" | "fleet";
 type Layout = { metadata?: Component; fleet?: Component; editorRows?: number; editorWidth?: number; budget: number; measureBudget?: (width?: number) => number };
 // Stored on the TUI, not a UI-context wrapper or module singleton: extension
@@ -34,7 +33,15 @@ export function setBelowEditorSlot(
       layout.editorRows = undefined;
       layout.editorWidth = undefined;
     }
+    let renderedWidth: number | undefined;
+    let metadataRows = 0;
+    let fleetRows = 0;
     return {
+      handleMouse(event) {
+        if (renderedWidth !== event.width) return undefined;
+        return forwardMouseToChild(layout.metadata, event, 0, metadataRows)
+          ?? forwardMouseToChild(layout.fleet, event, metadataRows, fleetRows);
+      },
       render(width) {
         const metadata = layout.metadata?.render(width) ?? [];
         // Also callable before repaint, so resize cannot leave keyboard focus
@@ -47,10 +54,14 @@ export function setBelowEditorSlot(
           return Math.max(0, Math.min(7, (tui.terminal.rows ?? 24) - editorRows - metadata.length - 2));
         };
         layout.budget = layout.measureBudget(width);
-        return [...metadata, ...(layout.fleet?.render(width) ?? []).slice(0, layout.budget)]
-          .map(line => truncateToWidth(line, Math.max(0, width)));
+        const fleet = (layout.fleet?.render(width) ?? []).slice(0, layout.budget);
+        renderedWidth = width;
+        metadataRows = metadata.length;
+        fleetRows = fleet.length;
+        return [...metadata, ...fleet].map(line => truncateToWidth(line, Math.max(0, width)));
       },
       invalidate() {
+        renderedWidth = undefined;
         layout.metadata?.invalidate();
         layout.fleet?.invalidate();
       },

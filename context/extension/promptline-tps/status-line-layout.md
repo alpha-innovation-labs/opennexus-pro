@@ -4,7 +4,11 @@ The promptline status line is one frame built from fixed slots. Left to right: t
 
 ## The composition
 
-The title is the only slot that shrinks. The builder measures the badges, the right-side label (agent counts + TPS + runtime), and the gaps, then truncates the title to whatever width remains. When the frame is too narrow for the title at all, the badges plus the right-side label are truncated as a unit.
+The title is the only slot that shrinks. The builder measures the badges, the right-side label (agent counts + TPS + runtime), and the gaps, then truncates the title to whatever width remains. When the frame is too narrow for the title at all, the right-side label takes priority and the badges are clipped to the remaining left-hand space.
+
+## Provider interaction
+
+The provider badge opens the existing Providers picker on a completed left click in the mouse-aware UI. Its hit region uses the rendered badge width, clipping, and centered frame offset; model, thinking, session, and right-hand labels are not provider targets. The below-editor host forwards mouse events with child-local rows and visible bounds. Opening or cancelling the picker preserves the editor draft, and an existing overlay prevents another picker from opening. Session shutdown clears the active editor's picker callback.
 
 ## Shared right-hand cluster
 

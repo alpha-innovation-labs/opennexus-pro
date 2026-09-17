@@ -11,16 +11,18 @@ import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
  * @param theme UI theme.
  * @returns Width-constrained status content.
  */
-export function buildPromptlineStatusLine(
+export function layoutPromptlineStatusLine(
 	badges: string,
 	runTime: string | undefined,
 	sessionName: string | undefined,
 	width: number,
 	theme: ExtensionContext["ui"]["theme"],
-): string {
+): { line: string; badgesWidth: number } {
 	const gap = " ";
-	if (!runTime)
-		return truncateToWidth(badges, width, theme.fg("dim" as never, "…"));
+	if (!runTime) {
+		const line = truncateToWidth(badges, width, theme.fg("dim" as never, "…"));
+		return { line, badgesWidth: visibleWidth(line) };
+	}
 	const titleRaw = theme.fg("muted" as never, sessionName ?? "");
 	const titlePrefix = `${badges}${gap}`;
 	const titleWidth =
@@ -32,7 +34,10 @@ export function buildPromptlineStatusLine(
 		const right = truncateToWidth(runTime, width, "");
 		const leftWidth = Math.max(0, width - visibleWidth(right) - 1);
 		const left = truncateToWidth(badges, leftWidth, "");
-		return left + " ".repeat(Math.max(0, width - visibleWidth(left) - visibleWidth(right))) + right;
+		return {
+			line: left + " ".repeat(Math.max(0, width - visibleWidth(left) - visibleWidth(right))) + right,
+			badgesWidth: visibleWidth(left),
+		};
 	}
 	const title = truncateToWidth(
 		titleRaw,
@@ -43,5 +48,12 @@ export function buildPromptlineStatusLine(
 	const padding = " ".repeat(
 		Math.max(1, width - visibleWidth(left) - visibleWidth(runTime)),
 	);
-	return `${left}${padding}${runTime}`;
+	return { line: `${left}${padding}${runTime}`, badgesWidth: visibleWidth(badges) };
+}
+
+/** Builds the status text for callers that do not need hit-test geometry. */
+export function buildPromptlineStatusLine(
+	...args: Parameters<typeof layoutPromptlineStatusLine>
+): string {
+	return layoutPromptlineStatusLine(...args).line;
 }

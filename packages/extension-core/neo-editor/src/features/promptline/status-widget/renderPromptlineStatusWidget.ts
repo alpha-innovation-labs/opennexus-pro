@@ -3,6 +3,7 @@ import type {
 	ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
 import { createPromptlineStatusWidget } from "./createPromptlineStatusWidget";
+import { openPromptlineProviderPicker } from "../state";
 import { setBelowEditorSlot } from "../../../../../subagent-tintin/src/ui/below-editor-layout";
 
 /**
@@ -21,6 +22,6 @@ export function renderPromptlineStatusWidget(
 	setBelowEditorSlot(
 		ctx.ui,
 		"metadata",
-		() => createPromptlineStatusWidget(ctx, getThinkingLevel, getSessionName, getAgentCountsLabel),
+		() => createPromptlineStatusWidget(ctx, getThinkingLevel, getSessionName, getAgentCountsLabel, openPromptlineProviderPicker),
 	);
 }

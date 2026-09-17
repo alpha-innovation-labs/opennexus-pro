@@ -1,5 +1,7 @@
 import type { AgentToolResult, ExtensionAPI, Theme } from "@earendil-works/pi-coding-agent";
-import { Container } from "@earendil-works/pi-tui";
+import { Container, type TuiMouseEvent } from "@earendil-works/pi-tui";
+import { dispatchMouseEvent } from "@earendil-works/pi-tui/dist/tui.js";
+import { getToolOutputScrollState } from "./ToolOutputViewport";
 import { getRtkExecutionCwd } from "@extensions/rtk/runtime/getRtkExecutionCwd";
 import { allToolDefinitions } from "@nexus/pi-platform/tools";
 import { rememberActivityInvalidator } from "../activity/rememberActivityInvalidator";
@@ -13,6 +15,9 @@ type CompactToolContext = {
 	invalidate(): void;
 	isError: boolean;
 	expanded?: boolean;
+	args?: Record<string, unknown>;
+	state?: object;
+	toolOutputViewport?: boolean;
 };
 
 type CompactToolResultState = {
@@ -79,29 +84,32 @@ export function registerCompactBuiltInTool(
 				const builtIn = (allToolDefinitions as Record<string, { renderResult?: (result: unknown, state: CompactToolResultState, theme: Theme, context: CompactToolContext) => Container }>)[toolName]?.renderResult;
 				// Strip lastComponent so the built-in renderResult doesn't see the Container
 				// from compact renderCall, which lacks setText and triggers a crash.
-				const cleanContext: CompactToolContext = {
+				let builtInChild: Container | undefined;
+				const cleanContext = {
 					...context,
+					lastComponent: undefined,
 				};
 				const { renderer } = renderTranscriptEntry(
 					{
 						role: "toolResult",
 						toolCallId: context.toolCallId,
 						toolName,
-						result: result as never,
+						args: context.args,
+						result: { ...result, isError: context.isError },
 						text: "",
 					},
 					{
 						theme,
 						expanded: state.expanded,
+						toolOutputScrollState: context.toolOutputViewport === false ? undefined : getToolOutputScrollState(context.state),
 						resultChildRenderer: builtIn
 							? {
-									render: (innerWidth: number) =>
-										builtIn(result, state, theme, cleanContext).render(
-											innerWidth,
-										) ?? [],
-									invalidate: () => {
-										builtIn(result, state, theme, cleanContext).invalidate?.();
+									render: (innerWidth: number) => {
+										builtInChild = builtIn(result, state, theme, cleanContext);
+										return builtInChild.render(innerWidth);
 									},
+									invalidate: () => builtInChild?.invalidate(),
+									handleMouse: (event: TuiMouseEvent) => builtInChild ? dispatchMouseEvent(builtInChild, event) : undefined,
 								}
 							: undefined,
 					},

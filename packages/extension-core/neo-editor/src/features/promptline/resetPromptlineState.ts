@@ -4,6 +4,7 @@ import {
 	setPromptlineInstalledForSession,
 	setPromptlineModelOverride,
 	setPromptlineRenderRequest,
+	setPromptlineProviderPickerOpener,
 	setUsageRenderUnsubscribe,
 } from "./state";
 
@@ -12,6 +13,7 @@ import {
  */
 export function resetPromptlineState(): void {
 	setPromptlineRenderRequest(undefined);
+	setPromptlineProviderPickerOpener(undefined);
 	setPromptlineModelOverride(undefined);
 	setPromptlineInstalledForSession(null);
 	clearPromptlineConfig();

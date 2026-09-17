@@ -3,7 +3,7 @@ import { refreshTransportPreference } from "../../shared/transport/refreshTransp
 import { installPromptlineFooter } from "./installPromptlineFooter";
 import { installPromptlineRenderScheduler } from "./installPromptlineRenderScheduler";
 import { PromptlineEditor } from "./PromptlineEditor";
-import { getUsageRenderUnsubscribe, setPromptlineRenderRequest } from "./state";
+import { getUsageRenderUnsubscribe, setPromptlineRenderRequest, setPromptlineProviderPickerOpener } from "./state";
 import type { PromptlineContext, PromptlineDeps } from "./types";
 
 /**
@@ -26,7 +26,7 @@ export function installPromptline(
 		getUsageRenderUnsubscribe()?.();
 		void refreshGitState(deps.exec).then(() => tui.requestRender());
 		void refreshTransportPreference(ctx.cwd).then(() => tui.requestRender());
-		return new PromptlineEditor(
+		const editor = new PromptlineEditor(
 			tui,
 			theme,
 			keybindings,
@@ -40,5 +40,7 @@ export function installPromptline(
 			deps.getCommands,
 			deps.getAllTools,
 		);
+		setPromptlineProviderPickerOpener(() => editor.openProviderPicker());
+		return editor;
 	});
 }

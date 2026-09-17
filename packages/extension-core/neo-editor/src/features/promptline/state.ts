@@ -5,6 +5,16 @@ let requestPromptlineRender: ((force?: boolean) => void) | undefined;
 let promptlineInstalledForSession: string | null = null;
 let refreshRequestCallback: (() => void) | undefined;
 let usageRenderUnsubscribe: (() => void) | undefined;
+let providerPickerOpener: (() => void) | undefined;
+
+/** Connects metadata clicks to the active editor's existing slash-menu UI. */
+export function setPromptlineProviderPickerOpener(opener: (() => void) | undefined): void {
+	providerPickerOpener = opener;
+}
+
+export function openPromptlineProviderPicker(): void {
+	providerPickerOpener?.();
+}
 
 /**
  * Stores the current promptline render callback.

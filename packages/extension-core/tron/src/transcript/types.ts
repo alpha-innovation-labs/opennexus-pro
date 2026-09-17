@@ -1,5 +1,6 @@
 import type { Component, MarkdownTheme } from "@earendil-works/pi-tui";
 import type { Theme } from "@earendil-works/pi-coding-agent";
+import type { ToolOutputScrollState } from "../compact-tool-lines/ToolOutputViewport";
 
 /**
  * One role in a transcript entry.
@@ -42,6 +43,7 @@ export interface RenderContext {
 	xOffset?: number;
 	callChildRenderer?: EntryRenderer;
 	resultChildRenderer?: EntryRenderer;
+	toolOutputScrollState?: ToolOutputScrollState;
 }
 
 /**
@@ -58,6 +60,7 @@ export interface EntryMeta {
 export interface EntryRenderer {
 	render(width: number): string[];
 	invalidate?(): void;
+	handleMouse?: Component["handleMouse"];
 }
 
 /**

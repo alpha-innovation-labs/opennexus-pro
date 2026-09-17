@@ -1,7 +1,8 @@
 import { ToolExecutionComponent } from "@earendil-works/pi-coding-agent";
-import { Spacer } from "@earendil-works/pi-tui";
+import { Spacer, type TuiMouseEvent, type TuiMouseEventResult } from "@earendil-works/pi-tui";
 
 const LEADING_SPACER_SKIPPED = Symbol("toolExecutionLeadingSpacerSkipped");
+const RENDERED_BOUNDS = Symbol("toolExecutionRenderedBounds");
 let toolExecutionSpacingPatchApplied = false;
 
 /**
@@ -15,10 +16,19 @@ export function applyToolExecutionSpacingPatch(): void {
 	const prototype = ToolExecutionComponent.prototype as unknown as {
 		addChild(child: unknown): void;
 		render(width: number): string[];
+		handleMouse?(event: TuiMouseEvent): TuiMouseEventResult | undefined;
+		getRenderContext(lastComponent?: unknown): Record<string, unknown>;
+		ui?: { mode?: string };
 		[LEADING_SPACER_SKIPPED]?: boolean;
+		[RENDERED_BOUNDS]?: { width: number; height: number; removedRows: number };
 	};
 	const originalAddChild = prototype.addChild;
 	const originalRender = prototype.render;
+	const originalHandleMouse = prototype.handleMouse;
+	const originalGetRenderContext = prototype.getRenderContext;
+	prototype.getRenderContext = function getRenderContextWithViewport(lastComponent) {
+		return { ...originalGetRenderContext.call(this, lastComponent), toolOutputViewport: this.ui?.mode === "fullscreen" };
+	};
 
 	prototype.addChild = function addChildWithoutLeadingSpacer(
 		child: unknown,
@@ -42,11 +52,25 @@ export function applyToolExecutionSpacingPatch(): void {
 	): string[] {
 		const lines = originalRender.call(this, width);
 		// Remove the leading empty string that self-rendering tools inject.
-		if (lines.length > 0 && lines[0] === "") {
-			return lines.slice(1);
-		}
-		return lines;
+		const removedRows = lines.length > 0 && lines[0] === "" ? 1 : 0;
+		this[RENDERED_BOUNDS] = { width, height: lines.length - removedRows, removedRows };
+		return removedRows ? lines.slice(removedRows) : lines;
 	};
+
+	if (originalHandleMouse) {
+		prototype.handleMouse = function handleMouseWithoutLeadingBlankLine(event) {
+			const bounds = this[RENDERED_BOUNDS];
+			if (!bounds || event.width !== bounds.width || event.x < 0 || event.x >= bounds.width
+				|| event.y < 0 || event.y >= Math.min(bounds.height, event.height)) return undefined;
+			// Pi's existing regions own expansion and child-control priority. Restore
+			// only the row we removed, keeping absolute screen coordinates intact.
+			return originalHandleMouse.call(this, {
+				...event,
+				y: event.y + bounds.removedRows,
+				height: event.height + bounds.removedRows,
+			});
+		};
+	}
 
 	toolExecutionSpacingPatchApplied = true;
 }

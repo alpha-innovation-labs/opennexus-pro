@@ -27,6 +27,7 @@ import { extractCompleteBracketedPaste } from "./paste/extractCompleteBracketedP
 import { normalizeBracketedPasteText } from "./paste/normalizeBracketedPasteText";
 import { renderPromptlineEditor } from "./render/renderPromptlineEditor";
 import { closeTriggerModal } from "./trigger/closeTriggerModal";
+import { createSlashModal } from "./trigger/createSlashModal";
 import { getActiveTriggerState } from "./trigger/getActiveTriggerState";
 import { getTriggerModal } from "./trigger/getTriggerModal";
 import { getTriggerProvider } from "./trigger/getTriggerProvider";
@@ -40,7 +41,7 @@ import {
 	startTriggerSession,
 	updateTriggerSessionPrefix,
 } from "./trigger/sessionState";
-import type { TriggerModalState } from "./trigger/types";
+import type { TriggerModalHandle, TriggerModalState } from "./trigger/types";
 
 import { reportEditorRows } from "../../../../subagent-tintin/src/ui/below-editor-layout";
 
@@ -215,6 +216,32 @@ export class PromptlineEditor extends CustomEditor {
 		super.setText(text);
 		this.handleConfiguredTriggers(this.getText());
 	}
+	/** Opens the existing provider picker without replacing the draft or submitting text. */
+	openProviderPicker(): void {
+		if (this.tui.hasOverlay()) return;
+		let handle: TriggerModalHandle | undefined;
+		const requestRender = () => this.tui.requestRender();
+		const close = () => {
+			handle?.hide();
+			handle = undefined;
+			requestRender();
+		};
+		const opened = createSlashModal(
+			this.ctx, close, requestRender,
+			(value) => this.setText(value),
+			() => this.getThinkingLevel(),
+			(value) => this.setThinkingLevel(value as never),
+			(value) => this.submitEditorText(value),
+			this.tui.showOverlay.bind(this.tui) as never,
+			this.getCommands, this.getAllTools,
+		);
+		handle = opened.handle;
+		void opened.modal.openLevel("login-picker").catch((error: unknown) => {
+			close();
+			this.ctx.ui.notify(`Could not open providers: ${error instanceof Error ? error.message : String(error)}`, "error");
+		});
+	}
+
 	/** Opens the hotkeys modal from an empty editor. */
 	private openHotkeysModal(): void {
 		const opened = openHotkeysModal(
