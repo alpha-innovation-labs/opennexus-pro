@@ -5,6 +5,8 @@ import type { ResumeScope } from "./ResumeScope";
 export type ResumeSessionInfo = {
 	path: string;
 	name?: string;
+	firstMessage?: string;
+	parentSessionPath?: string;
 	cwd?: string;
 	modified: Date;
 };

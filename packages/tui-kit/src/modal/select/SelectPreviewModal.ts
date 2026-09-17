@@ -33,7 +33,7 @@ export class SelectPreviewModal extends SharedModal {
 	private modalMaxWidth?: number;
 	private modalMaxWidthRatio: number;
 	private modalMinWidth: number;
-	private readonly leftPaneRatio: number;
+	private leftPaneRatio: number;
 	private footerHintLines: string[] = [];
 	private rightLines: string[] = [];
 	private rightScrollOffset = 0;
@@ -113,6 +113,11 @@ export class SelectPreviewModal extends SharedModal {
 		this.rightLines = lines;
 		this.rightScrollOffset = 0;
 		this.pendingRightGotoStart = false;
+	}
+
+	/** Updates the list's share of the two-pane layout. */
+	setLeftPaneRatio(ratio: number): void {
+		this.leftPaneRatio = Math.max(0.1, Math.min(0.9, ratio));
 	}
 
 	/** Updates visible pane titles. */
@@ -338,9 +343,11 @@ export class SelectPreviewModal extends SharedModal {
 	/** Recreates the select list when visible height changes. */
 	private resizeList(listHeight: number): void {
 		if (this.listHeight === listHeight) return;
-		const selectedValue = this.getSelectedItem()?.value;
+		const selectedItem = this.getSelectedItem();
 		this.listHeight = listHeight;
 		this.selectList = this.createList(this.items);
-		if (selectedValue) this.selectList.selectValue(selectedValue);
+		// Distinct references can insert the same text (an agent and a file).
+		if (selectedItem)
+			this.selectList.jumpToMatch((item) => item === selectedItem, 1);
 	}
 }

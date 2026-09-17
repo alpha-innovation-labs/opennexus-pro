@@ -125,8 +125,7 @@ export class SlashMenuModal extends SelectPreviewModal {
 			bottomTitle: "Search",
 			bottomPrefix: "> /",
 			leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO,
-			itemMaxLines: (item) =>
-				(item as { resumeRow?: boolean }).resumeRow ? 2 : 1,
+			itemMaxLines: () => 1,
 		});
 		this.setOnPick(() => void this.handleEnter());
 		this.loginPicker = new LoginPickerModal(
@@ -161,6 +160,7 @@ export class SlashMenuModal extends SelectPreviewModal {
 	 */
 	async refresh(selectedValue?: string): Promise<void> {
 		this.setFullScreenMode(true);
+		this.setLeftPaneRatio(this.level === "resume" ? 0.65 : SLASH_MENU_LEFT_PANE_RATIO);
 		this.setPaneVisibility(true, shouldShowSlashMenuPreview(this.level));
 		this.setModalWidthPolicy(80, undefined, 0.9);
 		if (this.level === "top") {
@@ -828,7 +828,7 @@ path).
 				state: this.resumePreviewState,
 				previewCache: this.previewCache,
 				isRightPaneFocused: () => this.isRightPaneFocused(),
-				leftPaneRatio: SLASH_MENU_LEFT_PANE_RATIO,
+				leftPaneRatio: 0.65,
 				setRightLines: (lines) => this.setRightLines(lines),
 				requestRender: this.requestRender,
 				isStillSelected: (previewItem) =>
@@ -901,11 +901,8 @@ path).
 		if (this.level === "resume")
 			return {
 				...item,
-				label: `${item.label}\n${item.description}`,
-				description: "",
-				preserveLabelWhitespace: true,
 				resumeRow: true,
-				wrapPreservedLabel: true,
+				resumeTreePrefix: this.query.trim() ? undefined : item.resumeTreePrefix,
 			};
 		if (this.level === "model")
 			return { ...item, label: `${icon} ${item.label}` };

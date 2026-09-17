@@ -23,6 +23,9 @@ export function toAutocompleteItems(
 					record as { preserveLabelWhitespace?: boolean }
 				).preserveLabelWhitespace,
 				resumeAge: (record as { resumeAge?: string }).resumeAge,
+				resumeTreePrefix: record.resumeTreePrefix,
+				resumeAgentName: record.resumeAgentName,
+				resumeChild: record.resumeChild,
 				resumeRow: (record as { resumeRow?: boolean }).resumeRow,
 				wrapPreservedLabel: (record as { wrapPreservedLabel?: boolean })
 					.wrapPreservedLabel,

@@ -33,6 +33,9 @@ export type SlashMenuLeaf = {
 	sourceScope?: "project" | "user" | "temporary";
 	preserveLabelWhitespace?: boolean;
 	resumeAge?: string;
+	resumeTreePrefix?: string;
+	resumeAgentName?: string;
+	resumeChild?: boolean;
 	resumeRow?: boolean;
 	wrapPreservedLabel?: boolean;
 	wrapToFit?: boolean;
@@ -47,6 +50,9 @@ export type SlashMenuSection = {
 	groupHeaderDescription?: string;
 	preserveLabelWhitespace?: boolean;
 	resumeAge?: string;
+	resumeTreePrefix?: string;
+	resumeAgentName?: string;
+	resumeChild?: boolean;
 	resumeRow?: boolean;
 	wrapPreservedLabel?: boolean;
 	wrapToFit?: boolean;

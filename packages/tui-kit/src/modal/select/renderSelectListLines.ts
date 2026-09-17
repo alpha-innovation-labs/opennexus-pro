@@ -155,6 +155,23 @@ function renderSelectListItem(
 	const rawLabel = item.label || item.value;
 	const description = item.description?.replace(/[\r\n]+/g, " ").trim();
 	const maxLines = getItemMaxLines(options, item, rawLabel);
+	if ((item as { resumeRow?: boolean }).resumeRow) {
+		const row = item as AutocompleteItem & { resumeAge?: string; resumeTreePrefix?: string; resumeAgentName?: string; resumeChild?: boolean };
+		const width = Math.max(1, options.width - 3);
+		const metadata = [description, row.resumeAge].filter(Boolean).join("  ");
+		const suffix = truncateToWidth(metadata, Math.max(0, width - 4), "");
+		const titleWidth = Math.max(1, width - visibleWidth(suffix) - 2);
+		const label = rawLabel.replace(/[\r\n]+/g, " ");
+		const namedLabel = row.resumeAgentName && label.startsWith(row.resumeAgentName)
+			? options.theme.bold(row.resumeAgentName) + label.slice(row.resumeAgentName.length)
+			: label;
+		const title = truncateToWidth(`${row.resumeTreePrefix ?? ""}${namedLabel}`, titleWidth, "…");
+		const gap = " ".repeat(Math.max(1, width - visibleWidth(title) - visibleWidth(suffix)));
+		const styledTitle = row.resumeChild
+			? options.theme.fg("muted", selected ? options.theme.bold(title) : title)
+			: styleLabel(options, item, selected, title);
+		return [truncateToWidth(` ${styledTitle}${gap}${options.theme.fg("muted", suffix)}`, options.width, "")];
+	}
 	if ((item as { preserveLabelWhitespace?: boolean }).preserveLabelWhitespace) {
 		if ((item as { wrapPreservedLabel?: boolean }).wrapPreservedLabel)
 			return renderWrappedWhitespaceLabel(
