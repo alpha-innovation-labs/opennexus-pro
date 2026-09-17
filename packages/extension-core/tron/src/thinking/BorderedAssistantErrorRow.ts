@@ -3,6 +3,10 @@ import { measureTronRender } from "../profiling/measureTronRender";
 
 /**
  * Compact Tron-style bordered row for assistant provider errors.
+ *
+ * Rendered as a fully closed box (top and bottom borders included) so it reads
+ * as a standalone error card, visually separated from the bordered thinking /
+ * text / tool blocks that precede it.
  */
 export class BorderedAssistantErrorRow {
 	constructor(
@@ -11,10 +15,10 @@ export class BorderedAssistantErrorRow {
 	) {}
 
 	/**
-	 * Renders the bordered error row.
+	 * Renders the bordered error box.
 	 *
 	 * @param width Available width.
-	 * @returns Rendered row lines.
+	 * @returns Rendered box lines.
 	 */
 	render(width: number): string[] {
 		return measureTronRender(
@@ -22,13 +26,19 @@ export class BorderedAssistantErrorRow {
 			() => {
 				const innerWidth = Math.max(1, width - 2);
 				const wrappedLines = wrapTextWithAnsi(this.errorText, innerWidth);
+				const border = (t: string) => this.theme.fg("error", t);
 
-				return wrappedLines.map((line) => {
+				const lines: string[] = [border(`╭${"─".repeat(innerWidth)}╮`)];
+				for (const line of wrappedLines) {
 					const padding = " ".repeat(
 						Math.max(0, innerWidth - visibleWidth(line)),
 					);
-					return `${this.theme.fg("error", "│")}${this.theme.fg("error", `${line}${padding}`)}${this.theme.fg("error", "│")}`;
-				});
+					lines.push(
+						`${border("│")}${this.theme.fg("error", `${line}${padding}`)}${border("│")}`,
+					);
+				}
+				lines.push(border(`╰${"─".repeat(innerWidth)}╯`));
+				return lines;
 			},
 			{ width, errorLength: this.errorText.length },
 		);

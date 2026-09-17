@@ -37,13 +37,9 @@ export function getImmediateFollowingToolCallGroup(
 		) {
 			return { toolCallIds, followedByThinking: toolCallIds.length > 0 };
 		}
-		if (
-			next.type === "text" &&
-			typeof next.text === "string" &&
-			next.text.trim()
-		) {
-			return { toolCallIds, followedByThinking: false };
-		}
+		// Skip text blocks: they are now rendered as bordered content that
+		// visually connects thinking to tool calls in the same chain.
+		if (next.type === "text") continue;
 		if (toolCallIds.length > 0)
 			return { toolCallIds, followedByThinking: false };
 	}

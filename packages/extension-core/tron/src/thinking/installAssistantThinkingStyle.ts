@@ -14,6 +14,7 @@ import { theme } from "../theme-proxy";
 import { renderTranscriptEntry } from "../transcript/renderTranscriptEntry";
 import { getAssistantMessageTiming } from "./assistantMessageTimingState";
 import { BorderedAssistantErrorRow } from "./BorderedAssistantErrorRow";
+import { BorderedAssistantText } from "./BorderedAssistantText";
 import { createAssistantMetaText } from "./createAssistantMetaText";
 import { formatAssistantErrorText } from "./formatAssistantErrorText";
 import { isThinkingOnlyVisibleMessage } from "./isThinkingOnlyVisibleMessage";
@@ -71,11 +72,36 @@ export function installAssistantThinkingStyle(): void {
 			for (let index = 0; index < message.content.length; index++) {
 				const content = message.content[index];
 				if (content.type === "text" && content.text?.trim()) {
-					const { component: child } = renderTranscriptEntry(
-						{ role: "assistant", text: content.text.trim() },
-						{ theme: theme as PiTheme, markdownTheme: markdownTheme as never, xOffset: 1 },
+					// Share the top wall with the collapsed thinking block directly above.
+					const prev = message.content[index - 1];
+					const connectFromThinking =
+						comp.hideThinkingBlock &&
+						prev?.type === "thinking" &&
+						Boolean(prev.thinking?.trim());
+					// Contiguous tool calls directly below share the text's bottom wall.
+					const toolIdsAfter: string[] = [];
+					for (let j = index + 1; j < message.content.length; j++) {
+						const c = message.content[j] as
+							| { type?: string; name?: string; id?: string }
+							| undefined;
+						if (c && isVisibleToolCall(c) && typeof c.id === "string" && c.id)
+							toolIdsAfter.push(c.id);
+						else break;
+					}
+					const hasToolCallsAfter = toolIdsAfter.length > 0;
+					// An error/abort row after the text ends the chain: close with ╰╯, not ├─┤.
+					const hasErrorAfter =
+						message.stopReason === "error" || message.stopReason === "aborted";
+					const connectToTools = hasToolCallsAfter && !hasErrorAfter;
+					// Hide the following tools' top borders so they share the text's bottom wall.
+					if (connectToTools) bridgeThinkingToToolCalls(toolIdsAfter, true);
+					const bordered = new BorderedAssistantText(
+						content.text.trim(),
+						connectFromThinking,
+						connectToTools,
+						markdownTheme as MarkdownTheme,
 					);
-					if (child) comp.contentContainer.addChild(child);
+					comp.contentContainer.addChild(bordered);
 					continue;
 				}
 				if (content.type === "thinking" && content.thinking?.trim()) {
@@ -91,6 +117,15 @@ export function installAssistantThinkingStyle(): void {
 						index,
 					);
 					const connectToTools = toolGroup.toolCallIds.length > 0;
+					// Text is now bordered, so it joins the visual chain: the collapsed
+					// thinking block must open a ├─┤ bottom wall into it.
+					const hasTextAfter = message.content
+						.slice(index + 1)
+						.some(
+							(next: { type?: string; text?: string }) =>
+								next.type === "text" && next.text?.trim(),
+						);
+					const connectsBelow = connectToTools || hasTextAfter;
 					const previousVisibleContent = message.content
 						.slice(0, index)
 						.findLast(
@@ -111,7 +146,7 @@ export function installAssistantThinkingStyle(): void {
 							{
 								theme: theme as PiTheme,
 								markdownTheme: markdownTheme as never,
-								connectThinkingToTools: connectToTools,
+								connectThinkingToTools: connectsBelow,
 								connectThinkingFromTool: connectFromTool,
 							},
 						);
@@ -123,14 +158,14 @@ export function installAssistantThinkingStyle(): void {
 								theme: theme as PiTheme,
 								markdownTheme: markdownTheme as never,
 								expanded: true,
-								connectThinkingToTools: connectToTools,
+								connectThinkingToTools: connectsBelow,
 								connectThinkingFromTool: connectFromTool,
 								xOffset: 1,
 							},
 						);
 						if (child) comp.contentContainer.addChild(child);
 					}
-					if (hasVisibleContentAfter)
+					if (hasVisibleContentAfter && !(comp.hideThinkingBlock && connectsBelow))
 						comp.contentContainer.addChild(new Spacer(1));
 				}
 			}
