@@ -27,6 +27,7 @@ help:
     @echo "  just \033[0;33mtest list\033[0m             \033[0;32mList all tests (no release e2e)\033[0m"
     @echo ""
     @echo "\033[1;35m  Utilities:\033[0m"
+    @echo "  just \033[0;33mchat-build\033[0m              \033[0;32mBuild playground/chats.json from agent sessions\033[0m"
     @echo "  just \033[0;33mclean\033[0m                    \033[0;32mRemove build artifacts and dist folders\033[0m"
     @echo "  just \033[0;33mcheck-automate\033[0m        \033[0;32mCheck all @extensions and @nexus packages\033[0m"
     @echo "  just \033[0;33msync-vendor\033[0m             \033[0;32mSync vendor source and rebuild CodeGraph index\033[0m"

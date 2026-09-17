@@ -5,6 +5,7 @@ import { clearStartupProfileLog } from "@nexus/observability/startup-profile/cle
 import { logStartupProfileEvent } from "@nexus/observability/startup-profile/logStartupProfileEvent";
 import { applyCompactModeImagePatch } from "@nexus/pi-platform/applyCompactModeImagePatch";
 import { applyHotkeysCommandPatch } from "@nexus/pi-platform/applyHotkeysCommandPatch";
+import { applyMainScreenSelectionPatch } from "@nexus/pi-platform/applyMainScreenSelectionPatch";
 import { applyModelChangeDisplayPatch } from "@nexus/pi-platform/applyModelChangeDisplayPatch";
 import { applyStartupChangelogSilencePatch } from "@nexus/pi-platform/applyStartupChangelogSilencePatch";
 import { applyStartupHelpSilencePatch } from "@nexus/pi-platform/applyStartupHelpSilencePatch";
@@ -130,6 +131,10 @@ export async function runApp(
 	phaseStartedAt = performance.now();
 	applyWorkingLoaderElapsedPatch();
 	logRunAppPhase("applyWorkingLoaderElapsedPatch:done", phaseStartedAt);
+
+	phaseStartedAt = performance.now();
+	applyMainScreenSelectionPatch();
+	logRunAppPhase("applyMainScreenSelectionPatch:done", phaseStartedAt);
 
 	phaseStartedAt = performance.now();
 	await pruneLoggedOutEnabledModels(process.cwd());

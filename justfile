@@ -1,8 +1,4 @@
 # ============================================================================
-# Default Command
-# ============================================================================
-
-# ============================================================================
 # Development Commands
 # ============================================================================
 import 'justfiles/development/dev.just'
@@ -28,14 +24,12 @@ import 'justfiles/testing/test.just'
 # ============================================================================
 # Utility Commands
 # ============================================================================
+import 'justfiles/utilities/chat-build.just'
 import 'justfiles/utilities/check-automate.just'
+import 'justfiles/utilities/clean.just'
+import 'justfiles/utilities/default.just'
 import 'justfiles/utilities/help.just'
 import 'justfiles/utilities/import-auth.just'
+import 'justfiles/utilities/sync-vendor.just'
 import 'justfiles/utilities/uninstall.just'
 import 'justfiles/utilities/upgrade-vendors.just'
-import 'justfiles/utilities/sync-vendor.just'
-import 'justfiles/utilities/clean.just'
-
-# Default: Show help menu
-default:
-    @just help
