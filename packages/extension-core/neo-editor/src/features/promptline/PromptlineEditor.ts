@@ -14,8 +14,6 @@ import { matchesKey } from "@earendil-works/pi-tui";
 import { wrapAutocompleteProviderForCwd } from "@extensions/fff/editor/wrapAutocompleteProviderForCwd";
 import { getRegisteredHotkeysShortcuts } from "@extensions/hotkeys/getRegisteredHotkeysShortcuts";
 import { openHotkeysModal } from "@extensions/hotkeys/openHotkeysModal";
-import { getPromptlineModel } from "./getPromptlineModel";
-import { openProviderInfoModal } from "./status-widget/openProviderInfoModal";
 import { clearStartupHero } from "@extensions/startup-hero/clearStartupHero";
 import { isRuntimeExtensionFeatureEnabled } from "@nexus/feature-flags/runtimeExtensionFeatureState";
 import { readClipboardImageViaMacOsJxa } from "@nexus/runtime/clipboard-image/readClipboardImageViaMacOsJxa";
@@ -53,10 +51,6 @@ export class PromptlineEditor extends CustomEditor {
 		handleInput(data: string): void;
 		getEditorMirrorText(): string;
 	};
-	private providerInfoModal?: {
-		handleInput(data: string): void;
-	};
-	private providerInfoModalHandle?: { hide(): void };
 	private promptAutocompletePrefix = "";
 	private triggerSubmitInFlight = false;
 	private startupHeroCleared = false;
@@ -219,28 +213,6 @@ export class PromptlineEditor extends CustomEditor {
 		super.setText(text);
 		this.handleConfiguredTriggers(this.getText());
 	}
-	/** Opens the provider info modal. */
-	private openProviderInfoModal(): void {
-		const modelInfo = getPromptlineModel(this.ctx);
-		const modelId = (modelInfo?.id ?? "no-model").replace(/^[^/]+\//, "");
-		const provider = modelInfo?.provider ?? "unknown";
-		const thinking = this.getThinkingLevel();
-		const opened = openProviderInfoModal(
-			this.uiTheme,
-			provider,
-			modelId,
-			thinking,
-			this.tui.showOverlay.bind(this.tui) as never,
-			() => {
-				this.providerInfoModal = undefined;
-				this.providerInfoModalHandle = undefined;
-				this.tui.requestRender();
-			},
-		);
-		this.providerInfoModal = opened.modal;
-		this.providerInfoModalHandle = opened.handle;
-		this.tui.requestRender();
-	}
 	/** Opens the hotkeys modal from an empty editor. */
 	private openHotkeysModal(): void {
 		const opened = openHotkeysModal(
@@ -290,11 +262,6 @@ export class PromptlineEditor extends CustomEditor {
 	}
 	override handleInput(data: string): void {
 		this.clearStartupHeroOnTyping();
-		if (this.providerInfoModal) {
-			this.providerInfoModal.handleInput(data);
-			this.tui.requestRender();
-			return;
-		}
 		if (this.hotkeysModal) {
 			this.hotkeysModal.handleInput(data);
 			super.setText(this.hotkeysModal.getEditorMirrorText());
@@ -343,10 +310,6 @@ export class PromptlineEditor extends CustomEditor {
 			if (triggerSessionStart.kind === "slash") this.suppressBaseAutocomplete();
 			void this.refreshTriggerModal();
 			this.tui.requestRender();
-			return;
-		}
-		if (matchesKey(data, "ctrl+p")) {
-			this.openProviderInfoModal();
 			return;
 		}
 		if (matchesKey(data, "ctrl+r")) {
