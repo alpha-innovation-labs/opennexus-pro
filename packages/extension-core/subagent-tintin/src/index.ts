@@ -59,7 +59,8 @@ import {
 import { FleetList, type FleetUICtx, type FleetWorkflow } from "./ui/fleet-list.js";
 import { showSchedulesMenu } from "./ui/schedule-menu.js";
 import { selectItem } from "./ui/select-item.js";
-import { renderWorkflowCard, renderWorkflowEntryCard } from "./ui/workflow-card.js";
+import { renderWorkflowEntryCard } from "./ui/workflow-card.js";
+import { renderWorkflowToolResult } from "./ui/workflow-tool-result.js";
 import { openWorkflowFromFleet, showWorkflowsMenu, type WorkflowMenuDeps } from "./ui/workflow-menu.js";
 import { getLifetimeCost, getLifetimeTotal, getSessionContextPercent, type LifetimeUsage, PendingUsagePool, toReportedUsage } from "./usage.js";
 import { decideWorkflowCollision, FOREIGN_WORKFLOW_TOOL_NAMES } from "./workflow/collisions.js";
@@ -1660,7 +1661,7 @@ Terse command-style prompts produce shallow, generic work.
       const rowBackground = hasAgentBadge(args.subagent_type)
         ? theme.getBgAnsi(context.isPartial ? "toolPendingBg" : context.isError ? "toolErrorBg" : "toolSuccessBg")
         : "";
-      const desc = args.description ?? "";
+      const desc = args.description ?? args.prompt ?? "";
       const name = renderAgentName(args.subagent_type, theme, {
         fallbackColor: "toolTitle",
         restoreBackground: rowBackground,
@@ -1697,7 +1698,10 @@ Terse command-style prompts produce shallow, generic work.
       };
 
       // ---- While running (streaming) ----
-      if (isPartial || details.status === "running") {
+      if (details.status === "queued") {
+        return new Text(theme.fg("dim", `Queued${details.activity ? ` · ${details.activity}` : ""}`), 0, 0);
+      }
+      if (details.status === "running") {
         const frame = SPINNER[details.spinnerFrame ?? 0];
         const s = stats(details);
         return renderRunningAgentStatus(frame, s, details.activity ?? "thinking…", theme);
@@ -2466,15 +2470,13 @@ Terse command-style prompts produce shallow, generic work.
       );
     },
 
-    renderResult(result, _options, theme, renderContext) {
-      const text = result.content[0]?.type === "text" ? result.content[0].text : "";
+    renderResult(result, { expanded }, theme, renderContext) {
+      const text = result.content.filter(block => block.type === "text").map(block => block.text).join("\n");
       const taskId = (result.details as { taskId?: string } | undefined)?.taskId;
-      const task = taskId !== undefined ? workflowTasks.get(taskId) : undefined;
-      // No task means the run predates this session (a reloaded transcript) or
-      // the call never started one — show what `execute` said instead.
-      if (renderContext.isError || !task) return new Text(text, 0, 0);
-      return renderWorkflowCard(
-        {
+      return renderWorkflowToolResult(text, () => {
+        const task = taskId !== undefined ? workflowTasks.get(taskId) : undefined;
+        if (!task) return undefined;
+        return {
           progress: task.workflowProgress,
           task: {
             status: task.status,
@@ -2486,9 +2488,8 @@ Terse command-style prompts produce shallow, generic work.
           meta: task.meta,
           agentCount: task.agentCount,
           totalTokens: task.totalTokens,
-        },
-        theme,
-      );
+        };
+      }, expanded, renderContext.isError, theme);
     },
 
     execute: async (toolCallId, params, _signal, _onUpdate, ctx) => {
