@@ -4,7 +4,7 @@
  * Tracks two metrics:
  * - Sliding-window TPS (default, real-time): sums tokens within the last 1000ms
  *   and divides by the clamped span (min 100ms).
- * - Moving average TPS: arithmetic mean of the last 1000 recorded live readings.
+ * - Session average TPS: arithmetic mean of all recorded live readings.
  *
  * Readings are sampled when deltas arrive and retained through idle gaps.
  *
@@ -15,7 +15,6 @@ import { formatPromptlineTpsLabel } from "./formatPromptlineTpsLabel";
 
 const TPS_WINDOW_MS = 1000;
 const TPS_MIN_SPAN_MS = 100;
-const TPS_AVERAGE_SAMPLES = 1000;
 const TPS_COMPACT_EVERY = 5000;
 const TPS_COMPACT_WINDOW_MS = TPS_WINDOW_MS * 2;
 
@@ -33,9 +32,8 @@ export interface PromptlineTpsDelta {
 let deltas: PromptlineTpsDelta[] = [];
 let pauseStart = 0;
 
-// Session-scoped fixed-capacity ring of recorded live TPS readings.
-const tpsSamples: number[] = [];
-let tpsSampleIndex = 0;
+// Session-wide average needs only a sum and count, not a sample history.
+let tpsSampleCount = 0;
 let tpsSampleSum = 0;
 
 // Streaming state
@@ -127,12 +125,8 @@ export function recordTpsDelta(tokenCount: number = 1): void {
 	const live = Math.round(getSlidingWindowTps());
 	if (live > 0) {
 		lastLiveTps = live;
-		if (tpsSamples.length === TPS_AVERAGE_SAMPLES) {
-			tpsSampleSum -= tpsSamples[tpsSampleIndex];
-		}
-		tpsSamples[tpsSampleIndex] = live;
 		tpsSampleSum += live;
-		tpsSampleIndex = (tpsSampleIndex + 1) % TPS_AVERAGE_SAMPLES;
+		tpsSampleCount++;
 		lastAverageTps = Math.round(getAverageTps());
 	}
 
@@ -166,8 +160,7 @@ export function beginTpsStreaming(): void {
 /** Clears measurement and display state for a new session. */
 export function resetTpsTracker(): void {
 	beginTpsStreaming();
-	tpsSamples.length = 0;
-	tpsSampleIndex = 0;
+	tpsSampleCount = 0;
 	tpsSampleSum = 0;
 	lastLiveTps = 0;
 	lastAverageTps = 0;
@@ -202,11 +195,11 @@ export function getSlidingWindowTps(): number {
 }
 
 /**
- * Returns the arithmetic mean of the last 1000 recorded live TPS readings.
- * Uses all available samples until the ring fills; message boundaries retain it.
+ * Returns the arithmetic mean of all recorded live TPS readings this session.
+ * Message boundaries and idle gaps retain the sum and count.
  */
 export function getAverageTps(): number {
-	return tpsSamples.length ? tpsSampleSum / tpsSamples.length : 0;
+	return tpsSampleCount ? tpsSampleSum / tpsSampleCount : 0;
 }
 
 /**

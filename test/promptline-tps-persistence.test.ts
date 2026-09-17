@@ -27,6 +27,28 @@ function sample() {
 }
 
 describe("TPS reading persistence", () => {
+	it("shows only TPS values through idle, streaming, and held states", () => {
+		expect(label()).toBe(`${idle}`);
+		recordTpsDelta(20);
+		expect(label()).toBe(`${idle}`);
+		vi.advanceTimersByTime(200);
+		recordTpsDelta(20);
+		expect(label()).toBe("200 \uf0e7 200");
+		vi.advanceTimersByTime(1000);
+		expect(label()).toBe("200 \uf0e7 200");
+		endTpsStreaming();
+		beginTpsStreaming();
+		recordTpsDelta(10);
+		expect(label()).toBe("200 \uf0e7 200");
+		vi.advanceTimersByTime(200);
+		recordTpsDelta(10);
+		expect(label()).toBe("100 \uf0e7 150");
+		endTpsStreaming();
+		expect(label()).toBe("100 \uf0e7 150");
+		resetTpsTracker();
+		expect(label()).toBe(`${idle}`);
+	});
+
 	it("starts with dashes, then retains readings during silence and delayed stream end", () => {
 		expect(label()).toBe(idle);
 		sample();
@@ -61,7 +83,7 @@ describe("TPS reading persistence", () => {
 		expect(label()).toBe("50 \uf0e7 125");
 	});
 
-	it("adds each recorded live reading to the moving average", () => {
+	it("adds each recorded live reading to the session average", () => {
 		sample();
 		endTpsStreaming();
 		beginTpsStreaming();
@@ -73,20 +95,19 @@ describe("TPS reading persistence", () => {
 		expect(label()).toBe("20 \uf0e7 110");
 	});
 
-	it("averages only the latest 1000 readings, evicting older samples across wraps", () => {
+	it("averages all session readings beyond 1000 samples without evicting history", () => {
 		for (let rate = 1; rate <= 2100; rate++) {
 			beginTpsStreaming();
 			recordTpsDelta(rate / 10);
 			vi.advanceTimersByTime(200);
 			recordTpsDelta(rate / 10);
-			const count = Math.min(rate, 1000);
-			expect(getAverageTps()).toBe((rate + rate - count + 1) / 2);
+			expect(getAverageTps()).toBe((rate + 1) / 2);
 			endTpsStreaming();
 		}
-		expect(label()).toBe("2100 \uf0e7 1601");
+		expect(label()).toBe("2100 \uf0e7 1051");
 		for (let i = 0; i < 100; i++) label();
 		vi.advanceTimersByTime(60_000);
-		expect(getAverageTps()).toBe(1600.5);
+		expect(getAverageTps()).toBe(1050.5);
 	});
 
 	it("only clears retained readings on a full session reset", () => {

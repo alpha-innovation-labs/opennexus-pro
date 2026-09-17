@@ -6,11 +6,11 @@ The engine is stateless until fed from pi lifecycle events. Each event maps to o
 
 | Pi event | Engine operation |
 |---|---|
-| `session_start` | `resetTpsTracker` — clears the token buffer, TPS sample ring and running sum, pause state, and displayed readings for the new session. |
+| `session_start` | `resetTpsTracker` — clears the token buffer, TPS sample count and running sum, pause state, and displayed readings for the new session. |
 | `message_start` (assistant) | `beginTpsStreaming` + register the 500 ms refresh request — resets measurement for the new message but retains displayed readings. |
-| `message_update` | `recordTpsDelta(delta.delta.length / 4)` per streaming delta for `text_delta`, `thinking_delta`, and `toolcall_delta`. The first delta of a stream opens the generating window; tokens are estimated from text length. Each meaningful live reading enters the 1000-sample moving average; insufficient data adds no sample. |
+| `message_update` | `recordTpsDelta(delta.delta.length / 4)` per streaming delta for `text_delta`, `thinking_delta`, and `toolcall_delta`. The first delta of a stream opens the generating window; tokens are estimated from text length. Each meaningful live reading contributes to the cumulative session average; insufficient data adds no sample. |
 | `message_end` (assistant) | `endTpsStreaming` — closes the generating window without resampling or clearing retained readings. Clear the refresh request. |
-| `turn_end` | `resetTurnPauseAccumulator` — clears any stale pause state for the next turn without clearing the sample history. |
+| `turn_end` | `resetTurnPauseAccumulator` — clears any stale pause state for the next turn without clearing the session sample sum or count. |
 | `session_shutdown` | Clear the refresh request. |
 
 ## The refresh cadence

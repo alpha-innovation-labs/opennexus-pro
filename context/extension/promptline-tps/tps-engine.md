@@ -1,6 +1,6 @@
 # The TPS engine
 
-The engine is a module-level singleton with one live measurement at a time: a delta buffer of timestamped token counts, a fixed-capacity ring of recorded TPS readings, and two retained display values (`lastLiveTps` and `lastAverageTps`). Live TPS measures recent token throughput; average TPS is the arithmetic mean of the latest 1000 recorded live readings.
+The engine is a module-level singleton with one live measurement at a time: a delta buffer of timestamped token counts, a running sum and count of recorded TPS readings, and two retained display values (`lastLiveTps` and `lastAverageTps`). Live TPS measures recent token throughput; average TPS is the arithmetic mean of all recorded live readings since session start.
 
 ## Sliding-window TPS
 
@@ -10,15 +10,15 @@ The floor exists for burst-and-stall streams. When a provider buffers output and
 
 ## Average TPS
 
-Each arriving delta that produces a positive rounded live TPS contributes one sample to a 1000-entry ring. The average is the sum of those readings divided by their count, rounded only for display. Before 1000 samples exist, it uses all available samples; once full, each new sample replaces the oldest. A running sum makes insertion and mean calculation constant-time. This is a sample-count window, not a 1000 ms average or a tokens-per-elapsed-time ratio.
+Each arriving delta that produces a positive rounded live TPS adds that reading to a session-wide sum and increments the sample count. The average is the sum divided by the count, rounded only for display. All samples count equally and none are discarded. Recording and calculating the average use constant time and constant memory; individual readings are not stored. This measures average sampled speed, not total tokens divided by total generating time.
 
 Sampling uses delta arrival time rather than repaint or stream-end events. Idle gaps, empty messages, and insufficient data add no samples, so tool waits do not dilute the average. Repeated renders do not add duplicate samples.
 
-`beginTpsStreaming()` resets the token delta buffer and pause state for each assistant message while preserving the TPS sample ring and displayed readings. The moving average therefore spans message boundaries within the session. `resetTpsTracker()` clears both buffers, the running sum, and displayed readings for a new session.
+`beginTpsStreaming()` resets the token delta buffer and pause state for each assistant message while preserving the sample sum, count, and displayed readings. The cumulative average therefore spans all messages in the session. `resetTpsTracker()` clears the token buffer, sample sum and count, and displayed readings for a new session. Statistics are held in memory, not restored from historical messages after restarting or reopening a session.
 
 ## Pause and resume
 
-The tracker exposes `pauseTpsTimer()` and `resumeTpsTimer()` to suspend recording around non-generating work. Pausing is a no-op unless a stream is in flight, and double-pause is ignored. These functions are not wired to event handlers. Pending pause state is cleared at stream end and at turn boundaries via `resetTurnPauseAccumulator()`; neither operation clears the moving-average history.
+The tracker exposes `pauseTpsTimer()` and `resumeTpsTimer()` to suspend recording around non-generating work. Pausing is a no-op unless a stream is in flight, and double-pause is ignored. These functions are not wired to event handlers. Pending pause state is cleared at stream end and at turn boundaries via `resetTurnPauseAccumulator()`; neither operation clears the session-average sum or count.
 
 ## Reading value
 
@@ -26,4 +26,4 @@ The engine exposes `getPromptlineTpsLabel()` which returns a formatted ANSI stri
 
 ## Memory bound
 
-The token delta buffer compacts when it passes 5000 entries: entries older than twice the live window are dropped. Live TPS only reads the window. The moving average has its own ring, bounded to 1000 numeric samples regardless of session length.
+The token delta buffer compacts when it passes 5000 entries: entries older than twice the live window are dropped. Live TPS only reads the window. The session average stores only its sum and count regardless of session length.
