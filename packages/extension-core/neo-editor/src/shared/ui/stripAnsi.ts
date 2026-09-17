@@ -1,6 +1,5 @@
+import { stripVTControlCharacters } from "node:util";
+
 export function stripAnsi(text: string): string {
-	return text
-		.split("")
-		.filter((c) => c !== "\x1B")
-		.join("");
+	return stripVTControlCharacters(text);
 }
