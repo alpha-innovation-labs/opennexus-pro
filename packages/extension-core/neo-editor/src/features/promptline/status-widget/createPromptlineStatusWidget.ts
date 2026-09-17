@@ -31,6 +31,7 @@ export function createPromptlineStatusWidget(
 	ctx: ExtensionContext,
 	getThinkingLevel: ExtensionAPI["getThinkingLevel"],
 	getSessionName: ExtensionAPI["getSessionName"],
+	getAgentCountsLabel: () => string = () => "",
 ): { invalidate(): void; render(width: number): string[] } {
 	let cachedKey: string | undefined;
 	let cachedLines: string[] = [];
@@ -48,6 +49,7 @@ export function createPromptlineStatusWidget(
 			const frameWidth = getPromptlineFrameWidth(width, hasMessages);
 			const title = getPromptlineStatusTitle(getSessionName, ctx);
 			const tps = getPromptlineTpsLabel();
+			const agentCounts = getAgentCountsLabel();
 			const runTime =
 				hasMessages && title
 					? ctx.ui.theme.fg(
@@ -62,6 +64,7 @@ export function createPromptlineStatusWidget(
 				modelId,
 				provider,
 				tps,
+				agentCounts,
 				thinking,
 				title ?? "",
 				runTime ?? "",
@@ -70,7 +73,7 @@ export function createPromptlineStatusWidget(
 			const badges = `${createPromptlineBadge(provider, PROVIDER_BADGE_BG)}${createPromptlineBadge(modelId, MODEL_BADGE_BG)}${createPromptlineBadge(thinking, THINKING_BADGE_BG)}`;
 			const line = buildPromptlineStatusLine(
 				badges,
-				runTime ? `${tps} ${runTime}` : tps,
+				[agentCounts, tps, runTime].filter(Boolean).join(" "),
 				title,
 				frameWidth,
 				ctx.ui.theme,

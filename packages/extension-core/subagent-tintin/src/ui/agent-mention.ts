@@ -37,9 +37,9 @@
  */
 
 import type { AutocompleteItem, AutocompleteProvider, AutocompleteSuggestions } from "@earendil-works/pi-tui";
-import type { ReferenceCompletionItem } from "./reference-completion.js";
+import type { AgentReferencePreview, ReferenceCompletionItem } from "./reference-completion.js";
 import type { AgentManager } from "../agent-manager.js";
-import { handleBase, MENTION_TRIGGER } from "../mention.js";
+import { handleBase, MENTION_TRIGGER, resolveHandleToType, stripAgentPrefix } from "../mention.js";
 import type { AgentRecord, AgentTombstone } from "../types.js";
 
 /**
@@ -49,7 +49,7 @@ import type { AgentRecord, AgentTombstone } from "../types.js";
  * which both render the label rather than the raw type.
  */
 export type MentionTarget =
-  | { kind: "record"; handle: string; record: AgentRecord; typeLabel: string }
+  | { kind: "record"; handle: string; record: AgentRecord; typeLabel: string; freshStartType?: string }
   | { kind: "tombstone"; handle: string; entry: AgentTombstone; typeLabel: string }
   | { kind: "type"; handle: string; type: string; description: string };
 
@@ -77,6 +77,7 @@ export function mentionRoster(
 
   const taken = new Set<string>();
   const targets: MentionTarget[] = [];
+  const availableTypes = types.map(type => type.name);
 
   // One row per agent, not per handle. An aliased agent lists under its alias
   // only — both names resolve, but showing two rows for one agent reads as two
@@ -85,7 +86,13 @@ export function mentionRoster(
     const handle = record.alias ?? record.handle!;
     taken.add(handle.toLowerCase());
     if (record.handle) taken.add(record.handle.toLowerCase());
-    targets.push({ kind: "record", handle, record, typeLabel: displayNameOf(record.type) });
+    // Session-less settled records fall through to type resolution in the
+    // dispatcher. Resolve the handle the picker INSERTS, not the record's type:
+    // aliases and numbered handles need not name an available type at all.
+    const unprefixed = stripAgentPrefix(handle);
+    const freshStartType = resolveHandleToType(handle, availableTypes)
+      ?? (unprefixed ? resolveHandleToType(unprefixed, availableTypes) : undefined);
+    targets.push({ kind: "record", handle, record, typeLabel: displayNameOf(record.type), freshStartType });
   }
 
   // Then agents that are gone but whose conversation can be reopened. After the
@@ -158,10 +165,11 @@ export function createMentionProvider(
         theirs = null;
       }
       if (options.signal.aborted || generation !== request) return null;
-      const ownItems: ReferenceCompletionItem[] = (mine?.items ?? []).map(({ identity, ...item }) => ({
+      if (!mine) return theirs;
+      const ownItems: ReferenceCompletionItem[] = (mine?.items ?? []).map(({ identity, agent, ...item }) => ({
         ...item,
         reference: {
-          kind: "agent", identity, source: provider, prefix: mine!.prefix,
+          kind: "agent", identity, agent, source: provider, prefix: mine!.prefix,
           apply(lines: string[], cursorLine: number, cursorCol: number) {
             const before = lines[cursorLine].slice(0, cursorCol - mine!.prefix.length);
             const result = [...lines];
@@ -203,21 +211,44 @@ export function createMentionProvider(
 }
 
 /** Suggestions for the `@…` token under the cursor, or null when it names no agent. */
-function mentionItems(roster: MentionTarget[], line: string, cursorCol: number): { items: (AutocompleteItem & { identity: string })[]; prefix: string } | null {
+function mentionItems(roster: MentionTarget[], line: string, cursorCol: number): { items: (AutocompleteItem & { identity: string; agent: AgentReferencePreview })[]; prefix: string } | null {
   const match = MENTION_TRIGGER.exec(line.slice(0, cursorCol));
   if (!match) return null;
 
   const typed = match[2].toLowerCase();
-  const items: (AutocompleteItem & { identity: string })[] = [];
+  const items: (AutocompleteItem & { identity: string; agent: AgentReferencePreview })[] = [];
   for (const target of roster) {
     const typeHandle = target.kind === "record" ? target.record.handle
       : target.kind === "tombstone" ? target.entry.handle : target.handle;
     if (![target.handle, typeHandle].some(handle => handle?.toLowerCase().startsWith(typed))) continue;
     const identity = target.kind === "type" ? `type:${target.type.toLowerCase()}`
       : `agent:${target.kind === "record" ? target.record.id : target.entry.id}`;
-    items.push({ value: `@${target.handle}`, label: `@${target.handle}`, description: describeTarget(target), identity });
+    items.push({ value: `@${target.handle}`, label: `@${target.handle}`, description: describeTarget(target), identity, agent: previewTarget(target) });
   }
   return items.length > 0 ? { items, prefix: `@${match[2]}` } : null;
+}
+
+/** Snapshot only known roster facts; selection never touches an agent session. */
+function previewTarget(target: MentionTarget): AgentReferencePreview {
+  if (target.kind === "type") return {
+    handle: target.handle, type: target.type, description: target.description, action: "start",
+  };
+  if (target.kind === "tombstone") return {
+    handle: target.handle, type: target.entry.type, typeLabel: target.typeLabel,
+    description: target.entry.description, action: "resume", status: "resumable",
+    sessionFile: target.entry.sessionFile,
+  };
+  const record = target.record;
+  return {
+    handle: target.handle, type: record.type, typeLabel: target.typeLabel,
+    description: record.description,
+    action: record.status === "running" || record.status === "queued" ? "send message"
+      : record.session ? "resume" : target.freshStartType ? "start" : "continue in main conversation",
+    startType: record.status !== "running" && record.status !== "queued" && !record.session
+      ? target.freshStartType : undefined,
+    status: record.status, model: record.invocation?.modelId ?? record.invocation?.modelName,
+    sessionFile: record.sessionFile, toolUses: record.toolUses,
+  };
 }
 
 /** Name the action that will actually happen, so the list never mispromises. */
@@ -229,7 +260,8 @@ function describeTarget(target: MentionTarget): string {
     return `resume · ${target.typeLabel} · ${target.entry.description}`;
   }
   const { status, description, alias } = target.record;
-  const action = status === "running" || status === "queued" ? "send message" : "resume";
+  const preview = previewTarget(target);
+  const action = preview.startType ? `${preview.action} ${preview.startType}` : preview.action;
   // A row listed under its alias has lost the type its handle would have shown,
   // so name it — `@auth-audit` alone says nothing about what the agent is.
   // A type-derived row already reads as its type and would just repeat itself.

@@ -42,6 +42,8 @@ import {
 } from "./trigger/sessionState";
 import type { TriggerModalState } from "./trigger/types";
 
+import { reportEditorRows } from "../../../../subagent-tintin/src/ui/below-editor-layout";
+
 const PRIMARY_COLOR = "error";
 
 export class PromptlineEditor extends CustomEditor {
@@ -329,8 +331,11 @@ export class PromptlineEditor extends CustomEditor {
 		const triggerState = getActiveTriggerState(line.slice(0, cursor.col));
 		this.borderColor = (text: string) =>
 			(this.uiTheme.fg as (color: string, text: string) => string)(PRIMARY_COLOR, text);
-		if (triggerState?.kind === "slash" && !this.modalState.slashModal)
-			return super.render(width);
+		if (triggerState?.kind === "slash" && !this.modalState.slashModal) {
+			const lines = super.render(width);
+			reportEditorRows(this.tui, width, lines.length);
+			return lines;
+		}
 		if (this.getPaddingX() !== 1) this.setPaddingX(1);
 		const lines = renderPromptlineEditor(
 			width,
@@ -341,6 +346,7 @@ export class PromptlineEditor extends CustomEditor {
 			this.getThinkingLevel,
 		);
 		logRenderedOverflow(lines, width);
+		reportEditorRows(this.tui, width, lines.length);
 		return lines;
 	}
 }

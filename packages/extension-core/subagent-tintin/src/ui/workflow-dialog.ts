@@ -42,6 +42,7 @@
 
 import {
   type Component,
+  isKeyRelease,
   matchesKey,
   stripTerminalSequences,
   type TUI,
@@ -76,6 +77,17 @@ import {
   type WorkflowCardSegment,
   type WorkflowCardTask,
 } from "./workflow-card.js";
+
+import { DialogNavigation, createDialogFrame, dialogRows, navigationInput, keyLabel, type DialogKeybindings } from "./shared-dialog.js";
+
+interface WorkflowPanes {
+  header: WorkflowCardLine[];
+  left: WorkflowCardLine[];
+  right: WorkflowCardLine[];
+  leftTitle: string;
+  rightTitle: string;
+  hints: string[];
+}
 
 /** Fallback width when the caller does not know the terminal's. */
 const DEFAULT_WIDTH = 80;
@@ -309,6 +321,8 @@ export interface WorkflowDialogInput extends WorkflowDialogSource {
    * {@link MIN_PANE_BODY_ROWS}; this only moves the ceiling.
    */
   bodyRows?: number;
+  /** Unframed domain panes for Nexus chrome; no duplicate inspector model. */
+  onPanes?: (panes: WorkflowPanes) => void;
 }
 
 /** The actions the dialog needs from the workflow runtime, injected. */
@@ -682,7 +696,7 @@ export function layoutWorkflowDialog(input: WorkflowDialogInput): WorkflowCardLi
   const { state } = input;
   // What the panes may *hold*; the frame's actual height is settled below, once
   // there is something to measure.
-  const capacity = Math.max(MIN_PANE_BODY_ROWS, input.bodyRows ?? DEFAULT_PANE_BODY_ROWS);
+  const capacity = Math.max(1, input.bodyRows ?? DEFAULT_PANE_BODY_ROWS);
   const spinnerFrame = input.spinnerFrame ?? 0;
 
   const lines: WorkflowCardLine[] = [];
@@ -850,6 +864,7 @@ export function layoutWorkflowDialog(input: WorkflowDialogInput): WorkflowCardLi
   // the description rather than hanging off the edge of them.
   const leftRows = inPhases ? phaseRows : agentRows;
   const rightRows = inPhases ? agentRows : detailRows;
+  const paneHeader = lines.slice(0, 2);
   lines.push(
     ...paneFrame({
       leftTitle: inPhases ? "Phases" : agentPaneTitle,
@@ -903,6 +918,11 @@ export function layoutWorkflowDialog(input: WorkflowDialogInput): WorkflowCardLi
   if (view.selectedEntry?.recordId !== undefined && can("onOpenAgent")) {
     hints.push("c convo");
   }
+  input.onPanes?.({
+    header: paneHeader, left: leftRows, right: rightRows, hints,
+    leftTitle: inPhases ? "Phases" : agentPaneTitle,
+    rightTitle: inPhases ? agentPaneTitle : (entry?.label ?? WORKFLOW_DIALOG_COPY.noAgents),
+  });
   lines.push(clampLine([{ text: ` ${hints.join(" · ")}`, color: "dim" }], width));
 
   return lines;
@@ -927,6 +947,7 @@ export function handleWorkflowDialogKey(
   state: WorkflowDialogState,
   view: ResolvedWorkflowDialog,
 ): { state: WorkflowDialogState; action?: WorkflowDialogAction } | undefined {
+  if (isKeyRelease(data)) return undefined;
   // Ctrl+C is the reflex for backing out of a full-screen overlay, so it closes
   // outright from EITHER level — the conversation viewer's #255 fix, which this
   // dialog is reached the same way as. Deliberately not folded into the `esc`
@@ -997,10 +1018,10 @@ export function handleWorkflowDialogKey(
     return { state, action: { kind: view.paused ? "resume" : "pause" } };
   }
   const actions = agentActions(view.selectedEntry, view.workflowActive);
-  if (matchesKey(data, "s") && actions.skip && view.selectedEntry) {
+  if (state.level === "agent" && matchesKey(data, "s") && actions.skip && view.selectedEntry) {
     return { state, action: { kind: "skip", index: view.selectedEntry.index } };
   }
-  if (matchesKey(data, "r") && actions.retry && view.selectedEntry) {
+  if (state.level === "agent" && matchesKey(data, "r") && actions.retry && view.selectedEntry) {
     return { state, action: { kind: "retry", index: view.selectedEntry.index } };
   }
 
@@ -1028,6 +1049,11 @@ export class WorkflowDialog implements Component {
   private spinnerFrame = 0;
   private timer: ReturnType<typeof setInterval> | undefined;
   private closed = false;
+  private navigation = new DialogNavigation();
+  private detailFocused = false;
+  private detailScroll = 0;
+  private detailMaxScroll = 0;
+  private bodyRows = 1;
 
   constructor(
     private tui: TUI,
@@ -1036,6 +1062,7 @@ export class WorkflowDialog implements Component {
     private done: (result: undefined) => void,
     private actions: WorkflowDialogActions = {},
     initialPhaseIndex = 0,
+    private keybindings?: DialogKeybindings,
   ) {
     this.state = initialWorkflowDialogState(initialPhaseIndex);
     this.timer = setInterval(() => {
@@ -1046,17 +1073,57 @@ export class WorkflowDialog implements Component {
   }
 
   handleInput(data: string): void {
+    if (isKeyRelease(data) || this.closed) return;
+    data = navigationInput(data, this.keybindings);
+    if (data !== "g") this.navigation.reset();
+    if (matchesKey(data, "tab") || matchesKey(data, "shift+tab")) {
+      this.navigation.reset();
+      if (this.state.level === "agent") this.detailFocused = !this.detailFocused;
+      else data = "\r";
+      if (this.state.level === "agent") { this.tui.requestRender(); return; }
+    }
+    if (this.detailFocused) {
+      if (matchesKey(data, "escape") || matchesKey(data, "left")) {
+        this.detailFocused = false;
+        this.navigation.reset();
+      } else if (matchesKey(data, "ctrl+c")) {
+        this.dispatch({ kind: "cancel" });
+      } else if (matchesKey(data, "enter") || matchesKey(data, "e")) {
+        this.state = { ...this.state, promptExpanded: !this.state.promptExpanded };
+      } else {
+        const next = this.navigation.move(data, this.detailScroll, this.detailMaxScroll, this.bodyRows);
+        if (next !== undefined) this.detailScroll = next;
+      }
+      this.tui.requestRender();
+      return;
+    }
     const input: WorkflowDialogInput = { ...this.source(), state: this.state };
-    const result = handleWorkflowDialogKey(data, this.state, resolveWorkflowDialog(input));
+    const view = resolveWorkflowDialog(input);
+    const count = this.state.level === "phases" ? view.groups.length : view.visibleAgents.length;
+    const current = this.state.level === "phases" ? view.clampedPhase : view.clampedAgent;
+    let target = this.navigation.move(data, current, count - 1, this.bodyRows);
+    if (target !== undefined) {
+      target = clampIndex(target, count);
+      this.state = this.state.level === "phases" ? { ...this.state, selectedPhase: target, selectedAgent: 0 } : { ...this.state, selectedAgent: target };
+      this.detailScroll = 0;
+      this.tui.requestRender();
+      return;
+    }
+    const result = handleWorkflowDialogKey(data, this.state, view);
     if (!result) return;
+    if (this.state !== result.state) this.detailScroll = 0;
     this.state = result.state;
     if (result.action) this.dispatch(result.action);
     this.tui.requestRender();
   }
 
   render(width: number): string[] {
-    const lines = layoutWorkflowDialog({
-      ...this.source(),
+    let panes: WorkflowPanes | undefined;
+    const rows = dialogRows(this.tui);
+    const compact = rows < 12;
+    const source = this.source();
+    const layout = (bodyRows: number) => layoutWorkflowDialog({
+      ...source,
       state: this.state,
       // Derived from what was actually injected, so the footer advertises only
       // the keys this dialog can service.
@@ -1069,9 +1136,54 @@ export class WorkflowDialog implements Component {
         onOpenAgent: this.actions.onOpenAgent !== undefined,
       },
       width,
+      bodyRows,
+      onPanes: value => { panes = value; },
       spinnerFrame: this.spinnerFrame,
     });
-    return styleWorkflowCardLines(lines, this.theme);
+    layout(1);
+    if (!panes) return [];
+    let p = panes as WorkflowPanes;
+    const label = (id: string, fallback: string) => keyLabel(this.keybindings, `tui.select.${id}`, fallback);
+    const nav = `${label("up", "↑")}/${label("down", "↓")}/${label("pageUp", "PgUp")}/${label("pageDown", "PgDn")}/Home/End`;
+    const hints = p.hints.map(hint => hint.replace("↑↓", `${label("up", "↑")}/${label("down", "↓")}`)
+      .replace("⏎", label("confirm", "enter")).replace("esc", label("cancel", "esc")));
+    // Preserve eligible actions before width clamping, including conversation
+    // access. Compact navigation remains discoverable through the detail pane.
+    const footer = this.detailFocused
+      ? [["Tab list", `${label("cancel", "esc")} back`, `${label("confirm", "enter")} expand`], [`${nav} scroll`]]
+      : compact
+        ? [[`${label("up", "↑")}/${label("down", "↓")}`, "Tab detail", ...hints.slice(1)]]
+        : [hints, ["Tab pane", `${nav} navigate`]];
+    // Wrap between complete key/action pairs, never between a key and its label.
+    const footerLines = footer.flatMap(group => {
+      const result: string[] = [];
+      let row = "";
+      for (const hint of group) {
+        const next = row ? `${row}${compact ? " " : " · "}${hint}` : hint;
+        if (row && visibleWidth(next) > width - 4) { result.push(row); row = hint; }
+        else row = next;
+      }
+      if (row) result.push(...wrapTextWithAnsi(row, Math.max(1, width - 4)));
+      return result;
+    });
+    const style = (value: WorkflowCardLine[]) => styleWorkflowCardLines(value, this.theme);
+    const paneTitle = `${this.detailFocused ? "○" : "●"} ${p.leftTitle} · ${this.detailFocused ? "●" : "○"} ${p.rightTitle}`;
+    const header = compact ? style(p.header.slice(0, 1)) : [...style(p.header), paneTitle];
+    const frame = createDialogFrame(this.theme);
+    const tight = rows < 9;
+    frame.setHidePaneTopBorder(tight);
+    // SharedModal reserves an overflow-hint row when measuring multi-row bodies.
+    const bodyRows = this.bodyRows = Math.max(1, rows - (tight ? 3 : 4) - header.length - footerLines.length - 1);
+    // Re-window with the actual budget so selection survives narrow resizing.
+    layout(bodyRows);
+    p = panes as WorkflowPanes;
+    this.detailMaxScroll = this.state.level === "agent" ? Math.max(0, p.right.length - bodyRows) : 0;
+    this.detailScroll = Math.min(this.detailScroll, this.detailMaxScroll);
+    frame.update(header, [
+      { id: "list", size: LEFT_PANE_WIDTH, lines: style(p.left).slice(0, bodyRows) },
+      { id: "detail", size: Math.max(1, width - LEFT_PANE_WIDTH - 3), lines: style(p.right).slice(this.detailScroll, this.detailScroll + bodyRows) },
+    ], footerLines, rows);
+    return frame.render(width).map(line => truncateToWidth(line, width));
   }
 
   invalidate(): void {

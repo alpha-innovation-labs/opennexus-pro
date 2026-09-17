@@ -3,7 +3,7 @@ import type {
 	ExtensionContext,
 } from "@earendil-works/pi-coding-agent";
 import { createPromptlineStatusWidget } from "./createPromptlineStatusWidget";
-import { PROMPTLINE_STATUS_WIDGET_KEY } from "./promptlineStatusWidgetKey";
+import { setBelowEditorSlot } from "../../../../../subagent-tintin/src/ui/below-editor-layout";
 
 /**
  * Renders the promptline metadata widget below the editor.
@@ -16,10 +16,11 @@ export function renderPromptlineStatusWidget(
 	ctx: ExtensionContext,
 	getThinkingLevel: ExtensionAPI["getThinkingLevel"],
 	getSessionName: ExtensionAPI["getSessionName"],
+	getAgentCountsLabel?: () => string,
 ): void {
-	ctx.ui.setWidget(
-		PROMPTLINE_STATUS_WIDGET_KEY,
-		() => createPromptlineStatusWidget(ctx, getThinkingLevel, getSessionName),
-		{ placement: "belowEditor" },
+	setBelowEditorSlot(
+		ctx.ui,
+		"metadata",
+		() => createPromptlineStatusWidget(ctx, getThinkingLevel, getSessionName, getAgentCountsLabel),
 	);
 }

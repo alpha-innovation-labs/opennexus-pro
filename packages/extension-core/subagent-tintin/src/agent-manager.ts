@@ -429,6 +429,52 @@ export class AgentManager {
     this.cleanupInterval.unref();
   }
 
+  private countListeners = new Set<(counts: { running: number; queued: number }) => void>();
+  private countRefreshPending = false;
+
+  /** Active top-level records, independent of fleet visibility and linger. */
+  getAgentCounts(): { running: number; queued: number } {
+    let running = 0;
+    let queued = 0;
+    for (const record of this.agents.values()) {
+      if (!isTopLevelAgent(record)) continue;
+      if (record.status === "running") running++;
+      else if (record.status === "queued") queued++;
+    }
+    return { running, queued };
+  }
+
+  subscribeAgentCounts(listener: (counts: { running: number; queued: number }) => void): () => void {
+    let previous = "";
+    const notify = (counts: { running: number; queued: number }) => {
+      const key = `${counts.running}:${counts.queued}`;
+      if (key === previous) return;
+      previous = key;
+      try { listener(counts); } catch { /* ignore display failures */ }
+    };
+    this.countListeners.add(notify);
+    notify(this.getAgentCounts());
+    return () => { this.countListeners.delete(notify); };
+  }
+
+  private publishAgentCounts(): void {
+    const counts = this.getAgentCounts();
+    for (const listener of this.countListeners) {
+      // Display integrations must never change execution/queue semantics.
+      try { listener(counts); } catch { /* ignore display failures */ }
+    }
+  }
+
+  /** Coalesce synchronous state transitions; publish even between parent turns. */
+  private refreshAgentCounts(): void {
+    if (this.countRefreshPending) return;
+    this.countRefreshPending = true;
+    queueMicrotask(() => {
+      this.countRefreshPending = false;
+      this.publishAgentCounts();
+    });
+  }
+
   /** Update the max concurrent background agents limit. */
   setMaxConcurrent(n: number) {
     this.maxConcurrent = Math.max(1, n);
@@ -543,6 +589,7 @@ export class AgentManager {
       rootSessionId: options.rootSessionId,
     };
     this.agents.set(id, record);
+    this.refreshAgentCounts();
     // After the insert, so `takenHandles()` already counts this record's own
     // handle — a spawn named after its own type gets `explore-2`, not a
     // duplicate `explore` that would make resolution ambiguous.
@@ -624,6 +671,7 @@ export class AgentManager {
       () => { this.startups.delete(id); },
       (err) => {
         this.startups.delete(id);
+        this.refreshAgentCounts();
         if (queuedPool !== undefined) {
           // Mirrors settleRun: an inline caller gets this failure as a throw
           // out of spawnAndWait, so an unconsumed record would ALSO nudge the
@@ -691,6 +739,7 @@ export class AgentManager {
     // silently lifted) or skip the decrement for one it did (leaked slot —
     // every later blocking spawn queues forever). The two startup exits below
     // never reach `settleRun`, so they hand the slot back themselves.
+    this.refreshAgentCounts();
     const pool = this.poolFor(record);
     const releaseSlot = () => {
       if (pool === "background") this.runningBackground--;
@@ -847,6 +896,7 @@ export class AgentManager {
       },
     })
       .then(async ({ responseText, session, aborted, steered, failure, structuredJson, structuredRetried }) => {
+        this.refreshAgentCounts();
         // Don't overwrite status if externally stopped via abort()
         if (record.status !== "stopped") {
           // Precedence: a hard abort keeps "aborted"; then a failed final turn
@@ -908,6 +958,7 @@ export class AgentManager {
         return responseText;
       })
       .catch(async (err) => {
+        this.refreshAgentCounts();
         // Don't overwrite status if externally stopped via abort()
         if (record.status !== "stopped") {
           record.status = "error";
@@ -1112,6 +1163,7 @@ export class AgentManager {
   ): Promise<AgentRecord | undefined> {
     const record = this.agents.get(id);
     if (!record?.session) return undefined;
+    this.refreshAgentCounts();
 
     // Background resume: settle asynchronously and notify on completion exactly
     // like a background spawn, returning immediately with the record still
@@ -1203,6 +1255,7 @@ export class AgentManager {
       record.completedAt = Date.now();
     }
 
+    this.refreshAgentCounts();
     // Same contract as the spawn settle paths: children spawned during the
     // resumed turn must not outlive it — nothing else can see or reach them.
     this.abortOwnedChildren(id);
@@ -1225,6 +1278,7 @@ export class AgentManager {
     options: ResumeOptions,
   ) {
     if (!record.session) return;
+    this.refreshAgentCounts();
 
     record.status = "running";
     record.startedAt = Date.now();
@@ -1251,6 +1305,7 @@ export class AgentManager {
     try { options.onStarted?.(); } catch { /* ignore caller wiring errors */ }
 
     const settle = () => {
+      this.refreshAgentCounts();
       detachParentSignal?.();
       detachParentSignal = undefined;
       // Final flush of streaming output file
@@ -1405,6 +1460,7 @@ export class AgentManager {
   }
 
   abort(id: string): boolean {
+    this.refreshAgentCounts();
     const record = this.agents.get(id);
     if (!record) return false;
 
@@ -1506,6 +1562,7 @@ export class AgentManager {
 
   /** Abort all running and queued agents immediately. */
   abortAll(): number {
+    this.refreshAgentCounts();
     let count = 0;
     // Clear queued agents first
     for (const queued of this.queue) {
@@ -1561,6 +1618,8 @@ export class AgentManager {
     this.dequeue(() => true);
     const sessions = [...this.agents.values()].map(record => record.session);
     this.agents.clear();
+    this.publishAgentCounts();
+    this.countListeners.clear();
     this.startups.clear();
     if (pi) {
       // Prune any orphaned git worktrees (crash recovery). Detached: dispose runs

@@ -6,7 +6,7 @@
  */
 
 import { type AgentSession, getMarkdownTheme } from "@earendil-works/pi-coding-agent";
-import { type Component, Input, Markdown, type MarkdownOptions, type MarkdownTheme, matchesKey, type TUI, truncateToWidth, visibleWidth, wrapTextWithAnsi } from "@earendil-works/pi-tui";
+import { type Component, isKeyRelease, Input, Markdown, type MarkdownOptions, type MarkdownTheme, matchesKey, type TUI, truncateToWidth, visibleWidth, wrapTextWithAnsi } from "@earendil-works/pi-tui";
 import { renderAgentName } from "../agent-color.js";
 import { extractText } from "../context.js";
 import type { AgentRecord, ViewerMarkdownMode } from "../types.js";
@@ -14,10 +14,8 @@ import { getLifetimeCost, getLifetimeTotal, getSessionContextPercent } from "../
 import type { Theme } from "./agent-widget.js";
 import { type AgentActivity, buildInvocationTags, describeActivity, fgPreservingNestedStyles, formatCost, formatDuration, formatSessionTokens, getPromptModeLabel } from "./agent-widget.js";
 import { createViewerKeys, type ViewerKeybindings, type ViewerKeys } from "./viewer-keys.js";
+import { DialogNavigation, createDialogFrame, dialogKey, keyLabel } from "./shared-dialog.js";
 
-/** Base lines consumed by chrome: top border + header + header sep + footer sep + footer + bottom border. */
-const CHROME_LINES_BASE = 6;
-const MIN_VIEWPORT = 3;
 /** Height ceiling shared by the overlay's `maxHeight` and the viewer's internal viewport cap. */
 export const VIEWPORT_HEIGHT_PCT = 70;
 
@@ -138,6 +136,7 @@ function truncationNote(elided: number): string {
 }
 
 export class ConversationViewer implements Component {
+  private navigation = new DialogNavigation();
   private scrollOffset = 0;
   private autoScroll = true;
   private unsubscribe: (() => void) | undefined;
@@ -148,6 +147,9 @@ export class ConversationViewer implements Component {
   private keys: ViewerKeys;
   /** Steering composer — present while the user is typing a message to the agent. */
   private composer: Input | undefined;
+  private _focused = false;
+  get focused(): boolean { return this._focused; }
+  set focused(value: boolean) { this._focused = value; if (this.composer) this.composer.focused = value; }
   /** Resolved once: pi's Markdown theme is fixed for the life of the process. */
   private readonly markdownTheme: MarkdownTheme;
   /** Set by the `m` key. Wins over the setting so `m` works without a persist hook. */
@@ -170,7 +172,7 @@ export class ConversationViewer implements Component {
     /** Abort the agent shown here. Omitted → no stop affordance (e.g. read-only history). */
     private onStop?: () => void,
     /** User keybindings from `ctx.ui.custom()`. Omitted → hardcoded defaults. */
-    keybindings?: ViewerKeybindings,
+    private keybindings?: ViewerKeybindings,
     /** Send a steering message to the agent. Omitted → no compose affordance. */
     private onSteer?: (message: string) => void,
     /**
@@ -200,15 +202,19 @@ export class ConversationViewer implements Component {
   }
 
   handleInput(data: string): void {
+    if (isKeyRelease(data)) return;
+    if (data !== "g") this.navigation.reset();
     // While composing a steer message, the input owns all keys (Enter sends,
     // Esc cancels — both wired in openComposer()). Editing keys flow through.
     if (this.composer) {
-      this.composer.handleInput(data);
+      if (dialogKey(data, this.keybindings, "tui.select.cancel", "escape")) this.composer.onEscape?.();
+      else if (dialogKey(data, this.keybindings, "tui.input.submit", "enter")) this.composer.onSubmit?.(this.composer.getValue());
+      else this.composer.handleInput(data);
       this.tui.requestRender();
       return;
     }
 
-    if (matchesKey(data, "escape") || matchesKey(data, "ctrl+c") || matchesKey(data, "q")) {
+    if (dialogKey(data, this.keybindings, "tui.select.cancel", "escape") || matchesKey(data, "ctrl+c") || matchesKey(data, "q")) {
       this.closed = true;
       this.done(undefined);
       return;
@@ -217,7 +223,7 @@ export class ConversationViewer implements Component {
     // Enter opens the steering composer (only while the agent can still be
     // steered) — then type + Enter sends, Esc or an empty submit returns. When
     // not steerable, fall through so the key still disarms a pending stop.
-    if (matchesKey(data, "enter") && this.canSteer()) {
+    if (dialogKey(data, this.keybindings, "tui.select.confirm", "enter") && this.canSteer()) {
       this.stopArmed = false;
       this.openComposer();
       return;
@@ -255,46 +261,26 @@ export class ConversationViewer implements Component {
     const viewportHeight = this.viewportHeight();
     const maxScroll = Math.max(0, totalLines - viewportHeight);
 
-    if (this.keys.scrollUp(data)) {
-      this.scrollOffset = Math.max(0, this.scrollOffset - 1);
-      this.autoScroll = this.scrollOffset >= maxScroll;
-    } else if (this.keys.scrollDown(data)) {
-      this.scrollOffset = Math.min(maxScroll, this.scrollOffset + 1);
-      this.autoScroll = this.scrollOffset >= maxScroll;
-    } else if (this.keys.pageUp(data)) {
-      this.scrollOffset = Math.max(0, this.scrollOffset - viewportHeight);
-      this.autoScroll = false;
-    } else if (this.keys.pageDown(data)) {
-      this.scrollOffset = Math.min(maxScroll, this.scrollOffset + viewportHeight);
-      this.autoScroll = this.scrollOffset >= maxScroll;
-    } else if (matchesKey(data, "home")) {
-      this.scrollOffset = 0;
-      this.autoScroll = false;
-    } else if (matchesKey(data, "end")) {
-      this.scrollOffset = maxScroll;
-      this.autoScroll = true;
+    const key = this.keys.scrollUp(data) ? "k" : this.keys.scrollDown(data) ? "j"
+      : this.keys.pageUp(data) ? "\x1b[5~" : this.keys.pageDown(data) ? "\x1b[6~" : data;
+    const next = this.navigation.move(key, this.scrollOffset, maxScroll, viewportHeight);
+    if (next !== undefined) {
+      this.scrollOffset = next;
+      this.autoScroll = next >= maxScroll;
+      this.tui.requestRender();
     }
   }
 
   render(width: number): string[] {
     if (width < 6) return []; // too narrow for any meaningful rendering
     const th = this.theme;
-    const innerW = width - 4; // border + padding
+    const innerW = width - 2; // SharedModal border
     this.lastInnerW = innerW;
     const lines: string[] = [];
 
-    const pad = (s: string, len: number) => {
-      const vis = visibleWidth(s);
-      return s + " ".repeat(Math.max(0, len - vis));
-    };
-    const row = (content: string) =>
-      th.fg("border", "│") + " " + truncateToWidth(pad(content, innerW), innerW, "...", true) + " " + th.fg("border", "│");
-    const hrTop = th.fg("border", `╭${"─".repeat(width - 2)}╮`);
-    const hrBot = th.fg("border", `╰${"─".repeat(width - 2)}╯`);
-    const hrMid = row(th.fg("dim", "─".repeat(innerW)));
+    const row = (content: string) => content;
 
-    // Header
-    lines.push(hrTop);
+    // Domain header; borders and separators belong to SharedModal.
     const modeLabel = getPromptModeLabel(this.record.type);
     const modeTag = modeLabel ? ` ${th.fg("dim", `(${modeLabel})`)}` : "";
     const statusIcon = this.record.status === "running"
@@ -324,8 +310,8 @@ export class ConversationViewer implements Component {
       `${statusIcon} ${renderAgentName(this.record.type, th, { bold: true })}${modeTag}  ${th.fg("muted", this.record.description)} ${th.fg("dim", "·")} ${fgPreservingNestedStyles(th, "dim", headerParts.join(" · "))}`,
     ));
     const invocationLine = this.invocationLine();
-    if (invocationLine) lines.push(row(invocationLine));
-    lines.push(hrMid);
+    if (invocationLine && this.tui.terminal.rows >= 18) lines.push(row(invocationLine));
+    const header = lines.splice(0);
 
     // Content area — rebuild every render (live data, no cache needed)
     const contentLines = this.buildContentLines(innerW);
@@ -343,22 +329,21 @@ export class ConversationViewer implements Component {
       lines.push(row(visible[i] ?? ""));
     }
 
+    const body = lines.splice(0);
     // Footer
-    lines.push(hrMid);
     if (this.composer) {
       // Composer row: the Input renders its own `> ` prompt and cursor.
-      lines.push(row(this.composer.render(innerW)[0] ?? ""));
-      const composeHint = th.fg("dim", "Enter send · Esc cancel");
+      body.push(this.composer.render(innerW)[0] ?? "");
+      const composeHint = th.fg("dim", `${keyLabel(this.keybindings, "tui.input.submit", "Enter")} send · ${keyLabel(this.keybindings, "tui.select.cancel", "Esc")} cancel`);
       const composeLeft = th.fg("accent", "✎ steer");
       const composeGap = Math.max(1, innerW - visibleWidth(composeLeft) - visibleWidth(composeHint));
       lines.push(row(composeLeft + " ".repeat(composeGap) + composeHint));
     } else {
-      // Actions on the left, navigation on the right. The scroll hint keeps its
-      // full key list so the less-obvious bindings stay discoverable; it leads
-      // the right group so "Esc close" is the only part that truncates first.
+      // Keep close with the eligible actions. Extra navigation hints get their
+      // own row when height permits, never competing with close for width.
       const sep = th.fg("dim", " · ");
       const actions: string[] = [];
-      if (this.canSteer()) actions.push(th.fg("dim", "Enter steer"));
+      if (this.canSteer()) actions.push(th.fg("dim", `${keyLabel(this.keybindings, "tui.select.confirm", "Enter")} steer`));
       if (this.isStoppable()) {
         actions.push(this.stopArmed ? th.fg("error", "x again to STOP") : th.fg("dim", "x stop"));
       }
@@ -366,7 +351,8 @@ export class ConversationViewer implements Component {
       // at 80 columns with steer + stop present, and this group has no
       // degradation step below "drop the line-count readout".
       actions.push(th.fg("dim", `m ${MARKDOWN_MODE_LABELS[this.markdownMode()]}`));
-      const footerRight = th.fg("dim", "↑↓ scroll · PgUp/PgDn or Shift+↑↓ · Esc close");
+      actions.push(th.fg("dim", `${keyLabel(this.keybindings, "tui.select.cancel", "Esc")} close`));
+      const footerRight = th.fg("dim", `${keyLabel(this.keybindings, "tui.select.up", "↑")}/${keyLabel(this.keybindings, "tui.select.down", "↓")} scroll · ${keyLabel(this.keybindings, "tui.select.pageUp", "PgUp")}/${keyLabel(this.keybindings, "tui.select.pageDown", "PgDn")} · Home/End`);
 
       // Prepend the line-count/scroll-% readout only when there's spare width —
       // it's the first thing dropped so it never crowds out the hints.
@@ -377,14 +363,16 @@ export class ConversationViewer implements Component {
       const withCount = [count, ...actions].join(sep);
       const footerLeft = visibleWidth(withCount) + visibleWidth(footerRight) + 1 <= innerW
         ? withCount
-        : actions.join(sep);
+        : visibleWidth(actions.join(sep)) <= innerW ? actions.join(sep) : actions.join(" ");
 
-      const footerGap = Math.max(1, innerW - visibleWidth(footerLeft) - visibleWidth(footerRight));
-      lines.push(row(footerLeft + " ".repeat(footerGap) + footerRight));
+      const compactScroll = ` · ${keyLabel(this.keybindings, "tui.select.up", "↑")}/${keyLabel(this.keybindings, "tui.select.down", "↓")}`;
+      lines.push(row(footerLeft + (this.tui.terminal.rows < 18 && visibleWidth(footerLeft + compactScroll) <= innerW ? compactScroll : "")));
+      if (this.tui.terminal.rows >= 18) lines.push(row(footerRight));
     }
-    lines.push(hrBot);
-
-    return lines;
+    const frame = createDialogFrame(th);
+    frame.update(header, [{ id: "conversation", size: 1, lines: body }], lines,
+      Math.max(1, Math.floor(this.tui.terminal.rows * VIEWPORT_HEIGHT_PCT / 100)));
+    return frame.render(width);
   }
 
   /** Stoppable only when a stop handler exists and the agent is still active. */
@@ -456,11 +444,11 @@ export class ConversationViewer implements Component {
   /** Open the inline steering composer and route subsequent input to it. */
   private openComposer(): void {
     const input = new Input();
-    input.focused = true;
+    input.focused = this.focused;
     input.onSubmit = (value: string) => {
       const message = value.trim();
       this.composer = undefined;
-      if (message) this.onSteer?.(message);
+      if (message && this.canSteer()) this.onSteer?.(message);
       this.tui.requestRender();
     };
     input.onEscape = () => {
@@ -484,15 +472,18 @@ export class ConversationViewer implements Component {
   // ---- Private ----
 
   private viewportHeight(): number {
-    // Cap mirrors the overlay's maxHeight — otherwise the viewer would render
-    // more lines than the overlay shows and clip the footer.
+    // Reserve the frame, identity, input and hints BEFORE allocating history.
+    // On a seven-row composing surface the input is the body; history can be
+    // zero rows, rather than forcing SharedModal to crop the title and border.
     const maxRows = Math.floor((this.tui.terminal.rows * VIEWPORT_HEIGHT_PCT) / 100);
-    return Math.max(MIN_VIEWPORT, maxRows - this.chromeLines());
+    const available = maxRows - this.chromeLines();
+    return Math.max(0, available - (available + (this.composer ? 1 : 0) > 1 ? 1 : 0));
   }
 
   private chromeLines(): number {
-    // The composer adds one row above the footer hint while it's open.
-    return CHROME_LINES_BASE + (this.invocationLine() ? 1 : 0) + (this.composer ? 1 : 0);
+    const roomy = this.tui.terminal.rows >= 18;
+    return 4 + 1 + (roomy && this.invocationLine() ? 1 : 0)
+      + (this.composer ? 2 : roomy ? 2 : 1);
   }
 
   private invocationLine(): string | undefined {

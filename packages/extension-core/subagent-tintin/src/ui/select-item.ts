@@ -15,8 +15,12 @@
  * between building and resolving cannot desync them.
  */
 
+import { selectAgentOption } from "./shared-dialog.js";
+import type { ExtensionUIContext } from "@earendil-works/pi-coding-agent";
+
 /** Minimal shape of the `ctx.ui` surface this needs. */
 export interface SelectUI {
+  custom?: ExtensionUIContext["custom"];
   select(title: string, options: string[]): Promise<string | undefined>;
 }
 
@@ -39,7 +43,7 @@ export async function selectItem<T>(
     label: `${String(i + 1).padStart(width)}. ${format(item, i)}`,
   }));
 
-  const choice = await ui.select(title, rows.map(r => r.label));
+  const choice = await selectAgentOption(ui, title, rows.map(r => r.label));
   if (!choice) return undefined;
   return rows.find(r => r.label === choice)?.item;
 }

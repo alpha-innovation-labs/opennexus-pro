@@ -272,10 +272,10 @@ export class AgentWidget {
     private agentActivity: Map<string, AgentActivity>,
     /**
      * Read live at render time. Selects which agents the widget shows — see
-     * `WidgetMode`. Defaults to `"all"` when a caller supplies no policy; the
-     * extension supplies one defaulting to `"background"`.
+     * `WidgetMode`. Hidden unless explicitly enabled with fleet off; the
+     * extension supplies the effective surface-precedence policy.
      */
-    private mode: () => WidgetMode = () => "all",
+    private mode: () => WidgetMode = () => "off",
     /**
      * Read live at render time, like `mode`. Whether running agents show an
      * estimated cost beside their token count. Defaults to off — the extension
@@ -652,6 +652,7 @@ export class AgentWidget {
       this.uiCtx.setWidget("agents", undefined);
       this.uiCtx.setStatus("subagents", undefined);
     }
+    this.uiCtx = undefined;
     this.widgetRegistered = false;
     this.tui = undefined;
     this.lastStatusText = undefined;

@@ -12,6 +12,7 @@ import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { SubagentScheduler } from "../schedule.js";
 import type { ScheduledSubagent } from "../types.js";
 import { selectItem } from "./select-item.js";
+import { selectAgentOption } from "./shared-dialog.js";
 
 /** Format an ISO timestamp as relative time ("in 4h", "2d ago", "—"). */
 function relTime(iso: string | undefined, now = Date.now()): string {
@@ -97,8 +98,8 @@ export async function showSchedulesMenu(
   );
   if (!job) return;
 
-  const ok = await ctx.ui.confirm(`Cancel "${job.name}"?`, formatDetails(job, scheduler));
-  if (!ok) return;
+  const ok = await selectAgentOption(ctx.ui, `Cancel "${job.name}"?\n${formatDetails(job, scheduler)}`, ["Keep job", "Cancel job"]);
+  if (ok !== "Cancel job") return;
 
   scheduler.removeJob(job.id);
   ctx.ui.notify(`Cancelled "${job.name}".`, "info");

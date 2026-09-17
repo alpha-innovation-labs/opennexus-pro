@@ -159,8 +159,8 @@ export interface SubagentsSettings {
    *     Agent tool result, so the widget would otherwise double-render them
    *     (#118); everything else (background, queued, scheduled, RPC) stays.
    *   - `off`: hide the widget entirely.
-   * Defaults to `background`. Pure-UI and applied live (toggling refreshes the
-   * widget).
+   * Defaults to `off`. Dormant while fleetView is enabled; an explicit value
+   * is preserved when saving other settings. Pure-UI and applied live.
    */
   widgetMode?: WidgetMode;
   /**
@@ -305,6 +305,12 @@ export interface SubagentsSettings {
 }
 
 export type ToolDescriptionMode = "full" | "compact" | "custom";
+
+/** Defaults affect presentation only, never the stored preference snapshot. */
+export function resolveAgentSurfaces(s: Pick<SubagentsSettings, "fleetView" | "widgetMode">): { fleet: boolean; widget: WidgetMode } {
+  const fleet = s.fleetView ?? true;
+  return { fleet, widget: fleet ? "off" : s.widgetMode ?? "off" };
+}
 
 /** Setter hooks used by applySettings to wire persisted values into in-memory state. */
 export interface SettingsAppliers {

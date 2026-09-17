@@ -12,13 +12,14 @@
 
 import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { isAbsolute, join } from "node:path";
-import { defineTool, type ExtensionAPI, type ExtensionCommandContext, type ExtensionContext, getAgentDir, getSettingsListTheme } from "@earendil-works/pi-coding-agent";
-import { Container, Key, matchesKey, type SettingItem, SettingsList, Spacer, Text } from "@earendil-works/pi-tui";
+import { defineTool, type ExtensionAPI, type ExtensionCommandContext, type ExtensionContext, getAgentDir } from "@earendil-works/pi-coding-agent";
+import { Container, type SettingItem, Text } from "@earendil-works/pi-tui";
 import { Type } from "@sinclair/typebox";
 import { abortable } from "./abortable.js";
 import { hasAgentBadge, renderAgentName } from "./agent-color.js";
 import { buildNewAgentFile, disableInContent, enableInContent, isEmptyStub, locateAgentFile, personalAgentsDir, projectAgentsDir, serializeAgentFile } from "./agent-file-toggle.js";
 import { AgentManager, isTopLevelAgent } from "./agent-manager.js";
+import { publishAgentCounts } from "./agent-counts.js";
 import { getAgentConversation, getDefaultMaxTurns, getGraceTurns, getRememberAgents, normalizeMaxTurns, resolveEffectiveMaxTurns, SUBAGENT_TOOL_NAMES, setDefaultMaxTurns, setGraceTurns, setRememberAgents, steerAgent } from "./agent-runner.js";
 import { BUILTIN_TOOL_NAMES, getAgentConfig, getAllTypes, getAvailableTypes, getConfig, getFallbackSubagent, isDefaultsDisabled, NO_FALLBACK, registerAgents, resolveSpawnType, resolveType, setDefaultsDisabled, setFallbackSubagent } from "./agent-types.js";
 import { inChildSessionContext } from "./child-context.js";
@@ -28,13 +29,14 @@ import { GroupJoinManager } from "./group-join.js";
 import { isolationParam, resolveAgentInvocationConfig, resolveJoinMode } from "./invocation-config.js";
 import { describeMention, handleBase, isReservedHandle, parseMention, resolveHandleToType, stripAgentPrefix } from "./mention.js";
 import { runMentionClone } from "./mention-clone.js";
+import { DEFAULT_AGENTS } from "./default-agents.js";
 import { describeModel, type ModelRegistry, resolveModel } from "./model-resolver.js";
 import { checkModelScope, isScopeModelsEnabled, setScopeModelsEnabled } from "./model-scope.js";
 import { getMaxSubagentDepth, setMaxSubagentDepth } from "./nested-tools.js";
 import { createOutputFilePath, ensureOutputFile, getOutputTranscriptDefault, sessionTaskDir, setOutputTranscriptDefault, streamToOutputFile, writeInitialEntry } from "./output-file.js";
 import { SubagentScheduler } from "./schedule.js";
 import { resolveStorePath, ScheduleStore } from "./schedule-store.js";
-import { applyAndEmitLoaded, loadSettings, type SubagentsSettings, saveAndEmitChanged, type ToolDescriptionMode } from "./settings.js";
+import { applyAndEmitLoaded, loadSettings, resolveAgentSurfaces, type SubagentsSettings, saveAndEmitChanged, type ToolDescriptionMode } from "./settings.js";
 import { getForegroundOutcomeNote, getStatusNote, partialOutputSuffix } from "./status-note.js";
 import { type AgentConfig, type AgentInvocation, type AgentMentionMode, type AgentRecord, type JoinMode, type NotificationDetails, type SubagentType, type ViewerMarkdownMode, type WidgetMode } from "./types.js";
 import { createMentionProvider, mentionRoster, type TypeInfo } from "./ui/agent-mention.js";
@@ -59,6 +61,7 @@ import {
 import { FleetList, type FleetUICtx, type FleetWorkflow } from "./ui/fleet-list.js";
 import { showSchedulesMenu } from "./ui/schedule-menu.js";
 import { selectItem } from "./ui/select-item.js";
+import { AgentSettingsDialog, selectAgentOption } from "./ui/shared-dialog.js";
 import { renderWorkflowEntryCard } from "./ui/workflow-card.js";
 import { renderWorkflowToolResult } from "./ui/workflow-tool-result.js";
 import { WorkflowTranscriptUpdates } from "./ui/workflow-transcript-updates.js";
@@ -785,6 +788,8 @@ export default function (pi: ExtensionAPI) {
     }
   }
 
+  let disposeAgentCounts: (() => void) | undefined;
+
   // Capture ctx from session_start for RPC spawn handler + start the scheduler.
   // This also wires the RPC handlers and broadcasts readiness — on the first
   // bound session_start, so a filtered-out activation never advertises (#142).
@@ -795,6 +800,8 @@ export default function (pi: ExtensionAPI) {
       fleet.setUICtx(ctx.ui as any);
     }
     manager.clearCompleted(true);
+    disposeAgentCounts?.();
+    disposeAgentCounts = publishAgentCounts(pi.events, manager, ctx.sessionManager.getSessionId());
     // Guard mirrors the `!scheduler.isActive()` pattern below: session_start
     // fires once per activation, but a double-bind must not leak listeners.
     if (!rpcHandle) {
@@ -1097,6 +1104,8 @@ export default function (pi: ExtensionAPI) {
   // On shutdown, abort all agents immediately and clean up.
   // If the session is going down, there's nothing left to consume agent results.
   pi.on("session_shutdown", async () => {
+    disposeAgentCounts?.();
+    disposeAgentCounts = undefined;
     rpcHandle?.unsubSpawn();
     rpcHandle?.unsubStop();
     rpcHandle?.unsubPing();
@@ -1122,16 +1131,19 @@ export default function (pi: ExtensionAPI) {
     // pi awaits this handler, and the process exits right after — unawaited, those
     // handlers would never run. Internally bounded, so a hung one can't strand quit.
     await manager.dispose(pi);
+    // The explicitly enabled legacy surface owns a timer and above-editor slot
+    // independently of FleetList. Release it after child shutdown callbacks.
+    widget.dispose();
   });
 
-  // Live widget: show running agents above editor.
-  // widgetMode (default "background") selects what the widget shows: "all" =
-  // every agent; "background" = hide foreground (they already render inline as
-  // the Agent tool result, so showing them here too is a duplicate, #118), keep
-  // everything else; "off" = hide the widget entirely. Read live at render time.
-  let widgetMode: WidgetMode = "background";
-  function getWidgetMode(): WidgetMode { return widgetMode; }
-  const widget = new AgentWidget(manager, agentActivity, getWidgetMode, isShowCostEnabled, isShowModelEnabled);
+  // Preserve absent vs explicit preferences. The fleet suppresses the legacy
+  // widget without overwriting its stored mode (including on unrelated saves).
+  let widgetMode: WidgetMode | undefined;
+  let fleetViewPreference: boolean | undefined;
+  function getWidgetMode(): WidgetMode { return widgetMode ?? "off"; }
+  const widget = new AgentWidget(manager, agentActivity,
+    () => resolveAgentSurfaces({ fleetView: fleetViewPreference, widgetMode }).widget,
+    isShowCostEnabled, isShowModelEnabled);
   function setWidgetMode(m: WidgetMode): void { widgetMode = m; widget.update(); }
 
   // Claude Code-style FleetView: navigable list of main + subagents below the editor.
@@ -1141,7 +1153,13 @@ export default function (pi: ExtensionAPI) {
     (mode) => chooseViewerMarkdown(mode, currentCtx as unknown as ExtensionCommandContext | undefined));
   let fleetViewEnabled = true;
   function isFleetViewEnabled(): boolean { return fleetViewEnabled; }
-  function setFleetViewEnabled(b: boolean): void { fleetViewEnabled = b; fleet.setEnabled(b); }
+  function setFleetViewEnabled(b: boolean): void {
+    fleetViewPreference = b;
+    fleetViewEnabled = b;
+    // Clear the losing surface first, avoiding even a transient duplicate.
+    if (b) { widget.update(); fleet.setEnabled(b); }
+    else { fleet.setEnabled(b); widget.update(); }
+  }
 
   // Claude Code-style `@handle message` prompt mentions. Read live by both the
   // `input` hook and the stacked autocomplete provider, so the toggle applies
@@ -2955,7 +2973,7 @@ Terse command-style prompts produce shallow, generic work.
       ctx.ui.notify(noAgentsMsg, "info");
     }
 
-    const choice = await ctx.ui.select("Agents", options);
+    const choice = await selectAgentOption(ctx.ui, "Agents", options);
     if (!choice) return;
 
     if (choice.startsWith("Running agents (")) {
@@ -3019,26 +3037,9 @@ Terse command-style prompts produce shallow, generic work.
     if (hasCustom) legendParts.push("• = project  ◦ = global");
     if (hasDisabled) legendParts.push("✕ = disabled");
 
-    const selected = await ctx.ui.custom<string | undefined>((_tui, _theme, _kb, done) => {
-      const slTheme = getSettingsListTheme();
-      const list = new SettingsList(
-        items,
-        Math.min(items.length, 12),
-        slTheme,
-        id => done(id), // Enter/Space on a row → return that agent's name
-        () => done(undefined), // Esc → cancel
-      );
-      const container = new Container();
-      container.addChild(new Text("Agent types", 0, 0));
-      if (legendParts.length) container.addChild(new Text(slTheme.hint(legendParts.join("  ")), 0, 0));
-      container.addChild(new Spacer(1));
-      container.addChild(list);
-      return {
-        render: (w: number) => container.render(w),
-        invalidate: () => container.invalidate(),
-        handleInput: (data: string) => list.handleInput?.(data),
-      };
-    });
+    const selected = await ctx.ui.custom<string | undefined>((tui, theme, kb, done) =>
+      new AgentSettingsDialog(tui, theme, "Agent types", items, kb, id => done(id), () => done(undefined), undefined, legendParts),
+      { overlay: true, overlayOptions: { width: "90%", maxHeight: "70%" } });
 
     if (selected && getAgentConfig(selected)) {
       await showAgentDetail(ctx, selected);
@@ -3101,7 +3102,9 @@ Terse command-style prompts produce shallow, generic work.
     }
 
     const file = locateAgentFile(name, cfg.sourcePath);
-    const isDefault = cfg.isDefault === true;
+    // An ejected file replaces the embedded registry entry and no longer
+    // carries isDefault. Its name still has a default to restore.
+    const isDefault = cfg.isDefault === true || (!isDefaultsDisabled() && DEFAULT_AGENTS.has(name));
     const disabled = cfg.enabled === false;
 
     let menuOptions: string[];
@@ -3121,7 +3124,7 @@ Terse command-style prompts produce shallow, generic work.
       menuOptions = ["Edit", "Disable", "Delete", "Back"];
     }
 
-    const choice = await ctx.ui.select(name, menuOptions);
+    const choice = await selectAgentOption(ctx.ui, name, menuOptions);
     if (!choice || choice === "Back") return;
 
     if (choice === "Edit" && file) {
@@ -3160,7 +3163,7 @@ Terse command-style prompts produce shallow, generic work.
 
   /** Eject a default agent: write its embedded config as a .md file. */
   async function ejectAgent(ctx: ExtensionCommandContext, name: string, cfg: AgentConfig) {
-    const location = await ctx.ui.select("Choose location", [
+    const location = await selectAgentOption(ctx.ui, "Choose location", [
       "Project (.pi/agents/)",
       `Personal (${personalAgentsDir()})`,
     ]);
@@ -3208,7 +3211,7 @@ Terse command-style prompts produce shallow, generic work.
     }
 
     // No file (built-in default) — create a stub
-    const location = await ctx.ui.select("Choose location", [
+    const location = await selectAgentOption(ctx.ui, "Choose location", [
       "Project (.pi/agents/)",
       `Personal (${personalAgentsDir()})`,
     ]);
@@ -3252,7 +3255,7 @@ Terse command-style prompts produce shallow, generic work.
   }
 
   async function showCreateWizard(ctx: ExtensionCommandContext) {
-    const location = await ctx.ui.select("Choose location", [
+    const location = await selectAgentOption(ctx.ui, "Choose location", [
       "Project (.pi/agents/)",
       `Personal (${personalAgentsDir()})`,
     ]);
@@ -3260,7 +3263,7 @@ Terse command-style prompts produce shallow, generic work.
 
     const targetDir = location.startsWith("Project") ? projectAgentsDir() : personalAgentsDir();
 
-    const method = await ctx.ui.select("Creation method", [
+    const method = await selectAgentOption(ctx.ui, "Creation method", [
       "Generate with Claude (recommended)",
       "Manual configuration",
     ]);
@@ -3373,7 +3376,7 @@ Write the file using the write tool. Only write the file, nothing else.`;
     if (!description) return;
 
     // 3. Tools
-    const toolChoice = await ctx.ui.select("Tools", ["all", "none", "read-only (read, bash, grep, find, ls)", "custom..."]);
+    const toolChoice = await selectAgentOption(ctx.ui, "Tools", ["all", "none", "read-only (read, bash, grep, find, ls)", "custom..."]);
     if (!toolChoice) return;
 
     let tools: string;
@@ -3390,7 +3393,7 @@ Write the file using the write tool. Only write the file, nothing else.`;
     }
 
     // 4. Model
-    const modelChoice = await ctx.ui.select("Model", [
+    const modelChoice = await selectAgentOption(ctx.ui, "Model", [
       "inherit (parent model)",
       "haiku",
       "sonnet",
@@ -3409,7 +3412,7 @@ Write the file using the write tool. Only write the file, nothing else.`;
 
     // 5. Thinking
     // "inherit" is a UI-only pseudo-choice (omit the field); the rest mirror pi.
-    const thinkingChoice = await ctx.ui.select("Thinking level", ["inherit", ...THINKING_LEVELS]);
+    const thinkingChoice = await selectAgentOption(ctx.ui, "Thinking level", ["inherit", ...THINKING_LEVELS]);
     if (!thinkingChoice) return;
 
     // 6. System prompt
@@ -3463,10 +3466,10 @@ Write the file using the write tool. Only write the file, nothing else.`;
       strictAgentFiles,
       disableDefaultAgents: isDefaultsDisabled(),
       toolDescriptionMode: getToolDescriptionMode(),
-      fleetView: isFleetViewEnabled(),
+      fleetView: fleetViewPreference,
       agentMentions: getAgentMentionMode(),
       rememberAgents: getRememberAgents(),
-      widgetMode: getWidgetMode(),
+      widgetMode,
       outputTranscript: getOutputTranscriptDefault(),
       worktreeIsolation: isWorktreeIsolationEnabled(),
       // The user's answer, not the effective one. A stand-down for another
@@ -3664,7 +3667,7 @@ Write the file using the write tool. Only write the file, nothing else.`;
         {
           id: "fleetView",
           label: "Fleet view",
-          description: "Claude Code-style main+subagents list below the editor (↓/← to navigate, Enter to view)",
+          description: "Compact fleet below Neo metadata; when enabled, the above-editor widget is dormant. /agents always opens the full roster.",
           currentValue: isFleetViewEnabled() ? "on" : "off",
           values: ["on", "off"],
         },
@@ -3684,8 +3687,8 @@ Write the file using the write tool. Only write the file, nothing else.`;
         },
         {
           id: "widgetMode",
-          label: "Widget",
-          description: "Above-editor agent widget: all = every agent; background = hide foreground (they already render inline); off = hide the widget.",
+          label: isFleetViewEnabled() ? "Widget (dormant: fleet enabled)" : "Widget",
+          description: "Stored above-editor alternative: used only with fleet off. all = every agent; background = hide foreground; off = hidden. Disabling fleet does not enable this automatically.",
           currentValue: getWidgetMode(),
           values: ["all", "background", "off"],
         },
@@ -3860,49 +3863,18 @@ Write the file using the write tool. Only write the file, nothing else.`;
       }
     }
 
-    let list: SettingsList;
-    // Track current selection index directly (SettingsList doesn't expose it).
-    // Updated on arrow keys so Enter knows which field is selected immediately.
-    let currentIndex = 0;
-
-    const result = await ctx.ui.custom<string | undefined>((_tui, _theme, _kb, done) => {
-      const items = buildItems();
-
-      list = new SettingsList(
-        items,
-        items.length + 2,
-        getSettingsListTheme(),
-        (id, newValue) => {
-          applyValue(id, newValue);
-        },
-        () => done(undefined as undefined),
-      );
-
-      const container = new Container();
-      container.addChild(new Text("⚙  Subagent Settings", 0, 0));
-      container.addChild(new Spacer(1));
-      container.addChild(list);
-
-      return {
-        render: (w: number) => container.render(w),
-        invalidate: () => container.invalidate(),
-        handleInput: (data: string) => {
-          // Track navigation so Enter knows the current field
-          if (matchesKey(data, "up")) {
-            currentIndex = Math.max(0, currentIndex - 1);
-          } else if (matchesKey(data, "down")) {
-            currentIndex = Math.min(items.length - 1, currentIndex + 1);
+    const result = await ctx.ui.custom<string | undefined>((tui, theme, kb, done) => {
+      const dialog = new AgentSettingsDialog(tui, theme, "Subagent Settings", buildItems(), kb,
+        (id, value) => {
+          if (NUMERIC_IDS.has(id)) done(id);
+          else {
+            applyValue(id, value);
+            dialog.setItems(buildItems());
           }
-
-          // Enter on numeric field → close and prompt for typed input
-          if (matchesKey(data, Key.enter) && NUMERIC_IDS.has(items[currentIndex].id)) {
-            done(items[currentIndex].id);
-            return;
-          }
-          list.handleInput?.(data);
         },
-      };
-    });
+        () => done(undefined), id => NUMERIC_IDS.has(id));
+      return dialog;
+    }, { overlay: true, overlayOptions: { width: "90%", maxHeight: "70%" } });
 
     // If a numeric field ID was returned, prompt for typed input
     if (result && NUMERIC_IDS.has(result)) {
@@ -3932,7 +3904,8 @@ Write the file using the write tool. Only write the file, nothing else.`;
       while (input != null) {
         const trimmed = input.trim();
         const n = Number(trimmed);
-        if (trimmed !== "" && Number.isInteger(n)) {
+        const minimum = result === "maxConcurrent" || result === "graceTurns" ? 1 : 0;
+        if (trimmed !== "" && Number.isSafeInteger(n) && n >= minimum) {
           applyValue(result, String(n));
           await showSettings(ctx);
           return;
@@ -3997,4 +3970,5 @@ Write the file using the write tool. Only write the file, nothing else.`;
   };
 
   fleet.setWorkflowSource(fleetWorkflows, id => openWorkflowFromFleet(id, workflowMenuDeps));
+
 }

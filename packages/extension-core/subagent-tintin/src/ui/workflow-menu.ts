@@ -18,6 +18,7 @@ import type { ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { AgentRecord } from "../types.js";
 import { pauseWorkflowTask, resumeWorkflowTask, type WorkflowTask } from "../workflow/task.js";
 import { WorkflowDialog } from "./workflow-dialog.js";
+import { selectAgentOption } from "./shared-dialog.js";
 
 /** Everything the menu and the inspector need from the extension around them. */
 export interface WorkflowMenuDeps {
@@ -69,7 +70,7 @@ export async function showWorkflowDialog(
    */
   let overlay: { setHidden(hidden: boolean): void } | undefined;
   await ctx.ui.custom<undefined>(
-    (tui, theme, _keybindings, done) =>
+    (tui, theme, keybindings, done) =>
       new WorkflowDialog(
         tui,
         // Re-read on every render: the run is in the background, so the
@@ -138,6 +139,8 @@ export async function showWorkflowDialog(
               .finally(() => overlay?.setHidden(false));
           },
         },
+        0,
+        keybindings,
       ),
     {
       overlay: true,
@@ -187,7 +190,7 @@ export async function showWorkflowsMenu(
         task.agentCount === 1 ? "" : "s"
       } · ${task.id}`,
   );
-  const picked = await ctx.ui.select("Workflows", labels);
+  const picked = await selectAgentOption(ctx.ui, "Workflows", labels);
   const index = picked !== undefined ? labels.indexOf(picked) : -1;
   if (index >= 0) await showWorkflowDialog(ctx, tasks[index], deps);
 }

@@ -44,16 +44,18 @@ export function createFffAutocompleteProvider(
 				Promise.resolve().then(() => runtime.searchFileCandidates(parsed.rawQuery, MAX_RESULTS)).catch(() => null),
 			]);
 			if (options.signal.aborted || generation !== request) return null;
-			if (!candidates?.length) return inner;
+			// Empty/failed FFF searches still pass inner rows through the same
+			// kind-aware path deduplication, retaining their insertion metadata.
+			const fileCandidates = candidates ?? [];
 
 			const folderItems = createFolderAutocompleteItems(
-				collectFolderSuggestions(candidates, parsed.rawQuery).slice(
+				collectFolderSuggestions(fileCandidates, parsed.rawQuery).slice(
 					0,
 					MAX_RESULTS,
 				),
 				parsed.isQuotedPrefix,
 			);
-			const fileItems = candidates.map((candidate) => {
+			const fileItems = fileCandidates.map((candidate) => {
 				const matchType = candidate.score?.matchType
 					? ` · ${candidate.score.matchType}`
 					: "";
@@ -99,7 +101,7 @@ export function createFffAutocompleteProvider(
 				seen.add(key);
 				return ref.kind === "agent" || fileCount++ < MAX_RESULTS;
 			});
-			return { prefix, items };
+			return items.length ? { prefix: fileCandidates.length ? prefix : inner!.prefix, items } : null;
 		},
 		applyCompletion(lines, cursorLine, cursorCol, item, prefix) {
 			const reference = (item as ReferenceCompletionItem).reference;
