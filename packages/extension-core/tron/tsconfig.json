@@ -32,6 +32,9 @@
 			"@extensions/rtk": [
 				"../rtk/src/index.ts"
 			],
+			"@extensions/slash-menu/*": [
+				"../slash-menu/src/*"
+			],
 			"@extensions/tron/colors/*": [
 				"./src/colors/*"
 			],

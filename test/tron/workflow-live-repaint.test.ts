@@ -16,7 +16,8 @@ const settings = vi.hoisted(() => ({
   }),
   directory: "",
 }));
-vi.mock("../../packages/extension-core/subagent-tintin/src/settings", () => ({
+vi.mock("../../packages/extension-core/subagent-tintin/src/settings", async importOriginal => ({
+  ...await importOriginal<typeof import("../../packages/extension-core/subagent-tintin/src/settings")>(),
   loadSettings: () => ({ widgetMode: "off", fleetView: false }),
   applyAndEmitLoaded: settings.set, saveAndEmitChanged: vi.fn(),
 }));

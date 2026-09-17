@@ -143,6 +143,9 @@
 			"@extensions/startup-hero": [
 				"../startup-hero/src/index.ts"
 			],
+			"@extensions/subagent-tintin/*": [
+				"../subagent-tintin/src/*"
+			],
 			"@extensions/subagents/*": [
 				"../subagents/src/*"
 			],

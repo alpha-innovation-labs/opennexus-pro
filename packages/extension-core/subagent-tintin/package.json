@@ -17,6 +17,7 @@
     "@earendil-works/pi-ai": "^0.84.1",
     "@earendil-works/pi-coding-agent": "^0.84.1",
     "@earendil-works/pi-tui": "^0.84.1",
+    "@nexus/tui-kit": "workspace:*",
     "@sinclair/typebox": "^0.34.49",
     "croner": "^10.0.1",
     "nanoid": "^5.1.16",

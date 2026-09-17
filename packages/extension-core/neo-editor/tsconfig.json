@@ -194,6 +194,9 @@
 			"@extensions/subagents/*": [
 				"../subagents/src/*"
 			],
+			"@extensions/subagent-tintin/*": [
+				"../subagent-tintin/src/*"
+			],
 			"@extensions/system-prompt/*": [
 				"../system-prompt/src/*"
 			],
