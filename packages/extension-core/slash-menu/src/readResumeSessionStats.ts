@@ -58,7 +58,7 @@ export function readResumeSessionStats(
 				if (
 					(block as { type?: string }).type === "thinking" &&
 					typeof (block as { thinking?: string }).thinking === "string" &&
-					(block as { thinking?: string }).thinking!.trim()
+					(block as { thinking?: string }).thinking?.trim()
 				) {
 					stats.thinkingBlocks += 1;
 				}

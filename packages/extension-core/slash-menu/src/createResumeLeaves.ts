@@ -65,11 +65,13 @@ export function createResumeLeaves(sessions: ResumeSessionInfo[]): SlashMenuLeaf
 			resumeAge: formatResumeAge(session.modified.getTime()),
 			resumeTreePrefix: prefix + branch,
 		});
-		node.children.forEach((child, index) => walk(
-			child,
-			prefix + (branch === "├─ " ? "│  " : branch ? "   " : "  "),
-			index === node.children.length - 1 ? "└─ " : "├─ ",
-		));
+		node.children.forEach((child, index) => {
+			walk(
+				child,
+				prefix + (branch === "├─ " ? "│  " : branch ? "   " : "  "),
+				index === node.children.length - 1 ? "└─ " : "├─ ",
+			);
+		});
 	};
 	for (const root of roots) walk(root, "", "");
 	return leaves;

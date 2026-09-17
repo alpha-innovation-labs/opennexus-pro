@@ -86,7 +86,6 @@ const SLASH_MENU_LEFT_PANE_RATIO = 0.42;
 export class SlashMenuModal extends SelectPreviewModal {
 	private level: SlashMenuLevel = "top";
 	private query = "";
-	private searchActive = false;
 	private topItems = createTopLevelItems();
 	private activeLeaves: SlashMenuLeaf[] = [];
 	private nameInput = "";
@@ -148,7 +147,6 @@ export class SlashMenuModal extends SelectPreviewModal {
 	 */
 	setQuery(query: string): void {
 		this.query = query;
-		this.searchActive = query.length > 0;
 		this.setBottom("Search", query, "> /");
 		if (this.level === "login-picker") {
 			this.loginPicker?.updateQuery(query);
@@ -617,7 +615,6 @@ path).
 		if (level === "login-picker") {
 			this.level = level;
 			this.query = "";
-			this.searchActive = false;
 			this.setBottom("Search", "", "> /");
 			this.loginPicker?.init();
 			await this.refresh();
@@ -627,7 +624,6 @@ path).
 			this.level = "model";
 			this.modelMenuTab = "models";
 			this.query = "";
-			this.searchActive = false;
 			this.setBottom("Search", "", "> /");
 			this.renderItems([createLoadingLeaf("Loading Cursor models…")], "Models");
 			this.requestRender();
@@ -639,7 +635,6 @@ path).
 		}
 		this.level = resolveRequestedSlashMenuLevel(this.ctx, level);
 		this.query = "";
-		this.searchActive = false;
 		if (this.level === "scoped-models") {
 			const leaves = createScopedModelLeaves(this.ctx);
 			this.scopedSelection = new Set(
@@ -702,7 +697,6 @@ path).
 		this.previousLevels.push(this.level);
 		this.level = "name-input";
 		this.query = "";
-		this.searchActive = false;
 		this.nameInput =
 			(
 				this.ctx.sessionManager as {
@@ -774,7 +768,6 @@ path).
 		if (this.resumeScope === scope) return;
 		this.resumeScope = scope;
 		this.query = "";
-		this.searchActive = false;
 		this.setBottom("Search", "", "> /");
 		await this.refresh();
 	}
@@ -797,7 +790,6 @@ path).
 		if (status) this.ctx.ui.notify(status, "info");
 		this.level = this.previousLevels.pop() ?? "settings";
 		this.query = "";
-		this.searchActive = false;
 		this.setBottom("Search", "", "> /");
 		await this.refresh(settingValue);
 	}
@@ -809,7 +801,6 @@ path).
 		}
 		this.level = this.previousLevels.pop() ?? "top";
 		this.query = "";
-		this.searchActive = false;
 		this.setBottom("Search", "", "> /");
 		await this.refresh();
 	}
