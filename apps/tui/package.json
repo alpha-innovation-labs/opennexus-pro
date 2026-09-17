@@ -1,6 +1,6 @@
 {
 	"name": "@apps/app-tui",
-	"version": "0.2.29",
+	"version": "0.2.48",
 	"private": true,
 	"type": "module",
 	"scripts": {
