@@ -14,6 +14,10 @@ export default defineConfig({
 				find: /^@nexus\/pi-platform\/(.*)$/,
 				replacement: `${root("./packages/pi-platform/src/")}$1`,
 			},
+			{
+				find: /^@nexus\/tui-kit\/(.*)$/,
+				replacement: `${root("./packages/tui-kit/src/")}$1`,
+			},
 		],
 	},
 	test: {
