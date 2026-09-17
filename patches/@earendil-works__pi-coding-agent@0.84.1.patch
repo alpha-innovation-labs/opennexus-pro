@@ -1,0 +1,21 @@
+diff --git a/dist/core/extensions/loader.js b/dist/core/extensions/loader.js
+index 324d30ad5708b842f1a536f8d14950469a5ed707..8f33648268855a00a4b5dc9a41f8d3a171b2eb16 100644
+--- a/dist/core/extensions/loader.js
++++ b/dist/core/extensions/loader.js
+@@ -357,13 +357,9 @@ async function loadExtensionModule(extensionPath, cacheToken) {
+     }
+     const jiti = createJiti(import.meta.url, {
+         moduleCache: false,
+-        // Bun uses modules embedded in the executable. Source TypeScript reuses the
+-        // host-resolved modules and root tsconfig paths. Built Node uses dist aliases.
+-        ...(isBunBinary
+-            ? { virtualModules: VIRTUAL_MODULES, tryNative: false }
+-            : isTypeScriptSourceRuntime
+-                ? { virtualModules: VIRTUAL_MODULES, tsconfigPaths: true }
+-                : { alias: getAliases() }),
++        virtualModules: VIRTUAL_MODULES,
++        ...(isBunBinary ? { tryNative: false } : {}),
++        ...(isTypeScriptSourceRuntime ? { tsconfigPaths: true } : {}),
+     });
+     const module = await jiti.import(extensionPath, { default: true });
+     const factory = module;

@@ -42,3 +42,5 @@ minimumReleaseAgeExclude:
   - '@wterm/core@0.3.2 || 0.3.3'
   - '@wterm/dom@0.3.2 || 0.3.3'
   - tsx@4.23.5
+patchedDependencies:
+  '@earendil-works/pi-coding-agent@0.84.1': patches/@earendil-works__pi-coding-agent@0.84.1.patch
