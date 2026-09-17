@@ -1,9 +1,10 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const packageJsonPath = resolve("package.json");
 const outputPath = resolve(
-	"packages/extension-core/src/auto-update/runtime/packageInfo.generated.ts",
+	"packages/extension-core/auto-update/src/runtime/packageInfo.generated.ts",
 );
 
 /**
@@ -11,7 +12,7 @@ const outputPath = resolve(
  *
  * @returns {Promise<void>}
  */
-async function generatePackageInfo() {
+export async function generatePackageInfo() {
 	const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"));
 	const name =
 		typeof packageJson.name === "string" ? packageJson.name : "opennexus";
@@ -28,4 +29,8 @@ async function generatePackageInfo() {
 	await writeFile(outputPath, source, "utf8");
 }
 
-await generatePackageInfo();
+const isDirectRun = process.argv[1] === fileURLToPath(import.meta.url);
+
+if (isDirectRun) {
+	await generatePackageInfo();
+}
