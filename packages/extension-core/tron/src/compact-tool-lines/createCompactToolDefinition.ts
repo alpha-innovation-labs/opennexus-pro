@@ -51,12 +51,15 @@ export function createCompactToolDefinition(
 			context: CompactToolContext,
 		) {
 			rememberActivityInvalidator(context.toolCallId, context.invalidate);
+			// The AgentToolResult payload carries no error flag; pi tracks it on the
+			// render context. Inject it so the toolResult renderer can show the error.
+			const entryResult = { ...result, isError: context.isError };
 			const { renderer } = renderTranscriptEntry(
 				{
 					role: "toolResult",
 					toolCallId: context.toolCallId,
 					toolName: definition.name,
-					result: result as never,
+					result: entryResult as never,
 					text: "",
 				},
 				{
