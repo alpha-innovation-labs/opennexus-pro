@@ -1,0 +1,106 @@
+# Formula: build the OS-process subagents extension.
+#
+# The evergreen spec lives in context/extension/subagents/ (one file per
+# mechanism). Steps are ordered by the dependency graph the spec implies:
+# retire the replaced implementation -> durable session file -> process spawn ->
+# registry -> completion -> delivery -> stop/resume -> public tool protocol ->
+# validation.
+#
+# Repo note: this is the nexus-tui-awesome TypeScript monorepo, not the
+# two-repo coinquant layout the skill assumes, so repo:ts means "the single
+# monorepo root" (dispatch runs there) rather than be/fe.
+
+formula = "subagents-os-process"
+description = "Changes: context/extension/subagents/"
+version = 1
+type = "workflow"
+
+# --- Retire what the spec replaces --------------------------------------------
+
+# The package currently ships a herdr/pane wrapper (subagent_start splits a pane
+# and startForegroundAgent's a mastracode agent in it). The spec is the OS-process
+# design, so that implementation goes first; everything below builds on the clean
+# slate it leaves.
+
+[[steps]]
+id = "retire-herdr-impl"
+title = "Retire the current herdr/pane-wrapper subagent implementation"
+description = "Remove the herdr-based tools (subagent_start's splitPaneRight/startForegroundAgent plus the herdr-wrapped prompt/read/send/send_keys tools) and the @nexus/herdr spawn dependency so packages/extension-core/subagents/ is a clean slate for the OS-process design; the extension still registers and the monorepo builds. Target shape is defined by context/extension/subagents/subagents.md (three layers) and context/extension/subagents/process-launch.md (a separate OS process, not an in-process/pane call)."
+labels = ["feature:subagents", "repo:ts", "role:builder"]
+
+# --- Foundation: durable state -------------------------------------------------
+
+[[steps]]
+id = "session-state"
+title = "Seed the JSONL session file with the three modes and the launch-metadata entry"
+description = "Done when it matches context/extension/subagents/session-state.md: seeded before spawn; standalone/lineage-only/fork modes; launch config persisted as a custom entry the run owns; file is the record, memory the handle."
+labels = ["feature:subagents", "repo:ts", "role:builder"]
+needs = ["retire-herdr-impl"]
+
+[[steps]]
+id = "agent-profiles"
+title = "Compile agent-profile frontmatter into the child argv and environment"
+description = "Done when it matches context/extension/subagents/agent-profiles.md: the field-to-argv mapping lands exactly once per field, and identity plus context-boundary prompts are appended so scope is fixed at launch."
+labels = ["feature:subagents", "repo:ts", "role:builder"]
+needs = ["retire-herdr-impl"]
+
+# --- Launch --------------------------------------------------------------------
+
+[[steps]]
+id = "process-launch"
+title = "Spawn the headless, detached, unref'd child pointed at the session file"
+description = "Done when it matches context/extension/subagents/process-launch.md: one-shot headless form, detached process-group leader, unref'd, task passed by artifact-file reference, approval disabled; argv is the headless prompt form plus session, child-side extension, and profile flags."
+labels = ["feature:subagents", "repo:ts", "role:builder"]
+needs = ["session-state", "agent-profiles"]
+
+# --- Run + observe -------------------------------------------------------------
+
+[[steps]]
+id = "running-registry"
+title = "Add the in-memory running registry keyed by run id"
+description = "Done when it matches context/extension/subagents/running-registry.md: holds process handle, completion promise, session path, start time and entry count, stdout/stderr tails, and the abort controller; lookup by id then name with an ambiguity error; completed runs move to a separate map."
+labels = ["feature:subagents", "repo:ts", "role:builder"]
+needs = ["process-launch"]
+
+[[steps]]
+id = "completion"
+title = "Detect and classify completion from process exit, the exit sidecar, and the session tail"
+description = "Done when it matches context/extension/subagents/completion.md: three-signal detection, the sidecar reason overrides the exit code, completed/failed/cancelled classification with the manual-close case, and the stable-summary reaper that ends idle auto-exit runs."
+labels = ["feature:subagents", "repo:ts", "role:builder"]
+needs = ["process-launch", "session-state"]
+
+# --- Deliver -------------------------------------------------------------------
+
+[[steps]]
+id = "steer-delivery"
+title = "Deliver finished-run results back to the parent: async steer, sync await"
+description = "Done when it matches context/extension/subagents/steer-delivery.md: async pushes a custom-typed steer message that starts a new parent turn; a blocking run returns the summary inline; mid-run pings stay a separate channel from completion."
+labels = ["feature:subagents", "repo:ts", "role:builder"]
+needs = ["completion", "running-registry"]
+
+# --- Control -------------------------------------------------------------------
+
+[[steps]]
+id = "stop-resume"
+title = "Implement stop (process-group kill) and resume (re-spawn the session file)"
+description = "Done when it matches context/extension/subagents/stop-resume.md: stop aborts the watcher and signals the detached group with a kill fallback; resume reads launch metadata (child file, then parent entries, then explicit mode) and re-spawns the same session file."
+labels = ["feature:subagents", "repo:ts", "role:builder"]
+needs = ["process-launch", "running-registry", "session-state"]
+
+# --- Expose --------------------------------------------------------------------
+
+[[steps]]
+id = "tool-surface"
+title = "Register the parent and child tool protocol"
+description = "Done when it matches context/extension/subagents/tool-surface.md: parent launch (single and multi in one call), resume, and kill; child done and ping; both stop paths funnel into the completion machinery."
+labels = ["feature:subagents", "repo:ts", "role:builder"]
+needs = ["steer-delivery", "stop-resume", "completion"]
+
+# --- Validate ------------------------------------------------------------------
+
+[[steps]]
+id = "autonomous-testing"
+title = "Add headless end-to-end validation with the session files as the oracle"
+description = "Done when it matches context/extension/subagents/autonomous-testing.md: one-shot headless run under a hard timeout, structural JSONL assertions (launch call, delivery message, child file write), fixed marker files over prose checks, and the full background lifecycle covered."
+labels = ["feature:subagents", "repo:ts", "role:e2e"]
+needs = ["tool-surface"]
