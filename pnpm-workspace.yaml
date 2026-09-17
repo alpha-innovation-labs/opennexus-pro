@@ -5,6 +5,7 @@ packages:
   - "packages/extension-core/*/"
 
 allowBuilds:
+  '@biomejs/biome': false
   '@google/genai': true
   '@schpet/linear-cli': true
   bufferutil: true

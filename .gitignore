@@ -18,6 +18,8 @@ graphify-out/
 .nexus/startup-profiles/*
 test.fish
 
+*.tsbuildinfo
+apps/tui/build/
 .lucid
 .DS_Store
 apps/landing-page/out/
