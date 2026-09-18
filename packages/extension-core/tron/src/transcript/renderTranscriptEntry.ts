@@ -5,6 +5,9 @@ import { getResultText } from "../compact-tool-lines/getResultText";
 import { BorderedToolResult } from "../compact-tool-lines/BorderedToolResult";
 import { CompactToolResult } from "../compact-tool-lines/CompactToolResult";
 import { createMutationToolDetails } from "../compact-tool-lines/createMutationToolDetails";
+import { DiffRenderer } from "../compact-tool-lines/diff";
+import { resetDiffScroll } from "../compact-tool-lines/diff/state";
+import { resetOutputExpanded } from "../compact-tool-lines/ExpandableOutput";
 import { FailedToolCallResult } from "../compact-tool-lines/FailedToolCallResult";
 import { getToolErrorText } from "../compact-tool-lines/getToolErrorText";
 import { renderSummary } from "../compact-tool-lines/renderSummary";
@@ -125,21 +128,31 @@ export function renderTranscriptEntry(
 			}
 
 			if (!context.expanded && !isAgentProgressTool(toolName)) {
+				// Reset the diff body scroll AND the "show more" expand flag so a fresh
+				// re-expansion starts at the top, collapsed (preview + button).
+				if (toolName === "edit") resetDiffScroll(toolCallId);
+				resetOutputExpanded(toolCallId);
 				return {
 					renderer: new StaticEntryRenderer([]),
 					meta: { hasAttachedResult: false, drawsOwnBottomBorder: false },
 				};
 			}
 
-			const resultChild = createMutationToolDetails(toolName, entry.args, entry.result?.details, context.theme)
+			const resultChild = createMutationToolDetails(toolName, entry.args, entry.result?.details, context.theme, toolCallId)
 				?? context.resultChildRenderer
 				?? (context.toolOutputScrollState ? new Text(getResultText(entry.result as never), 0, 0) : undefined);
+
 			if (resultChild) {
+				// A DiffRenderer owns its own row-cap + "show all" button (no wheel
+				// scroll). Wrapping it in a second ToolOutputViewport would double-cap
+				// it, size the scrollbar to the capped length instead of the true one,
+				// and clip the button at wide widths. Skip the viewport for diffs.
+				const scrollable = !(resultChild instanceof DiffRenderer) && context.expanded;
 				const renderer = new BorderedToolResult(
 					toolCallId,
 					resultChild,
 					context.theme,
-					context.expanded ? context.toolOutputScrollState : undefined,
+					scrollable ? context.toolOutputScrollState : undefined,
 				);
 				return {
 					renderer,

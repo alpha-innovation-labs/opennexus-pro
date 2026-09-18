@@ -30,14 +30,19 @@ export class CompactToolResult {
 				const text = getResultText(this.result);
 				if (!text) return [];
 				const innerWidth = Math.max(1, width - 2);
-				const lines = text.split("\n").map((line) => {
-					const clean = line.replace(/\t/g, "    ");
-					const truncated = truncateToWidth(clean, innerWidth, "…");
-					const pad = " ".repeat(
-						Math.max(0, innerWidth - visibleWidth(truncated)),
-					);
-					return `${this.theme.fg("borderMuted", "│")}${this.theme.fg("toolOutput", truncated)}${pad}${this.theme.fg("borderMuted", "│")}`;
-				});
+				// Top border (├──┤) separates the header row from the body text, matching
+				// BorderedToolResult. This renderer has no mouse handler, so no y offset.
+				const lines = [
+					this.theme.fg("borderMuted", `├${"─".repeat(innerWidth)}┤`),
+					...text.split("\n").map((line) => {
+						const clean = line.replace(/\t/g, "    ");
+						const truncated = truncateToWidth(clean, innerWidth, "…");
+						const pad = " ".repeat(
+							Math.max(0, innerWidth - visibleWidth(truncated)),
+						);
+						return `${this.theme.fg("borderMuted", "│")}${this.theme.fg("toolOutput", truncated)}${pad}${this.theme.fg("borderMuted", "│")}`;
+					}),
+				];
 				const hasFrameState = hasToolCallFrameState(this.toolCallId);
 				if (
 					hasFrameState ? shouldShowToolCallBottomBorder(this.toolCallId) : true

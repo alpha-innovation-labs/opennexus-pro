@@ -1,7 +1,8 @@
 import type { Theme } from "@earendil-works/pi-coding-agent";
 import { visibleWidth, type Component, type TuiMouseEvent } from "@earendil-works/pi-tui";
 import { dispatchMouseEvent } from "@earendil-works/pi-tui/dist/tui.js";
-import { ToolOutputViewport, type ToolOutputScrollState } from "./ToolOutputViewport";
+import type { ToolOutputScrollState } from "./ToolOutputViewport";
+import { ExpandableOutput } from "./ExpandableOutput";
 import type { EntryRenderer } from "../transcript/types";
 import { hasToolCallFrameState } from "../activity/hasToolCallFrameState";
 import { shouldShowToolCallBottomBorder } from "../activity/shouldShowToolCallBottomBorder";
@@ -22,7 +23,10 @@ export class BorderedToolResult {
 		private readonly theme: Themed,
 		scrollState?: ToolOutputScrollState,
 	) {
-		this.content = scrollState ? new ToolOutputViewport(child, scrollState, text => theme.fg("borderMuted", text)) : child;
+		// A scrollState means "cap + show more/less footer". The ExpandableOutput owns
+		// the 30-row preview, the footer button, the expand toggle, and the viewport.
+		// A DiffRenderer brings its own, so it is passed with scrollState = undefined.
+		this.content = scrollState ? new ExpandableOutput(child, scrollState, theme, toolCallId) : child;
 	}
 
 	/**
@@ -39,10 +43,16 @@ export class BorderedToolResult {
 				const childLines = this.content.render(innerWidth);
 				this.bodyRows = childLines.length;
 				this.renderedWidth = width;
-				const lines = childLines.map((line) => {
-					const pad = " ".repeat(Math.max(0, innerWidth - visibleWidth(line)));
-					return `${this.theme.fg("borderMuted", "│")}${line}${pad}${this.theme.fg("borderMuted", "│")}`;
-				});
+				// Top border (├──┤) separates the header row from the body text and
+				// continues the box's left/right edges. Content occupies rows 1..N
+				// below it; handleMouse accounts for this offset.
+				const lines = [
+					this.theme.fg("borderMuted", `├${"─".repeat(innerWidth)}┤`),
+					...childLines.map((line) => {
+						const pad = " ".repeat(Math.max(0, innerWidth - visibleWidth(line)));
+						return `${this.theme.fg("borderMuted", "│")}${line}${pad}${this.theme.fg("borderMuted", "│")}`;
+					}),
+				];
 				const hasFrameState = hasToolCallFrameState(this.toolCallId);
 				if (
 					hasFrameState ? shouldShowToolCallBottomBorder(this.toolCallId) : true
@@ -58,10 +68,11 @@ export class BorderedToolResult {
 	}
 
 	handleMouse(event: TuiMouseEvent) {
+		// y=0 is the top border (├──┤); body content occupies y in [1, bodyRows].
 		if (event.width !== this.renderedWidth || event.x < 1 || event.x >= event.width - 1
-			|| event.y < 0 || event.y >= Math.min(this.bodyRows, event.height)) return undefined;
+			|| event.y < 1 || event.y >= Math.min(this.bodyRows + 1, event.height)) return undefined;
 		return dispatchMouseEvent(this.content as Component, {
-			...event, x: event.x - 1, width: Math.max(1, event.width - 2), height: this.bodyRows,
+			...event, x: event.x - 1, y: event.y - 1, width: Math.max(1, event.width - 2), height: this.bodyRows,
 		});
 	}
 

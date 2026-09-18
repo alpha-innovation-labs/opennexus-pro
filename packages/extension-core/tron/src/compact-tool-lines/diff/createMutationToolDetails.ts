@@ -1,20 +1,12 @@
 import type { Theme } from '@earendil-works/pi-coding-agent';
-import type { EntryRenderer } from '../transcript/types';
-import { DiffRenderer } from './diff/DiffRenderer';
-import { SyntaxHighlighter } from './highlight';
+import type { EntryRenderer } from '../../transcript/types';
+import { DiffRenderer } from './DiffRenderer';
 
 /**
  * Factory that creates a mutation-tool detail renderer with Tron colors.
  *
- * - `write` → raw content (or `[empty file]`), not a diff.
- * - `edit`  → a width-adaptive `DiffRenderer` fed by the executed diff (or, as a
- *   fallback, a numbered diff built from `args.edits`).
- *
- * @param toolName Tool name.
- * @param args Tool args.
- * @param details Executed tool details (may hold `.diff`).
- * @param theme Tron theme.
- * @param toolCallId Stable id for recovering per-toolCallId view state.
+ * NOTE: the live factory is the top-level `compact-tool-lines/createMutationToolDetails.ts`.
+ * This copy is kept in sync for the barrel but is not the one the transcript imports.
  */
 export function createMutationToolDetails(
 	toolName: string,
@@ -23,22 +15,12 @@ export function createMutationToolDetails(
 	theme: Theme,
 	toolCallId: string,
 ): EntryRenderer | undefined {
-	// Write tool: render raw content (or `[empty file]` placeholder) with syntax
-	// highlighting. One terminal row per array element: `BorderedToolResult`/`ToolOutputViewport`
-	// assume this contract (borders + scrollbar are per element). `highlightBlock`
-	// colors each line by the language detected from the path, and falls back to a
-	// flat `toolOutput` color for unknown/extension-less files.
+	// Write tool: render raw content or `[empty file]` placeholder.
 	if (toolName === 'write' && typeof args?.content === 'string') {
-		if (args.content.length === 0) {
-			return { render: () => [theme.fg('muted', '[empty file]')] };
-		}
-		const highlighter = new SyntaxHighlighter(
-			typeof args?.path === 'string' ? args.path : undefined,
-			theme,
-		);
-		const lines = args.content.replace(/\t/g, '    ').split('\n');
-		const rendered = highlighter.highlightBlock(lines);
-		return { render: () => rendered };
+		const text = args.content.length === 0
+			? theme.fg('muted', '[empty file]')
+			: theme.fg('toolOutput', args.content.replace(/\t/g, '    '));
+		return { render: () => [text] };
 	}
 
 	// Only edit tools produce diffs.

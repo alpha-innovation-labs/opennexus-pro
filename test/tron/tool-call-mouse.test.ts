@@ -65,9 +65,7 @@ describe("Tron tool-call mouse expansion", () => {
 		expect(mouse(row, 0)).toMatchObject({ handled: true });
 		expect(expanded(row)).toBe(true);
 		mouse(row, lines(row).findIndex(line => line.includes("DETAILS")));
-		expect(expanded(row)).toBe(true); // Output clicks select/interact; header clicks collapse.
-		mouse(row, 0);
-		expect(expanded(row)).toBe(false);
+		expect(expanded(row)).toBe(false); // Output clicks collapse just like header clicks.
 		mouse(row, lines(row).length - 1);
 		expect(expanded(row)).toBe(true);
 		mouse(row, lines(row).length - 1);
@@ -81,7 +79,7 @@ describe("Tron tool-call mouse expansion", () => {
 		{ name: "grep", args: { pattern: "fixture" }, output: "GREP OUTPUT", expected: "GREP OUTPUT" },
 		{ name: "find", args: { pattern: "*.txt" }, output: "FOUND OUTPUT", expected: "FOUND OUTPUT" },
 		{ name: "ls", args: { path: "." }, output: "LIST OUTPUT", expected: "LIST OUTPUT" },
-		{ name: "write", args: { path: "fixture.txt", content: "first line\nWRITE CONTENT\n" + "tail\n".repeat(15) + "LAST LINE" }, output: "Successfully wrote fixture.txt", expected: "WRITE CONTENT" },
+		{ name: "write", args: { path: "fixture.txt", content: "first line\nWRITE CONTENT\n" + "tail\n".repeat(40) + "LAST LINE" }, output: "Successfully wrote fixture.txt", expected: "WRITE CONTENT" },
 		{ name: "edit", args: { path: "fixture.txt", edits: [{ oldText: "old preview", newText: "replacement" }] }, output: "Successfully replaced text", details: { diff: "-1 OLD DIFF\n+1 EDIT DIFF", firstChangedLine: 1 }, expected: "EDIT DIFF" },
 		{ name: "edit", args: { path: "fixture.txt", edits: [{ oldText: "old preview", newText: "EDIT WITHOUT DIFF" }, { oldText: "second old", newText: "SECOND REPLACEMENT" }] }, output: "Successfully replaced text", expected: "EDIT WITHOUT DIFF" },
 		{ name: "edit", args: { path: "fixture.txt", oldText: "legacy old", newText: "LEGACY EDIT" }, output: "Successfully replaced text", expected: "LEGACY EDIT" },
@@ -97,7 +95,13 @@ describe("Tron tool-call mouse expansion", () => {
 		for (let i = 0; i < 2; i++) {
 			mouse(row, 0);
 			expect(lines(row).join("\n")).toContain(fixture.expected);
-			if (fixture.name === "write" && fixture.args.content) expect(lines(row).join("\n")).toContain("LAST LINE");
+			if (fixture.name === "write" && fixture.args.content) {
+				expect(lines(row)).toHaveLength(23);
+				expect(lines(row).join("\n")).not.toContain("LAST LINE");
+				mouse(row, 3, { type: "wheel", button: "none", wheelDelta: 999 });
+				expect(lines(row).join("\n")).toContain("LAST LINE");
+				mouse(row, 3, { type: "wheel", button: "none", wheelDelta: -999 });
+			}
 			if (fixture.expected === "EDIT WITHOUT DIFF") expect(lines(row).join("\n")).toContain("SECOND REPLACEMENT");
 			row.invalidate();
 			expect(lines(row, 40).join("\n")).toContain(fixture.expected);
@@ -115,7 +119,7 @@ describe("Tron tool-call mouse expansion", () => {
 		row.updateResult({ content: [{ type: "text", text }], details: fixture.name === "edit" ? { diff: text } : undefined, isError: false });
 		row.setExpanded(true);
 		const before = lines(row);
-		expect(before).toHaveLength(33);
+		expect(before).toHaveLength(23);
 		expect(before.slice(2).join("\n")).not.toContain("OUTPUT-99");
 		expect(mouse(row, 3, { type: "wheel", button: "none", wheelDelta: 999 })).toMatchObject({ handled: true });
 		expect(lines(row).join("\n")).toContain("OUTPUT-99");

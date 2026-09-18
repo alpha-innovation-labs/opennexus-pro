@@ -84,13 +84,11 @@ export class ToolOutputViewport implements Component {
 			if (event.type === "click" && event.button === "left") return { handled: true, render: false };
 			return undefined;
 		}
-		const childResult = dispatchMouseEvent(this.child as Component, {
+		// Child controls take priority. Otherwise let Pi's enclosing MouseRegion
+		// collapse on a completed click, and leave text-selection drags untouched.
+		return dispatchMouseEvent(this.child as Component, {
 			...event, y: event.y + this.state.top, width: this.contentWidth, height: this.totalRows,
 		});
-		if (childResult) return childResult;
-		// Leave press/drag/release unhandled for transcript text selection, but
-		// prevent Pi's enclosing result MouseRegion from toggling on body clicks.
-		return event.type === "click" && event.button === "left" ? { handled: true, render: false } : undefined;
 	}
 
 	invalidate(): void { this.child.invalidate?.(); }

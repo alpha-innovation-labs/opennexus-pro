@@ -49,6 +49,23 @@ function click(view: AssistantMessageComponent, y: number, overrides: Partial<Tu
 }
 
 describe("thinking-box mouse toggle", () => {
+	it.each([
+		{ name: "header", x: 2, y: 0 },
+		{ name: "text", x: 8, y: 1 },
+		{ name: "blank body row", x: 20, y: 2 },
+		{ name: "left border", x: 0, y: 1 },
+		{ name: "right border", x: 39, y: 1 },
+		{ name: "bottom border", x: 2, y: -1 },
+	])("collapses expanded thinking when clicking its $name", ({ x, y }) => {
+		const view = component([thinking]);
+		const before = view.render(40);
+		expect(click(view, y < 0 ? before.length - 1 : y, { x })).toMatchObject({ handled: true });
+		expect(linesOf(view).join("\n")).not.toContain("Inspect carefully");
+		expect(view.render(40).length).toBeLessThan(before.length);
+		click(view, 1);
+		expect(linesOf(view).join("\n")).toContain("Inspect carefully");
+	});
+
 	it("toggles only the clicked box and retains state through streaming and resize", () => {
 		const second = { ...thinking, thinking: "Second preview.\n\nSecond detail." };
 		const view = component([thinking, second], true);
