@@ -4,7 +4,7 @@ Bridging is how adjacent activity rows share a wall instead of each drawing two.
 
 ## Thinking-box interaction
 
-In the mouse-aware transcript, a completed left click on a thinking box toggles only that box between the compact preview and bordered Markdown. Press, drag, release, and other buttons do not toggle it. The preceding tool's closing border is outside the thinking click target. Per-box visibility survives streaming updates, invalidation, and resizing; the global thinking-visibility shortcut clears these overrides and applies its setting to every box. Clicks rebuild the assistant layout without changing keyboard focus or the shared thinking/text/tool walls.
+In the mouse-aware transcript, a completed left click anywhere on a thinking box's text, blank body rows, or borders toggles only that box between the compact preview and bordered Markdown. Press, drag, release, and other buttons do not toggle it. The preceding tool's closing border is outside the thinking click target. Per-box visibility survives streaming updates, invalidation, and resizing; the global thinking-visibility shortcut clears these overrides and applies its setting to every box. Clicks rebuild the assistant layout without changing keyboard focus or the shared thinking/text/tool walls.
 
 ## Frame state sync
 

@@ -4,7 +4,7 @@ The default Nexus agent surface is one compact interactive fleet below the edito
 
 ## Layout ownership
 
-The visible order is editor, Neo metadata, then fleet. A coordinated layout establishes that order rather than relying on asynchronous widget registration order. Tintin's `src/ui/fleet-list.ts` owns interactive roster behavior. `src/agent-manager.ts` owns the top-level running and queued counts, published by `src/agent-counts.ts`; `src/ui/agent-widget.ts` is the optional legacy above-editor display, not the source of Neo's counts.
+The visible order is editor, Neo metadata, then fleet. A coordinated layout establishes that order rather than relying on asynchronous widget registration order. `src/agent-manager.ts` owns the top-level running and queued counts, published by `src/agent-counts.ts`; `src/ui/agent-widget.ts` is the optional legacy above-editor display, not the source of Neo's counts.
 
 `src/ui/below-editor-layout.ts` composes named metadata and fleet slots in one below-editor component. Its state belongs to the TUI instance, so fresh tool UI wrappers and either extension registration order preserve the same layout. Neo reports its rendered editor height, including wrapped input and autocomplete; without Neo, the layout estimates editor height from the current prompt text. Slot cleanup leaves the other surface intact.
 
@@ -16,10 +16,12 @@ Running and queued work takes priority over lingering finished entries. Hidden e
 
 Agent entries with sessions open conversations; queued entries without sessions remain in the roster and explain their state on activation. Workflow entries open the workflow inspector, and the main conversation remains reachable. Finished-entry retention affects visibility only, not result retrieval or completion notifications. [[agent-modals]] defines explicit focus and input ownership; [[neo-agent-counts]] remains the active-count surface even when the fleet is hidden.
 
-## Preference precedence
+## Surface selection
 
-Defaults apply only to absent preferences: fleet enabled, above-editor widget disabled. Loading or saving unrelated settings does not rewrite explicit `fleetView` or `widgetMode` values. Settings expose the effective surface and explain precedence rather than displaying two apparently active surfaces. Changing fleet visibility refreshes the widget's dormant label in the same settings dialog, preserving the selected setting and pane focus.
+The extension exposes one UI surface: the `widgetMode` setting, which controls whether the above-editor agent widget is visible. Valid values are:
 
-An enabled fleet takes precedence as the sole visible fleet surface, including when an explicit legacy `widgetMode` is also present. That legacy value remains stored but dormant while the fleet is enabled. An explicit `fleetView = false` hides the fleet; an explicitly selected `widgetMode = all` or `background` then enables the corresponding legacy above-editor alternative. `widgetMode = off`, or an absent widget preference, leaves that alternative hidden. Disabling the fleet alone does not activate an absent widget preference.
+- `all`: show every agent (foreground + background).
+- `background`: hide foreground agents (they already render inline), show only background/queued/scheduled.
+- `off`: hide the widget entirely. Defaults to `off`.
 
-This policy preserves an explicit legacy preference without showing duplicate fleets, and never mistakes the upstream widget default for user consent. Returning to fleet mode requires an explicit user choice when the fleet preference is off. Surface preferences do not disable delegation, workflows, agent menus, or completion notifications.
+Loading or saving unrelated settings does not rewrite the `widgetMode` value. An absent preference defaults to `off`; an explicit value persists independently of all other settings.

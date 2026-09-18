@@ -31,7 +31,6 @@ packages/extension-core/subagent-tintin/
       agent-mention.ts
       reference-completion.d.ts
       below-editor-layout.ts
-      fleet-list.ts
       shared-dialog.ts
       conversation-viewer.ts
       workflow-dialog.ts
