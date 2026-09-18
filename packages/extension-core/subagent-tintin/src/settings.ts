@@ -119,12 +119,6 @@ export interface SubagentsSettings {
    */
   toolDescriptionMode?: ToolDescriptionMode;
   /**
-   * Whether the Claude Code-style FleetView (the navigable main+subagents list
-   * rendered below the editor) is shown. Defaults to `true`. Pure-UI: when off,
-   * the list never registers and the global key handler never captures input.
-   */
-  fleetView?: boolean;
-  /**
    * Whether `@handle message` typed at the prompt is routed to that subagent
    * instead of the main model, and whether `@` offers running agents alongside
    * pi's file completion. Defaults to `model`. Applied live.
@@ -159,8 +153,7 @@ export interface SubagentsSettings {
    *     Agent tool result, so the widget would otherwise double-render them
    *     (#118); everything else (background, queued, scheduled, RPC) stays.
    *   - `off`: hide the widget entirely.
-   * Defaults to `off`. Dormant while fleetView is enabled; an explicit value
-   * is preserved when saving other settings. Pure-UI and applied live.
+   * Defaults to `off`. Standalone display mode.
    */
   widgetMode?: WidgetMode;
   /**
@@ -266,7 +259,7 @@ export interface SubagentsSettings {
   reportUsage?: boolean;
   /**
    * Whether the subagent surfaces show an estimated dollar cost next to their
-   * token counts (widget, FleetView, conversation viewer, foreground results,
+   * token counts (widget, conversation viewer, foreground results,
    * completion notifications). Defaults to `false`. Applied live.
    *
    * Rendered as `~$0.0042` — the tilde marks it as pi's reported estimate
@@ -306,12 +299,6 @@ export interface SubagentsSettings {
 
 export type ToolDescriptionMode = "full" | "compact" | "custom";
 
-/** Defaults affect presentation only, never the stored preference snapshot. */
-export function resolveAgentSurfaces(s: Pick<SubagentsSettings, "fleetView" | "widgetMode">): { fleet: boolean; widget: WidgetMode } {
-  const fleet = s.fleetView ?? true;
-  return { fleet, widget: fleet ? "off" : s.widgetMode ?? "off" };
-}
-
 /** Setter hooks used by applySettings to wire persisted values into in-memory state. */
 export interface SettingsAppliers {
   setMaxConcurrent: (n: number) => void;
@@ -325,7 +312,6 @@ export interface SettingsAppliers {
   setStrictAgentFiles: (b: boolean) => void;
   setDisableDefaultAgents: (b: boolean) => void;
   setToolDescriptionMode: (mode: ToolDescriptionMode) => void;
-  setFleetView: (b: boolean) => void;
   setAgentMentions: (mode: AgentMentionMode) => void;
   setRememberAgents: (b: boolean) => void;
   setWidgetMode: (mode: WidgetMode) => void;
@@ -419,9 +405,6 @@ function sanitize(raw: unknown): SubagentsSettings {
   }
   if (typeof r.toolDescriptionMode === "string" && VALID_TOOL_DESCRIPTION_MODES.has(r.toolDescriptionMode)) {
     out.toolDescriptionMode = r.toolDescriptionMode as ToolDescriptionMode;
-  }
-  if (typeof r.fleetView === "boolean") {
-    out.fleetView = r.fleetView;
   }
   // Was a boolean before the `model` mode existed. A hand-written or
   // previously-written `true` means "on", which is now the default `model`.
@@ -532,7 +515,6 @@ export function applySettings(s: SubagentsSettings, appliers: SettingsAppliers):
   if (typeof s.strictAgentFiles === "boolean") appliers.setStrictAgentFiles(s.strictAgentFiles);
   if (typeof s.disableDefaultAgents === "boolean") appliers.setDisableDefaultAgents(s.disableDefaultAgents);
   if (s.toolDescriptionMode) appliers.setToolDescriptionMode(s.toolDescriptionMode);
-  if (typeof s.fleetView === "boolean") appliers.setFleetView(s.fleetView);
   if (s.agentMentions) appliers.setAgentMentions(s.agentMentions);
   if (typeof s.rememberAgents === "boolean") appliers.setRememberAgents(s.rememberAgents);
   if (s.widgetMode) appliers.setWidgetMode(s.widgetMode);

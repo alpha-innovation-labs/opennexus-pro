@@ -36,7 +36,7 @@ import { getMaxSubagentDepth, setMaxSubagentDepth } from "./nested-tools.js";
 import { createOutputFilePath, ensureOutputFile, getOutputTranscriptDefault, sessionTaskDir, setOutputTranscriptDefault, streamToOutputFile, writeInitialEntry } from "./output-file.js";
 import { SubagentScheduler } from "./schedule.js";
 import { resolveStorePath, ScheduleStore } from "./schedule-store.js";
-import { applyAndEmitLoaded, loadSettings, resolveAgentSurfaces, type SubagentsSettings, saveAndEmitChanged, type ToolDescriptionMode } from "./settings.js";
+import { applyAndEmitLoaded, loadSettings, type SubagentsSettings, saveAndEmitChanged, type ToolDescriptionMode } from "./settings.js";
 import { getForegroundOutcomeNote, getStatusNote, partialOutputSuffix } from "./status-note.js";
 import { type AgentConfig, type AgentInvocation, type AgentMentionMode, type AgentRecord, type JoinMode, type NotificationDetails, type SubagentType, type ViewerMarkdownMode, type WidgetMode } from "./types.js";
 import { createMentionProvider, mentionRoster, type TypeInfo } from "./ui/agent-mention.js";
@@ -58,7 +58,7 @@ import {
   type Theme,
   type UICtx,
 } from "./ui/agent-widget.js";
-import { FleetList, type FleetUICtx, type FleetWorkflow } from "./ui/fleet-list.js";
+
 import { showSchedulesMenu } from "./ui/schedule-menu.js";
 import { selectItem } from "./ui/select-item.js";
 import { AgentSettingsDialog, selectAgentOption } from "./ui/shared-dialog.js";
@@ -424,7 +424,7 @@ export default function (pi: ExtensionAPI) {
   /** Show `~$X` next to token counts in the subagent surfaces. */
   let showCost = false;
   function isShowCostEnabled(): boolean { return showCost; }
-  function setShowCost(b: boolean): void { showCost = b; widget.update(); fleet.update(); }
+  function setShowCost(b: boolean): void { showCost = b; widget.update(); }
   /** Name the model and thinking level on the widget's running rows. */
   let showModel = false;
   function isShowModelEnabled(): boolean { return showModel; }
@@ -441,7 +441,7 @@ export default function (pi: ExtensionAPI) {
    * The viewer's `m` key, from either entry point: set the mode and persist it,
    * so the key and `/agents → Settings` stay one setting rather than one per
    * entry point. `ctx` carries only the warning a failed write notifies with,
-   * and the fleet list may be acting without one.
+   * and the settings dialog may be acting without one.
    */
   function chooseViewerMarkdown(mode: ViewerMarkdownMode, ctx?: ExtensionCommandContext): void {
     setViewerMarkdown(mode);
@@ -492,7 +492,6 @@ export default function (pi: ExtensionAPI) {
   function sendIndividualNudge(record: AgentRecord) {
     agentActivity.delete(record.id);
     widget.markFinished(record.id);
-    fleet.onAgentFinished(record.id);
     scheduleNudge(record.id, () => emitIndividualNudge(record));
     widget.update();
   }
@@ -500,7 +499,7 @@ export default function (pi: ExtensionAPI) {
   // ---- Group join manager ----
   const groupJoin = new GroupJoinManager(
     (records, partial) => {
-      for (const r of records) { agentActivity.delete(r.id); widget.markFinished(r.id); fleet.onAgentFinished(r.id); }
+      for (const r of records) { agentActivity.delete(r.id); widget.markFinished(r.id); }
 
       const groupKey = `group:${records.map(r => r.id).join(",")}`;
       scheduleNudge(groupKey, () => {
@@ -597,7 +596,6 @@ export default function (pi: ExtensionAPI) {
     if (record.resultConsumed) {
       agentActivity.delete(record.id);
       widget.markFinished(record.id);
-      fleet.onAgentFinished(record.id);
       widget.update();
       return;
     }
@@ -623,8 +621,6 @@ export default function (pi: ExtensionAPI) {
     if (currentCtx?.hasUI) {
       widget.ensureTimer();
       widget.update();
-      fleet.ensureTimer();
-      fleet.update();
     }
     // Emit started event when agent transitions to running (including from queue)
     pi.events.emit("subagents:started", {
@@ -694,7 +690,7 @@ export default function (pi: ExtensionAPI) {
     // leaves the displayed ceiling stale.
     const { state, callbacks } = createActivityTracker(resolveEffectiveMaxTurns(dispatch.type, options?.maxTurns));
     // Repaints are left to the manager's `onStart` callback, which already starts
-    // the widget/fleet timers for agents that enter this way.
+    // the widget timer for agents that enter this way.
     const id = manager.spawn(piRef, ctxRef, dispatch.type, prompt, { ...options, ...callbacks });
     agentActivity.set(id, state);
     return id;
@@ -797,7 +793,6 @@ export default function (pi: ExtensionAPI) {
     currentCtx = ctx;
     if (ctx.hasUI) {
       widget.setUICtx(ctx.ui);
-      fleet.setUICtx(ctx.ui as any);
     }
     manager.clearCompleted(true);
     disposeAgentCounts?.();
@@ -956,7 +951,7 @@ export default function (pi: ExtensionAPI) {
 
     // Evicted, but its conversation is still on disk: reopen it. This is an
     // ordinary spawn carrying a session file, so the new record picks up the
-    // widget, fleet row, transcript and completion notification unchanged —
+    // widget, transcript and completion notification unchanged —
     // and `reclaim` hands it back the names the tombstone was holding.
     if (resolved?.kind === "tombstone") {
       const entry = resolved.entry;
@@ -1078,7 +1073,7 @@ export default function (pi: ExtensionAPI) {
     try {
       // Nothing else to pass: runAgent resolves model, thinking and max turns
       // from the agent's own config when the spawn omits them, and the
-      // manager's onStart/onComplete callbacks own the widget, the fleet list
+      // manager's onStart/onComplete callbacks own the widget
       // and the completion notification — the same contract the scheduler and
       // cross-extension RPC spawns run under.
       const id = spawnTopLevel(pi, ctx, type, mention.message, {
@@ -1125,41 +1120,21 @@ export default function (pi: ExtensionAPI) {
     manager.abortAll();
     for (const timer of pendingNudges.values()) clearTimeout(timer);
     pendingNudges.clear();
-    fleet.dispose();
     // Awaited: it emits `session_shutdown` into every retained child session so
     // extensions bound there can release what they armed in `session_start` (#242).
     // pi awaits this handler, and the process exits right after — unawaited, those
     // handlers would never run. Internally bounded, so a hung one can't strand quit.
     await manager.dispose(pi);
-    // The explicitly enabled legacy surface owns a timer and above-editor slot
-    // independently of FleetList. Release it after child shutdown callbacks.
+    // Legacy widget cleanup.
     widget.dispose();
   });
 
-  // Preserve absent vs explicit preferences. The fleet suppresses the legacy
-  // widget without overwriting its stored mode (including on unrelated saves).
   let widgetMode: WidgetMode | undefined;
-  let fleetViewPreference: boolean | undefined;
   function getWidgetMode(): WidgetMode { return widgetMode ?? "off"; }
   const widget = new AgentWidget(manager, agentActivity,
-    () => resolveAgentSurfaces({ fleetView: fleetViewPreference, widgetMode }).widget,
+    () => widgetMode ?? "off",
     isShowCostEnabled, isShowModelEnabled);
   function setWidgetMode(m: WidgetMode): void { widgetMode = m; widget.update(); }
-
-  // Claude Code-style FleetView: navigable list of main + subagents below the editor.
-  // The last two arguments keep a conversation overlay opened here identical to
-  // one opened from `/agents`: same setting on the way in, same persist out.
-  const fleet = new FleetList(manager, agentActivity, isShowCostEnabled, getViewerMarkdown,
-    (mode) => chooseViewerMarkdown(mode, currentCtx as unknown as ExtensionCommandContext | undefined));
-  let fleetViewEnabled = true;
-  function isFleetViewEnabled(): boolean { return fleetViewEnabled; }
-  function setFleetViewEnabled(b: boolean): void {
-    fleetViewPreference = b;
-    fleetViewEnabled = b;
-    // Clear the losing surface first, avoiding even a transient duplicate.
-    if (b) { widget.update(); fleet.setEnabled(b); }
-    else { fleet.setEnabled(b); widget.update(); }
-  }
 
   // Claude Code-style `@handle message` prompt mentions. Read live by both the
   // `input` hook and the stacked autocomplete provider, so the toggle applies
@@ -1286,7 +1261,7 @@ export default function (pi: ExtensionAPI) {
   /**
    * Launch a detached resume of an existing agent and wire everything a
    * re-running agent needs: transcript anchoring, activity tracking, join-mode
-   * batching, the widget/fleet refresh, and the `subagents:created` event.
+   * batching, the widget refresh, and the `subagents:created` event.
    *
    * Shared by the Agent tool's `resume` + `run_in_background` branch and the
    * `@handle message` prompt mention — they differ only in how they report the
@@ -1360,8 +1335,6 @@ export default function (pi: ExtensionAPI) {
     widget.markRunning(id);
     widget.ensureTimer();
     widget.update();
-    fleet.ensureTimer();
-    fleet.update();
 
     // Resume ignores subagent_type (the record keeps the type it was
     // spawned with), so report the record's own identity — a "created"
@@ -1380,7 +1353,6 @@ export default function (pi: ExtensionAPI) {
   // Grab UI context from first tool execution + clear lingering widget on new turn
   pi.on("tool_execution_start", async (_event, ctx) => {
     widget.setUICtx(ctx.ui as UICtx);
-    fleet.setUICtx(ctx.ui as unknown as FleetUICtx);
     widget.onTurnStart();
   });
 
@@ -1433,7 +1405,6 @@ export default function (pi: ExtensionAPI) {
       setStrictAgentFiles: (b) => { strictAgentFiles = b; },
       setDisableDefaultAgents: setDisableDefaultAgents,
       setToolDescriptionMode: setToolDescriptionMode,
-      setFleetView: setFleetViewEnabled,
       setAgentMentions: setAgentMentionMode,
       setRememberAgents,
       setWidgetMode: setWidgetMode,
@@ -2123,8 +2094,6 @@ Terse command-style prompts produce shallow, generic work.
         agentActivity.set(id, bgState);
         widget.ensureTimer();
         widget.update();
-        fleet.ensureTimer();
-        fleet.update();
 
         // Emit created event
         pi.events.emit("subagents:created", {
@@ -2208,8 +2177,6 @@ Terse command-style prompts produce shallow, generic work.
             fgId = a.id;
             agentActivity.set(a.id, fgState);
             widget.ensureTimer();
-            fleet.ensureTimer();
-            fleet.update();
             break;
           }
         }
@@ -2264,7 +2231,6 @@ Terse command-style prompts produce shallow, generic work.
         if (fgId) {
           agentActivity.delete(fgId);
           widget.markFinished(fgId);
-          fleet.onAgentFinished(fgId);
         }
       }
 
@@ -2340,30 +2306,6 @@ Terse command-style prompts produce shallow, generic work.
   pi.on("session_shutdown", () => workflowTranscriptUpdates.dispose());
 
   /**
-   * Workflow runs as the fleet list wants them.
-   *
-   * Mapped here rather than handing `WorkflowTask` over the seam: the list is
-   * deliberately ignorant of the workflow engine, and a run's counters live in
-   * the progress log rather than on the record, so they are derived per call
-   * the same way the card derives them.
-   */
-  function fleetWorkflows(): FleetWorkflow[] {
-    // Cached counters only, no derivation: the fleet list calls this on a
-    // 200ms tick and reads the roster several times per update, so walking a
-    // run's progress log here would put O(log) work in the render loop.
-    return [...workflowTasks.values()].map(task => ({
-      id: task.id,
-      name: task.meta?.name ?? task.workflowName ?? task.id,
-      status: task.status,
-      doneCount: task.doneCount,
-      totalCount: task.agentCount,
-      startedAt: task.startTime,
-      ...(task.endTime !== undefined ? { completedAt: task.endTime } : {}),
-      tokens: task.totalTokens,
-    }));
-  }
-
-  /**
    * Run a task to completion against the real manager, settling the record
    * either way. Never rejects: a run that cannot start (bad `meta`, oversized
    * source, non-JSON `args`) is a failed workflow, and both callers here are
@@ -2407,7 +2349,6 @@ Terse command-style prompts produce shallow, generic work.
    */
   function notifyWorkflowFinished(task: WorkflowTask) {
     widget.update();
-    fleet.update();
     const result = workflowResultText(task);
     scheduleNudge(task.id, () => {
       pi.sendMessage<NotificationDetails>({
@@ -2583,7 +2524,6 @@ Terse command-style prompts produce shallow, generic work.
       // surfaces — nothing else would register the widget for a run whose
       // first agent has not started yet.
       widget.update();
-      fleet.update();
 
       // Background, like Claude Code: the id comes back now and the run keeps
       // going without the tool call.
@@ -2662,7 +2602,6 @@ Terse command-style prompts produce shallow, generic work.
 
       workflowsEnabled = false; // not setWorkflowsEnabled: this is not the user pinning it
       widget.update();
-      fleet.update();
       warn(verdict.message);
 
       if (!verdict.withdraw) return;
@@ -2737,7 +2676,6 @@ Terse command-style prompts produce shallow, generic work.
     const task = createWorkflowTask({ id: workflowRunId(), script, scriptPath: path, meta });
     workflowTasks.set(task.id, task);
     widget.update();
-    fleet.update();
     report(`Running workflow ${meta.name}…`, "info");
 
     // Detached: session_start is awaited by the host, and a workflow can run for
@@ -2753,7 +2691,6 @@ Terse command-style prompts produce shallow, generic work.
         display: false,
       }, { deliverAs: "nextTurn" });
       widget.update();
-      fleet.update();
     });
   }
 
@@ -3466,7 +3403,6 @@ Write the file using the write tool. Only write the file, nothing else.`;
       strictAgentFiles,
       disableDefaultAgents: isDefaultsDisabled(),
       toolDescriptionMode: getToolDescriptionMode(),
-      fleetView: fleetViewPreference,
       agentMentions: getAgentMentionMode(),
       rememberAgents: getRememberAgents(),
       widgetMode,
@@ -3633,18 +3569,10 @@ Write the file using the write tool. Only write the file, nothing else.`;
           values: ["on", "off"],
         },
         {
-          id: "reportUsage",
-          label: "Report usage to session",
-          description:
-            "Add subagent tokens and cost to this session's own totals, so pi's footer and /cost stop reading a delegating session as nearly free. Reported on the next tool result (agents that finish in the background are counted on the one after). Context-window % is unaffected.",
-          currentValue: isReportUsageEnabled() ? "on" : "off",
-          values: ["on", "off"],
-        },
-        {
           id: "showCost",
           label: "Show cost",
           description:
-            "Show an estimated `~$0.0042` beside subagent token counts in the widget, fleet view, results and notifications. Priced by pi from the model's rates — omitted entirely for a model it has no rates for.",
+            "Show an estimated `~$0.0042` beside subagent token counts in the widget, results and notifications. Priced by pi from the model's rates — omitted entirely for a model it has no rates for.",
           currentValue: isShowCostEnabled() ? "on" : "off",
           values: ["on", "off"],
         },
@@ -3665,13 +3593,6 @@ Write the file using the write tool. Only write the file, nothing else.`;
           values: ["off", "assistant", "all"],
         },
         {
-          id: "fleetView",
-          label: "Fleet view",
-          description: "Compact fleet below Neo metadata; when enabled, the above-editor widget is dormant. /agents always opens the full roster.",
-          currentValue: isFleetViewEnabled() ? "on" : "off",
-          values: ["on", "off"],
-        },
-        {
           id: "agentMentions",
           label: "Agent mentions",
           description: "Route `@handle message` at the prompt to that agent. model = an off-screen clone of this conversation calls the Agent tool, so the agent gets a context-written prompt, a transcript and per-tool detail, and the chat stays clean; direct = started here from your text, no model call. Messaging and resuming are direct either way.",
@@ -3687,8 +3608,8 @@ Write the file using the write tool. Only write the file, nothing else.`;
         },
         {
           id: "widgetMode",
-          label: isFleetViewEnabled() ? "Widget (dormant: fleet enabled)" : "Widget",
-          description: "Stored above-editor alternative: used only with fleet off. all = every agent; background = hide foreground; off = hidden. Disabling fleet does not enable this automatically.",
+          label: "Widget",
+          description: "Stored above-editor alternative. all = every agent; background = hide foreground; off = hidden.",
           currentValue: getWidgetMode(),
           values: ["all", "background", "off"],
         },
@@ -3818,15 +3739,6 @@ Write the file using the write tool. Only write the file, nothing else.`;
       } else if (id === "toolDescriptionMode") {
         setToolDescriptionMode(value as ToolDescriptionMode);
         notifyApplied(ctx, `Tool description set to ${value}. Takes effect on next pi session.`);
-      } else if (id === "reportUsage") {
-        const enabled = value === "on";
-        setReportUsage(enabled);
-        notifyApplied(
-          ctx,
-          enabled
-            ? "Subagent usage now counted in this session's totals"
-            : "Subagent usage no longer counted in this session's totals",
-        );
       } else if (id === "showCost") {
         const enabled = value === "on";
         setShowCost(enabled);
@@ -3838,10 +3750,6 @@ Write the file using the write tool. Only write the file, nothing else.`;
       } else if (id === "viewerMarkdown") {
         setViewerMarkdown(value as ViewerMarkdownMode);
         notifyApplied(ctx, `Viewer markdown set to ${value}`);
-      } else if (id === "fleetView") {
-        const enabled = value === "on";
-        setFleetViewEnabled(enabled);
-        notifyApplied(ctx, `Fleet view ${enabled ? "enabled" : "disabled"}`);
       } else if (id === "agentMentions") {
         const mode = value as AgentMentionMode;
         setAgentMentionMode(mode);
@@ -3935,7 +3843,7 @@ Write the file using the write tool. Only write the file, nothing else.`;
       changeMsg,
       (event, payload) => pi.events.emit(event, payload),
     );
-    // `ctx` is absent only on the fleet path between sessions, where
+    // `ctx` is absent only when called outside a session context, where
     // `currentCtx` has been cleared and there is no UI to carry the warning to.
     // The write still happens.
     if (level === "warning") ctx?.ui.notify(message, level);
@@ -3956,19 +3864,15 @@ Write the file using the write tool. Only write the file, nothing else.`;
   });
 
   /**
-   * What `/agents → Workflows` and the fleet list's `workflow` rows need from
-   * here. One object, built once: both entry points open the same inspector,
+   * What `/agents → Workflows` needs from
+   * here. One object, built once: the inspector is opened from a single source,
    * and handing them different views of the session would let the two drift.
    */
   const workflowMenuDeps: WorkflowMenuDeps = {
     tasks: workflowTasks,
     getRecord: id => manager.getRecord(id),
     viewAgentConversation,
-    // Read lazily: `currentCtx` is rebound on every session_start, and the
-    // fleet list may act between sessions, when there is none.
+    // Read lazily: `currentCtx` is rebound on every session_start.
     getCtx: () => currentCtx as unknown as ExtensionCommandContext | undefined,
   };
-
-  fleet.setWorkflowSource(fleetWorkflows, id => openWorkflowFromFleet(id, workflowMenuDeps));
-
 }

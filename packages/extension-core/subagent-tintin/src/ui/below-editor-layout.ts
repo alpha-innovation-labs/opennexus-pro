@@ -1,8 +1,8 @@
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 import type { Theme } from "./agent-widget.js";
 import { forwardMouseToChild, type Component } from "@nexus/tui-kit/mouse/forwardMouseToChild";
-type Slot = "metadata" | "fleet";
-type Layout = { metadata?: Component; fleet?: Component; editorRows?: number; editorWidth?: number; budget: number; measureBudget?: (width?: number) => number };
+type Slot = "metadata";
+type Layout = { metadata?: Component; editorRows?: number; editorWidth?: number; budget: number; measureBudget?: (width?: number) => number };
 // Stored on the TUI, not a UI-context wrapper or module singleton: extension
 // loaders may instantiate this module twice and tool contexts may change.
 const STATE = Symbol.for("nexus.below-editor-layout");
@@ -13,11 +13,6 @@ function state(tui: any): Layout {
 
 export function reportEditorRows(tui: any, width: number, rows: number): void {
   Object.assign(state(tui), { editorRows: rows, editorWidth: width });
-}
-
-export function fleetHeightBudget(tui: any, width?: number): number {
-  const layout = state(tui);
-  return layout.measureBudget?.(width) ?? layout.budget;
 }
 
 /** One physical widget owns the order, regardless of which extension loads first. */
@@ -35,12 +30,10 @@ export function setBelowEditorSlot(
     }
     let renderedWidth: number | undefined;
     let metadataRows = 0;
-    let fleetRows = 0;
     return {
       handleMouse(event) {
         if (renderedWidth !== event.width) return undefined;
-        return forwardMouseToChild(layout.metadata, event, 0, metadataRows)
-          ?? forwardMouseToChild(layout.fleet, event, metadataRows, fleetRows);
+        return forwardMouseToChild(layout.metadata, event, 0, metadataRows);
       },
       render(width) {
         const metadata = layout.metadata?.render(width) ?? [];
@@ -54,16 +47,13 @@ export function setBelowEditorSlot(
           return Math.max(0, Math.min(7, (tui.terminal.rows ?? 24) - editorRows - metadata.length - 2));
         };
         layout.budget = layout.measureBudget(width);
-        const fleet = (layout.fleet?.render(width) ?? []).slice(0, layout.budget);
         renderedWidth = width;
         metadataRows = metadata.length;
-        fleetRows = fleet.length;
-        return [...metadata, ...fleet].map(line => truncateToWidth(line, Math.max(0, width)));
+        return metadata.map(line => truncateToWidth(line, Math.max(0, width)));
       },
       invalidate() {
         renderedWidth = undefined;
         layout.metadata?.invalidate();
-        layout.fleet?.invalidate();
       },
     };
   }, { placement: "belowEditor" });
