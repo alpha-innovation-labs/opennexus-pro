@@ -31,3 +31,4 @@ apps/landing-page/public/asciinema/asciinema-player.min.js
 *.db
 .beads-credential-key
 .beads/proxieddb/
+playground/chats.json
